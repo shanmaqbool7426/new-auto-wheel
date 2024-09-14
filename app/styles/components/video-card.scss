@@ -1,0 +1,44 @@
+.video-card {
+    border         : 1px solid #EBEBEB;
+    border-radius  : 8px 8px 0 0;
+    box-shadow     : 0px 4px 20px 0px #00000014;
+    text-decoration: none;
+
+    .video-thumbnail {
+        position       : relative;
+        text-decoration: none;
+
+        .play-button {
+            position : absolute;
+            top      : 50%;
+            left     : 50%;
+            transform: translate(-50%, -50%);
+
+            svg {
+                width : 40px;
+                height: 40px;
+            }
+        }
+
+        &.small-thumb {
+            .video-placeholder {
+                display: block;
+            }
+
+            svg {
+                width : auto;
+                height: auto;
+            }
+        }
+    }
+
+    .content-section{
+        padding   : 1rem;
+        box-sizing: border-box;            
+            .title {
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+}

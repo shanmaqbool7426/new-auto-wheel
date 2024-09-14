@@ -1,0 +1,119 @@
+$primary :#E90808;
+$enable-shadows: true;
+$text-muted :#878787;
+
+:root {
+  --mantine-color-dimmed: $text-muted;
+}
+
+
+html,
+body {
+  overflow: auto !important;
+  max-height: 100% !important;
+  // letter-spacing: -0.5px;
+  // font-size     : 90%;
+}
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+/// Import Component Styles
+@import "./components/footer";
+@import "./components/header";
+@import "./components/modal";
+@import "./components/auth/index";
+// @import "./components/product";
+
+// Import Section Styles
+@import "./sections/hero";
+@import "./sections/browse-category";
+@import "./sections/browse-type";
+@import "./sections/comparison";
+@import "./sections/search-locations";
+@import "./sections/browse-videos";
+@import "./sections/browse-blogs";
+
+// Pages
+@import "./pages/listing";
+@import "./pages/detail";
+@import "./pages/blog";
+@import "./pages/find-cars";
+@import "./pages/comparison-detail";
+@import "./pages/post-an-ad";
+@import "./pages/new-car-detail";
+@import "./pages/saftey-guaid";
+
+// Import Theme Component Styles
+@import "./theme/compnents/tabs";
+@import "./theme/compnents/pagination";
+@import "./components/product-card";
+@import "./components/video-card";
+@import "./components/modal";
+@import "./components/auth/index";
+@import "./theme-header.scss";
+
+.theme-header {
+  border-bottom: 2px solid #f8f9fa;
+}
+
+footer ul>li a {
+  color: #EBEBEB;
+}
+
+// .model-height {
+//   // height    : 550px;
+//   // width     : 450px;
+//   overflow-y: hidden;
+//   /* Hide vertical scrollbar */
+//   overflow-x: hidden;
+//   /* Hide horizontal scrollbar */
+// }
+
+// .mantine-Carousel-viewport {
+//   height: 210px !important;
+// }
+
+.root {
+  &[data-variant='danger'] {
+    background-color: var(--mantine-color-red-9);
+    color: var(--mantine-color-red-0);
+  }
+
+  &[data-variant='primary'] {
+    background: linear-gradient(45deg, #4b6cb7 10%, #253b67 90%);
+    color: var(--mantine-color-white);
+    border-width: 0;
+  }
+}
+
+.socials-btns-inner {
+  display: flex;
+  justify-content: space-around;
+  width: 222px !important;
+  align-items: center;
+}
+
+.primary {
+  color: $primary;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.mantine-Accordion-label {
+  padding-top: 0.4rem !important;
+  padding-bottom: 0.4rem !important;
+}
+
+.image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+  height: 30px !important;
+  width: 30px !important;
+  background: red;
+  border-radius: 50% !important;
+}
+
+
+
+
