@@ -108,7 +108,7 @@ const HeroTabs = () => {
     <>
       <Tabs color="pink" radius="xs" defaultValue="cars" autoContrast>
         <Tabs.List grow justify="center">
-          <Tabs.Tab value="cars" leftSection={<CarFrontView />} c="#6c757d"  onClick={()=>{
+          <Tabs.Tab value="cars" leftSection={<CarFrontView />} c="#6c757d" onClick={() => {
             setMakesByType("car")
             closeModal()
           }}>
@@ -118,14 +118,14 @@ const HeroTabs = () => {
             value="bikes"
             leftSection={<MotorBike />}
             c="#6c757d"
-            onClick={()=>{
+            onClick={() => {
               setMakesByType("bike")
               closeModal()
             }}
           >
             Bike
           </Tabs.Tab>
-          <Tabs.Tab value="trucks" leftSection={<Truck />} c="#6c757d" onClick={()=>{
+          <Tabs.Tab value="trucks" leftSection={<Truck />} c="#6c757d" onClick={() => {
             setMakesByType("truck")
             closeModal()
           }}>
@@ -134,7 +134,15 @@ const HeroTabs = () => {
         </Tabs.List>
 
         <Tabs.Panel value="cars" p="xs">
-          <Input placeholder={`${makesByType} Make or Model`} size="md" mt="lg" value={`${selection?.make && selection?.make } ${selection?.model && selection?.model } ${selection?.variant && selection?.variant }`} onClick={openModal} />
+          <Input
+            placeholder="Car Make or Model"
+            size="md"
+            mt="lg"
+            value={selection?.make || selection?.model || selection?.variant
+              ? `${selection?.make || ''} ${selection?.model || ''} ${selection?.variant || ''}`.trim()
+              : undefined}
+            onClick={openModal}
+          />
           <Autocomplete
             label="Select your city"
             placeholder="Enter Your Location"
@@ -145,16 +153,16 @@ const HeroTabs = () => {
             styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}  // Add scroll to dropdown
             mt="md"
           />
-         <Button
-        mt="lg"
-        fullWidth
-        size="md"
-        ff="heading"
-        tt="uppercase"
-        color="#E90808"
-        loading={loading}  // Show loading spinner while processing
-        onClick={handleSubmit}
-      >
+          <Button
+            mt="lg"
+            fullWidth
+            size="md"
+            ff="heading"
+            tt="uppercase"
+            color="#E90808"
+            loading={loading}  // Show loading spinner while processing
+            onClick={handleSubmit}
+          >
             Search
           </Button>
           <Group justify="end" mt="sm">
@@ -174,7 +182,15 @@ const HeroTabs = () => {
           </Group>
         </Tabs.Panel>
         <Tabs.Panel value="bikes" p="xs">
-          <Input placeholder={`${makesByType} Make or Model`} size="md" mt="lg" value={`${selection?.make && selection?.make } ${selection?.model && selection?.model } ${selection?.variant && selection?.variant }`} onClick={openModal} />
+          <Input
+            placeholder="Bike Make or Model"
+            size="md"
+            mt="lg"
+            value={selection?.make || selection?.model || selection?.variant
+              ? `${selection?.make || ''} ${selection?.model || ''} ${selection?.variant || ''}`.trim()
+              : undefined}
+            onClick={openModal}
+          />
           <Autocomplete
             label="Select your city"
             placeholder="Enter Your Location"
@@ -185,16 +201,16 @@ const HeroTabs = () => {
             styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}  // Add scroll to dropdown
             mt="md"
           />
-         <Button
-        mt="lg"
-        fullWidth
-        size="md"
-        ff="heading"
-        tt="uppercase"
-        color="#E90808"
-        loading={loading}  // Show loading spinner while processing
-        onClick={handleSubmit}
-      >
+          <Button
+            mt="lg"
+            fullWidth
+            size="md"
+            ff="heading"
+            tt="uppercase"
+            color="#E90808"
+            loading={loading}  // Show loading spinner while processing
+            onClick={handleSubmit}
+          >
             Search
           </Button>
           <Group justify="end" mt="sm">
@@ -214,7 +230,16 @@ const HeroTabs = () => {
           </Group>
         </Tabs.Panel>
         <Tabs.Panel value="trucks" p="xs">
-          <Input placeholder={`${makesByType} Make or Model`} size="md" mt="lg" value={`${selection?.make && selection?.make } ${selection?.model && selection?.model } ${selection?.variant && selection?.variant }`} onClick={openModal} />
+          <Input
+            placeholder="Truck Make or Model"
+            size="md"
+            mt="lg"
+            value={selection?.make || selection?.model || selection?.variant
+              ? `${selection?.make || ''} ${selection?.model || ''} ${selection?.variant || ''}`.trim()
+              : undefined}
+            onClick={openModal}
+          />
+
           <Autocomplete
             label="Select your city"
             placeholder="Enter Your Location"
@@ -225,16 +250,16 @@ const HeroTabs = () => {
             styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}  // Add scroll to dropdown
             mt="md"
           />
-         <Button
-        mt="lg"
-        fullWidth
-        size="md"
-        ff="heading"
-        tt="uppercase"
-        color="#E90808"
-        loading={loading}  // Show loading spinner while processing
-        onClick={handleSubmit}
-      >
+          <Button
+            mt="lg"
+            fullWidth
+            size="md"
+            ff="heading"
+            tt="uppercase"
+            color="#E90808"
+            loading={loading}  // Show loading spinner while processing
+            onClick={handleSubmit}
+          >
             Search
           </Button>
           <Group justify="end" mt="sm">
