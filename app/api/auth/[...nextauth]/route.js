@@ -7,6 +7,7 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import axios from 'axios';
+
  const authOptions = {
   // Configure one or more authentication providers
   providers: [
