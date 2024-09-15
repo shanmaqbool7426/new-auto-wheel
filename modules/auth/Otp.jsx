@@ -19,7 +19,7 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
   });
 
   const { isLoading, error, handleSubmit, data } = useFormSubmission(
-    API_ENDPOINTS.VERIFY_OTP, // Replace with your OTP verification endpoint
+    API_ENDPOINTS.AUTH.VERIFY_OTP, // Replace with your OTP verification endpoint
     form.values,
     form.validate
   );

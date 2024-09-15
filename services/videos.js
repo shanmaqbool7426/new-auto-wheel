@@ -1,5 +1,5 @@
 import { fetchAPI } from './fetchAPI';
-import { API_ENDPOINTS } from '@/constants/api-endpoints';
+import { API_ENDPOINTS } from '../constants/api-endpoints';
 
 export const fetchVideosPageData = async (params) => {
   try {
@@ -7,7 +7,7 @@ export const fetchVideosPageData = async (params) => {
     ? params.slug.map(item => item).join('/') 
     : '';
 
-    const videos= await fetchAPI(`${API_ENDPOINTS.VIDEOS}${path}`)
+    const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.BROWSE}${path}`);
     return videos
   } catch (error) {
     console.error('Error fetching dashboard data:', error);

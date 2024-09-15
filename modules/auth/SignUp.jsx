@@ -46,7 +46,7 @@ function SignUp({ signUpOpened, signUpOnClose }) {
     error,
     handleSubmit,
     data = {},
-  } = useFormSubmission(API_ENDPOINTS.SIGNUP, form.values, form.validate);
+  } = useFormSubmission(API_ENDPOINTS.AUTH.SIGNUP, form.values, form.validate);
 
 
   const handleClose = () => {

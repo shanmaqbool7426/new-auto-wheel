@@ -1,9 +1,9 @@
 import { fetchAPI } from './fetchAPI';
-import { API_ENDPOINTS } from '@/constants/api-endpoints';
+import { API_ENDPOINTS } from '../constants/api-endpoints';
 
 export const fetchTags = async () => {
   try {
-     const tags= await fetchAPI(API_ENDPOINTS.TAGS)
+    const tags = await fetchAPI(API_ENDPOINTS.TAGS.BASE);
   
      return tags
   } catch (error) {

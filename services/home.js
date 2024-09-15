@@ -3,15 +3,21 @@ import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
 export const fetcHomeData = async () => {
   const results = await Promise.allSettled([
-    fetchAPI(`${API_ENDPOINTS.MAKES}?type=car`),
-
-    fetchAPI(`${API_ENDPOINTS.BODIES}/car`),
-    fetchAPI(API_ENDPOINTS.VEHICLES_TYPE()),
-    fetchAPI(API_ENDPOINTS.COMPARISONS),
-    fetchAPI(API_ENDPOINTS.INSTANT_USED_CARS),
-    fetchAPI(API_ENDPOINTS.VIDEOS),
-    fetchAPI(API_ENDPOINTS.BLOGS),
+    fetchAPI(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=car`), 
+    
+    fetchAPI(`${API_ENDPOINTS.BROWSE.BY_BODY}/car`), 
+    
+    fetchAPI(API_ENDPOINTS.VEHICLE.LIST_BY_TYPE()),
+    
+    fetchAPI(API_ENDPOINTS.EXTERNAL.COMPARISONS),
+    
+    fetchAPI(API_ENDPOINTS.EXTERNAL.INSTANT_USED_CARS),
+    
+    fetchAPI(API_ENDPOINTS.VIDEOS.BROWSE), 
+    
+    fetchAPI(API_ENDPOINTS.BLOGS.BROWSE) 
   ]);
+  
 
   const data = {
     makes: results[0].status === 'fulfilled' ? results[0].value : [],

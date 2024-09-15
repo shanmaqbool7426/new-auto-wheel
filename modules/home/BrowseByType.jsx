@@ -11,8 +11,9 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   const handleTypeChange = async (type) => {
     setSelectedType(type);
     const res = await fetchAPI(
-      API_ENDPOINTS.VEHICLES_TYPE(type === "All" ? "" : type)
+      API_ENDPOINTS.VEHICLE.LIST_BY_TYPE(type === "All" ? "" : type)  // Handle "All" case by passing an empty string
     );
+    
     setVehicles(res || []);
   };
   return (

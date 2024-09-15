@@ -25,7 +25,11 @@ const nextConfig = {
         { 
           protocol: 'https',
          hostname: "example.com"
-       } 
+       },
+       { 
+        protocol: 'https',
+       hostname: "via.placeholder.com"
+     } ,
       ],
     },
   async headers() {

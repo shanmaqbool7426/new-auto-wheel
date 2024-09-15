@@ -1,8 +1,9 @@
 import React from 'react'
 import NewCarsModule from "@/modules/new-cars/index"
 import MakesVehicles from "@/modules/make-vehicles/index"
-import { fetchMakesAndBodies, fetchMakesByType, fetchVehiclsData } from '@/services/vehicles'
-const NewCarsPage =async (params ,searchParams) => {
+import { fetchListData, fetchMakesAndBodies, fetchMakesByType, fetchVehiclsData } from '@/services/vehicles'
+import { API_ENDPOINTS } from '@/constants/api-endpoints'
+const NewCarsPage = async (params, searchParams) => {
   const company_1 = {
     car: "Toyota",
     bike: "Suzuki",
@@ -13,11 +14,17 @@ const NewCarsPage =async (params ,searchParams) => {
     bike: "Honda",
     truck: "ISUZU"
   }
-  const makesAndBodies= await fetchMakesAndBodies(params.params.newcarslug[0])
+  const makesAndBodies = await fetchMakesAndBodies(params.params.newcarslug[0])
   // const reorderedSlug = reorderSlug(params.slug);
   // let loading = true;
-  const slugMake = params.params.newcarslug[1]; 
-  const popularVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/sb_popular/mk_${slugMake}`);
+  const slugMake = params.params.newcarslug[1];
+  
+  const popularVehicles = await fetchListData(
+    API_ENDPOINTS.BROWSE.MAKES_WITH_POPULAR(slugMake, params.params.newcarslug[0])
+  );
+
+
+  console.log('popularVehicles',popularVehicles)
   const fetchUpComingVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/sb_upcoming/mk_${slugMake}`);
   const fetchToyotaVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/mk_${company_1[params.params.newcarslug[0]]}`);
   const fetchHondaVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/mk_${company_2[params.params.newcarslug[0]]}`);
@@ -28,10 +35,10 @@ const NewCarsPage =async (params ,searchParams) => {
 
   return (
     <>
-   {!isMakeVehicles && <NewCarsModule makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles}  fetchToyotaVehicles={fetchToyotaVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams}/>}
-   {isMakeVehicles && <MakesVehicles makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles}  fetchToyotaVehicles={fetchToyotaVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} slugMake={slugMake} matchedMake={matchedMake}/>}
+      {!isMakeVehicles && <NewCarsModule makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles} fetchToyotaVehicles={fetchToyotaVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} />}
+      {isMakeVehicles && <MakesVehicles makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles} fetchToyotaVehicles={fetchToyotaVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} slugMake={slugMake} matchedMake={matchedMake} />}
 
-   </>
+    </>
   )
 }
 

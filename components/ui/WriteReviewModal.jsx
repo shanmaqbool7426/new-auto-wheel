@@ -138,7 +138,7 @@ const WriteReviewModal = ({ opened, close }) => {
       try {
           setIsModalOpen(false)
           close()
-        const response = await axios.post(API_ENDPOINTS.SUBMITREVIEW, reviewData, {
+        const response = await axios.post(API_ENDPOINTS.REVIEWS.SUBMIT, reviewData, {
           headers: {
             'Content-Type': 'application/json',  // Explicitly set Content-Type for JSON
           },

@@ -30,7 +30,7 @@ function SignIn({ signOpen, signInClose }) {
   });
 
   const { isLoading, error, handleSubmit, data } = useFormSubmission(
-    API_ENDPOINTS.LOGIN, // Replace with your login endpoint
+    API_ENDPOINTS.AUTH.LOGIN, // Replace with your login endpoint
     form.values,
     form.validate
   );

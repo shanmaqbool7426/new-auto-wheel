@@ -3,19 +3,37 @@ import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
 export const fetchVehiclsData = async (params) => {
   try {
-    const vehicls = await fetchAPI(`${API_ENDPOINTS.VEHICLES_Listing}/${params}`)
+    const vehicles = await fetchAPI(API_ENDPOINTS.VEHICLE.LISTINGS + `/${params}`);
     return vehicls
   } catch (error) {
-    console.log('vehicls>>>',error)
+    console.log('vehicls>>>', error)
 
     return {
       vehicls: []
     };
   }
 };
+
+
+export const fetchListData = async (url) => {
+  try {
+    console.log('url>>>>>>>>>>111', url);
+    const data = await fetchAPI(url)
+    console.log('url>>>>>>>>>>111 result', url);
+
+    return data
+  } catch (error) {
+    console.log('url>>>>>>>>>>111 result', error)
+
+    return {
+      data: []
+    };
+  }
+};
+
 export const fetchMakesByType = async (type) => {
   try {
-    const makes = await fetchAPI(`${API_ENDPOINTS.MAKES}?type=${type}`)
+    const makes = await fetchAPI(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${params}`);
     return makes
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
@@ -26,19 +44,19 @@ export const fetchMakesByType = async (type) => {
 }
 export const fetchBodiesByType = async (type) => {
   try {
-    const makes = await fetchAPI(`${API_ENDPOINTS.BODIES}/${type}`)
-    return makes
+    const bodiesByType = await fetchAPI(`${API_ENDPOINTS.BROWSE.BY_BODY}/${type}`);
+    return bodiesByType
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
     return {
-      makes: []
+      bodiesByType: []
     };
   }
 }
 
 export const fetchVehiclesByType = async (type) => {
   try {
-    const vehicles = await fetchAPI(`${API_ENDPOINTS.VEHICLES_TYPE(type ? type : '')}`)
+    const vehicles = await fetchAPI(API_ENDPOINTS.VEHICLE.LIST_BY_TYPE(type ? type : ''));
     return vehicles
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
@@ -63,8 +81,8 @@ export const fetchVehiclDetail = async (url) => {
 
 export const fetchVehicleBySlug = async (params) => {
   try {
-    console.log(params.params.slug[0],'sjdhsjdhsj');
-    const vehicle = await fetchAPI(`${API_ENDPOINTS.VEHICLE_DETAIL}/${params.params.slug[0]}`)
+    console.log(params.params.slug[0], 'sjdhsjdhsj');
+    const vehicle = await fetchAPI(API_ENDPOINTS.VEHICLE.DETAIL(params.params.slug[0]));
     return vehicle
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
@@ -76,9 +94,10 @@ export const fetchVehicleBySlug = async (params) => {
 
 export const fetchMakesAndBodies = async (params) => {
   const results = await Promise.allSettled([
-    fetchAPI(`${API_ENDPOINTS.MAKES}?type=${params}`),
-    fetchAPI(`${API_ENDPOINTS.BODIES}/${params}`),
+    fetchAPI(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${params}`),  // Fetch makes by type
+    fetchAPI(`${API_ENDPOINTS.BROWSE.BY_BODY}/${params}`)         // Fetch bodies by type
   ]);
+  
   const data = {
     makes: results[0].status === 'fulfilled' ? results[0].value : [],
     bodies: results[1].status === 'fulfilled' ? results[1].value : [],
@@ -105,11 +124,11 @@ export const fetchVehiclesNew = async (url) => {
 }
 
 
-export const getAllReviews = async (filterType='all') => {
+export const getAllReviews = async (filterType = 'all') => {
   try {
 
-    const getAllReviews = await await fetchAPI(`${API_ENDPOINTS.GET_ALL_REVIEWS}?filterType=${filterType}`);
-    console.log('.......',getAllReviews)
+    const getAllReviews = await fetchAPI(`${API_ENDPOINTS.REVIEWS.GET_ALL}?filterType=${filterType}`);
+    console.log('.......', getAllReviews)
     return getAllReviews?.data;
   } catch (error) {
     console.error("Error fetching dashboard data:", error);

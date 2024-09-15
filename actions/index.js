@@ -2,9 +2,10 @@
 import { fetchAPI } from '@/services/fetchAPI';
 import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
+// Fetch Makes by Type from the Server
 export const fetchMakesByTypeServer = async (type) => {
   try {
-    const makes = await await fetchAPI(`${API_ENDPOINTS.MAKES}?type=${type}`);
+    const makes = await fetchAPI(API_ENDPOINTS.BROWSE.BY_MAKE + `?type=${encodeURIComponent(type)}`);
     return makes;
   } catch (error) {
     return {
@@ -13,10 +14,16 @@ export const fetchMakesByTypeServer = async (type) => {
   }
 };
 
-
+// Post Data to Server
 export const postDataToServer = async (url, payload) => {
   try {
-
+    const response = await fetchAPI(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
     if (response.status !== 200) {
       return {
@@ -30,7 +37,6 @@ export const postDataToServer = async (url, payload) => {
       success: true,
       data: response.data,
     };
-
   } catch (error) {
     return {
       success: false,
@@ -39,13 +45,10 @@ export const postDataToServer = async (url, payload) => {
   }
 };
 
-
-
-
-
+// Fetch Browse Blogs from the Server
 export const fetchBrowseBlogsServer = async (type) => {
   try {
-    const blogs = await await fetchAPI(`${API_ENDPOINTS.BROWSE_BLOGS}${type?`?type=${type}`:''}`);
+    const blogs = await fetchAPI(`${API_ENDPOINTS.BLOGS.BROWSE}${type ? `?type=${encodeURIComponent(type)}` : ''}`);
     return blogs?.data;
   } catch (error) {
     return {
@@ -53,9 +56,15 @@ export const fetchBrowseBlogsServer = async (type) => {
     };
   }
 };
+
+// Fetch Video Data from the Server
 export const fetchVideoDataServer = async (params) => {
   try {
-    const videos = await await fetchAPI(`${API_ENDPOINTS.BROWSE_VIDEOS}${params?.slug?`?slug=${params?.slug}`:''}${params?.search?`?search=${params?.search}`:''}`);
+    const query = new URLSearchParams();
+    if (params?.slug) query.append('slug', params.slug);
+    if (params?.search) query.append('search', params.search);
+
+    const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.BROWSE}${query.toString() ? `?${query.toString()}` : ''}`);
     return videos?.data;
   } catch (error) {
     return {
@@ -63,8 +72,3 @@ export const fetchVideoDataServer = async (params) => {
     };
   }
 };
-
-
-
-
-

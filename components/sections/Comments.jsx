@@ -123,7 +123,7 @@ const Comments = () => {
               );
             })} */}
 
-                                {filterOptions.map((option) => {
+                                {filterOptions && filterOptions.map((option) => {
                                     const isSelected = filter === option.type; // Check if the current filter matches the option type
                                     return (
                                         <Button

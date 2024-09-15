@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Text, Title, TextInput, Button, Checkbox, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useFormSubmission } from "@/custom-hooks/useForm";
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { API_ENDPOINTS } from "../../constants/api-endpoints";
 
 const ReplyBlog = ({ blog }) => {
   const form = useForm({
@@ -23,7 +23,7 @@ const ReplyBlog = ({ blog }) => {
   });
 
   const { isLoading, error, handleSubmit, data } = useFormSubmission(
-    API_ENDPOINTS.COMMENT,
+    API_ENDPOINTS.COMMENTS.BASE,
     form.values,
     form.validate
   );

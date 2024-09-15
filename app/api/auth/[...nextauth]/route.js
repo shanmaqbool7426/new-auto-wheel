@@ -7,8 +7,10 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import axios from 'axios';
-
- const authOptions = {
+// app secret==a72619f80aa9f320986a091635babec5
+// app id = 874743337540967
+// client token 8b2eb17676e71487b83cf3cf4b5deb24
+const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -24,8 +26,8 @@ import axios from 'axios';
       },
     }),
     FacebookProvider({
-      clientId: '3674373226209921',
-      clientSecret: '3cfafde1642c14d2f16721e243c63fad'
+      clientId: '874743337540967',
+      clientSecret: '8b2eb17676e71487b83cf3cf4b5deb24'
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -41,40 +43,42 @@ import axios from 'axios';
           console.log('payload>>>>>>>>>', credentials)
           // Call your API to verify OTP or perform sign-in based on the type
           const res = await axios.post(
-            credentials.type === 'otp' ? API_ENDPOINTS.VERIFY_OTP : API_ENDPOINTS.LOGIN,
+             credentials.type === 'otp'
+            ? API_ENDPOINTS.AUTH.VERIFY_OTP
+            : API_ENDPOINTS.AUTH.LOGIN,
             {
               email: credentials.email,
-              ...(credentials.type === 'otp'
-                ? { otp: credentials.otp } // Include OTP if type is "otp"
-                : { password: credentials.password } // Include password if it's a regular sign-in
-              ),
-            }
-          );
+      ...(credentials.type === 'otp'
+        ? { otp: credentials.otp } // Include OTP if type is "otp"
+        : { password: credentials.password } // Include password if it's a regular sign-in
+      ),
+    }
+    );
 
 
-          if (res.data && res.data.statusCode === 200) {
-            const userData =  res.data?.data.user ?  res.data?.data?.user : res.data?.data;
-            console.log('userData>>>>>>>1', userData)
-            // Return all necessary user details for the session and JWT
-            return {
-              id: userData._id,
-              fullName: userData.fullName,
-              email: userData.email,
-              phone: userData.phone,
-              rating: userData.rating,
-              isVerified: userData.isVerified,
-              reports: userData.reports,
-              createdAt: userData.createdAt,
-              updatedAt: userData.updatedAt,
-              verificationCode: userData.verificationCode,
-            };
+  if(res.data && res.data.statusCode === 200) {
+    const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
+console.log('userData>>>>>>>1', userData)
+// Return all necessary user details for the session and JWT
+return {
+  id: userData._id,
+  fullName: userData.fullName,
+  email: userData.email,
+  phone: userData.phone,
+  rating: userData.rating,
+  isVerified: userData.isVerified,
+  reports: userData.reports,
+  createdAt: userData.createdAt,
+  updatedAt: userData.updatedAt,
+  verificationCode: userData.verificationCode,
+};
           } else {
-            throw new Error("Sign Up Failed");
-          }
+  throw new Error("Sign Up Failed");
+}
         } catch (error) {
-          console.error("Sign Up Error: ", error);
-          throw new Error("Sign Up Error");
-        }
+  console.error("Sign Up Error: ", error);
+  throw new Error("Sign Up Error");
+}
       },
     }),
 
@@ -121,7 +125,7 @@ import axios from 'axios';
     //   },
     // })
   ],
-  secret: '739d95146513d67502b0ba4776a5cae8',
+secret: '739d95146513d67502b0ba4776a5cae8',
   callbacks: {
     //   async jwt({ token, account }) {
     //     if (account?.provider === "google") {
@@ -153,47 +157,47 @@ import axios from 'axios';
 
     async jwt({ token, user }) {
 
-      console.log('useruser', user)
-      if (user) {
-        token.id = user.id;
-        token.fullName = user.fullName;
-        token.email = user.email;
-        token.phone = user.phone;
-        token.rating = user.rating;
-        token.isVerified = user.isVerified;
-        token.reports = user.reports;
-        token.createdAt = user.createdAt;
-        token.updatedAt = user.updatedAt;
-        token.verificationCode = user.verificationCode;
-      }
-      return token;
-    },
+    console.log('useruser', user)
+    if (user) {
+      token.id = user.id;
+      token.fullName = user.fullName;
+      token.email = user.email;
+      token.phone = user.phone;
+      token.rating = user.rating;
+      token.isVerified = user.isVerified;
+      token.reports = user.reports;
+      token.createdAt = user.createdAt;
+      token.updatedAt = user.updatedAt;
+      token.verificationCode = user.verificationCode;
+    }
+    return token;
+  },
 
     async session({ session, token }) {
 
-      console.log('token', token)
-      session.user._id = token.id;
-      session.user.fullName = token.fullName;
-      session.user.email = token.email;
-      session.user.phone = token.phone;
-      session.user.rating = token.rating;
-      session.user.isVerified = token.isVerified;
-      session.user.reports = token.reports;
-      session.user.createdAt = token.createdAt;
-      session.user.updatedAt = token.updatedAt;
-      session.user.verificationCode = token.verificationCode;
+    console.log('token', token)
+    session.user._id = token.id;
+    session.user.fullName = token.fullName;
+    session.user.email = token.email;
+    session.user.phone = token.phone;
+    session.user.rating = token.rating;
+    session.user.isVerified = token.isVerified;
+    session.user.reports = token.reports;
+    session.user.createdAt = token.createdAt;
+    session.user.updatedAt = token.updatedAt;
+    session.user.verificationCode = token.verificationCode;
 
-      console.log('Session Data:', session);
-      return session;
-    },
+    console.log('Session Data:', session);
+    return session;
+  },
     async redirect({ url, baseUrl }) {
-      // Redirect to `/dashboard` after sign-in
-      if (url.startsWith(baseUrl)) {
-        return `${baseUrl}/`;
-      }
-      return baseUrl;
+    // Redirect to `/dashboard` after sign-in
+    if (url.startsWith(baseUrl)) {
+      return `${baseUrl}/`;
     }
+    return baseUrl;
   }
+}
 }
 
 const handler = NextAuth(authOptions);

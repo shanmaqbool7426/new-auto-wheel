@@ -42,7 +42,7 @@ import CustomModel from "@/constants/CustomModel"
 import { postDataToServer } from "@/actions/index"
 import { fetchMakesByType } from "@/services/vehicles";
 import { submitFormData } from "@/services/forms";
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { API_ENDPOINTS } from "../../../../constants/api-endpoints";
 // import { cities } from "@/constants/vehicle-constants"; 
 
 
@@ -225,9 +225,10 @@ const PostAnAd = () => {
     };
 
     try {
-      const data = await submitFormData(API_ENDPOINTS?.VEHICLE_ADD, JSON.stringify(payload), {
+      const data = await submitFormData(API_ENDPOINTS.VEHICLE.ADD, JSON.stringify(payload), {
         'Content-Type': 'application/json', // Set content-type to JSON
       });
+      
     } catch (error) {
     }
   };
