@@ -4,7 +4,7 @@ export async function submitFormData(url, data) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: data,
+      body: JSON.stringify(data),
     });
   
     if (!response.ok) {
