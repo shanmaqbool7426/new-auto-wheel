@@ -20,23 +20,33 @@ const NewCarsPage = async (params, searchParams) => {
   const slugMake = params.params.newcarslug[1];
   
   const popularVehicles = await fetchListData(
-    API_ENDPOINTS.BROWSE.MAKES_WITH_POPULAR(slugMake, params.params.newcarslug[0])
+    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, params.params.newcarslug[0])
   );
 
+  
+  const fetchUpComingVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, params.params.newcarslug[0])
+  ); 
+  const fetchNewlyLaunchedVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, params.params.newcarslug[0]))
+    
+    const fetchMakebyVehicles = await fetchListData(
+      API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake &&  slugMake || 'Toyota', params.params.newcarslug[0]))
+      const fetchHondaVehicles  = await fetchListData(
+        API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake &&  slugMake || 'Honda', params.params.newcarslug[0]))
+        const fetchMakesByTypeData = await fetchListData(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${params.params.newcarslug[0]}`);
 
-  console.log('popularVehicles',popularVehicles)
-  const fetchUpComingVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/sb_upcoming/mk_${slugMake}`);
-  const fetchToyotaVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/mk_${company_1[params.params.newcarslug[0]]}`);
-  const fetchHondaVehicles = await fetchVehiclsData(`/t_${params.params.newcarslug[0]}/cn_new/mk_${company_2[params.params.newcarslug[0]]}`);
-  const fetchMakesByTypeData = await fetchMakesByType(`${params.params.newcarslug[0]}`);
-
+        console.log('>>> slugMake, fetchUpComingVehicles',fetchUpComingVehicles,slugMake)
+  
   const matchedMake = fetchMakesByTypeData?.data && fetchMakesByTypeData?.data?.find(make => make?.name?.toLowerCase() === slugMake?.toLowerCase());
   const isMakeVehicles = Boolean(matchedMake); // `true` if a match is found, otherwise `false`
 
+
+  
   return (
     <>
-      {!isMakeVehicles && <NewCarsModule makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles} fetchToyotaVehicles={fetchToyotaVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} />}
-      {isMakeVehicles && <MakesVehicles makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles} fetchToyotaVehicles={fetchToyotaVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} slugMake={slugMake} matchedMake={matchedMake} />}
+      {!isMakeVehicles && <NewCarsModule makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles} fetchNewlyLaunchedVehicles={fetchNewlyLaunchedVehicles} fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} fetchMakebyVehicles={fetchMakebyVehicles} />}
+      {isMakeVehicles && <MakesVehicles makes={makesAndBodies?.makes} bodies={makesAndBodies?.bodies} popularVehicles={popularVehicles} fetchUpComingVehicles={fetchUpComingVehicles} fetchNewlyLaunchedVehicles={fetchNewlyLaunchedVehicles}  fetchHondaVehicles={fetchHondaVehicles} fetchMakesByTypeData={fetchMakesByTypeData} params={params} searchParams={searchParams} slugMake={slugMake} matchedMake={matchedMake} fetchMakebyVehicles={fetchMakebyVehicles}/>}
 
     </>
   )

@@ -19,7 +19,7 @@ const PopularNewCars = ({ bg = true , popularVehicles}) => {
               </Text>
             </Title>
           </Box>
-          {popularVehicles?.data?.results?.map((vehicle, index) => {
+          {popularVehicles?.data?.map((vehicle, index) => {
             return (
               <Box className="col-md-3" key={index}>
                 <Card

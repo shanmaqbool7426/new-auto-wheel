@@ -17,7 +17,7 @@ export const fetchVehiclsData = async (params) => {
 
 export const fetchListData = async (url) => {
   try {
-    console.log('url>>>>>>>>>>111', url);
+    console.log('shanshan', url);
     const data = await fetchAPI(url)
     console.log('url>>>>>>>>>>111 result', url);
 

@@ -14,7 +14,7 @@ const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles }) => {
               </Text>
             </Title>
           </Box>
-          {fetchUpComingVehicles?.data?.results?.map((vehicle, index) => {
+          {fetchUpComingVehicles?.data?.map((vehicle, index) => {
             return (
               <Box className="col-lg-3 col-md-4 col-sm-6" key={index}>
                 <Card

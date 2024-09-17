@@ -43,8 +43,8 @@ import ListingFilter from "@/components/listing/sidebar-filter";
 import { getAllReviews } from "@/services/vehicles";
 import { formatToMonthYear } from "@/utils";
 
-const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, fetchToyotaVehicles, fetchHondaVehicles, fetchMakesByTypeData, params, searchParams }) => {
-  console.log('New Cars', fetchToyotaVehicles?.data)
+const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, fetchMakebyVehicles, fetchHondaVehicles, fetchMakesByTypeData, params, searchParams ,fetchNewlyLaunchedVehicles}) => {
+  console.log('New Cars', fetchNewlyLaunchedVehicles)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -115,7 +115,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
   }, [filter]);
 
 
-  console.log('reviews', reviews)
+  console.log('fetchUpComingVehicles?.data', fetchUpComingVehicles?.data)
   return (
     <>
       <section className="find-cars">
@@ -201,7 +201,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
                   </Text>
                 </Title>
               </Box>
-              {popularVehicles?.data?.results?.map((vehicle, index) => {
+              {popularVehicles?.data?.map((vehicle, index) => {
                 return (
                   <Box className="col-md-3">
                     <NewCarsCard vehicle={vehicle} isRating={true} />
@@ -222,12 +222,10 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
                   </Text>
                 </Title>
               </Box>
-              {fetchUpComingVehicles?.data?.results.map((vehicle, index) => {
-
+              {fetchNewlyLaunchedVehicles?.data?.map((vehicle, index) => {
                 return (
                   <Box className="col-md-3" key={index}>
                     <NewCarsCard vehicle={vehicle} isRating={false} />
-
                   </Box>
                 );
               })}
@@ -239,13 +237,13 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  Newly Launched{" "}
+                Upcoming {" "}
                   <Text span c="#E90808" inherit>
                     {params.params.newcarslug[0]}
                   </Text>
                 </Title>
               </Box>
-              {fetchUpComingVehicles?.data?.results?.map((vehicle, index) => {
+              {fetchUpComingVehicles?.data?.map((vehicle, index) => {
                 return (
                   <Box className="col-md-3" key={index}>
                     <NewCarsCard vehicle={vehicle} isRating={false} />
@@ -266,7 +264,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
                   </Text>
                 </Title>
               </Box>
-              {fetchToyotaVehicles?.data?.results?.map((vehicle, index) => {
+              {fetchMakebyVehicles?.data?.map((vehicle, index) => {
                 return (
                   <Box className="col-md-3" key={index}>
                     <NewCarsCard vehicle={vehicle} isRating={false} />
@@ -287,7 +285,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
                   </Text>
                 </Title>
               </Box>
-              {fetchHondaVehicles?.data?.results?.map((vehicle, index) => {
+              {fetchHondaVehicles?.data?.map((vehicle, index) => {
                 return (
                   <Box className="col-md-3" key={index}>
                     <NewCarsCard vehicle={vehicle} isRating={false} />
