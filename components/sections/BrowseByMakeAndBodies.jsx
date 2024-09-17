@@ -1,4 +1,4 @@
-import { Anchor, Flex, Text, Title } from "@mantine/core";
+import { Anchor, Box, Flex, Text, Title } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,10 +6,10 @@ import NextImage from "next/image";
 
 const BrowseByMakeAndBodies = ({ makes, bodies }) => {
   return (
-    <div className="browse-cats-section py-5 bg-light">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-6">
+    <Box className="browse-cats-section py-5 bg-light">
+      <Box className="container">
+        <Box className="row">
+          <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2}>
                 Browse by{" "}
@@ -22,11 +22,11 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
                 Show all Makes
               </Anchor>
             </Flex>
-            <div className="cat-by-brand">
-              <div className="row">
+            <Box className="cat-by-brand">
+              <Box className="row">
                 {makes?.data?.map((item, index) => {
                   return (
-                    <div className="col-sm-3" key={index}>
+                    <Box className="col-sm-3" key={index}>
                       <Flex direction="column" className="single-brand-item">
                         <Image
                           width={100}
@@ -37,13 +37,13 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
                         />
                         <Link href={`/new/car/${item.name}`}>{item.name}</Link>
                       </Flex>
-                    </div>
+                    </Box>
                   );
                 })}
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-6 ps-5">
+              </Box>
+            </Box>
+          </Box>
+          <Box className="col-lg-6 ps-5">
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2}>
                 Browse by{" "}
@@ -56,11 +56,11 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
               </Anchor>
             </Flex>
 
-            <div className="cat-by-brand cat-by-body">
-              <div className="row">
+            <Box className="cat-by-brand cat-by-body">
+              <Box className="row">
                 {bodies?.data?.map((body, index) => {
                   return (
-                    <div className="col-sm-3" key={index}>
+                    <Box className="col-sm-3" key={index}>
                       <Flex direction="column" className="single-brand-item">
                         <Image
                           width={100}
@@ -70,15 +70,15 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
                         />
                         <Link href={"#"}>{body.name}</Link>
                       </Flex>
-                    </div>
+                    </Box>
                   );
                 })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

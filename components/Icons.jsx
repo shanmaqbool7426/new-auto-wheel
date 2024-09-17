@@ -77,8 +77,8 @@ export const GearsHandle = () => {
   return (
     <>
       <svg
-        width="12"
-        height="12"
+        width="16"
+        height="16"
         viewBox="0 0 12 12"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -96,31 +96,7 @@ export const GearsHandle = () => {
 export const PlayButton = () => {
   return (
     <>
-      <svg
-        width="80"
-        height="80"
-        viewBox="0 0 56 57"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect y="0.141846" width="56" height="56" rx="28" fill="#E90808" />
-        <g clipPath="url(#clip0_68_272)">
-          <path
-            d="M36.5679 28.2749L18.7703 38.1703C18.5671 38.2797 18.3913 38.2914 18.2428 38.2055C18.0942 38.1195 18.02 37.9592 18.02 37.7248V18.0044C18.02 17.7699 18.0942 17.6058 18.2428 17.512C18.3913 17.4182 18.5671 17.4338 18.7703 17.5589L36.5679 27.4308C36.7711 27.5558 36.8727 27.7004 36.8727 27.8646C36.8727 28.0287 36.7711 28.1655 36.5679 28.2749Z"
-            fill="white"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_68_272">
-            <rect
-              width="18.97"
-              height="25"
-              fill="white"
-              transform="matrix(1 0 0 -1 21.02 41.1418)"
-            />
-          </clipPath>
-        </defs>
-      </svg>
+       <svg height="40" version="1.1" viewBox="0 0 68 48" width="40"><path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f00"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path></svg>
     </>
   );
 };

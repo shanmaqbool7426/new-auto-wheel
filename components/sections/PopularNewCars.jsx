@@ -1,3 +1,4 @@
+import { formatToLacOrCrore } from "@/utils";
 import { Box, Card, Flex, Image, Rating, Text, Title } from "@mantine/core";
 import React from "react";
 
@@ -43,7 +44,7 @@ const PopularNewCars = ({ bg = true , popularVehicles}) => {
                         {vehicle?.make}   {vehicle?.model}
                     </Title>
                     <Text fw={600} fs="xl">
-                      Rs {vehicle?.startPrice} - {vehicle?.startPrice} Lacs
+                    Rs {formatToLacOrCrore(vehicle?.minPrice)} - {formatToLacOrCrore(vehicle?.maxPrice)}
                     </Text>
                     <Flex align="center" justify="center" gap="xs">
                       <Rating defaultValue={2} />

@@ -11,7 +11,7 @@ const BrowseVideos = () => {
         <Box className="row">
           <Box className="col-12">
             <Flex justify="space-between" align="center" mb="xl">
-              <Title order={2}>
+              <Title order={2} lts={-0.4}>
                 Browse Our{" "}
                 <Text span c="#E90808" inherit>
                   Videos

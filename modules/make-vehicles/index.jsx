@@ -28,7 +28,7 @@ import PopularNewCars from "../../components/sections/PopularNewCars";
 import UpcomingCars from "../../components/sections/UpcomingCars";
 import Comments from "@/components/sections/Comments";
 
-const MakesVehicles = ({ slugMake, popularVehicles, fetchUpComingVehicles,matchedMake }) => {
+const MakesVehicles = ({ slugMake, popularVehicles, fetchUpComingVehicles,matchedMake,altraNativesMake , vehicleType,fetchMakesByTypeData}) => {
     const tagsArray = [
         { name: "All (601)", isSelected: true },
         { name: "Service (39)" },
@@ -76,6 +76,8 @@ const MakesVehicles = ({ slugMake, popularVehicles, fetchUpComingVehicles,matche
 
     const shortText = text.slice(0, 430); // Shortened text with a limit of 150 characters.
 
+
+    console.log('brandsURLs',altraNativesMake)
     return (
         <>
             <section className="find-cars">
@@ -152,7 +154,7 @@ const MakesVehicles = ({ slugMake, popularVehicles, fetchUpComingVehicles,matche
                 <BrowseVideos />
                 <BrowseBlogs />
 
-<Comments/>
+<Comments vehicleType={vehicleType} fetchMakesByTypeData={fetchMakesByTypeData}/>
 
                 <section className="brands-faq-section pb-5">
                     <div className="container">
@@ -175,7 +177,7 @@ const MakesVehicles = ({ slugMake, popularVehicles, fetchUpComingVehicles,matche
                                     align="start"
                                     slidesToScroll={7}
                                 >
-                                    {brandsURLs.map((item, index) => {
+                                    {altraNativesMake.map((item, index) => {
                                         return (
                                             <Carousel.Slide key={index}>
                                                 <Flex
@@ -187,7 +189,7 @@ const MakesVehicles = ({ slugMake, popularVehicles, fetchUpComingVehicles,matche
                                                     <NextImage
                                                         width={100}
                                                         height={100}
-                                                        src={item.url}
+                                                        src={item.companyImage}
                                                         className="mx-auto text-center"
                                                     />
                                                     <Anchor component={Link} href="#" c="#333">

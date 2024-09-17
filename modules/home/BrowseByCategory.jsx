@@ -1,14 +1,26 @@
-import { Anchor, Flex, Text, Title } from "@mantine/core";
-import Image from "next/image";
+"use client";
+import {
+  Anchor,
+  Flex,
+  Text,
+  Title,
+  Image,
+  Center,
+  Grid,
+  Box,
+  Paper,
+  Card,
+} from "@mantine/core";
+import NextImage from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const BrowseByCategory = ({ makes, bodies }) => {
   return (
-    <div className="browse-cats-section py-5 bg-light">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-6">
+    <Box className="browse-cats-section py-5 bg-light">
+      <Box className="container">
+        <Box className="row">
+          <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2}>
                 Browse by{" "}
@@ -21,27 +33,34 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 Show all Makes
               </Anchor>
             </Flex>
-            <div className="cat-by-brand">
-              <div className="row">
+
+            <Box className="cat-by-brand">
+              <Box className="row">
                 {makes?.data?.map((item, index) => {
                   return (
-                    <div className="col-sm-3" key={index}>
-                      <Flex direction="column" className="single-brand-item">
-                        <Image
-                          width={100}
-                          height={100}
-                          src={item.companyImage}
-                          className="mx-auto text-center"
-                        />
-                        <Link href={"#"}>{item.name}</Link>
-                      </Flex>
-                    </div>
+                    <Box className="col-sm-3 text-center" key={index} mb="lg">
+                      <Anchor href="#" td="none">
+                        <Card
+                          radius="md"
+                          mih={120}
+                          style={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Image w={70} h={70} src={item.companyImage} />
+                        </Card>
+                        <Title order={4} mt="sm" fw={600}>
+                          {item.name}
+                        </Title>
+                      </Anchor>
+                    </Box>
                   );
                 })}
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-6 ps-5">
+              </Box>
+            </Box>
+          </Box>
+          <Box className="col-lg-6 ps-5">
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2}>
                 Browse by{" "}
@@ -54,29 +73,35 @@ const BrowseByCategory = ({ makes, bodies }) => {
               </Anchor>
             </Flex>
 
-            <div className="cat-by-brand cat-by-body">
-              <div className="row">
+            <Box className="cat-by-brand cat-by-body">
+              <Box className="row">
                 {bodies?.data?.map((body, index) => {
                   return (
-                    <div className="col-sm-3" key={index}>
-                      <Flex direction="column" className="single-brand-item">
-                        <Image
-                          width={100}
-                          height={100}
-                          src={body.bodyImage}
-                          className="mx-auto text-center"
-                        />
-                        <Link href={"#"}>{body.name}</Link>
-                      </Flex>
-                    </div>
+                    <Box className="col-sm-3 text-center" key={index} mb="lg">
+                      <Anchor href="#" td="none">
+                        <Card
+                          radius="md"
+                          mih={120}
+                          style={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Image w={70} h={70} src={body.bodyImage} />
+                        </Card>
+                        <Title order={4} mt="sm" fw={600}>
+                          {body.name}
+                        </Title>
+                      </Anchor>
+                    </Box>
                   );
                 })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

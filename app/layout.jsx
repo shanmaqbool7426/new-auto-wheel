@@ -1,7 +1,7 @@
 "use client";
 import { Inter, Poppins, Roboto } from "next/font/google";
 import "./styles/globals.scss";
-// import '@mantine/notifications/styles.css';
+import '@mantine/notifications/styles.css';
 
 import NextTopLoader from "nextjs-toploader";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
@@ -12,8 +12,8 @@ import "@mantine/carousel/styles.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";
-// import { Notifications } from '@mantine/notifications';
-// import '@mantine/notifications/styles.css';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 
 
 // Font configurations
@@ -65,7 +65,7 @@ export default function RootLayout({ children }) {
         />
         <SessionProvider>
           <MantineProvider theme={theme}>
-                  {/* <Notifications /> */}
+                  <Notifications />
 
             <Header />
             {children}
