@@ -1,3 +1,4 @@
+import { formatDate, formatToLacOrCrore } from "@/utils";
 import { Box, Card, Flex, Image, Text, Title } from "@mantine/core";
 import React from "react";
 
@@ -41,12 +42,12 @@ const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles }) => {
                       reviewRating
                     ) : (
                       <Text fw={600} fs="xl">
-                        Rs {vehicle?.startPrice} - {vehicle?.startPrice} Lacs
+                        Rs {formatToLacOrCrore(vehicle?.minPrice)} - {formatToLacOrCrore(vehicle?.maxPrice)}
                       </Text>
                     )}
 
-                    <Text span inherit>
-                      {reviewsText ? reviewsText : "(Launched Expected 2024*)"}
+                    <Text span inherit>   
+                      {reviewsText ? reviewsText : `(Launched Expected ${new Date(vehicle.releaseDate).getFullYear()}*)`}
                     </Text>
                   </Flex>
                 </Card>

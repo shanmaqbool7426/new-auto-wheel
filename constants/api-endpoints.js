@@ -34,8 +34,8 @@
 //   };
   
 
-const BASE_URL = 'https://auto-wheel-be.vercel.app';
-// const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// const BASE_URL = 'https://auto-wheel-be.vercel.app';
+const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;

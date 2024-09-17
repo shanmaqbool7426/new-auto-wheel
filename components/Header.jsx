@@ -36,7 +36,7 @@ import { IconChevronDown } from "@tabler/icons-react";
 const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [hoverTarget, setHoverTarget] = useState('cars');
+  const [hoverTarget, setHoverTarget] = useState("cars");
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const [modalOpened, setModalOpened] = useState(false);
@@ -45,7 +45,7 @@ const Header = () => {
   const handleLogout = () => {
     signOut();
   };
-  console.log('session', session)
+  console.log("session", session);
 
   // Data for cars, bikes, and trucks
   const data = {
@@ -64,7 +64,9 @@ const Header = () => {
           description: "Find used cars in Pakistan",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Featured Used Cars",
           link: "/listing/cars/search/-/ft_featured",
           description: "Find new cars in Pakistan",
@@ -93,7 +95,6 @@ const Header = () => {
         { title: "Suzuki Wagon R", link: "/listing/cars/search/-/mk_suzuki" },
         { title: "Toyota Yaris", link: "/listing/cars/search/-/mk_toyota" },
       ],
-
     },
     bikes: {
       firstCol: [
@@ -110,7 +111,9 @@ const Header = () => {
           description: "Find used bikes in Pakistan",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Featured Used Bikes",
           link: "/listing/bikes",
           description: "Find new bikes in Pakistan",
@@ -135,7 +138,6 @@ const Header = () => {
         { title: "Yamaha YBR 125", link: "/listing/bikes/search/-/mk_yamaha" },
         { title: "Suzuki GS 150", link: "/listing/bikes/search/-/mk_suzuki" },
       ],
-
     },
     trucks: {
       firstCol: [
@@ -152,7 +154,9 @@ const Header = () => {
           description: "Find used trucks in Pakistan",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Featured Used Trucks",
           link: "/listing/trucks",
           description: "Find new trucks in Pakistan",
@@ -168,23 +172,39 @@ const Header = () => {
         { title: "Hino", link: "/listing/trucks/search/-/mk_hino" },
         { title: "ISUZU", link: "/listing/trucks/search/-/mk_isuzu" },
         { title: "JAC", link: "/listing/trucks/search/-/mk_jac" },
-        { title: "JW Forland", link: "/listing/trucks/search/-/mk_jw%20forland" },
-        { title: "Master Foton", link: "/listing/trucks/search/-/mk_master%20foton" },
-        { title: "JW Forland", link: "/listing/trucks/search/-/mk_jw%20forland" },
+        {
+          title: "JW Forland",
+          link: "/listing/trucks/search/-/mk_jw%20forland",
+        },
+        {
+          title: "Master Foton",
+          link: "/listing/trucks/search/-/mk_master%20foton",
+        },
+        {
+          title: "JW Forland",
+          link: "/listing/trucks/search/-/mk_jw%20forland",
+        },
       ],
 
       thirdCol: [
         { title: "Hino", link: "/listing/trucks/search/-/mk_hino" },
         { title: "ISUZU", link: "/listing/trucks/search/-/mk_isuzu" },
         { title: "JAC", link: "/listing/trucks/search/-/mk_jac" },
-        { title: "JW Forland", link: "/listing/trucks/search/-/mk_jw%20forland" },
-        { title: "Master Foton", link: "/listing/trucks/search/-/mk_master%20foton" },
-        { title: "JW Forland", link: "/listing/trucks/search/-/mk_jw%20forland" },
+        {
+          title: "JW Forland",
+          link: "/listing/trucks/search/-/mk_jw%20forland",
+        },
+        {
+          title: "Master Foton",
+          link: "/listing/trucks/search/-/mk_master%20foton",
+        },
+        {
+          title: "JW Forland",
+          link: "/listing/trucks/search/-/mk_jw%20forland",
+        },
       ],
-
     },
   };
-
 
   // Function to dynamically generate first column links
   const firstColLinks = data[hoverTarget].firstCol.map((item, index) => (
@@ -206,25 +226,18 @@ const Header = () => {
   const secondColLinks = (
     <>
       <Group align="center" mb="xs" gap={10}>
-        {/* <Image
+        <Image
           w={17}
           h={17}
+          mt={3}
           src={
-            hoverTarget === 'cars'
-              ? 'megamenu/new-car.svg.svg'
-              : hoverTarget === 'bikes'
-                ? 'megamenu/motorcycle.png'
-                : 'megamenu/truck.png'
+            hoverTarget === "cars"
+              ? "megamenu/new-car.svg"
+              : hoverTarget === "bikes"
+              ? "megamenu/motorcycle.png"
+              : "megamenu/truck.png"
           }
-          alt={hoverTarget === 'cars' ? 'Car Image' : hoverTarget === 'bikes' ? 'Motorcycle Image' : 'Truck Image'}
-        /> */}
-        <Image w={17} h={17} mt={3} src={
-          hoverTarget === 'cars'
-            ? 'megamenu/new-car.svg'
-            : hoverTarget === 'bikes'
-              ? 'megamenu/motorcycle.png'
-              : 'megamenu/truck.png'
-        } />
+        />
         <Title order={6} fw={500}>
           Popular Brands {hoverTarget}
         </Title>
@@ -232,7 +245,12 @@ const Header = () => {
       <List listStyleType="none" withPadding>
         {data[hoverTarget].secondCol.map((item, index) => (
           <List.Item key={index} mb="xs">
-            <Anchor component={Link} c="dark" href={item?.link ?? '#'} size="sm">
+            <Anchor
+              component={Link}
+              c="dark"
+              href={item?.link ?? "#"}
+              size="sm"
+            >
               {item.title}
             </Anchor>
           </List.Item>
@@ -246,13 +264,18 @@ const Header = () => {
       <Group align="center" mb="xs" gap={10}>
         <Image w={15} h={15} src="megamenu/popular-car.svg" />
         <Title order={6} fw={500}>
-          Popular {hoverTarget === 'cars' ? 'New Cars' : hoverTarget === 'bikes' ? 'New Bikes' : 'New Trucks'}
+          Popular{" "}
+          {hoverTarget === "cars"
+            ? "New Cars"
+            : hoverTarget === "bikes"
+            ? "New Bikes"
+            : "New Trucks"}
         </Title>
       </Group>
       <List listStyleType="none" withPadding>
         {data[hoverTarget].thirdCol.map((item, index) => (
           <List.Item key={index} mb="xs">
-            <Anchor component={Link} c="dark" href={item.link ?? '#'} size="sm">
+            <Anchor component={Link} c="dark" href={item.link ?? "#"} size="sm">
               {item.title}
             </Anchor>
           </List.Item>
@@ -260,10 +283,6 @@ const Header = () => {
       </List>
     </>
   );
-
-
-
-
 
   // Show a loading spinner while session is being fetched
   if (status === "loading") {
@@ -276,94 +295,11 @@ const Header = () => {
           </Group>
         </Box>
       </Box>
-      //     <header className="site-header bg-white py-3 theme-header">
-      //   <nav className="container">
-      //     <div className="row align-items-center">
-      //       <div className="col-lg-2">
-      //         <Link href="/" className="p-1">
-      //           <Image
-      //             width={163}
-      //             height={27}
-      //             src="/logo.png"
-      //             quality={100}
-      //             alt="Logo"
-      //           />
-      //         </Link>
-      //       </div>
-      //       <div className="col-lg-10">
-      //         <div className="text-end">
-      //           <Loader size="sm" />
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </nav>
-      // </header>
     );
   }
 
   return (
     <>
-      {/* <header className="site-header bg-white py-3 theme-header">
-        <nav className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-2">
-              <Link href="/" className="p-1">
-                <Image
-                  width={163}
-                  height={27}
-                  src="/logo.png"
-                  quality={100}
-                  alt="Logo"
-                />
-              </Link>
-            </div>
-            <div className="col-lg-7">
-              <div className="header-navigation text-center">
-                <ul className="list-unstyled list-inline mb-0 mx-auto">
-                  <li className="list-inline-item dropdown">
-                    <NavLink>Cars</NavLink>
-                    <Link href={"/listing/cars/search/-/"}>Cars</Link>
-                  </li>
-                  <li className="list-inline-item dropdown">
-                    <Link href={"/listing/bikes/search/-/"}>Bike</Link>
-                  </li>
-                  <li className="list-inline-item dropdown">
-                    <Link href={"/listing/trucks/search/-/"}>Truck</Link>
-                  </li>
-                  <li className="list-inline-item dropdown">
-                    <Link href={"/blogs"}>Blogs</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <Stack direction="horizontal" gap={2} className="ms-auto">
-                {session ? (
-                  <>
-                    <Avatar
-                      src={session.user.image}
-                      alt={session.user.name}
-                      radius="xl"
-                      size="sm"
-                    />
-                    <span>{session.user.name}</span>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={() => setModalOpened(true)}
-                    >
-                      Login
-                    </button>
-                  </>
-                )}
-                <button className="btn btn-primary">Post an Ad</button>
-              </Stack>
-            </div>
-          </div>
-        </nav>
-      </header> */}
       <Box component="header" className="header">
         <Box className="container h-100">
           <Group justify="space-between" h="100%" wrap="nowrap">
@@ -379,7 +315,7 @@ const Header = () => {
                 <HoverCard.Target>
                   <Link
                     href="#"
-                    onMouseEnter={() => setHoverTarget('cars')}
+                    onMouseEnter={() => setHoverTarget("cars")}
                     className="link"
                   >
                     <Center inline>
@@ -417,7 +353,7 @@ const Header = () => {
                 <HoverCard.Target>
                   <Link
                     href="#"
-                    onMouseEnter={() => setHoverTarget('bikes')}
+                    onMouseEnter={() => setHoverTarget("bikes")}
                     className="link"
                   >
                     <Center inline>
@@ -453,8 +389,12 @@ const Header = () => {
                 shadow="0px 4px 20px 0px #00000014"
                 withinPortal
               >
-                <HoverCard.Target >
-                  <Link href="/listing/trucks/search/-/" className="link" onMouseEnter={() => setHoverTarget('trucks')}>
+                <HoverCard.Target>
+                  <Link
+                    href="/listing/trucks/search/-/"
+                    className="link"
+                    onMouseEnter={() => setHoverTarget("trucks")}
+                  >
                     <Center inline>
                       <Box component="span" mr={3}>
                         Truck
@@ -499,11 +439,16 @@ const Header = () => {
                   <Accordion>
                     {/* Display user's full name and avatar */}
                     <Accordion.Item value="user-info">
-                      <Accordion.Control >
+                      <Accordion.Control>
                         Wellcome {session.user.fullName || session.user.name} !
                       </Accordion.Control>
                       <Accordion.Panel>
-                        <span onClick={handleLogout} style={{ cursor: 'pointer' }}>Log out</span>
+                        <span
+                          onClick={handleLogout}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Log out
+                        </span>
                       </Accordion.Panel>
                     </Accordion.Item>
                   </Accordion>
@@ -521,7 +466,7 @@ const Header = () => {
                 </Button>
               )}
 
-              <Menu shadow="0px 4px 20px 0px #00000014" radius="sm">
+              <Menu shadow="lg" radius="sm">
                 <Menu.Target>
                   <Button
                     color="#E90808"
@@ -533,15 +478,45 @@ const Header = () => {
                   </Button>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Link href="/sale/car/post-ad" passHref>
-                    <Menu.Item component="a">Sell Your Car</Menu.Item>
-                  </Link>
-                  <Link href="/sale/bike/post-ad" passHref>
-                    <Menu.Item component="a">Sell Your Bike</Menu.Item>
-                  </Link>
-                  <Link href="/sale/truck/post-ad" passHref>
-                    <Menu.Item component="a">Sell Your Truck</Menu.Item>
-                  </Link>
+                  <Menu.Item>
+                    <Anchor
+                      component={Link}
+                      underline="none"
+                      c="dark"
+                      href="/sale/car/post-ad"
+                      passHref
+                      fw={500}
+                      size="sm"
+                    >
+                      Sell Your Car
+                    </Anchor>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <Anchor
+                      component={Link}
+                      underline="none"
+                      c="dark"
+                      href="/sale/bike/post-ad"
+                      passHref
+                      fw={500}
+                      size="sm"
+                    >
+                      Sell Your Bike
+                    </Anchor>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <Anchor
+                      component={Link}
+                      underline="none"
+                      c="dark"
+                      href="/sale/truck/post-ad"
+                      passHref
+                      fw={500}
+                      size="sm"
+                    >
+                      Sell Your Truck
+                    </Anchor>
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </Group>

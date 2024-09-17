@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 import WriteReviewModal from "../ui/WriteReviewModal";
+import { NotificationsProvider, showNotification } from '@mantine/notifications';
 
 
 
@@ -27,7 +28,11 @@ import NextImage from "next/image";
 import Link from "next/link";
 import { getAllReviews } from "@/services/vehicles";
 import { formatToMonthYear } from "@/utils";
-const Comments = () => {
+import { useSession, signOut } from "next-auth/react";
+
+const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
+    const { data: session, status } = useSession();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -44,9 +49,9 @@ const Comments = () => {
         comfort: 0,
         space: 0,
         power: 0,
-        total: 0,
+        // total: 0,
     });
-
+    console.log('sessionsession', session)
     const filterOptions = [
         { type: 'all', label: 'All', countKey: 'total' },
         { type: 'service', label: 'Service', countKey: 'service' },
@@ -57,22 +62,20 @@ const Comments = () => {
         { type: 'power', label: 'Power', countKey: 'power' },
     ];
 
-
+    const fetchReviews = async () => {
+        try {
+            setLoading(true);
+            const response = await getAllReviews(filter);
+            setReviews(response);
+            setReviews(response?.reviews);
+            setCounts(response?.stats);
+        } catch (err) {
+            setError('Error fetching reviews');
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                setLoading(true);
-                const response = await getAllReviews(filter);
-                setReviews(response);
-                setReviews(response?.reviews);
-                setCounts(response?.counts);
-            } catch (err) {
-                setError('Error fetching reviews');
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchReviews();
     }, [filter]);
 
@@ -91,16 +94,31 @@ const Comments = () => {
                                         <Flex align="center" gap="xs">
                                             <Rating size={rem(42)} defaultValue={1} count={1} />
                                             <Text size={rem(42)} fw="700">
-                                                4.3
+                                                {counts?.averageRating} .0
                                             </Text>
                                             <Text ml="xl">
-                                                Based on 601 <br /> User reviews
+                                                Based on {reviews?.length} <br /> User reviews
                                             </Text>
                                         </Flex>
                                     </Box>
                                 </Grid.Col>
                                 <Grid.Col span={4}>
-                                    <Button color="#EB2321" size="lg" fullWidth onClick={openModal}>
+                                    <Button
+                                        style={{ backgroundColor: '#EB2321', color: 'white' }}
+                                        size="lg"
+                                        fullWidth
+                                        onClick={() => {
+                                            if (session) {
+                                                openModal();
+                                            } else {
+                                                showNotification({
+                                                    title: 'Please Log In',
+                                                    message: 'You need to be logged in to write a review.',
+                                                    color: 'red',
+                                                });
+                                            }
+                                        }}
+                                    >
                                         Write a Review
                                     </Button>
                                 </Grid.Col>
@@ -125,6 +143,8 @@ const Comments = () => {
 
                                 {filterOptions && filterOptions.map((option) => {
                                     const isSelected = filter === option.type; // Check if the current filter matches the option type
+                                    const count = reviews?.length ? counts[option?.countKey ?? "total"] : 0; // Safely access counts
+
                                     return (
                                         <Button
                                             variant={isSelected ? 'filled' : 'default'} // Apply active state styles
@@ -135,10 +155,11 @@ const Comments = () => {
                                             key={option.type}
                                             onClick={() => setFilter(option.type)} // Update filter state on button click
                                         >
-                                            {option.label} ({counts[option.countKey]})
+                                            {option.label} ({count})
                                         </Button>
                                     );
                                 })}
+
                             </Group>
                         </Box>
 
@@ -168,6 +189,8 @@ const Comments = () => {
                                         slidesToScroll={3}
                                     >
                                         {reviews?.map((review, index) => {
+
+                                            console.log('>>>', review)
                                             return (
                                                 <Carousel.Slide key={index}>
                                                     <Card
@@ -176,7 +199,7 @@ const Comments = () => {
                                                         m="md"
                                                     >
                                                         <Group mb="md">
-                                                            <Rating defaultValue={review?.overAllRating ?? 5} count={5} />
+                                                            <Rating value={review?.overAllRating} count={5} />
                                                             <Text span inherit c="dimmed" size="sm">
                                                                 {review?.vehicle}
                                                             </Text>
@@ -208,7 +231,7 @@ const Comments = () => {
                     </Card>
                 </div>
             </section>
-            <WriteReviewModal opened={isModalOpen} close={closeModal} />
+            <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} fetchReviews={fetchReviews} />
 
         </>
     )

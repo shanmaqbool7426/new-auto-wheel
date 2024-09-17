@@ -1,46 +1,44 @@
-
-'use client'
-import { fetchMakesByTypeServer } from '@/actions';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+"use client";
+import { fetchMakesByTypeServer } from "@/actions";
+import { Input, Text, Title } from "@mantine/core";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 const Footer = () => {
-  const params= useParams()
-  const [makesByType, setMakesByType] = useState([])
-  const type= params?.slug  && params.slug[0] || "cars"
+  const params = useParams();
+  const [makesByType, setMakesByType] = useState([]);
+  const type = (params?.slug && params.slug[0]) || "cars";
   const makes = [
-    'Toyota',
-    'Suzuki',
-    'Honda',
-    'Daihatsu',
-    'Mitsubishi',
-    'Nissan',
-    'Mercedes',
-    'Hyundai',
-    'BMW',
+    "Toyota",
+    "Suzuki",
+    "Honda",
+    "Daihatsu",
+    "Mitsubishi",
+    "Nissan",
+    "Mercedes",
+    "Hyundai",
+    "BMW",
   ];
 
   const cities = [
-    'Lahore',
-    'Karachi',
-    'Islamabad',
-    'Rawalpindi',
-    'Peshawar',
-    'Faisalabad',
-    'Multan',
-    'Gujranwala',
-    'Sialkot',
+    "Lahore",
+    "Karachi",
+    "Islamabad",
+    "Rawalpindi",
+    "Peshawar",
+    "Faisalabad",
+    "Multan",
+    "Gujranwala",
+    "Sialkot",
   ];
 
-  const fetchMakes=async()=>{
-   const makes=await fetchMakesByTypeServer( type.slice(0,type?.length-1))
-   setMakesByType(makes?.data)
-  }
+  const fetchMakes = async () => {
+    const makes = await fetchMakesByTypeServer(type.slice(0, type?.length - 1));
+    setMakesByType(makes?.data);
+  };
   useEffect(() => {
-    fetchMakes()
-  }, [type])
-  
-
+    fetchMakes();
+  }, [type]);
 
   return (
     <footer className="footer">
@@ -49,11 +47,17 @@ const Footer = () => {
           <div className="col-lg-9">
             <div className="row">
               <div className="col-lg-3">
-                <div className="cat-title">Cars By Make</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars By Make
+                </Title>
                 <ul className="list-unstyled">
                   {makesByType?.map((make, index) => (
                     <li key={index}>
-                      <Link href={`/listing/${make?.type}s/search/-/mk_${make?.name?.toLowerCase()}`}>
+                      <Link
+                        href={`/listing/${
+                          make?.type
+                        }s/search/-/mk_${make?.name?.toLowerCase()}`}
+                      >
                         {make?.name} {make?.type} for Sale
                       </Link>
                     </li>
@@ -62,19 +66,25 @@ const Footer = () => {
               </div>
 
               <div className="col-lg-3">
-      <div className="cat-title">Cars By City</div>
-      <ul className="list-unstyled">
-        {cities.map((city, index) => (
-          <li key={index}>
-            <Link href={`/listing/cars/search/-/ct_${city.toLowerCase()}`}>
-              Cars in {city}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars By City
+                </Title>
+                <ul className="list-unstyled">
+                  {cities.map((city, index) => (
+                    <li key={index}>
+                      <Link
+                        href={`/listing/cars/search/-/ct_${city.toLowerCase()}`}
+                      >
+                        Cars in {city}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <div className="col-lg-3">
-                <div className="cat-title">Explore AutoWheels</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Explore AutoWheels
+                </Title>
                 <ul className="list-unstyled">
                   <li>
                     <a href="#">Used Cars</a>
@@ -103,7 +113,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-lg-3">
-                <div className="cat-title">Autowheels.com</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Autowheels.com
+                </Title>
                 <ul className="list-unstyled">
                   <li>
                     <a>About AutoWheels.com</a>
@@ -132,7 +144,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-lg-3">
-                <div className="cat-title">Cars by Category</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Category
+                </Title>
                 <ul className="list-unstyled">
                   <li>
                     <a>Jeep</a>
@@ -158,7 +172,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-lg-3">
-                <div className="cat-title">Cars by Body Type</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Body Type
+                </Title>
                 <ul className="list-unstyled">
                   <li>
                     <a>Sedan</a>
@@ -187,7 +203,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-lg-3">
-                <div className="cat-title">Cars by Color</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Color
+                </Title>
                 <ul className="list-unstyled">
                   <li>
                     <a>White Cars</a>
@@ -216,7 +234,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-lg-3">
-                <div className="cat-title">Cars by Province</div>
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Province
+                </Title>
                 <ul className="list-unstyled">
                   <li>
                     <a>Cars in Punjab</a>
@@ -245,7 +265,9 @@ const Footer = () => {
           </div>
           <div className="col-lg-3">
             <div>
-              <div className="cat-title">Sell On AutoWheels</div>
+              <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                Sell On AutoWheels
+              </Title>
               <ul className="list-unstyled">
                 <li>
                   <a>Sell Your Car</a>
@@ -259,21 +281,19 @@ const Footer = () => {
               </ul>
             </div>
             <div className="newsletter-section mt-5">
-              <div className="cat-title">Subscribe to our Newsletter</div>
-              <p>
+              <Title order={4} mb="md" fw={600} tt="uppercase">
+                Subscribe to our Newsletter
+              </Title>
+              <Text>
                 Lorem ipsum dolor sit amet consectetur. Sapien euismod arcu
                 mattis quam sed sem vitae quam. Maecenas tristique amet
-              </p>
-              <form className="newsletter-input-section position-relative">
-                <input
-                  type="text"
-                  className="newsletter-input form-control"
-                  placeholder="Your Email Address..."
-                />
-                <button className="btn bg-none p-0 submit-btn">
+              </Text>
+              <Input
+                mt="md"
+                rightSection={
                   <svg
-                    width="35"
-                    height="36"
+                    width="30"
+                    height="30"
                     viewBox="0 0 35 36"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -290,15 +310,17 @@ const Footer = () => {
                       fill="white"
                     />
                   </svg>
-                </button>
-              </form>
+                }
+                placeholder="Your Email Address..."
+                size="md"
+              />
             </div>
           </div>
         </div>
 
         <hr />
         <div className="text-center">
-          <span>© 2023 . All Rights Reserved.</span>
+          <span>© 2024 . All Rights Reserved.</span>
         </div>
       </div>
     </footer>
