@@ -29,9 +29,6 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 </Text>
               </Title>
 
-              <Anchor component={Link} href="#" c="#E90808">
-                Show all Makes
-              </Anchor>
             </Flex>
 
             <Box className="cat-by-brand">
@@ -39,7 +36,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 {makes?.data?.map((item, index) => {
                   return (
                     <Box className="col-sm-3 text-center" key={index} mb="lg">
-                      <Anchor href="#" td="none">
+                      <Anchor href={`/new/car/${item.name}`} td="none">
                         <Card
                           radius="md"
                           mih={120}
@@ -50,6 +47,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         >
                           <Image w={70} h={70} src={item.companyImage} />
                         </Card>
+                        {/* <Link href={`/new/car/${item.name}`}>{item.name}</Link> */}
                         <Title order={4} mt="sm" fw={600}>
                           {item.name}
                         </Title>
@@ -68,9 +66,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Body
                 </Text>
               </Title>
-              <Anchor component={Link} href="#" c="pink">
-                Show all Makes
-              </Anchor>
+           
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">
@@ -78,7 +74,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 {bodies?.data?.map((body, index) => {
                   return (
                     <Box className="col-sm-3 text-center" key={index} mb="lg">
-                      <Anchor href="#" td="none">
+                      <Anchor href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`} td="none">
                         <Card
                           radius="md"
                           mih={120}
