@@ -1,3 +1,4 @@
+'use client'
 import { CameraIcon, GearsHandle } from "@/components/Icons";
 // import Image from "next/image";
 import Link from "next/link";
