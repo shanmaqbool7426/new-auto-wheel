@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 
 const HeroTabs = () => {
   const router = useRouter();
-
+  // const [activeTab, setActiveTab] = useState("first");
   const [opened, { open, close }] = useDisclosure(false);
   const [query, setQuery] = useState("");
   const [filteredCities, setFilteredCities] = useState([]);
@@ -101,7 +101,6 @@ const HeroTabs = () => {
       setLoading(false); // Reset loading state after redirect
     });
   };
-
   return (
     <>
       <Tabs color="pink" radius="xs" defaultValue="cars" autoContrast>
@@ -109,7 +108,7 @@ const HeroTabs = () => {
           <Tabs.Tab
             value="cars"
             leftSection={<CarFrontView />}
-            c="#6c757d"
+            c={makesByType === "car" ? "#E90808" : "#6c757d"}
             onClick={() => {
               setMakesByType("car");
               closeModal();
@@ -120,7 +119,7 @@ const HeroTabs = () => {
           <Tabs.Tab
             value="bikes"
             leftSection={<MotorBike />}
-            c="#6c757d"
+            c={makesByType === "bike" ? "#E90808" : "#6c757d"}
             onClick={() => {
               setMakesByType("bike");
               closeModal();
@@ -131,7 +130,7 @@ const HeroTabs = () => {
           <Tabs.Tab
             value="trucks"
             leftSection={<Truck />}
-            c="#6c757d"
+            c={makesByType === "truck" ? "#E90808" : "#6c757d"}
             onClick={() => {
               setMakesByType("truck");
               closeModal();
@@ -192,6 +191,7 @@ const HeroTabs = () => {
             </Button>
           </Group>
         </Tabs.Panel>
+
         <Tabs.Panel value="bikes" p="xs">
           <Input
             placeholder="Bike Make or Model"
@@ -243,6 +243,7 @@ const HeroTabs = () => {
             </Button>
           </Group>
         </Tabs.Panel>
+
         <Tabs.Panel value="trucks" p="xs">
           <Input
             placeholder="Truck Make or Model"
@@ -296,166 +297,6 @@ const HeroTabs = () => {
           </Group>
         </Tabs.Panel>
       </Tabs>
-      {/* <Modal
-        opened={opened}
-        onClose={close}
-        withCloseButton={false}
-        size="50%"
-        padding={0}
-      >
-        <Paper
-          clasName="saerch-modal-header"
-          p="xs"
-          shadow="0px 2px 5px 0px #00000014"
-        >
-          <Center>
-            <Button color="#E90808" size="xs" mr="md">
-              Make
-            </Button>
-            <Button
-              variant="subtle"
-              bg="#F3F3F3"
-              color="#878787"
-              size="xs"
-              mr="md"
-              autoContrast
-            >
-              Model
-            </Button>
-            <Button
-              variant="subtle"
-              bg="#F3F3F3"
-              color="#878787"
-              size="xs"
-              mr="md"
-              autoContrast
-            >
-              Variants
-            </Button>
-          </Center>
-        </Paper>
-        <Grid gutter={0}>
-          <Grid.Col span={4} p="md" pt="xl" className="border-end">
-            <Input
-              placeholder="Search by Car Make"
-              leftSection={<BsSearch />}
-            />
-            <Title order={5} my="sm" fw={600}>
-              Popular
-            </Title>
-            <ScrollArea
-              h={250}
-              offsetScrollbars
-              scrollbarSize={5}
-              scrollHideDelay={500}
-              scrollbars="y"
-            >
-              <List className="search-dropdown-lists" listStyleType="none">
-                <List.Item
-                  className="search-dropdown-lists__item"
-                  icon={<Image src="/megamenu/search-menu/honda-sm.svg" />}
-                >
-                  Honda <BsArrowRight />
-                </List.Item>
-                <List.Item
-                  className="search-dropdown-lists__item"
-                  icon={<Image src="/megamenu/search-menu/kia-sm.svg" />}
-                >
-                  Kia <BsArrowRight />
-                </List.Item>
-                <List.Item
-                  className="search-dropdown-lists__item"
-                  icon={<Image src="/megamenu/search-menu/bmw-sm.svg" />}
-                >
-                  BMW <BsArrowRight />
-                </List.Item>
-                <List.Item
-                  className="search-dropdown-lists__item"
-                  icon={<Image src="/megamenu/search-menu/hyundai-sm.svg" />}
-                >
-                  Hyundai <BsArrowRight />
-                </List.Item>
-                <List.Item
-                  className="search-dropdown-lists__item"
-                  icon={<Image src="/megamenu/search-menu/acura-sm.svg" />}
-                >
-                  Acura <BsArrowRight />
-                </List.Item>
-                <List.Item
-                  className="search-dropdown-lists__item"
-                  icon={<Image src="/megamenu/search-menu/nissan-sm.svg" />}
-                >
-                  Toyota <BsArrowRight />
-                </List.Item>
-              </List>
-            </ScrollArea>
-          </Grid.Col>
-          <Grid.Col span={4} p="md" pt="xl" className="border-end">
-            <Input
-              placeholder="Search by Car Model"
-              leftSection={<BsSearch />}
-            />
-            <Title order={5} my="sm" fw={600}>
-              All Models
-            </Title>
-            <ScrollArea
-              h={250}
-              offsetScrollbars
-              scrollbarSize={5}
-              scrollHideDelay={500}
-              scrollbars="y"
-            >
-              <List className="search-dropdown-lists" listStyleType="none">
-                <List.Item className="search-dropdown-lists__item">
-                  Honda Civic <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  Honda City <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  Honda BR-V <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  Honda HR-V <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  Honda Accord <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  Honda Accord <BsArrowRight />
-                </List.Item>
-              </List>
-            </ScrollArea>
-          </Grid.Col>
-          <Grid.Col span={4} p="md" pt="xl" className="border-end">
-            <Input
-              placeholder="Search by Car Variant"
-              leftSection={<BsSearch />}
-            />
-            <Title order={5} my="sm" fw={600}>
-              2022-2023
-            </Title>
-            <ScrollArea
-              offsetScrollbars
-              scrollbarSize={5}
-              scrollHideDelay={500}
-              scrollbars="y"
-            >
-              <List className="search-dropdown-lists" listStyleType="none">
-                <List.Item className="search-dropdown-lists__item">
-                  Standard <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  RS <BsArrowRight />
-                </List.Item>
-                <List.Item className="search-dropdown-lists__item">
-                  Oriel <BsArrowRight />
-                </List.Item>
-              </List>
-            </ScrollArea>
-          </Grid.Col>
-        </Grid>
-      </Modal> */}
 
       <CustomModel
         isOpen={isModalOpen}

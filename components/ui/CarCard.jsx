@@ -1,4 +1,4 @@
-import { GearsHandle } from "@/components/Icons";
+import { CameraIcon, GearsHandle } from "@/components/Icons";
 // import Image from "next/image";
 import Link from "next/link";
 import styles from "../../app/styles/components/product.module.scss";
@@ -16,6 +16,7 @@ import {
   rem,
   Divider,
   Paper,
+  Progress,
 } from "@mantine/core";
 
 const CarCard = ({ vehicle, index }) => {
@@ -28,7 +29,13 @@ const CarCard = ({ vehicle, index }) => {
         // padding={0}
         mb="lg"
       >
-        <Card.Section withBorder>
+        <Card.Section pos="relative">
+          <Group c="white" gap={5} pos="absolute" left={15} top={15}>
+            <CameraIcon width={20} height={20} />
+            <Text span fw={600}>
+              6
+            </Text>
+          </Group>
           <Image
             mah={200}
             mih={200}
@@ -39,15 +46,20 @@ const CarCard = ({ vehicle, index }) => {
                 : "/products/product-placeholder.png"
             }
           />
+          <Group grow gap={2} my={2}>
+            <Progress size="xs" value={100} color="#E90808" />
+            <Progress size="xs" color="#E90808" />
+            <Progress size="xs" color="#E90808" />
+          </Group>
         </Card.Section>
+
         <Card.Section p="md">
-          <Group justify="space-between" mb="md" align="center">
+          <Group justify="space-between" mb="md" align="center" wrap="nowrap">
             <Title
               order={5}
               ff="text"
               lts={-0.3}
               fw={600}
-              w="10ch"
               lineClamp={1}
             >{`${vehicle?.year}  ${vehicle?.make} ${vehicle?.model}`}</Title>
             <Box
@@ -55,7 +67,10 @@ const CarCard = ({ vehicle, index }) => {
               bg="#E90808"
               p="5px 10px 5px 30px"
               fw={700}
-              style={{ clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)" }}
+              style={{
+                clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+                textWrap: "nowrap",
+              }}
             >
               Rs {vehicle?.price}
             </Box>
