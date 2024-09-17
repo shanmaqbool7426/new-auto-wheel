@@ -21,19 +21,17 @@ import {
 const CarCard = ({ vehicle, index }) => {
   return (
     <>
-    {/* 0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725) */}
-      <Card shadow="md" radius="md" mb="lg">
-        <Paper
-          withBorder={true}
-          radius="md"
-          shadow="none"
-          pos="relative"
-          style={{ overflow: "hidden" }}
-        >
+      {/* 0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725) */}
+      <Card
+        shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
+        radius="sm"
+        // padding={0}
+        mb="lg"
+      >
+        <Card.Section withBorder>
           <Image
             mah={200}
             mih={200}
-            radius="md"
             fit="cover"
             src={
               vehicle?.defaultImage
@@ -41,53 +39,55 @@ const CarCard = ({ vehicle, index }) => {
                 : "/products/product-placeholder.png"
             }
           />
-          <Box
-            pos="absolute"
-            bottom={0}
-            right={0}
-            c="#FFF"
-            bg="#E90808"
-            p="10px 10px 10px 50px"
-            fw={700}
-            style={{ clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)" }}
-          >
-            Rs {vehicle?.price}
-          </Box>
-        </Paper>
-        <Title
-          order={5}
-          ff="text"
-          lts={-0.3}
-          fw={600}
-          my="md"
-        >{`${vehicle?.year}  ${vehicle?.make} ${vehicle?.model}`}</Title>
-        <Divider />
-        <Flex mt="md" gap="md" justify="space-between" wrap="wrap">
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaCalendarDays />
-            <Text size="sm">{vehicle?.year}</Text>
+        </Card.Section>
+        <Card.Section p="md">
+          <Group justify="space-between" mb="md" align="center">
+            <Title
+              order={5}
+              ff="text"
+              lts={-0.3}
+              fw={600}
+              w="10ch"
+              lineClamp={1}
+            >{`${vehicle?.year}  ${vehicle?.make} ${vehicle?.model}`}</Title>
+            <Box
+              c="#FFF"
+              bg="#E90808"
+              p="5px 10px 5px 30px"
+              fw={700}
+              style={{ clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)" }}
+            >
+              Rs {vehicle?.price}
+            </Box>
           </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <GearsHandle />
-            <Text size="sm">{vehicle?.specifications?.transmission}</Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaLocationDot />
-            <Text size="sm">{vehicle?.city}</Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <Text span c="dimmed" size="sm">
-              Stock#
-            </Text>
-            <Text c="dark" size="sm">
-              {vehicle?.specifications?.stockId}
-            </Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaClock />
-            <Text size="sm">1 month ago</Text>
-          </Group>
-        </Flex>
+          <Divider />
+          <Flex mt="md" gap="md" justify="space-between" wrap="wrap">
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaCalendarDays />
+              <Text size="sm">{vehicle?.year}</Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <GearsHandle />
+              <Text size="sm">{vehicle?.specifications?.transmission}</Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaLocationDot />
+              <Text size="sm">{vehicle?.city}</Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <Text span c="dimmed" size="sm">
+                Stock#
+              </Text>
+              <Text c="dark" size="sm">
+                {vehicle?.specifications?.stockId}
+              </Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaClock />
+              <Text size="sm">1 month ago</Text>
+            </Group>
+          </Flex>
+        </Card.Section>
       </Card>
       {/* <Box className="card product-card">
         <img

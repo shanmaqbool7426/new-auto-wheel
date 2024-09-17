@@ -15,14 +15,14 @@ import {
   ScrollArea,
   Tabs,
   Title,
-  Autocomplete
+  Autocomplete,
 } from "@mantine/core";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
-import { City } from 'country-state-city';
+import { City } from "country-state-city";
 
-import CustomModel from "../constants/CustomModel"
+import CustomModel from "../constants/CustomModel";
 import { fetchMakesByTypeServer } from "@/actions";
 import { useRouter } from "next/navigation";
 
@@ -30,20 +30,20 @@ const HeroTabs = () => {
   const router = useRouter();
 
   const [opened, { open, close }] = useDisclosure(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [filteredCities, setFilteredCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [loading, setLoading] = useState(false);  // Loading state for button
+  const [loading, setLoading] = useState(false); // Loading state for button
 
   const [cityOptions, setCityOptions] = useState([]);
 
-  const [makesByType, setMakesByType] = useState('car');
+  const [makesByType, setMakesByType] = useState("car");
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selection, setSelection] = useState({
-    make: '',
-    model: '',
-    variant: '',
+    make: "",
+    model: "",
+    variant: "",
   });
 
   const openModal = () => setIsModalOpen(true);
@@ -53,10 +53,8 @@ const HeroTabs = () => {
     try {
       const fetchMakes = await fetchMakesByTypeServer(vehicleType);
       setFetchMakesByTypeData(fetchMakes);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
-
 
   // useEffect hook to fetch data when makesByType changes
   useEffect(() => {
@@ -68,7 +66,7 @@ const HeroTabs = () => {
 
     if (input.length > 0) {
       // Fetch cities from the country-state-city library (for Pakistan 'PK')
-      const cities = City.getCitiesOfCountry('PK');
+      const cities = City.getCitiesOfCountry("PK");
 
       // Filter cities based on user input
       const filtered = cities
@@ -92,15 +90,15 @@ const HeroTabs = () => {
 
   const handleSubmit = () => {
     const { make, model, variant } = selection;
-    setLoading(true);  // Start loading state when button is clicked
+    setLoading(true); // Start loading state when button is clicked
 
-    const cityQuery = query ? `/ct_${query.toLowerCase()}` : '';
-    const makeQuery = make ? `/mk_${make.toLowerCase()}` : '';
-    const modelQuery = model ? `/md_${model.toLowerCase()}` : '';
+    const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
+    const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
+    const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
     // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
     const searchUrl = `/listing/cars/search/-${makeQuery}${modelQuery}${cityQuery}`;
     router.push(searchUrl)?.finally(() => {
-      setLoading(false);  // Reset loading state after redirect
+      setLoading(false); // Reset loading state after redirect
     });
   };
 
@@ -108,10 +106,15 @@ const HeroTabs = () => {
     <>
       <Tabs color="pink" radius="xs" defaultValue="cars" autoContrast>
         <Tabs.List grow justify="center">
-          <Tabs.Tab value="cars" leftSection={<CarFrontView />} c="#6c757d" onClick={() => {
-            setMakesByType("car")
-            closeModal()
-          }}>
+          <Tabs.Tab
+            value="cars"
+            leftSection={<CarFrontView />}
+            c="#6c757d"
+            onClick={() => {
+              setMakesByType("car");
+              closeModal();
+            }}
+          >
             Car
           </Tabs.Tab>
           <Tabs.Tab
@@ -119,16 +122,21 @@ const HeroTabs = () => {
             leftSection={<MotorBike />}
             c="#6c757d"
             onClick={() => {
-              setMakesByType("bike")
-              closeModal()
+              setMakesByType("bike");
+              closeModal();
             }}
           >
             Bike
           </Tabs.Tab>
-          <Tabs.Tab value="trucks" leftSection={<Truck />} c="#6c757d" onClick={() => {
-            setMakesByType("truck")
-            closeModal()
-          }}>
+          <Tabs.Tab
+            value="trucks"
+            leftSection={<Truck />}
+            c="#6c757d"
+            onClick={() => {
+              setMakesByType("truck");
+              closeModal();
+            }}
+          >
             Truck
           </Tabs.Tab>
         </Tabs.List>
@@ -136,21 +144,24 @@ const HeroTabs = () => {
         <Tabs.Panel value="cars" p="xs">
           <Input
             placeholder="Car Make or Model"
-            size="md"
             mt="lg"
-            value={selection?.make || selection?.model || selection?.variant
-              ? `${selection?.make || ''} ${selection?.model || ''} ${selection?.variant || ''}`.trim()
-              : undefined}
+            value={
+              selection?.make || selection?.model || selection?.variant
+                ? `${selection?.make || ""} ${selection?.model || ""} ${
+                    selection?.variant || ""
+                  }`.trim()
+                : undefined
+            }
             onClick={openModal}
           />
           <Autocomplete
             label="Select your city"
             placeholder="Enter Your Location"
-            data={cityOptions}  // Dynamically populated city options
+            data={cityOptions} // Dynamically populated city options
             value={query}
-            onChange={handleInputChange}  // Call handler on input change
+            onChange={handleInputChange} // Call handler on input change
             withScrollArea={false}
-            styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}  // Add scroll to dropdown
+            styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
             mt="md"
           />
           <Button
@@ -160,7 +171,7 @@ const HeroTabs = () => {
             ff="heading"
             tt="uppercase"
             color="#E90808"
-            loading={loading}  // Show loading spinner while processing
+            loading={loading} // Show loading spinner while processing
             onClick={handleSubmit}
           >
             Search
@@ -184,21 +195,24 @@ const HeroTabs = () => {
         <Tabs.Panel value="bikes" p="xs">
           <Input
             placeholder="Bike Make or Model"
-            size="md"
             mt="lg"
-            value={selection?.make || selection?.model || selection?.variant
-              ? `${selection?.make || ''} ${selection?.model || ''} ${selection?.variant || ''}`.trim()
-              : undefined}
+            value={
+              selection?.make || selection?.model || selection?.variant
+                ? `${selection?.make || ""} ${selection?.model || ""} ${
+                    selection?.variant || ""
+                  }`.trim()
+                : undefined
+            }
             onClick={openModal}
           />
           <Autocomplete
             label="Select your city"
             placeholder="Enter Your Location"
-            data={cityOptions}  // Dynamically populated city options
+            data={cityOptions} // Dynamically populated city options
             value={query}
-            onChange={handleInputChange}  // Call handler on input change
+            onChange={handleInputChange} // Call handler on input change
             withScrollArea={false}
-            styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}  // Add scroll to dropdown
+            styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
             mt="md"
           />
           <Button
@@ -208,7 +222,7 @@ const HeroTabs = () => {
             ff="heading"
             tt="uppercase"
             color="#E90808"
-            loading={loading}  // Show loading spinner while processing
+            loading={loading} // Show loading spinner while processing
             onClick={handleSubmit}
           >
             Search
@@ -232,22 +246,25 @@ const HeroTabs = () => {
         <Tabs.Panel value="trucks" p="xs">
           <Input
             placeholder="Truck Make or Model"
-            size="md"
             mt="lg"
-            value={selection?.make || selection?.model || selection?.variant
-              ? `${selection?.make || ''} ${selection?.model || ''} ${selection?.variant || ''}`.trim()
-              : undefined}
+            value={
+              selection?.make || selection?.model || selection?.variant
+                ? `${selection?.make || ""} ${selection?.model || ""} ${
+                    selection?.variant || ""
+                  }`.trim()
+                : undefined
+            }
             onClick={openModal}
           />
 
           <Autocomplete
             label="Select your city"
             placeholder="Enter Your Location"
-            data={cityOptions}  // Dynamically populated city options
+            data={cityOptions} // Dynamically populated city options
             value={query}
-            onChange={handleInputChange}  // Call handler on input change
+            onChange={handleInputChange} // Call handler on input change
             withScrollArea={false}
-            styles={{ dropdown: { maxHeight: 200, overflowY: 'auto' } }}  // Add scroll to dropdown
+            styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
             mt="md"
           />
           <Button
@@ -257,7 +274,7 @@ const HeroTabs = () => {
             ff="heading"
             tt="uppercase"
             color="#E90808"
-            loading={loading}  // Show loading spinner while processing
+            loading={loading} // Show loading spinner while processing
             onClick={handleSubmit}
           >
             Search
