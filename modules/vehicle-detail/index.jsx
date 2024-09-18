@@ -51,7 +51,6 @@ import { API_ENDPOINTS } from "../../constants/api-endpoints";
 export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
   const messageRef = useRef(null);
   const scrollToMessage = () => {
-    console.log('scrollToMessage')
     messageRef.current.scrollIntoView({ behavior: 'smooth'  });
   };
   // const [value, setValue] = useState(50);

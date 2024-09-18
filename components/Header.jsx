@@ -45,7 +45,6 @@ const Header = () => {
   const handleLogout = () => {
     signOut();
   };
-  console.log("session", session);
 
   // Data for cars, bikes, and trucks
   const data = {

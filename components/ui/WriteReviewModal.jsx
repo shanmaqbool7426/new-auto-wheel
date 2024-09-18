@@ -71,7 +71,6 @@ const WriteReviewModal = ({ opened, close, fetchMakesByTypeData, fetchReviews })
     setWantRatings(true)
   }
 
-console.log('makeModeHanlde',fetchMakesByTypeData)
 
   const handleRatingChange = (category, value) => {
     setRatings((prevRatings) => {
@@ -91,7 +90,6 @@ console.log('makeModeHanlde',fetchMakesByTypeData)
     });
   };
 
-  console.log('ratings', ratings)
   const getEmptyIcon = (value) => {
     switch (value) {
       case 1:
@@ -177,11 +175,9 @@ console.log('makeModeHanlde',fetchMakesByTypeData)
           'Content-Type': 'application/json',  // Explicitly set Content-Type for JSON
         },
       });
-      console.log('Response: ', response.data.statusCode)
       // Make a POST request to submit the review
       if (response.data.statusCode == 200) {
         fetchReviews()
-        console.log('Response: 1', response.data.statusCode)
         showNotification({
           title: 'Review Submitted',
           message: 'Your review has been submitted successfully.',
@@ -208,7 +204,6 @@ console.log('makeModeHanlde',fetchMakesByTypeData)
   };
 
 
-  console.log('wantRatings', wantRatings)
   useEffect(() => {
     // const getMakes = async () => {
     //   // const response = await fetchMakesByType('car');

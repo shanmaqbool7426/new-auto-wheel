@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { CameraIcon, GearsHandle } from "@/components/Icons";
 // import Image from "next/image";
 import Link from "next/link";
@@ -23,11 +23,9 @@ import {
 const CarCard = ({ vehicle, index }) => {
   return (
     <>
-      {/* 0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725) */}
       <Card
         shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
         radius="sm"
-        // padding={0}
         mb="lg"
       >
         <Card.Section pos="relative">
@@ -57,8 +55,7 @@ const CarCard = ({ vehicle, index }) => {
         <Card.Section p="md">
           <Group justify="space-between" mb="md" align="center" wrap="nowrap">
             <Title
-              order={5}
-              ff="text"
+              order={6}
               lts={-0.3}
               fw={600}
               lineClamp={1}

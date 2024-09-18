@@ -37,7 +37,6 @@ import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 
 const VehiclesByMake = ({vehicles}) => {
-  console.log(vehicles);
   const [opened, { open, close }] = useDisclosure(false);
 
   const tagsArray = [

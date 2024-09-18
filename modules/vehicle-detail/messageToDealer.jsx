@@ -1,17 +1,24 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { Button, Checkbox, Group, Text, Textarea, TextInput } from "@mantine/core";
-import AccountTypeModal from '../auth/AccountType';
-import { useSession } from 'next-auth/react';
+import {
+  Button,
+  Checkbox,
+  Group,
+  Text,
+  Textarea,
+  TextInput,
+} from "@mantine/core";
+import AccountTypeModal from "../auth/AccountType";
+import { useSession } from "next-auth/react";
 
 const MessageToDealer = forwardRef((props, ref) => {
   const { data: session, status } = useSession();
   const [modalOpened, setModalOpened] = useState(false);
   const [formData, setFormData] = useState({
-    message: '',
-    name: '',
-    email: '',
-    phone: '',
+    message: "",
+    name: "",
+    email: "",
+    phone: "",
     acceptedPolicy: false,
   });
 
@@ -19,8 +26,8 @@ const MessageToDealer = forwardRef((props, ref) => {
     if (session) {
       setFormData({
         ...formData,
-        name: session.user.name || '',
-        email: session.user.email || '',
+        name: session.user.name || "",
+        email: session.user.email || "",
       });
     }
   }, [session]);
@@ -29,7 +36,7 @@ const MessageToDealer = forwardRef((props, ref) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -40,7 +47,6 @@ const MessageToDealer = forwardRef((props, ref) => {
       setModalOpened(true);
     } else {
       // Handle form submission logic here
-      console.log('Message sent:', formData);
     }
   };
 
@@ -50,12 +56,7 @@ const MessageToDealer = forwardRef((props, ref) => {
         <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-md-12">
-              <Text
-                size="xl"
-                mb="md"
-                fw={600}
-                className="text-uppercase"
-              >
+              <Text size="xl" mb="md" fw={600} className="text-uppercase">
                 Message to Seller
               </Text>
               <Textarea

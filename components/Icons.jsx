@@ -112,8 +112,8 @@ export const SearchWithCar = () => {
   return (
     <>
       <svg
-        width="28"
-        height="28"
+        width="22"
+        height="22"
         viewBox="0 0 28 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -151,8 +151,8 @@ export const ResetFiltersIcon = () => {
 export const CarParts = () => {
   return (
     <svg
-      width="32"
-      height="28"
+      width="26"
+      height="26"
       viewBox="0 0 32 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

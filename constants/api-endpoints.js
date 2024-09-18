@@ -63,10 +63,8 @@ export const API_ENDPOINTS = {
     
         UPCOMMING: (make,type) => {
             const queryParams = [];
-            console.log('type andd make',type, make)
             if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
             if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
-            console.log('>>>>>>>>>>mmm', `${NEW_VEHICLE_BASE}/upcoming${queryParams.length ? `?${queryParams.join('&')}` : ''}`)
 
             return `${NEW_VEHICLE_BASE}/upcoming${queryParams.length ? `?${queryParams.join('&')}` : ''}`;
           },
@@ -98,7 +96,6 @@ export const API_ENDPOINTS = {
         
             if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
             if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
-                        console.log('>>>>>> linking',`${NEW_VEHICLE_BASE}/newly-launched${queryParams.length ? `?${queryParams.join('&')}` : ''}`)
             return `${NEW_VEHICLE_BASE}/newly-launched${queryParams.length ? `?${queryParams.join('&')}` : ''}`;
         },
         

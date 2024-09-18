@@ -11,7 +11,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
         <Box className="row">
           <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="xl">
-              <Title order={2}>
+              <Title order={2} lts={-0.5}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit>
                   Make
@@ -45,7 +45,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
           </Box>
           <Box className="col-lg-6 ps-5">
             <Flex justify="space-between" align="center" mb="xl">
-              <Title order={2}>
+              <Title order={2} lts={-0.5}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit>
                   Body

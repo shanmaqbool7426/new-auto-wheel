@@ -46,7 +46,6 @@ const NewCarsPage = async (params, searchParams) => {
   const isMakeVehicles = Boolean(matchedMake);
 
 
-  console.log('fetchMakebyVehicles',fetchMakebyVehicles)
   // Render the components based on `isMakeVehicles` condition
   return (
     <>

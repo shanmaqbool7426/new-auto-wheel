@@ -51,7 +51,6 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
         power: 0,
         // total: 0,
     });
-    console.log('sessionsession', session)
     const filterOptions = [
         { type: 'all', label: 'All', countKey: 'total' },
         { type: 'service', label: 'Service', countKey: 'service' },
@@ -190,7 +189,6 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
                                     >
                                         {reviews?.map((review, index) => {
 
-                                            console.log('>>>', review)
                                             return (
                                                 <Carousel.Slide key={index}>
                                                     <Card

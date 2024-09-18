@@ -4,7 +4,7 @@ import { ListingHeader } from "@/components/listing/header";
 import ListCardView from "@/components/ui/ListCardView";
 import CarCard from "@/components/ui/CarCard";
 import Link from "next/link";
-import { Box, LoadingOverlay } from "@mantine/core";
+import { Box, Group, LoadingOverlay, Title } from "@mantine/core";
 import {
   fetchBodiesByType,
   fetchMakesByType,
@@ -31,7 +31,7 @@ export default async function Listing({ params, searchParams }) {
   loading = false;
   return (
     <>
-      <Box pt={100} className="product-listing position-relative">
+      <Box pt={100} pb={80} className="product-listing position-relative">
         {!dataofVehcles && (
           <LoadingOverlay
             visible={true}
@@ -55,12 +55,28 @@ export default async function Listing({ params, searchParams }) {
               <ListingHeader type={params.slug[0]} />
 
               {/* Product Listing Section */}
-              <div className="title-section">
-                <h6 className="cat-title mb-0">Featured Classified</h6>
-                <Link href={"#"} className="text-primary text-decoration-none">
+              <Group
+                className="title-section"
+                justify="space-between"
+                align="center"
+                mb="md"
+              >
+                <Title
+                  order={6}
+                  bg="#E90808"
+                  c="white"
+                  tt="uppercase"
+                  p="10 50 10 12"
+                  style={{
+                    clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
+                  }}
+                >
+                  Featured Classified
+                </Title>
+                {/* <Link href={"#"} className="text-primary text-decoration-none">
                   Show all
-                </Link>
-              </div>
+                </Link> */}
+              </Group>
 
               {/* Product View List */}
               <div className="row">

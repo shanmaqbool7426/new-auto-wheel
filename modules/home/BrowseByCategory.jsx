@@ -22,13 +22,12 @@ const BrowseByCategory = ({ makes, bodies }) => {
         <Box className="row">
           <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="xl">
-              <Title order={2}>
+              <Title order={2} lts={-0.5}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit>
                   Make
                 </Text>
               </Title>
-
             </Flex>
 
             <Box className="cat-by-brand">
@@ -47,8 +46,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         >
                           <Image w={70} h={70} src={item.companyImage} />
                         </Card>
-                        {/* <Link href={`/new/car/${item.name}`}>{item.name}</Link> */}
-                        <Title order={4} mt="sm" fw={600}>
+                        <Title order={5} lts={-0.4} mt="sm" fw={600}>
                           {item.name}
                         </Title>
                       </Anchor>
@@ -60,13 +58,12 @@ const BrowseByCategory = ({ makes, bodies }) => {
           </Box>
           <Box className="col-lg-6 ps-5">
             <Flex justify="space-between" align="center" mb="xl">
-              <Title order={2}>
+              <Title order={2} lts={-0.5}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit>
                   Body
                 </Text>
               </Title>
-           
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">
@@ -74,7 +71,10 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 {bodies?.data?.map((body, index) => {
                   return (
                     <Box className="col-sm-3 text-center" key={index} mb="lg">
-                      <Anchor href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`} td="none">
+                      <Anchor
+                        href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`}
+                        td="none"
+                      >
                         <Card
                           radius="md"
                           mih={120}
@@ -85,7 +85,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         >
                           <Image w={70} h={70} src={body.bodyImage} />
                         </Card>
-                        <Title order={4} mt="sm" fw={600}>
+                        <Title order={5} lts={-0.4} mt="sm" fw={600}>
                           {body.name}
                         </Title>
                       </Anchor>

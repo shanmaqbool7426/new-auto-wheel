@@ -16,7 +16,6 @@ import {
   Rating,
   rem,
   Grid,
-
   Tabs,
 } from "@mantine/core";
 import {
@@ -27,9 +26,9 @@ import {
 } from "@/components/Icons";
 import WriteReviewModal from "@/components/ui/WriteReviewModal";
 import QuickLinks from "@/components/QuickLinks";
-import SearchBar from "./SearchBar"
-import Comments from "@/components/sections/Comments"
-import NewCarsCard from "@/components/ui/NewCarsCard"
+import SearchBar from "./SearchBar";
+import Comments from "@/components/sections/Comments";
+import NewCarsCard from "@/components/ui/NewCarsCard";
 import { IconSearch } from "@tabler/icons-react";
 import BrowseByCategory from "@/modules/home/BrowseByCategory";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
@@ -38,20 +37,30 @@ import BrowseBlogs from "@/components/blog/browse-blogs";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 
-import BrowseByMakeAndBodies from "@/components/sections/BrowseByMakeAndBodies"
+import BrowseByMakeAndBodies from "@/components/sections/BrowseByMakeAndBodies";
 import ListingFilter from "@/components/listing/sidebar-filter";
 import { getAllReviews } from "@/services/vehicles";
 import { formatToMonthYear } from "@/utils";
 
-const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, fetchMakebyVehicles, fetchHondaVehicles, fetchMakesByTypeData, params, searchParams ,fetchNewlyLaunchedVehicles}) => {
-  console.log('New Cars', fetchNewlyLaunchedVehicles)
+const NewCarsModule = ({
+  makes,
+  bodies,
+  popularVehicles,
+  fetchUpComingVehicles,
+  fetchMakebyVehicles,
+  fetchHondaVehicles,
+  fetchMakesByTypeData,
+  params,
+  searchParams,
+  fetchNewlyLaunchedVehicles,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   // const [opened, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all'); // Initialize filter state
+  const [filter, setFilter] = useState("all"); // Initialize filter state
 
   const [reviews, setReviews] = useState([]);
   const [counts, setCounts] = useState({
@@ -66,13 +75,13 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
   const company_1 = {
     car: "Toyota",
     bike: "Suzuki",
-    truck: "Forland"
-  }
+    truck: "Forland",
+  };
   const company_2 = {
     car: "Honda",
     bike: "Honda",
-    truck: "ISUZU"
-  }
+    truck: "ISUZU",
+  };
   const tagsArray = [
     { name: "All (601)", isSelected: true },
     { name: "Service (39)" },
@@ -85,15 +94,14 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
   ];
 
   const filterOptions = [
-    { type: 'all', label: 'All', countKey: 'total' },
-    { type: 'service', label: 'Service', countKey: 'service' },
-    { type: 'mileage', label: 'Mileage', countKey: 'mileage' },
-    { type: 'looks', label: 'Looks', countKey: 'looks' },
-    { type: 'comfort', label: 'Comfort', countKey: 'comfort' },
-    { type: 'space', label: 'Space', countKey: 'space' },
-    { type: 'power', label: 'Power', countKey: 'power' },
+    { type: "all", label: "All", countKey: "total" },
+    { type: "service", label: "Service", countKey: "service" },
+    { type: "mileage", label: "Mileage", countKey: "mileage" },
+    { type: "looks", label: "Looks", countKey: "looks" },
+    { type: "comfort", label: "Comfort", countKey: "comfort" },
+    { type: "space", label: "Space", countKey: "space" },
+    { type: "power", label: "Power", countKey: "power" },
   ];
-
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -104,7 +112,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
         setReviews(response?.reviews);
         setCounts(response?.counts);
       } catch (err) {
-        setError('Error fetching reviews');
+        setError("Error fetching reviews");
         console.error(err);
       } finally {
         setLoading(false);
@@ -114,13 +122,9 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
     fetchReviews();
   }, [filter]);
 
-
-  console.log('fetchUpComingVehicles?.data', fetchUpComingVehicles?.data)
   return (
     <>
       <section className="find-cars">
-
-
         <Box className="background-search-verlay" mb="100">
           <div className="container">
             <div className="row">
@@ -237,7 +241,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                Upcoming {" "}
+                  Upcoming{" "}
                   <Text span c="#E90808" inherit>
                     {params.params.newcarslug[0]}
                   </Text>
@@ -258,7 +262,8 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  {company_1[params.params.newcarslug[0]]} New {params.params.newcarslug[0]}{" "}
+                  {company_1[params.params.newcarslug[0]]} New{" "}
+                  {params.params.newcarslug[0]}{" "}
                   <Text span c="#E90808" inherit>
                     Models
                   </Text>
@@ -279,7 +284,8 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  {company_2[params.params.newcarslug[0]]} New {params.params.newcarslug[0]}{" "}
+                  {company_2[params.params.newcarslug[0]]} New{" "}
+                  {params.params.newcarslug[0]}{" "}
                   <Text span c="#E90808" inherit>
                     Models
                   </Text>
@@ -300,7 +306,7 @@ const NewCarsModule = ({ makes, bodies, popularVehicles, fetchUpComingVehicles, 
         <BrowseVideos />
         <BrowseBlogs />
 
-  <Comments/>
+        <Comments />
 
         <QuickLinks />
       </section>
