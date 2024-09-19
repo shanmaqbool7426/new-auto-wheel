@@ -21,6 +21,7 @@ import {
   Text,
   Badge,
   Box,
+  ScrollArea,
 } from "@mantine/core";
 import {
   cities,
@@ -274,43 +275,32 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           variant="contained"
           mb="lg"
           defaultValue={null}
-          transitionDuration={800}
+          transitionDuration={500}
         >
           <Accordion.Item
             value="City"
             style={{ background: "white", borderColor: "#E3E3E3" }}
           >
-            <Accordion.Control>City</Accordion.Control>
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                City
+              </Text>
+            </Accordion.Control>
             <Accordion.Panel pt="sm">
-              <div className="checkbox-group-filters">
-                {cities?.map((city) => (
-                  <Box pos="relative" key={city.value}>
-                    <Checkbox
-                      mb="xs"
-                      size="sm"
-                      label={city.label}
-                      key={city.value}
-                      checked={filters.city.includes(city.value)}
-                      onChange={(e) =>
-                        handleFilterChange("city", city.value, e.target.checked)
-                      }
-                    />
-                    {getCountByTypeAndKey("cityCounts", city.label) && (
-                      <Badge
-                        pos="absolute"
-                        right={0}
-                        color="#E90808"
-                        size="md"
-                        fw={600}
-                        variant="outline"
-                      >
-                        {getCountByTypeAndKey("cityCounts", city.label)}
-                      </Badge>
-                    )}
-                    {/* <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id={city.label}
+              <ScrollArea
+                h={350}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
+                <div className="checkbox-group-filters">
+                  {cities?.map((city) => (
+                    <Box pos="relative" key={city.value}>
+                      <Checkbox
+                        mb="xs"
+                        size="xs"
+                        label={city.label}
+                        key={city.value}
                         checked={filters.city.includes(city.value)}
                         onChange={(e) =>
                           handleFilterChange(
@@ -320,21 +310,27 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           )
                         }
                       />
-                      <label className="form-check-label" htmlFor={city.label}>
-                        {city.label}
-                      </label> */}
-                    {/* {getCountByTypeAndKey("cityCounts", city.label) && (
-                      <Badge className="count">
-                        {getCountByTypeAndKey("cityCounts", city.label)}
-                      </Badge>
-                    )} */}
-                  </Box>
-                ))}
-              </div>
+                      {getCountByTypeAndKey("cityCounts", city.label) && (
+                        <Badge
+                          pos="absolute"
+                          right={0}
+                          color="#E90808"
+                          size="md"
+                          fw={600}
+                          variant="outline"
+                        >
+                          {getCountByTypeAndKey("cityCounts", city.label)}
+                        </Badge>
+                      )}
+                    </Box>
+                  ))}
+                </div>
+              </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
 
+        {/* Make Filter */}
         <Accordion
           variant="contained"
           mb="lg"
@@ -345,13 +341,17 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             value="Make"
             style={{ background: "white", borderColor: "#E3E3E3" }}
           >
-            <Accordion.Control>Make</Accordion.Control>
-            <Accordion.Panel>
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                Make
+              </Text>
+            </Accordion.Control>
+            <Accordion.Panel pt="sm">
               {makes?.data?.map((make) => (
                 <Box pos="relative">
                   <Checkbox
                     mb="xs"
-                    size="sm"
+                    size="xs"
                     label={make.name}
                     key={make.value}
                     checked={decodedFilterMake.includes(
@@ -420,13 +420,17 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               value="Model"
               style={{ background: "white", borderColor: "#E3E3E3" }}
             >
-              <Accordion.Control>Model</Accordion.Control>
-              <Accordion.Panel>
+              <Accordion.Control>
+                <Text size="sm" fw={500}>
+                  Model
+                </Text>
+              </Accordion.Control>
+              <Accordion.Panel pt="sm">
                 {getModelsByMakes()?.map((model) => (
                   <Box pos="relative">
                     <Checkbox
                       mb="xs"
-                      size="sm"
+                      size="xs"
                       label={model.name}
                       key={model.value}
                       checked={decodedFilterModel.includes(

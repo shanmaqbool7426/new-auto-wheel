@@ -1,9 +1,5 @@
 "use client";
 import { CameraIcon, GearsHandle } from "@/components/Icons";
-// import Image from "next/image";
-import Link from "next/link";
-import styles from "../../app/styles/components/product.module.scss";
-
 import React from "react";
 import { FaLocationDot, FaCalendarDays, FaClock } from "react-icons/fa6";
 import {
@@ -16,7 +12,6 @@ import {
   Text,
   rem,
   Divider,
-  Paper,
   Progress,
 } from "@mantine/core";
 
@@ -55,6 +50,7 @@ const CarCard = ({ vehicle, index }) => {
         <Card.Section p="md">
           <Group justify="space-between" mb="md" align="center" wrap="nowrap">
             <Title
+              ff="text"
               order={6}
               lts={-0.3}
               fw={600}
@@ -64,40 +60,41 @@ const CarCard = ({ vehicle, index }) => {
               c="#FFF"
               bg="#E90808"
               p="5px 10px 5px 30px"
-              fw={700}
               style={{
                 clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
                 textWrap: "nowrap",
               }}
             >
-              Rs {vehicle?.price}
+              <Text fw={700} size="sm">
+                Rs {vehicle?.price}
+              </Text>
             </Box>
           </Group>
           <Divider />
           <Flex mt="md" gap="md" justify="space-between" wrap="wrap">
             <Group c="dimmed" gap={rem(5)} align="center">
               <FaCalendarDays />
-              <Text size="sm">{vehicle?.year}</Text>
+              <Text size="xs">{vehicle?.year}</Text>
             </Group>
             <Group c="dimmed" gap={rem(5)} align="center">
               <GearsHandle />
-              <Text size="sm">{vehicle?.specifications?.transmission}</Text>
+              <Text size="xs">{vehicle?.specifications?.transmission}</Text>
             </Group>
             <Group c="dimmed" gap={rem(5)} align="center">
               <FaLocationDot />
-              <Text size="sm">{vehicle?.city}</Text>
+              <Text size="xs">{vehicle?.city}</Text>
             </Group>
             <Group c="dimmed" gap={rem(5)} align="center">
-              <Text span c="dimmed" size="sm">
+              <Text span c="dimmed" size="xs">
                 Stock#
               </Text>
-              <Text c="dark" size="sm">
+              <Text c="dark" size="xs">
                 {vehicle?.specifications?.stockId}
               </Text>
             </Group>
             <Group c="dimmed" gap={rem(5)} align="center">
               <FaClock />
-              <Text size="sm">1 month ago</Text>
+              <Text size="xs">1 month ago</Text>
             </Group>
           </Flex>
         </Card.Section>
