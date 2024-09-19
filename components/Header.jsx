@@ -28,6 +28,8 @@ import {
   NavLink,
   Menu,
   Avatar,
+  Container,
+  AppShell,
 } from "@mantine/core";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
@@ -287,12 +289,12 @@ const Header = () => {
   if (status === "loading") {
     return (
       <Box component="header" className="header">
-        <Box className="container h-100">
+        <Container h="100%" size={1440}>
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
             <Loader size="sm" />
           </Group>
-        </Box>
+        </Container>
       </Box>
     );
   }
@@ -300,10 +302,10 @@ const Header = () => {
   return (
     <>
       <Box component="header" className="header">
-        <Box className="container h-100">
+        <Container h="100%" size={1440}>
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
-            <Group h="100%" gap={0} visibleFrom="sm">
+            <Group h="100%" gap={0} visibleFrom="md">
               <HoverCard
                 withArrow
                 offset={0}
@@ -429,14 +431,11 @@ const Header = () => {
               <Link href="/videos" className="link">
                 <Center inline>Videos</Center>
               </Link>
-              {/* <Anchor component={Link} href="#" className="link">
-              </Anchor> */}
             </Group>
-            <Group visibleFrom="sm">
+            <Group visibleFrom="md">
               {session ? (
                 <>
                   <Accordion>
-                    {/* Display user's full name and avatar */}
                     <Accordion.Item value="user-info">
                       <Accordion.Control>
                         Wellcome {session.user.fullName || session.user.name} !
@@ -522,44 +521,54 @@ const Header = () => {
             <Burger
               opened={drawerOpened}
               onClick={toggleDrawer}
-              hiddenFrom="sm"
+              hiddenFrom="md"
             />
           </Group>
-        </Box>
+        </Container>
       </Box>
+
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
         size="100%"
         padding="md"
         title="Navigation"
-        hiddenFrom="sm"
+        hiddenFrom="md"
         zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
 
-          <Link className="link" href="#">
-            Home
-          </Link>
-          <UnstyledButton onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-              <IconChevronDown
-                style={{ width: rem(16), height: rem(16) }}
-                color={theme.colors.blue[6]}
-              />
-            </Center>
-          </UnstyledButton>
+          <Button
+            my="sm"
+            variant="transparent"
+            className="link"
+            component={Link}
+            href="#"
+          >
+            Cars
+          </Button>
+          <Button
+            my="sm"
+            variant="transparent"
+            className="link"
+            onClick={toggleLinks}
+            rightSection={
+              <IconChevronDown style={{ width: rem(16), height: rem(16) }} />
+            }
+          >
+            Bikes
+          </Button>
           <Collapse in={linksOpened}>{firstColLinks}</Collapse>
-          <Link href="#" className="link">
-            Learn
-          </Link>
-          <Link href="#" className="link">
-            Academy
-          </Link>
+          <Button component={Link} variant="transparent" href="#" className="link" my="sm">
+            Truck
+          </Button>
+          <Button component={Link} variant="transparent" href="#" className="link" my="sm">
+            Blog
+          </Button>
+          <Button component={Link} variant="transparent" href="#" className="link" my="sm">
+            Videos
+          </Button>
 
           <Divider my="sm" />
 

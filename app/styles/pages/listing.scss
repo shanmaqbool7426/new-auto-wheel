@@ -303,3 +303,37 @@
 .featured-badge {
     transform: rotate(45deg);
 }
+
+
+.selected-brand-item {
+    position  : relative;
+    display   : inline-block;
+    cursor    : pointer;
+    text-align: center;
+
+    input[type="checkbox"] {
+        position: absolute;
+        opacity : 0;
+        width   : 0;
+        height  : 0;
+        cursor  : pointer;
+    }
+
+    .checked {
+        opacity: 1;
+    }
+
+    label {
+        display         : block;
+        // padding      : 10px;
+        border          : 2px solid transparent;
+        border-radius   : 5px;
+        transition      : all 0.3s ease;
+        cursor          : pointer;
+        opacity         : 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

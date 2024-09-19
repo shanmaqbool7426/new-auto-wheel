@@ -4,7 +4,7 @@ import { ListingHeader } from "@/components/listing/header";
 import ListCardView from "@/components/ui/ListCardView";
 import CarCard from "@/components/ui/CarCard";
 import Link from "next/link";
-import { Box, Group, LoadingOverlay, Title } from "@mantine/core";
+import { Box, Container, Group, LoadingOverlay, Title } from "@mantine/core";
 import {
   fetchBodiesByType,
   fetchMakesByType,
@@ -40,7 +40,7 @@ export default async function Listing({ params, searchParams }) {
             loaderProps={{ color: "red", type: "bars" }}
           />
         )}
-        <div className="container">
+        <Container size={1440}>
           <div className="row">
             <div className="col-lg-3">
               <ListingFilter
@@ -83,7 +83,7 @@ export default async function Listing({ params, searchParams }) {
                 {dataofVehcles?.data?.results?.map((vehicle, index) => (
                   <div
                     key={index}
-                    className={view === "list" ? "col-lg-12" : "col-4"}
+                    className={view === "list" ? "col-12" : "col-12 col-sm-6 col-lg-4"}
                   >
                     {view === "list" ? (
                       <ListCardView index={index} vehicle={vehicle} />
@@ -99,7 +99,7 @@ export default async function Listing({ params, searchParams }) {
               />
             </div>
           </div>
-        </div>
+        </Container>
       </Box>
     </>
   );

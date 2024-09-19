@@ -1,6 +1,6 @@
 "use client";
 import { fetchMakesByTypeServer } from "@/actions";
-import { Input, Text, Title } from "@mantine/core";
+import { Container, Input, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="container">
+      <Container size={1440}>
         <div className="row">
           <div className="col-lg-9">
             <div className="row">
@@ -322,7 +322,7 @@ const Footer = () => {
         <div className="text-center">
           <span>© 2024 . All Rights Reserved.</span>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 };
