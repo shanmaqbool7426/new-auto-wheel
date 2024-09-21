@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 import { fetchBrowseBlogsServer } from "@/actions/index";
-import {formatDate} from '@/utils/index'
+import { formatDate } from "@/utils/index";
 
 const BrowseBlogs = ({ type }) => {
   const [blogs, setBlogs] = useState([]);
@@ -81,13 +81,9 @@ const BrowseBlogs = ({ type }) => {
               h={{ base: 300, lg: "100%" }}
               className="position-relative"
               component={Link}
-              href={`/blog/${firstBlog.slug}`}
+              href={`/blog/${firstBlog?.slug}`}
             >
-              <BackgroundImage
-                src={firstBlog?.imageUrl}
-                radius="sm"
-                h="100%"
-              >
+              <BackgroundImage src={firstBlog?.imageUrl} radius="sm" h="100%">
                 <Flex p="xl" w="100%" className="position-absolute bottom-0">
                   <Text fw={600} size={rem(24)} c="white">
                     {firstBlog?.title}

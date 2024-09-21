@@ -1,70 +1,88 @@
-"use client"
-import React, { useState, useEffect, useCallback } from 'react';
-import { Pagination } from '@mantine/core';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
+"use client";
+import React, { useState, useEffect, useCallback } from "react";
+import { Pagination } from "@mantine/core";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 const ListingPagination = ({ data }) => {
-    const router = useRouter();
-    const { slug } = useParams();
-    const searchParams = useSearchParams();
-    
-    const pathSegments = slug ? [...slug] : [];
-    const pageSegmentIndex = pathSegments.findIndex(segment => segment.startsWith('page_'));
-    const currentPage = pageSegmentIndex > -1 ? parseInt(pathSegments[pageSegmentIndex].replace('page_', ''), 10) : 1;
-    
-    const [pagination, setPagination] = useState({
-        page: currentPage,
-        limit: 10,
-    });
+  const router = useRouter();
+  const { slug } = useParams();
+  const searchParams = useSearchParams();
 
-    const updatePaginationInUrl = useCallback((newPage) => {
-        let updatedPathSegments = [...pathSegments];
+  const pathSegments = slug ? [...slug] : [];
+  const pageSegmentIndex = pathSegments.findIndex((segment) =>
+    segment.startsWith("page_")
+  );
+  const currentPage =
+    pageSegmentIndex > -1
+      ? parseInt(pathSegments[pageSegmentIndex].replace("page_", ""), 10)
+      : 1;
 
-        if (pageSegmentIndex > -1) {
-            updatedPathSegments[pageSegmentIndex] = `page_${newPage}`;
-        } else {
-            updatedPathSegments.push(`page_${newPage}`);
-        }
+  const [pagination, setPagination] = useState({
+    page: currentPage,
+    limit: 10,
+  });
 
-        const updatedPath = updatedPathSegments.join('/');
+  const updatePaginationInUrl = useCallback(
+    (newPage) => {
+      let updatedPathSegments = [...pathSegments];
 
-        const queryString = searchParams.toString();
-        const finalUrl = queryString ? `/listing/${updatedPath}?${queryString}` : `/listing/${updatedPath}`;
+      if (pageSegmentIndex > -1) {
+        updatedPathSegments[pageSegmentIndex] = `page_${newPage}`;
+      } else {
+        updatedPathSegments.push(`page_${newPage}`);
+      }
 
-        router.push(finalUrl, { scroll: false });
-    }, [pathSegments, pageSegmentIndex, searchParams, router]);
+      const updatedPath = updatedPathSegments.join("/");
 
-    const handlePageChange = useCallback((val) => {
-        setPagination((prev) => ({
-            ...prev,
-            page: val,
-        }));
+      const queryString = searchParams.toString();
+      const finalUrl = queryString
+        ? `/listing/${updatedPath}?${queryString}`
+        : `/listing/${updatedPath}`;
 
-        updatePaginationInUrl(val);
-    }, [updatePaginationInUrl]);
+      router.push(finalUrl, { scroll: false });
+    },
+    [pathSegments, pageSegmentIndex, searchParams, router]
+  );
 
-    useEffect(() => {
-        if (pageSegmentIndex > -1 && parseInt(pathSegments[pageSegmentIndex].replace('page_', ''), 10) !== pagination.page) {
-            setPagination((prev) => ({
-                ...prev,
-                page: parseInt(pathSegments[pageSegmentIndex].replace('page_', ''), 10),
-            }));
-        } 
-    }, []);
+  const handlePageChange = useCallback(
+    (val) => {
+      setPagination((prev) => ({
+        ...prev,
+        page: val,
+      }));
 
-    return (
-        <>
-            <Pagination
-                total={Math.ceil(data?.count / pagination?.limit)}
-                value={pagination?.page}
-                onChange={handlePageChange}
-                siblings={1}
-                size="md"
-                color="#E90808"
-                />
-                {/* disabled={Math.ceil(data?.count / pagination?.limit) <= 1} */}
-        </>
-    );
+      updatePaginationInUrl(val);
+    },
+    [updatePaginationInUrl]
+  );
+
+  useEffect(() => {
+    if (
+      pageSegmentIndex > -1 &&
+      parseInt(pathSegments[pageSegmentIndex].replace("page_", ""), 10) !==
+        pagination.page
+    ) {
+      setPagination((prev) => ({
+        ...prev,
+        page: parseInt(pathSegments[pageSegmentIndex].replace("page_", ""), 10),
+      }));
+    }
+  }, []);
+
+  return (
+    <>
+      <Pagination
+        display="flex"
+        my="md"
+        total={Math.ceil(data?.count / pagination?.limit)}
+        value={pagination?.page}
+        onChange={handlePageChange}
+        siblings={1}
+        size="md"
+        color="#E90808"
+      />
+    </>
+  );
 };
 
 export default React.memo(ListingPagination);

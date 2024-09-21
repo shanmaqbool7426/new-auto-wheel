@@ -4,7 +4,7 @@ import React from "react";
 
 const FAQ = ({ title, titleSpan, faqs }) => {
   return (
-    <section className="brands-faq-section pb-5">
+    <section className="brands-faq-section py-5">
       <div className="container">
         <div className="row">
           <div className="col-md-12">

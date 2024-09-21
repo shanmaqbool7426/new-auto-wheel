@@ -46,7 +46,12 @@ const colorConfig = {
     "Rapid Red": "#FF3333",
     "Star White Metallic": "#F5F5F5",
     "Orange Fury": "#FF4500",
-    "Kona Blue": "#003366"
+    "Kona Blue": "#003366",
+    "White": "#FFFFFF",  // Adding "White"
+    "Black": "#000000",  // Adding "Black"
+    "Silver": "#C0C0C0", // Adding "Silver"
+    "Blue": "#0000FF",    // Adding "Blue"
+    "Red": "#FF0000"    // Adding "Red"
   };
   
 export const GetColor = (color) => {

@@ -19,9 +19,11 @@ const ComparisonProducts = ({ title }) => {
           <div className="col">
             <Flex justify="space-between" align="center" mb="xl">
               {title ? (
-                <Title order={2}>{title}</Title>
+                <Title order={2} lts={-0.5}>
+                  {title}
+                </Title>
               ) : (
-                <Title order={2}>
+                <Title order={2} lts={-0.5}>
                   Top{" "}
                   <Text span c="#E90808" inherit>
                     Comparison
@@ -63,14 +65,18 @@ const ComparisonProducts = ({ title }) => {
                         <div className="card-body">
                           <Group justify="space-between">
                             <Flex direction="column" gap="5">
-                              <Text fw={500}> 2016 Ford Escape Cape</Text>
+                              <Title order={6} fw={600}>
+                                2016 Ford Escape Cape
+                              </Title>
                               <Flex align="center" justify="center" gap={5}>
                                 <Rating defaultValue={2} />
                                 (4/5)
                               </Flex>
                             </Flex>
                             <Flex direction="column" gap="5">
-                              <Text fw={500}> 2016 Ford Escape Cape</Text>
+                              <Title order={6} fw={600}>
+                                2016 Ford Escape Cape
+                              </Title>
                               <Flex align="center" justify="center" gap={5}>
                                 <Rating defaultValue={2} />
                                 (4/5)

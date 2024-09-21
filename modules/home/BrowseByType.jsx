@@ -4,6 +4,9 @@ import { Box, Pagination, Text, Title } from "@mantine/core";
 import CarCard from "@/components/ui/CarCard";
 import { fetchAPI } from "@/services/fetchAPI";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { RightArrowIcon } from "@/components/Icons";
+import Link from "next/link";
+
 
 const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   const [selectedType, setSelectedType] = useState("All");
@@ -11,9 +14,9 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   const handleTypeChange = async (type) => {
     setSelectedType(type);
     const res = await fetchAPI(
-      API_ENDPOINTS.VEHICLE.LIST_BY_TYPE(type === "All" ? "" : type)  // Handle "All" case by passing an empty string
+      API_ENDPOINTS.VEHICLE.LIST_BY_TYPE(type === "All" ? "" : type) // Handle "All" case by passing an empty string
     );
-    
+
     setVehicles(res || []);
   };
   return (
@@ -22,9 +25,9 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
         <Box className="row">
           <Box className="col">
             <Box className="d-flex align-items-center justify-content-between">
-              <Title order={2}>
+              <Title order={2} lts={-0.5}>
                 Browse by{" "}
-                <Text span inherit className="text-primary ms-1">
+                <Text span c="#E90808" inherit>
                   Type
                 </Text>
               </Title>
@@ -37,9 +40,8 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                 ].map((type, index) => (
                   <li key={index} className="nav-item" role="presentation">
                     <button
-                      className={`nav-link ${
-                        selectedType === type.value ? "active" : ""
-                      }`}
+                      className={`nav-link ${selectedType === type.value ? "active" : ""
+                        }`}
                       onClick={() => handleTypeChange(type.value)}
                     >
                       {type.label}
@@ -50,12 +52,13 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
             </Box>
           </Box>
           <Box className="col-lg-12">
-            <Box className="tab-content mt-4" id="pills-tabContent">
+            <Box className="tab-content" id="pills-tabContent">
               <Box className="tab-pane fade show active" id="pills-home">
                 <Box className="row">
                   {vehicles?.data?.results?.map((vehicle, index) => (
-                    <Box className="col-lg-4" key={index}>
+                    <Box className="col-lg-3" key={index}>
                       <CarCard index={index} vehicle={vehicle} />
+
                     </Box>
                   ))}
                 </Box>
@@ -65,11 +68,16 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                   <Box className="tab-pane fade show active" id="pills-home">
                     <Box className="row">
                       {vehicles?.data?.map((vehicle, index) => (
-                        <Box className="col-lg-4" key={index}>
-                          <CarCard index={index} vehicle={vehicle} />
-                        </Box>
+                        <>
+                          <Box className="col-lg-3" key={index}>
+                            <CarCard index={index} vehicle={vehicle} />
+                          </Box>
+
+                        </>
                       ))}
+                      <Link href={`/listing/cars`}> <Text fz="sm" c="#EB2321" ta="right" >Show More Ads  <RightArrowIcon /></Text></Link>
                     </Box>
+
                   </Box>
                 </Box>
               </Box>

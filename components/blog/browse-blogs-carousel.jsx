@@ -55,7 +55,7 @@ import {
         <div className="container">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2}>
-              Toyota Corolla 2023{" "}
+            {title}{" "}
               <Text span c="#E90808" inherit>
                 News
               </Text>

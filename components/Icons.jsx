@@ -1,4 +1,4 @@
-export const CarFrontView = () => {
+export const CarFrontView = ({ iconClass }) => {
   return (
     <svg
       width="45"
@@ -77,8 +77,8 @@ export const GearsHandle = () => {
   return (
     <>
       <svg
-        width="12"
-        height="12"
+        width="16"
+        height="16"
         viewBox="0 0 12 12"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -96,30 +96,13 @@ export const GearsHandle = () => {
 export const PlayButton = () => {
   return (
     <>
-      <svg
-        width="80"
-        height="80"
-        viewBox="0 0 56 57"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect y="0.141846" width="56" height="56" rx="28" fill="#E90808" />
-        <g clipPath="url(#clip0_68_272)">
-          <path
-            d="M36.5679 28.2749L18.7703 38.1703C18.5671 38.2797 18.3913 38.2914 18.2428 38.2055C18.0942 38.1195 18.02 37.9592 18.02 37.7248V18.0044C18.02 17.7699 18.0942 17.6058 18.2428 17.512C18.3913 17.4182 18.5671 17.4338 18.7703 17.5589L36.5679 27.4308C36.7711 27.5558 36.8727 27.7004 36.8727 27.8646C36.8727 28.0287 36.7711 28.1655 36.5679 28.2749Z"
-            fill="white"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_68_272">
-            <rect
-              width="18.97"
-              height="25"
-              fill="white"
-              transform="matrix(1 0 0 -1 21.02 41.1418)"
-            />
-          </clipPath>
-        </defs>
+      <svg height="40" version="1.1" viewBox="0 0 68 48" width="40">
+        <path
+          class="ytp-large-play-button-bg"
+          d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+          fill="#f00"
+        ></path>
+        <path d="M 45,24 27,14 27,34" fill="#fff"></path>
       </svg>
     </>
   );
@@ -129,8 +112,8 @@ export const SearchWithCar = () => {
   return (
     <>
       <svg
-        width="28"
-        height="28"
+        width="22"
+        height="22"
         viewBox="0 0 28 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -168,8 +151,8 @@ export const ResetFiltersIcon = () => {
 export const CarParts = () => {
   return (
     <svg
-      width="32"
-      height="28"
+      width="26"
+      height="26"
       viewBox="0 0 32 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -439,11 +422,11 @@ export const ShareIcon = () => {
   );
 };
 
-export const CameraIcon = () => {
+export const CameraIcon = ({ width, height }) => {
   return (
     <svg
-      width="24"
-      height="24"
+      width={width ? width : "24"}
+      height={height ? height : "24"}
       viewBox="0 0 14 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -453,6 +436,15 @@ export const CameraIcon = () => {
         fill="currentColor"
       />
     </svg>
+  );
+};
+
+export const RightArrowIcon = ({ width, height }) => {
+  return (
+<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.3 10.85C9.1 10.65 9.004 10.4083 9.012 10.125C9.02 9.84167 9.12434 9.6 9.325 9.4L12.15 6.575H1C0.71667 6.575 0.479004 6.479 0.287004 6.287C0.0950036 6.095 -0.000663206 5.85767 3.4602e-06 5.575C3.4602e-06 5.29167 0.0960036 5.054 0.288004 4.862C0.480004 4.67 0.717337 4.57433 1 4.575H12.15L9.3 1.725C9.1 1.525 9 1.28733 9 1.012C9 0.736666 9.1 0.499333 9.3 0.3C9.5 0.0999997 9.73767 0 10.013 0C10.2883 0 10.5257 0.0999997 10.725 0.3L15.3 4.875C15.4 4.975 15.471 5.08333 15.513 5.2C15.555 5.31667 15.5757 5.44167 15.575 5.575C15.575 5.70833 15.554 5.83333 15.512 5.95C15.47 6.06667 15.3993 6.175 15.3 6.275L10.7 10.875C10.5167 11.0583 10.2877 11.15 10.013 11.15C9.73834 11.15 9.50067 11.05 9.3 10.85Z" fill="#E90808"/>
+</svg>
+
   );
 };
 

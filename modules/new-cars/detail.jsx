@@ -14,8 +14,6 @@ const NewVehicleDetailModule = ({ vehicle }) => {
       <BrowseBlogCarousel type={"car"} title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`}/>
       {/* Faq's */}
       {vehicle?.vehicleDetails?.faqs?.length > 0 && <FAQ title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.variant} ${vehicle?.vehicleDetails?.year}`} titleSpan="FAQs" faqs={vehicle?.vehicleDetails?.faqs} />}
-      {/* <VehicleDetailsTest vehicle={vehicle}/> */}
-      {/* <FAQ title={`${vehicle.vehicleDetails.make} ${vehicle.vehicleDetails.model} ${vehicle.vehicleDetails.variant} ${vehicle.vehicleDetails.year}`} titleSpan="FAQs" faqs={vehicle.vehicleDetails.faqs}/> */}
     </div>
   )
 }

@@ -1,4 +1,3 @@
-
 // const BASE_URL = 'https://auto-wheel-be.vercel.app'
 // // const BASE_URL = 'http://localhost:5000'
 
@@ -32,9 +31,8 @@
 //     GET_ALL_REVIEWS:`${BASE_URL}/api/reviews`,
 //     IMAGE_UPLOADS:`${BASE_URL}/upload-image`
 //   };
-  
 
-// const BASE_URL = 'https://auto-wheel-be.vercel.app';
+// const BASE_URL = "https://auto-wheel-be.vercel.app";
 const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 // Define base paths for commonly used API routes
@@ -44,78 +42,120 @@ const REVIEW_BASE = `${BASE_URL}/api/reviews`;
 const VIDEO_BASE = `${BASE_URL}/api/video`;
 
 export const API_ENDPOINTS = {
-    AUTH: {
-        SIGNUP: `${BASE_URL}/api/user/register`,
-        LOGIN: `${BASE_URL}/api/user/login`,
-        VERIFY_OTP: `${BASE_URL}/api/user/verify-user`
-    },
-    
-    VEHICLE: {
-        BASE: VEHICLE_BASE,
-        LIST_BY_TYPE: (type) => `${VEHICLE_BASE}/vehicles-by-type${type ? `?type=${encodeURIComponent(type)}` : ''}`,
-        LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
-        DETAIL: (id) => `${VEHICLE_BASE}/${id}`,
-        ADD: `${VEHICLE_BASE}`,
-        SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`
-    },
-    NEW_VEHICLE: {
-        BASE: NEW_VEHICLE_BASE,
-    
-        UPCOMMING: (type) =>{
-         console.log('UPCOMMING',`${VEHICLE_BASE}/vehicles-by-type${type ? `?type=${encodeURIComponent(type)}` : ''}`)
-         return   `${VEHICLE_BASE}/vehicles-by-type${type ? `?type=${encodeURIComponent(type)}` : ''}`
-        },
-    
-        MAKES_WITH_POPULAR: (make, type) => 
-          `${BASE_URL}/makes-with-popular${make ? `/${make}` : ''}${type ? `/${type}` : ''}`,
-    
-        // LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
-        DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
-        // ADD: `${VEHICLE_BASE}`,
-        // SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`
-    },
-    
-    
-    BROWSE: {
-        BY_MAKE: `${BASE_URL}/api/browes-by-make`,
-        MAKES_WITH_POPULAR: (make, type) => {
-           return `${BASE_URL}/api/browes-by-make/makes-with-popular/${make}/${type}`
-        },
-        BY_BODY: `${BASE_URL}/api/browes-by-body`
-    },
-    
-    REVIEWS: {
-        BASE: REVIEW_BASE,
-        SUBMIT: `${REVIEW_BASE}`,
-        GET_ALL: `${REVIEW_BASE}`
-    },
-    
-    VIDEOS: {
-        BASE: VIDEO_BASE,
-        BROWSE: `${VIDEO_BASE}/browse-videos`,
-        LIST: `${VIDEO_BASE}/video-listing`,
-        DETAIL: (id) => `${VIDEO_BASE}/${id}`  // Dynamic ID for video detail
-    },
-    
-    BLOGS: {
-        LIST: `${BASE_URL}/api/blog/blog-listing/`,
-        BROWSE: `${BASE_URL}/api/blog/browse-blogs`
-    },
-    
-    COMMENTS: {
-        BASE: `${BASE_URL}/api/comment`
-    },
-    
-    TAGS: {
-        BASE: `${BASE_URL}/api/tag`
-    },
-    
-    // Image Upload Endpoint
-    IMAGE_UPLOAD: `${BASE_URL}/upload-image`,
+  AUTH: {
+    SIGNUP: `${BASE_URL}/api/user/register`,
+    LOGIN: `${BASE_URL}/api/user/login`,
+    VERIFY_OTP: `${BASE_URL}/api/user/verify-user`,
+  },
 
-    // External APIs (For Example Purposes)
-    EXTERNAL: {
-        COMPARISONS: 'https://fakestoreapi.com/products',
-        INSTANT_USED_CARS: 'https://fakestoreapi.com/products'
-    }
+  VEHICLE: {
+    BASE: VEHICLE_BASE,
+    LIST_BY_TYPE: (type) =>
+      `${VEHICLE_BASE}/vehicles-by-type${
+        type ? `?type=${encodeURIComponent(type)}` : ""
+      }`,
+    LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
+    DETAIL: (id) => `${VEHICLE_BASE}/${id}`,
+    ADD: `${VEHICLE_BASE}`,
+    SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`,
+  },
+  NEW_VEHICLE: {
+    BASE: NEW_VEHICLE_BASE,
+
+    UPCOMMING: (make, type) => {
+      const queryParams = [];
+      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
+      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+
+      return `${NEW_VEHICLE_BASE}/upcoming${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`;
+    },
+    MAKE_BY_VEHICLES: (make, type) => {
+      const queryParams = [];
+
+      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
+      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+
+      return `${NEW_VEHICLE_BASE}/make/${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`;
+    },
+
+    MAKES_WITH_POPULAR: (make, type) => {
+      const queryParams = [];
+
+      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
+      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      return `${NEW_VEHICLE_BASE}/popular${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`;
+    },
+    MAKES_WITH_POPULAR: (make, type) => {
+      const queryParams = [];
+
+      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
+      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      return `${NEW_VEHICLE_BASE}/popular${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`;
+    },
+    NEWLY_LAUNCHED_VEHICLES: (make, type) => {
+      const queryParams = [];
+
+      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
+      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      return `${NEW_VEHICLE_BASE}/newly-launched${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`;
+    },
+
+    // LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
+    DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
+    // ADD: `${VEHICLE_BASE}`,
+    // SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`
+  },
+
+  BROWSE: {
+    BY_MAKE: `${BASE_URL}/api/browes-by-make`,
+    MAKES_WITH_POPULAR: (make, type) => {
+      return `${BASE_URL}/api/browes-by-make/makes-with-popular/${make}/${type}`;
+    },
+    BY_BODY: `${BASE_URL}/api/browes-by-body`,
+  },
+
+  REVIEWS: {
+    BASE: REVIEW_BASE,
+    SUBMIT: `${REVIEW_BASE}`,
+    GET_ALL: `${REVIEW_BASE}`,
+  },
+
+  VIDEOS: {
+    BASE: VIDEO_BASE,
+    BROWSE: `${VIDEO_BASE}/browse-videos`,
+    LIST: `${VIDEO_BASE}/video-listing`,
+    DETAIL: (id) => `${VIDEO_BASE}/${id}`, // Dynamic ID for video detail
+  },
+
+  BLOGS: {
+    LIST: `${BASE_URL}/api/blog/blog-listing/`,
+    BROWSE: `${BASE_URL}/api/blog/browse-blogs`,
+  },
+
+  COMMENTS: {
+    BASE: `${BASE_URL}/api/comment`,
+  },
+
+  TAGS: {
+    BASE: `${BASE_URL}/api/tag`,
+  },
+
+  // Image Upload Endpoint
+  IMAGE_UPLOAD: `${BASE_URL}/upload-image`,
+
+  // External APIs (For Example Purposes)
+  EXTERNAL: {
+    COMPARISONS: "https://fakestoreapi.com/products",
+    INSTANT_USED_CARS: "https://fakestoreapi.com/products",
+  },
 };

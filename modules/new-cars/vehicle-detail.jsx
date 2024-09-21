@@ -32,6 +32,7 @@ const VehicleDetail = ({ vehicle }) => {
   const {
     vehicleDetails: {
       make,
+      type,
       model,
       variant,
       minPrice,
@@ -46,8 +47,6 @@ const VehicleDetail = ({ vehicle }) => {
       exterior,
       wheelsAndTyres,
       fuelConsumption,
-      entertainment,
-      comfort,
       averageRating,
       reviewCount,
       brochureLink,
@@ -56,10 +55,12 @@ const VehicleDetail = ({ vehicle }) => {
       cons,
       year,
       bodyType,
-      faqs
+      fuelAverage,
+      fuelCapacity
     },
     variants
   } = vehicle || {};
+console.log(vehicle)
   return (
     <>
       {/* Header Section */}
@@ -171,29 +172,51 @@ const VehicleDetail = ({ vehicle }) => {
                   </Flex>
                 </Box>
                 <Box className="col-lg-6">
+                {type=='bike'?
+                (
+                  <Flex align="flex-start" gap="sm" c="dimmed">
+                  <FuelTank style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
+                  <Text c="dimmed">
+                    Fuel Tank <span style={{ color: "#000", fontWeight: 600 }}>{fuelCapacity || "N/A"}L</span>
+                  </Text>
+                </Flex>
+                ):(
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <AirBags style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
                     <Text c="dimmed">
-                      Airbags <span style={{ color: "#000", fontWeight: 600 }}>{safety.airbags ? safety.airbags : "No"}</span>
+                      Airbags <span style={{ color: "#000", fontWeight: 600 }}>{safety?.airbags ? safety.airbags : "No"}</span>
                     </Text>
                   </Flex>
+                )  
+                }
                 </Box>
               </Box>
 
               <Box className="row border-bottom" pb="md" mb="lg">
                 <Box className="col-lg-6 border-end">
+                  {type=='bike'?
+                (
+                  <Flex align="flex-start" gap="sm" c="dimmed">
+                  <DimensionIcon style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
+                  <Text c="dimmed">
+                    Fuel Average <span style={{ color: "#000", fontWeight: 600 }}>{fuelAverage || "N/A"}</span>
+                  </Text>
+                </Flex>
+                ):(
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <DimensionIcon style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
                     <Text c="dimmed">
-                      Mileage <span style={{ color: "#000", fontWeight: 600 }}>{mileage.city || "N/A"}</span>
+                      Mileage <span style={{ color: "#000", fontWeight: 600 }}>{mileage?.city || "N/A"}</span>
                     </Text>
                   </Flex>
+                )  
+                }
                 </Box>
                 <Box className="col-lg-6">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <TransmissionIcon style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
                     <Text c="dimmed">
-                      Transmission <span style={{ color: "#000", fontWeight: 600 }}>{transmission.type || "N/A"}</span>
+                      Transmission <span style={{ color: "#000", fontWeight: 600 }}>{transmission.type || transmission|| "N/A"}</span>
                     </Text>
                   </Flex>
                 </Box>
@@ -206,6 +229,10 @@ const VehicleDetail = ({ vehicle }) => {
                     Available Colors
                   </Title>
                   <Group>
+                    {type==='bike'&&vehicle?.vehicleDetails?.colorsAvailable?.map((color, index) => (
+                      <Button key={index} size="xs" radius="xl" bg={GetColor(color)} />
+                    ))
+                  }
                     {exterior?.colorsAvailable?.map((color, index) => (
                       <Button key={index} size="xs" radius="xl" bg={GetColor(color)} />
                     ))}
@@ -226,16 +253,16 @@ const VehicleDetail = ({ vehicle }) => {
                 </Text>
               </Title>
               <Text mt="md">The price of {`${make} ${model} ${variant} ${year}`} in Pakistan starts from PKR {minPrice}.</Text>
-              <Text mt="md">{vehicle.description || "No additional information available."}</Text>
-              <Anchor href={brochureLink} underline="hover" className="text-primary" target="_blank">
+              {/* <Anchor href={brochureLink} underline="hover" className="text-primary" target="_blank">
                 View Brochure
-              </Anchor>
+              </Anchor> */}
             </Box>
           </Box>
         </Box>
       </Box>
       {/* Variants Comparison */}
-      <Box className="container mb-4" mt="xl">
+      {variants && variants.length > 0 && 
+        <Box className="container mb-4" mt="xl">
         <Title order={2}>
           {make} {model} Variants
         </Title>
@@ -279,6 +306,7 @@ const VehicleDetail = ({ vehicle }) => {
           </Table.Tbody>
         </Table>
       </Box>
+      }
 
       {/* Pros and Cons Section */}
       <Box
@@ -409,58 +437,7 @@ const VehicleDetail = ({ vehicle }) => {
               <Paper shadow="0px 4px 20px 0px #00000014" radius="sm" mb="md">
                 <Box className="row">
                   <Box className="col-lg-12">
-                    <Table verticalSpacing="md" horizontalSpacing="md">
-                      <Table.Tbody>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Price</Table.Td>
-                          <Table.Td>{`PKR ${minPrice} - ${maxPrice}` || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Body Type</Table.Td>
-                          <Table.Td>{bodyType || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Dimensions (L x W x H)</Table.Td>
-                          <Table.Td>{`${dimensions?.overallLength} x ${dimensions?.overallWidth} x ${dimensions?.overallHeight}` || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Ground Clearance</Table.Td>
-                          <Table.Td>{dimensions?.groundClearance || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Displacement</Table.Td>
-                          <Table.Td>{engine?.displacement || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Transmission</Table.Td>
-                          <Table.Td>{transmission?.type || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Horse Power</Table.Td>
-                          <Table.Td>{engine?.horsepower || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Torque</Table.Td>
-                          <Table.Td>{engine?.torque || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Boot Space</Table.Td>
-                          <Table.Td>{dimensions?.bootSpace || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Kerb Weight</Table.Td>
-                          <Table.Td>{dimensions?.kerbWeight || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Fuel Type</Table.Td>
-                          <Table.Td>{engine?.type || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Mileage</Table.Td>
-                          <Table.Td>{`${fuelConsumption?.mileageCity} / ${fuelConsumption?.mileageHighway}` || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>
-                          <Table.Td>{fuelConsumption?.tankCapacity || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Seating Capacity</Table.Td>
-                          <Table.Td>{dimensions?.seatingCapacity || "N/A"}</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td c="dimmed">Top Speed</Table.Td>
-                          <Table.Td>{engine?.maxSpeed || "N/A"}</Table.Td>
-                          <Table.Td c="dimmed">Tyre Size</Table.Td>
-                          <Table.Td>{wheelsAndTyres?.tyreSize || "N/A"}</Table.Td>
-                        </Table.Tr>
-                      </Table.Tbody>
-                    </Table>
+                    {renderSpecifications(vehicle?.vehicleDetails)}
                   </Box>
                 </Box>
               </Paper>
@@ -473,3 +450,131 @@ const VehicleDetail = ({ vehicle }) => {
 };
 
 export default VehicleDetail;
+
+const renderSpecifications = (vehicle) => {
+  if (vehicle.type === 'bike') {
+      return (
+          <Table verticalSpacing="md" horizontalSpacing="md">
+              <Table.Tbody>
+                  <Table.Tr>
+                      <Table.Td>Price</Table.Td>
+                      <Table.Td>{`PKR ${vehicle.minPrice} - PKR ${vehicle.maxPrice}`}</Table.Td>
+                      <Table.Td>Dimension (LxWxH)</Table.Td>
+                      <Table.Td>{`${vehicle.dimensions.length} x ${vehicle.dimensions.width} x ${vehicle.dimensions.height} mm`}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Engine</Table.Td>
+                      <Table.Td>{vehicle.engine.type}</Table.Td>
+                      <Table.Td>Displacement</Table.Td>
+                      <Table.Td>{`${vehicle.engine.displacement} cc`}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Clutch</Table.Td>
+                      <Table.Td>{vehicle.engine.clutch}</Table.Td>
+                      <Table.Td>Transmission</Table.Td>
+                      <Table.Td>{vehicle.transmission}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Horsepower</Table.Td>
+                      <Table.Td>{vehicle.engine.horsepower}</Table.Td>
+                      <Table.Td>Torque</Table.Td>
+                      <Table.Td>{vehicle.engine.torque}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Bore & Stroke</Table.Td>
+                      <Table.Td>{vehicle.engine.boreStroke}</Table.Td>
+                      <Table.Td>Compression Ratio</Table.Td>
+                      <Table.Td>{vehicle.engine.compressionRatio}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Petrol Capacity</Table.Td>
+                      <Table.Td>{`${vehicle.fuelCapacity}L`}</Table.Td>
+                      <Table.Td>Fuel Average</Table.Td>
+                      <Table.Td>{vehicle.fuelAverage}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Starting</Table.Td>
+                      <Table.Td>{vehicle.starting}</Table.Td>
+                      <Table.Td>Top Speed</Table.Td>
+                      <Table.Td>{vehicle.topSpeed}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Dry Weight</Table.Td>
+                      <Table.Td>{`${vehicle.dryWeight}KG`}</Table.Td>
+                      <Table.Td>Frame</Table.Td>
+                      <Table.Td>{vehicle.frame}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Ground Clearance</Table.Td>
+                      <Table.Td>{vehicle.groundClearance}</Table.Td>
+                      <Table.Td>Wheel Size</Table.Td>
+                      <Table.Td>{vehicle.wheelSize}</Table.Td>
+                  </Table.Tr>
+                  <Table.Tr>
+                      <Table.Td>Tyre at Back</Table.Td>
+                      <Table.Td>{vehicle.tyres.back}</Table.Td>
+                      <Table.Td>Tyre at Front</Table.Td>
+                      <Table.Td>{vehicle.tyres.front}</Table.Td>
+                  </Table.Tr>
+              </Table.Tbody>
+          </Table>
+      );
+  } else if (vehicle.type === 'car' ||vehicle.type === 'truck') {
+      return (
+        <Table verticalSpacing="md" horizontalSpacing="md">
+        <Table.Tbody>
+          <Table.Tr>
+            <Table.Td c="dimmed">Price</Table.Td>
+            <Table.Td>{`PKR ${vehicle?.minPrice} - ${vehicle?.maxPrice}` || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Body Type</Table.Td>
+            <Table.Td>{vehicle?.bodyType || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Dimensions (L x W x H)</Table.Td>
+            <Table.Td>{`${vehicle?.dimensions?.overallLength} x ${vehicle?.dimensions?.overallWidth} x ${vehicle?.dimensions?.overallHeight}` || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Ground Clearance</Table.Td>
+            <Table.Td>{vehicle?.dimensions?.groundClearance || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Displacement</Table.Td>
+            <Table.Td>{vehicle?.engine?.displacement || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Transmission</Table.Td>
+            <Table.Td>{vehicle?.transmission?.type || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Horse Power</Table.Td>
+            <Table.Td>{vehicle?.engine?.horsepower || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Torque</Table.Td>
+            <Table.Td>{vehicle?.engine?.torque || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Boot Space</Table.Td>
+            <Table.Td>{vehicle?.dimensions?.bootSpace || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Kerb Weight</Table.Td>
+            <Table.Td>{vehicle?.dimensions?.kerbWeight || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Fuel Type</Table.Td>
+            <Table.Td>{vehicle?.engine?.type || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Mileage</Table.Td>
+            <Table.Td>{`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>
+            <Table.Td>{vehicle?.fuelConsumption?.tankCapacity || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Seating Capacity</Table.Td>
+            <Table.Td>{vehicle?.dimensions?.seatingCapacity || "N/A"}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td c="dimmed">Top Speed</Table.Td>
+            <Table.Td>{vehicle?.engine?.maxSpeed || "N/A"}</Table.Td>
+            <Table.Td c="dimmed">Tyre Size</Table.Td>
+            <Table.Td>{vehicle?.wheelsAndTyres?.tyreSize || "N/A"}</Table.Td>
+          </Table.Tr>
+        </Table.Tbody>
+      </Table>
+      );
+  } else {
+      return <p>No specifications available for this vehicle type.</p>;
+  }
+};

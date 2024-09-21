@@ -40,7 +40,6 @@ const authOptions = {
       async authorize(credentials) {
         try {
 
-          console.log('payload>>>>>>>>>', credentials)
           // Call your API to verify OTP or perform sign-in based on the type
           const res = await axios.post(
              credentials.type === 'otp'
@@ -58,7 +57,6 @@ const authOptions = {
 
   if(res.data && res.data.statusCode === 200) {
     const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
-console.log('userData>>>>>>>1', userData)
 // Return all necessary user details for the session and JWT
 return {
   id: userData._id,
@@ -143,21 +141,18 @@ secret: '739d95146513d67502b0ba4776a5cae8',
     //       );
     //       const userInfo = await userInfoResponse.json();
 
-    //       console.log('>>>> userInfo',userInfo)
     //       if (userInfo.phoneNumbers && userInfo.phoneNumbers.length > 0) {
     //         token.phoneNumber = userInfo.phoneNumbers[0].value; // Store phone number in token
     //       }
     //     }
 
 
-    // console.log('<<<<<<<<<<<<<<',account)
     //     return token;
     //   },
 
 
     async jwt({ token, user }) {
 
-    console.log('useruser', user)
     if (user) {
       token.id = user.id;
       token.fullName = user.fullName;
@@ -175,7 +170,6 @@ secret: '739d95146513d67502b0ba4776a5cae8',
 
     async session({ session, token }) {
 
-    console.log('token', token)
     session.user._id = token.id;
     session.user.fullName = token.fullName;
     session.user.email = token.email;
@@ -187,7 +181,6 @@ secret: '739d95146513d67502b0ba4776a5cae8',
     session.user.updatedAt = token.updatedAt;
     session.user.verificationCode = token.verificationCode;
 
-    console.log('Session Data:', session);
     return session;
   },
     async redirect({ url, baseUrl }) {

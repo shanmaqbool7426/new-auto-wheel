@@ -37,7 +37,6 @@ import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 
 const VehiclesByMake = ({vehicles}) => {
-  console.log(vehicles);
   const [opened, { open, close }] = useDisclosure(false);
 
   const tagsArray = [
@@ -110,7 +109,7 @@ const VehiclesByMake = ({vehicles}) => {
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  Upcoming{" "}
+                  Upcomingqqqqqq{" "}
                   <Text span c="#E90808" inherit>
                     Cars
                   </Text>
@@ -143,7 +142,8 @@ const VehiclesByMake = ({vehicles}) => {
                           Rs 54.79 - 75.49 Lacs
                         </Text>
                         <Text span inherit>
-                          (Launched Expected 2024*)
+                        {reviewsText ? reviewsText : `(Launched Expected ${new Date(vehicle.releaseDate).getFullYear()}*)`}
+
                         </Text>
                       </Flex>
                     </Card>

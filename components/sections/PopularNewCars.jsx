@@ -1,9 +1,8 @@
+import { formatToLacOrCrore } from "@/utils";
 import { Box, Card, Flex, Image, Rating, Text, Title } from "@mantine/core";
 import React from "react";
 
-const PopularNewCars = ({ bg = true , popularVehicles}) => {
-
-  console.log('popularVehicles.....',popularVehicles)
+const PopularNewCars = ({ bg = true, popularVehicles }) => {
   return (
     <Box
       component="section"
@@ -19,7 +18,7 @@ const PopularNewCars = ({ bg = true , popularVehicles}) => {
               </Text>
             </Title>
           </Box>
-          {popularVehicles?.data?.results?.map((vehicle, index) => {
+          {popularVehicles?.data?.map((vehicle, index) => {
             return (
               <Box className="col-md-3" key={index}>
                 <Card
@@ -40,10 +39,11 @@ const PopularNewCars = ({ bg = true , popularVehicles}) => {
 
                   <Flex direction="column" align="center" gap="xs">
                     <Title order={5} fw={500} c="#E90808">
-                        {vehicle?.make}   {vehicle?.model}
+                      {vehicle?.make} {vehicle?.model}
                     </Title>
                     <Text fw={600} fs="xl">
-                      Rs {vehicle?.startPrice} - {vehicle?.startPrice} Lacs
+                      Rs {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
+                      {formatToLacOrCrore(vehicle?.maxPrice)}
                     </Text>
                     <Flex align="center" justify="center" gap="xs">
                       <Rating defaultValue={2} />
