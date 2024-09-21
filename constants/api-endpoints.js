@@ -70,7 +70,7 @@ export const API_ENDPOINTS = {
           `${BASE_URL}/makes-with-popular${make ? `/${make}` : ''}${type ? `/${type}` : ''}`,
     
         // LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
-        // DETAIL: (id) => `${VEHICLE_BASE}/${id}`,
+        DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
         // ADD: `${VEHICLE_BASE}`,
         // SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`
     },
