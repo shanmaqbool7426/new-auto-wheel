@@ -60,6 +60,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const router = useRouter();
   const { slug } = useParams();
   const debounceTimeoutRef = useRef(null);
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     if (slug && slug.length > 0) {
@@ -264,6 +265,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const decodedFilterBodies = filters.bodyType.map((body) =>
     decodeURIComponent(body).toLowerCase()
   );
+
+  const data = cities.map((city) => city.label);
+
   return (
     <Fragment>
       <ActionIcon

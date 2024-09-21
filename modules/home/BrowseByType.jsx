@@ -4,6 +4,9 @@ import { Box, Pagination, Text, Title } from "@mantine/core";
 import CarCard from "@/components/ui/CarCard";
 import { fetchAPI } from "@/services/fetchAPI";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { RightArrowIcon } from "@/components/Icons";
+import Link from "next/link";
+
 
 const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   const [selectedType, setSelectedType] = useState("All");
@@ -37,9 +40,8 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                 ].map((type, index) => (
                   <li key={index} className="nav-item" role="presentation">
                     <button
-                      className={`nav-link ${
-                        selectedType === type.value ? "active" : ""
-                      }`}
+                      className={`nav-link ${selectedType === type.value ? "active" : ""
+                        }`}
                       onClick={() => handleTypeChange(type.value)}
                     >
                       {type.label}
@@ -56,6 +58,7 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                   {vehicles?.data?.results?.map((vehicle, index) => (
                     <Box className="col-lg-3" key={index}>
                       <CarCard index={index} vehicle={vehicle} />
+
                     </Box>
                   ))}
                 </Box>
@@ -65,11 +68,16 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                   <Box className="tab-pane fade show active" id="pills-home">
                     <Box className="row">
                       {vehicles?.data?.map((vehicle, index) => (
-                        <Box className="col-lg-3" key={index}>
-                          <CarCard index={index} vehicle={vehicle} />
-                        </Box>
+                        <>
+                          <Box className="col-lg-3" key={index}>
+                            <CarCard index={index} vehicle={vehicle} />
+                          </Box>
+
+                        </>
                       ))}
+                      <Link href={`/listing/cars`}> <Text fz="sm" c="#EB2321" ta="right" >Show More Ads  <RightArrowIcon /></Text></Link>
                     </Box>
+
                   </Box>
                 </Box>
               </Box>

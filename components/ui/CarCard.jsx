@@ -14,6 +14,7 @@ import {
   Divider,
   Progress,
 } from "@mantine/core";
+import { getTimeAgo } from "@/utils";
 
 const CarCard = ({ vehicle, index }) => {
   return (
@@ -27,7 +28,7 @@ const CarCard = ({ vehicle, index }) => {
           <Group c="white" gap={5} pos="absolute" left={15} top={15}>
             <CameraIcon width={20} height={20} />
             <Text span fw={600}>
-              6
+              {vehicle?.images?.length}
             </Text>
           </Group>
           <Image
@@ -94,7 +95,7 @@ const CarCard = ({ vehicle, index }) => {
             </Group>
             <Group c="dimmed" gap={rem(5)} align="center">
               <FaClock />
-              <Text size="xs">1 month ago</Text>
+              <Text size="xs">{getTimeAgo(vehicle?.createdAt)}</Text>
             </Group>
           </Flex>
         </Card.Section>
