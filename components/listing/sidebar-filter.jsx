@@ -998,13 +998,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               <Grid.Col span={6} key={bodyType.name} ta="center">
                 <div className="single-brand-item selected-brand-item text-center">
                   <label
-                    className={`text-decoration-none ${
-                      decodedFilterBodies.includes(
-                        bodyType?.name?.toLowerCase()
-                      )
+                    className={`text-decoration-none ${decodedFilterBodies.includes(
+                      bodyType?.name?.toLowerCase()
+                    )
                         ? "checked"
                         : ""
-                    }`}
+                      }`}
                   >
                     <input
                       type="checkbox"
@@ -1026,6 +1025,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       height={60}
                       src={bodyType.bodyImage}
                       className="mx-auto text-center"
+                      alt={`${bodyType.name} body type`}
+
                     />
                     <h6 className="mb-0 text-dark">{bodyType.name}</h6>
                   </label>
@@ -1075,8 +1076,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       offsetScrollbars
                     >
                       <div className="checkbox-group-filters">
-                        {cities?.map((city) => (
-                          <Box pos="relative" key={city.value}>
+                        {cities?.map((city, index) => (
+                          <Box pos="relative" key={index}>
                             <Checkbox
                               mb="xs"
                               size="xs"
@@ -1128,37 +1129,39 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Text>
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
-                    {makes?.data?.map((make) => (
-                      <Box pos="relative">
-                        <Checkbox
-                          mb="xs"
-                          size="xs"
-                          label={make.name}
-                          key={make.value}
-                          checked={decodedFilterMake.includes(
-                            make?.name?.toLowerCase()
+                    {makes?.data?.map((make, index) => (
+                      <>
+                        <Box pos="relative" key={index}>
+                          <Checkbox
+                            mb="xs"
+                            size="xs"
+                            label={make.name}
+                            key={make.value}
+                            checked={decodedFilterMake.includes(
+                              make?.name?.toLowerCase()
+                            )}
+                            onChange={(e) =>
+                              handleFilterChange(
+                                "make",
+                                make?.name?.toLowerCase(),
+                                e.target.checked
+                              )
+                            }
+                          />
+                          {getCountByTypeAndKey("makeCounts", make.label) && (
+                            <Badge
+                              pos="absolute"
+                              right={0}
+                              color="#E90808"
+                              size="md"
+                              fw={600}
+                              variant="outline"
+                            >
+                              {getCountByTypeAndKey("makeCounts", make.label)}
+                            </Badge>
                           )}
-                          onChange={(e) =>
-                            handleFilterChange(
-                              "make",
-                              make?.name?.toLowerCase(),
-                              e.target.checked
-                            )
-                          }
-                        />
-                        {getCountByTypeAndKey("makeCounts", make.label) && (
-                          <Badge
-                            pos="absolute"
-                            right={0}
-                            color="#E90808"
-                            size="md"
-                            fw={600}
-                            variant="outline"
-                          >
-                            {getCountByTypeAndKey("makeCounts", make.label)}
-                          </Badge>
-                        )}
-                      </Box>
+                        </Box>
+                      </>
                     ))}
                   </Accordion.Panel>
                 </Accordion.Item>
@@ -1385,12 +1388,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               <Select
                 mb="lg"
                 placeholder="Transmission"
-                data={vehicleTransmissionOptions.map((transmission, index) => ({
+                data={vehicleTransmissionOptions.map((transmission) => ({
                   value: transmission.value,
                   label: transmission.label,
                 }))}
                 value={filters.transmission}
-                onChange={(value) => handleFilterChange("condition", value)}
+                onChange={(value) => handleFilterChange("transmission", value)}
+                // Changed from "condition" to "transmission"
                 comboboxProps={{
                   shadow: "lg",
                   transitionProps: { transition: "fade-down", duration: 200 },
@@ -1472,13 +1476,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     <Grid.Col span={6} key={bodyType.name} ta="center">
                       <div className="single-brand-item selected-brand-item text-center">
                         <label
-                          className={`text-decoration-none ${
-                            decodedFilterBodies.includes(
-                              bodyType?.name?.toLowerCase()
-                            )
+                          className={`text-decoration-none ${decodedFilterBodies.includes(
+                            bodyType?.name?.toLowerCase()
+                          )
                               ? "checked"
                               : ""
-                          }`}
+                            }`}
                         >
                           <input
                             type="checkbox"
@@ -1500,6 +1503,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             height={60}
                             src={bodyType.bodyImage}
                             className="mx-auto text-center"
+                            alt={`${bodyType.name} body type`}
+
                           />
                           <h6 className="mb-0 text-dark">{bodyType.name}</h6>
                         </label>
