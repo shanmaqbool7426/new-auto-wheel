@@ -458,13 +458,14 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 </Text>
               </Accordion.Control>
               <Accordion.Panel pt="sm">
-                {getModelsByMakes()?.map((model) => (
+                {getModelsByMakes()?.map((model,index) => (
+                <>
                   <Box pos="relative">
                     <Checkbox
                       mb="xs"
                       size="xs"
                       label={model.name}
-                      key={model.value}
+                      key={index}
                       checked={decodedFilterModel.includes(
                         model.name?.toLowerCase()
                       )}
@@ -489,6 +490,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       </Badge>
                     )}
                   </Box>
+                </>
                   //  <div className="form-check" key={model.name?.toLowerCase()}>
                   //  <input
                   //       className="form-check-input"
