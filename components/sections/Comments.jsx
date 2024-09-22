@@ -140,22 +140,24 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
               );
             })} */}
 
-                                {filterOptions && filterOptions.map((option) => {
+                                {filterOptions && filterOptions.map((option,index) => {
                                     const isSelected = filter === option.type; // Check if the current filter matches the option type
                                     const count = reviews?.length ? counts[option?.countKey ?? "total"] : 0; // Safely access counts
 
                                     return (
+                                        <>
                                         <Button
                                             variant={isSelected ? 'filled' : 'default'} // Apply active state styles
                                             color={isSelected ? '#EB2321' : '#333333'}
                                             autoContrast
                                             size="md"
                                             fw={500}
-                                            key={option.type}
+                                            key={index}
                                             onClick={() => setFilter(option.type)} // Update filter state on button click
                                         >
                                             {option.label} ({count})
                                         </Button>
+                                        </>
                                     );
                                 })}
 
@@ -190,6 +192,7 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
                                         {reviews?.map((review, index) => {
 
                                             return (
+                                            <>
                                                 <Carousel.Slide key={index}>
                                                     <Card
                                                         shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.08)"
@@ -220,6 +223,7 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
                                                         </Box>
                                                     </Card>
                                                 </Carousel.Slide>
+                                            </>
                                             );
                                         })}
                                     </Carousel>

@@ -26,18 +26,20 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
               <Box className="row">
                 {makes?.data?.map((item, index) => {
                   return (
-                    <Box className="col-sm-3" key={index}>
-                      <Flex direction="column" className="single-brand-item">
-                        <Image
-                          width={100}
-                          height={100}
-                          component={NextImage}
-                          src={item.companyImage}
-                          className="mx-auto text-center"
-                        />
-                        <Link href={`/new/car/${item.name}`}>{item.name}</Link>
-                      </Flex>
-                    </Box>
+                    <>
+                      <Box className="col-sm-3" key={index}>
+                        <Flex direction="column" className="single-brand-item">
+                          <Image
+                            width={100}
+                            height={100}
+                            component={NextImage}
+                            src={item.companyImage}
+                            className="mx-auto text-center"
+                          />
+                          <Link href={`/new/car/${item.name}`}>{item.name}</Link>
+                        </Flex>
+                      </Box>
+                    </>
                   );
                 })}
               </Box>
@@ -60,6 +62,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
               <Box className="row">
                 {bodies?.data?.map((body, index) => {
                   return (
+                 <>
                     <Box className="col-sm-3" key={index}>
                       <Flex direction="column" className="single-brand-item">
                         <Image
@@ -71,6 +74,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
                         <Link href={"#"}>{body.name}</Link>
                       </Flex>
                     </Box>
+                 </>
                   );
                 })}
               </Box>
