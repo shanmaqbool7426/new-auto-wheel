@@ -48,7 +48,7 @@ const CarsDealerShip = () => {
                     radius="sm"
                   >
                     <Title order={3} mb="lg">
-                      Browse Reviews For Your Perfect New Car
+                      Browse Reviews For Your Perfect New Cardd
                     </Title>
                     <Box className="row mb-2">
                       <Box className="col-md-3">

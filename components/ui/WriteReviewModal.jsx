@@ -31,8 +31,10 @@ import axios from "axios";
 import CustomModel from "@/constants/CustomModel";
 import { fetchListData, fetchMakesByType } from "@/services/vehicles";
 import { showNotification } from '@mantine/notifications';
+import { useSession } from "next-auth/react";
 
 const WriteReviewModal = ({ opened, close, fetchMakesByTypeData, fetchReviews }) => {
+  const { data: session, status } = useSession();
 
   const [ratings, setRatings] = useState({
     mileage: 0,
@@ -156,14 +158,16 @@ const WriteReviewModal = ({ opened, close, fetchMakesByTypeData, fetchReviews })
   };
   // Submit handler for the review form
 
+  console.log('>>> Submit handler for the review form',session?.user?.name)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const reviewData = {
-      vehicle: "Honda civic 111",
+      vehicle: `${selection?.make} ${selection?.model} ${selection?.variant}`,
       ratings,
       reviewText,
       reviewTitle,
+      reviewBy:session?.user?.name ? session.user.name : session.user.fullName
     };
 
     try {

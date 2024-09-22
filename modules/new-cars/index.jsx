@@ -306,7 +306,7 @@ const NewCarsModule = ({
         <BrowseVideos />
         <BrowseBlogs />
 
-        <Comments />
+        <Comments fetchMakesByTypeData={fetchMakesByTypeData}/>
 
         <QuickLinks />
       </section>

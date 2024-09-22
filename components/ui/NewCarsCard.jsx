@@ -6,6 +6,8 @@ import NextImage from "next/image";
 import { formatToLac, formatToLacOrCrore, formatToMonthYear } from "@/utils";
 
 const NewCarsCard = ({ vehicle, isRating }) => {
+
+  console.log('vehicle',vehicle)
   return (
     <Link href={`/new-vehicle/${vehicle?.slug || ""}`}>
       <Card shadow="0px 4px 20px 0px #00000014" pb="xl" pt="0" px="0" mb="xl">
@@ -38,13 +40,13 @@ const NewCarsCard = ({ vehicle, isRating }) => {
           {isRating && (
             <Flex align="center" justify="center" gap="xs">
               <Rating
-                defaultValue={vehicle?.averageRating?.$numberDecimal ?? 0}
+                defaultValue={vehicle?.averageRating ?? 0}
               />
               <Text span inherit>
-                {vehicle?.averageRating?.$numberDecimal
+                {vehicle?.averageRating
                   ? `(${
                       Math.round(
-                        parseFloat(vehicle.averageRating.$numberDecimal) * 10
+                        parseFloat(vehicle.averageRating) * 10
                       ) / 10
                     }/5)`
                   : null}

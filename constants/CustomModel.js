@@ -39,6 +39,8 @@ const CustomModel = ({
     });
   });
 
+
+  console.log(hide,"hinding")
   const [opened, { open, close }] = useDisclosure(isOpen);
   const handleSelection = (type, value) => {
     setSelection((prev) => {
@@ -53,6 +55,7 @@ const CustomModel = ({
       }
 
       if (type === "model") {
+        
         hide && closeModal();
         return {
           ...updatedSelection,

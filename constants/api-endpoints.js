@@ -32,8 +32,8 @@
 //     IMAGE_UPLOADS:`${BASE_URL}/upload-image`
 //   };
 
-const BASE_URL = "https://auto-wheel-be.vercel.app";
-// const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// const BASE_URL = "https://auto-wheel-be.vercel.app";
+const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
@@ -58,6 +58,16 @@ export const API_ENDPOINTS = {
     DETAIL: (id) => `${VEHICLE_BASE}/${id}`,
     ADD: `${VEHICLE_BASE}`,
     SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`,
+
+    MAKES_WITH_POPULAR: (make, type) => {
+      const queryParams = [];
+
+      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
+      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      return `${VEHICLE_BASE}/get-popular-vehicles${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`;
+    },
   },
   NEW_VEHICLE: {
     BASE: NEW_VEHICLE_BASE,
@@ -128,6 +138,8 @@ export const API_ENDPOINTS = {
     BASE: REVIEW_BASE,
     SUBMIT: `${REVIEW_BASE}`,
     GET_ALL: `${REVIEW_BASE}`,
+    REVIEWS_BY_VEHICLE: `${REVIEW_BASE}/by-vehicle`,
+    REVIEWS_BY_VEHICLE_OVERALL: `${REVIEW_BASE}/overall-ratings`
   },
 
   VIDEOS: {

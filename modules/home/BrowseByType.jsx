@@ -75,7 +75,7 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
 
                         </>
                       ))}
-                      <Link href={`/listing/cars`}> <Text fz="sm" c="#EB2321" ta="right" >Show More Ads  <RightArrowIcon /></Text></Link>
+                     {selectedType !=='All' && <Link href={`/listing/${selectedType}s`}> <Text fz="sm" c="#EB2321" ta="right" >Show More Ads  <RightArrowIcon /></Text></Link>}
                     </Box>
 
                   </Box>

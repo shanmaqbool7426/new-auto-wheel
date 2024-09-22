@@ -83,7 +83,7 @@ const BrowseBlogs = ({ type }) => {
               component={Link}
               href={`/blog/${firstBlog?.slug}`}
             >
-              <BackgroundImage src={firstBlog?.imageUrl} radius="sm" h="100%">
+              <BackgroundImage src={firstBlog?.imageUrl} radius="sm" h="95%">
                 <Flex p="xl" w="100%" className="position-absolute bottom-0">
                   <Text fw={600} size={rem(24)} c="white">
                     {firstBlog?.title}

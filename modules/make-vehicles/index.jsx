@@ -193,14 +193,14 @@ const MakesVehicles = ({
                           justify="center"
                           align="center"
                           className="single-brand-item"
-                        >
+                        >                       
                           <NextImage
                             width={100}
                             height={100}
                             src={item.companyImage}
                             className="mx-auto text-center"
                           />
-                          <Anchor component={Link} href="#" c="#333">
+                          <Anchor component={Link} href={`/new/car/${item.name}`} c="#333">
                             {item.name}
                           </Anchor>
                         </Flex>

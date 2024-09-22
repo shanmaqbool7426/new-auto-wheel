@@ -15,11 +15,14 @@ import {
   Progress,
 } from "@mantine/core";
 import { getTimeAgo } from "@/utils";
+import Link from "next/link";
 
 const CarCard = ({ vehicle, index }) => {
   return (
     <>
-      <Card
+    <Link  href={`/detail/${vehicle?.slug}`}>
+    
+    <Card
         shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
         radius="sm"
         mb="lg"
@@ -100,6 +103,7 @@ const CarCard = ({ vehicle, index }) => {
           </Flex>
         </Card.Section>
       </Card>
+    </Link>
       {/* <Box className="card product-card">
         <img
           src={
