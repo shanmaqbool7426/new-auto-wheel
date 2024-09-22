@@ -379,8 +379,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
-              {makes?.data?.map((make) => (
-                <Box pos="relative">
+              {makes?.data?.map((make,index) => (
+                <Box pos="relative" key={index}>
                   <Checkbox
                     mb="xs"
                     size="xs"
@@ -994,8 +994,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
         </Card.Section>
         <div className="filter-card">
           <Grid mb="lg">
-            {bodies?.data?.map((bodyType) => (
-              <Grid.Col span={6} key={bodyType.name} ta="center">
+            {bodies?.data?.map((bodyType,index) => (
+              <>
+              <Grid.Col span={6} ta="center" key={index}>
                 <div className="single-brand-item selected-brand-item text-center">
                   <label
                     className={`text-decoration-none ${decodedFilterBodies.includes(
@@ -1032,6 +1033,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   </label>
                 </div>
               </Grid.Col>
+
+              </>
             ))}
           </Grid>
         </div>
@@ -1184,8 +1187,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       </Text>
                     </Accordion.Control>
                     <Accordion.Panel pt="sm">
-                      {getModelsByMakes()?.map((model) => (
-                        <Box pos="relative">
+                      {getModelsByMakes()?.map((model,index) => (
+                       <>
+                        <Box pos="relative" key={index}>
                           <Checkbox
                             mb="xs"
                             size="xs"
@@ -1215,6 +1219,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             </Badge>
                           )}
                         </Box>
+                       </>
                       ))}
                     </Accordion.Panel>
                   </Accordion.Item>
@@ -1472,8 +1477,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             <Card>
               <div className="filter-card">
                 <Grid mb="lg">
-                  {bodies?.data?.map((bodyType) => (
-                    <Grid.Col span={6} key={bodyType.name} ta="center">
+                  {bodies?.data?.map((bodyType,index) => (
+                  <>
+                    <Grid.Col span={6}  ta="center" key={index}>
                       <div className="single-brand-item selected-brand-item text-center">
                         <label
                           className={`text-decoration-none ${decodedFilterBodies.includes(
@@ -1510,6 +1516,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         </label>
                       </div>
                     </Grid.Col>
+                  </>
                   ))}
                 </Grid>
               </div>
