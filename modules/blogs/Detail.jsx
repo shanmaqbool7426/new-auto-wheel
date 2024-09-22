@@ -2,7 +2,9 @@ import React from "react";
 import {Box,Text,Title,Image} from "@mantine/core";
 import ReplyBlog from "@/components/blog/reply-blog"
 import BlogDetailHtml from "@/components/blog/blog-detail-html";
-const Detail = ({ blog }) => {
+import BlogComments from "./BlogComments";
+
+const Detail = ({ blog ,comments}) => {
     return (
         <>
             <Title order={2} mb="lg">
@@ -23,6 +25,9 @@ const Detail = ({ blog }) => {
             </Box>
             {/* Blog Detail Html */}
             <BlogDetailHtml/>
+            {/* Comments */}
+            <BlogComments blog={blog} comments={comments}/>
+
             {/* Reply Section */}
             <ReplyBlog blog={blog} />
 

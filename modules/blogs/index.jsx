@@ -23,7 +23,6 @@ const BlogModule = async ({ params }) => {
   const isBlogsPage = data?.type === 'blogs';
   const isSingleBlog = data?.type === 'blog';
   const filteredCategories = data?.categories?.filter(category => category.slug !== 'news') || [];
-
   return (
     <Box component="section" className="blog-page" pt={60}>
       {/* Feature Grid Section */}
@@ -47,7 +46,7 @@ const BlogModule = async ({ params }) => {
             )}
             {
               isSingleBlog && (
-                <BlogDetails blog={data?.blog}/>
+                <BlogDetails blog={data?.blog} comments={data?.comments}/>
               )
             }
             {isBlogsPage && (

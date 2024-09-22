@@ -77,7 +77,7 @@ const Posts = ({ title, posts, count, description }) => {
                                         size="sm"
                                     >
                                         <ViewIcon />
-                                        10
+                                        {post?.commentCount}
                                     </Text>
                                 </Box>
                             </Flex>

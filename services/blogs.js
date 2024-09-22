@@ -7,7 +7,8 @@ export const fetchBlogsPageData = async (params) => {
       Array.isArray(params?.slug) && params.slug.length > 0
         ? params.slug.map((item) => item).join("/")
         : "";
-    const blogs = await fetchAPI(`${API_ENDPOINTS.BLOGS.BROWSE}${path}`);
+        console.log(path);
+    const blogs = await fetchAPI(`${API_ENDPOINTS.BLOGS.LIST}${path}`);
     return blogs;
   } catch (error) {
     console.error("Error fetching dashboard data:", error);

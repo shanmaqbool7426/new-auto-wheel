@@ -121,7 +121,7 @@ export const API_ENDPOINTS = {
     },
 
     // LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
-    // DETAIL: (id) => `${VEHICLE_BASE}/${id}`,
+    DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
     // ADD: `${VEHICLE_BASE}`,
     // SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`
   },
