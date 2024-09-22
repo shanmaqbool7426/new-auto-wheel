@@ -26,7 +26,7 @@ export function useFormSubmission(url, formValues, validate) {
         return;
       }
 
-      const data = await submitFormData(url, formValues);
+      const data = await submitFormData(url, JSON.stringify(formValues));
       setData(data)
     } catch (error) {
       setError(error.message);

@@ -43,14 +43,15 @@ import { postDataToServer } from "@/actions/index"
 import { fetchMakesByType } from "@/services/vehicles";
 import { submitFormData } from "@/services/forms";
 import { API_ENDPOINTS } from "../../../../constants/api-endpoints";
+import { useRouter } from "next/router";
 // import { cities } from "@/constants/vehicle-constants"; 
 
 
 const PostAnAd = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [images, setImages] = useState([]);
-  const [makes, setMakes] = useState({});
-
+  const [makes, setMakes] = useState({}); 
+const router= useRouter()
   // const [fetchMakesByType, setFetchMakesByType] = useState({}); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selection, setSelection] = useState({
@@ -228,6 +229,7 @@ const PostAnAd = () => {
       const data = await submitFormData(API_ENDPOINTS.VEHICLE.ADD, JSON.stringify(payload), {
         'Content-Type': 'application/json', // Set content-type to JSON
       });
+      router.push('/listing/cars')
       
     } catch (error) {
     }
@@ -262,7 +264,7 @@ const PostAnAd = () => {
       });
 
       const uploadUrl = 'http://localhost:5000/upload-image'; // Absolute URL to avoid Next.js routing issues
-      const response = await submitFormData(uploadUrl, formData);
+      const response = await submitFormData(uploadUrl,JSON.stringify(formData) );
 
       // Assuming the response contains an array of image URLs
       const uploadedImageUrls = response.data; // Example assuming { data: [url1, url2, ...] }
