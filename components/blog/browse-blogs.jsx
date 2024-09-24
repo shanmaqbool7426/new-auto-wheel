@@ -9,6 +9,8 @@ import {
   rem,
   Image,
   Grid,
+  AspectRatio,
+  Overlay,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -39,7 +41,7 @@ const BrowseBlogs = ({ type }) => {
       <section className="blogs py-5 bg-light">
         <div className="container">
           <Flex justify="space-between" align="center" mb="xl">
-            <Title order={2}>
+            <Title order={2} lts={-0.5}>
               Our Latest{" "}
               <Text span c="#E90808" inherit>
                 Blogs
@@ -64,7 +66,7 @@ const BrowseBlogs = ({ type }) => {
     <section className="blogs py-5 bg-light">
       <div className="container">
         <Flex justify="space-between" align="center" mb="xl">
-          <Title order={2}>
+          <Title order={2} lts={-0.5}>
             Our Latest{" "}
             <Text span c="#E90808" inherit>
               Blogs
@@ -78,12 +80,15 @@ const BrowseBlogs = ({ type }) => {
           <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
             <Box
               w="100%"
-              h={{ base: 300, lg: "100%" }}
+              h={{ base: 350, lg: "100%" }}
               className="position-relative"
               component={Link}
               href={`/blog/${firstBlog?.slug}`}
+              pos="relative"
+              style={{ overflow: "hidden" }}
             >
-              <BackgroundImage src={firstBlog?.imageUrl} radius="sm" h="95%">
+              <Overlay color="#000" backgroundOpacity={0.3} zIndex={0} />
+              <BackgroundImage src={firstBlog?.imageUrl} radius="sm" h="100%">
                 <Flex p="xl" w="100%" className="position-absolute bottom-0">
                   <Text fw={600} size={rem(24)} c="white">
                     {firstBlog?.title}
@@ -98,14 +103,14 @@ const BrowseBlogs = ({ type }) => {
                 <article className="article-inline mb-2" key={blog._id}>
                   <Grid justify="space-between" align="stretch">
                     <Grid.Col span={9}>
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="xs">
                         {formatDate(blog.publishDate)}
                       </Text>
                       <Title
                         my={5}
                         href={`/blog/${blog.slug}`}
                         component={Anchor}
-                        order={5}
+                        order={6}
                         fw={600}
                         lineClamp={1}
                         c="#333"

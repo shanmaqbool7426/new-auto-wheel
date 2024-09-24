@@ -24,7 +24,12 @@ const BrowseByCategory = ({ makes, bodies }) => {
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2} lts={-0.5}>
                 Browse by{" "}
-                <Text span c="#E90808" inherit className="text-decoration-underline">
+                <Text
+                  span
+                  c="#E90808"
+                  inherit
+                  className="text-decoration-underline"
+                >
                   Make
                 </Text>
               </Title>
@@ -36,17 +41,8 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   return (
                     <Box className="col-sm-3 text-center" key={index} mb="lg">
                       <Anchor href={`/new/car/${item.name}`} td="none">
-                        <Card
-                          radius="md"
-                          mih={120}
-                          style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Image w={70} h={70} src={item.companyImage} />
-                        </Card>
-                        <Title order={5} lts={-0.4} mt="sm" fw={600}>
+                        <NextImage width={70} height={50} className="" mx="auto" src={item.companyImage} />
+                        <Title order={6} lts={-0.4} mt="sm" fw={600}>
                           {item.name}
                         </Title>
                       </Anchor>
@@ -60,7 +56,12 @@ const BrowseByCategory = ({ makes, bodies }) => {
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2} lts={-0.5}>
                 Browse by{" "}
-                <Text span c="#E90808" inherit className="text-decoration-underline">
+                <Text
+                  span
+                  c="#E90808"
+                  inherit
+                  className="text-decoration-underline"
+                >
                   Body
                 </Text>
               </Title>
@@ -75,17 +76,8 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`}
                         td="none"
                       >
-                        <Card
-                          radius="md"
-                          mih={120}
-                          style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Image w={70} h={70} src={body.bodyImage} />
-                        </Card>
-                        <Title order={5} lts={-0.4} mt="sm" fw={600}>
+                        <NextImage width={108} height={50} mx="auto" src={body.bodyImage} />
+                        <Title order={6} lts={-0.4} mt="sm" fw={600}>
                           {body.name}
                         </Title>
                       </Anchor>
