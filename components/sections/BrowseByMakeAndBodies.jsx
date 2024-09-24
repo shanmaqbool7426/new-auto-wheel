@@ -13,7 +13,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2} lts={-0.5}>
                 Browse by{" "}
-                <Text span c="#E90808" inherit>
+                <Text span c="#E90808" inherit >
                   Make
                 </Text>
               </Title>

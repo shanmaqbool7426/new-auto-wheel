@@ -16,6 +16,7 @@ import {
   Tabs,
   Title,
   Autocomplete,
+  Card,
 } from "@mantine/core";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
 import { useDisclosure } from "@mantine/hooks";
@@ -103,200 +104,206 @@ const HeroTabs = () => {
   };
   return (
     <>
-      <Tabs color="pink" radius="xs" defaultValue="cars" autoContrast>
-        <Tabs.List grow justify="center">
-          <Tabs.Tab
-            value="cars"
-            leftSection={<CarFrontView />}
-            c={makesByType === "car" ? "#E90808" : "#6c757d"}
-            onClick={() => {
-              setMakesByType("car");
-              closeModal();
-            }}
-          >
-            Car
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="bikes"
-            leftSection={<MotorBike />}
-            c={makesByType === "bike" ? "#E90808" : "#6c757d"}
-            onClick={() => {
-              setMakesByType("bike");
-              closeModal();
-            }}
-          >
-            Bike
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="trucks"
-            leftSection={<Truck />}
-            c={makesByType === "truck" ? "#E90808" : "#6c757d"}
-            onClick={() => {
-              setMakesByType("truck");
-              closeModal();
-            }}
-          >
-            Truck
-          </Tabs.Tab>
-        </Tabs.List>
+        <Tabs
+          bg="white"
+          color="pink"
+          radius="xs"
+          defaultValue="cars"
+          autoContrast
+        >
+          <Tabs.List grow justify="center">
+            <Tabs.Tab
+              value="cars"
+              leftSection={<CarFrontView />}
+              c={makesByType === "car" ? "#E90808" : "#6c757d"}
+              onClick={() => {
+                setMakesByType("car");
+                closeModal();
+              }}
+            >
+              Car
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="bikes"
+              leftSection={<MotorBike />}
+              c={makesByType === "bike" ? "#E90808" : "#6c757d"}
+              onClick={() => {
+                setMakesByType("bike");
+                closeModal();
+              }}
+            >
+              Bike
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="trucks"
+              leftSection={<Truck />}
+              c={makesByType === "truck" ? "#E90808" : "#6c757d"}
+              onClick={() => {
+                setMakesByType("truck");
+                closeModal();
+              }}
+            >
+              Truck
+            </Tabs.Tab>
+          </Tabs.List>
 
-        <Tabs.Panel value="cars" p="xs">
-          <Input
-            placeholder="Car Make or Model"
-            mt="lg"
-            value={
-              selection?.make || selection?.model || selection?.variant
-                ? `${selection?.make || ""} ${selection?.model || ""} ${
-                    selection?.variant || ""
-                  }`.trim()
-                : undefined
-            }
-            onClick={openModal}
-          />
-          <Autocomplete
-            label="Select your city"
-            placeholder="Enter Your Location"
-            data={cityOptions} // Dynamically populated city options
-            value={query}
-            onChange={handleInputChange} // Call handler on input change
-            withScrollArea={false}
-            styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
-            mt="md"
-          />
-          <Button
-            mt="lg"
-            fullWidth
-            size="md"
-            ff="heading"
-            tt="uppercase"
-            color="#E90808"
-            loading={loading} // Show loading spinner while processing
-            onClick={handleSubmit}
-          >
-            Search
-          </Button>
-          <Group justify="end" mt="sm">
+          <Tabs.Panel value="cars" p="xs">
+            <Input
+              placeholder="Car Make or Model"
+              mt="lg"
+              value={
+                selection?.make || selection?.model || selection?.variant
+                  ? `${selection?.make || ""} ${selection?.model || ""} ${
+                      selection?.variant || ""
+                    }`.trim()
+                  : undefined
+              }
+              onClick={openModal}
+            />
+            <Autocomplete
+              label="Select your city"
+              placeholder="Enter Your Location"
+              data={cityOptions} // Dynamically populated city options
+              value={query}
+              onChange={handleInputChange} // Call handler on input change
+              withScrollArea={false}
+              styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
+              mt="md"
+            />
             <Button
-              component={Link}
-              href={`/listing/${makesByType}s`}
-              rightSection={<BsArrowRight />}
-              variant="transparent"
-              px={0}
-              fw={500}
+              mt="lg"
+              fullWidth
+              size="md"
+              ff="heading"
               tt="uppercase"
               color="#E90808"
-              ff="heading"
+              loading={loading} // Show loading spinner while processing
+              onClick={handleSubmit}
             >
-              Advance Search
+              Search
             </Button>
-          </Group>
-        </Tabs.Panel>
+            <Group justify="end" mt="sm">
+              <Button
+                component={Link}
+                href={`/listing/${makesByType}s`}
+                rightSection={<BsArrowRight />}
+                variant="transparent"
+                px={0}
+                fw={500}
+                tt="uppercase"
+                color="#E90808"
+                ff="heading"
+              >
+                Advance Search
+              </Button>
+            </Group>
+          </Tabs.Panel>
 
-        <Tabs.Panel value="bikes" p="xs">
-          <Input
-            placeholder="Bike Make or Model"
-            mt="lg"
-            value={
-              selection?.make || selection?.model || selection?.variant
-                ? `${selection?.make || ""} ${selection?.model || ""} ${
-                    selection?.variant || ""
-                  }`.trim()
-                : undefined
-            }
-            onClick={openModal}
-          />
-          <Autocomplete
-            label="Select your city"
-            placeholder="Enter Your Location"
-            data={cityOptions} // Dynamically populated city options
-            value={query}
-            onChange={handleInputChange} // Call handler on input change
-            withScrollArea={false}
-            styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
-            mt="md"
-          />
-          <Button
-            mt="lg"
-            fullWidth
-            size="md"
-            ff="heading"
-            tt="uppercase"
-            color="#E90808"
-            loading={loading} // Show loading spinner while processing
-            onClick={handleSubmit}
-          >
-            Search
-          </Button>
-          <Group justify="end" mt="sm">
+          <Tabs.Panel value="bikes" p="xs">
+            <Input
+              placeholder="Bike Make or Model"
+              mt="lg"
+              value={
+                selection?.make || selection?.model || selection?.variant
+                  ? `${selection?.make || ""} ${selection?.model || ""} ${
+                      selection?.variant || ""
+                    }`.trim()
+                  : undefined
+              }
+              onClick={openModal}
+            />
+            <Autocomplete
+              label="Select your city"
+              placeholder="Enter Your Location"
+              data={cityOptions} // Dynamically populated city options
+              value={query}
+              onChange={handleInputChange} // Call handler on input change
+              withScrollArea={false}
+              styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
+              mt="md"
+            />
             <Button
-              component={Link}
-              href={`/listing/${makesByType}s`}
-              rightSection={<BsArrowRight />}
-              variant="transparent"
-              px={0}
-              fw={500}
+              mt="lg"
+              fullWidth
+              size="md"
+              ff="heading"
               tt="uppercase"
               color="#E90808"
-              ff="heading"
+              loading={loading} // Show loading spinner while processing
+              onClick={handleSubmit}
             >
-              Advance Search
+              Search
             </Button>
-          </Group>
-        </Tabs.Panel>
+            <Group justify="end" mt="sm">
+              <Button
+                component={Link}
+                href={`/listing/${makesByType}s`}
+                rightSection={<BsArrowRight />}
+                variant="transparent"
+                px={0}
+                fw={500}
+                tt="uppercase"
+                color="#E90808"
+                ff="heading"
+              >
+                Advance Search
+              </Button>
+            </Group>
+          </Tabs.Panel>
 
-        <Tabs.Panel value="trucks" p="xs">
-          <Input
-            placeholder="Truck Make or Model"
-            mt="lg"
-            value={
-              selection?.make || selection?.model || selection?.variant
-                ? `${selection?.make || ""} ${selection?.model || ""} ${
-                    selection?.variant || ""
-                  }`.trim()
-                : undefined
-            }
-            onClick={openModal}
-          />
+          <Tabs.Panel value="trucks" p="xs">
+            <Input
+              placeholder="Truck Make or Model"
+              mt="lg"
+              value={
+                selection?.make || selection?.model || selection?.variant
+                  ? `${selection?.make || ""} ${selection?.model || ""} ${
+                      selection?.variant || ""
+                    }`.trim()
+                  : undefined
+              }
+              onClick={openModal}
+            />
 
-          <Autocomplete
-            label="Select your city"
-            placeholder="Enter Your Location"
-            data={cityOptions} // Dynamically populated city options
-            value={query}
-            onChange={handleInputChange} // Call handler on input change
-            withScrollArea={false}
-            styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
-            mt="md"
-          />
-          <Button
-            mt="lg"
-            fullWidth
-            size="md"
-            ff="heading"
-            tt="uppercase"
-            color="#E90808"
-            loading={loading} // Show loading spinner while processing
-            onClick={handleSubmit}
-          >
-            Search
-          </Button>
-          <Group justify="end" mt="sm">
+            <Autocomplete
+              label="Select your city"
+              placeholder="Enter Your Location"
+              data={cityOptions} // Dynamically populated city options
+              value={query}
+              onChange={handleInputChange} // Call handler on input change
+              withScrollArea={false}
+              styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }} // Add scroll to dropdown
+              mt="md"
+            />
             <Button
-              component={Link}
-              href={`/listing/${makesByType}s`}
-              rightSection={<BsArrowRight />}
-              variant="transparent"
-              px={0}
-              fw={500}
+              mt="lg"
+              fullWidth
+              size="md"
+              ff="heading"
               tt="uppercase"
               color="#E90808"
-              ff="heading"
+              loading={loading} // Show loading spinner while processing
+              onClick={handleSubmit}
             >
-              Advance Search
+              Search
             </Button>
-          </Group>
-        </Tabs.Panel>
-      </Tabs>
+            <Group justify="end" mt="sm">
+              <Button
+                component={Link}
+                href={`/listing/${makesByType}s`}
+                rightSection={<BsArrowRight />}
+                variant="transparent"
+                px={0}
+                fw={500}
+                tt="uppercase"
+                color="#E90808"
+                ff="heading"
+              >
+                Advance Search
+              </Button>
+            </Group>
+          </Tabs.Panel>
+        </Tabs>
 
       <CustomModel
         isOpen={isModalOpen}

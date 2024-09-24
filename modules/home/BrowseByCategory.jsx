@@ -24,7 +24,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2} lts={-0.5}>
                 Browse by{" "}
-                <Text span c="#E90808" inherit>
+                <Text span c="#E90808" inherit className="text-decoration-underline">
                   Make
                 </Text>
               </Title>
@@ -60,7 +60,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2} lts={-0.5}>
                 Browse by{" "}
-                <Text span c="#E90808" inherit>
+                <Text span c="#E90808" inherit className="text-decoration-underline">
                   Body
                 </Text>
               </Title>

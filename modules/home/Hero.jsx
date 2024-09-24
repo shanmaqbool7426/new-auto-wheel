@@ -1,238 +1,145 @@
 "use client";
 import React, { useState } from "react";
 import HeroTabs from "@/components/hero-tabs";
-import { BsArrowRight } from "react-icons/bs";
-import { Poppins } from "next/font/google";
-import AccountTypeModal from "../auth/AccountType.jsx";
-import SocialsLogin from "../auth/SocialsLogins.jsx";
-// import SignIn from "../auth/SignIn.tsx"
-import SignUp from "../auth/SignUp.jsx";
-import { Carousel }  from "@mantine/carousel";
-// import Otp from "../auth/Otp.jsx"
 import {
-  useMantineColorScheme,
-  Button,
-  Group,
   Card,
   Title,
   Text,
   Box,
   rem,
-  Flex,
-  Center,
   List,
-  Tabs,
+  Transition,
+  Image,
 } from "@mantine/core";
-import Link from "next/link";
-
-const poppin = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
-
-
 
 const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState(0); // Current image index
+  const [slideDirection, setSlideDirection] = useState("right"); // Direction of
+
+  // Array of background images
+  const images = [
+    { src: "/hero-banner.png", title: "Hyundai Car Review" },
+    { src: "https://placehold.co/1920x550", title: "2023 Safari Review" },
+    {
+      src: "https://placehold.co/1920x550/green/white",
+      title: "2023 Tesla Review",
+    },
+    {
+      src: "https://placehold.co/1920x550/orange/white",
+      title: "2023 Audi Review",
+    },
+    {
+      src: "https://placehold.co/1920x550/purple/white",
+      title: "2023 BMW Review",
+    },
+  ];
+  // Function to change the background image and set slide direction
+  const changeSlide = (newIndex) => {
+    if (newIndex > currentIndex) {
+      setSlideDirection("right"); // Slide to the right
+    } else {
+      setSlideDirection("left"); // Slide to the left
+    }
+    setCurrentIndex(newIndex); // Update the current index
+  };
+
   return (
     <>
+      {/* className="hero-banner" */}
       <Box pt={rem(60)}>
-        <Box className="container-fluid">
-          <Carousel withIndicators height={600} loop>
-            <Carousel.Slide
-              style={{
-                backgroundImage: 'url("/hero-banner.png")',
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <Box className="row" py="xl">
-                <Box className="col-lg-4 pe-5">
-                  <Card shadow="xl" padding={0} radius="md">
-                    <Box p="md" px="lg" ta="center" className="border-bottom">
-                      <Title order={4} tt="uppercase">
-                        Find your Right{" "}
-                        <Text span inherit className="text-primary">
-                          Car
-                        </Text>
-                      </Title>
-                    </Box>
-                    <Box p="md" px="lg">
-                      <HeroTabs />
-                    </Box>
-                  </Card>
-                </Box>
-                <div className="col-lg-8">
-                  <Flex
-                    direction="column"
-                    justify="space-around"
-                    align="flex-start"
-                    h="100%"
+        <Box className="hero-banner" pos="relative">
+          {/* Transition for sliding effect */}
+          {/* <Box className="hero-banner__slider" h={550} pos="relative">
+            {images.map((image, index) => (
+              <Transition
+                key={image.src}
+                mounted={index === currentIndex} // Only mount the currently active slide
+                transition={`slide-${slideDirection}`}
+                duration={500} // Adjust duration for smooth slide
+                timingFunction="ease"
+              >
+                {(styles) => (
+                  <Box
+                    style={{ ...styles, position: "absolute", width: "100%" }} // Position the slides absolutely for proper sliding
                   >
-                    <Box>
-                      <Title size={rem(50)} mb="xl" color="#fff">
-                        Hyundai Car Price in <br /> Pakistan 2023
-                      </Title>
-                      <Button
-                        rightSection={<BsArrowRight />}
-                        color="#E90808"
-                        variant="filled"
-                        fw={500}
-                        size="lg"
-                        tt="uppercase"
-                        ff="heading"
-                      >
-                        Read More
-                      </Button>
-                    </Box>
-                    <List
-                      className="car-lists-slider"
-                      listStyleType="none"
-                      size="sm"
-                      display="flex"
-                      style={{ color: "#fff" }}
-                    >
-                      <List.Item className="active">Hyundai Car Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                    </List>
-                  </Flex>
-                </div>
+                    <Image src={image.src} h={550} />
+                  </Box>
+                )}
+              </Transition>
+            ))}
+          </Box> */}
+          <Box
+            className="hero-banner__slider"
+            h={550}
+            style={{
+              display: "flex",
+              transition: "transform 0.5s ease-in-out",
+              transform: `translateX(-${currentIndex * 100}%)`, // Slide effect
+            }}
+          >
+            {images.map((image, index) => (
+              <Box key={index} miw="100%">
+                <Image src={image.src} h={550} />
               </Box>
-            </Carousel.Slide>
-            <Carousel.Slide
-              style={{
-                backgroundImage: 'url("/hero-banner.png")',
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <Box className="row" py="xl">
-                <Box className="col-lg-4 pe-5">
-                  <Card shadow="xl" padding={0} radius="md">
-                    <Box p="md" px="lg" ta="center" className="border-bottom">
-                      <Title order={4} tt="uppercase">
-                        Find your Right{" "}
-                        <Text span inherit className="text-primary">
-                          Car
-                        </Text>
-                      </Title>
-                    </Box>
-                    <Box p="md" px="lg">
-                      <HeroTabs />
-                    </Box>
-                  </Card>
-                </Box>
-                <div className="col-lg-8">
-                  <Flex
-                    direction="column"
-                    justify="space-around"
-                    align="flex-start"
-                    h="100%"
-                  >
-                    <Box>
-                      <Title size={rem(50)} mb="xl" color="#fff">
-                        Hyundai Car Price in <br /> Pakistan 2023
-                      </Title>
-                      <Button
-                        rightSection={<BsArrowRight />}
-                        color="#E90808"
-                        variant="filled"
-                        fw={500}
-                        size="lg"
-                        tt="uppercase"
-                        ff="heading"
-                      >
-                        Read More
-                      </Button>
-                    </Box>
-                    <List
-                      className="car-lists-slider"
-                      listStyleType="none"
-                      size="sm"
-                      display="flex"
-                      style={{ color: "#fff" }}
-                    >
-                      <List.Item className="active">Hyundai Car Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                    </List>
-                  </Flex>
-                </div>
-              </Box>
-            </Carousel.Slide>
-            <Carousel.Slide
-              style={{
-                backgroundImage: 'url("/hero-banner.png")',
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <Box className="row" py="xl">
-                <Box className="col-lg-4 pe-5">
-                  <Card shadow="xl" padding={0} radius="md">
-                    <Box p="md" px="lg" ta="center" className="border-bottom">
-                      <Title order={4} tt="uppercase">
-                        Find your Right{" "}
-                        <Text span inherit className="text-primary">
-                          Car
-                        </Text>
-                      </Title>
-                    </Box>
-                    <Box p="md" px="lg">
-                      <HeroTabs />
-                    </Box>
-                  </Card>
-                </Box>
-                <div className="col-lg-8">
-                  <Flex
-                    direction="column"
-                    justify="space-around"
-                    align="flex-start"
-                    h="100%"
-                  >
-                    <Box>
-                      <Title size={rem(50)} mb="xl" color="#fff">
-                        Hyundai Car Price in <br /> Pakistan 2023
-                      </Title>
-                      <Button
-                        rightSection={<BsArrowRight />}
-                        color="#E90808"
-                        variant="filled"
-                        fw={500}
-                        size="lg"
-                        tt="uppercase"
-                        ff="heading"
-                      >
-                        Read More
-                      </Button>
-                    </Box>
-                    <List
-                      className="car-lists-slider"
-                      listStyleType="none"
-                      size="sm"
-                      display="flex"
-                      style={{ color: "#fff" }}
-                    >
-                      <List.Item className="active">Hyundai Car Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                      <List.Item>2023 Safari Review</List.Item>
-                    </List>
-                  </Flex>
-                </div>
-              </Box>
-            </Carousel.Slide>
+            ))}
+          </Box>
 
-            {/* Add more <Carousel.Slide> components if needed */}
-          </Carousel>
+          <Box className="container" pos="absolute" inset={0} py={rem(50)}>
+            <Box className="row">
+              <Box className="col-lg-4 pe-5">
+                <Card shadow="xl" padding={0} radius="md">
+                  <Box p="md" px="lg" ta="center" className="border-bottom">
+                    <Title order={4} tt="uppercase">
+                      Find your Right{" "}
+                      <Text span inherit className="text-primary">
+                        Car
+                      </Text>
+                    </Title>
+                  </Box>
+                  <Box p="md" px="lg">
+                    <HeroTabs />
+                  </Box>
+                </Card>
+              </Box>
+              <Box className="col-lg-8" pos="relative">
+                {/* <Box>
+                      <Title size={rem(50)} mb="xl" color="#fff">
+                        Hyundai Car Price in <br /> Pakistan 2023
+                      </Title>
+                      <Button
+                        rightSection={<BsArrowRight />}
+                        color="#E90808"
+                        variant="filled"
+                        fw={500}
+                        size="lg"
+                        tt="uppercase"
+                        ff="heading"
+                      >
+                        Read More
+                      </Button>
+                    </Box> */}
+                <List
+                  pos="absolute"
+                  bottom={0}
+                  className="car-lists-slider"
+                  listStyleType="none"
+                  size="sm"
+                  display="flex"
+                  style={{ color: "#fff", cursor: "pointer" }} // Make list items clickable
+                >
+                  {images.map((image, index) => (
+                    <List.Item
+                      key={index}
+                      className={currentIndex === index ? "active" : ""}
+                      onClick={() => changeSlide(index)} // Switch to corresponding slide
+                    >
+                      {image.title}
+                    </List.Item>
+                  ))}
+                </List>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </>
@@ -240,7 +147,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
-
-
-
