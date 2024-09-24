@@ -88,9 +88,9 @@ const Hero = () => {
             <Box className="row">
               <Box className="col-lg-4 pe-5">
                 <Card shadow="xl" padding={0} radius="md">
-                  <Box p="md" px="lg" ta="center" className="border-bottom">
-                    <Title order={4} tt="uppercase">
-                      Find your Right{" "}
+                  <Box p="md" px="lg" ta="left" className="border-bottom">
+                    <Title order={4}>
+                      Find your right{" "}
                       <Text span inherit className="text-primary">
                         Car
                       </Text>

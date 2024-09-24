@@ -89,7 +89,7 @@ const CustomModel = ({
       opened={isOpen}
       onClose={closeModal}
       withCloseButton={false}
-      size="45%"
+      size="60%"
       padding={0}
       closeOnClickOutside={false} // Prevent modal from closing on outside click
     >

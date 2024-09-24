@@ -37,11 +37,15 @@ const BrowseByCategory = ({ makes, bodies }) => {
 
             <Box className="cat-by-brand">
               <Box className="row">
-                {makes?.data?.map((item, index) => {
+                {makes?.data?.slice(0, 8).map((item, index) => {
                   return (
                     <Box className="col-sm-3 text-center" key={index} mb="lg">
                       <Anchor href={`/new/car/${item.name}`} td="none">
-                        <NextImage width={70} height={50} className="" mx="auto" src={item.companyImage} />
+                        <NextImage
+                          width={70}
+                          height={50}
+                          src={item.companyImage}
+                        />
                         <Title order={6} lts={-0.4} mt="sm" fw={600}>
                           {item.name}
                         </Title>
@@ -76,7 +80,12 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`}
                         td="none"
                       >
-                        <NextImage width={108} height={50} mx="auto" src={body.bodyImage} />
+                        <NextImage
+                          width={108}
+                          height={50}
+                          mx="auto"
+                          src={body.bodyImage}
+                        />
                         <Title order={6} lts={-0.4} mt="sm" fw={600}>
                           {body.name}
                         </Title>

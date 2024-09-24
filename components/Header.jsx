@@ -289,12 +289,12 @@ const Header = () => {
   if (status === "loading") {
     return (
       <Box component="header" className="header">
-        <Container h="100%" size={1440}>
+        <Box className="container" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
             <Loader size="sm" />
           </Group>
-        </Container>
+        </Box>
       </Box>
     );
   }
@@ -302,7 +302,7 @@ const Header = () => {
   return (
     <>
       <Box component="header" className="header">
-        <Container h="100%" size={1440}>
+        <Box className="container" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
             <Group h="100%" gap={0} visibleFrom="md">
@@ -524,7 +524,7 @@ const Header = () => {
               hiddenFrom="md"
             />
           </Group>
-        </Container>
+        </Box>
       </Box>
 
       <Drawer
@@ -560,13 +560,31 @@ const Header = () => {
             Bikes
           </Button>
           <Collapse in={linksOpened}>{firstColLinks}</Collapse>
-          <Button component={Link} variant="transparent" href="#" className="link" my="sm">
+          <Button
+            component={Link}
+            variant="transparent"
+            href="#"
+            className="link"
+            my="sm"
+          >
             Truck
           </Button>
-          <Button component={Link} variant="transparent" href="#" className="link" my="sm">
+          <Button
+            component={Link}
+            variant="transparent"
+            href="#"
+            className="link"
+            my="sm"
+          >
             Blog
           </Button>
-          <Button component={Link} variant="transparent" href="#" className="link" my="sm">
+          <Button
+            component={Link}
+            variant="transparent"
+            href="#"
+            className="link"
+            my="sm"
+          >
             Videos
           </Button>
 
