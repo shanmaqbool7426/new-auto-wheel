@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Anchor,
   Box,
@@ -20,8 +20,44 @@ import { FaLocationDot } from "react-icons/fa6";
 import { PhoneIcon } from "@/components/Icons";
 import Link from "next/link";
 import QuickLinks from "@/components/QuickLinks";
+import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
 
 const CarsDealerShip = () => {
+  const [dealers, setDealers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [showNumbers, setShowNumbers] = useState({});
+  const [selectedType, setSelectedType] = useState("");
+
+  const fetchDealers = async () => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/user/get-dealers?page=${page}&limit=${limit}&type=${selectedType}`
+      );
+      const data = await response.json();
+      setDealers(data.data.dealers);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.error("Error fetching dealers:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDealers();
+  }, [page, limit, selectedType]);
+
+  const handleShowNumber = (index) => {
+    setShowNumbers((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <>
       <Box component="section" className="car-specification">
@@ -48,21 +84,16 @@ const CarsDealerShip = () => {
                     radius="sm"
                   >
                     <Title order={3} mb="lg">
-                      Browse Reviews For Your Perfect New Cardd
+                      Browse Reviews For Your Perfect New Car
                     </Title>
                     <Box className="row mb-2">
                       <Box className="col-md-3">
                         <Select
                           size="md"
                           placeholder="Choose Type"
-                          data={["React", "Angular", "Vue", "Svelte"]}
-                        />
-                      </Box>
-                      <Box className="col-md-3">
-                        <Select
-                          size="md"
-                          placeholder="Choose Make"
-                          data={["React", "Angular", "Vue", "Svelte"]}
+                          data={["Car", "Bike", "Truck"]}
+                          value={selectedType}
+                          onChange={setSelectedType}
                         />
                       </Box>
                       <Box className="col-md-3">
@@ -127,65 +158,69 @@ const CarsDealerShip = () => {
                 verticalSpacing="sm"
               >
                 <Table.Tbody>
-                  {[1, 2, 3, 4, 5, 6].map((_, index) => {
-                    return (
-                      <Table.Tr key={index} className="border-bottom">
-                        <Table.Td w="25%">
-                          <Flex gap="xs">
-                            <Image
-                              src="/user-profile.png"
-                              h={50}
-                              w={50}
-                              radius="sm"
-                              className="img-fluid"
-                            />
-                            <Stack gap={0} align="flex-start">
-                              <Flex align="center">
-                                <Text fw="bold" size="lg" mr="sm">
-                                  John Adam
-                                </Text>
-                                <Rating defaultValue={1} count={1} size="sm" />
-                                (3/5)
-                              </Flex>
-                              Reviews (50)
-                            </Stack>
-                          </Flex>
-                        </Table.Td>
-                        <Table.Td w="25%" align="center">
-                          <Text size="md">
-                            No of Ads <strong>(5)</strong>
+                  {dealers?.map((dealer, index) => (
+                    <Table.Tr key={index} className="border-bottom">
+                      <Table.Td w="25%">
+                        <Flex gap="xs">
+                          <Image
+                            src="/user-profile.png"
+                            h={50}
+                            w={50}
+                            radius="sm"
+                            className="img-fluid"
+                          />
+                          <Stack gap={0} align="flex-start">
+                            <Flex align="center">
+                              <Text fw="bold" size="lg" mr="sm">
+                                {dealer.fullName}
+                              </Text>
+                              <Rating defaultValue={dealer.rating} count={5} size="sm" />
+                              ({dealer.rating}/5)
+                            </Flex>
+                            Reviews ({dealer.reviewCount})
+                          </Stack>
+                        </Flex>
+                      </Table.Td>
+                      <Table.Td w="25%" align="center">
+                        <Text size="md">
+                          No of Ads <strong>({dealer.adsCount})</strong>
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w="25%" align="center">
+                        <Flex justify="center" align="center" gap={5}>
+                          <PhoneIcon />
+                          <Text size="lg" component="strong" fw="bold">
+                            {showNumbers[index] ? dealer.phone : `(${dealer.phone.slice(0, 2)}****)`}
                           </Text>
-                        </Table.Td>
-                        <Table.Td w="25%" align="center">
-                          <Flex justify="center" align="center" gap={5}>
-                            <PhoneIcon />
-                            <Text size="lg" component="strong" fw="bold">
-                              (71*******)
-                            </Text>
-                            <Anchor
-                              style={{ alignSelf: "flex-start" }}
-                              component={Link}
-                              href="#"
-                              underline="always"
-                              c="dimmed"
-                              size="sm"
-                            >
-                              Show Number
-                            </Anchor>
-                          </Flex>
-                        </Table.Td>
-                        <Table.Td w="25%" align="center">
-                          <Text fw={600}>
-                            <FaLocationDot color="#E90808" className="me-2" />
-                            Karlsruhe, Germany
-                          </Text>
-                        </Table.Td>
-                      </Table.Tr>
-                    );
-                  })}
+                          <Anchor
+                            style={{ alignSelf: "flex-start" }}
+                            component="button"
+                            onClick={() => handleShowNumber(index)}
+                            underline="always"
+                            c="dimmed"
+                            size="sm"
+                          >
+                            {showNumbers[index] ? "Hide Number" : "Show Number"}
+                          </Anchor>
+                        </Flex>
+                      </Table.Td>
+                      <Table.Td w="25%" align="center">
+                        <Text fw={600}>
+                          <FaLocationDot color="#E90808" className="me-2" />
+                          {dealer.location ?? "Not Available"}
+                        </Text>
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
                 </Table.Tbody>
               </Table>
-              <Pagination color="#E90808" total={10} my="lg" />
+              <Pagination
+                mt="sm"
+                color="#E90808"
+                total={totalPages}
+                onChange={setPage}
+                value={page}
+              />
             </Box>
           </Box>
 
