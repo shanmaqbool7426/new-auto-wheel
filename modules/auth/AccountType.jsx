@@ -34,7 +34,7 @@ const AccountTypeModal = ({ opened, onClose }) => {
         onClose={onClose}
         withCloseButton={false}
         centered
-        size="35%"
+        size="xl"
         padding="xl"
       >
         <Title order={3} fw={600} tt="uppercase" ta="center" pb="lg">
