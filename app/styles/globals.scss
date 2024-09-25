@@ -55,17 +55,17 @@ body {
   border-bottom: 2px solid #f8f9fa;
 }
 
-// @media screen and (min-width: 1400px) {
+@media screen and (min-width: 1400px) {
 
-//   .container-xxl,
-//   .container-xl,
-//   .container-lg,
-//   .container-md,
-//   .container-sm,
-//   .container {
-//     max-width: 1440px !important;
-//   }
-// }
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 1440px !important;
+  }
+}
 
 footer ul>li a {
   color: #EBEBEB;
@@ -73,7 +73,7 @@ footer ul>li a {
 
 .root {
   &[data-variant='danger'] {
-    background-color: var(--mantine-color-red-9);
+    background-color: $primary;
     color           : var(--mantine-color-red-0);
   }
 
@@ -108,7 +108,7 @@ footer ul>li a {
 .image-gallery-right-nav .image-gallery-svg {
   height       : 30px !important;
   width        : 30px !important;
-  background   : red;
+  background   : $primary;
   border-radius: 50% !important;
 }
 
