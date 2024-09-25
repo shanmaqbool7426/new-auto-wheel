@@ -16,7 +16,6 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
-import { IconXboxX } from "@tabler/icons-react";
 
 const CustomModel = ({
   isOpen,
@@ -26,27 +25,57 @@ const CustomModel = ({
   fetchMakesByTypeData,
   hide = false,
 }) => {
-  const makes = [];
-  const models = {};
-  const variants = {};
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState({});
+  const [variants, setVariants] = useState({});
+  const [activeTab, setActiveTab] = useState("make"); // State to track active tab
 
-  fetchMakesByTypeData?.data?.forEach((make) => {
-    makes.push(make.name);
-    models[make.name] = [];
-    make.models.forEach((model) => {
-      models[make.name].push(model.name);
-      variants[model.name] = model.variants;
+  useEffect(() => {
+    const fetchedMakes = [];
+    const fetchedModels = {};
+    const fetchedVariants = {};
+
+    fetchMakesByTypeData?.data?.forEach((make) => {
+      fetchedMakes.push(make.name);
+      fetchedModels[make.name] = [];
+      make.models.forEach((model) => {
+        fetchedModels[make.name].push(model.name);
+        fetchedVariants[model.name] = model.variants;
+      });
     });
-  });
 
+    setMakes(fetchedMakes);
+    setModels(fetchedModels);
+    setVariants(fetchedVariants);
+  }, [fetchMakesByTypeData]);
 
-  console.log(hide,"hinding")
+  const [makeSearch, setMakeSearch] = useState("");
+  const [modelSearch, setModelSearch] = useState("");
+  const [variantSearch, setVariantSearch] = useState("");
+
+  const filteredMakes = makes.filter((make) =>
+    make.toLowerCase().includes(makeSearch.toLowerCase())
+  );
+
+  const filteredModels = selection.make && models[selection.make]
+    ? models[selection.make].filter((model) =>
+        model.toLowerCase().includes(modelSearch.toLowerCase())
+      )
+    : [];
+
+  const filteredVariants = selection.model && variants[selection.model]
+    ? variants[selection.model].filter((variant) =>
+        variant.toLowerCase().includes(variantSearch.toLowerCase())
+      )
+    : [];
+
   const [opened, { open, close }] = useDisclosure(isOpen);
   const handleSelection = (type, value) => {
     setSelection((prev) => {
       const updatedSelection = { ...prev, [type]: value };
 
       if (type === "make") {
+        setActiveTab("model"); // Set active tab to model
         return {
           ...updatedSelection,
           model: "", // Reset model and variant
@@ -55,7 +84,7 @@ const CustomModel = ({
       }
 
       if (type === "model") {
-        
+        setActiveTab("variant"); // Set active tab to variant
         hide && closeModal();
         return {
           ...updatedSelection,
@@ -100,13 +129,12 @@ const CustomModel = ({
       >
         <Center>
           <Button
-            className={`tab-button ${
-              !selection.model && !selection.variant ? "active" : ""
-            }`}
-            color="#E90808"
+            className={`tab-button ${activeTab === "make" ? "active" : ""}`}
+            color={activeTab === "make" ? "#E90808" : "#878787"}
             size="xs"
             mr="md"
             onClick={() => {
+              setActiveTab("make");
               if (selection.make) {
                 setSelection((prev) => ({ ...prev, make: "" }));
               }
@@ -115,16 +143,15 @@ const CustomModel = ({
             Make
           </Button>
           <Button
-            className={`tab-button ${
-              selection.make && !selection.model ? "active" : ""
-            }`}
+            className={`tab-button ${activeTab === "model" ? "active" : ""}`}
             variant="subtle"
-            bg="#F3F3F3"
-            color="#878787"
+            bg={activeTab === "model" ? "#E90808" : "#F3F3F3"}
+            color={activeTab === "model" ? "white" : "#878787"}
             size="xs"
             mr="md"
             autoContrast
             onClick={() => {
+              setActiveTab("model");
               if (selection.model) {
                 setSelection((prev) => ({ ...prev, model: "" }));
               }
@@ -134,14 +161,15 @@ const CustomModel = ({
           </Button>
           {!hide && ( // Conditionally render Variants tab button
             <Button
-              className={`tab-button ${selection.model ? "active" : ""}`}
+              className={`tab-button ${activeTab === "variant" ? "active" : ""}`}
               variant="subtle"
-              bg="#F3F3F3"
-              color="#878787"
+              bg={activeTab === "variant" ? "#E90808" : "#F3F3F3"}
+              color={activeTab === "variant" ? "white" : "#878787"}
               size="xs"
               mr="md"
               autoContrast
               onClick={() => {
+                setActiveTab("variant");
                 if (selection.variant) {
                   setSelection((prev) => ({ ...prev, variant: "" }));
                 }
@@ -156,7 +184,12 @@ const CustomModel = ({
       <Grid gutter={0}>
         <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
           {/* Make Section */}
-          <Input placeholder="Search by Car Make" leftSection={<BsSearch />} />
+          <Input
+            placeholder="Search by Car Make"
+            leftSection={<BsSearch />}
+            value={makeSearch}
+            onChange={(e) => setMakeSearch(e.target.value)}
+          />
           <Title order={5} my="sm" fw={600}>
             Popular
           </Title>
@@ -168,7 +201,7 @@ const CustomModel = ({
             scrollbars="y"
           >
             <List className="search-dropdown-lists" listStyleType="none">
-              {makes.map((make) => (
+              {filteredMakes.map((make) => (
                 <List.Item
                   key={make}
                   className={`search-dropdown-lists__item ${
@@ -179,7 +212,10 @@ const CustomModel = ({
                       src={`/megamenu/search-menu/${make.toLowerCase()}-sm.svg`}
                     />
                   }
-                  onClick={() => handleSelection("make", make)}
+                  onClick={() => {
+                    handleSelection("make", make);
+                    setActiveTab("model"); // Set active tab to model
+                  }}
                 >
                   {make} <BsArrowRight />
                 </List.Item>
@@ -189,7 +225,12 @@ const CustomModel = ({
         </Grid.Col>
         <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
           {/* Model Section */}
-          <Input placeholder="Search by Car Model" leftSection={<BsSearch />} />
+          <Input
+            placeholder="Search by Car Model"
+            leftSection={<BsSearch />}
+            value={modelSearch}
+            onChange={(e) => setModelSearch(e.target.value)}
+          />
           <Title order={5} my="sm" fw={600}>
             All Models
           </Title>
@@ -202,13 +243,16 @@ const CustomModel = ({
           >
             <List className="search-dropdown-lists" listStyleType="none">
               {selection.make &&
-                models[selection.make]?.map((model) => (
+                filteredModels.map((model) => (
                   <List.Item
                     key={model}
                     className={`search-dropdown-lists__item ${
                       selection.model === model ? "selected" : ""
                     }`}
-                    onClick={() => handleSelection("model", model)}
+                    onClick={() => {
+                      handleSelection("model", model);
+                      setActiveTab("variant"); // Set active tab to variant
+                    }}
                   >
                     {model} <BsArrowRight />
                   </List.Item>
@@ -221,6 +265,8 @@ const CustomModel = ({
             <Input
               placeholder="Search by Car Variant"
               leftSection={<BsSearch />}
+              value={variantSearch}
+              onChange={(e) => setVariantSearch(e.target.value)}
             />
             <Title order={5} my="sm" fw={600}>
               Variants
@@ -233,13 +279,16 @@ const CustomModel = ({
             >
               <List className="search-dropdown-lists" listStyleType="none">
                 {selection.model &&
-                  variants[selection.model]?.map((variant) => (
+                  filteredVariants.map((variant) => (
                     <List.Item
                       key={variant}
                       className={`search-dropdown-lists__item ${
                         selection.variant === variant ? "selected" : ""
                       }`}
-                      onClick={() => handleSelection("variant", variant)}
+                      onClick={() => {
+                        handleSelection("variant", variant);
+                        setActiveTab("variant"); // Set active tab to variant
+                      }}
                     >
                       {variant} <BsArrowRight />
                     </List.Item>
@@ -259,9 +308,6 @@ const CustomModel = ({
         ta="right"
       >
         <Button
-          // className={`tab-button ${
-          //   !selection.model && !selection.variant ? "active" : ""
-          // }`}
           color="#E90808"
           rightSection={<BsArrowRight />}
           onClick={closeModal}

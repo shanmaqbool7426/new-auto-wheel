@@ -15,7 +15,7 @@ import {
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // Current image index
   const [slideDirection, setSlideDirection] = useState("right"); // Direction of
-
+const [type, setType] = useState('car')
   // Array of background images
   const images = [
     { src: "/hero-banner.png", title: "Hyundai Car Review" },
@@ -91,13 +91,13 @@ const Hero = () => {
                   <Box p="md" px="lg" ta="left" className="border-bottom">
                     <Title order={4}>
                       Find your right{" "}
-                      <Text span inherit className="text-primary">
-                        Car
-                      </Text>
+                      <Text span inherit className="text-primary" tt="capitalize">
+                        {type.toLowerCase()}
+                      </Text> 
                     </Title>
                   </Box>
                   <Box p="md" px="lg">
-                    <HeroTabs />
+                    <HeroTabs setType={setType}/>
                   </Box>
                 </Card>
               </Box>

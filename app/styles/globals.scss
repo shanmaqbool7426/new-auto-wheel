@@ -117,3 +117,9 @@ a {
   text-decoration: none;
   transition     : color 0.3s ease;
 }
+
+
+.tab-button:hover {
+  background-color: #E90808; /* Change to the desired hover color */
+  color: white; /* Change text color if needed */
+}
