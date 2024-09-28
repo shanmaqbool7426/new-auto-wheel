@@ -23,8 +23,8 @@ import BrowseBlogs from "@/modules/home/BrowseBlogs";
 import { Carousel } from "@mantine/carousel";
 import Link from "next/link";
 import FAQ from "@/components/Faq";
-import PopularNewCars from "../../components/sections/PopularNewCars";
-import UpcomingCars from "../../components/sections/UpcomingCars";
+import PopularNewCars from "@/components/sections/PopularNewCars";
+import UpcomingCars from "@/components/sections/UpcomingCars";
 
 const NewCarsDetailPage = () => {
   const tagsArray = [

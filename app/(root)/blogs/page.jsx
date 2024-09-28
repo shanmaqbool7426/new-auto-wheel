@@ -1,5 +1,5 @@
 import React, {Suspense}from "react";
-import BlogModule from "../../modules/blogs"; 
+import BlogModule from "@/modules/blogs"; 
 export default function Blog({ params, searchParams }) {
     return (
       <Suspense fallback={<div>Loading...</div>}>

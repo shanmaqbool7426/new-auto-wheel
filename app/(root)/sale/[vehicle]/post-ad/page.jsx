@@ -37,13 +37,13 @@ import ImageUploader from "@/components/ui/ImageUploader";
 import { IconCircleCheck } from "@tabler/icons-react";
 import { HiDocumentAdd } from "react-icons/hi";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { cities, colorOptions, registrationOptions, suburbs, carTags } from "../../../../mock-data/mock-array"
+import { cities, colorOptions, registrationOptions, suburbs, carTags } from "@/mock-data/mock-array"
 import CustomModel from "@/constants/CustomModel"
 import { postDataToServer } from "@/actions/index"
 import { fetchMakesByType } from "@/services/vehicles";
 import { submitFormData } from "@/services/forms";
-import { API_ENDPOINTS } from "../../../../constants/api-endpoints";
-import { useRouter } from "next/router";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { useRouter } from 'next/navigation';
 // import { cities } from "@/constants/vehicle-constants"; 
 
 
