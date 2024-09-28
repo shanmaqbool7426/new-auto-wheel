@@ -1,6 +1,6 @@
 "use client";
 import { Inter, Poppins, Roboto } from "next/font/google";
-import "./styles/globals.scss";
+import "@/styles/globals.scss";
 import '@mantine/notifications/styles.css';
 
 import NextTopLoader from "nextjs-toploader";
@@ -68,9 +68,9 @@ export default function RootLayout({ children }) {
           <MantineProvider theme={theme}>
                   <Notifications />
 
-            <Header />
+            {/* <Header /> */}
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </MantineProvider>
         </SessionProvider>
       </body>

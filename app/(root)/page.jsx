@@ -1,5 +1,5 @@
 
-import HomeModule from "../modules/home/index";
+import HomeModule from "@/modules/home/index";
 export default function Home() {
   return (
     <>

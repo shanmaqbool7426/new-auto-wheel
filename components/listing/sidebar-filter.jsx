@@ -1,7 +1,6 @@
 "use client";
 import React, { Fragment, useState, useEffect, useRef } from "react";
 // import classes from "@/app/styles/theme-css/Select.module.css";
-import classes from "@/app/styles/theme-css/Checkbox.module.css";
 import { ResetFiltersIcon, SearchWithCar } from "@/components/Icons";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import {
