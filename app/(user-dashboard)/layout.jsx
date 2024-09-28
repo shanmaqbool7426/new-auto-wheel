@@ -1,13 +1,10 @@
-export const metadata = {
-    title: "Auto Wheels | BLogs",
-    description: "Auto Wheels App",
-};
+import Layout from '@/components/user-dashboard/Layout'
 
 export default function UserDashboardLayout({ children }) {
 
-    return <>
-        <h1>Header</h1>
-        {children}
-        <h1>Footer</h1>
-    </>;
+	return (
+		<Layout>
+			{children}
+		</Layout>
+	)
 }
