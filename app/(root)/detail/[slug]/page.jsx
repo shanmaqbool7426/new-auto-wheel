@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import VehicleDetailModule from "@/modules/vehicle-detail";
 import { fetchVehiclDetail } from "@/services/vehicles";
-import { API_ENDPOINTS } from "../../../constants/api-endpoints";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 
 const VehicleDetailPage = async ({ params }) => {
   const slug = params?.slug ?? "#";

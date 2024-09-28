@@ -47,7 +47,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import {formatPrice, getTimeAgo} from "@/utils/index" 
 import NextImage from "next/image";
 import { FaCalendarDays, FaClock, FaLocationDot } from "react-icons/fa6";
-import { API_ENDPOINTS } from "../../constants/api-endpoints";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
   const messageRef = useRef(null);
   const scrollToMessage = () => {
