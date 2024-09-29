@@ -9,8 +9,6 @@ import { SessionProvider } from "next-auth/react";
 
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Script from "next/script";
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
@@ -41,7 +39,7 @@ const theme = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <html lang="en">
       <head>
@@ -66,11 +64,10 @@ export default function RootLayout({ children }) {
         />
         <SessionProvider>
           <MantineProvider theme={theme}>
-                  <Notifications />
+            <Notifications />
 
-            {/* <Header /> */}
             {children}
-            {/* <Footer /> */}
+
           </MantineProvider>
         </SessionProvider>
       </body>

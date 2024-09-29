@@ -1,9 +1,7 @@
 import React from 'react'
 
-const UserProfile = () => {
+export default function DashboardPage() {
   return (
-    <div>UserProfile</div>
+    <div>DashboardPage</div>
   )
 }
-
-export default UserProfile

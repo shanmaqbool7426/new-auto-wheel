@@ -1,0 +1,80 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.searchwrapper {
+  flex: 1;
+}
+
+.search {
+  max-width: 314px;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.action {
+  max-width: 122px;
+}
+
+.actionLg {
+  max-width: 180px;
+}
+
+.tableTitle {
+  display: flex;
+  align-items: center;
+}
+
+.tableTitleImage {
+  width: 44px;
+  height: 36px;
+  background-color: #D9D9D9;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.tableTitleText {
+  flex: 1;
+}
+
+.tableTitleTitle {
+  color: #1B84FF;
+  line-height: 1;
+}
+
+.tableTitleModal {
+  line-height: 1;
+  margin-top: 7px;
+}
+
+.createdDate {
+  line-height: 1;
+}
+
+.createdTime {
+  color: #919191;
+  font-weight: 400;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.actionButton,
+.actionButton:hover {
+  background-color: transparent;
+  color: #1B84FF;
+}
+
+.centerAlign {
+  justify-content: center;
+  text-align: center;
+}
