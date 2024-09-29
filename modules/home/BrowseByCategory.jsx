@@ -43,7 +43,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       <Anchor href={`/new/car/${item.name}`} td="none">
                         <NextImage
                           width={70}
-                          height={50}
+                          height={60}
                           src={item.companyImage}
                         />
                         <Title order={6} lts={-0.4} mt="sm" fw={600}>
