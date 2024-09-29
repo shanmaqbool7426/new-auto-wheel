@@ -111,7 +111,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
 
 export const companies = [
   {
-    id: "6f9sd34969a0f1",
+    id: "111",
     title: { title: "Stock ID 24563", image: "/cars/car-sm.png", modal: "2016 Ford Escape" },
     createdDate: new Date(),
     type: "Car",
@@ -121,7 +121,7 @@ export const companies = [
     status: 'Active',
   },
   {
-    id: "6f9349906dfds9a0f1",
+    id: "112",
     title: { title: "Stock ID 24563", image: "/cars/car-sm.png", modal: "2016 Ford Escape" },
     createdDate: new Date(),
     type: "Car",
@@ -131,7 +131,7 @@ export const companies = [
     status: 'Inactive',
   },
   {
-    id: "6f934990fdf69a0f1",
+    id: "113",
     title: { title: "Stock ID 24563", image: "/cars/car-sm.png", modal: "2016 Ford Escape" },
     createdDate: new Date(),
     type: "Car",
