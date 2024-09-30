@@ -7,6 +7,7 @@ import { Box } from '@mantine/core';
 import classes from './Inventory.module.css';
 import { getColumns, companies } from './data';
 import useInventory from './useInventory';
+import RowDetails from './RowDetails';
 
 export default function Inventory() {
   const {
@@ -83,6 +84,13 @@ export default function Inventory() {
         <DataTable
           columns={columns}
           records={companies || []}
+          rowExpansion={{
+            content: ({ record }) => (
+              <>
+                <RowDetails record={record} />
+              </>
+            ),
+          }}
         />
       </Box>
     </>

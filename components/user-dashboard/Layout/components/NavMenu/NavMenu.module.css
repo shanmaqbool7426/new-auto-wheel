@@ -1,0 +1,31 @@
+.list {
+  list-style: none;
+  padding: 24px 0;
+  margin: 0;
+}
+
+.listItem {
+  padding: 0 12px;
+
+  &+& {
+    margin-top: 10px;
+  }
+}
+
+.root {
+  border-radius: 22px;
+  color: #919191;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #919191;
+  line-height: 1;
+}
+
+.root[data-active],
+.root[data-active] .label {
+  color: #ffffff;
+  font-weight: 700;
+}

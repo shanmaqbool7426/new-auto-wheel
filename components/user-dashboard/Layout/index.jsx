@@ -1,7 +1,19 @@
 'use client';
 import React from 'react';
-import { AppShell, Burger, Group, Skeleton, Text, ScrollArea } from '@mantine/core';
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  AppShell,
+  Burger,
+  Group,
+  Skeleton,
+  Text,
+  ScrollArea,
+  Box,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import styles from './Layout.module.css';
+import NavMenu from './components/NavMenu';
 
 export default function Layout({ children }) {
   const [opened, { toggle }] = useDisclosure();
@@ -19,24 +31,30 @@ export default function Layout({ children }) {
       bg='#FDF8F8'
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          Logo
-        </Group>
+
       </AppShell.Header>
       <AppShell.Navbar p={0}>
         <AppShell.Section>
-          <Group>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <Text>Navbar</Text>
-          </Group>
+          <Box className={styles.navbarHeader}>
+            <Link href="/user" className={styles.logo}>
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={163}
+                height={27}
+              />
+            </Link>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              size={16}
+              lineSize={2}
+            // hiddenFrom="sm" size="sm"
+            />
+          </Box>
         </AppShell.Section>
         <AppShell.Section grow component={ScrollArea}>
-          {Array(15)
-            .fill(null)
-            .map((_, index) => (
-              <Skeleton key={index} h={28} mt="sm" animate={false} />
-            ))}
+          <NavMenu />
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>

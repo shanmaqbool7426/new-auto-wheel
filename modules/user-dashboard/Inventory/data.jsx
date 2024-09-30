@@ -20,7 +20,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
             <Image src={title.image} alt="car" width={42} height={26} />
           </Box>
           <Box className={styles.tableTitleText}>
-            <Box className={styles.tableTitleTitle}>{title.title}ddd</Box>
+            <Box className={styles.tableTitleTitle}>{title.title}</Box>
             <Box className={styles.tableTitleModal}>{title.modal}</Box>
           </Box>
         </Box>

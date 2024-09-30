@@ -9,8 +9,6 @@ export default function Search({ setSearchBy }) {
   const icon = <FaMagnifyingGlass />
 
   const debouncedSearch = debounce((value, setSearchBy) => {
-    console.log('>>>>>>>',value)
-
     setSearchBy(value);
   }, 1000);
 

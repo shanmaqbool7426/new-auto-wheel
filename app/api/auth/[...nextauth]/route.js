@@ -39,7 +39,7 @@ const authOptions = {
       },
       async authorize(credentials) {
         try {
-
+console.log('>>>>>>>>',credentials.type)
           // Call your API to verify OTP or perform sign-in based on the type
           const res = await axios.post(
              credentials.type === 'otp'

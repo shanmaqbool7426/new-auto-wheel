@@ -22,7 +22,7 @@ export default function Followers() {
   } = useFollowers();
 
   const columns = getColumns(handleUnfollow);
-
+console.log('followers',followers)
   // if (loading) return <Loader />;
   // if (error) return <Text color="red">{error}</Text>;
 
