@@ -3,16 +3,13 @@ import React from 'react';
 import Search from '@/components/user-dashboard/Search';
 import FormField from '@/components/user-dashboard/FormField';
 import DataTable from '@/components/user-dashboard/DataTable';
-import { Box, Loader, Text } from '@mantine/core';
+import { Box } from '@mantine/core';
 import classes from './Inventory.module.css';
-import { getColumns } from './data';
+import { getColumns, companies } from './data';
 import useInventory from './useInventory';
 
 export default function Inventory() {
   const {
-    vehicles,
-    loading,
-    error,
     setSearchBy,
     filterParams,
     handleChangeFilter,
@@ -22,14 +19,6 @@ export default function Inventory() {
   } = useInventory();
 
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickToggleRow)
-
-  // if (loading) {
-  //   return <Loader size="xl" />;
-  // }
-
-  if (error) {
-    return <Text color="red">{error}</Text>;
-  }
 
   return (
     <>
@@ -93,7 +82,7 @@ export default function Inventory() {
       <Box>
         <DataTable
           columns={columns}
-          records={vehicles}
+          records={companies || []}
         />
       </Box>
     </>

@@ -1,3 +1,5 @@
+
+
 import styles from './Inventory.module.css';
 import Image from 'next/image';
 import dayjs from 'dayjs';
@@ -5,52 +7,37 @@ import Badge from '@/components/user-dashboard/Badge';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import { IconPencil, IconTrash, IconEyeOff } from '@tabler/icons-react';
 
-const getStatusVariant = (status) => {
-  switch (status.toLowerCase()) {
-    case 'active':
-      return 'success';
-    case 'inactive':
-      return 'gray';
-    case 'pending':
-      return 'warning';
-    case 'expired':
-      return 'dark';
-    case 'rejected':
-      return 'danger';
-    default:
-      return 'default';
-  }
-};
+
 
 export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
   {
     accessor: 'title',
     title: 'Title',
-    render: ({ make, model, images, year }) => {
+    render: ({ title }) => {
       return (
         <Box className={styles.tableTitle}>
           <Box className={styles.tableTitleImage}>
-            <Image src={images[0] || '/placeholder.png'} alt="vehicle" width={42} height={26} />
+            <Image src={title.image} alt="car" width={42} height={26} />
           </Box>
           <Box className={styles.tableTitleText}>
-            <Box className={styles.tableTitleTitle}>{`${make} ${model}`}</Box>
-            <Box className={styles.tableTitleModal}>{`${year}`}</Box>
+            <Box className={styles.tableTitleTitle}>{title.title}ddd</Box>
+            <Box className={styles.tableTitleModal}>{title.modal}</Box>
           </Box>
         </Box>
       )
     },
   },
   {
-    accessor: 'createdAt',
+    accessor: 'createdDate',
     title: 'Created',
-    render: ({ createdAt }) => {
+    render: ({ createdDate }) => {
       return (
         <>
           <Box className={styles.createdDate}>
-            {dayjs(createdAt).format('DD-MM-YYYY')}
+            {dayjs(createdDate).format('DD--MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
-            {dayjs(createdAt).format('hh:mm A')}
+            {dayjs(createdDate).format('hh:mm A')}
           </Box>
         </>
       )
@@ -75,6 +62,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           underline
           minWidth="116px"
           outlined={isFeatured}
+
         />
       )
     },
@@ -84,20 +72,20 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
     title: 'Status',
     render: ({ status }) => {
       return (
-        <Badge label={status} variant={getStatusVariant(status)} />
+        <Badge label={status} variant={status} />
       )
     },
   },
   {
-    accessor: '_id',
+    accessor: 'id',
     title: 'Actions',
-    render: ({ _id }) => {
+    render: ({ id }) => {
       return (
         <Group justify='left'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickEdit(_id)}
+            onClick={() => onClickEdit(id)}
           >
             <IconPencil />
           </ActionIcon>
@@ -105,7 +93,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickDelete(_id)}
+            onClick={() => onClickDelete(id)}
           >
             <IconTrash />
           </ActionIcon>
@@ -113,7 +101,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickToggle(_id)}
+            onClick={() => onClickToggle(id)}
           >
             <IconEyeOff />
           </ActionIcon>
@@ -121,4 +109,39 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
       )
     },
   },
-];
+]
+
+export const companies = [
+  {
+    id: "6f9sd34969a0f1",
+    title: { title: "Stock ID 24563", image: "/cars/car-sm.png", modal: "2016 Ford Escape" },
+    createdDate: new Date(),
+    type: "Car",
+    price: "1,350,000",
+    city: "Lahore.",
+    isFeatured: true,
+    status: 'Active',
+  },
+  {
+    id: "6f9349906dfds9a0f1",
+    title: { title: "Stock ID 24563", image: "/cars/car-sm.png", modal: "2016 Ford Escape" },
+    createdDate: new Date(),
+    type: "Car",
+    price: "1,350,000",
+    city: "Lahore.",
+    isFeatured: false,
+    status: 'Inactive',
+  },
+  {
+    id: "6f934990fdf69a0f1",
+    title: { title: "Stock ID 24563", image: "/cars/car-sm.png", modal: "2016 Ford Escape" },
+    createdDate: new Date(),
+    type: "Car",
+    price: "1,350,000",
+    city: "Lahore.",
+    isFeatured: true,
+    status: 'Expired',
+  },
+]
+
+
