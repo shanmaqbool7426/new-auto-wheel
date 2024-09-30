@@ -5,6 +5,7 @@ import {
   IconProfileSettings,
   IconSocial,
   IconReviews,
+  IconChat,
 } from './icons';
 
 export const data = [
@@ -27,6 +28,11 @@ export const data = [
     label: 'Social',
     href: '/user/social',
     icon: IconSocial,
+  },
+  {
+    label: 'Chat',
+    href: '/user/chat',
+    icon: IconChat,
   },
   {
     label: 'User Reviews',

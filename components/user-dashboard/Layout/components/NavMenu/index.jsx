@@ -4,12 +4,10 @@ import Link from 'next/link';
 import { Box, NavLink } from '@mantine/core';
 import { data } from './data';
 import styles from './NavMenu.module.css';
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 export default function NavMenu() {
   const pathname = usePathname();
-  console.log('Router is ready:', pathname);
-
 
   return (
     <ul className={styles.list}>

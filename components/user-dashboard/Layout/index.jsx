@@ -14,6 +14,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import styles from './Layout.module.css';
 import NavMenu from './components/NavMenu';
+import Header from './components/Header';
 
 export default function Layout({ children }) {
   const [opened, { toggle }] = useDisclosure();
@@ -31,8 +32,9 @@ export default function Layout({ children }) {
       bg='#FDF8F8'
     >
       <AppShell.Header>
-
+        <Header />
       </AppShell.Header>
+
       <AppShell.Navbar p={0}>
         <AppShell.Section>
           <Box className={styles.navbarHeader}>
@@ -53,10 +55,12 @@ export default function Layout({ children }) {
             />
           </Box>
         </AppShell.Section>
+
         <AppShell.Section grow component={ScrollArea}>
           <NavMenu />
         </AppShell.Section>
       </AppShell.Navbar>
+
       <AppShell.Main>
         {children}
       </AppShell.Main>
