@@ -35,6 +35,7 @@ import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
+import { BsArrowDown, BsCaretDown } from "react-icons/bs";
 const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -435,7 +436,32 @@ const Header = () => {
             <Group visibleFrom="md">
               {session ? (
                 <>
-                  <Accordion>
+                  <Menu shadow="lg" width={200}>
+                    <Menu.Target>
+                      <Button
+                        rightSection={
+                          <IconChevronDown
+                            style={{
+                              width: rem(14),
+                              height: rem(14),
+                            }}
+                          />
+                        }
+                        component={Text}
+                        variant="transparent"
+                        c="dark"
+                        fw={500}
+                      >
+                        Wellcome {session.user.fullName || session.user.name} !
+                      </Button>
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Label>Settings</Menu.Label>
+                      <Menu.Item>Logout</Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                  {/* <Accordion>
                     <Accordion.Item value="user-info">
                       <Accordion.Control>
                         Wellcome {session.user.fullName || session.user.name} !
@@ -449,7 +475,7 @@ const Header = () => {
                         </span>
                       </Accordion.Panel>
                     </Accordion.Item>
-                  </Accordion>
+                  </Accordion> */}
                 </>
               ) : (
                 <Button
