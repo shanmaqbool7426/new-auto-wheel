@@ -29,7 +29,7 @@ export default function useFollowers() {
   const fetchFollowers = async () => {
     setLoading(true);
     try {
-      const data = await api.get(`/api/user/${session.user?._id}/followers`, {
+      const data = await api.get(`/api/user/66e08a35e874573aeab6d39e/followers`, {
         page: pagination.page,
         limit: pagination.limit,
         search: searchBy,
