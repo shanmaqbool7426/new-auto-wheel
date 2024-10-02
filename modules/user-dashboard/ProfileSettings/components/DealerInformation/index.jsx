@@ -4,7 +4,7 @@ import { Grid, Button, Box } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import FormField from '@/components/user-dashboard/FormField';
 import useDealerInformation from './useDealerInformation';
-import buttonStyles from './styles/user-dashboard/Button.module.css';
+import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './DealerInformation.module.css';
 
 export default function DealerInformation() {
