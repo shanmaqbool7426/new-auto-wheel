@@ -11,11 +11,11 @@ export default function NavMenu() {
 
   return (
     <ul className={styles.list}>
-      {data.map((item) => (
-        <li className={styles.listItem}>
+      {data.map((item,index) => (
+        <li className={styles.listItem} key={index}>
           <NavLink
             component={Link}
-            key={item.label}
+            key={index}
             href={item.href}
             label={item.label}
             leftSection={<item.icon size="1rem" stroke={1.5} />}
