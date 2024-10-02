@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import Dashboard from '@/modules/user-dashboard/Dashboard';
 
 export default function DashboardPage() {
   return (
-    <div>DashboardPage</div>
+    <Dashboard />
   )
 }

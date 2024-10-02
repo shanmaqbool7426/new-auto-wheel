@@ -4,6 +4,7 @@ import { Box } from '@mantine/core';
 import useChat from './useChat';
 import styles from './Chat.module.css';
 import ChatSidebar from './components/ChatSidebar';
+import ChatContent from './components/ChatContent';
 
 export default function Chat() {
 
@@ -18,7 +19,7 @@ export default function Chat() {
       </Box>
 
       <Box className={styles.content}>
-
+        <ChatContent />
       </Box>
     </Box>
   )
