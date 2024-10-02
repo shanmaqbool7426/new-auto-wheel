@@ -3,20 +3,28 @@ import React from 'react';
 import Search from '@/components/user-dashboard/Search';
 import FormField from '@/components/user-dashboard/FormField';
 import DataTable from '@/components/user-dashboard/DataTable';
-import { Box } from '@mantine/core';
+import { Box, Pagination, Loader, Text } from '@mantine/core';
 import classes from './Followers.module.css';
-import { getColumns, followersData } from './data';
+import { getColumns } from './data';
 import useFollowers from './useFollowers';
 
 export default function Followers() {
   const {
+    followers,
+    loading,
+    error,
     setSearchBy,
     filterParams,
+    pagination,
     handleChangeFilter,
-    handleClickDeleteRow,
+    handlePageChange,
+    handleUnfollow,
   } = useFollowers();
 
-  const columns = getColumns(handleClickDeleteRow)
+  const columns = getColumns(handleUnfollow);
+console.log('followers',followers)
+  // if (loading) return <Loader />;
+  // if (error) return <Text color="red">{error}</Text>;
 
   return (
     <>
@@ -48,7 +56,15 @@ export default function Followers() {
       <Box>
         <DataTable
           columns={columns}
-          records={followersData || []}
+          records={followers || []}
+        />
+      </Box>
+
+      <Box mt="md" display="flex" justifyContent="center">
+        <Pagination
+          total={pagination.totalPages}
+          value={pagination.page}
+          onChange={handlePageChange}
         />
       </Box>
     </>

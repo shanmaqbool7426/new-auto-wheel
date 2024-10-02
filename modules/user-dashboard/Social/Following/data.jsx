@@ -2,22 +2,22 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import styles from './Followers.module.css';
 import { ActionIcon, Group, Box } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
+import { IconTrash, IconUserMinus } from '@tabler/icons-react';
 import Badge from '@/components/user-dashboard/Badge';
 
-export const getColumns = (onClickDelete) => [
+export const getColumns = (onUnfollow) => [
   {
-    accessor: 'name',
+    accessor: 'fullName',
     title: 'Name',
-    render: ({ name }) => {
+    render: ({ fullName, accountType }) => {
       return (
         <Box className={styles.tableTitle}>
           <Box className={styles.tableTitleImage}>
-            <Image src={name.image} alt="car" width={44} height={36} />
+            {/* <Image src="/user-profile/follower.png" alt="user" width={44} height={36} /> */}
           </Box>
           <Box className={styles.tableTitleText}>
-            <Box className={styles.tableTitleTitle}>{name.title}</Box>
-            <Box className={styles.tableTitleModal}>{name.account}</Box>
+            <Box className={styles.tableTitleTitle}>{fullName}</Box>
+            <Box className={styles.tableTitleModal}>{accountType}</Box>
           </Box>
         </Box>
       )
@@ -28,16 +28,16 @@ export const getColumns = (onClickDelete) => [
     title: 'Email',
   },
   {
-    accessor: 'createdDate',
+    accessor: 'createdAt',
     title: 'Created',
-    render: ({ createdDate }) => {
+    render: ({ createdAt }) => {
       return (
         <>
           <Box className={styles.createdDate}>
-            {dayjs(createdDate).format('DD--MM-YYYY')}
+            {dayjs(createdAt).format('DD-MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
-            {dayjs(createdDate).format('hh:mm A')}
+            {dayjs(createdAt).format('hh:mm A')}
           </Box>
         </>
       )
@@ -47,15 +47,14 @@ export const getColumns = (onClickDelete) => [
     accessor: 'city',
     title: 'City',
   },
-
   {
     accessor: 'isFollow',
     title: '',
     render: ({ isFollow }) => {
       return (
         <Badge
-          label={isFollow ? 'Followed' : 'Follow'}
-          variant={isFollow ? 'Rejected' : 'Info'}
+          label={false ? 'Followed' : 'Follow'}
+          variant={false ? 'Rejected' : 'Info'}
           underline
           minWidth="78px"
           outlined={isFollow}
@@ -64,50 +63,22 @@ export const getColumns = (onClickDelete) => [
       )
     },
   },
-
   {
-    accessor: 'id',
+    accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
-    render: ({ id }) => {
+    render: ({ _id }) => {
       return (
         <Group justify='center'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickDelete(id)}
+            onClick={() => onUnfollow(_id)}
           >
-            <IconTrash />
+                <IconTrash />
           </ActionIcon>
         </Group>
       )
     },
   },
-]
-
-export const followersData = [
-  {
-    id: "6f9sd34969a0f1",
-    name: { title: "Leslie Alexander", image: "/user-profile/follower.png", account: "Personal Account" },
-    createdDate: new Date(),
-    email: "abc@gmail.com",
-    isFollow: true,
-    city: "Lahore",
-  },
-  {
-    id: "6fasdf0987",
-    name: { title: "Leslie Alexander", image: "/user-profile/follower.png", account: "Personal Account" },
-    createdDate: new Date(),
-    email: "abc@gmail.com",
-    isFollow: false,
-    city: "Lahore",
-  },
-  {
-    id: "6fzxcv90fdf69a0f1",
-    name: { title: "Leslie Alexander", image: "/user-profile/follower.png", account: "Personal Account" },
-    createdDate: new Date(),
-    email: "abc@gmail.com",
-    isFollow: true,
-    city: "Lahore",
-  },
-]
+];

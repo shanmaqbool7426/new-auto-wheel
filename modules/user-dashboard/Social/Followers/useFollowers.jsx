@@ -21,9 +21,9 @@ export default function useFollowers() {
 
   console.log('session',session)
   useEffect(() => {
-    if (session?.user?._id) {
+    // if (session?.user?._id) {
       fetchFollowers();
-    }
+    // }
   }, [session, filterParams, searchBy, pagination.page, pagination.limit]);
 
   const fetchFollowers = async () => {

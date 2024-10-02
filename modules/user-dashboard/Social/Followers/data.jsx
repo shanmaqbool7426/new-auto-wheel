@@ -48,6 +48,22 @@ export const getColumns = (onUnfollow) => [
     title: 'City',
   },
   {
+    accessor: 'isFollow',
+    title: '',
+    render: ({ isFollow }) => {
+      return (
+        <Badge
+          label={false ? 'Followed' : 'Follow'}
+          variant={false ? 'Rejected' : 'Info'}
+          underline
+          minWidth="78px"
+          outlined={isFollow}
+
+        />
+      )
+    },
+  },
+  {
     accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
