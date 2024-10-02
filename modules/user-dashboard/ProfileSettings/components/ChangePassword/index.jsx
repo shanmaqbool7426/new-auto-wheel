@@ -4,7 +4,7 @@ import { Grid, Button, Box } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import FormField from '@/components/user-dashboard/FormField';
 import useChangePassword from './useChangePassword';
-import buttonStyles from '@/styles/user-dashboard/button.module.css';
+import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './ChangePassword.module.css';
 
 export default function ChangePassword() {
