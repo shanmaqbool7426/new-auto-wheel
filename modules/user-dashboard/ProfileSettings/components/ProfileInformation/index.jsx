@@ -5,7 +5,7 @@ import { Box, Title, Group, Button } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import useProfileInformation from './useProfileInformation';
 import styles from './ProfileInformation.module.css';
-import buttonStyles from './user-dashboard/button.module.css';
+import buttonStyles from './user-dashboard/Button.module.css';
 
 export default function ProfileInformation() {
 
