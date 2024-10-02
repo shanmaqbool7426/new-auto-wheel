@@ -5,7 +5,7 @@ import { Box, Title, Group, Button } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import usePackageDetails from './usePackageDetails';
 import styles from './PackageDetails.module.css';
-import buttonStyles from '@/styles/user-dashboard/button.module.css';
+import buttonStyles from './user-dashboard/button.module.css';
 import { IconPlus, IconStarFilled, IconCalendarMonth } from '@tabler/icons-react';
 
 
