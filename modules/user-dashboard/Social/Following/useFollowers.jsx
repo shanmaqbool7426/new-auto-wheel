@@ -38,7 +38,7 @@ export default function useFollowers() {
 
 
       console.log(data,'>>> data.followers')
-      setFollowers(data.data.following || []);
+      setFollowers(data.data.followings || []);
       setPagination({
         ...pagination,
         total: data.total,

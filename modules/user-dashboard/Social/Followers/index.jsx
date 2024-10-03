@@ -22,7 +22,7 @@ export default function Followers() {
   } = useFollowers();
 
   const columns = getColumns(handleUnfollow);
-console.log('followers',followers)
+  console.log('followers', followers)
   // if (loading) return <Loader />;
   // if (error) return <Text color="red">{error}</Text>;
 
@@ -47,7 +47,7 @@ console.log('followers',followers)
               placeholder="Date, new to old"
               checkIconPosition="right"
               value={filterParams.date}
-              onChange={(_value, option) => handleChangeFilter('date', option.value)}
+              onChange={(value) => handleChangeFilter('date', value)}
             />
           </Box>
         </Box>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/app/(user-dashboard)/services/api';
 import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
+import { showNotification } from '@mantine/notifications'; // Add this import
 
 export default function useFollowers() {
   const [followers, setFollowers] = useState([]);
@@ -62,11 +63,31 @@ export default function useFollowers() {
 
   const handleUnfollow = async (userId) => {
     try {
-      await api.post(`/users/${userId}/unfollow`);
-      fetchFollowers(); // Refresh the list after unfollowing
+      const response = await api.post(`/api/user/${userId}/unfollow`);
+      console.log('Unfollow response:', response); // For debugging
+  
+      if (response.success) {
+        fetchFollowers(); // Refresh the list after unfollowing
+        showNotification({
+          title: "Success",
+          message: response.message || "User unfollowed successfully.",
+          color: "green",
+        });
+      } else {
+        // Handle unsuccessful response
+        showNotification({
+          title: "Error",
+          message: response.message || "Failed to unfollow user.",
+          color: "red",
+        });
+      }
     } catch (err) {
-      setError('Failed to unfollow user');
-      console.error(err);
+      console.error('Unfollow error:', err);
+      showNotification({
+        title: "Error",
+        message: err.response?.data?.message || "An unexpected error occurred. Please try again.",
+        color: "red",
+      });
     }
   };
 

@@ -53,12 +53,12 @@ export const getColumns = (onUnfollow) => [
     render: ({ isFollow }) => {
       return (
         <Badge
-          label={false ? 'Followed' : 'Follow'}
-          variant={false ? 'Rejected' : 'Info'}
+          label={true ? 'Followed' : 'Follow'}
+          variant={true ? 'Rejected' : 'Info'}
           underline
           minWidth="78px"
           outlined={isFollow}
-
+          onClick={() => onUnfollow(_id)}
         />
       )
     },
