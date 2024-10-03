@@ -65,7 +65,7 @@ console.log(vehicle)
     <>
       {/* Header Section */}
       <Box bg="rgba(233, 8, 8, 0.8)" pb="xl">
-        <Box className="container">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
               <nav className="mt-3">
@@ -94,7 +94,7 @@ console.log(vehicle)
 
       {/* Main Section */}
       <Box component="section" className="cars-detail" py="xl">
-        <Box className="container">
+        <Box className="container-xl">
           <Box className="row">
             {/* Carousel Section */}
             <Box className="col-lg-7">
@@ -243,7 +243,7 @@ console.log(vehicle)
           </Box>
         </Box>
         {/* Additional Car Info */}
-        <Box className="container" mt="xl">
+        <Box className="container-xl" mt="xl">
           <Box className="row">
             <Box className="col-lg-12">
               <Title order={2}>
@@ -314,7 +314,7 @@ console.log(vehicle)
         className="pros-const-section bg-light"
         py="xl"
       >
-        <Box className="container" py="xl">
+        <Box className="container-xl" py="xl">
           <Box className="row">
             <Box className="col-lg-12">
               <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
@@ -399,7 +399,7 @@ console.log(vehicle)
       </Box>
       {/* Rich Text Overview */}
       <Box component="section" className="detail-overview" py="xl">
-        <Box className="container" py="xl">
+        <Box className="container-xl" py="xl">
           <Box className="row">
             <Box className="col-lg-12">
               <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
@@ -418,7 +418,7 @@ console.log(vehicle)
       </Box>
       {/* Detail Specification Section */}
       <Box component="section" className="pros-const-section bg-light" py="xl">
-        <Box className="container" py="xl">
+        <Box className="container-xl" py="xl">
           <Box className="row">
             <Box className="col-lg-12">
               <Flex justify="space-between" align="center">

@@ -14,7 +14,7 @@ import React from "react";
 const ComparisonProducts = ({ title }) => {
   return (
     <section className="comparison-products bg-light py-5">
-      <div className="container">
+      <div className="container-xl">
         <div className="row">
           <div className="col">
             <Flex justify="space-between" align="center" mb="xl">

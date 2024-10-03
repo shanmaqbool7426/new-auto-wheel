@@ -18,7 +18,7 @@ import React from "react";
 const BrowseByCategory = ({ makes, bodies }) => {
   return (
     <Box className="browse-cats-section py-5 bg-light">
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="xl">

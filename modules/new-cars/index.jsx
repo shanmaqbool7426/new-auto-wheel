@@ -126,7 +126,7 @@ const NewCarsModule = ({
     <>
       <section className="find-cars">
         <Box className="background-search-verlay" mb="100">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <nav className="mt-3">
@@ -195,7 +195,7 @@ const NewCarsModule = ({
 
         <BrowseByMakeAndBodies makes={makes} bodies={bodies} />
         <section className="popular-new-cars py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -216,7 +216,7 @@ const NewCarsModule = ({
           </div>
         </section>
         <section className="newly-launched-cars bg-light py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -237,7 +237,7 @@ const NewCarsModule = ({
           </div>
         </section>
         <section className="upcoming-cars py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -258,7 +258,7 @@ const NewCarsModule = ({
           </div>
         </section>
         <section className="cars-by-model bg-light py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -280,7 +280,7 @@ const NewCarsModule = ({
           </div>
         </section>
         <section className="cars-by-model py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>

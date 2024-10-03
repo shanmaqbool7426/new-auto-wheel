@@ -7,7 +7,7 @@ import React from "react";
 const BrowseVideos = () => {
   return (
     <section className="browse-videos bg-white py-5">
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col-12">
             <Flex justify="space-between" align="center" mb="xl">

@@ -27,7 +27,7 @@ const BlogModule = async ({ params }) => {
     <Box component="section" className="blog-page" pt={60}>
       {/* Feature Grid Section */}
       {isBlogsPage && (
-        <Box className="container">
+        <Box className="container-xl">
           <FeatureGrid items={data?.featurePosts} />
         </Box>
       )}

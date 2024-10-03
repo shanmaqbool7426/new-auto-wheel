@@ -86,7 +86,7 @@ const MakesVehicles = ({
     <>
       <section className="find-cars">
         <Box className="background-search-verlay" mb="220">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <nav className="mt-3">
@@ -165,7 +165,7 @@ const MakesVehicles = ({
         />
 
         <section className="brands-faq-section pb-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <Title order={2} mb="lg">

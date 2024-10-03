@@ -5,7 +5,7 @@ import React from 'react'
 const Header = () => {
   return (
     <Box className="background-search-verlay" mb={{base: 400,md:200}}>
-    <div className="container">
+    <div className="container-xl">
       <div className="row">
         <div className="col-md-12">
           <nav className="mt-3">

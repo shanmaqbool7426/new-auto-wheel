@@ -137,7 +137,7 @@ export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
   return (
     <>
       <section className="product-detail py-5">
-        <div className="container">
+        <div className="container-xl">
           <div className="row">
             {cards.map((card, index) => (
               <div className="col-md-4" key={index}>
@@ -346,7 +346,7 @@ export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
         </div>
       </section>
       <section className="contact-seller">
-        <div className="container">
+        <div className="container-xl">
           <div className="row">
             <div className="col-md-4">
               <div className="card border-0 shadow-none contact-seller-info">
@@ -405,7 +405,7 @@ export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
         </div>
       </section>
       <section className="similar-product py-5">
-        <div className="container">
+        <div className="container-xl">
           <div className="row">
             <div className="col-md-12">
               <Title order={2} mb="lg">

@@ -39,7 +39,7 @@ const CarComparionDetail = () => {
     <>
       <Box className="comparison-detail">
         <Box className="background-search-verlay" mb="220">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <nav className="mt-3">
@@ -145,7 +145,7 @@ const CarComparionDetail = () => {
         </Box>
       </Box>
       <Box component="section" className="comparison-detail-wrapper" mb="xl">
-        <div className="container">
+        <div className="container-xl">
           <div className="row">
             {carSpecificationData.map((section, sectionIndex) => {
               return (

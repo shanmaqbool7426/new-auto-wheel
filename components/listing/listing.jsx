@@ -40,7 +40,7 @@ export default async function Listing({ params, searchParams }) {
             loaderProps={{ color: "red", type: "bars" }}
           />
         )}
-        <Container size={1440}>
+        <div className="container-xl">
           <div className="row">
             <div className="col-lg-3">
               <ListingFilter
@@ -83,7 +83,9 @@ export default async function Listing({ params, searchParams }) {
                 {dataofVehcles?.data?.results?.map((vehicle, index) => (
                   <div
                     key={index}
-                    className={view === "list" ? "col-12" : "col-12 col-sm-6 col-lg-4"}
+                    className={
+                      view === "list" ? "col-12" : "col-12 col-sm-6 col-lg-4"
+                    }
                   >
                     {view === "list" ? (
                       <ListCardView index={index} vehicle={vehicle} />
@@ -99,7 +101,7 @@ export default async function Listing({ params, searchParams }) {
               />
             </div>
           </div>
-        </Container>
+        </div>
       </Box>
     </>
   );

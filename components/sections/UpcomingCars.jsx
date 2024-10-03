@@ -5,7 +5,7 @@ import React from "react";
 const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles }) => {
   return (
     <Box component="section" className="upcoming-cars py-5">
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col-md-12" mb="xl">
             <Title order={2}>

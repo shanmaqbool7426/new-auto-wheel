@@ -53,7 +53,7 @@ const CarCard = ({ vehicle, index }) => {
           <Card.Section p="md">
             <Group justify="space-between" mb="md" align="center" wrap="nowrap">
               <Title
-                ff="text"
+                // ff="text"
                 order={6}
                 lts={-0.3}
                 fw={600}

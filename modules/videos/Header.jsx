@@ -4,7 +4,7 @@ import Search from '@/components/videos/search';
 const Header = () => {
   return (
     <Box className="background-search-verlay" mb={{ base: 150, md: 100 }} mt='58'>
-      <div className="container">
+      <div className="container-xl">
         <div className="row">
           <div className="col-md-12 mt-5">
             <Title c='#FFF' order={3} mb="md">

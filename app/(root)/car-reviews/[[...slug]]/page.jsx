@@ -6,14 +6,14 @@ import CompareModule from "@/modules/compareModule";
 
 // Helper function to standardize vehicle names
 const standardizeVehicleName = (make, model) => {
-  return `${make} ${model}`.toLowerCase().replace(/\s+/g, '-');
+  return `${make} ${model}`.toLowerCase().replace(/\s+/g, "-");
 };
 
 // Helper function to extract make and model from standardized slug
 const extractMakeAndModel = (slug) => {
-  const parts = slug.split('-');
+  const parts = slug.split("-");
   const make = parts[0];
-  const model = parts.slice(1).join(' ');
+  const model = parts.slice(1).join(" ");
   return { make, model };
 };
 
@@ -25,11 +25,11 @@ const CarReviews = async ({ params }) => {
 
   // Fetch popular vehicles data (these don't depend on slug either)
   const popularVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(undefined, 'car')
+    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(undefined, "car")
   );
 
   const popularUsedVehicles = await fetchListData(
-    API_ENDPOINTS.VEHICLE.MAKES_WITH_POPULAR(undefined, 'car')
+    API_ENDPOINTS.VEHICLE.MAKES_WITH_POPULAR(undefined, "car")
   );
 
   // Initialize variables for slug-dependent data
@@ -59,12 +59,16 @@ const CarReviews = async ({ params }) => {
           );
 
           // Find the correct make in the fetchMakesByTypeData
-          const makeData = fetchMakesByTypeData.data.find(item => item.name.toLowerCase() === make.toLowerCase());
-          
+          const makeData = fetchMakesByTypeData.data.find(
+            (item) => item.name.toLowerCase() === make.toLowerCase()
+          );
+
           if (makeData) {
             // Find the correct model in the make's models array
-            const modelData = makeData.models.find(item => item.name.toLowerCase() === model.toLowerCase());
-            
+            const modelData = makeData.models.find(
+              (item) => item.name.toLowerCase() === model.toLowerCase()
+            );
+
             if (modelData) {
               // Get the variants for this specific model
               variants = modelData.variants;
@@ -78,24 +82,25 @@ const CarReviews = async ({ params }) => {
     }
   }
 
-  console.log('Variants for', make, model, ':', variants);
+  console.log("Variants for", make, model, ":", variants);
 
   return (
     <>
+    {/* make && model && reviewsVehicles && reviewsVehiclesOverAll */}
       {make && model && reviewsVehicles && reviewsVehiclesOverAll ? (
-        <CompareModule 
-          reviewsVehicles={reviewsVehicles} 
-          reviewsVehiclesOverAll={reviewsVehiclesOverAll} 
+        <CompareModule
+          reviewsVehicles={reviewsVehicles}
+          reviewsVehiclesOverAll={reviewsVehiclesOverAll}
           make={make}
           model={model}
           fetchMakesByTypeData={fetchMakesByTypeData}
           variants={variants}
         />
       ) : (
-        <CarReviewsModule 
-          fetchMakesByTypeData={fetchMakesByTypeData} 
-          popularVehicles={popularVehicles} 
-          popularUsedVehicles={popularUsedVehicles} 
+        <CarReviewsModule
+          fetchMakesByTypeData={fetchMakesByTypeData}
+          popularVehicles={popularVehicles}
+          popularUsedVehicles={popularUsedVehicles}
         />
       )}
     </>

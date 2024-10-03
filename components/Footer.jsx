@@ -42,7 +42,7 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <Container size={1440}>
+      <div className="container-xl">
         <div className="row">
           <div className="col-lg-9">
             <div className="row">
@@ -322,7 +322,7 @@ const Footer = () => {
         <div className="text-center">
           <span>© 2024 . All Rights Reserved.</span>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 };

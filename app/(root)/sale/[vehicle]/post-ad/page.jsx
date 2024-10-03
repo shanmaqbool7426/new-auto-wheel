@@ -384,7 +384,7 @@ const router= useRouter()
     <>
       <Box component="section" className="post-an-ad" my="xl">
         <Box className="header-section bg-light" py={80}>
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-lg-12 text-center">
                 <Title order={2} className="text-primary" mb="sm">
@@ -397,7 +397,7 @@ const router= useRouter()
         </Box>
 
         <Box className="stepper-forms" py="xl">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-lg-12 text-center">
                 <Stepper

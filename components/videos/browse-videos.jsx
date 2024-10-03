@@ -69,7 +69,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
   if (!currentVideo) {
     return (
       <section className="browse-videos bg-white py-5">
-        <Box className="container">
+        <Box className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2} lts={-0.4}>
               {title || "Browse Our"}{" "}
@@ -93,7 +93,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
 
   return (
     <section className="browse-videos bg-white py-5">
-      <Box className="container" pos="relative">
+      <Box className="container-xl" pos="relative">
         {loading && (
           <LoadingOverlay
             visible={true}
