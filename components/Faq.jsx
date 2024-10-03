@@ -46,7 +46,7 @@ const FAQ = ({ title, titleSpan }) => {
 
   return (
     <section className="brands-faq-section pb-5">
-      <div className="container">
+      <div className="container-xl">
         <div className="row">
           <div className="col-md-12">
             <Title order={2} mb="xl">

@@ -84,7 +84,7 @@ const Hero = () => {
             ))}
           </Box>
 
-          <Box className="container" pos="absolute" inset={0} py={rem(50)}>
+          <Box className="container-xl" pos="absolute" inset={0} py={rem(50)}>
             <Box className="row">
               <Box className="col-lg-4">
                 <Card shadow="xl" padding={0} radius="md">

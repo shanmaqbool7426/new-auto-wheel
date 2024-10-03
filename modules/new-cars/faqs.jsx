@@ -5,7 +5,7 @@ import React from "react";
 const FAQ = ({ title, titleSpan, faqs }) => {
   return (
     <section className="brands-faq-section py-5">
-      <div className="container">
+      <div className="container-xl">
         <div className="row">
           <div className="col-md-12">
             <Title order={2} mb="xl">

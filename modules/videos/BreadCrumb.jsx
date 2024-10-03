@@ -24,7 +24,7 @@ const BreadCrumb = ({breadcrumb}) => {
       });
     return (
         <Box className="background-bread-crumb-overlay" mt='58'>
-            <div className="container">
+            <div className="container-xl">
                 <div className="col-md-12">
                     <Breadcrumbs styles={{ breadcrumb: { color: '#FFFFFFB2' }, separator: { color: '#FFFFFFB2' } }}>
                     {items}

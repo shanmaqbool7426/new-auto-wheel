@@ -20,7 +20,7 @@ import { BsArrowRight } from "react-icons/bs";
 const BrowseBlogs = () => {
   return (
     <section className="blogs py-5 bg-light">
-      <div className="container">
+      <div className="container-xl">
         <Flex justify="space-between" align="center" mb="xl">
           <Title order={2}>
             Our Latest{" "}

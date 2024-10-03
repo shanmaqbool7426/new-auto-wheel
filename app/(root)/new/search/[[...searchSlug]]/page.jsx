@@ -4,7 +4,7 @@ import { Box, Card, Flex, Image, Text, Title, Badge,Group } from '@mantine/core'
 
 const page = () => {
     return (
-        <div className="container">
+        <div className="container-xl">
         <div className="row">
            <div className="col-md-3">
              <ListingFilter type={'car'} makes={makes} bodies={bodies} vehicles={popularVehicles?.data} />

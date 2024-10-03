@@ -290,7 +290,7 @@ const Header = () => {
   if (status === "loading") {
     return (
       <Box component="header" className="header">
-        <Box className="container" h="100%">
+        <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
             <Loader size="sm" />
@@ -303,10 +303,10 @@ const Header = () => {
   return (
     <>
       <Box component="header" className="header">
-        <Box className="container" h="100%">
+        <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
-            <Group h="100%" gap={0} visibleFrom="md">
+            <Group h="100%" gap={0} visibleFrom="md" wrap={false}>
               <HoverCard
                 withArrow
                 offset={0}
@@ -433,7 +433,7 @@ const Header = () => {
                 <Center inline>Videos</Center>
               </Link>
             </Group>
-            <Group visibleFrom="md">
+            <Group visibleFrom="md" wrap={false}>
               {session ? (
                 <>
                   <Menu shadow="lg" width={200}>

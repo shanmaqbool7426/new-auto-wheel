@@ -52,7 +52,7 @@ const NewCarsDetailPage = () => {
     <>
       <section className="find-cars">
         <Box className="background-search-verlay" mb="220">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <nav className="mt-3">
@@ -133,7 +133,7 @@ const NewCarsDetailPage = () => {
         <BrowseBlogs />
 
         <section className="latest-reviews py-5">
-          <div className="container">
+          <div className="container-xl">
             <Card shadow="0px 4px 20px 0px #00000014" padding="xl">
               <Title order={2} mb="lg">
                 Latest Reviews of Toyota Corolla 2024
@@ -251,7 +251,7 @@ const NewCarsDetailPage = () => {
         </section>
 
         <section className="brands-faq-section pb-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <Title order={2} mb="lg">

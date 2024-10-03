@@ -139,7 +139,7 @@ const FullSpecifications = ({ vehicle }) => {
             </Box>
 
             {/* Specifications Section */}
-            <Box component="section" py="xl" className="container">
+            <Box component="section" py="xl" className="container-xl">
                 <Tabs variant='pills' color='red' defaultValue="overview" onTabChange={handleTabSelect}>
                     <Tabs.List>
                         {Object.keys(specificationsMapping).map((key) => (

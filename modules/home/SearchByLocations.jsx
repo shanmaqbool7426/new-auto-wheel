@@ -68,7 +68,7 @@ const SearchByLocations = () => {
   ];
   return (
     <Box component="section" className="search-by-location py-5">
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col-12">
             <Flex justify="space-between" align="center" mb="xl">

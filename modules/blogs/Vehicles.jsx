@@ -11,7 +11,7 @@ const Vehicles = async () => {
         <>
             <VehicleSearch  />
             <section className="blog-products py-5">
-                <Box className="container">
+                <Box className="container-xl">
                     <Box className="row">
                         {vehicles?.data?.map((vehicle, index) => {
                             return (

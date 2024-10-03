@@ -72,7 +72,7 @@ const NewCarsDetail = () => {
     <>
       <section className="find-cars cars-detail">
         <Box bg="rgba(233, 8, 8, 0.8)" pb="xl">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
                 <nav className="mt-3">
@@ -100,7 +100,7 @@ const NewCarsDetail = () => {
         </Box>
 
         <Box component="section" className="cars-detail" py="xl">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-lg-7">
                 <Box className="gallery-slider">
@@ -268,7 +268,7 @@ const NewCarsDetail = () => {
           </Box>
 
           {/* Details Relataed To Car */}
-          <Box className="container" mt="xl">
+          <Box className="container-xl" mt="xl">
             <Box className="row">
               <Box className="col-lg-12">
                 <Title order={2}>
@@ -410,7 +410,7 @@ const NewCarsDetail = () => {
           className="pros-const-section bg-light"
           py="xl"
         >
-          <Box className="container" py="xl">
+          <Box className="container-xl" py="xl">
             <Box className="row">
               <Box className="col-lg-12">
                 <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
@@ -502,7 +502,7 @@ const NewCarsDetail = () => {
 
         {/* Detail Overview For the requested Car */}
         <Box component="section" className="detail-overview" py="xl">
-          <Box className="container" py="xl">
+          <Box className="container-xl" py="xl">
             <Box className="row">
               <Box className="col-lg-12">
                 <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
@@ -690,7 +690,7 @@ const NewCarsDetail = () => {
           className="pros-const-section bg-light"
           py="xl"
         >
-          <Box className="container" py="xl">
+          <Box className="container-xl" py="xl">
             <Box className="row">
               <Box className="col-lg-12">
                 <Flex justify="space-between" align="center">
@@ -781,7 +781,7 @@ const NewCarsDetail = () => {
 
         {/* Latest Reviews Section */}
         <Box component="section" className="latest-reviews bg-light py-5">
-          <div className="container">
+          <div className="container-xl">
             <Card shadow="0px 4px 20px 0px #00000014" padding="xl">
               <Title order={2} mb="lg">
                 Latest Reviews of Toyota Corolla 2024
@@ -900,7 +900,7 @@ const NewCarsDetail = () => {
 
         {/* Popular New Cars */}
         <Box component="section" className="popular-new-cars py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -956,7 +956,7 @@ const NewCarsDetail = () => {
 
         {/* Cars For Sale */}
         <Box component="section" className="upcoming-cars py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -1006,7 +1006,7 @@ const NewCarsDetail = () => {
 
         {/* News Section */}
         <Box component="section" className="news-section bg-light py-5" mb="xl">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>

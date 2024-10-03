@@ -52,7 +52,7 @@ const DealerRating = () => {
     <>
       <Box component="section" className="car-specification">
         <Box className="background-search-verlay" mb="200">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
                 <nav className="mt-3">
@@ -217,7 +217,7 @@ const DealerRating = () => {
           </Box>
         </Box>
 
-        <Box className="container" mb="xl">
+        <Box className="container-xl" mb="xl">
           <Box className="row">
             <Box className="col-md-8">
               <Card shadow="0px 4px 20px 0px #00000014" padding="xl">
@@ -311,7 +311,7 @@ const DealerRating = () => {
         <BrowseByType bg="bg-light" pagination={true} />
 
         <Box component="section" className="review-reply" my="xl">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
                 <Paper

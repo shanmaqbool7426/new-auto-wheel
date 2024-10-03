@@ -62,7 +62,7 @@ const CarsDealerShip = () => {
     <>
       <Box component="section" className="car-specification">
         <Box className="background-search-verlay" mb="80">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
                 <nav className="mt-3">
@@ -124,7 +124,7 @@ const CarsDealerShip = () => {
           </Box>
         </Box>
 
-        <Box className="container">
+        <Box className="container-xl">
           <Box
             className="row g-0 border-bottom border-primary border-2 align-items-center"
             pb="md"
