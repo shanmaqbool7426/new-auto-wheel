@@ -58,7 +58,7 @@ const VehicleSearch = () => {
 
     return (
         <section className="find-section py-5">
-            <Box className="container">
+            <Box className="container-xl">
                 <Box className="row">
                     <Box className="col-12">
                         <Title

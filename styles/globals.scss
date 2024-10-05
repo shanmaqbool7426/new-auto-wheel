@@ -1,0 +1,137 @@
+$primary       :#E90808;
+$enable-shadows: true;
+$text-muted    :#878787;
+
+
+:root {
+  --mantine-color-dimmed: $text-muted;
+}
+
+
+html,
+body {
+  overflow  : auto !important;
+  max-height: 100% !important;
+}
+
+// bootstrap/scss/bootstrap.scss
+
+@import "bootstrap/scss/bootstrap.scss";
+
+
+
+/// Import Component Styles
+@import "./components/footer";
+@import "./components/header.scss";
+@import "./components/modal";
+@import "./components/auth/index";
+// @import "./components/product";
+
+// Import Section Styles
+@import "./sections/hero";
+@import "./sections/browse-category";
+@import "./sections/browse-type";
+@import "./sections/comparison";
+@import "./sections/search-locations";
+@import "./sections/browse-videos";
+@import "./sections/browse-blogs";
+
+// Pages
+@import "./pages/listing";
+@import "./pages/detail";
+@import "./pages/blog";
+@import "./pages/find-cars";
+@import "./pages/comparison-detail";
+@import "./pages/post-an-ad";
+@import "./pages/new-car-detail";
+@import "./pages/saftey-guaid";
+
+// Import Theme Component Styles
+@import "./theme/compnents/tabs";
+@import "./theme/compnents/pagination";
+@import "./components/product-card";
+@import "./components/video-card";
+@import "./components/modal";
+@import "./components/auth/index";
+@import "./theme-header.scss";
+
+.theme-header {
+  border-bottom: 2px solid #f8f9fa;
+}
+
+@media screen and (min-width: 1400px) {
+
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 1280px !important;
+  }
+}
+
+footer ul>li a {
+  color: #EBEBEB;
+}
+
+.root {
+  &[data-variant='danger'] {
+    background-color: $primary;
+    color           : var(--mantine-color-red-0);
+  }
+
+  &[data-variant='primary'] {
+    background  : linear-gradient(45deg, #4b6cb7 10%, #253b67 90%);
+    color       : var(--mantine-color-white);
+    border-width: 0;
+  }
+}
+
+.socials-btns-inner {
+  display        : flex;
+  justify-content: space-around;
+  width          : 222px !important;
+  align-items    : center;
+}
+
+.primary {
+  color: $primary;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.mantine-Accordion-label {
+  padding-top   : 0.4rem !important;
+  padding-bottom: 0.4rem !important;
+}
+
+.image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+  height       : 30px !important;
+  width        : 30px !important;
+  background   : $primary;
+  border-radius: 50% !important;
+}
+
+a {
+  color          : $primary;
+  text-decoration: none;
+  transition     : color 0.3s ease;
+}
+
+
+.tab-button:hover {
+  background-color: #E90808;
+  /* Change to the desired hover color */
+  color           : white;
+  /* Change text color if needed */
+}
+
+.expandedContent {
+  padding         : 12px 16px;
+  background-color: #f9f9f9;
+  border-top      : 1px solid #e0e0e0;
+}

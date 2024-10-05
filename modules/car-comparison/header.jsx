@@ -1,11 +1,24 @@
 "use client";
-import { CarComparisonSmall, CarSmall, SmallReviewIcon } from '@/components/Icons';
-import { Anchor, Box, Button, Card, Group, Image, Input, Text, Title } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
-import CustomModel from '@/constants/CustomModel';
-import { fetchMakesByTypeServer } from '@/actions';
-import { useRouter } from 'next/navigation';
-
+import {
+  CarComparisonSmall,
+  CarSmall,
+  SmallReviewIcon,
+} from "@/components/Icons";
+import {
+  Anchor,
+  Box,
+  Button,
+  Card,
+  Group,
+  Image,
+  Input,
+  Text,
+  Title,
+  Modal,
+} from "@mantine/core";
+import React from "react";
+import VehicleSelector from "@/components/VehicleSelector";
+import { useDisclosure } from "@mantine/hooks";
 const Header = () => {
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
@@ -66,20 +79,16 @@ const Header = () => {
 
   return (
     <>
-      <CustomModel
-        isOpen={isModalOpen}
-        selection={
-          currentVehicle === 1 ? vehicle1 :
-          currentVehicle === 2 ? vehicle2 :
-          currentVehicle === 3 ? vehicle3 : {}
-        } 
-        setSelection={getSetVehicleFunction()}  // Pass the correct setVehicle function
-        onClose={closeModal}
-        fetchMakesByTypeData={fetchMakesByTypeData}
-        hide={false}
-      />
-      <Box className="background-search-overlay" mb="420">
-        <div className="container">
+      <Modal opened={opened} onClose={close} title="Select Vehicle">
+        <VehicleSelector />
+      </Modal>
+      <Box
+        className="background-search-verlay"
+        mb={{ base: 850, sm: 300 }}
+        pt={70}
+        h={400}
+      >
+        <div className="container-xl">
           <div className="row">
             <div className="col-md-12">
               <nav className="mt-3">
@@ -93,60 +102,154 @@ const Header = () => {
                 </ol>
               </nav>
               <Group>
-                <Button leftSection={<CarSmall />} variant="light" radius="md" size="md" bg="white" c="#333" autoContrast>
+                <Button
+                  leftSection={<CarSmall />}
+                  variant="light"
+                  radius="md"
+                  size="sm"
+                  bg="white"
+                  c="#333"
+                  autoContrast
+                >
                   New Cars
                 </Button>
-                <Button leftSection={<CarSmall />} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast>
+                <Button
+                  leftSection={<CarSmall />}
+                  variant="light"
+                  size="sm"
+                  radius="md"
+                  bg="white"
+                  c="#333"
+                  autoContrast
+                >
                   Used Cars
                 </Button>
-                <Button leftSection={<CarComparisonSmall />} variant="light" size="md" radius="md" bg="#333" c="white" autoContrast>
+                <Button
+                  leftSection={<CarComparisonSmall />}
+                  variant="light"
+                  size="sm"
+                  radius="md"
+                  bg="#333"
+                  c="white"
+                  autoContrast
+                >
                   Car Comparison
                 </Button>
-                <Button leftSection={<SmallReviewIcon />} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast>
+                <Button
+                  leftSection={<SmallReviewIcon />}
+                  variant="light"
+                  size="sm"
+                  radius="md"
+                  bg="white"
+                  c="#333"
+                  autoContrast
+                >
                   Car Reviews
                 </Button>
               </Group>
             </div>
             <div className="col-md-12">
-              <Box className="search-wrapper-card" mt="xl">
-                <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
+              <Box className="search-wrapper-card" mt="lg">
+                <Card
+                  shadow="0px 4px 20px 0px #00000014"
+                  padding="lg"
+                  radius="sm"
+                >
                   <Title order={3} mb="md">
                     New Cars Comparison
                   </Title>
                   <div className="row mb-2">
-                    {[1, 2, 3].map((vehicleNumber) => (
-                      <div key={vehicleNumber} className="col-md-4">
-                        <Card
-                          shadow="none"
-                          withBorder
-                          padding="xl"
+                    <div className="col-md-4">
+                      <Card
+                        mb={{ base: "md", sm: 0 }}
+                        shadow="none"
+                        withBorder
+                        padding="xl"
+                        radius="md"
+                        className="text-center"
+                        onClick={open}
+                      >
+                        <Image
+                          src="/compare/compare-car.svg"
+                          h={120}
+                          w={120}
+                          mb="xs"
+                          className="img-fluid mx-auto"
+                          alt="Car Comparison"
+                        />
+                        <Text c="dimmed" mb="md">
+                          Add Car 1
+                        </Text>
+                        <Input
+                          size="md"
                           radius="md"
-                          className="text-center"
-                          onClick={() => openModal(vehicleNumber)}
-                        >
-                          <Image
-                            src="/compare/compare-car.svg"
-                            h={120}
-                            w={120}
-                            mb="xs"
-                            className="img-fluid mx-auto"
-                            alt={`Car Comparison ${vehicleNumber}`}
-                          />
-                          <Text c="dimmed" mb="md">
-                            {
-                              vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
-                              vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
-                              vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
-                              `Add Car ${vehicleNumber}`
-                            }
-                          </Text>
-                          <Input size="md" radius="md" placeholder="Search by Car Variant" />
-                        </Card>
-                      </div>
-                    ))}
+                          placeholder="Search by Car Variant"
+                        />
+                      </Card>
+                    </div>
+                    <div className="col-md-4">
+                      <Card
+                        mb={{ base: "md", sm: 0 }}
+                        shadow="none"
+                        withBorder
+                        padding="xl"
+                        radius="md"
+                        className="text-center"
+                      >
+                        <Image
+                          src="/compare/compare-car.svg"
+                          h={120}
+                          w={120}
+                          mb="xs"
+                          className="img-fluid mx-auto"
+                          alt="Car Comparison"
+                        />
+                        <Text c="dimmed" mb="md">
+                          Add Car 2
+                        </Text>
+                        <Input
+                          size="md"
+                          radius="md"
+                          placeholder="Search by Car Variant"
+                        />
+                      </Card>
+                    </div>
+                    <div className="col-md-4">
+                      <Card
+                        mb={{ base: "md", sm: 0 }}
+                        shadow="none"
+                        withBorder
+                        padding="xl"
+                        radius="md"
+                        className="text-center"
+                      >
+                        <Image
+                          src="/compare/compare-car.svg"
+                          h={120}
+                          w={120}
+                          mb="xs"
+                          className="img-fluid mx-auto"
+                          alt="Car Comparison"
+                        />
+                        <Text c="dimmed" mb="md">
+                          Add Car 3
+                        </Text>
+                        <Input
+                          size="md"
+                          radius="md"
+                          placeholder="Search by Car Variant"
+                        />
+                      </Card>
+                    </div>
                     <div className="col-md-12">
                       <Box mt="lg" mx="auto" maw={300}>
-                        <Button bg="#E90808" autoContrast fw={500} size="md" fullWidth onClick={handleCompare}>
+                        <Button
+                          bg="#E90808"
+                          autoContrast
+                          fw={500}
+                          size="md"
+                          fullWidth
+                        >
                           Compare
                         </Button>
                       </Box>
@@ -163,6 +266,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-

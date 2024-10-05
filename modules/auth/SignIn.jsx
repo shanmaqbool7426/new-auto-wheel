@@ -8,7 +8,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import classes from "../../app/styles/Demo.module.scss";
+import classes from "@/styles/Demo.module.scss";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { signIn } from 'next-auth/react';

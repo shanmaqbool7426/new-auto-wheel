@@ -33,7 +33,7 @@ import {
     if (news.length === 0) {
       return (
         <section className="news py-5 bg-light">
-          <div className="container">
+          <div className="container-xl">
             <Flex justify="space-between" align="center" mb="xl">
               <Title order={2}>
                 {title}{" "}
@@ -52,7 +52,7 @@ import {
   
     return (
       <section className="news py-5 bg-light">
-        <div className="container">
+        <div className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2}>
             {title}{" "}

@@ -8,7 +8,7 @@ const PopularNewCars = ({ bg = true, popularVehicles }) => {
       component="section"
       className={`popular-new-cars ${bg ? "bg-light" : ""} py-5`}
     >
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col-md-12" mb="xl">
             <Title order={2}>

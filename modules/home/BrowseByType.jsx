@@ -21,7 +21,7 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   };
   return (
     <section className={`browse-type-section py-5 ${bg || ""}`}>
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col">
             <Box className="d-flex align-items-center justify-content-between">

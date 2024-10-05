@@ -15,7 +15,7 @@ import {
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // Current image index
   const [slideDirection, setSlideDirection] = useState("right"); // Direction of
-const [type, setType] = useState('car')
+  const [type, setType] = useState("car");
   // Array of background images
   const images = [
     { src: "/hero-banner.png", title: "Hyundai Car Review" },
@@ -84,40 +84,29 @@ const [type, setType] = useState('car')
             ))}
           </Box>
 
-          <Box className="container" pos="absolute" inset={0} py={rem(50)}>
+          <Box className="container-xl" pos="absolute" inset={0} py={rem(50)}>
             <Box className="row">
-              <Box className="col-lg-4 pe-5">
+              <Box className="col-lg-4">
                 <Card shadow="xl" padding={0} radius="md">
                   <Box p="md" px="lg" ta="left" className="border-bottom">
                     <Title order={4}>
                       Find your right{" "}
-                      <Text span inherit className="text-primary" tt="capitalize">
+                      <Text
+                        span
+                        inherit
+                        className="text-primary"
+                        tt="capitalize"
+                      >
                         {type.toLowerCase()}
-                      </Text> 
+                      </Text>
                     </Title>
                   </Box>
                   <Box p="md" px="lg">
-                    <HeroTabs setType={setType}/>
+                    <HeroTabs setType={setType} />
                   </Box>
                 </Card>
               </Box>
               <Box className="col-lg-8" pos="relative">
-                {/* <Box>
-                      <Title size={rem(50)} mb="xl" color="#fff">
-                        Hyundai Car Price in <br /> Pakistan 2023
-                      </Title>
-                      <Button
-                        rightSection={<BsArrowRight />}
-                        color="#E90808"
-                        variant="filled"
-                        fw={500}
-                        size="lg"
-                        tt="uppercase"
-                        ff="heading"
-                      >
-                        Read More
-                      </Button>
-                    </Box> */}
                 <List
                   pos="absolute"
                   bottom={0}

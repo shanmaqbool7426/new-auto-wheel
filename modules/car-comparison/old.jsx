@@ -47,7 +47,7 @@ const CarComparison = () => {
     <>
       <section className="find-cars">
         <Box className="background-search-verlay" mb="420">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <nav className="mt-3">

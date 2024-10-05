@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Text, Title, TextInput, Button, Checkbox, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useFormSubmission } from "@/custom-hooks/useForm";
-import { API_ENDPOINTS } from "../../constants/api-endpoints";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 
 const ReplyBlog = ({ blog }) => {
   const form = useForm({
@@ -108,7 +108,7 @@ export default ReplyBlog;
 // import { Box, Text, Title, TextInput, Button, Checkbox, Textarea } from "@mantine/core";
 // import { useForm } from "@mantine/form";
 // import { useFormSubmission } from "@/custom-hooks/useForm";
-// import { API_ENDPOINTS } from "../../constants/api-endpoints";
+// import { API_ENDPOINTS } from "@/constants/api-endpoints";
 
 // const ReplyBlog = ({ blog }) => {
 //   const [isClient,setIsClient]=useState(false);

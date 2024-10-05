@@ -41,7 +41,7 @@ const BlogModule = () => {
   return (
     <>
       <Box component="section" className="blog-page" pt={60}>
-        <Box className="container">
+        <Box className="container-xl">
           <Box className="row ">
             <Box className="col-md-6">
               <Box h="100%">
@@ -687,7 +687,7 @@ const BlogModule = () => {
           </section>
         </Box>
         <section className="find-section py-5">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               <Box className="col-12">
                 <Title
@@ -731,7 +731,7 @@ const BlogModule = () => {
           </Box>
         </section>
         <section className="blog-products py-5">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               {[1, 2, 3, 4, 5, 6].map((_, index) => {
                 return (

@@ -47,13 +47,19 @@ const HeroTabs = ({ setType }) => {
     model: "",
     variant: "",
   });
-
+  const [locationSelection, setLocationSelection] = useState({ country: "PK", province: "", city: "" });
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const openLocationModal = () => setIsLocationModalOpen(true);
   const closeLocationModal = () => setIsLocationModalOpen(false);
-
+  const clearSelection=()=>{
+    setSelection({
+      make: "",
+      model: "",
+      variant: "",
+    });
+  }
   const fetchMakesByType = async (vehicleType) => {
     try {
       const fetchMakes = await fetchMakesByTypeServer(vehicleType);
@@ -95,13 +101,16 @@ const HeroTabs = ({ setType }) => {
 
   const handleSubmit = () => {
     const { make, model, variant } = selection;
+    const { city,province  } = locationSelection;
     setLoading(true); // Start loading state when button is clicked
 
-    const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
+    // const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
+    // const cityQuery = city ? `/ct_${city.toLowerCase()}` : "";
+    const locationQuery = province?`/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}`:"";
     const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
     const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
     // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
-    const searchUrl = `/listing/cars/search/-${makeQuery}${modelQuery}${cityQuery}`;
+    const searchUrl = `/listing/cars/search/-${makeQuery}${modelQuery}${locationQuery}`;
     router.push(searchUrl)?.finally(() => {
       setLoading(false); // Reset loading state after redirect
     });
@@ -124,6 +133,7 @@ const HeroTabs = ({ setType }) => {
             onClick={() => {
               setMakesByType("car");
               setType("car");
+              clearSelection();
               closeModal();
             }}
           >
@@ -136,7 +146,7 @@ const HeroTabs = ({ setType }) => {
             onClick={() => {
               setMakesByType("bike");
               setType("bike");
-
+              clearSelection();
               closeModal();
             }}
           >
@@ -149,7 +159,7 @@ const HeroTabs = ({ setType }) => {
             onClick={() => {
               setMakesByType("truck");
               setType("truck");
-
+              clearSelection();
               closeModal();
             }}
           >
@@ -165,14 +175,19 @@ const HeroTabs = ({ setType }) => {
               selection?.make || selection?.model || selection?.variant
                 ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
                   }`.trim()
-                : undefined
+                : ""
             }
             onClick={openModal}
           />
           <Input
             placeholder="Enter Your Location"
             mt="md"
-            value={query}
+            value={
+              locationSelection?.province
+               ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
+                 }`.trim()
+               : ""
+           }
             onClick={openLocationModal} // Open LocationSelector modal on click
           />
           <Button
@@ -212,14 +227,19 @@ const HeroTabs = ({ setType }) => {
               selection?.make || selection?.model || selection?.variant
                 ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
                   }`.trim()
-                : undefined
+                : ""
             }
             onClick={openModal}
           />
           <Input
             placeholder="Enter Your Location"
             mt="md"
-            value={query}
+            value={
+               locationSelection?.province
+                ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
+                  }`.trim()
+                : ""
+            }
             onClick={openLocationModal} // Open LocationSelector modal on click
           />
           <Button
@@ -259,14 +279,19 @@ const HeroTabs = ({ setType }) => {
               selection?.make || selection?.model || selection?.variant
                 ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
                   }`.trim()
-                : undefined
+                : ""
             }
             onClick={openModal}
           />
           <Input
             placeholder="Enter Your Location"
             mt="md"
-            value={query}
+            value={
+              locationSelection?.province
+               ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
+                 }`.trim()
+               : ""
+           }
             onClick={openLocationModal} // Open LocationSelector modal on click
           />
           <Button
@@ -310,11 +335,8 @@ const HeroTabs = ({ setType }) => {
 
       <LocationSelector
         isOpen={isLocationModalOpen}
-        selection={{ country: "PK", province: "", city: "" }}
-        setSelection={(newSelection) => {
-          setQuery(newSelection.city);
-          closeLocationModal();
-        }}
+        selection={locationSelection}
+        setSelection={setLocationSelection}
         onClose={closeLocationModal}
         hide={false}
       />

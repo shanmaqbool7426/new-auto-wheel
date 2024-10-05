@@ -16,7 +16,7 @@ import { signIn } from "next-auth/react";
 
 
 
-import classes from "../../app/styles/Demo.module.scss";
+import classes from "@/styles/Demo.module.scss";
 const SocialsLogin = ({ socialOpened, socialOnClose }) => {
   const [modalOpened, setModalOpened] = useState(false);
 

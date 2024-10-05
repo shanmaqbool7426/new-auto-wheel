@@ -18,7 +18,7 @@ import React from "react";
 const BrowseByCategory = ({ makes, bodies }) => {
   return (
     <Box className="browse-cats-section py-5 bg-light">
-      <Box className="container">
+      <Box className="container-xl">
         <Box className="row">
           <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="xl">
@@ -43,7 +43,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       <Anchor href={`/new/car/${item.name}`} td="none">
                         <NextImage
                           width={70}
-                          height={50}
+                          height={60}
                           src={item.companyImage}
                         />
                         <Title order={6} lts={-0.4} mt="sm" fw={600}>

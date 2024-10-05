@@ -11,6 +11,7 @@ import {
   LoadingOverlay,
   AspectRatio,
   UnstyledButton,
+  rem,
 } from "@mantine/core";
 import { PlayButton } from "@/components/Icons";
 import Link from "next/link";
@@ -68,7 +69,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
   if (!currentVideo) {
     return (
       <section className="browse-videos bg-white py-5">
-        <Box className="container">
+        <Box className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2} lts={-0.4}>
               {title || "Browse Our"}{" "}
@@ -92,7 +93,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
 
   return (
     <section className="browse-videos bg-white py-5">
-      <Box className="container" pos="relative">
+      <Box className="container-xl" pos="relative">
         {loading && (
           <LoadingOverlay
             visible={true}
@@ -138,13 +139,13 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
           <Box className="col-lg-5">
             <Box className="row">
               {suggestions.map((video) => (
-                <Box className="col-lg-6" key={video.slug}>
+                <Box className="col-lg-6 mb-3" key={video.slug}>
                   <Card
                     padding={0}
                     onClick={() => handleVideoSelect(video.slug)}
                   >
                     <Card.Section className="position-relative">
-                      <UnstyledButton pos="absolute" left="50%" top="50%">
+                      <UnstyledButton pos="absolute" left="40%" top="40%">
                         <PlayButton />
                       </UnstyledButton>
                       <Image
@@ -154,7 +155,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
                         alt={video.title}
                       />
                     </Card.Section>
-                    <Title order={5} mt="5" fw={600} className="title">
+                    <Title mt="xs" fw={600} order={6}>
                       {video.title}
                     </Title>
                   </Card>

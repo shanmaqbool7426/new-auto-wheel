@@ -54,7 +54,7 @@ const VehiclesByMake = ({vehicles}) => {
       <section className="find-cars">
       <Header/>
         <section className="popular-new-cars mt-8 py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -105,7 +105,7 @@ const VehiclesByMake = ({vehicles}) => {
           </div>
         </section>
         <section className="newly-launched-cars bg-light py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -154,7 +154,7 @@ const VehiclesByMake = ({vehicles}) => {
           </div>
         </section>
         {/* <section className="upcoming-cars py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -202,7 +202,7 @@ const VehiclesByMake = ({vehicles}) => {
           </div>
         </section> */}
         {/* <section className="cars-by-model bg-light py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -253,7 +253,7 @@ const VehiclesByMake = ({vehicles}) => {
           </div>
         </section> */}
         {/* <section className="cars-by-model py-5">
-          <div className="container">
+          <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
@@ -309,7 +309,7 @@ const VehiclesByMake = ({vehicles}) => {
         <BrowseBlogs />
 
         <section className="latest-reviews py-5">
-          <div className="container">
+          <div className="container-xl">
             <Card shadow="0px 4px 20px 0px #00000014" padding="xl">
               <Title order={2} mb="lg">
                 Latest Reviews of Toyota Corolla 2024

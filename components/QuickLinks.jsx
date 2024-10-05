@@ -6,11 +6,13 @@ import React from "react";
 const QuickLinks = ({ titlePopular, titleUsed }) => {
   return (
     <section className="quick-links py-5">
-      <Box className="container">
+      <Box className="container-xl">
         <SimpleGrid cols={1} mb="md">
-          <Title order={3}>{titlePopular ? titlePopular : "Popular Used Trucks"}</Title>
+          <Title order={3}>
+            {titlePopular ? titlePopular : "Popular Used Trucks"}
+          </Title>
         </SimpleGrid>
-        <SimpleGrid cols={{ base: 2, sm: 2, md: 6, lg: 6, xl: 6 }} spacing="md">
+        <SimpleGrid cols={{ base: 3, sm: 3, md: 6, lg: 6, xl: 6 }} spacing="md">
           <ul className="list-unstyled">
             <li>
               <Anchor component={Link} href="#" underline="never">
@@ -104,7 +106,8 @@ const QuickLinks = ({ titlePopular, titleUsed }) => {
         <SimpleGrid cols={1} mb="md" mt="md">
           <Title order={3}>{titleUsed ? titleUsed : "Used Cars by City"}</Title>
         </SimpleGrid>
-        <SimpleGrid cols={{ base: 2, sm: 2, md: 6, lg: 6, xl: 6 }} spacing="md">
+
+        <SimpleGrid cols={{ base: 3, sm: 3, md: 6, lg: 6, xl: 6 }} spacing="md">
           <ul className="list-unstyled">
             <li>
               <Anchor component={Link} href="#" underline="never">

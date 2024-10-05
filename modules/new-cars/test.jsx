@@ -54,7 +54,7 @@ import {
       <>
         {/* Main Section */}
         <Box component="section" className="cars-detail" py="xl">
-          <Box className="container">
+          <Box className="container-xl">
             <Box className="row">
               {/* Carousel Section */}
               <Box className="col-lg-7">
@@ -176,7 +176,7 @@ import {
   
         {/* Rich Text Overview */}
         <Box component="section" className="detail-overview" py="xl">
-          <Box className="container" py="xl">
+          <Box className="container-xl" py="xl">
             <Box className="row">
               <Box className="col-lg-12">
                 <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
@@ -195,7 +195,7 @@ import {
         </Box>
   
         {/* Variants Comparison */}
-        <Box className="container" mt="xl">
+        <Box className="container-xl" mt="xl">
           <Title order={2}>{make} {model} Variants</Title>
           <Table verticalSpacing="sm" horizontalSpacing="sm" withTableBorder withColumnBorders>
             <Table.Thead>
@@ -235,7 +235,7 @@ import {
   
         {/* Detail Specification */}
         <Box component="section" className="pros-const-section bg-light" py="xl">
-          <Box className="container" py="xl">
+          <Box className="container-xl" py="xl">
             <Box className="row">
               <Box className="col-lg-12">
                 <Flex justify="space-between" align="center">

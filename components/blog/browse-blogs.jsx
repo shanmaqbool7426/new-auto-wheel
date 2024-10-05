@@ -1,17 +1,5 @@
 "use client";
-import {
-  Anchor,
-  Box,
-  Flex,
-  Text,
-  Title,
-  BackgroundImage,
-  rem,
-  Image,
-  Grid,
-  AspectRatio,
-  Overlay,
-} from "@mantine/core";
+import { Anchor, Flex, Text, Title, rem, Image } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
@@ -39,7 +27,7 @@ const BrowseBlogs = ({ type }) => {
   if (blogs.length === 0) {
     return (
       <section className="blogs py-5 bg-light">
-        <div className="container">
+        <div className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2} lts={-0.5}>
               Our Latest{" "}
@@ -64,7 +52,7 @@ const BrowseBlogs = ({ type }) => {
 
   return (
     <section className="blogs py-5 bg-light">
-      <div className="container">
+      <div className="container-xl">
         <Flex justify="space-between" align="center" mb="xl">
           <Title order={2} lts={-0.5}>
             Our Latest{" "}
@@ -76,11 +64,73 @@ const BrowseBlogs = ({ type }) => {
             Read all Blogs
           </Anchor>
         </Flex>
-        <Grid>
+        <div className="row">
+          <div className="col-lg-6 col-12">
+            <figure
+              href={`/blog/${firstBlog?.slug}`}
+              className="overflow-hidden position-relative"
+            >
+              <Image
+                src={firstBlog?.imageUrl}
+                alt={firstBlog?.title}
+                h="490"
+                radius="sm"
+                className="img-fluid object-fit-cover"
+              />
+              <figcaption className="position-absolute bottom-0 p-3">
+                <Text fw={600} size={rem(24)} c="white">
+                  {firstBlog?.title}
+                </Text>
+              </figcaption>
+            </figure>
+          </div>
+          <div className="col-lg-6 col-12">
+            {remainingBlogs.map((blog) => (
+              <article className="mb-2" key={blog._id}>
+                <div className="row">
+                  <div className="col">
+                    <Text c="dimmed" size="xs">
+                      {formatDate(blog.publishDate)}
+                    </Text>
+                    <Title
+                      my={5}
+                      href={`/blog/${blog.slug}`}
+                      component={Anchor}
+                      order={6}
+                      fw={600}
+                      lineClamp={1}
+                      c="#333"
+                      className="text-decoration-none"
+                    >
+                      {blog.title}
+                    </Title>
+                    <Text c="dimmed" size="sm" lineClamp={3} mb="5">
+                      {blog.content.substring(0, 100)}...
+                    </Text>
+                    <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
+                      Read More <BsArrowRight />
+                    </Anchor>
+                  </div>
+                  <div className="col-auto">
+                    <Image
+                      w={128}
+                      h={100}
+                      radius="sm"
+                      src={blog.imageUrl}
+                      alt={blog.title}
+                      className="img-fluid object-fit-cover"
+                    />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+        {/* <Grid>
           <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
             <Box
               w="100%"
-              h={{ base: 350, lg: "100%" }}
+              h={{ base: 350, lg: "534px" }}
               className="position-relative"
               component={Link}
               href={`/blog/${firstBlog?.slug}`}
@@ -137,7 +187,7 @@ const BrowseBlogs = ({ type }) => {
               ))}
             </Grid.Col>
           )}
-        </Grid>
+        </Grid> */}
       </div>
     </section>
   );

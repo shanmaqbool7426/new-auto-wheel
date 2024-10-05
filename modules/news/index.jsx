@@ -33,7 +33,7 @@ const NewsModule = () => {
   return (
     <>
       <Box component="section" className="blog-page" pt={60} pb="xl">
-        <Box className="container">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12" mt="md">
               <Title order={2} mb="lg">
@@ -54,7 +54,7 @@ const NewsModule = () => {
                   alt="Norway"
                   className="img-fluid"
                 />
-                <Text lineClamp={4} size="md">
+                <Text lineClamp={4} size="sm">
                   Atlas Honda, commonly known as Honda Bikes, has recorded the
                   highest quarterly profits in the September 30, 2023 quarter.
                   According to its letter to the Pakistan Stock Exchange (PSX).
@@ -81,10 +81,10 @@ const NewsModule = () => {
                   </Tabs.List>
 
                   <Tabs.Panel value="1" p="md">
-                    <Title order={4} mt="md" fw={600}>
+                    <Title order={5} mt="md" fw={600}>
                       Changan Alsvin Prices
                     </Title>
-                    <Text my="md">
+                    <Text size="sm" my="md">
                       The revised prices for Changan Alsvin variants are as
                       follows:
                     </Text>
@@ -107,7 +107,7 @@ const NewsModule = () => {
                       </List.Item>
                     </List>
 
-                    <Title order={4} mt="xl" fw={600}>
+                    <Title order={5} mt="xl" fw={600}>
                       Changan Oshan Prices
                     </Title>
                     <Text my="md">
@@ -127,15 +127,15 @@ const NewsModule = () => {
                         8,949,000 from the previous rate of Rs. 9,199,000.
                       </List.Item>
                     </List>
-                    <Title order={4} mt="xl" mb="md" fw={600}>
+                    <Title order={5} mt="xl" mb="md" fw={600}>
                       Changan M9 Price
                     </Title>
-                    <Text mb="md">
+                    <Text size="sm" mb="md">
                       Changan Sherpa (M9) has also undergone a reduction of Rs.
                       350,000, with the pickup now priced at Rs. 2,179,000, down
                       from the previous price of Rs. 2,529,000.
                     </Text>
-                    <Text mb="md">
+                    <Text size="sm" mb="md">
                       The primary reason behind these price reductions is the
                       appreciation of the Pakistani Rupee (PKR) against the US
                       Dollar (USD). Local car companies are passing on these
@@ -145,7 +145,7 @@ const NewsModule = () => {
                       news for consumers, as prices have gradually exceeded
                       their affordability in recent years.
                     </Text>
-                    <Text mb="md">
+                    <Text size="sm" mb="md">
                       What are your thoughts on the drop in Changan car prices?
                       Would you consider purchasing one now? Share your opinions
                       in the comments section.
@@ -198,10 +198,10 @@ const NewsModule = () => {
 
               {/* Reply Section */}
               <Box component="section" mt="xl">
-                <Title order={3} mb="xs">
+                <Title order={3} mb={4}>
                   Leave a reply
                 </Title>
-                <Text mb="md">
+                <Text mb="sm">
                   Your email address will not be published. Required fields are
                   marked
                 </Text>
@@ -209,8 +209,8 @@ const NewsModule = () => {
                   <Box className="row">
                     <Box className="col-md-6" mb="md">
                       <TextInput
-                        size="md"
-                        label="Name*"
+                        size="sm"
+                        label="Name"
                         placeholder="Enter Name"
                         required
                       />
@@ -220,12 +220,12 @@ const NewsModule = () => {
                         label="Email"
                         placeholder="Enter Email"
                         required
-                        size="md"
+                        size="sm"
                       />
                     </Box>
                     <Box className="col-md-12">
                       <Textarea
-                        size="md"
+                        size="sm"
                         label="Message"
                         required
                         rows={5}
@@ -235,11 +235,12 @@ const NewsModule = () => {
                     <Box className="col-md-12" my="lg">
                       <Checkbox
                         label="Save my name, email, and website in this browser for the next time I comment."
-                        size="md"
+                        size="sm"
                       ></Checkbox>
                     </Box>
                     <Box className="col-md-12">
                       <Button
+                        mt="lg"
                         size="md"
                         color="#EB2321"
                         autoContrast
@@ -325,7 +326,7 @@ const NewsModule = () => {
                 <Title order={5} className="title-with-border" pb="xs" mb="xs">
                   Popular Posts
                 </Title>
-                <Box className="small-post" pb="md" mb="md">
+                <Box className="small-post" pb="md" mb="md" w={"100%"}>
                   <Image
                     className="img-fluid w-auto"
                     src="/blogs/bike.svg"
@@ -348,7 +349,7 @@ const NewsModule = () => {
                             className="img-fluid "
                             src="/blogs/small-car.svg"
                           />
-                          <Box>
+                          <Box flex={1}>
                             <Title order={6} fw={600}>
                               Toyota Corolla 2023 Price in Pakistan
                             </Title>

@@ -35,6 +35,7 @@ import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
+import { BsArrowDown, BsCaretDown } from "react-icons/bs";
 const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -289,7 +290,7 @@ const Header = () => {
   if (status === "loading") {
     return (
       <Box component="header" className="header">
-        <Box className="container" h="100%">
+        <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Image src="/logo.png" alt="Logo" />
             <Loader size="sm" />
@@ -302,10 +303,12 @@ const Header = () => {
   return (
     <>
       <Box component="header" className="header">
-        <Box className="container" h="100%">
+        <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
+          <Link href="/">
             <Image src="/logo.png" alt="Logo" />
-            <Group h="100%" gap={0} visibleFrom="md">
+          </Link>
+            <Group h="100%" gap={0} visibleFrom="md" wrap={false}>
               <HoverCard
                 withArrow
                 offset={0}
@@ -432,10 +435,35 @@ const Header = () => {
                 <Center inline>Videos</Center>
               </Link>
             </Group>
-            <Group visibleFrom="md">
+            <Group visibleFrom="md" wrap={false}>
               {session ? (
                 <>
-                  <Accordion>
+                  <Menu shadow="lg" width={200}>
+                    <Menu.Target>
+                      <Button
+                        rightSection={
+                          <IconChevronDown
+                            style={{
+                              width: rem(14),
+                              height: rem(14),
+                            }}
+                          />
+                        }
+                        component={Text}
+                        variant="transparent"
+                        c="dark"
+                        fw={500}
+                      >
+                        Wellcome {session.user.fullName || session.user.name} !
+                      </Button>
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Label>Settings</Menu.Label>
+                      <Menu.Item>Logout</Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                  {/* <Accordion>
                     <Accordion.Item value="user-info">
                       <Accordion.Control>
                         Wellcome {session.user.fullName || session.user.name} !
@@ -449,7 +477,7 @@ const Header = () => {
                         </span>
                       </Accordion.Panel>
                     </Accordion.Item>
-                  </Accordion>
+                  </Accordion> */}
                 </>
               ) : (
                 <Button
