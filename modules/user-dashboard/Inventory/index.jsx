@@ -5,28 +5,38 @@ import FormField from '@/components/user-dashboard/FormField';
 import DataTable from '@/components/user-dashboard/DataTable';
 import { Box } from '@mantine/core';
 import classes from './Inventory.module.css';
-import { getColumns, companies } from './data';
+import { getColumns } from './data';
 import useInventory from './useInventory';
 import RowDetails from './RowDetails';
 
 export default function Inventory() {
   const {
+    searchBy,
     setSearchBy,
     filterParams,
+    vehicles,
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickToggleRow,
+    loading,
+    error,
+    handleExpandRow,
+    expandedRowIds,
+    handleToggleFeature
   } = useInventory();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickToggleRow)
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickToggleRow, handleExpandRow,handleToggleFeature);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
       <Box className={classes.toolbar}>
         <Box className={classes.searchwrapper}>
           <Box className={classes.search}>
-            <Search setSearchBy={setSearchBy} />
+            <Search value={searchBy} setSearchBy={setSearchBy} />
           </Box>
         </Box>
 
@@ -36,6 +46,7 @@ export default function Inventory() {
               type="select"
               name="type"
               data={[
+                { value: '', label: 'All Types' },
                 { value: 'car', label: 'Car' },
                 { value: 'bike', label: 'Bike' },
                 { value: 'truck', label: 'Truck' },
@@ -51,6 +62,7 @@ export default function Inventory() {
               type="select"
               name="status"
               data={[
+                { value: '', label: 'All Statuses' },
                 { value: 'Active', label: 'Active' },
                 { value: 'Inactive', label: 'Inactive' },
                 { value: 'Pending', label: 'Pending' },
@@ -83,12 +95,13 @@ export default function Inventory() {
       <Box>
         <DataTable
           columns={columns}
-          records={companies || []}
+          records={vehicles}
+          onRowExpand={handleExpandRow}
+          expandedRecordIds={expandedRowIds}
           rowExpansion={{
+            allowMultiple: false,
             content: ({ record }) => (
-              <>
-                <RowDetails record={record} />
-              </>
+              <RowDetails record={record} />
             ),
           }}
         />

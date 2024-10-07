@@ -7,49 +7,48 @@ export default function RowDetails({ record }) {
     <Box className={styles.rowWrap}>
       <Group gap={30} grow>
         <Box className={styles.media}>
-          <img src={record.title.image} alt="car" />
+          <img src={record.title.image} alt="car" height={100} width={100}/>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Views</Box>
-          <Box className={styles.value}>300</Box>
+          <Box className={styles.value}>{record.views || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Clicks</Box>
-          <Box className={styles.value}>350</Box>
+          <Box className={styles.value}>{record.clicks || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>No View</Box>
-          <Box className={styles.value}>30</Box>
+          <Box className={styles.value}>{record.noView || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>City</Box>
-          <Box className={styles.value}>Lahore</Box>
+          <Box className={styles.value}>{record.city || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Mileage</Box>
-          <Box className={styles.value}>300,000</Box>
+          <Box className={styles.value}>{record.mileage?.toLocaleString() || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Transmission</Box>
-          <Box className={styles.value}>Manual</Box>
+          <Box className={styles.value}>{record.transmission || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Fuel Type</Box>
-          <Box className={styles.value}>Electric</Box>
+          <Box className={styles.value}>{record.fuelType || 'N/A'}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Rego Expire</Box>
-          <Box className={styles.value}>10-23-2024</Box>
+          <Box className={styles.value}>{record.regoExpire || 'N/A'}</Box>
         </Box>
-
       </Group>
     </Box>
   )

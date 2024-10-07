@@ -6,18 +6,23 @@ import dayjs from 'dayjs';
 import Badge from '@/components/user-dashboard/Badge';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import { IconPencil, IconTrash, IconEyeOff } from '@tabler/icons-react';
+import { capitalize } from '@/utils';
 
 
 
-export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
+export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRow, handleToggleFeature) => [
   {
     accessor: 'title',
     title: 'Title',
-    render: ({ title }) => {
+    render: ({ title, id }) => {
       return (
-        <Box className={styles.tableTitle}>
+        <Box
+          className={styles.tableTitle}
+
+          style={{ cursor: 'pointer' }}
+        >
           <Box className={styles.tableTitleImage}>
-            <Image src={title.image} alt="car" width={42} height={26} />
+            <Image src={title.image} alt="car" width={50} height={50} />
           </Box>
           <Box className={styles.tableTitleText}>
             <Box className={styles.tableTitleTitle}>{title.title}</Box>
@@ -30,11 +35,14 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
   {
     accessor: 'createdDate',
     title: 'Created',
-    render: ({ createdDate }) => {
+    render: ({ createdDate, id }) => {
       return (
         <>
-          <Box className={styles.createdDate}>
-            {dayjs(createdDate).format('DD--MM-YYYY')}
+          <Box className={styles.createdDate} onClick={(e) => {
+            e.stopPropagation(); // Prevent row click event
+            onExpandRow(id);
+          }}>
+            {dayjs(createdDate).format('DD-MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
             {dayjs(createdDate).format('hh:mm A')}
@@ -42,6 +50,10 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
         </>
       )
     },
+  },
+  {
+    accessor: 'type',
+    title: 'type',
   },
   {
     accessor: 'price',
@@ -54,25 +66,36 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
   {
     accessor: 'isFeatured',
     title: '',
-    render: ({ isFeatured }) => {
+    render: ({ isFeatured, id }) => {
       return (
-        <Badge
-          label={isFeatured ? 'Featured' : 'Make it Feature'}
-          variant={isFeatured ? 'Rejected' : 'Info'}
-          underline
-          minWidth="116px"
-          outlined={isFeatured}
+        <>
+          {console.log('>>>>>>>', isFeatured)}
+          <Badge
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent row click event
+              handleToggleFeature(id);
+            }}
+            label={isFeatured ? 'Featured' : 'Make it Feature'}
+            variant={isFeatured ? 'Rejected' : 'Info'}
+            underline
+            minWidth="116px"
+            outlined={isFeatured}
+          />
+        </>
 
-        />
       )
     },
   },
   {
     accessor: 'status',
     title: 'Status',
-    render: ({ status }) => {
+    render: ({ status, id }) => {
       return (
-        <Badge label={status} variant={status} />
+        <Badge label={capitalize(status)} variant={capitalize(status)}
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent row click event
+            onExpandRow(id);
+          }} />
       )
     },
   },
@@ -81,7 +104,11 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
     title: 'Actions',
     render: ({ id }) => {
       return (
-        <Group justify='left'>
+        <Group justify='left'
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent row click event
+            onExpandRow(id);
+          }}  >
           <ActionIcon
             size={20}
             className={styles.actionButton}
@@ -143,5 +170,8 @@ export const companies = [
     status: 'Expired',
   },
 ]
+
+
+
 
 

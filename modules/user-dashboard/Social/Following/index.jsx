@@ -60,13 +60,13 @@ console.log('followers',followers)
         />
       </Box>
 
-      <Box mt="md" display="flex" justifyContent="center">
+      {/* <Box mt="md" display="flex" justifyContent="center">
         <Pagination
           total={pagination.totalPages}
           value={pagination.page}
           onChange={handlePageChange}
         />
-      </Box>
+      </Box> */}
     </>
   )
 }
