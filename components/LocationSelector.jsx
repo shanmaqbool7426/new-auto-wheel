@@ -23,6 +23,7 @@ const LocationSelector = ({
   onClose: closeModal,
   selection,
   setSelection,
+  redirect,
   hide = false,
 }) => {
   const [countries, setCountries] = useState([]);
@@ -46,7 +47,7 @@ const LocationSelector = ({
 
   useEffect(() => {
     if (selection.province) {
-      const fetchedCities = City.getCitiesOfState(selection.country, selection.province);
+      const fetchedCities = City.getCitiesOfState(selection.country, selection.province?.isoCode);
       setCities(fetchedCities);
     } else {
       setCities([]);
@@ -58,7 +59,7 @@ const LocationSelector = ({
   const [citySearch, setCitySearch] = useState("");
 
   const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(countrySearch.toLowerCase())
+    country.name.toLowerCase().includes(countrySearch.toLowerCase()) && country.isoCode === "PK"
   );
 
   const filteredProvinces = provinces.filter((province) =>
@@ -106,7 +107,12 @@ const LocationSelector = ({
     else close();
   }, [isOpen, open, close]);
 
- 
+ const done=()=>{
+  if (redirect) {
+    redirect();
+  }
+  closeModal();
+ }
   return (
     <Modal
       opened={isOpen}
@@ -124,13 +130,15 @@ const LocationSelector = ({
         <Center>
           <Button
             className={`tab-button ${activeTab === "country" ? "active" : ""}`}
-            color={activeTab === "country" ? "#E90808" : "#878787"}
+            variant="subtle"
+            bg={activeTab === "country" ? "#E90808" : "#F3F3F3"}
+            color={activeTab === "country" ? "white" : "#878787"}
             size="xs"
             mr="md"
             onClick={() => {
               setActiveTab("country");
               if (selection.country) {
-                setSelection((prev) => ({ ...prev, country: "" }));
+                setSelection((prev) => ({ ...prev, country: "PK" }));
               }
             }}
           >
@@ -185,7 +193,7 @@ const LocationSelector = ({
             onChange={(e) => setCountrySearch(e.target.value)}
           />
           <Title order={5} my="sm" fw={600}>
-            Popular
+            Country
           </Title>
           <ScrollArea
             h={250}
@@ -241,10 +249,10 @@ const LocationSelector = ({
                   <List.Item
                     key={province.isoCode}
                     className={`search-dropdown-lists__item ${
-                      selection.province === province.isoCode ? "selected" : ""
+                      selection.province.isoCode === province.isoCode ? "selected" : ""
                     }`}
                     onClick={() => {
-                      handleSelection("province", province.isoCode);
+                      handleSelection("province", province);
                       setActiveTab("city"); // Set active tab to city
                     }}
                   >
@@ -266,6 +274,7 @@ const LocationSelector = ({
               Cities
             </Title>
             <ScrollArea
+              h={250}
               offsetScrollbars
               scrollbarSize={5}
               scrollHideDelay={500}
@@ -304,7 +313,7 @@ const LocationSelector = ({
         <Button
           color="#E90808"
           rightSection={<BsArrowRight />}
-          onClick={closeModal}
+          onClick={done}
           ff="heading"
         >
           Done

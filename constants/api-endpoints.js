@@ -154,6 +154,11 @@ export const API_ENDPOINTS = {
     BROWSE: `${BASE_URL}/api/blog/browse-blogs`,
   },
 
+  COMPARISON: {
+    ADD: `${BASE_URL}/api/comparison/add`,
+    GET: `${BASE_URL}/api/comparison`,
+  },
+
   COMMENTS: {
     BASE: `${BASE_URL}/api/comment`,
   },

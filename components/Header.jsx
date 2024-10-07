@@ -305,7 +305,9 @@ const Header = () => {
       <Box component="header" className="header">
         <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
+          <Link href="/">
             <Image src="/logo.png" alt="Logo" />
+          </Link>
             <Group h="100%" gap={0} visibleFrom="md" wrap={false}>
               <HoverCard
                 withArrow

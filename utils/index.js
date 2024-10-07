@@ -55,6 +55,7 @@ export const reorderSlug = (slug, view, sortBy) => {
   const basePath = slug[0];
   const makes = slug.filter((item) => item.startsWith("mk_"));
   const models = slug.filter((item) => item.startsWith("md_"));
+  const variants= slug.filter((item) => item.startsWith("vt_"));
   const cities = slug.filter((item) => item.startsWith("ct_"));
   const bodyType = slug.filter((item) => item.startsWith("bt_"));
   const page = slug.find((item) => item.startsWith("page_"));
@@ -67,11 +68,13 @@ export const reorderSlug = (slug, view, sortBy) => {
   const fuelType = slug.find((item) => item.startsWith("ft_"));
   const condition = slug.find((item) => item.startsWith("cn_"));
   const featured = slug.find((item) => item.startsWith("ft_"));
+  const address = slug.find((item) => item.startsWith("ad_"));
 
   const dynamicSlug = [
     `t_${typeMapping[basePath]}`,
     ...makes,
     ...models,
+    ...variants,
     ...cities,
     ...bodyType,
     page,
@@ -84,6 +87,7 @@ export const reorderSlug = (slug, view, sortBy) => {
     fuelType,
     condition,
     featured,
+    address,
     sortBy,
   ].filter(Boolean);
 

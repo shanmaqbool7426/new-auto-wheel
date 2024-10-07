@@ -20,7 +20,63 @@ import React from "react";
 import VehicleSelector from "@/components/VehicleSelector";
 import { useDisclosure } from "@mantine/hooks";
 const Header = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+  const router = useRouter();
+  const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [vehicle1, setVehicle1] = useState({ make: "", model: "", variant: "" });
+  const [vehicle2, setVehicle2] = useState({ make: "", model: "", variant: "" });
+  const [vehicle3, setVehicle3] = useState({ make: "", model: "", variant: "" });
+
+  const [currentVehicle, setCurrentVehicle] = useState(null);
+
+  const openModal = (vehicleNumber) => {
+    setCurrentVehicle(vehicleNumber);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentVehicle(null);
+  };
+
+  const fetchMakesByType = async (vehicleType) => {
+    try {
+      const fetchMakes = await fetchMakesByTypeServer(vehicleType);
+      setFetchMakesByTypeData(fetchMakes);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMakesByType("car");
+  }, []);
+
+  const handleCompare = () => {
+    // Allow comparisons without the variant, only make and model are mandatory
+    const selectedVehicles = [vehicle1, vehicle2, vehicle3].filter(vehicle => vehicle.make && vehicle.model);
+
+    if (selectedVehicles.length < 2) {
+      alert("You must select at least 2 vehicles for comparison");
+      return;
+    }
+
+    // Create a slug from the selected vehicles (handle optional variants)
+    const slug = selectedVehicles.map(vehicle => 
+      `${encodeURIComponent(vehicle.make)}-${encodeURIComponent(vehicle.model)}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant)}` : ''}`
+    ).join('_');
+    router.push(`/car-comparison/${slug}`);
+
+  };
+
+  const getSetVehicleFunction = () => {
+    if (currentVehicle === 1) return setVehicle1;
+    if (currentVehicle === 2) return setVehicle2;
+    if (currentVehicle === 3) return setVehicle3;
+    return null;
+  };
+
   return (
     <>
       <Modal opened={opened} onClose={close} title="Select Vehicle">

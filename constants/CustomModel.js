@@ -130,9 +130,12 @@ const CustomModel = ({
         <Center>
           <Button
             className={`tab-button ${activeTab === "make" ? "active" : ""}`}
-            color={activeTab === "make" ? "#E90808" : "#878787"}
+            variant="subtle"
+            bg={activeTab === "make" ? "#E90808" : "#F3F3F3"}
+            color={activeTab === "make" ? "white" : "#878787"}
             size="xs"
             mr="md"
+            autoContrast
             onClick={() => {
               setActiveTab("make");
               if (selection.make) {

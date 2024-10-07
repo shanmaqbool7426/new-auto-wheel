@@ -1,5 +1,6 @@
 "use client";
 import React, { Fragment, useState, useEffect, useRef } from "react";
+import { CiSearch } from "react-icons/ci";
 // import classes from "@/app/styles/theme-css/Select.module.css";
 import { ResetFiltersIcon, SearchWithCar } from "@/components/Icons";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
@@ -40,6 +41,13 @@ import { IconAdjustments, IconSettings } from "@tabler/icons-react";
 const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const searchParams = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
+  const [search, setSearch] = useState({
+    city: "",
+    make: "",
+    model: "",
+    variant: ""
+  });
+
   const [filters, setFilters] = useState({
     query: "",
     city: [],
@@ -47,6 +55,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     condition: "",
     make: [],
     model: [],
+    variant: [],
     mileage: [0, 2000000],
     price: [0, 2000000000],
     year: [2000, 2024],
@@ -71,6 +80,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
         }
         if (item.startsWith("md_")) {
           updatedFilters.model.push(item.replace("md_", ""));
+        }
+        if (item.startsWith("vt_")) {
+          updatedFilters.variant.push(item.replace("vt_", ""));
         }
         if (item.startsWith("ct_")) {
           updatedFilters.city.push(item.replace("ct_", ""));
@@ -138,6 +150,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           [...new Set(value)].forEach(
             (model) => (customUrl += `md_${model.toLowerCase()}/`)
           );
+        if (key === "variant")
+          [...new Set(value)].forEach(
+            (variant) => (customUrl += `vt_${variant.toLowerCase()}/`)
+          );
         if (key === "city")
           [...new Set(value)].forEach(
             (city) => (customUrl += `ct_${city.toLowerCase()}/`)
@@ -182,7 +198,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     setFilters((prevFilters) => {
       let updatedFilterValue;
 
-      if (["make", "city", "model", "bodyType"].includes(filterName)) {
+      if (["make", "city", "model", "variant", "bodyType"].includes(filterName)) {
         const encodedValue = encodeURIComponent(value);
         if (isChecked) {
           updatedFilterValue = Array.from(
@@ -222,6 +238,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
       condition: "",
       make: [],
       model: [],
+      variant:[],
       mileage: [0, 2000000],
       price: [0, 2000000000],
       year: [2000, 2024],
@@ -238,12 +255,29 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     makes?.data?.forEach((make) => {
       if (filters.make.includes(make?.name?.toLowerCase())) {
         make.models.forEach((model) => {
-          selectedModels.push(model);
+          if (model.name.toLowerCase().includes(search.model.toLowerCase())) {
+            selectedModels.push(model);
+          }
         });
       }
     });
 
     return selectedModels;
+  };
+
+  const getVariantsByModels = () => {
+    const selectedVarients = [];
+    getModelsByMakes()?.forEach((model) => {
+      if (filters.model.includes(model?.name?.toLowerCase())) {
+        model.variants.forEach((variant) => {
+          if (variant.toLowerCase().includes(search.variant.toLowerCase())) {
+            selectedVarients.push(variant);
+          }
+        });
+      }
+    });
+
+    return selectedVarients;
   };
   const getCountByTypeAndKey = (countType, key) => {
     if (!vehicles?.counts[countType]) {
@@ -251,7 +285,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     }
     const normalizedKey = key?.toLowerCase();
     const entry = vehicles?.counts[countType].find(
-      (item) => item._id.toLowerCase() === normalizedKey
+      (item) => item?._id?.toLowerCase() === normalizedKey
     );
     return entry ? entry.count : null;
   };
@@ -261,12 +295,21 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const decodedFilterModel = filters.model.map((model) =>
     decodeURIComponent(model).toLowerCase()
   );
+  const decodedFilterVariant = filters.variant.map((variant) =>
+    decodeURIComponent(variant).toLowerCase()
+  );
   const decodedFilterBodies = filters.bodyType.map((body) =>
     decodeURIComponent(body).toLowerCase()
   );
 
   const data = cities.map((city) => city.label);
 
+  const filteredcities = cities?.filter((city) =>
+    city.label.toLowerCase().includes(search.city.toLowerCase())
+  );
+  const filteredmakes = makes?.data?.filter((make) =>
+    make.name.toLowerCase().includes(search.make.toLowerCase())
+  );
   return (
     <Fragment>
       <ActionIcon
@@ -318,6 +361,19 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
+              <Input
+                size="md"
+                leftSection={<CiSearch />}
+                placeholder="eg. Karachi"
+                value={search.city}
+                onChange={(e) =>
+                  setSearch((prevSearch) => ({
+                    ...prevSearch,
+                    city: e.target.value,
+                  }))
+                }
+                mb="md"
+              />
               <ScrollArea
                 h={350}
                 scrollbarSize={6}
@@ -325,7 +381,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 offsetScrollbars
               >
                 <div className="checkbox-group-filters">
-                  {cities?.map((city) => (
+                  {filteredcities?.map((city) => (
                     <Box pos="relative" key={city.value}>
                       <Checkbox
                         mb="xs"
@@ -345,6 +401,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         <Badge
                           pos="absolute"
                           right={0}
+                          top={0}
                           color="#E90808"
                           size="md"
                           fw={600}
@@ -378,7 +435,20 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
-              {makes?.data?.map((make,index) => (
+              <Input
+                size="md"
+                leftSection={<CiSearch />}
+                placeholder="eg. Honda"
+                value={search.make}
+                onChange={(e) =>
+                  setSearch((prevSearch) => ({
+                    ...prevSearch,
+                    make: e.target.value,
+                  }))
+                }
+                mb="md"
+              />
+              {filteredmakes?.map((make, index) => (
                 <Box pos="relative" key={index}>
                   <Checkbox
                     mb="xs"
@@ -396,16 +466,17 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       )
                     }
                   />
-                  {getCountByTypeAndKey("makeCounts", make.label) && (
+                  {getCountByTypeAndKey("makeCounts", make.name) && (
                     <Badge
                       pos="absolute"
                       right={0}
+                      top={0}
                       color="#E90808"
                       size="md"
                       fw={600}
                       variant="outline"
                     >
-                      {getCountByTypeAndKey("makeCounts", make.label)}
+                      {getCountByTypeAndKey("makeCounts", make.name)}
                     </Badge>
                   )}
                 </Box>
@@ -457,39 +528,53 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 </Text>
               </Accordion.Control>
               <Accordion.Panel pt="sm">
-                {getModelsByMakes()?.map((model,index) => (
-                <>
-                  <Box pos="relative">
-                    <Checkbox
-                      mb="xs"
-                      size="xs"
-                      label={model.name}
-                      key={index}
-                      checked={decodedFilterModel.includes(
-                        model.name?.toLowerCase()
+                <Input
+                  size="md"
+                  leftSection={<CiSearch />}
+                  placeholder="eg. model"
+                  value={search.model}
+                  onChange={(e) =>
+                    setSearch((prevSearch) => ({
+                      ...prevSearch,
+                      model: e.target.value,
+                    }))
+                  }
+                  mb="md"
+                />
+                {getModelsByMakes()?.map((model, index) => (
+                  <>
+                    <Box pos="relative">
+                      <Checkbox
+                        mb="xs"
+                        size="xs"
+                        label={model.name}
+                        key={index}
+                        checked={decodedFilterModel.includes(
+                          model.name?.toLowerCase()
+                        )}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            "model",
+                            model.name?.toLowerCase(),
+                            e.target.checked
+                          )
+                        }
+                      />
+                      {getCountByTypeAndKey("modelCounts", model.name) && (
+                        <Badge
+                          pos="absolute"
+                          right={0}
+                          top={0}
+                          color="#E90808"
+                          size="md"
+                          fw={600}
+                          variant="outline"
+                        >
+                          {getCountByTypeAndKey("modelCounts", model.name)}
+                        </Badge>
                       )}
-                      onChange={(e) =>
-                        handleFilterChange(
-                          "model",
-                          model.name?.toLowerCase(),
-                          e.target.checked
-                        )
-                      }
-                    />
-                    {getCountByTypeAndKey("modelCounts", model.label) && (
-                      <Badge
-                        pos="absolute"
-                        right={0}
-                        color="#E90808"
-                        size="md"
-                        fw={600}
-                        variant="outline"
-                      >
-                        {getCountByTypeAndKey("modelCounts", model.label)}
-                      </Badge>
-                    )}
-                  </Box>
-                </>
+                    </Box>
+                  </>
                   //  <div className="form-check" key={model.name?.toLowerCase()}>
                   //  <input
                   //       className="form-check-input"
@@ -515,6 +600,75 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   //       </div>
                   //     )}
                   // </div>
+                ))}
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        )}
+        {filters.model?.length > 0 && filters.make?.length>0 && (
+          <Accordion
+            variant="contained"
+            mb="lg"
+            defaultValue="Variant"
+            transitionDuration={500}
+          >
+            <Accordion.Item
+              value="Variant"
+              style={{ background: "white", borderColor: "#E3E3E3" }}
+            >
+              <Accordion.Control>
+                <Text size="sm" fw={500}>
+                  Variant
+                </Text>
+              </Accordion.Control>
+              <Accordion.Panel pt="sm">
+                <Input
+                  size="md"
+                  leftSection={<CiSearch />}
+                  placeholder="eg. variant"
+                  value={search.variant}
+                  onChange={(e) =>
+                    setSearch((prevSearch) => ({
+                      ...prevSearch,
+                      variant: e.target.value,
+                    }))
+                  }
+                  mb="md"
+                />
+                {getVariantsByModels()?.map((variant, index) => (
+                  <>
+                    <Box pos="relative">
+                      <Checkbox
+                        mb="xs"
+                        size="xs"
+                        label={variant}
+                        key={index}
+                        checked={decodedFilterVariant.includes(
+                          variant?.toLowerCase()
+                        )}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            "variant",
+                            variant?.toLowerCase(),
+                            e.target.checked
+                          )
+                        }
+                      />
+                      {getCountByTypeAndKey("variantCounts", variant) && (
+                        <Badge
+                          pos="absolute"
+                          right={0}
+                          top={0}
+                          color="#E90808"
+                          size="md"
+                          fw={600}
+                          variant="outline"
+                        >
+                          {getCountByTypeAndKey("variantCounts", variant)}
+                        </Badge>
+                      )}
+                    </Box>
+                  </>
                 ))}
               </Accordion.Panel>
             </Accordion.Item>
@@ -995,45 +1149,45 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
         </Card.Section>
         <div className="filter-card">
           <Grid mb="lg">
-            {bodies?.data?.map((bodyType,index) => (
+            {bodies?.data?.map((bodyType, index) => (
               <>
-              <Grid.Col span={6} ta="center" key={index}>
-                <div className="single-brand-item selected-brand-item text-center">
-                  <label
-                    className={`text-decoration-none ${decodedFilterBodies.includes(
-                      bodyType?.name?.toLowerCase()
-                    )
+                <Grid.Col span={6} ta="center" key={index}>
+                  <div className="single-brand-item selected-brand-item text-center">
+                    <label
+                      className={`text-decoration-none ${decodedFilterBodies.includes(
+                        bodyType?.name?.toLowerCase()
+                      )
                         ? "checked"
                         : ""
-                      }`}
-                  >
-                    <input
-                      type="checkbox"
-                      name="bodyType"
-                      value={bodyType.name?.toLowerCase()}
-                      checked={decodedFilterBodies.includes(
-                        bodyType?.name?.toLowerCase()
-                      )}
-                      onChange={(e) =>
-                        handleFilterChange(
-                          "bodyType",
-                          bodyType.name?.toLowerCase(),
-                          e.target.checked
-                        )
-                      }
-                    />
-                    <Image
-                      width={80}
-                      height={60}
-                      src={bodyType.bodyImage}
-                      className="mx-auto text-center"
-                      alt={`${bodyType.name} body type`}
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="bodyType"
+                        value={bodyType.name?.toLowerCase()}
+                        checked={decodedFilterBodies.includes(
+                          bodyType?.name?.toLowerCase()
+                        )}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            "bodyType",
+                            bodyType.name?.toLowerCase(),
+                            e.target.checked
+                          )
+                        }
+                      />
+                      <Image
+                        width={80}
+                        height={60}
+                        src={bodyType.bodyImage}
+                        className="mx-auto text-center"
+                        alt={`${bodyType.name} body type`}
 
-                    />
-                    <h6 className="mb-0 text-dark">{bodyType.name}</h6>
-                  </label>
-                </div>
-              </Grid.Col>
+                      />
+                      <h6 className="mb-0 text-dark">{bodyType.name}</h6>
+                    </label>
+                  </div>
+                </Grid.Col>
 
               </>
             ))}
@@ -1073,6 +1227,19 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Text>
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
+                    <Input
+                      size="md"
+                      leftSection={<CiSearch />}
+                      placeholder="eg. Karachi"
+                      value={search.city}
+                      onChange={(e) =>
+                        setSearch((prevSearch) => ({
+                          ...prevSearch,
+                          city: e.target.value,
+                        }))
+                      }
+                      mb="md"
+                    />
                     <ScrollArea
                       h={350}
                       scrollbarSize={6}
@@ -1080,7 +1247,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       offsetScrollbars
                     >
                       <div className="checkbox-group-filters">
-                        {cities?.map((city, index) => (
+                        {filteredcities?.map((city, index) => (
                           <Box pos="relative" key={index}>
                             <Checkbox
                               mb="xs"
@@ -1100,6 +1267,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               <Badge
                                 pos="absolute"
                                 right={0}
+                                top={0}
                                 color="#E90808"
                                 size="md"
                                 fw={600}
@@ -1133,7 +1301,20 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Text>
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
-                    {makes?.data?.map((make, index) => (
+                    <Input
+                      size="md"
+                      leftSection={<CiSearch />}
+                      placeholder="eg. Honda"
+                      value={search.make}
+                      onChange={(e) =>
+                        setSearch((prevSearch) => ({
+                          ...prevSearch,
+                          make: e.target.value,
+                        }))
+                      }
+                      mb="md"
+                    />
+                    {filteredmakes?.map((make, index) => (
                       <>
                         <Box pos="relative" key={index}>
                           <Checkbox
@@ -1152,16 +1333,17 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               )
                             }
                           />
-                          {getCountByTypeAndKey("makeCounts", make.label) && (
+                          {getCountByTypeAndKey("makeCounts", make.name) && (
                             <Badge
                               pos="absolute"
                               right={0}
+                              top={0}
                               color="#E90808"
                               size="md"
                               fw={600}
                               variant="outline"
                             >
-                              {getCountByTypeAndKey("makeCounts", make.label)}
+                              {getCountByTypeAndKey("makeCounts", make.name)}
                             </Badge>
                           )}
                         </Box>
@@ -1188,45 +1370,127 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       </Text>
                     </Accordion.Control>
                     <Accordion.Panel pt="sm">
-                      {getModelsByMakes()?.map((model,index) => (
-                       <>
-                        <Box pos="relative" key={index}>
-                          <Checkbox
-                            mb="xs"
-                            size="xs"
-                            label={model.name}
-                            key={model.value}
-                            checked={decodedFilterModel.includes(
-                              model.name?.toLowerCase()
+                      <Input
+                        size="md"
+                        leftSection={<CiSearch />}
+                        placeholder="eg. model"
+                        value={search.model}
+                        onChange={(e) =>
+                          setSearch((prevSearch) => ({
+                            ...prevSearch,
+                            model: e.target.value,
+                          }))
+                        }
+                        mb="md"
+                      />
+                      {getModelsByMakes()?.map((model, index) => (
+                        <>
+                          <Box pos="relative" key={index}>
+                            <Checkbox
+                              mb="xs"
+                              size="xs"
+                              label={model.name}
+                              key={model.value}
+                              checked={decodedFilterModel.includes(
+                                model.name?.toLowerCase()
+                              )}
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  "model",
+                                  model.name?.toLowerCase(),
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            {getCountByTypeAndKey("modelCounts", model.name) && (
+                              <Badge
+                                pos="absolute"
+                                right={0}
+                                top={0}
+                                color="#E90808"
+                                size="md"
+                                fw={600}
+                                variant="outline"
+                              >
+                                {getCountByTypeAndKey("modelCounts", model.name)}
+                              </Badge>
                             )}
-                            onChange={(e) =>
-                              handleFilterChange(
-                                "model",
-                                model.name?.toLowerCase(),
-                                e.target.checked
-                              )
-                            }
-                          />
-                          {getCountByTypeAndKey("modelCounts", model.label) && (
-                            <Badge
-                              pos="absolute"
-                              right={0}
-                              color="#E90808"
-                              size="md"
-                              fw={600}
-                              variant="outline"
-                            >
-                              {getCountByTypeAndKey("modelCounts", model.label)}
-                            </Badge>
-                          )}
-                        </Box>
-                       </>
+                          </Box>
+                        </>
                       ))}
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
               )}
-
+        {filters.model?.length > 0 && filters.make?.length>0&& (
+          <Accordion
+            variant="contained"
+            mb="lg"
+            defaultValue="Variant"
+            transitionDuration={500}
+          >
+            <Accordion.Item
+              value="Variant"
+              style={{ background: "white", borderColor: "#E3E3E3" }}
+            >
+              <Accordion.Control>
+                <Text size="sm" fw={500}>
+                  Variant
+                </Text>
+              </Accordion.Control>
+              <Accordion.Panel pt="sm">
+                <Input
+                  size="md"
+                  leftSection={<CiSearch />}
+                  placeholder="eg. variant"
+                  value={search.variant}
+                  onChange={(e) =>
+                    setSearch((prevSearch) => ({
+                      ...prevSearch,
+                      variant: e.target.value,
+                    }))
+                  }
+                  mb="md"
+                />
+                {getVariantsByModels()?.map((variant, index) => (
+                  <>
+                    <Box pos="relative">
+                      <Checkbox
+                        mb="xs"
+                        size="xs"
+                        label={variant}
+                        key={index}
+                        checked={decodedFilterVariant.includes(
+                          variant?.toLowerCase()
+                        )}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            "variant",
+                            variant?.toLowerCase(),
+                            e.target.checked
+                          )
+                        }
+                      />
+                      {getCountByTypeAndKey("variantCounts", variant) && (
+                        <Badge
+                          pos="absolute"
+                          right={0}
+                          top={0}
+                          color="#E90808"
+                          size="md"
+                          fw={600}
+                          variant="outline"
+                        >
+                          {getCountByTypeAndKey("variantCounts", variant)}
+                        </Badge>
+                      )}
+                    </Box>
+                  </>
+                ))}
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        )}
               <Input.Wrapper mb="lg">
                 <Input.Label>Mileage</Input.Label>
                 <RangeSlider
@@ -1478,46 +1742,46 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             <Card>
               <div className="filter-card">
                 <Grid mb="lg">
-                  {bodies?.data?.map((bodyType,index) => (
-                  <>
-                    <Grid.Col span={6}  ta="center" key={index}>
-                      <div className="single-brand-item selected-brand-item text-center">
-                        <label
-                          className={`text-decoration-none ${decodedFilterBodies.includes(
-                            bodyType?.name?.toLowerCase()
-                          )
+                  {bodies?.data?.map((bodyType, index) => (
+                    <>
+                      <Grid.Col span={6} ta="center" key={index}>
+                        <div className="single-brand-item selected-brand-item text-center">
+                          <label
+                            className={`text-decoration-none ${decodedFilterBodies.includes(
+                              bodyType?.name?.toLowerCase()
+                            )
                               ? "checked"
                               : ""
-                            }`}
-                        >
-                          <input
-                            type="checkbox"
-                            name="bodyType"
-                            value={bodyType.name?.toLowerCase()}
-                            checked={decodedFilterBodies.includes(
-                              bodyType?.name?.toLowerCase()
-                            )}
-                            onChange={(e) =>
-                              handleFilterChange(
-                                "bodyType",
-                                bodyType.name?.toLowerCase(),
-                                e.target.checked
-                              )
-                            }
-                          />
-                          <Image
-                            width={80}
-                            height={60}
-                            src={bodyType.bodyImage}
-                            className="mx-auto text-center"
-                            alt={`${bodyType.name} body type`}
+                              }`}
+                          >
+                            <input
+                              type="checkbox"
+                              name="bodyType"
+                              value={bodyType.name?.toLowerCase()}
+                              checked={decodedFilterBodies.includes(
+                                bodyType?.name?.toLowerCase()
+                              )}
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  "bodyType",
+                                  bodyType.name?.toLowerCase(),
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <Image
+                              width={80}
+                              height={60}
+                              src={bodyType.bodyImage}
+                              className="mx-auto text-center"
+                              alt={`${bodyType.name} body type`}
 
-                          />
-                          <h6 className="mb-0 text-dark">{bodyType.name}</h6>
-                        </label>
-                      </div>
-                    </Grid.Col>
-                  </>
+                            />
+                            <h6 className="mb-0 text-dark">{bodyType.name}</h6>
+                          </label>
+                        </div>
+                      </Grid.Col>
+                    </>
                   ))}
                 </Grid>
               </div>

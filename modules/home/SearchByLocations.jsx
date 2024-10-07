@@ -7,6 +7,7 @@ import { City } from "country-state-city";
 import {
   Anchor,
   Autocomplete,
+  Input,
   Card,
   Flex,
   Text,
@@ -16,10 +17,13 @@ import {
   Image,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
-
+import LocationSelector from "@/components/LocationSelector.jsx";
 const SearchByLocations = () => {
   const router = useRouter();
-
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false); 
+  const openLocationModal = () => setIsLocationModalOpen(true);
+  const closeLocationModal = () => setIsLocationModalOpen(false);
+  const [locationSelection, setLocationSelection] = useState({ country: "PK", province: "", city: "" });
   const [cityOptions, setCityOptions] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false); // Loading state for button
@@ -51,6 +55,16 @@ const SearchByLocations = () => {
       setCityOptions([]); // Clear the options if input is empty
     }
   };
+  const handleSubmit = () => {
+    const { city, province } = locationSelection;    
+    setLoading(true);
+    const locationQuery = `/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}`;
+    const searchUrl = `/listing/cars/search/${locationQuery}`;
+    router.push(searchUrl)?.finally(() => {
+      setLoading(false);
+    });
+  };
+  
   const locations = [
     { name: "Karachi", slug: "ct_karachi", image: "/locations/karachi.svg" },
     {
@@ -155,7 +169,15 @@ const SearchByLocations = () => {
               <Title order={4} c="dimmed" fw={500} ta="center" mt="lg">
                 I am looking to buy a second <br /> hand car in
               </Title>
-              <Autocomplete
+              <Input
+                size="md"
+                leftSection={<FaLocationDot />}
+                placeholder="Select your location"
+                value={locationSelection?.city||""}
+                onClick={openLocationModal} 
+                mt="md"
+              />
+              {/* <Autocomplete
                 size="md"
                 leftSection={<FaLocationDot />}
                 placeholder="Enter your city"
@@ -165,7 +187,7 @@ const SearchByLocations = () => {
                 withScrollArea={false}
                 styles={{ dropdown: { maxHeight: 250, overflowY: "auto" } }}
                 mt="md"
-              />
+              /> */}
               <Image
                 src={"/locations/locations-bg.svg"}
                 pos="absolute"
@@ -177,6 +199,14 @@ const SearchByLocations = () => {
           </Box>
         </Box>
       </Box>
+      <LocationSelector
+        isOpen={isLocationModalOpen}
+        selection={locationSelection}
+        setSelection={setLocationSelection}
+        onClose={closeLocationModal}
+        redirect={handleSubmit}
+        hide={false}
+      />
     </Box>
   );
 };
