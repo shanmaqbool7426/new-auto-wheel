@@ -16,9 +16,10 @@ import {
   Title,
   Modal,
 } from "@mantine/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import VehicleSelector from "@/components/VehicleSelector";
 import { useDisclosure } from "@mantine/hooks";
+import { useRouter } from "next/navigation";
 const Header = () => {
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});

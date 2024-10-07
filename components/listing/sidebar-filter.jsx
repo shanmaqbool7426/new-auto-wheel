@@ -198,7 +198,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     setFilters((prevFilters) => {
       let updatedFilterValue;
 
-      if (["make", "city", "model", "variant", "bodyType"].includes(filterName)) {
+      if (["make", "city", "model", "variant", "bodyType",].includes(filterName)) {
         const encodedValue = encodeURIComponent(value);
         if (isChecked) {
           updatedFilterValue = Array.from(
@@ -238,7 +238,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
       condition: "",
       make: [],
       model: [],
-      variant:[],
+      variant: [],
       mileage: [0, 2000000],
       price: [0, 2000000000],
       year: [2000, 2024],
@@ -605,7 +605,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             </Accordion.Item>
           </Accordion>
         )}
-        {filters.model?.length > 0 && filters.make?.length>0 && (
+        {filters.model?.length > 0 && filters.make?.length > 0 && (
           <Accordion
             variant="contained"
             mb="lg"
@@ -828,7 +828,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           </Grid>
         </Input.Wrapper>
 
-        <Select
+        {/* <Select
           mb="lg"
           placeholder="Condition"
           data={vehicleConditionOptions.map((condition) => ({
@@ -841,67 +841,155 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             shadow: "lg",
             transitionProps: { transition: "fade-down", duration: 200 },
           }}
-        />
-
-        <Select
+        /> */}
+        <Accordion
+          variant="contained"
           mb="lg"
-          placeholder="Transmission"
-          data={vehicleTransmissionOptions.map((transmission, index) => ({
-            value: transmission.value,
-            label: transmission.label,
-          }))}
-          value={filters.transmission}
-          onChange={(value) => handleFilterChange("condition", value)}
-          comboboxProps={{
-            shadow: "lg",
-            transitionProps: { transition: "fade-down", duration: 200 },
-          }}
-        />
+          defaultValue="Transmission"
 
-        <Select
+          transitionDuration={500}
+        >
+          <Accordion.Item
+            value="Transmission"
+            style={{ background: "white", borderColor: "#E3E3E3" }}
+          >
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                Transmission
+              </Text>
+            </Accordion.Control>
+            <Accordion.Panel pt="sm">
+              {vehicleTransmissionOptions?.map((transmission, index) => (
+                <Box pos="relative" key={index}>
+                  <Checkbox
+                    mb="xs"
+                    size="xs"
+                    label={transmission.label}
+                    key={transmission.value}
+                    checked={transmission?.value === filters.transmission}
+                    onChange={(e) =>
+                      handleFilterChange(
+                        "transmission",
+                        transmission?.value,
+                      )
+                    }
+                  />
+                </Box>
+              ))}
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+        <Accordion
+          variant="contained"
           mb="lg"
-          placeholder="Drive"
-          data={vehicleDriveOptions.map((drive, index) => ({
-            value: drive.value,
-            label: drive.label,
-          }))}
-          value={filters.drive}
-          onChange={(value) => handleFilterChange("drive", value)}
-          comboboxProps={{
-            shadow: "lg",
-            transitionProps: { transition: "fade-down", duration: 200 },
-          }}
-        />
+          defaultValue="Drive"
 
-        <Select
+          transitionDuration={500}
+        >
+          <Accordion.Item
+            value="Drive"
+            style={{ background: "white", borderColor: "#E3E3E3" }}
+          >
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                Drive
+              </Text>
+            </Accordion.Control>
+            <Accordion.Panel pt="sm">
+              {vehicleDriveOptions?.map((drive, index) => (
+                <Box pos="relative" key={index}>
+                  <Checkbox
+                    mb="xs"
+                    size="xs"
+                    label={drive.label}
+                    key={drive.value}
+                    checked={drive?.value === filters.drive}
+                    onChange={(e) =>
+                      handleFilterChange(
+                        "drive",
+                        drive?.value,
+                      )
+                    }
+                  />
+                </Box>
+              ))}
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+        <Accordion
+          variant="contained"
           mb="lg"
-          placeholder="Exterior Color"
-          data={vehicleExteriorColorOptions.map((color, index) => ({
-            value: color.value,
-            label: color.label,
-          }))}
-          value={filters.exteriorColor}
-          onChange={(value) => handleFilterChange("exteriorColor", value)}
-          comboboxProps={{
-            shadow: "lg",
-            transitionProps: { transition: "fade-down", duration: 200 },
-          }}
-        />
+          defaultValue="Color"
 
-        <Select
+          transitionDuration={500}
+        >
+          <Accordion.Item
+            value="Color"
+            style={{ background: "white", borderColor: "#E3E3E3" }}
+          >
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                Exterior Color
+              </Text>
+            </Accordion.Control>
+            <Accordion.Panel pt="sm">
+              {vehicleExteriorColorOptions?.map((color, index) => (
+                <Box pos="relative" key={index}>
+                  <Checkbox
+                    mb="xs"
+                    size="xs"
+                    label={color.label}
+                    key={color.value}
+                    checked={color?.value === filters.exteriorColor}
+                    onChange={(e) =>
+                      handleFilterChange(
+                        "exteriorColor",
+                        color?.value,
+                      )
+                    }
+                  />
+                </Box>
+              ))}
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+        <Accordion
+          variant="contained"
           mb="lg"
-          placeholder="Fuel Type"
-          data={vehicleFuelTypeOptions.map((fuel, index) => ({
-            value: fuel.value,
-            label: fuel.label,
-          }))}
-          value={filters.fuelType}
-          onChange={(value) => handleFilterChange("fuelType", value)}
-          comboboxProps={{
-            shadow: "lg",
-            transitionProps: { transition: "fade-down", duration: 200 },
-          }}
-        />
+          defaultValue="Fuel"
+
+          transitionDuration={500}
+        >
+          <Accordion.Item
+            value="Fuel"
+            style={{ background: "white", borderColor: "#E3E3E3" }}
+          >
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                Fuel Type
+              </Text>
+            </Accordion.Control>
+            <Accordion.Panel pt="sm">
+              {vehicleFuelTypeOptions?.map((fuel, index) => (
+                <Box pos="relative" key={index}>
+                  <Checkbox
+                    mb="xs"
+                    size="xs"
+                    label={fuel.label}
+                    key={fuel.value}
+                    checked={fuel?.value === filters.fuelType}
+                    onChange={(e) =>
+                      handleFilterChange(
+                        "fuelType",
+                        fuel?.value,
+                      )
+                    }
+                  />
+                </Box>
+              ))}
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
 
         {/* <div className="range-inputs">
             <div className="form-group">
@@ -1422,75 +1510,75 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   </Accordion.Item>
                 </Accordion>
               )}
-        {filters.model?.length > 0 && filters.make?.length>0&& (
-          <Accordion
-            variant="contained"
-            mb="lg"
-            defaultValue="Variant"
-            transitionDuration={500}
-          >
-            <Accordion.Item
-              value="Variant"
-              style={{ background: "white", borderColor: "#E3E3E3" }}
-            >
-              <Accordion.Control>
-                <Text size="sm" fw={500}>
-                  Variant
-                </Text>
-              </Accordion.Control>
-              <Accordion.Panel pt="sm">
-                <Input
-                  size="md"
-                  leftSection={<CiSearch />}
-                  placeholder="eg. variant"
-                  value={search.variant}
-                  onChange={(e) =>
-                    setSearch((prevSearch) => ({
-                      ...prevSearch,
-                      variant: e.target.value,
-                    }))
-                  }
-                  mb="md"
-                />
-                {getVariantsByModels()?.map((variant, index) => (
-                  <>
-                    <Box pos="relative">
-                      <Checkbox
-                        mb="xs"
-                        size="xs"
-                        label={variant}
-                        key={index}
-                        checked={decodedFilterVariant.includes(
-                          variant?.toLowerCase()
-                        )}
+              {filters.model?.length > 0 && filters.make?.length > 0 && (
+                <Accordion
+                  variant="contained"
+                  mb="lg"
+                  defaultValue="Variant"
+                  transitionDuration={500}
+                >
+                  <Accordion.Item
+                    value="Variant"
+                    style={{ background: "white", borderColor: "#E3E3E3" }}
+                  >
+                    <Accordion.Control>
+                      <Text size="sm" fw={500}>
+                        Variant
+                      </Text>
+                    </Accordion.Control>
+                    <Accordion.Panel pt="sm">
+                      <Input
+                        size="md"
+                        leftSection={<CiSearch />}
+                        placeholder="eg. variant"
+                        value={search.variant}
                         onChange={(e) =>
-                          handleFilterChange(
-                            "variant",
-                            variant?.toLowerCase(),
-                            e.target.checked
-                          )
+                          setSearch((prevSearch) => ({
+                            ...prevSearch,
+                            variant: e.target.value,
+                          }))
                         }
+                        mb="md"
                       />
-                      {getCountByTypeAndKey("variantCounts", variant) && (
-                        <Badge
-                          pos="absolute"
-                          right={0}
-                          top={0}
-                          color="#E90808"
-                          size="md"
-                          fw={600}
-                          variant="outline"
-                        >
-                          {getCountByTypeAndKey("variantCounts", variant)}
-                        </Badge>
-                      )}
-                    </Box>
-                  </>
-                ))}
-              </Accordion.Panel>
-            </Accordion.Item>
-          </Accordion>
-        )}
+                      {getVariantsByModels()?.map((variant, index) => (
+                        <>
+                          <Box pos="relative">
+                            <Checkbox
+                              mb="xs"
+                              size="xs"
+                              label={variant}
+                              key={index}
+                              checked={decodedFilterVariant.includes(
+                                variant?.toLowerCase()
+                              )}
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  "variant",
+                                  variant?.toLowerCase(),
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            {getCountByTypeAndKey("variantCounts", variant) && (
+                              <Badge
+                                pos="absolute"
+                                right={0}
+                                top={0}
+                                color="#E90808"
+                                size="md"
+                                fw={600}
+                                variant="outline"
+                              >
+                                {getCountByTypeAndKey("variantCounts", variant)}
+                              </Badge>
+                            )}
+                          </Box>
+                        </>
+                      ))}
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                </Accordion>
+              )}
               <Input.Wrapper mb="lg">
                 <Input.Label>Mileage</Input.Label>
                 <RangeSlider
@@ -1640,7 +1728,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 </Grid>
               </Input.Wrapper>
 
-              <Select
+              {/* <Select
                 mb="lg"
                 placeholder="Condition"
                 data={vehicleConditionOptions.map((condition) => ({
@@ -1653,68 +1741,156 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   shadow: "lg",
                   transitionProps: { transition: "fade-down", duration: 200 },
                 }}
-              />
-
-              <Select
+              /> */}
+              <Accordion
+                variant="contained"
                 mb="lg"
-                placeholder="Transmission"
-                data={vehicleTransmissionOptions.map((transmission) => ({
-                  value: transmission.value,
-                  label: transmission.label,
-                }))}
-                value={filters.transmission}
-                onChange={(value) => handleFilterChange("transmission", value)}
-                // Changed from "condition" to "transmission"
-                comboboxProps={{
-                  shadow: "lg",
-                  transitionProps: { transition: "fade-down", duration: 200 },
-                }}
-              />
+                defaultValue="Transmission"
 
-              <Select
-                mb="lg"
-                placeholder="Drive"
-                data={vehicleDriveOptions.map((drive, index) => ({
-                  value: drive.value,
-                  label: drive.label,
-                }))}
-                value={filters.drive}
-                onChange={(value) => handleFilterChange("drive", value)}
-                comboboxProps={{
-                  shadow: "lg",
-                  transitionProps: { transition: "fade-down", duration: 200 },
-                }}
-              />
+                transitionDuration={500}
+              >
+                <Accordion.Item
+                  value="Transmission"
+                  style={{ background: "white", borderColor: "#E3E3E3" }}
+                >
+                  <Accordion.Control>
+                    <Text size="sm" fw={500}>
+                      Transmission
+                    </Text>
+                  </Accordion.Control>
+                  <Accordion.Panel pt="sm">
+                    {vehicleTransmissionOptions?.map((transmission, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          label={transmission.label}
+                          key={transmission.value}
+                          checked={transmission?.value === filters.transmission}
+                          onChange={(e) =>
+                            handleFilterChange(
+                              "transmission",
+                              transmission?.value,
+                            )
+                          }
+                        />
+                      </Box>
+                    ))}
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
 
-              <Select
+              <Accordion
+                variant="contained"
                 mb="lg"
-                placeholder="Exterior Color"
-                data={vehicleExteriorColorOptions.map((color, index) => ({
-                  value: color.value,
-                  label: color.label,
-                }))}
-                value={filters.exteriorColor}
-                onChange={(value) => handleFilterChange("exteriorColor", value)}
-                comboboxProps={{
-                  shadow: "lg",
-                  transitionProps: { transition: "fade-down", duration: 200 },
-                }}
-              />
+                defaultValue="Drive"
 
-              <Select
+                transitionDuration={500}
+              >
+                <Accordion.Item
+                  value="Drive"
+                  style={{ background: "white", borderColor: "#E3E3E3" }}
+                >
+                  <Accordion.Control>
+                    <Text size="sm" fw={500}>
+                      Drive
+                    </Text>
+                  </Accordion.Control>
+                  <Accordion.Panel pt="sm">
+                    {vehicleDriveOptions?.map((drive, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          label={drive.label}
+                          key={drive.value}
+                          checked={drive?.value === filters.drive}
+                          onChange={(e) =>
+                            handleFilterChange(
+                              "drive",
+                              drive?.value,
+                            )
+                          }
+                        />
+                      </Box>
+                    ))}
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
+              <Accordion
+                variant="contained"
                 mb="lg"
-                placeholder="Fuel Type"
-                data={vehicleFuelTypeOptions.map((fuel, index) => ({
-                  value: fuel.value,
-                  label: fuel.label,
-                }))}
-                value={filters.fuelType}
-                onChange={(value) => handleFilterChange("fuelType", value)}
-                comboboxProps={{
-                  shadow: "lg",
-                  transitionProps: { transition: "fade-down", duration: 200 },
-                }}
-              />
+                defaultValue="Color"
+
+                transitionDuration={500}
+              >
+                <Accordion.Item
+                  value="Color"
+                  style={{ background: "white", borderColor: "#E3E3E3" }}
+                >
+                  <Accordion.Control>
+                    <Text size="sm" fw={500}>
+                      Exterior Color
+                    </Text>
+                  </Accordion.Control>
+                  <Accordion.Panel pt="sm">
+                    {vehicleExteriorColorOptions?.map((color, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          label={color.label}
+                          key={color.value}
+                          checked={color?.value === filters.exteriorColor}
+                          onChange={(e) =>
+                            handleFilterChange(
+                              "exteriorColor",
+                              color?.value,
+                            )
+                          }
+                        />
+                      </Box>
+                    ))}
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
+              <Accordion
+                variant="contained"
+                mb="lg"
+                defaultValue="Fuel"
+
+                transitionDuration={500}
+              >
+                <Accordion.Item
+                  value="Fuel"
+                  style={{ background: "white", borderColor: "#E3E3E3" }}
+                >
+                  <Accordion.Control>
+                    <Text size="sm" fw={500}>
+                      Fuel Type
+                    </Text>
+                  </Accordion.Control>
+                  <Accordion.Panel pt="sm">
+                    {vehicleFuelTypeOptions?.map((fuel, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          label={fuel.label}
+                          key={fuel.value}
+                          checked={fuel?.value === filters.fuelType}
+                          onChange={(e) =>
+                            handleFilterChange(
+                              "fuelType",
+                              fuel?.value,
+                            )
+                          }
+                        />
+                      </Box>
+                    ))}
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
               <Button
                 color="#E90808"
                 mt="md"

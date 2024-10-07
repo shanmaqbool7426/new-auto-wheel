@@ -29,7 +29,7 @@ const LocationSelector = ({
   const [countries, setCountries] = useState([]);
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
-  const [activeTab, setActiveTab] = useState("country"); // State to track active tab
+  const [activeTab, setActiveTab] = useState("province"); // State to track active tab
 
   useEffect(() => {
     const fetchedCountries = Country.getAllCountries();
@@ -128,7 +128,7 @@ const LocationSelector = ({
         shadow="0px 2px 5px 0px #00000014"
       >
         <Center>
-          <Button
+          {/* <Button
             className={`tab-button ${activeTab === "country" ? "active" : ""}`}
             variant="subtle"
             bg={activeTab === "country" ? "#E90808" : "#F3F3F3"}
@@ -143,7 +143,7 @@ const LocationSelector = ({
             }}
           >
             Country
-          </Button>
+          </Button> */}
           <Button
             className={`tab-button ${activeTab === "province" ? "active" : ""}`}
             variant="subtle"
@@ -184,8 +184,8 @@ const LocationSelector = ({
         </Center>
       </Paper>
       <Grid gutter={0}>
-        <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
           {/* Country Section */}
+        {/* <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
           <Input
             placeholder="Search by Country"
             leftSection={<BsSearch />}
@@ -224,8 +224,8 @@ const LocationSelector = ({
               ))}
             </List>
           </ScrollArea>
-        </Grid.Col>
-        <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
+        </Grid.Col> */}
+        <Grid.Col span={6} p="md" pt="xl" className="border-end">
           {/* Province Section */}
           <Input
             placeholder="Search by Province"
@@ -263,7 +263,7 @@ const LocationSelector = ({
           </ScrollArea>
         </Grid.Col>
         {!hide && ( // Conditionally render Cities column
-          <Grid.Col span={4} p="md" pt="xl" className="border-end">
+          <Grid.Col span={6} p="md" pt="xl" className="border-end">
             <Input
               placeholder="Search by City"
               leftSection={<BsSearch />}
