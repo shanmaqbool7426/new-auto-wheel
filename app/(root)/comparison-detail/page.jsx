@@ -47,7 +47,12 @@ const CarComparionDetail = () => {
   return (
     <>
       <Box className="comparison-detail">
-        <Box className="background-search-verlay" mb="420">
+        <Box
+          className="background-search-verlay"
+          h={200}
+          mb={{ base: 1600, xs: 480, sm: 500 }}
+          pt={60}
+        >
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
@@ -60,7 +65,7 @@ const CarComparionDetail = () => {
                       <Anchor href="#">Car Comparison</Anchor>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      <Anchor href="#">
+                      <Anchor href="#" sze>
                         Suzuki Swift vs Toyota Hilux vs Peugeot 2008
                       </Anchor>
                     </li>
@@ -68,7 +73,7 @@ const CarComparionDetail = () => {
                 </nav>
               </div>
               <div className="col-md-12">
-                <Box className="search-wrapper-card" mt="md">
+                <Box className="search-wrapper-card">
                   <Card
                     shadow="0px 4px 20px 0px #00000014"
                     padding="lg"
@@ -78,10 +83,11 @@ const CarComparionDetail = () => {
                       New Cars Comparison
                     </Title>
                     <div className="row mb-3">
-                      <div className="col-md-3">
+                      <div className="col-md-3 d-none d-md-block">
                         <Flex
                           h="100%"
-                          direction="column"
+                          py={{ base: "xl", sm: "0" }}
+                          direction={{ base: "row", sm: "column" }}
                           justify="center"
                           align="center"
                           gap="xs"
@@ -111,7 +117,7 @@ const CarComparionDetail = () => {
                           <Text fw={600}>Peugeot 2008</Text>
                         </Flex>
                       </div>
-                      <div className="col-md-3">
+                      <div className="col-md-3 col-sm-4 mb-3 mb-sm-0">
                         <Card
                           withBorder
                           radius="sm"
@@ -120,7 +126,13 @@ const CarComparionDetail = () => {
                           className="position-relative"
                         >
                           <CloseButton ml="auto" />
-                          <Flex direction="column" gap="5" align="center">
+                          <Flex
+                            direction="column"
+                            gap={10}
+                            align="center"
+                            justify="center"
+                            ta="center"
+                          >
                             <Image
                               h={80}
                               mx="auto"
@@ -131,54 +143,13 @@ const CarComparionDetail = () => {
                               Suzuki Swift
                             </Text>
                             <Select
+                              comboboxProps={{ shadow: "lg" }}
                               placeholder="GLX CVT"
                               data={["React", "Angular", "Vue", "Svelte"]}
                             />
-                            <Text>1197 cc | 12 - 15 Km/l | Automatic</Text>
-                            <Text fw={700} size="xl">
-                              Rs 47.25 Lacs
+                            <Text size="sm">
+                              1197 cc | 12 - 15 Km/l | Automatic
                             </Text>
-                            <Anchor
-                              component={Link}
-                              href="#"
-                              size="sm"
-                              className="text-primary"
-                            >
-                            
-                              <Center inline>
-                                <Box mr={5}>Buy Used Suzuki Swift</Box>
-                                <IconArrowUpRight
-                                  style={{ width: rem(16), height: rem(16) }}
-                                />
-                              </Center>
-                            </Anchor>
-                          </Flex>
-                        </Card>
-                      </div>
-                      <div className="col-md-3">
-                        <Card
-                          withBorder
-                          radius="sm"
-                          padding="lg"
-                          shadow="none"
-                          className="position-relative"
-                        >
-                          <CloseButton ml="auto" />
-                          <Flex direction="column" gap="5" align="center">
-                            <Image
-                              h={80}
-                              mx="auto"
-                              alt="Comapare Car Small"
-                              src="/compare/car-sm.svg"
-                            />
-                            <Text className="text-primary" fw={500} size="lg">
-                              Suzuki Swift
-                            </Text>
-                            <Select
-                              placeholder="GLX CVT"
-                              data={["React", "Angular", "Vue", "Svelte"]}
-                            />
-                            <Text>1197 cc | 12 - 15 Km/l | Automatic</Text>
                             <Text fw={700} size="xl">
                               Rs 47.25 Lacs
                             </Text>
@@ -198,7 +169,7 @@ const CarComparionDetail = () => {
                           </Flex>
                         </Card>
                       </div>
-                      <div className="col-md-3">
+                      <div className="col-md-3 col-sm-4 mb-3 mb-sm-0">
                         <Card
                           withBorder
                           radius="sm"
@@ -207,7 +178,13 @@ const CarComparionDetail = () => {
                           className="position-relative"
                         >
                           <CloseButton ml="auto" />
-                          <Flex direction="column" gap="5" align="center">
+                          <Flex
+                            direction="column"
+                            gap={10}
+                            align="center"
+                            justify="center"
+                            ta="center"
+                          >
                             <Image
                               h={80}
                               mx="auto"
@@ -218,10 +195,65 @@ const CarComparionDetail = () => {
                               Suzuki Swift
                             </Text>
                             <Select
+                              comboboxProps={{ shadow: "lg" }}
                               placeholder="GLX CVT"
                               data={["React", "Angular", "Vue", "Svelte"]}
                             />
-                            <Text>1197 cc | 12 - 15 Km/l | Automatic</Text>
+                            <Text size="sm">
+                              1197 cc | 12 - 15 Km/l | Automatic
+                            </Text>
+                            <Text fw={700} size="xl">
+                              Rs 47.25 Lacs
+                            </Text>
+                            <Anchor
+                              component={Link}
+                              href="#"
+                              size="sm"
+                              className="text-primary"
+                            >
+                              <Center inline>
+                                <Box mr={5}>Buy Used Suzuki Swift</Box>
+                                <IconArrowUpRight
+                                  style={{ width: rem(16), height: rem(16) }}
+                                />
+                              </Center>
+                            </Anchor>
+                          </Flex>
+                        </Card>
+                      </div>
+                      <div className="col-md-3 col-sm-4 mb-3 mb-sm-0">
+                        <Card
+                          withBorder
+                          radius="sm"
+                          padding="lg"
+                          shadow="none"
+                          className="position-relative"
+                        >
+                          <CloseButton ml="auto" />
+                          <Flex
+                            direction="column"
+                            gap={10}
+                            align="center"
+                            justify="center"
+                            ta="center"
+                          >
+                            <Image
+                              h={80}
+                              mx="auto"
+                              alt="Comapare Car Small"
+                              src="/compare/car-sm.svg"
+                            />
+                            <Text className="text-primary" fw={500} size="lg">
+                              Suzuki Swift
+                            </Text>
+                            <Select
+                              comboboxProps={{ shadow: "lg" }}
+                              placeholder="GLX CVT"
+                              data={["React", "Angular", "Vue", "Svelte"]}
+                            />
+                            <Text size="sm">
+                              1197 cc | 12 - 15 Km/l | Automatic
+                            </Text>
                             <Text fw={700} size="xl">
                               Rs 47.25 Lacs
                             </Text>

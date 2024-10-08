@@ -51,7 +51,11 @@ const DealerRating = () => {
   return (
     <>
       <Box component="section" className="car-specification">
-        <Box className="background-search-verlay" mb="200">
+        <Box
+          className="background-search-verlay"
+          mb={{ base: 300, md: 280 }}
+          pt={60}
+        >
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
@@ -78,17 +82,19 @@ const DealerRating = () => {
                   >
                     <Title order={3} mb="xl">
                       John Adam Profile
-                      <Text c="#919191" size="md" span ml="sm" ff="text">
+                      <Text c="dimmed" size="md" span ml="sm" ff="text">
                         Member Since ( 20 April 2024)
                       </Text>
                     </Title>
                     <Box className="row mb-2">
-                      <Box className="col-md-2">
-                        <Card shadow="none" p="0" h="100%">
-                          <Image src="/user-profile.png" alt="Toyota Logo" />
-                        </Card>
+                      <Box className="col-lg-2 col-sm-3 col-3">
+                        <Image
+                          src="/user-profile.png"
+                          alt="Toyota Logo"
+                          radius="sm"
+                        />
                       </Box>
-                      <Box className="col-md-7">
+                      <Box className="col-lg-7 col-sm-9 col-9">
                         <Group align="flex-start" justify="flex-start" gap="xs">
                           <Title order={3}>John Adam</Title>
                           <Text span c="#1FC055">
@@ -97,36 +103,34 @@ const DealerRating = () => {
                         </Group>
 
                         <Group
-                          component="ul"
-                          mt="md"
+                          mt="xs"
                           mb="0"
                           pl="0"
                           align="flex-start"
                           justify="flex-start"
-                          gap="xs"
+                          gap="md"
                           c="dimmed"
-                          className="list-unstyled"
                         >
-                          <Text component="li" size="lg" mr="md">
+                          <Text size="sm">
                             <FaUserLarge
                               style={{ verticalAlign: "baseline" }}
-                              size="0.9rem"
+                              size="0.8rem"
                             />
                             <Text span ml={5}>
                               Private Dealer
                             </Text>
                           </Text>
-                          <Text component="li" size="lg" mr="md">
+                          <Text size="sm">
                             <FaLocationDot
-                              size="0.9rem"
+                              size="0.8rem"
                               style={{ verticalAlign: "baseline" }}
                             />
                             <Text span ml={5}>
                               SF, Bay Area
                             </Text>
                           </Text>
-                          <Text component="li" size="lg">
-                            <FaEnvelope size="0.9rem" />
+                          <Text size="sm">
+                            <FaEnvelope size="0.8rem" />
                             <Text span ml={5}>
                               abc@gmail.com
                             </Text>
@@ -134,17 +138,15 @@ const DealerRating = () => {
                         </Group>
 
                         <Group
-                          component="ul"
-                          mt="md"
-                          mb={0}
+                          mt="xs"
+                          mb="0"
                           pl="0"
                           align="flex-start"
                           justify="flex-start"
-                          gap="xs"
+                          gap="md"
                           c="dimmed"
-                          className="list-unstyled"
                         >
-                          <Text component="li" size="lg" mr="md">
+                          <Text size="sm">
                             <FaMobile
                               style={{ verticalAlign: "baseline" }}
                               size="0.9rem"
@@ -153,7 +155,7 @@ const DealerRating = () => {
                               +92 312 123 2345
                             </Text>
                           </Text>
-                          <Text component="li">
+                          <Text size="sm">
                             <FaClock size="0.9rem" />
                             <Text span ml={5}>
                               9:30 AM - 8:30 PM (Mon - Fri)
@@ -168,11 +170,16 @@ const DealerRating = () => {
                               (3/5)
                             </Text>
                           </Group>
-                          <Text>Reviews (50)</Text>
+                          <Text size="sm">Reviews (50)</Text>
                         </Box>
                       </Box>
-                      <Box className="col-md-3 text-center">
-                        <Stack align="stretch" justify="center" gap="md">
+                      <Box className="col-lg-3 col-sm-12 col-12 ms-lg-auto text-center mt-3 mt-lg-0">
+                        <Flex
+                          direction={{ base: "row", md: "column" }}
+                          align={{ base: "flex-start", md: "stretch" }}
+                          justify={{ base: "flex-start", md: "center" }}
+                          gap="md"
+                        >
                           <Button
                             variant="filled"
                             bg="#1FC055"
@@ -192,7 +199,12 @@ const DealerRating = () => {
                           >
                             Follow
                           </Button>
-                          <Group justify="center" align="center" c="dimmed">
+                          <Group
+                            justify="center"
+                            align="center"
+                            c="dimmed"
+                            className="d-lg-flex d-none"
+                          >
                             <Text className="border-end" pr="lg">
                               Followers
                               <Text display="block">
@@ -207,7 +219,7 @@ const DealerRating = () => {
                             </Text>
                           </Group>
                           <Button bg="#EB2321">Write a Review</Button>
-                        </Stack>
+                        </Flex>
                       </Box>
                     </Box>
                   </Card>
@@ -319,7 +331,12 @@ const DealerRating = () => {
                   radius="md"
                   style={{ overflow: "hidden" }}
                 >
-                  <Card className="border-bottom" p="xl" radius={0} shadow="none">
+                  <Card
+                    className="border-bottom"
+                    p="xl"
+                    radius={0}
+                    shadow="none"
+                  >
                     <Box className="row">
                       <Box className="col-md-6">
                         <Title order={2}>

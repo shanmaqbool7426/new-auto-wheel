@@ -51,7 +51,7 @@ const NewCarsDetailPage = () => {
   return (
     <>
       <section className="find-cars">
-        <Box className="background-search-verlay" mb="220">
+        <Box className="background-search-verlay" mb="220" mt={60}>
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
@@ -94,7 +94,7 @@ const NewCarsDetailPage = () => {
                             <Title order={5} fw={600} c="#E90808">
                               Toyota Pricelist
                             </Title>
-                            <Button variant="outline" color="#E90808" mt="sm">
+                            <Button variant="outline"  color="#E90808" mt="sm">
                               Used Toyota Cars for sale
                             </Button>
                           </Flex>

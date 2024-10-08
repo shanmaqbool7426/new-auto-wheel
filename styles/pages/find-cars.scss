@@ -5,14 +5,15 @@
 
 .background-bread-crumb-overlay {
     background-color: rgba(233, 8, 8, 0.8);
-    padding: 1rem 0rem;
-    box-sizing: border-box;
+    padding         : 1rem 0rem;
+    box-sizing      : border-box;
 }
 
 .breadcrumb {
     .breadcrumb-item {
         a {
-            color: #FFFFFFB2 !important;
+            color    : #FFFFFFB2 !important;
+            font-size: 0.9rem;
         }
 
         &:before {
