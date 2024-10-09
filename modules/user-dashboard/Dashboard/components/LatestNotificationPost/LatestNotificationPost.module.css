@@ -17,3 +17,13 @@
   line-height: 1;
   font-weight: 500;
 }
+
+.cardContent {
+  padding: 0 24px 24px 24px;
+}
+
+.timelineText {
+  font-size: 14px;
+  color: #333333;
+  line-height: 2;
+}
