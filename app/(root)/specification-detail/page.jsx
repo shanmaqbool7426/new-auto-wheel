@@ -38,7 +38,11 @@ const CarComparionDetail = () => {
   return (
     <>
       <Box className="comparison-detail">
-        <Box className="background-search-verlay" mb="220">
+        <Box
+          className="background-search-verlay"
+          mb={{ base: 550, sm: 250 }}
+          pt={60}
+        >
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
@@ -59,7 +63,7 @@ const CarComparionDetail = () => {
                 </nav>
               </div>
               <div className="col-md-12">
-                <Box className="search-wrapper-card" mt="md">
+                <Box className="search-wrapper-card">
                   <Card
                     radius="6 6 0 0"
                     shadow="0px 4px 20px 0px #00000014"
@@ -182,7 +186,7 @@ const CarComparionDetail = () => {
                           return (
                             <>
                               {item.typeIcon && (
-                                <Table.Tr key={index} >
+                                <Table.Tr key={index}>
                                   <Table.Td colSpan={4}>
                                     <Flex align="center" gap="sm">
                                       <Image

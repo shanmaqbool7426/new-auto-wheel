@@ -71,7 +71,11 @@ const NewCarsDetail = () => {
   return (
     <>
       <section className="find-cars cars-detail">
-        <Box bg="rgba(233, 8, 8, 0.8)" pb="xl">
+        <Box
+          className="background-search-verlay"
+          mb={{ base: 550, sm: 250 }}
+          pt={60}
+        >
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">

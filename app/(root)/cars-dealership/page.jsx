@@ -18,9 +18,8 @@ import {
 import { BiSearch } from "react-icons/bi";
 import { FaLocationDot } from "react-icons/fa6";
 import { PhoneIcon } from "@/components/Icons";
-import Link from "next/link";
 import QuickLinks from "@/components/QuickLinks";
-import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
+import { BASE_URL } from "@/constants/api-endpoints";
 
 const CarsDealerShip = () => {
   const [dealers, setDealers] = useState([]);
@@ -61,7 +60,7 @@ const CarsDealerShip = () => {
   return (
     <>
       <Box component="section" className="car-specification">
-        <Box className="background-search-verlay" mb="80">
+        <Box className="background-search-verlay" pt={60} mb={{ base: 250, sm: 120 }}>
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
@@ -87,7 +86,7 @@ const CarsDealerShip = () => {
                       Browse Reviews For Your Perfect New Car
                     </Title>
                     <Box className="row mb-2">
-                      <Box className="col-md-3">
+                      <Box className="col-lg-5 col-md-4 mb-lg-0 mb-3">
                         <Select
                           size="md"
                           placeholder="Choose Type"
@@ -96,14 +95,14 @@ const CarsDealerShip = () => {
                           onChange={setSelectedType}
                         />
                       </Box>
-                      <Box className="col-md-3">
+                      <Box className="col-lg-5 col-md-4 mb-lg-0 mb-3">
                         <Select
                           size="md"
                           placeholder="Choose Location"
                           data={["React", "Angular", "Vue", "Svelte"]}
                         />
                       </Box>
-                      <Box className="col-md-3">
+                      <Box className="col-lg-auto col-md-4">
                         <Button
                           variant="filled"
                           fullWidth
@@ -139,7 +138,7 @@ const CarsDealerShip = () => {
             </Box>
             <Box className="col-md-6 text-end">
               <Flex align="center" justify="flex-end">
-                <Text c="dimmed" mr="md">
+                <Text c="dimmed" mr="md" size="sm">
                   SORT BY:
                 </Text>
                 <Select
@@ -153,6 +152,7 @@ const CarsDealerShip = () => {
           <Box className="row">
             <Box className="col-12 text-center">
               <Table
+                scrollable
                 horizontalSpacing={0}
                 withRowBorders={false}
                 verticalSpacing="sm"
@@ -160,7 +160,7 @@ const CarsDealerShip = () => {
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
                     <Table.Tr key={index} className="border-bottom">
-                      <Table.Td w="25%">
+                      <Table.Td >
                         <Flex gap="xs">
                           <Image
                             src="/user-profile.png"
@@ -181,12 +181,12 @@ const CarsDealerShip = () => {
                           </Stack>
                         </Flex>
                       </Table.Td>
-                      <Table.Td w="25%" align="center">
+                      <Table.Td align="center">
                         <Text size="md">
                           No of Ads <strong>({dealer.adsCount})</strong>
                         </Text>
                       </Table.Td>
-                      <Table.Td w="25%" align="center">
+                      <Table.Td align="center">
                         <Flex justify="center" align="center" gap={5}>
                           <PhoneIcon />
                           <Text size="lg" component="strong" fw="bold">
@@ -204,7 +204,7 @@ const CarsDealerShip = () => {
                           </Anchor>
                         </Flex>
                       </Table.Td>
-                      <Table.Td w="25%" align="center">
+                      <Table.Td align="center">
                         <Text fw={600}>
                           <FaLocationDot color="#E90808" className="me-2" />
                           {dealer.location ?? "Not Available"}
