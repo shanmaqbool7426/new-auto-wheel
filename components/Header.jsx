@@ -79,6 +79,12 @@ const Header = () => {
           link: "/sale/car/post-ad",
           description: "Find new cars in Pakistan",
         },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Comparison",
+          link: "/comparison",
+          description: "Compare cars",
+        },
       ],
       secondCol: [
         { title: "Suzuki Cars", link: "/listing/cars/search/-/mk_suzuki" },
