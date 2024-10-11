@@ -3,20 +3,19 @@ import { DataTable as MantineDataTable } from 'mantine-datatable';
 import 'mantine-datatable/styles.layer.css';
 import classes from './DataTable.module.css'
 
-export default function DataTable({ columns, records, ...rest }) {
+export default function DataTable({ enablePagination = true, columns, records, ...rest }) {
   const PAGE_SIZE = 14;
   const [page, setPage] = React.useState(1);
   // const [records, setRecords] = React.useState(records.slice(0, PAGE_SIZE));
   return (
     <MantineDataTable
-      {...rest}
       columns={columns}
       records={records}
-      totalRecords={records.length}
-      recordsPerPage={PAGE_SIZE}
-      page={page}
-      onPageChange={(p) => setPage(p)}
-      paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} results`}
+      totalRecords={enablePagination ? records.length : undefined}
+      recordsPerPage={enablePagination ? PAGE_SIZE : undefined}
+      page={enablePagination ? page : undefined}
+      onPageChange={enablePagination ? (p) => setPage(p) : undefined}
+      paginationText={enablePagination ? ({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} results` : undefined}
       classNames={{
         root: classes.root,
         table: classes.table,
@@ -26,10 +25,11 @@ export default function DataTable({ columns, records, ...rest }) {
       }}
       styles={{
         rowExpansionCellContent: {
-          backgroundColor: '#f9f9f9', // Apply the background color here
+          backgroundColor: '#f9f9f9',
         },
       }}
-
+      {...rest}
+      enablePagination={false}
     />
   )
 }

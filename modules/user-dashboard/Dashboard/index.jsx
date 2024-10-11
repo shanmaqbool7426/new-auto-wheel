@@ -7,6 +7,7 @@ import TopPerformingPost from './components/TopPerformingPost';
 import LocationBaseUser from './components/LocationBaseUser';
 import UserReviews from './components/UserReviews';
 import LatestNotificationPost from './components/LatestNotificationPost';
+import TotalFollowers from './components/TotalFollowers';
 
 export default function Dashboard() {
   return (
@@ -29,6 +30,9 @@ export default function Dashboard() {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
           <LatestNotificationPost />
+        </Grid.Col>
+        <Grid.Col span={12}>
+          <TotalFollowers />
         </Grid.Col>
       </Grid>
     </>
