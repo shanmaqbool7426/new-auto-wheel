@@ -1,16 +1,17 @@
 'use client';
 import React from 'react';
-import { ScrollArea, Box, Group, Avatar } from '@mantine/core';
+import { ScrollArea, Box, Group, Avatar, Text } from '@mantine/core';
 import styles from './ChatSidebar.module.css';
 import useChatSidebar from './useChatSidebar';
 import Search from '@/components/user-dashboard/Search';
-import { chatSidebarData } from './data';
 
-export default function ChatSidebar() {
-
+export default function ChatSidebar({ onSelectUser }) {
   const {
     setSearchBy,
-  } = useChatSidebar();
+    conversations,
+    selectedUserId,
+    handleUserSelect,
+  } = useChatSidebar(onSelectUser);
 
   return (
     <Box className={styles.sidebar}>
@@ -20,35 +21,40 @@ export default function ChatSidebar() {
       <Box className={styles.sidebarContent}>
         <ScrollArea h="100%">
           <ul className={styles.sidebarList}>
-            {chatSidebarData.map((item) => {
+            {conversations.map((conversation) => {
+              const isSelected = conversation.userId === selectedUserId;
               return (
-                <li className={styles.sidebarListItem}>
+                <li
+                  key={conversation.userId}
+                  className={`${styles.sidebarListItem} ${isSelected ? styles.selected : ''}`}
+                  onClick={() => handleUserSelect(conversation.userId)}
+                >
                   <Group gap={16}>
                     <Avatar
-                      src={item?.avatar}
+                      src={conversation.avatar}
                       radius="xl"
                       size={48}
                     />
-
                     <div style={{ flex: 1 }}>
                       <Box className={styles.userName}>
-                        {item?.name}
+                        {conversation.name}
                       </Box>
-
                       <Box className={styles.userMsg}>
-                        {item?.message}
+                        {conversation.lastMessage}
                       </Box>
                     </div>
                   </Group>
-                  <Box className={styles.userTime}>{item?.time}</Box>
+                  <Box className={styles.userTime}>
+                    <Text size="xs" color="dimmed">
+                      {conversation.lastMessageTime}
+                    </Text>
+                  </Box>
                 </li>
-              )
+              );
             })}
-
           </ul>
         </ScrollArea>
       </Box>
-
     </Box>
-  )
+  );
 }
