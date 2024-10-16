@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import { useSession } from "next-auth/react";
 
@@ -9,40 +9,63 @@ export default function useChat() {
   const [socket, setSocket] = useState(null);
   const { data: session, status } = useSession();
 
+  const updateConversations = useCallback((messageData) => {
+    setConversations((prevConversations) => {
+      const updatedConversations = prevConversations.map(conv => {
+        if (conv.otherUser.id === messageData.sender || conv.otherUser.id === messageData.receiver) {
+          return {
+            ...conv,
+            lastMessage: {
+              id: messageData.id,
+              content: messageData.content,
+              sender: messageData.sender,
+              receiver: messageData.receiver,
+              createdAt: messageData.createdAt
+            }
+          };
+        }
+        return conv;
+      });
+      return updatedConversations;
+    });
+  }, []);
+
   useEffect(() => {
-    
-      const newSocket = io('http://localhost:5000'); // Replace with your server URL
+    if (status === "authenticated" && session?.user?._id) {
+      const newSocket = io('http://localhost:5000', {
+        withCredentials: true,
+      });
       setSocket(newSocket);
 
       newSocket.on('connect', () => {
         console.log('Connected to server');
-        // Authenticate the user
-        newSocket.emit('authenticate', session?.user?._id);
+        newSocket.emit('authenticate', session.user._id);
       });
 
-      newSocket.on(`new_message`, (messageData) => {
-        console.log('Received new message:', messageData);
-        setMessages((prevMessages) => [...prevMessages, messageData]);
-      });                                                             
-      
       newSocket.on('conversations_list', (conversationsList) => {
         console.log('Received conversations list:', conversationsList);
         setConversations(conversationsList);
       });
 
+      newSocket.on('new_message', (messageData) => {
+        console.log('Received new message:', messageData);
+        setMessages((prevMessages) => [...prevMessages, messageData]);
+        updateConversations(messageData);
+      });
+
       newSocket.on('error', (error) => {
         console.error('Socket error:', error);
-        // Handle error (e.g., show a notification to the user)
       });
 
       return () => {
         newSocket.disconnect();
       };
-    
-  }, [session, status]);
+    }
+  }, [session, status, updateConversations]);
 
   useEffect(() => {
     if (socket && session?.user?._id) {
+    console.log('get_conversations')
       socket.emit('get_conversations');
     }
   }, [socket, session]);
@@ -50,18 +73,16 @@ export default function useChat() {
   const handleChangeSendMessage = (event) => {
     setValue(event.currentTarget.value);
   };
-
-  const sendMessage = (receiver) => {
+console.log('messsages',messages)
+  const sendMessage = (receiverId) => {
     if (value.trim() && socket && session?.user?._id) {
       const messageData = {
         sender: session.user._id,
-        receiver: receiver,
+        receiver: receiverId,
         content: value
       };
       console.log('Sending message:', messageData);
-      socket.emit(`send_message`, messageData);
-      // Add the sent message to the local state
-      setMessages((prevMessages) => [...prevMessages, messageData]);
+      socket.emit('send_message', messageData);
       setValue('');
     }
   };

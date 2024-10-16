@@ -399,7 +399,7 @@ export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
               </div>
             </div>
             <div className="col-md-7"  >
-              <MessageToDealer  />
+              <MessageToDealer  sellerId={detail?.data?.seller}/>
             </div>
           </div>
         </div>

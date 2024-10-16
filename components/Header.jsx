@@ -235,9 +235,9 @@ const Header = () => {
     <>
       <Group align="center" mb="xs" gap={10}>
         <Image
-          w={17}
-          h={17}
-          mt={3}
+          w={17} 
+          h={17} 
+          mt={3}  
           src={
             hoverTarget === "cars"
               ? "megamenu/new-car.svg"
@@ -466,7 +466,7 @@ const Header = () => {
 
                     <Menu.Dropdown>
                       <Menu.Label>Settings</Menu.Label>
-                      <Menu.Item>Logout</Menu.Item>
+                      <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
                     </Menu.Dropdown>
                   </Menu>
                   {/* <Accordion>

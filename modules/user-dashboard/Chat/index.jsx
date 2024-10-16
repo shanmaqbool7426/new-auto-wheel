@@ -21,6 +21,8 @@ export default function Chat() {
     setSelectedUserId(userId);
   };
 
+  console.log('conversations',conversations)
+
   return (
     <Box className={styles.wrapper}>
       <Box className={styles.sidebar}>

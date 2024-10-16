@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Button,
@@ -10,8 +10,11 @@ import {
 } from "@mantine/core";
 import AccountTypeModal from "../auth/AccountType";
 import { useSession } from "next-auth/react";
+import io from 'socket.io-client';
 
-const MessageToDealer = forwardRef((props, ref) => {
+const MessageToDealer = ({ sellerId }) => {
+  console.log('sellerId',sellerId)
+  const [socket, setSocket] = useState(null);
   const { data: session, status } = useSession();
   const [modalOpened, setModalOpened] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,6 +25,34 @@ const MessageToDealer = forwardRef((props, ref) => {
     acceptedPolicy: false,
   });
 
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?._id) {
+      const newSocket = io('http://localhost:5000', {
+        withCredentials: true,
+      });
+      setSocket(newSocket);
+
+      newSocket.on('connect', () => {
+        console.log('Connected to server');
+        newSocket.emit('authenticate', session.user._id);
+      });
+
+      newSocket.on(`new_message_${session.user._id}`, (messageData) => {
+        console.log('Received new message:', messageData);
+        // Handle incoming message if needed
+      });
+
+      newSocket.on('error', (error) => {
+        console.error('Socket error:', error);
+        // Handle error (e.g., show a notification to the user)
+      });
+
+      return () => {
+        newSocket.disconnect();
+      };
+    }
+  }, [session, status]);
+  
   useEffect(() => {
     if (session) {
       setFormData({
@@ -46,7 +77,20 @@ const MessageToDealer = forwardRef((props, ref) => {
     if (!session) {
       setModalOpened(true);
     } else {
-      // Handle form submission logic here
+      sendMessage();
+    }
+  };
+
+  const sendMessage = () => {
+    if (formData.message.trim() && socket && session?.user?._id) {
+      const messageData = {
+        sender: session.user._id,
+        receiver: sellerId,
+        content: formData.message
+      };
+      console.log('Sending message:', messageData);
+      socket.emit('send_message', messageData);
+      setFormData({ ...formData, message: '' });
     }
   };
 
@@ -134,6 +178,6 @@ const MessageToDealer = forwardRef((props, ref) => {
       />
     </>
   );
-});
+};
 
 export default MessageToDealer;
