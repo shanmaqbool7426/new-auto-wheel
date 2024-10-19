@@ -20,10 +20,14 @@ import { useRouter } from "next/navigation";
 import LocationSelector from "@/components/LocationSelector.jsx";
 const SearchByLocations = () => {
   const router = useRouter();
-  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false); 
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const openLocationModal = () => setIsLocationModalOpen(true);
   const closeLocationModal = () => setIsLocationModalOpen(false);
-  const [locationSelection, setLocationSelection] = useState({ country: "PK", province: "", city: "" });
+  const [locationSelection, setLocationSelection] = useState({
+    country: "PK",
+    province: "",
+    city: "",
+  });
   const [cityOptions, setCityOptions] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false); // Loading state for button
@@ -56,15 +60,17 @@ const SearchByLocations = () => {
     }
   };
   const handleSubmit = () => {
-    const { city, province } = locationSelection;    
+    const { city, province } = locationSelection;
     setLoading(true);
-    const locationQuery = `/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}`;
+    const locationQuery = `/ad_pakistan${
+      province ? ` ${province?.name?.toLowerCase()}` : ""
+    }${city ? ` ${city.toLowerCase()}` : ""}`;
     const searchUrl = `/listing/cars/search/${locationQuery}`;
     router.push(searchUrl)?.finally(() => {
       setLoading(false);
     });
   };
-  
+
   const locations = [
     { name: "Karachi", slug: "ct_karachi", image: "/locations/karachi.svg" },
     {
@@ -96,7 +102,7 @@ const SearchByLocations = () => {
           </Box>
         </Box>
         <Box className="row">
-          <Box className="col-lg-8">
+          <Box className="col-lg-8  order-last order-lg-first">
             <Box className="row">
               {locations.map((location) => (
                 <Box className="col" key={location.slug}>
@@ -164,7 +170,7 @@ const SearchByLocations = () => {
               ))}
             </Box>
           </Box>
-          <Box className="col-lg-4" pos="relative">
+          <Box className="col-lg-4 order-first order-lg-last mb-lg-0 mb-4" pos="relative">
             <Paper p="lg">
               <Title order={4} c="dimmed" fw={500} ta="center" mt="lg">
                 I am looking to buy a second <br /> hand car in
@@ -173,25 +179,16 @@ const SearchByLocations = () => {
                 size="md"
                 leftSection={<FaLocationDot />}
                 placeholder="Select your location"
-                value={locationSelection?.city||""}
-                onClick={openLocationModal} 
+                value={locationSelection?.city || ""}
+                onClick={openLocationModal}
                 mt="md"
               />
-              {/* <Autocomplete
-                size="md"
-                leftSection={<FaLocationDot />}
-                placeholder="Enter your city"
-                data={cityOptions}
-                value={query}
-                onChange={handleInputChange}
-                withScrollArea={false}
-                styles={{ dropdown: { maxHeight: 250, overflowY: "auto" } }}
-                mt="md"
-              /> */}
+
               <Image
                 src={"/locations/locations-bg.svg"}
                 pos="absolute"
                 w="auto"
+                className="d-lg-block d-none "
                 bottom={0}
                 alt="Location Vector Background"
               />

@@ -49,6 +49,7 @@ const CarComparionDetail = () => {
       <Box className="comparison-detail">
         <Box
           className="background-search-verlay"
+          bg="#E90808"
           h={200}
           mb={{ base: 1600, xs: 480, sm: 500 }}
           pt={60}

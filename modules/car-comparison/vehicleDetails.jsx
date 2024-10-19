@@ -26,7 +26,7 @@ const VehicleComparisonDetail = ({ vehicles }) => {
         <>
             <Box className="comparison-detail">
                 <Box className="background-search-overlay" mb="120">
-                    <div className="container">
+                    <div className="container-xl">
                         {/* <div className="row">
                             <div className="col-md-12">
                                 <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
@@ -50,7 +50,7 @@ const VehicleComparisonDetail = ({ vehicles }) => {
 
             {/* Display Each Comparison Data Section */}
             <Box component="section" className="comparison-detail-wrapper" mb="xl">
-                <div className="container">
+                <div className="container-xl">
                     <div className="row">
                         {comparisonData.map((section, sectionIndex) => (
                             <DetailSection key={sectionIndex} section={section} />

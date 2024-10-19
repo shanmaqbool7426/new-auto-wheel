@@ -45,7 +45,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     city: "",
     make: "",
     model: "",
-    variant: ""
+    variant: "",
   });
 
   const [filters, setFilters] = useState({
@@ -68,7 +68,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const router = useRouter();
   const { slug } = useParams();
   const debounceTimeoutRef = useRef(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     if (slug && slug.length > 0) {
@@ -198,7 +198,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
     setFilters((prevFilters) => {
       let updatedFilterValue;
 
-      if (["make", "city", "model", "variant", "bodyType",].includes(filterName)) {
+      if (
+        ["make", "city", "model", "variant", "bodyType"].includes(filterName)
+      ) {
         const encodedValue = encodeURIComponent(value);
         if (isChecked) {
           updatedFilterValue = Array.from(
@@ -362,7 +364,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             </Accordion.Control>
             <Accordion.Panel pt="sm">
               <Input
-                size="md"
+                size="sm"
                 leftSection={<CiSearch />}
                 placeholder="eg. Karachi"
                 value={search.city}
@@ -436,7 +438,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             </Accordion.Control>
             <Accordion.Panel pt="sm">
               <Input
-                size="md"
+                size="sm"
                 leftSection={<CiSearch />}
                 placeholder="eg. Honda"
                 value={search.make}
@@ -529,7 +531,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Accordion.Control>
               <Accordion.Panel pt="sm">
                 <Input
-                  size="md"
+                  size="sm"
                   leftSection={<CiSearch />}
                   placeholder="eg. model"
                   value={search.model}
@@ -846,7 +848,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           variant="contained"
           mb="lg"
           defaultValue="Transmission"
-
           transitionDuration={500}
         >
           <Accordion.Item
@@ -868,10 +869,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     key={transmission.value}
                     checked={transmission?.value === filters.transmission}
                     onChange={(e) =>
-                      handleFilterChange(
-                        "transmission",
-                        transmission?.value,
-                      )
+                      handleFilterChange("transmission", transmission?.value)
                     }
                   />
                 </Box>
@@ -883,7 +881,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           variant="contained"
           mb="lg"
           defaultValue="Drive"
-
           transitionDuration={500}
         >
           <Accordion.Item
@@ -904,12 +901,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     label={drive.label}
                     key={drive.value}
                     checked={drive?.value === filters.drive}
-                    onChange={(e) =>
-                      handleFilterChange(
-                        "drive",
-                        drive?.value,
-                      )
-                    }
+                    onChange={(e) => handleFilterChange("drive", drive?.value)}
                   />
                 </Box>
               ))}
@@ -920,7 +912,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           variant="contained"
           mb="lg"
           defaultValue="Color"
-
           transitionDuration={500}
         >
           <Accordion.Item
@@ -942,10 +933,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     key={color.value}
                     checked={color?.value === filters.exteriorColor}
                     onChange={(e) =>
-                      handleFilterChange(
-                        "exteriorColor",
-                        color?.value,
-                      )
+                      handleFilterChange("exteriorColor", color?.value)
                     }
                   />
                 </Box>
@@ -957,7 +945,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           variant="contained"
           mb="lg"
           defaultValue="Fuel"
-
           transitionDuration={500}
         >
           <Accordion.Item
@@ -979,10 +966,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     key={fuel.value}
                     checked={fuel?.value === filters.fuelType}
                     onChange={(e) =>
-                      handleFilterChange(
-                        "fuelType",
-                        fuel?.value,
-                      )
+                      handleFilterChange("fuelType", fuel?.value)
                     }
                   />
                 </Box>
@@ -1242,12 +1226,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 <Grid.Col span={6} ta="center" key={index}>
                   <div className="single-brand-item selected-brand-item text-center">
                     <label
-                      className={`text-decoration-none ${decodedFilterBodies.includes(
-                        bodyType?.name?.toLowerCase()
-                      )
-                        ? "checked"
-                        : ""
-                        }`}
+                      className={`text-decoration-none ${
+                        decodedFilterBodies.includes(
+                          bodyType?.name?.toLowerCase()
+                        )
+                          ? "checked"
+                          : ""
+                      }`}
                     >
                       <input
                         type="checkbox"
@@ -1270,13 +1255,11 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         src={bodyType.bodyImage}
                         className="mx-auto text-center"
                         alt={`${bodyType.name} body type`}
-
                       />
                       <h6 className="mb-0 text-dark">{bodyType.name}</h6>
                     </label>
                   </div>
                 </Grid.Col>
-
               </>
             ))}
           </Grid>
@@ -1316,7 +1299,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
                     <Input
-                      size="md"
+                      size="sm"
                       leftSection={<CiSearch />}
                       placeholder="eg. Karachi"
                       value={search.city}
@@ -1390,7 +1373,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
                     <Input
-                      size="md"
+                      size="sm"
                       leftSection={<CiSearch />}
                       placeholder="eg. Honda"
                       value={search.make}
@@ -1459,7 +1442,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Accordion.Control>
                     <Accordion.Panel pt="sm">
                       <Input
-                        size="md"
+                        size="sm"
                         leftSection={<CiSearch />}
                         placeholder="eg. model"
                         value={search.model}
@@ -1490,7 +1473,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                                 )
                               }
                             />
-                            {getCountByTypeAndKey("modelCounts", model.name) && (
+                            {getCountByTypeAndKey(
+                              "modelCounts",
+                              model.name
+                            ) && (
                               <Badge
                                 pos="absolute"
                                 right={0}
@@ -1500,7 +1486,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                                 fw={600}
                                 variant="outline"
                               >
-                                {getCountByTypeAndKey("modelCounts", model.name)}
+                                {getCountByTypeAndKey(
+                                  "modelCounts",
+                                  model.name
+                                )}
                               </Badge>
                             )}
                           </Box>
@@ -1746,7 +1735,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 variant="contained"
                 mb="lg"
                 defaultValue="Transmission"
-
                 transitionDuration={500}
               >
                 <Accordion.Item
@@ -1770,7 +1758,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           onChange={(e) =>
                             handleFilterChange(
                               "transmission",
-                              transmission?.value,
+                              transmission?.value
                             )
                           }
                         />
@@ -1784,7 +1772,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 variant="contained"
                 mb="lg"
                 defaultValue="Drive"
-
                 transitionDuration={500}
               >
                 <Accordion.Item
@@ -1806,10 +1793,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           key={drive.value}
                           checked={drive?.value === filters.drive}
                           onChange={(e) =>
-                            handleFilterChange(
-                              "drive",
-                              drive?.value,
-                            )
+                            handleFilterChange("drive", drive?.value)
                           }
                         />
                       </Box>
@@ -1821,7 +1805,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 variant="contained"
                 mb="lg"
                 defaultValue="Color"
-
                 transitionDuration={500}
               >
                 <Accordion.Item
@@ -1843,10 +1826,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           key={color.value}
                           checked={color?.value === filters.exteriorColor}
                           onChange={(e) =>
-                            handleFilterChange(
-                              "exteriorColor",
-                              color?.value,
-                            )
+                            handleFilterChange("exteriorColor", color?.value)
                           }
                         />
                       </Box>
@@ -1858,7 +1838,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 variant="contained"
                 mb="lg"
                 defaultValue="Fuel"
-
                 transitionDuration={500}
               >
                 <Accordion.Item
@@ -1880,10 +1859,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           key={fuel.value}
                           checked={fuel?.value === filters.fuelType}
                           onChange={(e) =>
-                            handleFilterChange(
-                              "fuelType",
-                              fuel?.value,
-                            )
+                            handleFilterChange("fuelType", fuel?.value)
                           }
                         />
                       </Box>
@@ -1923,12 +1899,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Grid.Col span={6} ta="center" key={index}>
                         <div className="single-brand-item selected-brand-item text-center">
                           <label
-                            className={`text-decoration-none ${decodedFilterBodies.includes(
-                              bodyType?.name?.toLowerCase()
-                            )
-                              ? "checked"
-                              : ""
-                              }`}
+                            className={`text-decoration-none ${
+                              decodedFilterBodies.includes(
+                                bodyType?.name?.toLowerCase()
+                              )
+                                ? "checked"
+                                : ""
+                            }`}
                           >
                             <input
                               type="checkbox"
@@ -1951,7 +1928,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               src={bodyType.bodyImage}
                               className="mx-auto text-center"
                               alt={`${bodyType.name} body type`}
-
                             />
                             <h6 className="mb-0 text-dark">{bodyType.name}</h6>
                           </label>

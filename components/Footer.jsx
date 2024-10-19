@@ -46,7 +46,7 @@ const Footer = () => {
         <div className="row">
           <div className="col-lg-9">
             <div className="row">
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Cars By Make
                 </Title>
@@ -64,8 +64,7 @@ const Footer = () => {
                   ))}
                 </ul>
               </div>
-
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Cars By City
                 </Title>
@@ -81,7 +80,7 @@ const Footer = () => {
                   ))}
                 </ul>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Explore AutoWheels
                 </Title>
@@ -112,7 +111,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Autowheels.com
                 </Title>
@@ -143,7 +142,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Cars by Category
                 </Title>
@@ -171,7 +170,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Cars by Body Type
                 </Title>
@@ -202,7 +201,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Cars by Color
                 </Title>
@@ -233,7 +232,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                   Cars by Province
                 </Title>
@@ -263,7 +262,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-lg-3 col-sm-6">
             <div>
               <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                 Sell On AutoWheels

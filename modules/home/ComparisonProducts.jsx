@@ -41,7 +41,7 @@ const ComparisonProducts = ({ title }) => {
               {[1, 2, 3, 4, 5, 6].map((_, index) => {
                 return (
                   <>
-                    <div className="col-lg-4" key={index}>
+                    <div className="col-lg-4 col-sm-6" key={index}>
                       <div className="card comparison-card">
                         <div className="two-col-comparison position-relative">
                           <div className="product-compare product-first justify-content-start">

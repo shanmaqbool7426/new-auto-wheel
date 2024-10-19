@@ -48,31 +48,11 @@ const Hero = () => {
       {/* className="hero-banner" */}
       <Box pt={rem(60)}>
         <Box className="hero-banner" pos="relative">
-          {/* Transition for sliding effect */}
-          {/* <Box className="hero-banner__slider" h={550} pos="relative">
-            {images.map((image, index) => (
-              <Transition
-                key={image.src}
-                mounted={index === currentIndex} // Only mount the currently active slide
-                transition={`slide-${slideDirection}`}
-                duration={500} // Adjust duration for smooth slide
-                timingFunction="ease"
-              >
-                {(styles) => (
-                  <Box
-                    style={{ ...styles, position: "absolute", width: "100%" }} // Position the slides absolutely for proper sliding
-                  >
-                    <Image src={image.src} h={550} />
-                  </Box>
-                )}
-              </Transition>
-            ))}
-          </Box> */}
           <Box
             className="hero-banner__slider"
             h={550}
+            display="flex"
             style={{
-              display: "flex",
               transition: "transform 0.5s ease-in-out",
               transform: `translateX(-${currentIndex * 100}%)`, // Slide effect
             }}
@@ -86,7 +66,7 @@ const Hero = () => {
 
           <Box className="container-xl" pos="absolute" inset={0} py={rem(50)}>
             <Box className="row">
-              <Box className="col-lg-4">
+              <Box className="col-lg-4 col-sm-6">
                 <Card shadow="xl" padding={0} radius="md">
                   <Box p="md" px="lg" ta="left" className="border-bottom">
                     <Title order={4}>
@@ -106,15 +86,16 @@ const Hero = () => {
                   </Box>
                 </Card>
               </Box>
-              <Box className="col-lg-8" pos="relative">
+              <Box className="col-lg-8 col-sm-12" pos="relative">
                 <List
-                  pos="absolute"
+                  pos={{ md: "absolute" }}
+                  mt={{ base: "lg", md: 0 }}
                   bottom={0}
                   className="car-lists-slider"
                   listStyleType="none"
                   size="sm"
                   display="flex"
-                  style={{ color: "#fff", cursor: "pointer" }} // Make list items clickable
+                  // style={{ color: "#fff", cursor: "pointer" }} // Make list items clickable
                 >
                   {images.map((image, index) => (
                     <List.Item

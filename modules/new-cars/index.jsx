@@ -125,12 +125,17 @@ const NewCarsModule = ({
   return (
     <>
       <section className="find-cars">
-        <Box className="background-search-verlay" mb="100">
+        <Box
+          className="background-search-verlay"
+          h={rem(250)}
+          pt={80}
+          mb={{ base: 550, sm: 120 }}
+        >
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
-                <nav className="mt-3">
-                  <ol className="breadcrumb">
+                <nav>
+                  <ol className="breadcrumb mb-3">
                     <li className="breadcrumb-item">
                       <Anchor href="#">Bikes</Anchor>
                     </li>
@@ -306,7 +311,7 @@ const NewCarsModule = ({
         <BrowseVideos />
         <BrowseBlogs />
 
-        <Comments fetchMakesByTypeData={fetchMakesByTypeData}/>
+        <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
         <QuickLinks />
       </section>

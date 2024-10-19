@@ -4,12 +4,9 @@ import {
   Anchor,
   Box,
   Group,
-  Badge,
   Button,
   Card,
   Title,
-  Input,
-  Select,
   Text,
   Image,
   Flex,
@@ -19,7 +16,6 @@ import {
   Tabs,
   SimpleGrid,
   UnstyledButton,
-  Pill,
   Table,
   Checkbox,
   Paper,
@@ -29,33 +25,24 @@ import {
 } from "@mantine/core";
 import {
   AirBags,
-  CarComparisonSmall,
-  CarSmall,
   DimensionIcon,
-  FuelIcon,
   FuelTank,
-  GearsHandle,
-  SmallReviewIcon,
   TransmissionIcon,
 } from "@/components/Icons";
-import QuickLinks from "@/components/QuickLinks";
 import FAQ from "@/components/Faq";
 
 import {
-  IconArrowLeft,
-  IconArrowRight,
   IconCheck,
-  IconSearch,
 } from "@tabler/icons-react";
-import BrowseByCategory from "@/modules/home/BrowseByCategory";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
 import BrowseVideos from "@/modules/home/BrowseVideos";
-import BrowseBlogs from "@/modules/home/BrowseBlogs";
 import { Carousel } from "@mantine/carousel";
-import Link from "next/link";
-import { FaCross, FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
+import {  FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
+import {  usePathname } from "next/navigation";
 
 const NewCarsDetail = () => {
+  const pathName = usePathname();
+  console.log(pathName, "[pathName]");
   const { ScrollContainer } = Table;
   const tagsArray = [
     { name: "All (601)", isSelected: true },
@@ -73,7 +60,7 @@ const NewCarsDetail = () => {
       <section className="find-cars cars-detail">
         <Box
           className="background-search-verlay"
-          mb={{ base: 550, sm: 250 }}
+          mb={{ base: pathName === "/new-cars-detail" ? 0 : 550, sm: pathName === "/new-cars-detail" ? 0 : 250 }}
           pt={60}
         >
           <Box className="container-xl">

@@ -24,7 +24,7 @@ import {
   Title,
 } from "@mantine/core";
 import { FaRoad } from "react-icons/fa6";
-import { BsFuelPumpFill, BsStar } from "react-icons/bs";
+import { BsCameraFill, BsFuelPumpFill, BsStar } from "react-icons/bs";
 
 const ListCardView = ({ vehicle, index }) => {
   const conditionMap = {
@@ -44,25 +44,23 @@ const ListCardView = ({ vehicle, index }) => {
         <Grid gutter={0} align="center">
           <Grid.Col span={4}>
             <Card.Section pos="relative" style={{ overflow: "hidden" }}>
-              <Badge
+              <Button
                 pos="absolute"
-                top={10}
-                left={0}
+                top={8}
+                left={10}
+                p={0}
                 variant="transparent"
-                size="xl"
                 color="white"
-                leftSection={
-                  <CameraIcon style={{ width: rem(12), height: rem(12) }} />
-                }
+                leftSection={<CameraIcon width="20px" height="20px" />}
               >
                 6
-              </Badge>
-              <Badge
+              </Button>
+              <Button
                 pos="absolute"
-                bottom={10}
-                left={0}
+                bottom={14}
+                left={10}
+                p={0}
                 variant="transparent"
-                size="xl"
                 color="white"
                 leftSection={
                   <BsStar style={{ width: rem(20), height: rem(20) }} />
@@ -85,7 +83,7 @@ const ListCardView = ({ vehicle, index }) => {
               </Group>
             </Card.Section>
           </Grid.Col>
-          <Grid.Col span={8} px="lg">
+          <Grid.Col span={8} pl="lg">
             <Group justify="space-between" mb="lg">
               <Box>
                 <Text
@@ -126,7 +124,7 @@ const ListCardView = ({ vehicle, index }) => {
               </Text>
             </Group>
 
-            <Group mb="lg">
+            <Group mb="lg" justify="space-between">
               <Box className="list-inline-item" c="dimmed">
                 <FaRoad />{" "}
                 <Text c="dark" size="sm" span fw={500}>

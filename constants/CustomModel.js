@@ -57,17 +57,19 @@ const CustomModel = ({
     make.toLowerCase().includes(makeSearch.toLowerCase())
   );
 
-  const filteredModels = selection.make && models[selection.make]
-    ? models[selection.make].filter((model) =>
-        model.toLowerCase().includes(modelSearch.toLowerCase())
-      )
-    : [];
+  const filteredModels =
+    selection.make && models[selection.make]
+      ? models[selection.make].filter((model) =>
+          model.toLowerCase().includes(modelSearch.toLowerCase())
+        )
+      : [];
 
-  const filteredVariants = selection.model && variants[selection.model]
-    ? variants[selection.model].filter((variant) =>
-        variant.toLowerCase().includes(variantSearch.toLowerCase())
-      )
-    : [];
+  const filteredVariants =
+    selection.model && variants[selection.model]
+      ? variants[selection.model].filter((variant) =>
+          variant.toLowerCase().includes(variantSearch.toLowerCase())
+        )
+      : [];
 
   const [opened, { open, close }] = useDisclosure(isOpen);
   const handleSelection = (type, value) => {
@@ -118,7 +120,7 @@ const CustomModel = ({
       opened={isOpen}
       onClose={closeModal}
       withCloseButton={false}
-      size="60%"
+      size={"xl"}
       padding={0}
       closeOnClickOutside={false} // Prevent modal from closing on outside click
     >
@@ -164,7 +166,9 @@ const CustomModel = ({
           </Button>
           {!hide && ( // Conditionally render Variants tab button
             <Button
-              className={`tab-button ${activeTab === "variant" ? "active" : ""}`}
+              className={`tab-button ${
+                activeTab === "variant" ? "active" : ""
+              }`}
               variant="subtle"
               bg={activeTab === "variant" ? "#E90808" : "#F3F3F3"}
               color={activeTab === "variant" ? "white" : "#878787"}
@@ -181,7 +185,7 @@ const CustomModel = ({
               Variants
             </Button>
           )}
-          <CloseButton pos="absolute" right={20} onClick={closeModal}/>
+          <CloseButton pos="absolute" right={20} onClick={closeModal} />
         </Center>
       </Paper>
       <Grid gutter={0}>

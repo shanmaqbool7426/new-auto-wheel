@@ -88,15 +88,17 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
 
   return (
     <>
-      <Box className="search-wrapper-card" mt="xl">
-        <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="md">
-          <Title order={3} mb="md">Find New Cars in Pakistan</Title>
+      <Box className="search-wrapper-card" mt="md">
+        <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
+          <Title order={3} mb="md">
+            Find New Cars in Pakistan
+          </Title>
           <div className="row mb-2">
             <div className="col-md-3">
               <Input
                 onClick={openModal}
                 size="md"
-                radius="md"
+                radius="sm"
                 value={`${selection.make} ${selection.model}`}
                 placeholder="Search by Car Make or Model"
                 leftSection={<IconSearch size={16} />}
@@ -105,19 +107,21 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
             <div className="col-md-3">
               <Select
                 size="md"
-                radius="md"
+                radius="sm"
                 leftSection={<GearsHandle />}
                 placeholder="Choose Make"
                 data={["React", "Angular", "Vue", "Svelte"]}
+                comboboxProps={{ shadow: "lg" }}
                 onChange={(value) => handleFilterChange("make", value)}
               />
             </div>
             <div className="col-md-3">
               <Select
                 size="md"
-                radius="md"
+                radius="sm"
                 placeholder="Choose Price Range"
                 data={rangeData}
+                comboboxProps={{ shadow: "lg" }}
                 onChange={(value) =>
                   handleFilterChange("price", value.split("-").map(Number))
                 }
@@ -127,8 +131,9 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
               <Button
                 fullWidth
                 size="md"
-                radius="md"
+                radius="sm"
                 bg="#E90808"
+              
                 leftSection={<IconSearch size={16} />}
                 onClick={handleSearch} // Call handleSearch on button click
               >

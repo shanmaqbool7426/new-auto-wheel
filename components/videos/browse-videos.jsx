@@ -136,10 +136,10 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
           </Box>
 
           {/* Video suggestions */}
-          <Box className="col-lg-5">
+          <Box className="col-lg-5 mt-lg-0 mt-4">
             <Box className="row">
               {suggestions.map((video) => (
-                <Box className="col-lg-6 mb-3" key={video.slug}>
+                <Box className="col-lg-6 col-sm-6 mb-3" key={video.slug}>
                   <Card
                     padding={0}
                     onClick={() => handleVideoSelect(video.slug)}
