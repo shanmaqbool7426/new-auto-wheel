@@ -49,6 +49,9 @@ const colorConfig = {
     "Kona Blue": "#003366",
     "White": "#FFFFFF",  // Adding "White"
     "Black": "#000000",  // Adding "Black"
+    "Grey": "	#D3D3D3",  // Adding "Black"
+    "Orange": "	#FFA500",  // Adding "Black"
+    "Yellow": "#FFD700",  // Adding "Black"
     "Silver": "#C0C0C0", // Adding "Silver"
     "Blue": "#0000FF",    // Adding "Blue"
     "Red": "#FF0000"    // Adding "Red"

@@ -77,6 +77,20 @@ export const fetchVehiclDetail = async (url) => {
   }
 };
 
+export const fetchSimilarVehicles = async (url) => {
+  try {
+    const similarvehicles = await fetchAPI(url);
+    return similarvehicles;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      similarvehicles: [],
+    };
+  }
+};
+
+
+
 export const fetchVehicleBySlug = async (params) => {
   try {
     const vehicle = await fetchAPI(

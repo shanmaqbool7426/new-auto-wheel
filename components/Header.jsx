@@ -82,7 +82,7 @@ const Header = () => {
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
           title: "Comparison",
-          link: "/comparison",
+          link: "/comparison/car",
           description: "Compare cars",
         },
       ],
@@ -132,6 +132,12 @@ const Header = () => {
           link: "/listing/bikes",
           description: "Find new bikes in Pakistan",
         },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Comparison",
+          link: "/comparison/bike",
+          description: "Compare bikes",
+        },
       ],
       secondCol: [
         { title: "Honda CG 125", link: "/listing/bikes/search/-/mk_honda" },
@@ -174,6 +180,12 @@ const Header = () => {
           title: "Sell Your Trucks",
           link: "/listing/trucks",
           description: "Find new trucks in Pakistan",
+        },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Comparison",
+          link: "/comparison/truck",
+          description: "Compare trucks",
         },
       ],
       secondCol: [

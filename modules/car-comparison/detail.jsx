@@ -1,13 +1,11 @@
 import React from 'react'
 import { Comparison } from "@/services/comparison";
 import VehicleComparisonDetail from "./vehicleDetails";
-const ComparisonDetails = async ({ params }) => {
-    const comparisonData = await Comparison(params);
-    console.log(comparisonData?.comparison?.vehicles)
+const ComparisonDetails = async ({ params ,type}) => {
+    const comparisonData = await Comparison({ params, type });
     return (
         <>
-
-            <VehicleComparisonDetail vehicles={comparisonData?.comparison?.vehicles} />
+            <VehicleComparisonDetail vehicles={comparisonData?.comparison} type={type} />
         </>
     )
 }

@@ -33,7 +33,7 @@ import {
 } from "@/components/Icons";
 import OfferPriceModal from "@/components/ui/OfferPrice";
 import { BsStarFill, BsStar } from "react-icons/bs";
-import { Card, Image, Title } from "@mantine/core";
+import { Card, Image, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { fetchVehiclDetail } from '@/services/vehicles'
 import Calculator from "./calculator"
@@ -49,6 +49,8 @@ import NextImage from "next/image";
 import { FaCalendarDays, FaClock, FaLocationDot } from "react-icons/fa6";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
+  console.log("detail", listOfSimilarVehicles)
+
   const messageRef = useRef(null);
   const scrollToMessage = () => {
     messageRef.current.scrollIntoView({ behavior: 'smooth'  });
@@ -411,8 +413,13 @@ export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
               <Title order={2} mb="lg">
                 Similar Results
               </Title>
+              {listOfSimilarVehicles?.data?.length===0&&
+            (  <Text>
+              No Similar Vehicles Found
+              </Text>)
+              }
             </div>
-            {listOfSimilarVehicles?.data?.map((vehicle, index) => {
+            {listOfSimilarVehicles?.data?.length>0 &&listOfSimilarVehicles?.data?.map((vehicle, index) => {
               return (
                 <div className="col-md-3" key={index}>
                   <div className="card product-card">

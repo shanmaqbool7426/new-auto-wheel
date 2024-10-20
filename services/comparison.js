@@ -1,11 +1,13 @@
 import { fetchAPI } from "./fetchAPI";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 
-export const Comparison = async ({ params }) => {
+export const Comparison = async (data) => {
   try {
+    const {params,type } = data;
     // Decode the single slug
-    const slug = decodeURIComponent(params.slug);
-
+    // const slug = decodeURIComponent(params.slug);
+    const slug = decodeURIComponent(params.params.slug);
+    console.log(params.params.slug,type)
     // Split the slug into individual vehicle strings
     const vehicleDetails = slug.split('_').map((vehicleStr) => {
       const [make, model, ...variantParts] = vehicleStr.split('-');
@@ -15,13 +17,14 @@ export const Comparison = async ({ params }) => {
       return { make, model, ...(variant ? { variant } : {}) };
     });
     const payload=JSON.stringify({
-        vehicle1: vehicleDetails[0] || null,
-        vehicle2: vehicleDetails[1] || null,
-        vehicle3: vehicleDetails[2] || null,
+      vehicle1: vehicleDetails[0] || null,
+      vehicle2: vehicleDetails[1] || null,
+      vehicle3: vehicleDetails[2] || null,
     })
+    console.log(payload)
 
     // Send the payload to the backend API
-    const response = await fetchAPI(`${API_ENDPOINTS.COMPARISON.ADD}`, {
+    const response = await fetchAPI(`${API_ENDPOINTS.NEW_VEHICLE.COMPARISON}`+ `?type=${encodeURIComponent(type)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

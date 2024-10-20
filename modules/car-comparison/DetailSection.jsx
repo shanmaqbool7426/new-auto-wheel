@@ -32,18 +32,21 @@ const DetailSection = ({ section }) => {
                   </Table.Td>
                 </Table.Tr>
               )}
-              <Table.Tr
-                key={index}
-                fw={600}
-                bg={item.isRowSelected && "hsla(0, 93%, 47%, 0.03)"}
-              >
-                <Table.Td fw={600} size="md" c="dimmed" w="20%" className="border-end-0">
-                  {item.type}
-                </Table.Td>
-                <Table.Td w="25%" className="text-center">{item.first}</Table.Td>
-                <Table.Td w="25%" className="text-center">{item.second}</Table.Td>
-                <Table.Td w="25%" className="text-center">{item.third}</Table.Td>
-              </Table.Tr>
+              {
+                item.type !== "icon" &&
+                <Table.Tr
+                  key={index}
+                  fw={600}
+                  bg={item.isRowSelected && "hsla(0, 93%, 47%, 0.03)"}
+                >
+                  <Table.Td fw={600} size="md" c="dimmed" w="20%" className="border-end-0">
+                    {item.type}
+                  </Table.Td>
+                  <Table.Td w="25%" className="text-center">{item.first}</Table.Td>
+                  <Table.Td w="25%" className="text-center">{item.second}</Table.Td>
+                  <Table.Td w="25%" className="text-center">{item.third}</Table.Td>
+                </Table.Tr>
+              }
             </>
           ))}
         </Table.Tbody>

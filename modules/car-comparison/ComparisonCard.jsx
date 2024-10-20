@@ -21,7 +21,7 @@ const ComparisonCard = ({ vehicle }) => {
                     }
                 </Text>
                 <Input value={vehicle.make&&`${vehicle.make} ${vehicle.model} ${vehicle.variant}`||""} placeholder="Please Select Vehicle"/>
-                {vehicle.engine && <Text>{`${vehicle.engine?.displacement || 'N/A'} cc | ${vehicle.fuelAverage || 'N/A'} Km/l | ${vehicle.transmission || 'N/A'}`}</Text>}
+                {vehicle.engine && <Text>{`${vehicle.engine?.displacement || ''} cc | ${vehicle.fuelAverage || 'N/A'} Km/l | ${vehicle.transmission || 'N/A'}`}</Text>}
                 {vehicle.minPrice && <Text fw={700} size="xl">
                     {`Rs ${vehicle.minPrice / 100000} - ${vehicle.maxPrice / 100000} Lacs`}
                 </Text>}
