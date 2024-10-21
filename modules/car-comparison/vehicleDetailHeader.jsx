@@ -7,15 +7,16 @@ import { fetchMakesByTypeServer } from '@/actions';
 import { useRouter } from 'next/navigation';
 import ComparisonCard from './ComparisonCard';
 
-const Header = ({ vehicles }) => {
+const Header = ({ vehicles,type }) => {
+    console.log(vehicles,"Test")
     const router = useRouter();
     const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Manage three separate vehicles
-    const [vehicle1, setVehicle1] = useState(vehicles[0] || { make: "", model: "", variant: "" });
-    const [vehicle2, setVehicle2] = useState(vehicles[1] || { make: "", model: "", variant: "" });
-    const [vehicle3, setVehicle3] = useState(vehicles[2] || { make: "", model: "", variant: "" });
+    const [vehicle1, setVehicle1] = useState(vehicles ?.length ?vehicles[0] : { make: "", model: "", variant: "" });
+    const [vehicle2, setVehicle2] = useState(vehicles ?.length>1 ? vehicles[1]: { make: "", model: "", variant: "" });
+    const [vehicle3, setVehicle3] = useState(vehicles ?.length>2 ?vehicles[2] : { make: "", model: "", variant: "" });
 
     const [currentVehicle, setCurrentVehicle] = useState(null);
 
@@ -39,7 +40,7 @@ const Header = ({ vehicles }) => {
     };
 
     useEffect(() => {
-        fetchMakesByType("car");
+        fetchMakesByType(type);
     }, []);
 
     const handleCompare = () => {
@@ -55,7 +56,7 @@ const Header = ({ vehicles }) => {
         const slug = selectedVehicles.map(vehicle =>
             `${encodeURIComponent(vehicle.make)}-${encodeURIComponent(vehicle.model)}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant)}` : ''}`
         ).join('_');
-        router.push(`/car-comparison/${slug}`);
+        router.push(`/comparison/${type}/${slug}`);
     };
 
     const getSetVehicleFunction = () => {

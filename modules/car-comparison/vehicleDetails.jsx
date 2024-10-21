@@ -8,7 +8,7 @@ import VehicleComparisonLabels from "./VehicleComparisonLabels";
 import Header from "./vehicleDetailHeader";
 // import { comparisonData } from "@/mock-data/comparions-data";
 import { mapVehicleData } from "@/utils/comparisonData"
-const VehicleComparisonDetail = ({ vehicles }) => {
+const VehicleComparisonDetail = ({ vehicles,type }) => {
     const comparisonData = mapVehicleData(vehicles)?.comparisonData;
     const carDetailLabel = [
         { name: "Overview", href: "#overview" },
@@ -41,7 +41,7 @@ const VehicleComparisonDetail = ({ vehicles }) => {
                                 </Card>
                             </div>
                         </div> */}
-                        <Header vehicles={vehicles}/>
+                        <Header vehicles={vehicles} type={type}/>
                         {/* Display Vehicle Comparison Labels */}
                         <VehicleComparisonLabels labels={carDetailLabel} />
                     </div>

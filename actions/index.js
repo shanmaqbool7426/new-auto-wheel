@@ -14,6 +14,18 @@ export const fetchMakesByTypeServer = async (type) => {
   }
 };
 
+// Fetch Top Comparison by Type from the Server
+export const fetchTopComparisonByTypeServer = async (type) => {
+  try {
+    const comparison = await fetchAPI(API_ENDPOINTS.NEW_VEHICLE.TOPCOMPARISON + `?type=${encodeURIComponent(type)}`);
+    return comparison;
+  } catch (error) {
+    return {
+      comparison: [],
+    };
+  }
+};
+
 // Post Data to Server
 export const postDataToServer = async (url, payload) => {
   try {

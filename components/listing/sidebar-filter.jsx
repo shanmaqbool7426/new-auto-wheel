@@ -4,6 +4,7 @@ import { CiSearch } from "react-icons/ci";
 // import classes from "@/app/styles/theme-css/Select.module.css";
 import { ResetFiltersIcon, SearchWithCar } from "@/components/Icons";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { GetColor } from '@/constants/colors';
 import {
   Accordion,
   Button,
@@ -25,6 +26,7 @@ import {
   Drawer,
   ActionIcon,
   CloseButton,
+  Tooltip,
 } from "@mantine/core";
 import {
   cities,
@@ -929,7 +931,17 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   <Checkbox
                     mb="xs"
                     size="xs"
-                    label={color.label}
+                    styles={{
+                      body: {
+                        display: 'flex',
+                        alignItems: 'center',
+                      },
+                    }}
+                    label={
+                      <Tooltip label={color.label} position="top" withArrow>
+                    <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color.label) }} />
+                    </Tooltip>
+                    }
                     key={color.value}
                     checked={color?.value === filters.exteriorColor}
                     onChange={(e) =>
