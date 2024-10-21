@@ -3,7 +3,7 @@ import { Box, Group, Avatar, ScrollArea, ActionIcon, Input } from '@mantine/core
 import { IconSend } from '@tabler/icons-react';
 import styles from './ChatContent.module.css';
 
-export default function ChatContent({ value, messages, onChangeMessage, onSendMessage, selectedUserId }) {
+export default function ChatContent({ value,currentUserId, messages, onChangeMessage, onSendMessage, selectedUserId,selectedUser }) {
   const scrollAreaRef = useRef(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ console.log('>> messages',messages)
           />
           <div style={{ flex: 1 }}>
             <Box className={styles.userName}>
-              Selected User
+              {selectedUser?.otherUser?.fullName }
             </Box>
             <Box className={styles.userMsg}>
               Online
@@ -34,10 +34,15 @@ console.log('>> messages',messages)
 
       <Box className={styles.messageSection}>
         <ScrollArea h="100%" viewportRef={scrollAreaRef}>
-          <ul className={styles.messagesList}>
+        <ul className={styles.messagesList}>
             {messages.map((message, index) => (
-              <li key={index} className={`${styles.messageItem} ${message.sender === selectedUserId ? styles.itemReceived : styles.itemSend}`}>
-                <Box className={`${styles.message} ${message.sender === selectedUserId ? styles.msgReceived : styles.msgSend}`}>
+              <li 
+                key={index} 
+                className={`${styles.messageItem} ${message.sender === currentUserId ? styles.itemSend : styles.itemReceived}`}
+              >
+                <Box 
+                  className={`${styles.message} ${message.sender === currentUserId ? styles.msgSend : styles.msgReceived}`}
+                >
                   {message.content}
                 </Box>
               </li>
@@ -50,7 +55,7 @@ console.log('>> messages',messages)
         <Input
           value={value}
           onChange={onChangeMessage}
-          onKeyPress={(e) => e.key === 'Enter' && onSendMessage()}
+          onKeyPress={(e) => e.key === 'Enter' && onSendMessage(selectedUserId)}
           radius="xl"
           placeholder="Type your message..."
           rightSection={

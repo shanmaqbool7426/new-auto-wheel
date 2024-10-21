@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { api } from '@/app/(user-dashboard)/services/api';
 import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
 
-export default function useFollowers() {
+export default function useFollowers({userId}) {
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ export default function useFollowers() {
   const fetchFollowers = async () => {
     setLoading(true);
     try {
-      const data = await api.get(`/api/user/66e08a35e874573aeab6d39e/following`, {
+      const data = await api.get(`/api/user/67139bb54aabf4d48e4dbfff/following`, {
         page: pagination.page,
         limit: pagination.limit,
         search: searchBy,

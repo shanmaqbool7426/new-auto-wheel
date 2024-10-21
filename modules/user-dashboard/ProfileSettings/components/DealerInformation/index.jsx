@@ -8,25 +8,22 @@ import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './DealerInformation.module.css';
 
 export default function DealerInformation() {
-
   const {
     form,
-    handleSubmit
+    handleSubmit,
   } = useDealerInformation();
 
   return (
     <Card title="Dealer Information">
       <form
-        onSubmit={
-          form.onSubmit((values) => handleSubmit(values))
-        }
+        onSubmit={form.onSubmit((values) => handleSubmit(values))}
       >
         <Grid gutter="20px">
           <Grid.Col span={6}>
             <FormField
-              label="Company Name"
+              label="Dealer Name"
               type="text"
-              {...form.getInputProps('companyName')}
+              {...form.getInputProps('dealerName')}
             />
           </Grid.Col>
           <Grid.Col span={6}>
@@ -83,5 +80,5 @@ export default function DealerInformation() {
         </Box>
       </form>
     </Card>
-  )
+  );
 }

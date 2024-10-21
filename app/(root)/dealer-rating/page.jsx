@@ -381,7 +381,7 @@ const DealerRating = () => {
                         <Box className="row" mt="md">
                           <Box className="col-md-4">
                             <Group justify="space-between">
-                              Buying Process
+                              Buying Processaaaa
                               <Group>
                                 <Rating defaultValue={3} />
                                 <Text span>(3/5)</Text>

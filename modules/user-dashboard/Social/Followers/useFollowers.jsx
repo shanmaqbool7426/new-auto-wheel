@@ -3,7 +3,7 @@ import { api } from '@/app/(user-dashboard)/services/api';
 import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
 import { showNotification } from '@mantine/notifications'; // Add this import
 
-export default function useFollowers() {
+export default function useFollowers({userId}) {
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,20 +17,21 @@ export default function useFollowers() {
     total: 0,
     totalPages: 1,
   });
-  const { data: session } = useSession();
 
 
-  console.log('session',session)
+
+  console.log('session>>>>>>>>>',userId)
   useEffect(() => {
     // if (session?.user?._id) {
-      fetchFollowers();
+      fetchFollowers(userId);
     // }
-  }, [session, filterParams, searchBy, pagination.page, pagination.limit]);
+  }, [filterParams, searchBy, pagination.page, pagination.limit,userId]);
 
-  const fetchFollowers = async () => {
+  const fetchFollowers = async (userId) => {
+    console.log('userId>>',userId)
     setLoading(true);
     try {
-      const data = await api.get(`/api/user/66e08a35e874573aeab6d39e/followers`, {
+      const data = await api.get(`/api/user/67139bb54aabf4d48e4dbfff/followers`, {
         page: pagination.page,
         limit: pagination.limit,
         search: searchBy,

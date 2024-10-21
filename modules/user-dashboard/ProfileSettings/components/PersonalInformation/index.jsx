@@ -8,18 +8,15 @@ import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './PersonalInformation.module.css';
 
 export default function PersonalInformation() {
-
   const {
     form,
-    handleSubmit
+    handleSubmit,
   } = usePersonalInformation();
 
   return (
     <Card title="Personal Information">
       <form
-        onSubmit={
-          form.onSubmit((values) => handleSubmit(values))
-        }
+        onSubmit={form.onSubmit((values) => handleSubmit(values))}
       >
         <Grid gutter="20px">
           <Grid.Col span={6}>
@@ -45,7 +42,7 @@ export default function PersonalInformation() {
           </Grid.Col>
           <Grid.Col span={6}>
             <FormField
-              label="email"
+              label="Email"
               type="text"
               {...form.getInputProps('email')}
             />
@@ -83,5 +80,5 @@ export default function PersonalInformation() {
         </Box>
       </form>
     </Card>
-  )
+  );
 }

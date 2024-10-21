@@ -16,7 +16,7 @@ export default function useFavorite(userId) {
     console.log('fetchVehicles>>>>')
     setLoading(true);
     try {
-      const data = await vehiclesService.getUserFavoriteVehicles('66e08a35e874573aeab6d39e', {
+      const data = await vehiclesService.getUserFavoriteVehicles(userId, {
         ...filterParams,
         search: searchBy ?? '',
       });
@@ -43,8 +43,8 @@ export default function useFavorite(userId) {
 
   const handleClickDeleteRow =async (id) => {
 
-    const data = await vehiclesService.deleteFavoriteVehicle('66e08a35e874573aeab6d39e',id);
-    const getlist = await vehiclesService.getUserFavoriteVehicles('66e08a35e874573aeab6d39e', {
+    const data = await vehiclesService.deleteFavoriteVehicle(userId,id);
+    const getlist = await vehiclesService.getUserFavoriteVehicles(userId, {
       ...filterParams,
       search: searchBy ?? '',
     });

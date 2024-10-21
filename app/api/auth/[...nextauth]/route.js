@@ -56,6 +56,7 @@ console.log('>>>>>>>>',credentials.type)
 
 
   if(res.data && res.data.statusCode === 200) {
+    console.log('>>>>>>> RESSSSS',res.data?.data)
     const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
 // Return all necessary user details for the session and JWT
 return {

@@ -8,7 +8,7 @@ import classes from './Followers.module.css';
 import { getColumns } from './data';
 import useFollowers from './useFollowers';
 
-export default function Followers() {
+export default function Followers({userId}) {
   const {
     followers,
     loading,
@@ -19,10 +19,10 @@ export default function Followers() {
     handleChangeFilter,
     handlePageChange,
     handleUnfollow,
-  } = useFollowers();
+  } = useFollowers(userId);
 
   const columns = getColumns(handleUnfollow);
-  console.log('followers', followers)
+  console.log('followers userId', userId)
   // if (loading) return <Loader />;
   // if (error) return <Text color="red">{error}</Text>;
 

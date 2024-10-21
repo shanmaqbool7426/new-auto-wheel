@@ -1,35 +1,81 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Box, Title, Group, Button } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import useProfileInformation from './useProfileInformation';
 import styles from './ProfileInformation.module.css';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
-
+import { IconPencil } from '@tabler/icons-react';
+import NextImage from "next/image";
 export default function ProfileInformation() {
+
+  const [bannerImage,setBannerImage]=useState()
 
   const {
     form,
-    handleSubmit
+    handleSubmit,
+    handleImageUpload,
+    bgfile,
+    profileFile
   } = useProfileInformation();
 
+useEffect(() => {
+  setBannerImage(bgfile)
+}, [bgfile])
+
+  console.log('bgfile',bgfile)
   return (
     <Card noContentPadding>
-      <Box className={styles.profileBanner}>
-        <Image
-          src="/user-profile/profile-banner.png"
+    <Box className={styles.profileBanner}>
+        {/* <Image
+         component={NextImage}
+          src={bannerImage}
           alt="Profile"
           width={354}
           height={140}
+        /> */}
+        <img src={bannerImage} alt="" srcset=""  width={354}
+          height={140}/>
+
+        <Button 
+          variant="subtle" 
+          name='bannerFileInput'
+          className={styles.editButton} 
+          onClick={() => document.getElementById('bannerFileInput').click()} // Trigger file input
+        >
+          <IconPencil /> {/* Add your pencil icon here */}
+        </Button>
+        <input
+          type="file"
+          id="bannerFileInput" // Unique ID for the banner file input
+          style={{ display: 'none' }} // Hide the input
+          accept="image/*"
+          onChange={handleImageUpload}
         />
 
         <Box className={styles.profilePicture}>
           <Image
-            src="/user-profile/follower.png"
+            src={bgfile ? bgfile:"/user-profile/follower.png"}
             alt="Profile"
             width={144}
             height={144}
+          />
+
+          <Button 
+            variant="subtle" 
+            className={styles.editButton} 
+            onClick={() => document.getElementById('profileFileInput').click()} // Trigger file input
+          >
+            <IconPencil /> {/* Add your pencil icon here */}
+          </Button>
+          <input
+            type="file"
+            id="profileFileInput" // Unique ID for the profile picture input
+            name='profileFileInput'
+            style={{ display: 'none' }} // Hide the input
+            accept="image/*"
+            onChange={handleImageUpload}
           />
         </Box>
       </Box>

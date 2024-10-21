@@ -1,14 +1,10 @@
 import React from 'react';
 import { useForm } from '@mantine/form';
 
-export default function usePersonalInformation() {
-  const phoneRegex = /^(\+92|0)[0-9]{10}$/;
-  const emailRegex = /^\S+@\S+\.\S+$/;
-
+export default function useDealerInformation() {
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
-      companyName: '',
+      dealerName: '',
       licenseNumber: '',
       location: '',
       salesHours: '',
@@ -17,12 +13,30 @@ export default function usePersonalInformation() {
     },
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log('Form Data:: ', values);
+    try {
+      const response = await fetch('http://localhost:5000/api/user/dealer-info', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update dealer information');
+      }
+
+      const data = await response.json();
+      console.log('Dealer information updated successfully:', data);
+    } catch (error) {
+      console.error('Error updating dealer information:', error);
+    }
   };
 
   return {
     form,
-    handleSubmit
+    handleSubmit,
   };
 }

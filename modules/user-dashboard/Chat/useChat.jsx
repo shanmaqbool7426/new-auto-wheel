@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import { useSession } from "next-auth/react";
 
@@ -8,7 +8,8 @@ export default function useChat() {
   const [conversations, setConversations] = useState([]);
   const [socket, setSocket] = useState(null);
   const { data: session, status } = useSession();
-
+  const [selectedUserId, setSelectedUserId] = React.useState(null);
+const [selectedUser,setSelectedUser]=useState({})
   const updateConversations = useCallback((messageData) => {
     setConversations((prevConversations) => {
       const updatedConversations = prevConversations.map(conv => {
@@ -30,6 +31,16 @@ export default function useChat() {
     });
   }, []);
 
+  const handleUserSelect = useCallback((userId) => {
+    console.log('get_messages',{userId: session.user._id, otherUserId: userId})
+
+    setSelectedUserId(userId);
+    if (socket && session?.user?._id) {
+
+      socket.emit('get_messages', { userId: session.user._id, otherUserId: userId });
+    }
+  }, [socket, session]);
+
   useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {
       const newSocket = io('http://localhost:5000', {
@@ -46,6 +57,12 @@ export default function useChat() {
         console.log('Received conversations list:', conversationsList);
         setConversations(conversationsList);
       });
+
+      newSocket.on('conversation_messages', (messagesList) => {
+        console.log('Received messages for conversation:', messagesList);
+        setMessages(messagesList);
+      });
+
 
       newSocket.on('new_message', (messageData) => {
         console.log('Received new message:', messageData);
@@ -75,7 +92,7 @@ export default function useChat() {
   };
 console.log('messsages',messages)
   const sendMessage = (receiverId) => {
-    if (value.trim() && socket && session?.user?._id) {
+    // if (value.trim() && socket && session?.user?._id) {
       const messageData = {
         sender: session.user._id,
         receiver: receiverId,
@@ -85,7 +102,7 @@ console.log('messsages',messages)
       socket.emit('send_message', messageData);
       setValue('');
     }
-  };
+  // };
 
   return {
     value,
@@ -93,5 +110,8 @@ console.log('messsages',messages)
     conversations,
     handleChangeSendMessage,
     sendMessage,
+    sendMessage,
+    selectedUserId,
+    handleUserSelect
   };
 }

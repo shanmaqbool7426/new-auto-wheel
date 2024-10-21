@@ -1,0 +1,34 @@
+.rowWrap {
+  padding: 6px 16px 6px 56px;
+}
+
+.media {
+  height: 80px;
+  width: 100%;
+  max-width: 90px;
+  background-color: #ABABAB;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.groupColumn {
+  display: block;
+  text-align: center;
+}
+
+.groupColumn .title {
+  color: #333333;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.groupColumn .value {
+  color: #919191;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  margin-top: 8px;
+}

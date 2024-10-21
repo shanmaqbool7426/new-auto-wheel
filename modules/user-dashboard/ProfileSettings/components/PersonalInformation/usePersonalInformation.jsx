@@ -2,11 +2,10 @@ import React from 'react';
 import { useForm } from '@mantine/form';
 
 export default function usePersonalInformation() {
-  const phoneRegex = /^(\+92|0)[0-9]{10}$/;
+
   const emailRegex = /^\S+@\S+\.\S+$/;
 
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
       firstName: '',
       lastName: '',
@@ -16,17 +15,34 @@ export default function usePersonalInformation() {
       showEmail: true,
     },
     validate: {
-      phoneNumber: (value) => phoneRegex.test(value) ? null : 'Invalid phone number.',
       email: (value) => emailRegex.test(value) ? null : 'Invalid email address',
     },
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log('Form Data:: ', values);
+    try {
+      const response = await fetch('http://localhost:5000/api/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update personal information');
+      }
+
+      const data = await response.json();
+      console.log('Personal information updated successfully:', data);
+    } catch (error) {
+      console.error('Error updating personal information:', error);
+    }
   };
 
   return {
     form,
-    handleSubmit
+    handleSubmit,
   };
 }

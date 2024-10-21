@@ -95,3 +95,14 @@
   color: #334155;
   line-height: 1.333333;
 }
+
+/* ProfileInformation.module.css */
+.editButton {
+  position: absolute; /* Position it as needed */
+  top: 10px; /* Adjust the top position */
+  right: 10px; /* Adjust the right position */
+  background: transparent; /* Make background transparent */
+  border: none; /* Remove border */
+  cursor: pointer; /* Change cursor to pointer */
+  z-index: 1; /* Ensure it appears above other elements */
+}
