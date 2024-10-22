@@ -78,3 +78,22 @@
   justify-content: center;
   text-align: center;
 }
+
+.modalHeader {
+  padding: 40px 24px 0 24px;
+}
+
+.modalHeaderTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: #222222;
+}
+
+.modalBody {
+  padding: 28px 24px 40px;
+}
+
+.modalFooter {
+  margin-top: 40px;
+}

@@ -7,7 +7,7 @@ import { IconPencil, IconTrash, IconEyeOff } from '@tabler/icons-react';
 
 
 
-export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
+export const getColumns = (handleMakeFeature, onClickEdit, onClickDelete, onClickToggle) => [
   {
     accessor: 'title',
     title: 'Title',
@@ -60,6 +60,10 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           underline
           minWidth="116px"
           outlined={isFeatured}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleMakeFeature()
+          }}
 
         />
       )
@@ -83,7 +87,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickEdit(id)}
+            onClick={(e) => onClickEdit(e, id)}
           >
             <IconPencil />
           </ActionIcon>
@@ -91,7 +95,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickDelete(id)}
+            onClick={(e) => onClickDelete(e, id)}
           >
             <IconTrash />
           </ActionIcon>
@@ -99,7 +103,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickToggle(id)}
+            onClick={(e) => onClickToggle(e, id)}
           >
             <IconEyeOff />
           </ActionIcon>

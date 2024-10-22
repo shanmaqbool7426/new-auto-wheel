@@ -5,3 +5,6 @@ export { default as IconActiveAds } from './user-dashboard/dashboard/IconsActive
 export { default as IconPendingAds } from './user-dashboard/dashboard/IconPendingAds';
 export { default as IconInactiveAds } from './user-dashboard/dashboard/IconInactiveAds';
 export { default as IconArrowRightRed } from './user-dashboard/dashboard/IconArrowRightRed';
+export { default as IconModalClose } from './user-dashboard/inventory/IconModalClose';
+
+
