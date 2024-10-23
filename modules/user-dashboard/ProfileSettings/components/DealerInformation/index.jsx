@@ -1,23 +1,41 @@
 'use client';
-import React from 'react';
-import { Grid, Button, Box } from '@mantine/core';
+import React, { useEffect } from 'react';
+import { Grid, Button, Box, Checkbox } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import FormField from '@/components/user-dashboard/FormField';
-import useDealerInformation from './useDealerInformation';
+import useDealerInformation from './useDealerInformation'; // Create a custom hook for dealer information
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './DealerInformation.module.css';
 
-export default function DealerInformation() {
+export default function DealerInformation({ profileData }) {
   const {
     form,
     handleSubmit,
   } = useDealerInformation();
 
+  // Set initial values for the form based on profileData
+  useEffect(() => {
+    if (profileData) {
+      // Only set values if they are not already set
+      if (!form.values.dealerName) {
+        form.setFieldValue('dealerName', profileData.dealerName || '');
+      }
+      if (!form.values.licenseNumber) {
+        form.setFieldValue('licenseNumber', profileData.licenseNumber || '');
+      }
+      if (!form.values.location) {
+        form.setFieldValue('location', profileData.location || '');
+      }
+      if (!form.values.salesHours) {
+        form.setFieldValue('salesHours', profileData.salesHours || '');
+      }
+      // Add any other fields you want to initialize
+    }
+  }, [profileData]);
+
   return (
     <Card title="Dealer Information">
-      <form
-        onSubmit={form.onSubmit((values) => handleSubmit(values))}
-      >
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Grid gutter="20px">
           <Grid.Col span={6}>
             <FormField
@@ -47,22 +65,7 @@ export default function DealerInformation() {
               {...form.getInputProps('salesHours')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
-            <FormField
-              label="I have a WhatsApp account with this number"
-              type="checkbox"
-              {...form.getInputProps('whatsAppOnThisNumber', { type: 'checkbox' })}
-              size="14px"
-            />
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <FormField
-              label="Show Email Address on my Profile"
-              type="checkbox"
-              {...form.getInputProps('showEmail', { type: 'checkbox' })}
-              size="14px"
-            />
-          </Grid.Col>
+          {/* Add more fields as necessary */}
         </Grid>
 
         <Box className={styles.buttonHolder}>

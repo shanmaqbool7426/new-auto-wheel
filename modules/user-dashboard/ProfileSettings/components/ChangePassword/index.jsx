@@ -8,7 +8,6 @@ import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './ChangePassword.module.css';
 
 export default function ChangePassword() {
-
   const {
     form,
     handleSubmit
@@ -38,7 +37,7 @@ export default function ChangePassword() {
           </Grid.Col>
           <Grid.Col span={12}>
             <FormField
-              label="New Password"
+              label="Confirm New Password"
               type="password"
               {...form.getInputProps('confirmPassword')}
             />
@@ -60,5 +59,5 @@ export default function ChangePassword() {
         </Box>
       </form>
     </Card>
-  )
+  );
 }

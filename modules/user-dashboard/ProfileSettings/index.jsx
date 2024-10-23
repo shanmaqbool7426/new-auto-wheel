@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Box, Stack } from '@mantine/core';
+import { Box, Stack, Loader } from '@mantine/core';
 import useProfileSettings from './useProfileSettings';
 import styles from './ProfileSettings.module.css';
 import PersonalInformation from './components/PersonalInformation';
@@ -12,31 +12,36 @@ import ServicesOffer from './components/ServicesOffer';
 import ChangePassword from './components/ChangePassword';
 
 export default function ProfileSettings() {
+  const { profileData, loading, error } = useProfileSettings();
 
-  const { } = useProfileSettings();
+  if (loading) {
+    return <Loader />;
+  }
+
+  console.log('profileData',profileData)
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <Box className={styles.wrapper}>
       <Box className={styles.sidebar}>
         <Stack gap="24px">
-
-          <ProfileInformation />
+          <ProfileInformation profileData={profileData} />
           <PackageDetails />
           <ConnectedAccount />
-
         </Stack>
       </Box>
 
       <Box className={styles.content}>
         <Stack gap="24px">
-
-          <PersonalInformation />
-          <DealerInformation />
-          <ServicesOffer />
+          <PersonalInformation profileData={profileData} />
+          <DealerInformation profileData={profileData} />
+          <ServicesOffer profileData={profileData} />
           <ChangePassword />
-
         </Stack>
       </Box>
     </Box>
-  )
+  );
 }

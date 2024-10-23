@@ -1,43 +1,51 @@
-import React from 'react';
 import { useForm } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
 
-export default function usePersonalInformation() {
-
-  const emailRegex = /^\S+@\S+\.\S+$/;
-
+export default function useDealerInformation() {
   const form = useForm({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      email: '',
-      whatsAppOnThisNumber: true,
-      showEmail: true,
-    },
-    validate: {
-      email: (value) => emailRegex.test(value) ? null : 'Invalid email address',
+      dealerName: '',
+      licenseNumber: '',
+      location: '',
+      salesHours: '',
+      // Add any other fields you want to manage
     },
   });
 
   const handleSubmit = async (values) => {
-    console.log('Form Data:: ', values);
+    console.log('Dealer Information Data:: ', values);
     try {
-      const response = await fetch('http://localhost:5000/api/user/profile', {
+      const response = await fetch('http://localhost:5000/api/user/dealer-info', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming you store the token in localStorage
         },
         body: JSON.stringify(values),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update personal information');
+        throw new Error('Failed to update dealer information');
       }
 
       const data = await response.json();
-      console.log('Personal information updated successfully:', data);
+      console.log('Dealer information updated successfully:', data);
+
+      // Show success notification
+      showNotification({
+        title: 'Success',
+        message: 'Dealer information updated successfully!',
+        color: 'green',
+      });
     } catch (error) {
-      console.error('Error updating personal information:', error);
+      console.error('Error updating dealer information:', error);
+
+      // Show error notification
+      showNotification({
+        title: 'Error',
+        message: 'Failed to update dealer information. Please try again.',
+        color: 'red',
+      });
     }
   };
 
