@@ -20,7 +20,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { PhoneIcon } from "@/components/Icons";
 import QuickLinks from "@/components/QuickLinks";
 import { BASE_URL } from "@/constants/api-endpoints";
-
+import { useRouter } from "next/navigation";
 const CarsDealerShip = () => {
   const [dealers, setDealers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,6 +30,8 @@ const CarsDealerShip = () => {
   const [showNumbers, setShowNumbers] = useState({});
   const [selectedType, setSelectedType] = useState("");
 
+
+  const router=useRouter()
   const fetchDealers = async () => {
     try {
       const response = await fetch(
@@ -57,6 +59,10 @@ const CarsDealerShip = () => {
     return <Text>Loading...</Text>;
   }
 
+  const profileHnadler=()=>{
+    console.log('>>>>>>>>>>>>>.')
+    router.push("/dealer-rating")
+  }
   return (
     <>
       <Box component="section" className="car-specification">
@@ -159,7 +165,7 @@ const CarsDealerShip = () => {
               >
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
-                    <Table.Tr key={index} className="border-bottom">
+                    <Table.Tr key={index} className="border-bottom" onClick={profileHnadler}>
                       <Table.Td >
                         <Flex gap="xs">
                           <Image

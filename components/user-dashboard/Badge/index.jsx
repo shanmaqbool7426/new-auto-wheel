@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mantine/core';
 
-export default function Badge({ label, variant, outlined, underline, minWidth, ...rest }) {
+export default function Badge({ onClick, label, variant, outlined, underline, minWidth, ...rest }) {
   const colorMap = {
     'Active': '#4CB64A',
     'Inactive': '#333333',
@@ -15,6 +15,7 @@ export default function Badge({ label, variant, outlined, underline, minWidth, .
 
   return (
     <Box
+      onClick={onClick}
       style={{
         backgroundColor: outlined ? 'transparent' : color,
         color: outlined ? color : '#ffffff',

@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDisclosure } from '@mantine/hooks';
+import { useForm } from '@mantine/form';
 
 import { useSession } from "next-auth/react";
 // import { useRouter } from 'next/router';
@@ -145,7 +147,8 @@ export default function useInventory() {
     }
   };
 
-  const handleClickEditRow = (id) => {
+  const handleClickEditRow = (e, id) => {
+    e.stopPropagation();
     console.log('Edit Row', id);
     alert(`Edit Row ${id}`);
   }
@@ -186,6 +189,18 @@ export default function useInventory() {
     }
   };
 
+  const [opened, { open: openModalMakeFeature, close: closeModalMakeFeature }] = useDisclosure(false);
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      featuresDays: '',
+    },
+  });
+
+  const handleSubmit = (values) => {
+    console.log('Form Data:: ', values);
+  };
+
   return {
     searchBy,
     setSearchBy: handleSearch,
@@ -204,5 +219,10 @@ export default function useInventory() {
     expandedRowIds,
     handleToggleFeature,
     onPageChange: handlePageChange,
+    opened,
+    openModalMakeFeature,
+    closeModalMakeFeature,
+    form,
+    handleSubmit
   };
 }

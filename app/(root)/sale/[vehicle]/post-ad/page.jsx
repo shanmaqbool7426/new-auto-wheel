@@ -1242,8 +1242,16 @@ const PostAnAd = (params) => {
       images.forEach((image) => {
         formData.append("images", image);
       });
+      const response = await fetch('http://localhost:5000/upload-image', {
+        method: 'POST',
+        body: formData, // Send the FormData as the body
+        headers: {
+          // 'Content-Type': 'multipart/form-data' // Do not set Content-Type for FormData, the browser will set it automatically
+        },
+      });
 
-      const response = await submitFormData("/upload-image", formData); // Upload images
+
+      // const response = await submitFormData("/upload-image", formData); // Upload images
       const uploadedImageUrls = response.data;
 
       setFormDataStep1((prev) => ({
