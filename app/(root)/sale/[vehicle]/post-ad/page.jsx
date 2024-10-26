@@ -230,7 +230,7 @@
 //         'Content-Type': 'application/json', // Set content-type to JSON
 //       });
 //       router.push('/listing/cars')
-      
+
 //     } catch (error) {
 //     }
 //   };
@@ -296,89 +296,89 @@
 //     );
 //   });
 
-  // const featuredListsOne = [
-  //   { name: "ABS" },
-  //   {
-  //     name: "Alloy Rims",
-  //   },
-  //   {
-  //     name: "Cassette Player",
-  //   },
-  //   {
-  //     name: "Climate Control",
-  //   },
-  //   {
-  //     name: "Front Camera",
-  //   },
-  //   {
-  //     name: "Keyless Entry",
-  //   },
-  //   {
-  //     name: "Power Mirrors",
-  //   },
-  //   {
-  //     name: "Rear Seat Entertainment",
-  //   },
-  //   {
-  //     name: "Rear Camera",
-  //   },
-  //   {
-  //     name: "USB and Auxillary Cable",
-  //   },
-  // ];
+// const featuredListsOne = [
+//   { name: "ABS" },
+//   {
+//     name: "Alloy Rims",
+//   },
+//   {
+//     name: "Cassette Player",
+//   },
+//   {
+//     name: "Climate Control",
+//   },
+//   {
+//     name: "Front Camera",
+//   },
+//   {
+//     name: "Keyless Entry",
+//   },
+//   {
+//     name: "Power Mirrors",
+//   },
+//   {
+//     name: "Rear Seat Entertainment",
+//   },
+//   {
+//     name: "Rear Camera",
+//   },
+//   {
+//     name: "USB and Auxillary Cable",
+//   },
+// ];
 
-  // const featuredListsTwo = [
-  //   { name: "Air Bags" },
-  //   {
-  //     name: "AM/FM Radio",
-  //   },
-  //   {
-  //     name: "Cool Box",
-  //   },
-  //   {
-  //     name: "DVD Player",
-  //   },
-  //   {
-  //     name: "Navigation System",
-  //   },
-  //   {
-  //     name: "Power Steering",
-  //   },
-  //   {
-  //     name: "Rear AC Vents",
-  //   },
-  //   {
-  //     name: "Sun Roof",
-  //   },
-  // ];
+// const featuredListsTwo = [
+//   { name: "Air Bags" },
+//   {
+//     name: "AM/FM Radio",
+//   },
+//   {
+//     name: "Cool Box",
+//   },
+//   {
+//     name: "DVD Player",
+//   },
+//   {
+//     name: "Navigation System",
+//   },
+//   {
+//     name: "Power Steering",
+//   },
+//   {
+//     name: "Rear AC Vents",
+//   },
+//   {
+//     name: "Sun Roof",
+//   },
+// ];
 
-  // const featuredListsThree = [
-  //   { name: "Air Conditioning" },
-  //   {
-  //     name: "CD Player",
-  //   },
-  //   {
-  //     name: "Cruise Control",
-  //   },
-  //   {
-  //     name: "Front Speakers",
-  //   },
-  //   {
-  //     name: "Immobilizer Key",
-  //   },
-  //   {
-  //     name: "Power Locks",
-  //   },
-  //   {
-  //     name: "Power Windows",
-  //   },
-  //   {
-  //     name: "Rear Speakers",
-  //   },
-  //   {
-  //     name: "Steering Switches",
-  //   },
-  // ];
+// const featuredListsThree = [
+//   { name: "Air Conditioning" },
+//   {
+//     name: "CD Player",
+//   },
+//   {
+//     name: "Cruise Control",
+//   },
+//   {
+//     name: "Front Speakers",
+//   },
+//   {
+//     name: "Immobilizer Key",
+//   },
+//   {
+//     name: "Power Locks",
+//   },
+//   {
+//     name: "Power Windows",
+//   },
+//   {
+//     name: "Rear Speakers",
+//   },
+//   {
+//     name: "Steering Switches",
+//   },
+// ];
 
 //   return (
 //     <>
@@ -422,283 +422,283 @@
 //                         (All fields marked with * are mandatory)
 //                       </Text>
 
-                      // {/* step 1 start*/}
+// {/* step 1 start*/}
 
-                      // <Box className="stepper-form" mt="xl">
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Condition
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="New"
-                      //         data={['used', 'new', 'certified']}
-                      //         value={formDataStep1.condition}
-                      //         onChange={(value) => handleChangeStep1(value, 'condition')}
+// <Box className="stepper-form" mt="xl">
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Condition
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="New"
+//         data={['used', 'new', 'certified']}
+//         value={formDataStep1.condition}
+//         onChange={(value) => handleChangeStep1(value, 'condition')}
 
-                      //       />
-                      //     </Box>
-                      //   </Box>
+//       />
+//     </Box>
+//   </Box>
 
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         City
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="City"
-                      //         data={cities}
-                      //         value={formDataStep1.city}
-                      //         searchable
-                      //         nothingFoundMessage="Nothing found..."
-                      //         onChange={(value) => handleChangeStep1(value, 'city')}
-                      //       />
-                      //     </Box>
-                      //     <Box className="col-md-3 text-center">
-                      //       <Group gap="xs" align="center">
-                      //         <LightBulb />
-                      //         <Text size="sm">
-                      //           We don't allow duplicates of same ad.
-                      //         </Text>
-                      //       </Group>
-                      //     </Box>
-                      //   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         City
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="City"
+//         data={cities}
+//         value={formDataStep1.city}
+//         searchable
+//         nothingFoundMessage="Nothing found..."
+//         onChange={(value) => handleChangeStep1(value, 'city')}
+//       />
+//     </Box>
+//     <Box className="col-md-3 text-center">
+//       <Group gap="xs" align="center">
+//         <LightBulb />
+//         <Text size="sm">
+//           We don't allow duplicates of same ad.
+//         </Text>
+//       </Group>
+//     </Box>
+//   </Box>
 
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Suburb
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Suburb"
-                      //         data={suburbs}
-                      //         value={formDataStep1.suburb}
-                      //         searchable
-                      //         nothingFoundMessage="Nothing found..."
-                      //         onChange={(value) => handleChangeStep1(value, 'suburb')}
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Suburb
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Suburb"
+//         data={suburbs}
+//         value={formDataStep1.suburb}
+//         searchable
+//         nothingFoundMessage="Nothing found..."
+//         onChange={(value) => handleChangeStep1(value, 'suburb')}
 
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Car Info
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7" onClick={openModal} >
-                      //       <Text className="border p-2 rounded" >
-                      //         {selection.make}  {selection.model} {selection.variant}
-                      //       </Text>
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Car Info
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7" onClick={openModal} >
+//       <Text className="border p-2 rounded" >
+//         {selection.make}  {selection.model} {selection.variant}
+//       </Text>
 
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Registered In
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Registered In"
-                      //         data={registrationOptions}
-                      //         value={formDataStep1.registeredIn}
-                      //         searchable
-                      //         nothingFoundMessage="Nothing found..."
-                      //         onChange={(value) => handleChangeStep1(value, 'registeredIn')}
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Registered In
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Registered In"
+//         data={registrationOptions}
+//         value={formDataStep1.registeredIn}
+//         searchable
+//         nothingFoundMessage="Nothing found..."
+//         onChange={(value) => handleChangeStep1(value, 'registeredIn')}
 
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Rego
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Rego"
-                      //         data={registrationOptions}
-                      //         value={formDataStep1.rego}
-                      //         onChange={(value) => handleChangeStep1(value, 'rego')}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Exterior Color
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Exterior Color"
-                      //         data={colorOptions}
-                      //         value={formDataStep1.exteriorColor}
-                      //         onChange={(value) => handleChangeStep1(value, 'exteriorColor')}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Rego
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Rego"
+//         data={registrationOptions}
+//         value={formDataStep1.rego}
+//         onChange={(value) => handleChangeStep1(value, 'rego')}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Exterior Color
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Exterior Color"
+//         data={colorOptions}
+//         value={formDataStep1.exteriorColor}
+//         onChange={(value) => handleChangeStep1(value, 'exteriorColor')}
 
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Mileage
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Input
-                      //         placeholder="0.10"
-                      //         rightSection={
-                      //           <Text span inherit size="xs">
-                      //             KM
-                      //           </Text>
-                      //         }
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Mileage
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Input
+//         placeholder="0.10"
+//         rightSection={
+//           <Text span inherit size="xs">
+//             KM
+//           </Text>
+//         }
 
-                      //         size="md"
-                      //         value={formDataStep1.milage}
-                      //         onChange={(value) => handleChangeStep1(value.target.value, 'milage')}
+//         size="md"
+//         value={formDataStep1.milage}
+//         onChange={(value) => handleChangeStep1(value.target.value, 'milage')}
 
-                      //       />
-                      //     </Box>
-                      //     <Box className="col-md-3 text-start">
-                      //       <Flex align="center" gap="xs">
-                      //         <LightBulb styles={{ flex: "1 1 2.5rem" }} />
-                      //         <Text size="sm">
-                      //           We don't allow promotional messages that are not
-                      //           relevant to the ad
-                      //         </Text>
-                      //       </Flex>
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Price
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Input
-                      //         placeholder="54,683,506"
-                      //         rightSection={
-                      //           <Text span inherit size="xs">
-                      //             PKR
-                      //           </Text>
-                      //         }
+//       />
+//     </Box>
+//     <Box className="col-md-3 text-start">
+//       <Flex align="center" gap="xs">
+//         <LightBulb styles={{ flex: "1 1 2.5rem" }} />
+//         <Text size="sm">
+//           We don't allow promotional messages that are not
+//           relevant to the ad
+//         </Text>
+//       </Flex>
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Price
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Input
+//         placeholder="54,683,506"
+//         rightSection={
+//           <Text span inherit size="xs">
+//             PKR
+//           </Text>
+//         }
 
-                      //         size="md"
-                      //         value={formDataStep1.price}
-                      //         onChange={(value) => handleChangeStep1(value.target.value, 'price')}
-                      //       />
-                      //     </Box>
-                      //     <Box className="col-md-3 text-start">
-                      //       <Flex align="center" gap="xs">
-                      //         <LightBulb styles={{ flex: "1 1 2.5rem" }} />
-                      //         <Text size="sm">
-                      //           Please enter a realistic price to get more
-                      //           genuine responses.
-                      //         </Text>
-                      //       </Flex>
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-start" mb="md">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Ad Description
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Textarea
-                      //         placeholder="Describe Your car: Example: Alloy rim, first owner, genuine parts, maintained by authorized workshop, excellent mileage, original paint etc."
-                      //         size="md"
-                      //         autosize
-                      //         minRows={6}
-                      //         maxRows={6}
-                      //         fs={8}
-                      //         value={formDataStep1.description}
-                      //         onChange={(e) => handleChangeStep1(e.target.value, 'description')}
-                      //       />
-                      //       <Group gap={0}>
-                      //         <Text size="sm" c="dimmed" ml="auto">
-                      //           Remaining Characters 995
-                      //         </Text>
+//         size="md"
+//         value={formDataStep1.price}
+//         onChange={(value) => handleChangeStep1(value.target.value, 'price')}
+//       />
+//     </Box>
+//     <Box className="col-md-3 text-start">
+//       <Flex align="center" gap="xs">
+//         <LightBulb styles={{ flex: "1 1 2.5rem" }} />
+//         <Text size="sm">
+//           Please enter a realistic price to get more
+//           genuine responses.
+//         </Text>
+//       </Flex>
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-start" mb="md">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Ad Description
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Textarea
+//         placeholder="Describe Your car: Example: Alloy rim, first owner, genuine parts, maintained by authorized workshop, excellent mileage, original paint etc."
+//         size="md"
+//         autosize
+//         minRows={6}
+//         maxRows={6}
+//         fs={8}
+//         value={formDataStep1.description}
+//         onChange={(e) => handleChangeStep1(e.target.value, 'description')}
+//       />
+//       <Group gap={0}>
+//         <Text size="sm" c="dimmed" ml="auto">
+//           Remaining Characters 995
+//         </Text>
 
-                      //         <Button
-                      //           variant="transparent"
-                      //           pr="0"
-                      //           size="md"
-                      //           className="text-primary"
-                      //         >
-                      //           Reset
-                      //         </Button>
-                      //       </Group>
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-start  " mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label
-                      //         required
-                      //         size="md"
-                      //         className="text-primary"
-                      //       >
-                      //         Predefined Template
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7 border p-2 cursor-pointer ">
-                      //       <Text size="sm">You can also use these suggestions</Text>
-                      //       <Box className=" d-flex flex-wrap flex-row	gap-1 mt-2  "  >
-                      //         {carTags.map((tag, index) => (
-                      //           <>
-                      //             <Box className="border p-2  rounded  m-2" key={`-${index}`}
-                      //               onClick={() => handleDescriptionClick(tag + ' ')} >
-                      //               <Text size="sm" >{tag}</Text>
-                      //             </Box>
-                      //           </>
-                      //         ))}
-                      //       </Box>
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-start" mb="xl">
-                      //     <Box className="col-md-12">
-                      //       <Title order={4} mb="lg">
-                      //         Upload Photos
-                      //       </Title>
-                      //       {/* <ImageUploader /> */}
-                      //       <Dropzone
-                      //         accept={IMAGE_MIME_TYPE}
-                      //         onDrop={handleFileDrop}
-                      //         p={0}
-                      //       >
-                      //         <Image
-                      //           src="/upload.png"
-                      //           className="img-fluid w-100 h-100"
-                      //           alt="Upload Image"
-                      //         />
-                      //       </Dropzone>
+//         <Button
+//           variant="transparent"
+//           pr="0"
+//           size="md"
+//           className="text-primary"
+//         >
+//           Reset
+//         </Button>
+//       </Group>
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-start  " mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label
+//         required
+//         size="md"
+//         className="text-primary"
+//       >
+//         Predefined Template
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7 border p-2 cursor-pointer ">
+//       <Text size="sm">You can also use these suggestions</Text>
+//       <Box className=" d-flex flex-wrap flex-row	gap-1 mt-2  "  >
+//         {carTags.map((tag, index) => (
+//           <>
+//             <Box className="border p-2  rounded  m-2" key={`-${index}`}
+//               onClick={() => handleDescriptionClick(tag + ' ')} >
+//               <Text size="sm" >{tag}</Text>
+//             </Box>
+//           </>
+//         ))}
+//       </Box>
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-start" mb="xl">
+//     <Box className="col-md-12">
+//       <Title order={4} mb="lg">
+//         Upload Photos
+//       </Title>
+//       {/* <ImageUploader /> */}
+//       <Dropzone
+//         accept={IMAGE_MIME_TYPE}
+//         onDrop={handleFileDrop}
+//         p={0}
+//       >
+//         <Image
+//           src="/upload.png"
+//           className="img-fluid w-100 h-100"
+//           alt="Upload Image"
+//         />
+//       </Dropzone>
 
-                      //       <SimpleGrid
-                      //         cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-                      //         mt={previews.length > 0 ? "md" : 0}
-                      //       >
-                      //         {previews}
-                      //       </SimpleGrid>
-                      //     </Box>
-                      //   </Box>
-                      // </Box>
+//       <SimpleGrid
+//         cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+//         mt={previews.length > 0 ? "md" : 0}
+//       >
+//         {previews}
+//       </SimpleGrid>
+//     </Box>
+//   </Box>
+// </Box>
 
 //                       {/* step 1 end*/}
 
@@ -722,125 +722,125 @@
 //                     >
 //                       <Title order={3}>Additional Information</Title>
 
-                      // <Box className="stepper-form" mt="xl">
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Engine Type
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Petrol"
-                      //         data={["Petrol", "Diesel", "Electric", "Hybrid"]}
-                      //         value={formDataStep2.engineType}
-                      //         onChange={(value) => handleInputChangeStep2('engineType', value)}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Engine Capacity
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <NumberInput
-                      //         size="md"
-                      //         placeholder="1300"
-                      //         value={formDataStep2.engineCapacity}
-                      //         onChange={(value) => handleInputChangeStep2('engineCapacity', value)}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Transmission
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Transmission"
-                      //         data={["Automatic", "Manual", "CVT", "Semi-Automatic"]}
-                      //         value={formDataStep2.transmission}
-                      //         onChange={(value) => handleInputChangeStep2('transmission', value)}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Assembly
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Select
-                      //         size="md"
-                      //         placeholder="Local"
-                      //         data={["Local", "Imported"]}
-                      //         value={formDataStep2.assembly}
-                      //         onChange={(value) => handleInputChangeStep2('assembly', value)}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-start" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label size="md">Feature</Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Box className="row">
-                      //         <Box className="col-md-4">
-                      //           {featuredListsOne.map((item, index) => (
-                      //             <>
-                      //             <Checkbox
-                      //               key={index}
-                      //               color="#E90808"
-                      //               label={item.name}
-                      //               mb="sm"
-                      //               size="sm"
-                      //               checked={formDataStep2.features.includes(item.name)}
-                      //               onChange={() => handleFeatureChange(item.name)}
-                      //             />
-                      //             </>
-                      //           ))}
-                      //         </Box>
-                      //         <Box className="col-md-4">
-                      //           {featuredListsTwo.map((item, index) => (
-                      //          <>
-                      //             <Checkbox
-                      //               key={index}
-                      //               color="#E90808"
-                      //               label={item.name}
-                      //               mb="sm"
-                      //               size="sm"
-                      //               checked={formDataStep2.features.includes(item.name)}
-                      //               onChange={() => handleFeatureChange(item.name)}
-                      //             />
-                      //          </>
-                      //           ))}
-                      //         </Box>
-                      //         <Box className="col-md-4">
-                      //           {featuredListsThree.map((item, index) => (
-                      //           <>
-                      //             <Checkbox
-                      //               key={index}
-                      //               color="#E90808"
-                      //               label={item.name}
-                      //               mb="sm"
-                      //               size="sm"
-                      //               checked={formDataStep2.features.includes(item.name)}
-                      //               onChange={() => handleFeatureChange(item.name)}
-                      //             />
-                      //           </>
-                      //           ))}
-                      //         </Box>
-                      //       </Box>
-                      //     </Box>
-                      //   </Box>
-                      // </Box>
+// <Box className="stepper-form" mt="xl">
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Engine Type
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Petrol"
+//         data={["Petrol", "Diesel", "Electric", "Hybrid"]}
+//         value={formDataStep2.engineType}
+//         onChange={(value) => handleInputChangeStep2('engineType', value)}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Engine Capacity
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <NumberInput
+//         size="md"
+//         placeholder="1300"
+//         value={formDataStep2.engineCapacity}
+//         onChange={(value) => handleInputChangeStep2('engineCapacity', value)}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Transmission
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Transmission"
+//         data={["Automatic", "Manual", "CVT", "Semi-Automatic"]}
+//         value={formDataStep2.transmission}
+//         onChange={(value) => handleInputChangeStep2('transmission', value)}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Assembly
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Select
+//         size="md"
+//         placeholder="Local"
+//         data={["Local", "Imported"]}
+//         value={formDataStep2.assembly}
+//         onChange={(value) => handleInputChangeStep2('assembly', value)}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-start" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label size="md">Feature</Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Box className="row">
+//         <Box className="col-md-4">
+//           {featuredListsOne.map((item, index) => (
+//             <>
+//             <Checkbox
+//               key={index}
+//               color="#E90808"
+//               label={item.name}
+//               mb="sm"
+//               size="sm"
+//               checked={formDataStep2.features.includes(item.name)}
+//               onChange={() => handleFeatureChange(item.name)}
+//             />
+//             </>
+//           ))}
+//         </Box>
+//         <Box className="col-md-4">
+//           {featuredListsTwo.map((item, index) => (
+//          <>
+//             <Checkbox
+//               key={index}
+//               color="#E90808"
+//               label={item.name}
+//               mb="sm"
+//               size="sm"
+//               checked={formDataStep2.features.includes(item.name)}
+//               onChange={() => handleFeatureChange(item.name)}
+//             />
+//          </>
+//           ))}
+//         </Box>
+//         <Box className="col-md-4">
+//           {featuredListsThree.map((item, index) => (
+//           <>
+//             <Checkbox
+//               key={index}
+//               color="#E90808"
+//               label={item.name}
+//               mb="sm"
+//               size="sm"
+//               checked={formDataStep2.features.includes(item.name)}
+//               onChange={() => handleFeatureChange(item.name)}
+//             />
+//           </>
+//           ))}
+//         </Box>
+//       </Box>
+//     </Box>
+//   </Box>
+// </Box>
 //                     </Card>
 //                   </Stepper.Step>
 //                   <Stepper.Step
@@ -860,64 +860,64 @@
 //                     >
 //                       <Title order={3}>Contact Information</Title>
 
-                      // <Box className="stepper-form" mt="xl">
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Mobile Number
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Input
-                      //         type="number"
-                      //         size="md"
-                      //         name="mobileNumber"
-                      //         placeholder="Mobile Number"
-                      //         value={formDataStep3.mobileNumber}
-                      //         onChange={handleChangeStep3}
-                      //         rightSection={<BiMobileAlt />}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                      //       <Input.Label required size="md">
-                      //         Secondary Number (Optional)
-                      //       </Input.Label>
-                      //     </Box>
-                      //     <Box className="col-md-7">
-                      //       <Input
-                      //         type="number"
-                      //         size="md"
-                      //         name="secondaryNumber"
-                      //         placeholder="Secondary Number (Optional)"
-                      //         value={formDataStep3.secondaryNumber}
-                      //         onChange={handleChangeStep3}
-                      //         rightSection={<BiMobileAlt />}
-                      //       />
-                      //     </Box>
-                      //   </Box>
-                      //   <Box className="row align-items-center" mb="xl">
-                      //     <Box className="col-md-6 offset-2 mb-2 mb-lg-0">
-                      //       <Flex align="center" gap="xl">
-                      //         <Flex align="center" gap="sm">
-                      //           <ThemeIcon
-                      //             variant="filled"
-                      //             radius="lg"
-                      //             size="lg"
-                      //             color="green"
-                      //           >
-                      //             <FaWhatsapp
-                      //               style={{ width: "60%", height: "60%" }}
-                      //             />
-                      //           </ThemeIcon>
-                      //           Allow WhatsApp Contact
-                      //         </Flex>
-                      //         <Switch size="xl" color="#E90808" />
-                      //       </Flex>
-                      //     </Box>
-                      //   </Box>
-                      // </Box>
+// <Box className="stepper-form" mt="xl">
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Mobile Number
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Input
+//         type="number"
+//         size="md"
+//         name="mobileNumber"
+//         placeholder="Mobile Number"
+//         value={formDataStep3.mobileNumber}
+//         onChange={handleChangeStep3}
+//         rightSection={<BiMobileAlt />}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+//       <Input.Label required size="md">
+//         Secondary Number (Optional)
+//       </Input.Label>
+//     </Box>
+//     <Box className="col-md-7">
+//       <Input
+//         type="number"
+//         size="md"
+//         name="secondaryNumber"
+//         placeholder="Secondary Number (Optional)"
+//         value={formDataStep3.secondaryNumber}
+//         onChange={handleChangeStep3}
+//         rightSection={<BiMobileAlt />}
+//       />
+//     </Box>
+//   </Box>
+//   <Box className="row align-items-center" mb="xl">
+//     <Box className="col-md-6 offset-2 mb-2 mb-lg-0">
+//       <Flex align="center" gap="xl">
+//         <Flex align="center" gap="sm">
+//           <ThemeIcon
+//             variant="filled"
+//             radius="lg"
+//             size="lg"
+//             color="green"
+//           >
+//             <FaWhatsapp
+//               style={{ width: "60%", height: "60%" }}
+//             />
+//           </ThemeIcon>
+//           Allow WhatsApp Contact
+//         </Flex>
+//         <Switch size="xl" color="#E90808" />
+//       </Flex>
+//     </Box>
+//   </Box>
+// </Box>
 //                     </Card>
 //                   </Stepper.Step>
 //                   <Stepper.Completed>
@@ -1012,6 +1012,7 @@
 
 // export default PostAnAd;
 "use client";
+import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -1023,37 +1024,39 @@ import {
   Select,
   Stepper,
   Group,
-  rem,
   Input,
   Textarea,
-  FileInput,
   SimpleGrid,
   Image,
   NumberInput,
   Checkbox,
   Switch,
   ThemeIcon,
+  Grid,
 } from "@mantine/core";
 
 import { BiMobileAlt, BiSolidUserRectangle } from "react-icons/bi";
-import { FaArrowLeftLong, FaArrowRightLong, FaCar, FaWhatsapp, FaMotorcycle,FaTruck } from "react-icons/fa6";
+import { FaArrowLeftLong, FaArrowRightLong, FaCar, FaWhatsapp, FaMotorcycle, FaTruck } from "react-icons/fa6";
 import { LightBulb } from "@/components/Icons";
 import { IconCircleCheck } from "@tabler/icons-react";
 import { HiDocumentAdd } from "react-icons/hi";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import CustomModel from "@/constants/CustomModel";
-import { postDataToServer } from "@/actions/index";
-import { fetchMakesByType } from "@/services/vehicles";
+import { fetchBodiesByType, fetchMakesByType } from "@/services/vehicles";
 import { submitFormData } from "@/services/forms";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
-import { cities, colorOptions, registrationOptions, suburbs, carTags } from "@/mock-data/mock-array"
+import { cities, colorOptions, registrationOptions, suburbs, carTags, yearList, carEngines, truckEngines, bikeEngines, bikeDrives, carTruckDrives } from "@/mock-data/mock-array"
+import { uploadImageServer } from "@/actions";
+import { showNotification } from "@mantine/notifications";
 const PostAnAd = (params) => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const vehicle= params?.params?.vehicle;
+  const vehicle = params?.params?.vehicle;
   const [activeStep, setActiveStep] = useState(0);
   const [images, setImages] = useState([]);
   const [makes, setMakes] = useState({});
+  const [bodies, setBodies] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selection, setSelection] = useState({
     make: "",
@@ -1061,7 +1064,8 @@ const PostAnAd = (params) => {
     variant: "",
   });
   const [formDataStep1, setFormDataStep1] = useState({
-    condition: "",
+    condition: "used",
+    year: "",
     city: "",
     suburb: "",
     registeredIn: "",
@@ -1075,6 +1079,11 @@ const PostAnAd = (params) => {
   });
   const [formDataStep2, setFormDataStep2] = useState({
     engineType: "",
+    engine: "",
+    drive: "",
+    seats: "",
+    doors: "",
+    body: "",
     engineCapacity: "",
     transmission: "",
     assembly: "",
@@ -1107,7 +1116,10 @@ const PostAnAd = (params) => {
         images.length > 0,
       1: (data) =>
         data.engineType &&
+        data.engine &&
+        data.drive &&
         data.engineCapacity &&
+        data.body &&
         data.transmission &&
         data.assembly &&
         data.features.length > 0,
@@ -1149,6 +1161,17 @@ const PostAnAd = (params) => {
     getMakes();
   }, [vehicle]); // Re-fetch makes when vehicle type changes
 
+  useEffect(() => {
+    const getBodies = async () => {
+      if (vehicle) {
+        const response = await fetchBodiesByType(vehicle); // Fetch based on vehicle type
+        setBodies(response);
+      }
+    };
+
+    getBodies();
+  }, [vehicle]); // Re-fetch makes when vehicle type changes
+
   const handleInputChangeStep2 = (field, value) => {
     setFormDataStep2((prevState) => ({
       ...prevState,
@@ -1179,42 +1202,49 @@ const PostAnAd = (params) => {
       description: prevData.description + template,
     }));
   };
-
   const handleSubmit = async () => {
     const specifications = {
       suburb: formDataStep1.suburb,
       rego: formDataStep1.rego,
       exteriorColor: formDataStep1.exteriorColor,
-      milage: formDataStep1.milage,
+      mileage: formDataStep1.milage,
+      engine: formDataStep2.engine,
+      drive: formDataStep2.drive,
       engineType: formDataStep2.engineType,
+      fuelType: formDataStep2.engineType,
+      bodyType: formDataStep2.body,
       engineCapacity: formDataStep2.engineCapacity,
       transmission: formDataStep2.transmission,
       assembly: formDataStep2.assembly,
     };
-
+    if (vehicle !== "bike") {
+      specifications.seats = formDataStep2.seats;
+      specifications.doors = formDataStep2.doors;
+    }
     const payload = {
       ...formDataStep1,
       ...formDataStep2,
       specifications,
+      price: formDataStep1.price || 0,
       startPrice: formDataStep1.price || 0,
       endPrice: formDataStep1.price || 0,
       cityArea: formDataStep1.suburb,
       type: vehicle,
-      year: new Date().getFullYear(),
+      year: formDataStep1.year,
       make: selection.make,
       model: selection.model,
+      variant: selection.variant,
       contactInfo: formDataStep3,
       images: formDataStep1.images,
+      defaultImage: formDataStep1.images[0],
+      seller: session?.user?._id,
     };
-    if(selection.variant){
-      payload.variant = selection.variant;
-
-    }
     try {
+
       const data = await submitFormData(API_ENDPOINTS.VEHICLE.ADD, JSON.stringify(payload), {
         "Content-Type": "application/json",
       });
-      router.push(`/listing/${vehicle}`);
+      router.push(`/listing/${vehicle}s`);
     } catch (error) {
       console.error(error);
     }
@@ -1222,7 +1252,11 @@ const PostAnAd = (params) => {
 
   const nextStep = () => {
     if (!validateStep(activeStep)) {
-      alert("Please fill in all required fields.");
+      showNotification({
+        title: 'Post an ad',
+        message: 'Please fill in all required fields.',
+        color: 'red',
+      });
       return;
     }
 
@@ -1242,17 +1276,10 @@ const PostAnAd = (params) => {
       images.forEach((image) => {
         formData.append("images", image);
       });
-      const response = await fetch('http://localhost:5000/upload-image', {
-        method: 'POST',
-        body: formData, // Send the FormData as the body
-        headers: {
-          // 'Content-Type': 'multipart/form-data' // Do not set Content-Type for FormData, the browser will set it automatically
-        },
-      });
 
+      const response = await uploadImageServer(formData);
 
-      // const response = await submitFormData("/upload-image", formData); // Upload images
-      const uploadedImageUrls = response.data;
+      const uploadedImageUrls = response;
 
       setFormDataStep1((prev) => ({
         ...prev,
@@ -1286,7 +1313,7 @@ const PostAnAd = (params) => {
         { name: "Cruise Control" }, // Shared between car and truck
       ],
     };
-  
+
     // Car-specific features
     const carFeatures = {
       featuredListsOne: [
@@ -1322,7 +1349,7 @@ const PostAnAd = (params) => {
         { name: "Steering Switches" },
       ],
     };
-  
+
     // Bike-specific features
     const bikeFeatures = {
       featuredListsOne: [
@@ -1341,7 +1368,7 @@ const PostAnAd = (params) => {
         { name: "Side Stand Indicator" },
       ],
     };
-  
+
     // Truck-specific features
     const truckFeatures = {
       featuredListsOne: [
@@ -1363,7 +1390,7 @@ const PostAnAd = (params) => {
         { name: "GPS Navigation" },
       ],
     };
-  
+
     // Return features based on the vehicle type
     switch (vehicleType) {
       case "bike":
@@ -1374,12 +1401,49 @@ const PostAnAd = (params) => {
         return carFeatures; // Default to car features
     }
   };
-  
+
   // Usage example:
   const features = getFeaturesByVehicle(vehicle);
-  
+
   const { featuredListsOne, featuredListsTwo, featuredListsThree } = features;
-  
+  const getEngineListByVehicle = (vehicleType) => {
+    // Return features based on the vehicle type
+    switch (vehicleType) {
+      case "bike":
+        return bikeEngines;
+      case "truck":
+        return truckEngines;
+      default:
+        return carEngines; // Default to car features
+    }
+
+  }
+  // Usage example:
+  const engineList = getEngineListByVehicle(vehicle);
+  const getDriveListByVehicle = (vehicleType) => {
+    // Return features based on the vehicle type
+    switch (vehicleType) {
+      case "bike":
+        return bikeDrives;
+      case "truck":
+        return carTruckDrives;
+      default:
+        return carTruckDrives; // Default to car features
+    }
+
+  }
+  // Usage example:
+  const driveList = getDriveListByVehicle(vehicle);
+
+  if (!session) {
+    return (
+      <Box my="xl" className="post-an-ad" py={"100px"}>
+        <Text size="xl" align="center">
+          Please login to post ad
+        </Text>
+      </Box>
+    );
+  }
   return (
     <Box component="section" className="post-an-ad" my="xl">
       <Box className="header-section bg-light" py={80}>
@@ -1400,289 +1464,291 @@ const PostAnAd = (params) => {
           <Box className="row">
             <Box className="col-lg-12 text-center">
               <Stepper active={activeStep} onStepClick={setActiveStep} color="#E90808" completedIcon={<IconCircleCheck />}>
-                <Stepper.Step icon={vehicle=="bike"?<FaMotorcycle/>:vehicle=="truck"?<FaTruck/>:<FaCar />} label="Step 1" py="lg" description={`Enter Your ${vehicle} Information`}>
+                <Stepper.Step icon={vehicle == "bike" ? <FaMotorcycle /> : vehicle == "truck" ? <FaTruck /> : <FaCar />} label="Step 1" py="lg" description={`Enter Your ${vehicle} Information`}>
                   <Card shadow="0px 4px 20px 0px #00000014" p={{ base: "md", md: "lg" }} className="text-start border-top border-primary border-5">
                     <Title order={3}>Vehicle Information</Title>
                     <Text c="dimmed">(All fields marked with * are mandatory)</Text>
                     {/* Step 1 content goes here */}
-                                          {/* step 1 start*/}
+                    {/* step 1 start*/}
 
-                                          <Box className="stepper-form" mt="xl">
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Condition
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="New"
-                              data={['used', 'new', 'certified']}
-                              value={formDataStep1.condition}
-                              onChange={(value) => handleChangeStep1(value, 'condition')}
-
-                            />
-                          </Box>
+                    <Box className="stepper-form" mt="xl">
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Year
+                          </Input.Label>
                         </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="2024"
+                            data={yearList}
+                            value={formDataStep1.year}
+                            onChange={(value) => handleChangeStep1(value, 'year')}
 
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              City
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="City"
-                              data={cities}
-                              value={formDataStep1.city}
-                              searchable
-                              nothingFoundMessage="Nothing found..."
-                              onChange={(value) => handleChangeStep1(value, 'city')}
-                            />
-                          </Box>
-                          <Box className="col-md-3 text-center">
-                            <Group gap="xs" align="center">
-                              <LightBulb />
-                              <Text size="sm">
-                                We don't allow duplicates of same ad.
+                          />
+                        </Box>
+                      </Box>
+
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            City
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="City"
+                            data={cities}
+                            value={formDataStep1.city}
+                            searchable
+                            nothingFoundMessage="Nothing found..."
+                            onChange={(value) => handleChangeStep1(value, 'city')}
+                          />
+                        </Box>
+                        <Box className="col-md-3 text-center">
+                          <Group gap="xs" align="center">
+                            <LightBulb />
+                            <Text size="sm">
+                              We don't allow duplicates of same ad.
+                            </Text>
+                          </Group>
+                        </Box>
+                      </Box>
+
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Suburb
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Suburb"
+                            data={suburbs}
+                            value={formDataStep1.suburb}
+                            searchable
+                            nothingFoundMessage="Nothing found..."
+                            onChange={(value) => handleChangeStep1(value, 'suburb')}
+
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md" tt="capitalize">
+                            {vehicle} Info
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7" onClick={openModal} >
+                          <Text className="border p-2 rounded" >
+                            {selection.make}  {selection.model} {selection.variant}
+                          </Text>
+
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Registered In
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Registered In"
+                            data={registrationOptions}
+                            value={formDataStep1.registeredIn}
+                            searchable
+                            nothingFoundMessage="Nothing found..."
+                            onChange={(value) => handleChangeStep1(value, 'registeredIn')}
+
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Rego
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Rego"
+                            data={registrationOptions}
+                            value={formDataStep1.rego}
+                            onChange={(value) => handleChangeStep1(value, 'rego')}
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Exterior Color
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Exterior Color"
+                            data={colorOptions}
+                            value={formDataStep1.exteriorColor}
+                            onChange={(value) => handleChangeStep1(value, 'exteriorColor')}
+
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Mileage
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Input
+                            placeholder="0.10"
+                            rightSection={
+                              <Text span inherit size="xs">
+                                KM
                               </Text>
-                            </Group>
-                          </Box>
-                        </Box>
+                            }
 
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Suburb
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Suburb"
-                              data={suburbs}
-                              value={formDataStep1.suburb}
-                              searchable
-                              nothingFoundMessage="Nothing found..."
-                              onChange={(value) => handleChangeStep1(value, 'suburb')}
+                            size="md"
+                            value={formDataStep1.milage}
+                            type="number"
+                            onChange={(value) => handleChangeStep1(value.target.value, 'milage')}
 
-                            />
-                          </Box>
+                          />
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md" tt="capitalize">
-                              {vehicle} Info
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7" onClick={openModal} >
-                            <Text className="border p-2 rounded" >
-                              {selection.make}  {selection.model} {selection.variant}
+                        <Box className="col-md-3 text-start">
+                          <Flex align="center" gap="xs">
+                            <LightBulb styles={{ flex: "1 1 2.5rem" }} />
+                            <Text size="sm">
+                              We don't allow promotional messages that are not
+                              relevant to the ad
+                            </Text>
+                          </Flex>
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Price
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Input
+                            placeholder="54,683,506"
+                            rightSection={
+                              <Text span inherit size="xs">
+                                PKR
+                              </Text>
+                            }
+
+                            size="md"
+                            value={formDataStep1.price}
+                            type="number"
+                            onChange={(value) => handleChangeStep1(value.target.value, 'price')}
+                          />
+                        </Box>
+                        <Box className="col-md-3 text-start">
+                          <Flex align="center" gap="xs">
+                            <LightBulb styles={{ flex: "1 1 2.5rem" }} />
+                            <Text size="sm">
+                              Please enter a realistic price to get more
+                              genuine responses.
+                            </Text>
+                          </Flex>
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-start" mb="md">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Ad Description
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Textarea
+                            placeholder="Describe Your car: Example: Alloy rim, first owner, genuine parts, maintained by authorized workshop, excellent mileage, original paint etc."
+                            size="md"
+                            autosize
+                            minRows={6}
+                            maxRows={6}
+                            fs={8}
+                            value={formDataStep1.description}
+                            onChange={(e) => handleChangeStep1(e.target.value, 'description')}
+                          />
+                          <Group gap={0}>
+                            <Text size="sm" c="dimmed" ml="auto">
+                              Remaining Characters 995
                             </Text>
 
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Registered In
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Registered In"
-                              data={registrationOptions}
-                              value={formDataStep1.registeredIn}
-                              searchable
-                              nothingFoundMessage="Nothing found..."
-                              onChange={(value) => handleChangeStep1(value, 'registeredIn')}
-
-                            />
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Rego
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Rego"
-                              data={registrationOptions}
-                              value={formDataStep1.rego}
-                              onChange={(value) => handleChangeStep1(value, 'rego')}
-                            />
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Exterior Color
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Exterior Color"
-                              data={colorOptions}
-                              value={formDataStep1.exteriorColor}
-                              onChange={(value) => handleChangeStep1(value, 'exteriorColor')}
-
-                            />
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Mileage
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Input
-                              placeholder="0.10"
-                              rightSection={
-                                <Text span inherit size="xs">
-                                  KM
-                                </Text>
-                              }
-
-                              size="md"
-                              value={formDataStep1.milage}
-                              onChange={(value) => handleChangeStep1(value.target.value, 'milage')}
-
-                            />
-                          </Box>
-                          <Box className="col-md-3 text-start">
-                            <Flex align="center" gap="xs">
-                              <LightBulb styles={{ flex: "1 1 2.5rem" }} />
-                              <Text size="sm">
-                                We don't allow promotional messages that are not
-                                relevant to the ad
-                              </Text>
-                            </Flex>
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Price
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Input
-                              placeholder="54,683,506"
-                              rightSection={
-                                <Text span inherit size="xs">
-                                  PKR
-                                </Text>
-                              }
-
-                              size="md"
-                              value={formDataStep1.price}
-                              onChange={(value) => handleChangeStep1(value.target.value, 'price')}
-                            />
-                          </Box>
-                          <Box className="col-md-3 text-start">
-                            <Flex align="center" gap="xs">
-                              <LightBulb styles={{ flex: "1 1 2.5rem" }} />
-                              <Text size="sm">
-                                Please enter a realistic price to get more
-                                genuine responses.
-                              </Text>
-                            </Flex>
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-start" mb="md">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Ad Description
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Textarea
-                              placeholder="Describe Your car: Example: Alloy rim, first owner, genuine parts, maintained by authorized workshop, excellent mileage, original paint etc."
-                              size="md"
-                              autosize
-                              minRows={6}
-                              maxRows={6}
-                              fs={8}
-                              value={formDataStep1.description}
-                              onChange={(e) => handleChangeStep1(e.target.value, 'description')}
-                            />
-                            <Group gap={0}>
-                              <Text size="sm" c="dimmed" ml="auto">
-                                Remaining Characters 995
-                              </Text>
-
-                              <Button
-                                variant="transparent"
-                                pr="0"
-                                size="md"
-                                className="text-primary"
-                              >
-                                Reset
-                              </Button>
-                            </Group>
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-start  " mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label
-                              required
+                            <Button
+                              variant="transparent"
+                              pr="0"
                               size="md"
                               className="text-primary"
                             >
-                              Predefined Template
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7 border p-2 cursor-pointer ">
-                            <Text size="sm">You can also use these suggestions</Text>
-                            <Box className=" d-flex flex-wrap flex-row	gap-1 mt-2  "  >
-                              {carTags.map((tag, index) => (
-                                <>
-                                  <Box className="border p-2  rounded  m-2" key={`-${index}`}
-                                    onClick={() => handleDescriptionClick(tag + ' ')} >
-                                    <Text size="sm" >{tag}</Text>
-                                  </Box>
-                                </>
-                              ))}
-                            </Box>
-                          </Box>
+                              Reset
+                            </Button>
+                          </Group>
                         </Box>
-                        <Box className="row align-items-start" mb="xl">
-                          <Box className="col-md-12">
-                            <Title order={4} mb="lg">
-                              Upload Photos
-                            </Title>
-                            {/* <ImageUploader /> */}
-                            <Dropzone
-                              accept={IMAGE_MIME_TYPE}
-                              onDrop={handleFileDrop}
-                              p={0}
-                            >
-                              <Image
-                                src="/upload.png"
-                                className="img-fluid w-100 h-100"
-                                alt="Upload Image"
-                              />
-                            </Dropzone>
-
-                            <SimpleGrid
-                              cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-                              mt={previews.length > 0 ? "md" : 0}
-                            >
-                              {previews}
-                            </SimpleGrid>
+                      </Box>
+                      <Box className="row align-items-start  " mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label
+                            required
+                            size="md"
+                            className="text-primary"
+                          >
+                            Predefined Template
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7 border p-2 cursor-pointer ">
+                          <Text size="sm">You can also use these suggestions</Text>
+                          <Box className=" d-flex flex-wrap flex-row	gap-1 mt-2  "  >
+                            {carTags.map((tag, index) => (
+                              <>
+                                <Box className="border p-2  rounded  m-2" key={`-${index}`}
+                                  onClick={() => handleDescriptionClick(tag + ' ')} >
+                                  <Text size="sm" >{tag}</Text>
+                                </Box>
+                              </>
+                            ))}
                           </Box>
                         </Box>
                       </Box>
-                      {/* Step 1 ended */}
+                      <Box className="row align-items-start" mb="xl">
+                        <Box className="col-md-12">
+                          <Title order={4} mb="lg">
+                            Upload Photos
+                          </Title>
+                          {/* <ImageUploader /> */}
+                          <Dropzone
+                            accept={IMAGE_MIME_TYPE}
+                            onDrop={handleFileDrop}
+                            p={0}
+                          >
+                            <Image
+                              src="/upload.png"
+                              className="img-fluid w-100 h-100"
+                              alt="Upload Image"
+                            />
+                          </Dropzone>
+
+                          <SimpleGrid
+                            cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+                            mt={previews.length > 0 ? "md" : 0}
+                          >
+                            {previews}
+                          </SimpleGrid>
+                        </Box>
+                      </Box>
+                    </Box>
+                    {/* Step 1 ended */}
                   </Card>
                 </Stepper.Step>
 
@@ -1690,107 +1756,183 @@ const PostAnAd = (params) => {
                   <Card shadow="0px 4px 20px 0px #00000014" p={{ base: "md", md: "lg" }} className="text-start border-top border-primary border-5">
                     <Title order={3}>Additional Information</Title>
                     <Box className="stepper-form" mt="xl">
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Engine Type
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Petrol"
-                              data={["Petrol", "Diesel", "Electric", "Hybrid"]}
-                              value={formDataStep2.engineType}
-                              onChange={(value) => handleInputChangeStep2('engineType', value)}
-                            />
-                          </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Engine Type
+                          </Input.Label>
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Engine Capacity
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <NumberInput
-                              size="md"
-                              placeholder="1300"
-                              value={formDataStep2.engineCapacity}
-                              onChange={(value) => handleInputChangeStep2('engineCapacity', value)}
-                            />
-                          </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Petrol"
+                            data={["Petrol", "Diesel", "Electric", "Hybrid"]}
+                            value={formDataStep2.engineType}
+                            onChange={(value) => handleInputChangeStep2('engineType', value)}
+                          />
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Transmission
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Transmission"
-                              data={["Automatic", "Manual", "CVT", "Semi-Automatic"]}
-                              value={formDataStep2.transmission}
-                              onChange={(value) => handleInputChangeStep2('transmission', value)}
-                            />
-                          </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Engine
+                          </Input.Label>
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Assembly
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Select
-                              size="md"
-                              placeholder="Local"
-                              data={["Local", "Imported"]}
-                              value={formDataStep2.assembly}
-                              onChange={(value) => handleInputChangeStep2('assembly', value)}
-                            />
-                          </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="3.0L V6"
+                            data={engineList}
+                            value={formDataStep2.engine}
+                            onChange={(value) => handleInputChangeStep2('engine', value)}
+                          />
                         </Box>
-                        <Box className="row align-items-start" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label size="md">Feature</Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Box className="row">
-                              <Box className="col-md-4">
-                                {featuredListsOne.map((item, index) => (
-                                  <>
-                                  <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={formDataStep2.features.includes(item.name)}
-                                    onChange={() => handleFeatureChange(item.name)}
-                                  />
-                                  </>
-                                ))}
-                              </Box>
-                              <Box className="col-md-4">
-                                {featuredListsTwo.map((item, index) => (
-                               <>
-                                  <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={formDataStep2.features.includes(item.name)}
-                                    onChange={() => handleFeatureChange(item.name)}
-                                  />
-                               </>
-                                ))}
-                              </Box>
-                              <Box className="col-md-4">
-                                {featuredListsThree.map((item, index) => (
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Engine Capacity
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <NumberInput
+                            size="md"
+                            placeholder="1300"
+                            value={formDataStep2.engineCapacity}
+                            onChange={(value) => handleInputChangeStep2('engineCapacity', value)}
+                          />
+                        </Box>
+                      </Box>
+                      {vehicle!=="bike"&&
+                      <>
+                      
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Doors
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <NumberInput
+                            size="md"
+                            placeholder="4"
+                            value={formDataStep2.doors}
+                            onChange={(value) => handleInputChangeStep2('doors', value)}
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Seats
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <NumberInput
+                            size="md"
+                            placeholder="4"
+                            value={formDataStep2.seats}
+                            onChange={(value) => handleInputChangeStep2('seats', value)}
+                          />
+                        </Box>
+                      </Box>
+                      </>                      
+
+                      }
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Transmission
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Transmission"
+                            data={["Automatic", "Manual", "CVT", "Semi-Automatic"]}
+                            value={formDataStep2.transmission}
+                            onChange={(value) => handleInputChangeStep2('transmission', value)}
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Drive
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Drive"
+                            data={driveList}
+                            value={formDataStep2.drive}
+                            onChange={(value) => handleInputChangeStep2('drive', value)}
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Assembly
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="Local"
+                            data={["Local", "Imported"]}
+                            value={formDataStep2.assembly}
+                            onChange={(value) => handleInputChangeStep2('assembly', value)}
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-start" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Body Type
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Grid mb="lg">
+                            {bodies?.data?.map((bodyType) => (
+                              <Grid.Col span={6} ta="center" key={bodyType.name}>
+                                <div className="single-brand-item selected-brand-item text-center">
+                                  <label
+                                    className={`text-decoration-none ${formDataStep2.body === bodyType.name.toLowerCase() ? "checked" : ""
+                                      }`}
+                                  >
+                                    <input
+                                      type="radio"
+                                      name="bodyType"
+                                      value={bodyType.name.toLowerCase()}
+                                      checked={formDataStep2.body === bodyType.name.toLowerCase()}
+                                      onChange={() => handleInputChangeStep2("body", bodyType.name.toLowerCase())}
+                                    />
+                                    <Image
+                                      width={80}
+                                      height={60}
+                                      src={bodyType.bodyImage}
+                                      className="mx-auto text-center"
+                                      alt={`${bodyType.name} body type`}
+                                    />
+                                    <h6 className="mb-0 text-dark">{bodyType.name}</h6>
+                                  </label>
+                                </div>
+                              </Grid.Col>
+                            ))}
+                          </Grid>
+
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-start" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label size="md">Feature</Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Box className="row">
+                            <Box className="col-md-4">
+                              {featuredListsOne.map((item, index) => (
                                 <>
                                   <Checkbox
                                     key={index}
@@ -1802,13 +1944,43 @@ const PostAnAd = (params) => {
                                     onChange={() => handleFeatureChange(item.name)}
                                   />
                                 </>
-                                ))}
-                              </Box>
+                              ))}
+                            </Box>
+                            <Box className="col-md-4">
+                              {featuredListsTwo.map((item, index) => (
+                                <>
+                                  <Checkbox
+                                    key={index}
+                                    color="#E90808"
+                                    label={item.name}
+                                    mb="sm"
+                                    size="sm"
+                                    checked={formDataStep2.features.includes(item.name)}
+                                    onChange={() => handleFeatureChange(item.name)}
+                                  />
+                                </>
+                              ))}
+                            </Box>
+                            <Box className="col-md-4">
+                              {featuredListsThree.map((item, index) => (
+                                <>
+                                  <Checkbox
+                                    key={index}
+                                    color="#E90808"
+                                    label={item.name}
+                                    mb="sm"
+                                    size="sm"
+                                    checked={formDataStep2.features.includes(item.name)}
+                                    onChange={() => handleFeatureChange(item.name)}
+                                  />
+                                </>
+                              ))}
                             </Box>
                           </Box>
                         </Box>
                       </Box>
-                      {/* Step 2 ended */}
+                    </Box>
+                    {/* Step 2 ended */}
                   </Card>
                 </Stepper.Step>
 
@@ -1817,64 +1989,64 @@ const PostAnAd = (params) => {
                     <Title order={3}>Contact Information</Title>
                     {/* Step 3 content goes here */}
                     <Box className="stepper-form" mt="xl">
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Mobile Number
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Input
-                              type="number"
-                              size="md"
-                              name="mobileNumber"
-                              placeholder="Mobile Number"
-                              value={formDataStep3.mobileNumber}
-                              onChange={handleChangeStep3}
-                              rightSection={<BiMobileAlt />}
-                            />
-                          </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Mobile Number
+                          </Input.Label>
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                            <Input.Label required size="md">
-                              Secondary Number (Optional)
-                            </Input.Label>
-                          </Box>
-                          <Box className="col-md-7">
-                            <Input
-                              type="number"
-                              size="md"
-                              name="secondaryNumber"
-                              placeholder="Secondary Number (Optional)"
-                              value={formDataStep3.secondaryNumber}
-                              onChange={handleChangeStep3}
-                              rightSection={<BiMobileAlt />}
-                            />
-                          </Box>
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <Box className="col-md-6 offset-2 mb-2 mb-lg-0">
-                            <Flex align="center" gap="xl">
-                              <Flex align="center" gap="sm">
-                                <ThemeIcon
-                                  variant="filled"
-                                  radius="lg"
-                                  size="lg"
-                                  color="green"
-                                >
-                                  <FaWhatsapp
-                                    style={{ width: "60%", height: "60%" }}
-                                  />
-                                </ThemeIcon>
-                                Allow WhatsApp Contact
-                              </Flex>
-                              <Switch size="xl" color="#E90808" />
-                            </Flex>
-                          </Box>
+                        <Box className="col-md-7">
+                          <Input
+                            type="number"
+                            size="md"
+                            name="mobileNumber"
+                            placeholder="Mobile Number"
+                            value={formDataStep3.mobileNumber}
+                            onChange={handleChangeStep3}
+                            rightSection={<BiMobileAlt />}
+                          />
                         </Box>
                       </Box>
-                      {/* Step 3 ended */}
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Secondary Number (Optional)
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Input
+                            type="number"
+                            size="md"
+                            name="secondaryNumber"
+                            placeholder="Secondary Number (Optional)"
+                            value={formDataStep3.secondaryNumber}
+                            onChange={handleChangeStep3}
+                            rightSection={<BiMobileAlt />}
+                          />
+                        </Box>
+                      </Box>
+                      <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-6 offset-2 mb-2 mb-lg-0">
+                          <Flex align="center" gap="xl">
+                            <Flex align="center" gap="sm">
+                              <ThemeIcon
+                                variant="filled"
+                                radius="lg"
+                                size="lg"
+                                color="green"
+                              >
+                                <FaWhatsapp
+                                  style={{ width: "60%", height: "60%" }}
+                                />
+                              </ThemeIcon>
+                              Allow WhatsApp Contact
+                            </Flex>
+                            <Switch size="xl" color="#E90808" />
+                          </Flex>
+                        </Box>
+                      </Box>
+                    </Box>
+                    {/* Step 3 ended */}
                   </Card>
                 </Stepper.Step>
 

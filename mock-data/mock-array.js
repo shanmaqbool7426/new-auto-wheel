@@ -11,6 +11,88 @@
     "Khushab", "Charsadda", "Swabi", "Chakwal", "Mianwali", "Tando Allahyar", 
     "Kot Addu", "Farooka"
   ];
+  export const yearList=["1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"
+]
+// Expanded Car Engine Options
+export const carEngines = [
+  "1.0L 3-Cylinder",
+  "1.2L 3-Cylinder",
+  "1.4L 4-Cylinder",
+  "1.5L 4-Cylinder",
+  "1.6L 4-Cylinder",
+  "1.8L 4-Cylinder",
+  "2.0L 4-Cylinder",
+  "2.4L 4-Cylinder",
+  "2.5L 4-Cylinder",
+  "2.7L V6",
+  "3.0L V6",
+  "3.2L V6",
+  "3.5L V6",
+  "4.0L V6",
+  "4.2L V8",
+  "4.4L V8",
+  "5.0L V8",
+  "5.2L V10",
+  "6.2L V8",
+  "6.5L V12"
+];
+
+// Expanded Bike Engine Options
+export const bikeEngines = [
+  "50cc Single-Cylinder",
+  "125cc Single-Cylinder",
+  "150cc Single-Cylinder",
+  "200cc Single-Cylinder",
+  "250cc Single-Cylinder",
+  "300cc Single-Cylinder",
+  "350cc Twin-Cylinder",
+  "500cc Twin-Cylinder",
+  "600cc 4-Cylinder",
+  "750cc 4-Cylinder",
+  "850cc 4-Cylinder",
+  "900cc V-Twin",
+  "1000cc 4-Cylinder",
+  "1100cc V-Twin",
+  "1200cc V-Twin",
+  "1300cc 6-Cylinder",
+  "1500cc V-Twin",
+  "1800cc 6-Cylinder"
+];
+
+// Expanded Truck Engine Options
+export const truckEngines = [
+  "2.8L Inline-4 Diesel",
+  "3.0L V6",
+  "3.5L V6",
+  "4.0L V6",
+  "5.0L V8",
+  "5.7L V8",
+  "6.2L V8",
+  "6.7L V8 Diesel",
+  "7.3L V8 Diesel",
+  "8.9L Inline-6 Diesel",
+  "9.0L Inline-6 Diesel",
+  "10.8L Inline-6 Diesel",
+  "12.0L Inline-6 Diesel",
+  "13.0L Inline-6 Diesel",
+  "14.0L Inline-6 Diesel",
+  "15.0L V8 Diesel",
+  "16.0L V12 Diesel",
+  "18.0L V12 Diesel",
+  "19.0L V12 Diesel"
+];
+export const bikeDrives = [
+  { label: "Chain Drive", value: "chain" },
+  { label: "Belt Drive", value: "belt" },
+  { label: "Shaft Drive", value: "shaft" },
+];
+
+export const carTruckDrives = [
+  { label: "All-Wheel Drive", value: "awd" },
+  { label: "Rear-Wheel Drive", value: "rwd" },
+  { label: "Front-Wheel Drive", value: "fwd" },
+  { label: "Four-Wheel Drive", value: "4wd" },
+];
 
   export const suburbs = [
     "Gulshan-e-Iqbal", "DHA", "Bahria Town", "Gulberg", "Model Town", "Johar Town", 

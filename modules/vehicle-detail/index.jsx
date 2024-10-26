@@ -138,7 +138,8 @@ export default  function vehicleDetailModule({detail, listOfSimilarVehicles}) {
 
   return (
     <>
-      <section className="product-detail py-5">
+      <section className="product-detail" style={{ paddingTop: "100px" }}
+      >
         <div className="container-xl">
           <div className="row">
             {cards.map((card, index) => (
