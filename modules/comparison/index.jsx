@@ -1,5 +1,5 @@
 import BrowseBlogs from "@/components/blog/browse-blogs";
-import Header from "./header"
+import Header from "./Header"
 import QuickLinks from "@/components/QuickLinks";
 import TopComaprison from "@/components/comparison/top-comparison";
 

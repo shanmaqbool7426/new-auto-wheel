@@ -9,7 +9,7 @@ import { getColumns } from './data';
 import useInventory from './useInventory';
 import RowDetails from './RowDetails';
 import { IconModalClose } from '@/assets/icons';
-import buttonStyles from '@/styles/user-dashboard/button.module.css';
+import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 
 export default function Inventory() {
   const {
