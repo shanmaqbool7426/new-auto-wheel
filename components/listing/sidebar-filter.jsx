@@ -939,7 +939,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     }}
                     label={
                       <Tooltip label={color.label} position="top" withArrow>
-                    <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color.label) }} />
+                        <div>
+                    <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color.label) }} /> {color.label}
+                        </div>
                     </Tooltip>
                     }
                     key={color.value}

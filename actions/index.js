@@ -84,3 +84,17 @@ export const fetchVideoDataServer = async (params) => {
     };
   }
 };
+
+export const uploadImageServer = async (formData) => {
+  try {
+    const response = await fetchAPI(API_ENDPOINTS.IMAGE_UPLOAD, {
+      method: 'POST',
+      body: formData,
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    throw error;
+  }
+};
