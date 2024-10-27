@@ -1133,6 +1133,8 @@ const PostAnAd = (params) => {
     return validators[step] ? validators[step](formData) : false;
   };
 
+
+  console.log('>>>>>',session.user)
   useEffect(() => {
     setFormDataStep1((prev) => ({
       ...prev,
