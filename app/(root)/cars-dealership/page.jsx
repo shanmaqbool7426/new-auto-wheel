@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   Anchor,
   Box,
-  Button,
   Card,
   Title,
   Text,
@@ -14,6 +13,15 @@ import {
   Select,
   Stack,
   Pagination,
+  Modal,
+  Button,
+  FileInput,
+  Input,
+  Textarea,
+  Checkbox,
+  Group,
+  Radio,
+  rem,
 } from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
 import { FaLocationDot } from "react-icons/fa6";
@@ -21,6 +29,8 @@ import { PhoneIcon } from "@/components/Icons";
 import QuickLinks from "@/components/QuickLinks";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
+import { useDisclosure } from "@mantine/hooks";
+import { Form } from "@mantine/form";
 const CarsDealerShip = () => {
   const [dealers, setDealers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,8 +40,9 @@ const CarsDealerShip = () => {
   const [showNumbers, setShowNumbers] = useState({});
   const [selectedType, setSelectedType] = useState("");
 
+  const router = useRouter();
+  const [opened, { open, close }] = useDisclosure(false);
 
-  const router=useRouter()
   const fetchDealers = async () => {
     try {
       const response = await fetch(
@@ -59,14 +70,18 @@ const CarsDealerShip = () => {
     return <Text>Loading...</Text>;
   }
 
-  const profileHnadler=(slug)=>{
-    console.log('>>>>>>>>>>>>>.')
-    router.push(`/dealer-profile/${slug}`)
-  }
+  const profileHnadler = (slug) => {
+    console.log(">>>>>>>>>>>>>.");
+    router.push(`/dealer-profile/${slug}`);
+  };
   return (
     <>
       <Box component="section" className="car-specification">
-        <Box className="background-search-verlay" pt={60} mb={{ base: 250, sm: 120 }}>
+        <Box
+          className="background-search-verlay"
+          pt={60}
+          mb={{ base: 250, sm: 120 }}
+        >
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
@@ -130,6 +145,7 @@ const CarsDealerShip = () => {
         </Box>
 
         <Box className="container-xl">
+          <Button onClick={open}>Open centered Modal</Button>
           <Box
             className="row g-0 border-bottom border-primary border-2 align-items-center"
             pb="md"
@@ -165,8 +181,12 @@ const CarsDealerShip = () => {
               >
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
-                    <Table.Tr key={index} className="border-bottom" onClick={()=>profileHnadler(dealer._id)}>
-                      <Table.Td >
+                    <Table.Tr
+                      key={index}
+                      className="border-bottom"
+                      onClick={() => profileHnadler(dealer._id)}
+                    >
+                      <Table.Td>
                         <Flex gap="xs">
                           <Image
                             src="/user-profile.png"
@@ -180,7 +200,11 @@ const CarsDealerShip = () => {
                               <Text fw="bold" size="lg" mr="sm">
                                 {dealer.fullName}
                               </Text>
-                              <Rating defaultValue={dealer.rating} count={5} size="sm" />
+                              <Rating
+                                defaultValue={dealer.rating}
+                                count={5}
+                                size="sm"
+                              />
                               ({dealer.rating}/5)
                             </Flex>
                             Reviews ({dealer.reviewCount})
@@ -196,7 +220,9 @@ const CarsDealerShip = () => {
                         <Flex justify="center" align="center" gap={5}>
                           <PhoneIcon />
                           <Text size="lg" component="strong" fw="bold">
-                            {showNumbers[index] ? dealer.phone : `(${dealer.phone.slice(0, 2)}****)`}
+                            {showNumbers[index]
+                              ? dealer.phone
+                              : `(${dealer.phone.slice(0, 2)}****)`}
                           </Text>
                           <Anchor
                             style={{ alignSelf: "flex-start" }}
@@ -236,6 +262,105 @@ const CarsDealerShip = () => {
             </Box>
           </Box>
         </Box>
+
+        {/* Give Rating Modal */}
+        <Modal
+          opened={opened}
+          onClose={close}
+          centered
+          size={rem(900)}
+          padding="xl"
+          withCloseButton={false}
+        >
+          <div className="row">
+            <div className="col-12">
+              <Title order={3} mb="lg">
+                Write review about{" "}
+                <Text span inherit className="text-primary">
+                  Dealer
+                </Text>
+              </Title>
+            </div>
+
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-lg-12">
+                  <Input.Wrapper label="Title" mb="md">
+                    <Input placeholder="Example great service" size="md" />
+                  </Input.Wrapper>
+                </div>
+                <div className="col-lg-12">
+                  <Input.Wrapper label="Your Review" mb="md">
+                    <Textarea
+                      rows={3}
+                      maxRows={5}
+                      size="md"
+                      placeholder="Enter your review"
+                    />
+                  </Input.Wrapper>
+                </div>
+                <div className="col-lg-12">
+                  <Checkbox
+                    color="#e90808"
+                    defaultChecked
+                    label="I am not a dealer, and I am not employed by a dealership."
+                  />
+                </div>
+                <div className="col-lg-12">
+                  <Button fullWidth size="md" mt="xl" variant="default">
+                    Submit Review
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <Stack align="stretch" justify="center" gap="lg" mt="md">
+                <Stack gap={3}>
+                  <Text size="md" fw={500}>
+                    Buying Process
+                  </Text>
+                  <Group>
+                    <Rating value={2} count={5} />
+                    <Text fw="normal">0 out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack gap={3}>
+                  <Text size="md" fw={500}>
+                    Vehicle Selection
+                  </Text>
+                  <Group>
+                    <Rating value={2} count={5} />
+                    <Text fw="normal">0 out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack gap={3}>
+                  <Text size="md" fw={500}>
+                    Level of Services
+                  </Text>
+                  <Group>
+                    <Rating value={2} count={5} />
+                    <Text fw="normal">0 out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack>
+                  <Radio.Group
+                    name="recommendation-decision"
+                    label={
+                      <Text size="md" fw={500}>
+                        Would you recommend this dealer
+                      </Text>
+                    }
+                  >
+                    <Group mt="xs">
+                      <Radio color="#e90808" value="yes" label="Yes" />
+                      <Radio color="#e90808" value="no" label="No" />
+                    </Group>
+                  </Radio.Group>
+                </Stack>
+              </Stack>
+            </div>
+          </div>
+        </Modal>
       </Box>
     </>
   );
