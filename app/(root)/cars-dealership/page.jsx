@@ -165,7 +165,7 @@ const CarsDealerShip = () => {
               >
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
-                    <Table.Tr key={index} className="border-bottom" onClick={()=>profileHnadler(dealer._id)}>
+                    <Table.Tr key={index} className="border-bottom cursor" onClick={()=>profileHnadler(dealer._id)}>
                       <Table.Td >
                         <Flex gap="xs">
                           <Image
