@@ -12,6 +12,17 @@ export const fetchVehiclsData = async (params) => {
   }
 };
 
+export const fetchNewVehiclsData = async (params) => {
+  try {
+    const vehicles = await fetchAPI(API_ENDPOINTS.NEW_VEHICLE.LISTINGS + `/${params}`);
+    return vehicles
+  } catch (error) {
+    return {
+      vehicls: [],
+    };
+  }
+};
+
 export const fetchListData = async (url) => {
   try {
     const data = await fetchAPI(url);

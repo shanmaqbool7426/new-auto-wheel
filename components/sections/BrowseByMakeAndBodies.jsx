@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import NextImage from "next/image";
 
-const BrowseByMakeAndBodies = ({ makes, bodies }) => {
+const BrowseByMakeAndBodies = ({ makes, bodies, type }) => {
   return (
     <Box className="browse-cats-section py-5 bg-light">
       <Box className="container-xl">
@@ -36,7 +36,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
                             src={item.companyImage}
                             className="mx-auto text-center"
                           />
-                          <Link href={`/new/car/${item.name}`}>{item.name}</Link>
+                          <Link href={`/new/${type}/make/${item.name}`}>{item.name}</Link>
                         </Flex>
                       </Box>
                     </>
@@ -71,7 +71,7 @@ const BrowseByMakeAndBodies = ({ makes, bodies }) => {
                           src={body.bodyImage}
                           className="mx-auto text-center"
                         />
-                        <Link href={"#"}>{body.name}</Link>
+                        <Link href={`/new/${type}/search/-/bt_${body.name?.toLowerCase()}`}>{body.name}</Link>
                       </Flex>
                     </Box>
                  </>

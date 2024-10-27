@@ -28,7 +28,7 @@ import { IconSearch } from "@tabler/icons-react";
 import CustomModel from "@/constants/CustomModel";
 import { useRouter } from "next/navigation";
 
-const SearchBar = ({ fetchMakesByTypeData }) => {
+const SearchBar = ({ fetchMakesByTypeData,type }) => {
   const router = useRouter(); // Use the useRouter hook to handle URL updates
   const [filters, setFilters] = useState({
     query: "",
@@ -49,12 +49,12 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
   const debounceTimeoutRef = useRef(null);
 
   const rangeData = [
-    { value: "0-5", label: "0-5 lac" },
-    { value: "5-10", label: "5-10 lac" },
-    { value: "10-15", label: "10-15 lac" },
-    { value: "15-20", label: "15-20 lac" },
-    { value: "20-25", label: "20-25 lac" },
-    { value: "25+", label: "25 lac and above" },
+      { value: "0-500000", label: "0-5 lac" },
+      { value: "500000-1000000", label: "5-10 lac" },
+      { value: "1000000-1500000", label: "10-15 lac" },
+      { value: "1500000-2000000", label: "15-20 lac" },
+      { value: "2000000-2500000", label: "20-25 lac" },
+      { value: "2500000-2000000000", label: "25 lac and above" }  
   ];
 
   const handleFilterChange = (filterName, value) => {
@@ -66,18 +66,27 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
 
   const updateFiltersInUrl = (newFilters) => {
     const query = {
-      make: newFilters.make.join(","),
-      model: newFilters.model.join(","),
-      price: `${newFilters.price[0]}_${newFilters.price[1]}`,
+      pr: `${newFilters.price[0]}_${newFilters.price[1]}`, // Always include price range
     };
-
+  
+    if (selection.make) {
+      query.mk = selection.make?.toLowerCase();
+    }
+  
+    // Only add 'md' if both 'make' and 'model' are selected
+    if (selection.make && selection.model) {
+      query.md = selection.model?.toLowerCase();
+    }
+  
+    // Build the query string
     const queryString = Object.keys(query)
-      .map((key) => (query[key] ? `${key}_${query[key]}` : ""))
-      .filter(Boolean)
+      .map((key) => `${key}_${query[key]}`)
       .join("/");
-
-    router.push(`/new/cars/search/-/${queryString}`);
+  
+    // Push to router
+    router.push(`/new/${type}/search/-/${queryString}`);
   };
+  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -94,7 +103,7 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
             Find New Cars in Pakistan
           </Title>
           <div className="row mb-2">
-            <div className="col-md-3">
+            <div className="col-md-6">
               <Input
                 onClick={openModal}
                 size="md"
@@ -104,7 +113,7 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
                 leftSection={<IconSearch size={16} />}
               />
             </div>
-            <div className="col-md-3">
+            {/* <div className="col-md-3">
               <Select
                 size="md"
                 radius="sm"
@@ -114,7 +123,7 @@ const SearchBar = ({ fetchMakesByTypeData }) => {
                 comboboxProps={{ shadow: "lg" }}
                 onChange={(value) => handleFilterChange("make", value)}
               />
-            </div>
+            </div> */}
             <div className="col-md-3">
               <Select
                 size="md"

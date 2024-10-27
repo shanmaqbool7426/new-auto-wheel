@@ -93,6 +93,47 @@ export const reorderSlug = (slug, view, sortBy) => {
 
   return `/${dynamicSlug.join("/")}`;
 };
+export const reorderSlugNew = (slug, view, sortBy,type) => {
+  const makes = slug.filter((item) => item.startsWith("mk_"));
+  const models = slug.filter((item) => item.startsWith("md_"));
+  const variants= slug.filter((item) => item.startsWith("vt_"));
+  const cities = slug.filter((item) => item.startsWith("ct_"));
+  const bodyType = slug.filter((item) => item.startsWith("bt_"));
+  const page = slug.find((item) => item.startsWith("page_"));
+  const price = slug.find((item) => item.startsWith("pr_"));
+  const year = slug.find((item) => item.startsWith("yr_"));
+  const mileage = slug.find((item) => item.startsWith("ml_"));
+  const transmission = slug.find((item) => item.startsWith("tr_"));
+  const drive = slug.find((item) => item.startsWith("dr_"));
+  const exteriorColor = slug.find((item) => item.startsWith("cl_"));
+  const fuelType = slug.find((item) => item.startsWith("ft_"));
+  const condition = slug.find((item) => item.startsWith("cn_"));
+  const featured = slug.find((item) => item.startsWith("ft_"));
+  const address = slug.find((item) => item.startsWith("ad_"));
+
+  const dynamicSlug = [
+    `t_${type}`,
+    ...makes,
+    ...models,
+    ...variants,
+    ...cities,
+    ...bodyType,
+    page,
+    price,
+    year,
+    mileage,
+    transmission,
+    drive,
+    exteriorColor,
+    fuelType,
+    condition,
+    featured,
+    address,
+    sortBy,
+  ].filter(Boolean);
+
+  return `/${dynamicSlug.join("/")}`;
+};
 
 export const formatToLacOrCrore = (value) => {
   if (value >= 10000000) {
