@@ -3,8 +3,10 @@ import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 
 import { useSession } from "next-auth/react";
+import { BASE_URL } from '@/constants/api-endpoints';
 // import { useRouter } from 'next/router';
 export default function useInventory() {
+
   // const router = useRouter();
   const [searchBy, setSearchBy] = React.useState(() => {
     if (typeof window !== 'undefined') {
@@ -36,6 +38,9 @@ export default function useInventory() {
     status: '',
     date: 'newToOld',
   });
+  let token =localStorage.getItem('token')
+  console.log('token>>>>',JSON.parse(token))
+  tokenJSON.parse(token)
 
   const fetchVehicles = React.useCallback(async () => {
     try {
@@ -49,7 +54,9 @@ export default function useInventory() {
         limit: 5, // Adjust as needed
       }).toString();
 
-      const response = await fetch(`http://localhost:5000/api/user/vehicles-by-user/${session?.user?._id}?${queryParams}`);
+      console.log('token?._id',token?._id,token)
+
+      const response = await fetch(`${BASE_URL}/api/user/vehicles-by-user/${token?._id}?${queryParams}`);
       const data = await response.json();
       if (data.success) {
         console.log('data', data);
@@ -121,7 +128,7 @@ export default function useInventory() {
 
   const handleToggleFeature = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/vehicle/${id}/toggle-featured`, {
+      const response = await fetch(`${BASE_URL}/api/vehicle/${id}/toggle-featured`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -155,7 +162,7 @@ export default function useInventory() {
 
   const handleClickDeleteRow = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/vehicle/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/vehicle/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

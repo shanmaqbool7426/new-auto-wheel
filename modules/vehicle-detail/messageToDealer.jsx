@@ -11,6 +11,7 @@ import {
 import AccountTypeModal from "../auth/AccountType";
 import { useSession } from "next-auth/react";
 import io from 'socket.io-client';
+import { BASE_URL } from "@/constants/api-endpoints";
 
 const MessageToDealer = ({ sellerId }) => {
   console.log('sellerId',sellerId)
@@ -25,9 +26,13 @@ const MessageToDealer = ({ sellerId }) => {
     acceptedPolicy: false,
   });
 
+  let token =localStorage.getItem('token')
+  console.log('token>>>>',JSON.parse(token))
+  token=JSON.parse(token)
+
   useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {
-      const newSocket = io('http://localhost:5000', {
+      const newSocket = io(BASE_URL, {
         withCredentials: true,
       });
       setSocket(newSocket);
@@ -37,7 +42,7 @@ const MessageToDealer = ({ sellerId }) => {
         newSocket.emit('authenticate', session.user._id);
       });
 
-      newSocket.on(`new_message_${session.user._id}`, (messageData) => {
+      newSocket.on(`new_message_`, (messageData) => {
         console.log('Received new message:', messageData);
         // Handle incoming message if needed
       });

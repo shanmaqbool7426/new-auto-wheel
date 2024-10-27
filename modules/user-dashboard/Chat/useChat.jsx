@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import { useSession } from "next-auth/react";
+import { BASE_URL } from '@/constants/api-endpoints';
 
 export default function useChat() {
   const [value, setValue] = useState('');
@@ -10,6 +11,9 @@ export default function useChat() {
   const { data: session, status } = useSession();
   const [selectedUserId, setSelectedUserId] = React.useState(null);
 const [selectedUser,setSelectedUser]=useState({})
+
+let token =localStorage.getItem('token')
+token=JSON.parse(token)
   const updateConversations = useCallback((messageData) => {
     setConversations((prevConversations) => {
       const updatedConversations = prevConversations.map(conv => {
@@ -43,7 +47,7 @@ const [selectedUser,setSelectedUser]=useState({})
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {
-      const newSocket = io('http://localhost:5000', {
+      const newSocket = io(BASE_URL, {
         withCredentials: true,
       });
       setSocket(newSocket);
@@ -82,8 +86,8 @@ const [selectedUser,setSelectedUser]=useState({})
 
   useEffect(() => {
     if (socket && session?.user?._id) {
-    console.log('get_conversations')
-      socket.emit('get_conversations');
+      console.log('get_conversations', token._id);
+      socket.emit('get_conversations', token._id);
     }
   }, [socket, session]);
 

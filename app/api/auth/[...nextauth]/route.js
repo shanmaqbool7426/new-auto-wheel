@@ -70,6 +70,7 @@ return {
   createdAt: userData.createdAt,
   updatedAt: userData.updatedAt,
   verificationCode: userData.verificationCode,
+  token:res.data?.data
 };
           } else {
   throw new Error("Sign Up Failed");
@@ -165,6 +166,7 @@ secret: '739d95146513d67502b0ba4776a5cae8',
       token.createdAt = user.createdAt;
       token.updatedAt = user.updatedAt;
       token.verificationCode = user.verificationCode;
+      token.token=user.token
     }
     return token;
   },
@@ -181,7 +183,7 @@ secret: '739d95146513d67502b0ba4776a5cae8',
     session.user.createdAt = token.createdAt;
     session.user.updatedAt = token.updatedAt;
     session.user.verificationCode = token.verificationCode;
-
+    session.user.token=token.token
     return session;
   },
     async redirect({ url, baseUrl }) {

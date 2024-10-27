@@ -59,9 +59,9 @@ const CarsDealerShip = () => {
     return <Text>Loading...</Text>;
   }
 
-  const profileHnadler=()=>{
+  const profileHnadler=(slug)=>{
     console.log('>>>>>>>>>>>>>.')
-    router.push("/dealer-rating")
+    router.push(`/dealer-profile/${slug}`)
   }
   return (
     <>
@@ -165,7 +165,7 @@ const CarsDealerShip = () => {
               >
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
-                    <Table.Tr key={index} className="border-bottom" onClick={profileHnadler}>
+                    <Table.Tr key={index} className="border-bottom" onClick={()=>profileHnadler(dealer._id)}>
                       <Table.Td >
                         <Flex gap="xs">
                           <Image

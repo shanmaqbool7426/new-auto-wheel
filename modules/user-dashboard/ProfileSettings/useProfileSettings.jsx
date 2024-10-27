@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { showNotification } from '@mantine/notifications'; // Optional: For notifications
+import { BASE_URL } from '@/constants/api-endpoints';
 
 const useProfileSettings = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  let token =localStorage.getItem('token')
+  console.log('token>>>>',JSON.parse(token))
+  token=JSON.parse(token)
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/user/profile', {
+        const response = await fetch(`${BASE_URL}/api/user/profile/${token?._id}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming you store the token in localStorage

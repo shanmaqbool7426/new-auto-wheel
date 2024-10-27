@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/constants/api-endpoints';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
@@ -15,7 +16,7 @@ export default function useServicesOffer() {
     try {
       const servicesOffered = Object.keys(values).filter(key => values[key]);
 
-      const response = await fetch('http://localhost:5000/api/user/services-offered', {
+      const response = await fetch(`${BASE_URL}/api/user/services-offered`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

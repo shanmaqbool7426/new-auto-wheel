@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/constants/api-endpoints';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
@@ -15,7 +16,7 @@ export default function useDealerInformation() {
   const handleSubmit = async (values) => {
     console.log('Dealer Information Data:: ', values);
     try {
-      const response = await fetch('http://localhost:5000/api/user/dealer-info', {
+      const response = await fetch(`${BASE_URL}/api/user/dealer-info`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

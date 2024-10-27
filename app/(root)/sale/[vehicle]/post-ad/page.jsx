@@ -263,7 +263,7 @@
 //         formData.append('images', image); // Append each image with the key "image"
 //       });
 
-//       const uploadUrl = 'http://localhost:5000/upload-image'; // Absolute URL to avoid Next.js routing issues
+//       const uploadUrl = '${BASE_URL}upload-image'; // Absolute URL to avoid Next.js routing issues
 //       const response = await submitFormData(uploadUrl,JSON.stringify(formData) );
 
 //       // Assuming the response contains an array of image URLs

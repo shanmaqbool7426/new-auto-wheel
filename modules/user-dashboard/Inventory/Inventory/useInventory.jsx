@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { BASE_URL } from '@/constants/api-endpoints';
 import { useSession } from "next-auth/react";
 // import { useRouter } from 'next/router';
 export default function useInventory() {
@@ -46,8 +46,7 @@ export default function useInventory() {
         page: currentPage,
         limit: 5, // Adjust as needed
       }).toString();
-
-      const response = await fetch(`http://localhost:5000/api/user/vehicles-by-user/${session?.user?._id}?${queryParams}`);
+      const response = await fetch(`${BASE_URL}/api/user/vehicles-by-user/${session?.user?._id}?${queryParams}`);
       const data = await response.json();
       if (data.success) {
         console.log('data', data);
@@ -119,7 +118,7 @@ export default function useInventory() {
 
   const handleToggleFeature = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/vehicle/${id}/toggle-featured`, {
+      const response = await fetch(`${BASE_URL}/api/vehicle/${id}/toggle-featured`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +151,7 @@ export default function useInventory() {
 
   const handleClickDeleteRow = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/vehicle/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/vehicle/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

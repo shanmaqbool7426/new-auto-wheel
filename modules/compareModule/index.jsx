@@ -17,6 +17,7 @@ import {
 } from "@mantine/core";
 import QuickLinks from "@/components/QuickLinks";
 import { formatDate } from "@/utils";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -121,9 +122,11 @@ const CompareModule = ({
                             h={200}
                             w={200}
                           />
-                          <Button variant="outline" color="#E90808" mt="sm">
+                         <Link href={`/listing/cars/mk_${make}`}>
+                         <Button variant="outline" color="#E90808" mt="sm">
                             Used {make} Cars
                           </Button>
+                         </Link>
                         </Flex>
                       </Card>
                     </Box>
@@ -163,7 +166,7 @@ const CompareModule = ({
                             {reviewsVehiclesOverAll?.data?.totalReviews || 0})
                           </Text>
                         </Box>
-                        <Button
+                        {/* <Button
                           bg="#EB2321"
                           ff="heading"
                           autoContrast
@@ -172,7 +175,7 @@ const CompareModule = ({
                           fw={500}
                         >
                           Write a Review
-                        </Button>
+                        </Button> */}
                       </Flex>
                     </Box>
                     <Box className="col-lg-3 col-sm-6" mt="xl">

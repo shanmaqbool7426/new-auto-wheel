@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
 import { submitFormData } from "@/services/forms";
+import { BASE_URL } from '@/constants/api-endpoints';
 
 export default function useProfileInformation() {
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
@@ -29,7 +30,7 @@ const [profileFile, setProfileFile] = useState('')
     if (file) {
       const formData = new FormData();
       formData.append('images', file); // Append the file to the FormData
-      const uploadUrl = 'http://localhost:5000/upload-image'; // Absolute URL to avoid Next.js routing issues
+      const uploadUrl = `${BASE_URL}upload-image`; // Absolute URL to avoid Next.js routing issues
       try {
         const response = await fetch(uploadUrl, {
           method: 'POST',

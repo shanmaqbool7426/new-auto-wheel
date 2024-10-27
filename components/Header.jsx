@@ -49,6 +49,14 @@ const Header = () => {
     signOut();
   };
 
+
+  if (session) {
+ 
+localStorage.setItem('token',JSON.stringify(session.user))
+  }
+
+
+
   // Data for cars, bikes, and trucks
   const data = {
     cars: {
@@ -84,6 +92,18 @@ const Header = () => {
           title: "Comparison",
           link: "/comparison/car",
           description: "Compare cars",
+        },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Car Dealer",
+          link: "/cars-dealership",
+          description: "Car Dealership",
+        },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Car Reviews",
+          link: "/car-reviews",
+          description: "Car Reviews",
         },
       ],
       secondCol: [

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications'; // Optional: For notifications
+import { BASE_URL } from '@/constants/api-endpoints';
 
 export default function useChangePassword() {
   const form = useForm({
@@ -17,7 +18,7 @@ export default function useChangePassword() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await fetch('http://localhost:5000/api/user/change-password', {
+      const response = await fetch(`${BASE_URL}/api/user/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
