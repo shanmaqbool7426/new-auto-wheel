@@ -12,6 +12,10 @@ export default function useServicesOffer() {
     },
   });
 
+  let token = localStorage.getItem('token')
+  token = JSON.parse(token)
+
+
   const handleSubmit = async (values) => {
     try {
       const servicesOffered = Object.keys(values).filter(key => values[key]);
@@ -20,7 +24,7 @@ export default function useServicesOffer() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming you store the token in localStorage
+          'Authorization': token?.token?.token
         },
         body: JSON.stringify({ servicesOffered }),
       });

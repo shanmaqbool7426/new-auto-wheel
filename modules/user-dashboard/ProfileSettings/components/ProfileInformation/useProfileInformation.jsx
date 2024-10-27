@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+
 import { submitFormData } from "@/services/forms";
 import { BASE_URL } from '@/constants/api-endpoints';
 
 export default function useProfileInformation() {
+
+  let token = localStorage.getItem('token')
+  token = JSON.parse(token)
+
+
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
   const emailRegex = /^\S+@\S+\.\S+$/;
 const [bgfile, setBgFile] = useState('')
@@ -24,31 +31,69 @@ const [profileFile, setProfileFile] = useState('')
 
 
   const handleImageUpload = async (event) => {
-    console.log('>>>>>>>',event.target.name)
     const file = event.target.files[0];
-    console.log('file', file);
     if (file) {
       const formData = new FormData();
-      formData.append('images', file); // Append the file to the FormData
-      const uploadUrl = `${BASE_URL}upload-image`; // Absolute URL to avoid Next.js routing issues
+      formData.append('images', file);
+      const uploadUrl = `${BASE_URL}/upload-image`;
+      
       try {
-        const response = await fetch(uploadUrl, {
+        // First upload the image
+        const uploadResponse = await fetch(uploadUrl, {
           method: 'POST',
-          body: formData, // Send the FormData as the body
-          headers: {
-            // 'Content-Type': 'multipart/form-data' // Do not set Content-Type for FormData, the browser will set it automatically
-          },
+          body: formData,
         });
-  
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+
+        if (!uploadResponse.ok) {
+          throw new Error('Failed to upload image');
         }
-  
-        const uploadedImageUrls = await response.json(); // Assuming the response is in JSON format
-        const url=uploadedImageUrls?.data[0]
-        event.target.name=='profileFileInput' &&  setProfileFile(url) || setBgFile(url)
+
+        const uploadedImageUrls = await uploadResponse.json();
+        const imageUrl = uploadedImageUrls?.data[0];
+
+        // Then update the user profile with the new image URL
+        const updateProfileUrl = `${BASE_URL}/api/user/update-profile-images`;
+        const updateResponse = await fetch(updateProfileUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token.token.token // Assuming you have access to the token
+          },
+          body: JSON.stringify({
+            [event.target.name === 'profileFileInput' ? 'profileImage' : 'bannerImage']: imageUrl
+          })
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error('Failed to update profile images');
+        }
+
+        const updatedProfile = await updateResponse.json();
+        
+        // Update local state
+        if (event.target.name === 'profileFileInput') {
+          setProfileFile(imageUrl);
+          notifications.show({
+            title: 'Success',
+            message: 'Profile image updated successfully',
+            color: 'green'
+          });
+        } else {
+          setBgFile(imageUrl);
+          notifications.show({
+            title: 'Success',
+            message: 'Banner image updated successfully',
+            color: 'green'
+          });
+        }
+
       } catch (error) {
-        console.error('Error uploading image:', error);
+        console.error('Error handling image:', error);
+        notifications.show({
+          title: 'Error',
+          message: error.message || 'Failed to update image',
+          color: 'red'
+        });
       }
     }
   };

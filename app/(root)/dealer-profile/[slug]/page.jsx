@@ -3,8 +3,37 @@ import React, { useEffect, useState } from "react";
 import {
   Anchor, Box, Button, Card, Title, Text, Image, Flex, Rating, Table,
   Paper, Select, Pagination, Group, Stack, List, ThemeIcon, rem,
-  CheckIcon, BackgroundImage, Center
+  CheckIcon, BackgroundImage, Center,
+  Modal,
+  Input,
+  Textarea,
+  Checkbox,
+  Radio,
+  ActionIcon,
 } from "@mantine/core";
+// import {
+//   Anchor,
+//   Box,
+//   Card,
+//   Title,
+//   Text,
+//   Image,
+//   Flex,
+//   Rating,
+//   Table,
+//   Select,
+//   Stack,
+//   Pagination,
+//   Modal,
+//   Button,
+//   FileInput,
+//   Input,
+//   Textarea,
+//   Checkbox,
+//   Group,
+//   Radio,
+//   rem,
+// } from "@mantine/core";
 import QuickLinks from "@/components/QuickLinks";
 import {
   IconCheck, IconRosetteDiscountCheckFilled, IconUserFilled
@@ -14,29 +43,53 @@ import {
   FaThumbsUp, FaUserCheck, FaUserLarge, FaUserPlus, FaWhatsapp
 } from "react-icons/fa6";
 import { BsWhatsapp } from "react-icons/bs";
-import { RiUserFollowFill } from "react-icons/ri";
+import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import BrowseByType from "@/modules/home/BrowseByType";
 import Link from "next/link";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter, useParams } from 'next/navigation';
+import { useDisclosure } from "@mantine/hooks";
 
 const DealerRating = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [reviewsError, setReviewsError] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
+
+  // ... existing useEffect hooks and other functions ...
+  const [opened, { open, close }] = useDisclosure(false);
+  const initialReviewForm = {
+    title: '',
+    content: '',
+    // rating: 0,
+    buyingProcess: 0,
+    vehicleSelection: 0,
+    levelOfServices: 0,
+  }
+  const [reviewForm, setReviewForm] = useState(initialReviewForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+
   const { slug } = useParams();
+
+  let token = localStorage.getItem('token')
+  token = JSON.parse(token)
 
   const getUserProfile = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
         method: 'GET',
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       return data;
     } catch (error) {
@@ -44,6 +97,60 @@ const DealerRating = () => {
       throw error;
     }
   };
+
+
+  const fetchReviews = async () => {
+    // if (!profile) return;
+    // setReviewsLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/api/user-reviews/dealer/${slug}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token.token.token}`
+        }
+      });
+      console.log('chlaaaaa')
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+
+      console.log('chlaaaaa', response)
+      const data = await response.json();
+      setReviews(data.reviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      setReviewsError(error.message);
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+  const fetchProfileAndStatus = async () => {
+    if (!token) return;
+    
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
+        headers: {
+          'Authorization': token.token.token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile');
+      }
+
+      const data = await response.json();
+      setProfile(data.data);
+      // Set follow status from the profile data
+      setIsFollowing(data.data.isFollowing || false);
+    } catch (error) {
+      console.error('Error:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };// Combine profile fetch and follow status check in one useEffect
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,14 +164,177 @@ const DealerRating = () => {
       }
     };
 
+
     if (slug) {
+      fetchReviews()
       fetchProfile();
+      fetchProfileAndStatus();
     }
   }, [slug]);
+
+  console.log('profile.followers', profile?.followers)
+
+  useEffect(() => {
+    if (profile) {
+      setIsFollowing(profile.followers.includes(token.token.user?._id)); // Assuming you have access to the current user's ID
+      // console.log('token.token.userId',token.token.user?_id)
+    }
+  }, [profile])
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!profile) return <div>No profile data found</div>;
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/user-reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token.token.token // Assuming you store the token in localStorage
+        },
+        body: JSON.stringify({
+          ...reviewForm,
+          dealerId: profile._id
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+      fetchReviews()
+      const data = await response.json();
+      // Handle successful submission (e.g., close modal, update reviews list)
+      close();
+      // You might want to refresh the reviews list here
+    } catch (error) {
+      setSubmitError(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
+  const handleLikeDislike = async (reviewId, action) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/user-reviews/${reviewId}/like-dislike`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token.token.token
+        },
+        body: JSON.stringify({ action })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update like/dislike');
+      }
+
+      const data = await response.json();
+
+      // Update the reviews state with the new like/dislike counts
+      setReviews(reviews.map(review =>
+        review._id === reviewId
+          ? { ...review, likes: data.likes, dislikes: data.dislikes }
+          : review
+      ));
+      fetchReviews()
+    } catch (error) {
+      console.error('Error updating like/dislike:', error);
+      // You might want to show an error message to the user here
+    }
+  };
+
+  
+
+  
+    const handleFollow = async () => {
+      setFollowLoading(true);
+      try {
+        const response = await fetch(`${BASE_URL}/api/user/${profile._id}/follow`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token.token.token
+          }
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to follow user');
+        }
+        fetchProfileAndStatus()
+        const data = await response.json();
+        setIsFollowing(true);
+        // notifications.show({
+        //   title: 'Success',
+        //   message: 'Successfully followed user',
+        //   color: 'green'
+        // });
+      } catch (error) {
+        console.error('Error following user:', error);
+        // notifications.show({
+        //   title: 'Error',
+        //   message: 'Failed to follow user',
+        //   color: 'red'
+        // });
+      } finally {
+        setFollowLoading(false);
+      }
+    };
+  
+    const handleUnfollow = async () => {
+      setFollowLoading(true);
+      try {
+        const response = await fetch(`${BASE_URL}/api/user/${profile._id}/unfollow`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization':token.token.token
+          }
+        });
+
+        fetchProfileAndStatus()
+  
+        if (!response.ok) {
+          throw new Error('Failed to unfollow user');
+        }
+  
+        const data = await response.json();
+        setIsFollowing(false);
+        // notifications.show({
+        //   title: 'Success',
+        //   message: 'Successfully unfollowed user',
+        //   color: 'green'
+        // });
+      } catch (error) {
+        console.error('Error unfollowing user:', error);
+        // notifications.show({
+        //   title: 'Error',
+        //   message: 'Failed to unfollow user',
+        //   color: 'red'
+        // });
+      } finally {
+        setFollowLoading(false);
+      }
+    };
+
+
+      // Function to reset the form
+  const resetForm = () => {
+    setReviewForm(initialReviewForm);
+    setSubmitError(null);
+  };
+
+  // Handle modal close
+  const handleModalClose = () => {
+    resetForm();
+    close();
+  };
+
 
   return (
     <>
@@ -113,7 +383,7 @@ const DealerRating = () => {
                             </Text>
                           )}
                         </Group>
-                        
+
                         <Group mt="xs" mb="0" pl="0" align="flex-start" justify="flex-start" gap="md" c="dimmed">
                           <Text size="sm">
                             <FaUserLarge style={{ verticalAlign: "baseline" }} size="0.8rem" />
@@ -169,17 +439,25 @@ const DealerRating = () => {
                               bg="#1FC055"
                               onClick={() => window.open(`https://wa.me/${profile.phone}`, '_blank')}
                               leftSection={<FaWhatsapp style={{ fontSize: "1.2rem" }} />}
-                            
+
                             >
                               Whatsapp
                             </Button>
                           )}
                           <Button
                             bg="#EB2321"
-                            leftSection={<RiUserFollowFill style={{ fontSize: "1.2rem" }} />}
+                            leftSection={
+                              isFollowing
+                                ? <RiUserUnfollowFill style={{ fontSize: "1.2rem" }} />
+                                : <RiUserFollowFill style={{ fontSize: "1.2rem" }} />
+                            }
+                            onClick={isFollowing ? handleUnfollow : handleFollow}
+                            loading={followLoading}
+                            disabled={followLoading}
                           >
-                            Follow
+                            {isFollowing ? 'Unfollow' : 'Follow'}
                           </Button>
+
                           <Group justify="center" align="center" c="dimmed" className="d-lg-flex d-none">
                             <Text className="border-end" pr="lg">
                               Followers
@@ -194,7 +472,7 @@ const DealerRating = () => {
                               </Text>
                             </Text>
                           </Group>
-                          <Button bg="#EB2321">Write a Review</Button>
+                          <Button onClick={open} bg="#EB2321">Write a Review</Button>
                         </Flex>
                       </Box>
                     </Box>
@@ -272,83 +550,94 @@ const DealerRating = () => {
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
-                <Paper shadow="0px 4px 20px 0px #00000014" radius="md" style={{ overflow: "hidden" }}>
-                  <Card className="border-bottom" p="xl" radius={0} shadow="none">
-                    <Box className="row">
-                      <Box className="col-md-6">
-                        <Title order={2}>
-                          User <Text span inherit className="text-primary">Rating</Text>
-                        </Title>
-                        <Text my="sm">2023 Toyota Corolla XLi VVTi</Text>
-                        <Flex align="center" gap="5">
-                          <Rating defaultValue={3} />
-                          <Text span>(3/5)</Text>
-                        </Flex>
-                        <Text c="dimmed" my="sm">Posted by Hamza tahir on Feb 16, 2024</Text>
-                      </Box>
-                      <Box className="col-md-6 text-end">
-                        <Button color="#EB2321" size="md" m="md" w={rem(250)} fw={500}>
-                          Write a Review
-                        </Button>
-                      </Box>
-                      <Box className="col-md-12">
-                        <Text>
-                          I've driven my Toyota Corolla 1.8 automatic for more than 70,000 kilometers, and it's been a solid family car. It's really good for driving around cities, and there's enough space inside for my family of five members. The car didn't give me any problems. The air conditioner works really well, keeping us cool in hot UAE weather. The brakes are okay, but they feel a bit soft. So, overall, the Corolla is a reliable and practical choice for families, even though the brakes could be a bit better.
-                        </Text>
-                        <Box className="row" mt="md">
-                          <Box className="col-md-4">
-                            <Group justify="space-between">
-                              Buying Process
-                              <Group>
-                                <Rating defaultValue={3} />
-                                <Text span>(3/5)</Text>
-                              </Group>
-                            </Group>
+                {reviewsLoading ? (
+                  <Text>Loading reviews...</Text>
+                ) : reviewsError ? (
+                  <Text color="red">Error loading reviews: {reviewsError}</Text>
+                ) : reviews.length === 0 ? (
+                  <Text>No reviews yet.</Text>
+                ) : (
+                  reviews.map((review) => (
+                    <Paper key={review._id} shadow="0px 4px 20px 0px #00000014" radius="md" style={{ overflow: "hidden" }} mb="xl">
+                      <Card className="border-bottom" p="xl" radius={0} shadow="none">
+                        <Box className="row">
+                          <Box className="col-md-6">
+                            <Title order={2}>
+                              User <Text span inherit className="text-primary">Rating</Text>
+                            </Title>
+                            <Text my="sm">{review.title}</Text>
+                            <Flex align="center" gap="5">
+                              <Rating value={review.rating} readOnly />
+                              <Text span>({review.rating}/5)</Text>
+                            </Flex>
+                            <Text c="dimmed" my="sm">Posted by {review.user.fullName} on {new Date(review.createdAt).toLocaleDateString()}</Text>
                           </Box>
-                          <Box className="col-md-4">
-                            <Group justify="space-between">
-                              Vehicle Selection
-                              <Group>
-                                <Rating defaultValue={3} />
-                                <Text span>(3/5)</Text>
-                              </Group>
-                            </Group>
-                          </Box>
-                          <Box className="col-md-4">
-                            <Group justify="space-between">
-                              Level of Services
-                              <Group>
-                                <Rating defaultValue={3} />
-                                <Text span>(3/5)</Text>
-                              </Group>
-                            </Group>
+                          <Box className="col-md-12">
+                            <Text>{review.content}</Text>
+                            <Box className="row" mt="md">
+                              <Box className="col-md-4">
+                                <Group justify="space-between">
+                                  Buying Process
+                                  <Group>
+                                    <Rating value={review.buyingProcess} readOnly />
+                                    <Text span>({review.buyingProcess}/5)</Text>
+                                  </Group>
+                                </Group>
+                              </Box>
+                              <Box className="col-md-4">
+                                <Group justify="space-between">
+                                  Vehicle Selection
+                                  <Group>
+                                    <Rating value={review.vehicleSelection} readOnly />
+                                    <Text span>({review.vehicleSelection}/5)</Text>
+                                  </Group>
+                                </Group>
+                              </Box>
+                              <Box className="col-md-4">
+                                <Group justify="space-between">
+                                  Level of Services
+                                  <Group>
+                                    <Rating value={review.levelOfServices} readOnly />
+                                    <Text span>({review.levelOfServices}/5)</Text>
+                                  </Group>
+                                </Group>
+                              </Box>
+                            </Box>
                           </Box>
                         </Box>
-                      </Box>
-                    </Box>
-                  </Card>
-                  <Card padding="md" p="md" px="xl" radius={0} shadow="none">
-                    <Box className="row">
-                      <Box className="col-md-6">
-                        <Group>
-                          <Group c="dimmed">
-                            <FaThumbsUp />
-                            10
-                          </Group>
-                          <Group c="dimmed">
-                            <FaThumbsDown />
-                            10
-                          </Group>
-                        </Group>
-                      </Box>
-                      <Box className="col-md-6 text-end">
-                        <Anchor component={Link} href="#" underline="always" className="text-primary">
-                          Reply
-                        </Anchor>
-                      </Box>
-                    </Box>
-                  </Card>
-                </Paper>
+                      </Card>
+                      <Card padding="md" p="md" px="xl" radius={0} shadow="none">
+                        <Box className="row">
+                          <Box className="col-md-6">
+                            <Group>
+                              <ActionIcon
+                                variant="subtle"
+                                color="blue"
+                                onClick={() => handleLikeDislike(review._id, 'like')}
+                              >
+                                <FaThumbsUp />
+                              </ActionIcon>
+                              <Text>{review.likes ? review.likes.length : 0}</Text>
+                              <ActionIcon
+                                variant="subtle"
+                                color="red"
+                                onClick={() => handleLikeDislike(review._id, 'dislike')}
+                              >
+                                <FaThumbsDown />
+                              </ActionIcon>
+                              <Text>{review.dislikes ? review.dislikes.length : 0}</Text>
+                            </Group>
+                          </Box>
+                          <Box className="col-md-6 text-end">
+                            <Anchor component={Link} href="#" underline="always" className="text-primary">
+                              Reply
+                            </Anchor>
+                          </Box>
+                        </Box>
+                      </Card>
+                    </Paper>
+                  ))
+                )}
               </Box>
             </Box>
           </Box>
@@ -356,6 +645,133 @@ const DealerRating = () => {
 
         <QuickLinks />
       </Box>
+
+
+      <Modal
+        opened={opened}
+        onClose={handleModalClose}
+        size={rem(900)}
+        padding="xl"
+        withCloseButton={false}
+      >
+        <form onSubmit={handleReviewSubmit}>
+          <div className="row">
+            <div className="col-12">
+              <Title order={3} mb="lg">
+                Write review about{" "}
+                <Text span inherit className="text-primary">
+                  {profile.fullName}
+                </Text>
+              </Title>
+            </div>
+
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-lg-12">
+                  <Input.Wrapper label="Title" mb="md">
+                    <Input
+                      placeholder="Example great service"
+                      size="md"
+                      value={reviewForm.title}
+                      onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
+                      required
+                    />
+                  </Input.Wrapper>
+                </div>
+                <div className="col-lg-12">
+                  <Input.Wrapper label="Your Review" mb="md">
+                    <Textarea
+                      rows={3}
+                      maxRows={5}
+                      size="md"
+                      placeholder="Enter your review"
+                      value={reviewForm.content}
+                      onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
+                      required
+                    />
+                  </Input.Wrapper>
+                </div>
+                <div className="col-lg-12">
+                  <Checkbox
+                    color="#e90808"
+                    defaultChecked
+                    label="I am not a dealer, and I am not employed by a dealership."
+                    required
+                  />
+                </div>
+                <div className="col-lg-12">
+                  <Button
+                    fullWidth
+                    size="md"
+                    mt="xl"
+                    variant="default"
+                    type="submit"
+                    loading={isSubmitting}
+                    disabled={isSubmitting}
+                  >
+                    Submit Review
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <Stack align="stretch" justify="center" gap="lg" mt="md">
+                <Stack gap={3}>
+                  <Text size="md" fw={500}>Buying Process</Text>
+                  <Group>
+                    <Rating
+                      value={reviewForm.buyingProcess}
+                      onChange={(value) => setReviewForm({ ...reviewForm, buyingProcess: value })}
+                      count={5}
+                    />
+                    <Text fw="normal">{reviewForm.buyingProcess} out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack gap={3}>
+                  <Text size="md" fw={500}>Vehicle Selection</Text>
+                  <Group>
+                    <Rating
+                      value={reviewForm.vehicleSelection}
+                      onChange={(value) => setReviewForm({ ...reviewForm, vehicleSelection: value })}
+                      count={5}
+                    />
+                    <Text fw="normal">{reviewForm.vehicleSelection} out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack gap={3}>
+                  <Text size="md" fw={500}>Level of Services</Text>
+                  <Group>
+                    <Rating
+                      value={reviewForm.levelOfServices}
+                      onChange={(value) => setReviewForm({ ...reviewForm, levelOfServices: value })}
+                      count={5}
+                    />
+                    <Text fw="normal">{reviewForm.levelOfServices} out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack>
+                  <Radio.Group
+                    name="recommendation-decision"
+                    label={<Text size="md" fw={500}>Would you recommend this dealer</Text>}
+                    value={reviewForm.recommendation}
+                    onChange={(value) => setReviewForm({ ...reviewForm, recommendation: value })}
+                  >
+                    <Group mt="xs">
+                      <Radio color="#e90808" value="yes" label="Yes" />
+                      <Radio color="#e90808" value="no" label="No" />
+                    </Group>
+                  </Radio.Group>
+                </Stack>
+              </Stack>
+            </div>
+          </div>
+          {submitError && (
+            <div className="col-12 mt-3">
+              <Text color="red">{submitError}</Text>
+            </div>
+          )}
+        </form>
+      </Modal>
     </>
   );
 };

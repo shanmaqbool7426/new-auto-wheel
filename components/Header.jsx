@@ -498,6 +498,7 @@ localStorage.setItem('token',JSON.stringify(session.user))
 
                     <Menu.Dropdown>
                       <Menu.Label>Settings</Menu.Label>
+                      <Menu.Item component={Link} href="/user/profile-settings">Profile</Menu.Item>
                       <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
                     </Menu.Dropdown>
                   </Menu>

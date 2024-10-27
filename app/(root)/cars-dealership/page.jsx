@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   Anchor,
   Box,
-  Button,
   Card,
   Title,
   Text,
@@ -14,6 +13,15 @@ import {
   Select,
   Stack,
   Pagination,
+  Modal,
+  Button,
+  FileInput,
+  Input,
+  Textarea,
+  Checkbox,
+  Group,
+  Radio,
+  rem,
 } from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
 import { FaLocationDot } from "react-icons/fa6";
@@ -21,6 +29,8 @@ import { PhoneIcon } from "@/components/Icons";
 import QuickLinks from "@/components/QuickLinks";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
+import { useDisclosure } from "@mantine/hooks";
+import { Form } from "@mantine/form";
 const CarsDealerShip = () => {
   const [dealers, setDealers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,8 +40,9 @@ const CarsDealerShip = () => {
   const [showNumbers, setShowNumbers] = useState({});
   const [selectedType, setSelectedType] = useState("");
 
+  const router = useRouter();
+  const [opened, { open, close }] = useDisclosure(false);
 
-  const router=useRouter()
   const fetchDealers = async () => {
     try {
       const response = await fetch(
@@ -59,14 +70,18 @@ const CarsDealerShip = () => {
     return <Text>Loading...</Text>;
   }
 
-  const profileHnadler=(slug)=>{
-    console.log('>>>>>>>>>>>>>.')
-    router.push(`/dealer-profile/${slug}`)
-  }
+  const profileHnadler = (slug) => {
+    console.log(">>>>>>>>>>>>>.");
+    router.push(`/dealer-profile/${slug}`);
+  };
   return (
     <>
       <Box component="section" className="car-specification">
-        <Box className="background-search-verlay" pt={60} mb={{ base: 250, sm: 120 }}>
+        <Box
+          className="background-search-verlay"
+          pt={60}
+          mb={{ base: 250, sm: 120 }}
+        >
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
@@ -130,6 +145,7 @@ const CarsDealerShip = () => {
         </Box>
 
         <Box className="container-xl">
+          {/* <Button onClick={open}>Open centered Modal</Button> */}
           <Box
             className="row g-0 border-bottom border-primary border-2 align-items-center"
             pb="md"
@@ -180,7 +196,11 @@ const CarsDealerShip = () => {
                               <Text fw="bold" size="lg" mr="sm">
                                 {dealer.fullName}
                               </Text>
-                              <Rating defaultValue={dealer.rating} count={5} size="sm" />
+                              <Rating
+                                defaultValue={dealer.rating}
+                                count={5}
+                                size="sm"
+                              />
                               ({dealer.rating}/5)
                             </Flex>
                             Reviews ({dealer.reviewCount})
@@ -196,7 +216,9 @@ const CarsDealerShip = () => {
                         <Flex justify="center" align="center" gap={5}>
                           <PhoneIcon />
                           <Text size="lg" component="strong" fw="bold">
-                            {showNumbers[index] ? dealer.phone : `(${dealer.phone.slice(0, 2)}****)`}
+                            {showNumbers[index]
+                              ? dealer.phone
+                              : `(${dealer.phone.slice(0, 2)}****)`}
                           </Text>
                           <Anchor
                             style={{ alignSelf: "flex-start" }}
@@ -236,6 +258,9 @@ const CarsDealerShip = () => {
             </Box>
           </Box>
         </Box>
+
+        {/* Give Rating Modal */}
+
       </Box>
     </>
   );
