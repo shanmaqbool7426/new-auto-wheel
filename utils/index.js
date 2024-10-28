@@ -69,6 +69,7 @@ export const reorderSlug = (slug, view, sortBy) => {
   const condition = slug.find((item) => item.startsWith("cn_"));
   const featured = slug.find((item) => item.startsWith("ft_"));
   const address = slug.find((item) => item.startsWith("ad_"));
+  const cityArea = slug.find((item) => item.startsWith("ca_"));
 
   const dynamicSlug = [
     `t_${typeMapping[basePath]}`,
@@ -88,6 +89,7 @@ export const reorderSlug = (slug, view, sortBy) => {
     condition,
     featured,
     address,
+    cityArea,
     sortBy,
   ].filter(Boolean);
 

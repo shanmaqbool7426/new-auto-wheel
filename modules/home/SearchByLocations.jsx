@@ -27,6 +27,7 @@ const SearchByLocations = () => {
     country: "PK",
     province: "",
     city: "",
+    suburb: "",
   });
   const [cityOptions, setCityOptions] = useState([]);
   const [query, setQuery] = useState("");
@@ -60,12 +61,14 @@ const SearchByLocations = () => {
     }
   };
   const handleSubmit = () => {
-    const { city, province } = locationSelection;
+    const { city, province,suburb } = locationSelection;
     setLoading(true);
-    const locationQuery = `/ad_pakistan${
-      province ? ` ${province?.name?.toLowerCase()}` : ""
-    }${city ? ` ${city.toLowerCase()}` : ""}`;
-    const searchUrl = `/listing/cars/search/${locationQuery}`;
+    // const locationQuery = `/ad_pakistan${
+    //   province ? ` ${province?.name?.toLowerCase()}` : ""
+    // }${city ? ` ${city.toLowerCase()}` : ""}`;
+    const cityQuery = city ? `/ct_${encodeURIComponent(city.toLowerCase())}` : "";
+    const suburbQuery = suburb ? `/ca_${encodeURIComponent(suburb.toLowerCase())}` : "";
+    const searchUrl = `/listing/cars/search/${cityQuery}${suburbQuery}`;
     router.push(searchUrl)?.finally(() => {
       setLoading(false);
     });

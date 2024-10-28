@@ -17,7 +17,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
 import { Country, State, City } from "country-state-city";
-
+import {getSuburbs} from "@/constants/suburbs";
 const LocationSelector = ({
   isOpen,
   onClose: closeModal,
@@ -29,6 +29,7 @@ const LocationSelector = ({
   const [countries, setCountries] = useState([]);
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
+  const [suburbs, setSuburbs] = useState([]);
   const [activeTab, setActiveTab] = useState("province"); // State to track active tab
 
   useEffect(() => {
@@ -51,12 +52,23 @@ const LocationSelector = ({
       setCities(fetchedCities);
     } else {
       setCities([]);
+      setSuburbs([]);
     }
   }, [selection.province]);
+
+  useEffect(() => {
+    if (selection.city) {
+      const fetchedSuburbs = getSuburbs(selection.city);
+      setSuburbs(fetchedSuburbs);
+    } else {
+      setSuburbs([]);
+    }
+  }, [selection.city]);
 
   const [countrySearch, setCountrySearch] = useState("");
   const [provinceSearch, setProvinceSearch] = useState("");
   const [citySearch, setCitySearch] = useState("");
+  const [suburbSearch, setSuburbSearch] = useState("");
 
   const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(countrySearch.toLowerCase()) && country.isoCode === "PK"
@@ -70,6 +82,10 @@ const LocationSelector = ({
     city.name.toLowerCase().includes(citySearch.toLowerCase())
   );
 
+  const filteredSuburbs = suburbs.filter((suburb) =>
+    suburb.toLowerCase().includes(suburbSearch.toLowerCase())
+  );
+
   const [opened, { open, close }] = useDisclosure(isOpen);
   const handleSelection = (type, value) => {
     setSelection((prev) => {
@@ -81,6 +97,7 @@ const LocationSelector = ({
           ...updatedSelection,
           province: "", // Reset province and city
           city: "",
+          suburb:""
         };
       }
 
@@ -89,11 +106,19 @@ const LocationSelector = ({
         return {
           ...updatedSelection,
           city: "", // Reset city
+          suburb:""
         };
       }
 
       if (type === "city") {
         // closeModal();
+        return {
+          ...updatedSelection,
+          suburb:""
+        };
+      }
+
+      if (type === "suburb") {
         return {
           ...updatedSelection,
         };
@@ -162,6 +187,7 @@ const LocationSelector = ({
             Province
           </Button>
           {!hide && ( // Conditionally render Cities tab button
+            <>            
             <Button
               className={`tab-button ${activeTab === "city" ? "active" : ""}`}
               variant="subtle"
@@ -179,6 +205,24 @@ const LocationSelector = ({
             >
               City
             </Button>
+            <Button
+              className={`tab-button ${activeTab === "suburb" ? "active" : ""}`}
+              variant="subtle"
+              bg={activeTab === "suburb" ? "#E90808" : "#F3F3F3"}
+              color={activeTab === "suburb" ? "white" : "#878787"}
+              size="xs"
+              mr="md"
+              autoContrast
+              onClick={() => {
+                setActiveTab("suburb");
+                if (selection.suburb) {
+                  setSelection((prev) => ({ ...prev, suburb: "" }));
+                }
+              }}
+            >
+              Suburb
+            </Button>
+            </>
           )}
           <CloseButton pos="absolute" right={20} onClick={closeModal}/>
         </Center>
@@ -225,7 +269,7 @@ const LocationSelector = ({
             </List>
           </ScrollArea>
         </Grid.Col> */}
-        <Grid.Col span={6} p="md" pt="xl" className="border-end">
+        <Grid.Col span={4} p="md" pt="xl" className="border-end">
           {/* Province Section */}
           <Input
             placeholder="Search by Province"
@@ -263,7 +307,8 @@ const LocationSelector = ({
           </ScrollArea>
         </Grid.Col>
         {!hide && ( // Conditionally render Cities column
-          <Grid.Col span={6} p="md" pt="xl" className="border-end">
+        <>        
+          <Grid.Col span={4} p="md" pt="xl" className="border-end">
             <Input
               placeholder="Search by City"
               leftSection={<BsSearch />}
@@ -299,6 +344,43 @@ const LocationSelector = ({
               </List>
             </ScrollArea>
           </Grid.Col>
+          <Grid.Col span={4} p="md" pt="xl" className="border-end">
+            <Input
+              placeholder="Search by Suburb"
+              leftSection={<BsSearch />}
+              value={suburbSearch}
+              onChange={(e) => setSuburbSearch(e.target.value)}
+            />
+            <Title order={5} my="sm" fw={600}>
+              Suburbs
+            </Title>
+            <ScrollArea
+              h={250}
+              offsetScrollbars
+              scrollbarSize={5}
+              scrollHideDelay={500}
+              scrollbars="y"
+            >
+              <List className="search-dropdown-lists" listStyleType="none">
+                {selection.city&&
+                  filteredSuburbs.map((suburb) => (
+                    <List.Item
+                      key={suburb}
+                      className={`search-dropdown-lists__item ${
+                        selection.suburb?.toLowerCase() === suburb?.toLowerCase() ? "selected" : ""
+                      }`}
+                      onClick={() => {
+                        handleSelection("suburb", suburb);
+                        setActiveTab("suburb"); // Set active tab to suburb
+                      }}
+                    >
+                      {suburb} <BsArrowRight />
+                    </List.Item>
+                  ))}
+              </List>
+            </ScrollArea>
+          </Grid.Col>
+        </>
         )}
       </Grid>
       <Paper

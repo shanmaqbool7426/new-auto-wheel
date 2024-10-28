@@ -47,7 +47,7 @@ const HeroTabs = ({ setType }) => {
     model: "",
     variant: "",
   });
-  const [locationSelection, setLocationSelection] = useState({ country: "PK", province: "", city: "" });
+  const [locationSelection, setLocationSelection] = useState({ country: "PK", province: "", city: "",suburb:"" });
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -101,16 +101,17 @@ const HeroTabs = ({ setType }) => {
 
   const handleSubmit = () => {
     const { make, model, variant } = selection;
-    const { city,province  } = locationSelection;
+    const { city,province,suburb  } = locationSelection;
     setLoading(true); // Start loading state when button is clicked
 
     // const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
-    // const cityQuery = city ? `/ct_${city.toLowerCase()}` : "";
-    const locationQuery = province?`/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}`:"";
+    const cityQuery = city ? `/ct_${encodeURIComponent(city.toLowerCase())}` : "";
+    const suburbQuery = suburb ? `/ca_${encodeURIComponent(suburb.toLowerCase())}` : "";
+    // const locationQuery = province?`/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}`:"";
     const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
     const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
     // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
-    const searchUrl = `/listing/cars/search/-${makeQuery}${modelQuery}${locationQuery}`;
+    const searchUrl = `/listing/cars/search/-${makeQuery}${modelQuery}${cityQuery}${suburbQuery}`;
     router.push(searchUrl)?.finally(() => {
       setLoading(false); // Reset loading state after redirect
     });
@@ -185,7 +186,7 @@ const HeroTabs = ({ setType }) => {
             value={
               locationSelection?.province
                ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
-                 }`.trim()
+                 } ${locationSelection?.suburb || ""}`.trim()
                : ""
            }
             onClick={openLocationModal} // Open LocationSelector modal on click

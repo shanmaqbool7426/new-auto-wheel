@@ -1047,6 +1047,7 @@ import { submitFormData } from "@/services/forms";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
 import { cities, colorOptions, registrationOptions, suburbs, carTags, yearList, carEngines, truckEngines, bikeEngines, bikeDrives, carTruckDrives } from "@/mock-data/mock-array"
+import {getSuburbs} from "@/constants/suburbs";
 import { uploadImageServer } from "@/actions";
 import { showNotification } from "@mantine/notifications";
 const PostAnAd = (params) => {
@@ -1134,7 +1135,7 @@ const PostAnAd = (params) => {
   };
 
 
-  console.log('>>>>>',session.user)
+  console.log('>>>>>',session?.user)
   useEffect(() => {
     setFormDataStep1((prev) => ({
       ...prev,
@@ -1146,10 +1147,18 @@ const PostAnAd = (params) => {
   const closeModal = () => setIsModalOpen(false);
 
   const handleChangeStep1 = (value, field) => {
-    setFormDataStep1((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+    if (field==="city") {
+      setFormDataStep1((prevData) => ({
+        ...prevData,
+        ["suburb"]:"",
+        [field]: value,
+      }));
+    }else{
+      setFormDataStep1((prevData) => ({
+        ...prevData,
+        [field]: value,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -1529,7 +1538,7 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Suburb"
-                            data={suburbs}
+                            data={getSuburbs(formDataStep1.city)}
                             value={formDataStep1.suburb}
                             searchable
                             nothingFoundMessage="Nothing found..."

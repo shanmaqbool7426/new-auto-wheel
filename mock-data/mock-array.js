@@ -1,16 +1,16 @@
- export const cities = [
-    "Karachi", "Lahore", "Faisalabad", "Rawalpindi", "Gujranwala", "Peshawar", 
-    "Multan", "Hyderabad", "Islamabad", "Quetta", "Bahawalpur", "Sargodha", 
-    "Sialkot", "Sukkur", "Rahim Yar Khan", "Sheikhupura", "Jhang", "Dera Ghazi Khan", 
-    "Gujrat", "Sahiwal", "Wah Cantonment", "Mardan", "Kasur", "Okara", "Mingora", 
-    "Nawabshah", "Chiniot", "Kotri", "Kamoke", "Hafizabad", "Sadiqabad", "Mirpur Khas", 
-    "Burewala", "Kohat", "Jacobabad", "Shikarpur", "Muzaffargarh", "Khanpur", "Gojra", 
-    "Bahawalnagar", "Abbottabad", "Muridke", "Pakpattan", "Khuzdar", "Jaranwala", 
-    "Chishtian", "Daska", "Mandi Bahauddin", "Ahmadpur East", "Kamalia", "Tando Adam", 
-    "Khairpur", "Dera Ismail Khan", "Vehari", "Nowshera", "Dadu", "Wazirabad", 
-    "Khushab", "Charsadda", "Swabi", "Chakwal", "Mianwali", "Tando Allahyar", 
-    "Kot Addu", "Farooka"
-  ];
+export const cities = [
+  "Karachi", "Lahore", "Faisalabad", "Rawalpindi", "Gujranwala", "Peshawar", 
+  "Multan", "Hyderabad", "Islamabad", "Quetta", "Bahawalpur", "Sargodha", 
+  "Sialkot", "Sukkur", "Rahim Yar Khan", "Sheikhupura", "Jhang", 
+  "Dera Ghazi Khan", "Gujrat", "Sahiwal", "Mardan", "Kasur", "Okara", 
+  "Mingora", "Nawabshah", "Chiniot", "Kotri", "Kamoke", "Hafizabad", 
+  "Sadiqabad", "Mirpur Khas", "Burewala", "Kohat", "Jacobabad", "Shikarpur", 
+  "Muzaffargarh", "Khanpur", "Gojra", "Bahawalnagar", "Abbottabad", 
+  "Muridke", "Pakpattan", "Khuzdar", "Jaranwala", "Chishtian", "Daska", 
+  "Mandi Bahauddin", "Kamalia", "Tando Adam", "Khairpur", 
+  "Dera Ismail Khan", "Vehari", "Nowshera", "Dadu", "Wazirabad", "Khushab", 
+  "Charsadda", "Swabi", "Chakwal", "Mianwali",
+];
   export const yearList=["1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"
 ]
 // Expanded Car Engine Options
