@@ -124,7 +124,6 @@ export const API_ENDPOINTS = {
     DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
     TOPCOMPARISON:`${NEW_VEHICLE_BASE}/comparison`,
     COMPARISON:`${NEW_VEHICLE_BASE}/compare`,
-    LISTINGS: `${NEW_VEHICLE_BASE}/vehicles-listing`,
     // ADD: `${VEHICLE_BASE}`,
     // SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`
   },

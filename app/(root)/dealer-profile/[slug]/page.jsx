@@ -79,8 +79,6 @@ const DealerRating = () => {
   const { slug } = useParams();
 
   const token = getLocalStorage('token');
-
-
   const getUserProfile = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
@@ -107,7 +105,7 @@ const DealerRating = () => {
       const response = await fetch(`${BASE_URL}/api/user-reviews/dealer/${slug}`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token.token.token}`
+          'Authorization': token?.token?.token
         }
       });
       console.log('chlaaaaa')
@@ -132,7 +130,7 @@ const DealerRating = () => {
     try {
       const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
         headers: {
-          'Authorization': token.token.token
+          'Authorization': token?.token?.token
         }
       });
 
@@ -171,9 +169,8 @@ const DealerRating = () => {
       fetchProfile();
       fetchProfileAndStatus();
     }
-  }, [slug]);
+  }, [slug,token]);
 
-  console.log('profile.followers', profile?.followers)
 
   useEffect(() => {
     if (profile) {
@@ -196,7 +193,7 @@ const DealerRating = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token.token.token // Assuming you store the token in localStorage
+          'Authorization': token?.token?.token // Assuming you store the token in localStorage
         },
         body: JSON.stringify({
           ...reviewForm,
@@ -226,7 +223,7 @@ const DealerRating = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token.token.token
+          'Authorization': token?.token?.token
         },
         body: JSON.stringify({ action })
       });
@@ -260,7 +257,7 @@ const DealerRating = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': token.token.token
+            'Authorization': token?.token?.token
           }
         });
   
@@ -294,7 +291,7 @@ const DealerRating = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization':token.token.token
+            'Authorization':token?.token?.token
           }
         });
 
