@@ -79,6 +79,8 @@ const DealerRating = () => {
   const { slug } = useParams();
 
   const token = getLocalStorage('token');
+
+  console.log('token',token)
   const getUserProfile = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
@@ -174,7 +176,7 @@ const DealerRating = () => {
 
   useEffect(() => {
     if (profile) {
-      setIsFollowing(profile.followers.includes(token.token.user?._id)); // Assuming you have access to the current user's ID
+      setIsFollowing(profile.followers.includes(token?.token?.user?._id)); // Assuming you have access to the current user's ID
       // console.log('token.token.userId',token.token.user?_id)
     }
   }, [profile])
@@ -236,7 +238,7 @@ const DealerRating = () => {
 
       // Update the reviews state with the new like/dislike counts
       setReviews(reviews.map(review =>
-        review._id === reviewId
+        review?._id === reviewId
           ? { ...review, likes: data.likes, dislikes: data.dislikes }
           : review
       ));
@@ -556,29 +558,29 @@ const DealerRating = () => {
                   <Text>No reviews yet.</Text>
                 ) : (
                   reviews.map((review) => (
-                    <Paper key={review._id} shadow="0px 4px 20px 0px #00000014" radius="md" style={{ overflow: "hidden" }} mb="xl">
+                    <Paper key={review?._id} shadow="0px 4px 20px 0px #00000014" radius="md" style={{ overflow: "hidden" }} mb="xl">
                       <Card className="border-bottom" p="xl" radius={0} shadow="none">
                         <Box className="row">
                           <Box className="col-md-6">
                             <Title order={2}>
                               User <Text span inherit className="text-primary">Rating</Text>
                             </Title>
-                            <Text my="sm">{review.title}</Text>
+                            <Text my="sm">{review?.title}</Text>
                             <Flex align="center" gap="5">
-                              <Rating value={review.rating} readOnly />
-                              <Text span>({review.rating}/5)</Text>
+                              <Rating value={review?.rating} readOnly />
+                              <Text span>({review?.rating}/5)</Text>
                             </Flex>
-                            <Text c="dimmed" my="sm">Posted by {review.user.fullName} on {new Date(review.createdAt).toLocaleDateString()}</Text>
+                            <Text c="dimmed" my="sm">Posted by {review?.user?.fullName} on {new Date(review?.createdAt).toLocaleDateString()}</Text>
                           </Box>
                           <Box className="col-md-12">
-                            <Text>{review.content}</Text>
+                            <Text>{review?.content}</Text>
                             <Box className="row" mt="md">
                               <Box className="col-md-4">
                                 <Group justify="space-between">
                                   Buying Process
                                   <Group>
-                                    <Rating value={review.buyingProcess} readOnly />
-                                    <Text span>({review.buyingProcess}/5)</Text>
+                                    <Rating value={review?.buyingProcess} readOnly />
+                                    <Text span>({review?.buyingProcess}/5)</Text>
                                   </Group>
                                 </Group>
                               </Box>
@@ -586,8 +588,8 @@ const DealerRating = () => {
                                 <Group justify="space-between">
                                   Vehicle Selection
                                   <Group>
-                                    <Rating value={review.vehicleSelection} readOnly />
-                                    <Text span>({review.vehicleSelection}/5)</Text>
+                                    <Rating value={review?.vehicleSelection} readOnly />
+                                    <Text span>({review?.vehicleSelection}/5)</Text>
                                   </Group>
                                 </Group>
                               </Box>
@@ -595,8 +597,8 @@ const DealerRating = () => {
                                 <Group justify="space-between">
                                   Level of Services
                                   <Group>
-                                    <Rating value={review.levelOfServices} readOnly />
-                                    <Text span>({review.levelOfServices}/5)</Text>
+                                    <Rating value={review?.levelOfServices} readOnly />
+                                    <Text span>({review?.levelOfServices}/5)</Text>
                                   </Group>
                                 </Group>
                               </Box>
@@ -611,19 +613,19 @@ const DealerRating = () => {
                               <ActionIcon
                                 variant="subtle"
                                 color="blue"
-                                onClick={() => handleLikeDislike(review._id, 'like')}
+                                onClick={() => handleLikeDislike(review?._id, 'like')}
                               >
                                 <FaThumbsUp />
                               </ActionIcon>
-                              <Text>{review.likes ? review.likes.length : 0}</Text>
+                              <Text>{review?.likes ? review?.likes.length : 0}</Text>
                               <ActionIcon
                                 variant="subtle"
                                 color="red"
-                                onClick={() => handleLikeDislike(review._id, 'dislike')}
+                                onClick={() => handleLikeDislike(review?._id, 'dislike')}
                               >
                                 <FaThumbsDown />
                               </ActionIcon>
-                              <Text>{review.dislikes ? review.dislikes.length : 0}</Text>
+                              <Text>{review?.dislikes ? review?.dislikes.length : 0}</Text>
                             </Group>
                           </Box>
                           <Box className="col-md-6 text-end">
