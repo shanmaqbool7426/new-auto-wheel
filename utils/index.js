@@ -217,3 +217,27 @@ export function capitalize(string) {
   if (typeof string !== 'string' || string.length === 0) return string;
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
+
+
+export const getLocalStorage = (key) => {
+  if (typeof window !== 'undefined') {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : null;
+    } catch (error) {
+      console.error(`Error reading ${key} from localStorage:`, error);
+      return null;
+    }
+  }
+  return null;
+};
+
+export const setLocalStorage = (key, value) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(`Error writing ${key} to localStorage:`, error);
+    }
+  }
+};

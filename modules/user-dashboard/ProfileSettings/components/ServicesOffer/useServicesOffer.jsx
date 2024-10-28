@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/constants/api-endpoints';
+import { getLocalStorage } from '@/utils';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
@@ -12,9 +13,7 @@ export default function useServicesOffer() {
     },
   });
 
-  let token = localStorage.getItem('token')
-  token = JSON.parse(token)
-
+  const token = getLocalStorage('token');
 
   const handleSubmit = async (values) => {
     try {

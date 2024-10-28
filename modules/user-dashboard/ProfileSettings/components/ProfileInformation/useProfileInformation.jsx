@@ -4,11 +4,12 @@ import { notifications } from '@mantine/notifications';
 
 import { submitFormData } from "@/services/forms";
 import { BASE_URL } from '@/constants/api-endpoints';
+import { getLocalStorage } from '@/utils';
 
 export default function useProfileInformation() {
 
-  let token = localStorage.getItem('token')
-  token = JSON.parse(token)
+  const token = getLocalStorage('token');
+
 
 
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;

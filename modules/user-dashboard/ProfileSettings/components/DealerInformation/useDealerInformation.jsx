@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/constants/api-endpoints';
+import { getLocalStorage } from '@/utils';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
@@ -13,6 +14,9 @@ export default function useDealerInformation() {
     },
   });
 
+  const token = getLocalStorage('token');
+
+
   const handleSubmit = async (values) => {
     console.log('Dealer Information Data:: ', values);
     try {
@@ -20,7 +24,7 @@ export default function useDealerInformation() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Assuming you store the token in localStorage
+          'Authorization': token.token.token, // Assuming you store the token in localStorage
         },
         body: JSON.stringify(values),
       });
