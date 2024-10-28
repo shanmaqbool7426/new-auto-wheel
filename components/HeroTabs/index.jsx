@@ -23,10 +23,11 @@ import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { City } from "country-state-city";
 
-import CustomModel from "../constants/CustomModel";
+import CustomModel from "@/constants/CustomModel";
 import LocationSelector from "@/components/LocationSelector.jsx"; // Import LocationSelector
 import { fetchMakesByTypeServer } from "@/actions";
 import { useRouter } from "next/navigation";
+import styles from "./HeroTabs.module.css";
 
 const HeroTabs = ({ setType }) => {
   const router = useRouter();
@@ -53,7 +54,7 @@ const HeroTabs = ({ setType }) => {
 
   const openLocationModal = () => setIsLocationModalOpen(true);
   const closeLocationModal = () => setIsLocationModalOpen(false);
-  const clearSelection=()=>{
+  const clearSelection = () => {
     setSelection({
       make: "",
       model: "",
@@ -101,12 +102,12 @@ const HeroTabs = ({ setType }) => {
 
   const handleSubmit = () => {
     const { make, model, variant } = selection;
-    const { city,province  } = locationSelection;
+    const { city, province } = locationSelection;
     setLoading(true); // Start loading state when button is clicked
 
     // const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
     // const cityQuery = city ? `/ct_${city.toLowerCase()}` : "";
-    const locationQuery = province?`/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}`:"";
+    const locationQuery = province ? `/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}` : "";
     const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
     const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
     // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
@@ -124,8 +125,9 @@ const HeroTabs = ({ setType }) => {
         radius="xs"
         defaultValue="cars"
         autoContrast
+        classNames={{ list: styles.list, tab: styles.tab, tabLabel: styles.tabLabel }}
       >
-        <Tabs.List grow justify="center">
+        <Tabs.List justify="space-between">
           <Tabs.Tab
             value="cars"
             leftSection={<CarFrontView />}
@@ -167,10 +169,10 @@ const HeroTabs = ({ setType }) => {
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="cars" p="xs">
+        <Tabs.Panel value="cars">
           <Input
             placeholder="Car Make or Model"
-            mt="lg"
+            mt="32px"
             value={
               selection?.make || selection?.model || selection?.variant
                 ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
@@ -178,20 +180,22 @@ const HeroTabs = ({ setType }) => {
                 : ""
             }
             onClick={openModal}
+            classNames={{ wrapper: styles.wrapper, input: styles.input }}
           />
           <Input
             placeholder="Enter Your Location"
-            mt="md"
+            mt="20px"
             value={
               locationSelection?.province
-               ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
-                 }`.trim()
-               : ""
-           }
+                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
+                  }`.trim()
+                : ""
+            }
             onClick={openLocationModal} // Open LocationSelector modal on click
+            classNames={{ wrapper: styles.wrapper, input: styles.input }}
           />
           <Button
-            mt="lg"
+            mt="24px"
             fullWidth
             size="md"
             ff="heading"
@@ -199,10 +203,11 @@ const HeroTabs = ({ setType }) => {
             color="#E90808"
             loading={loading} // Show loading spinner while processing
             onClick={handleSubmit}
+            classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
           >
             Search
           </Button>
-          <Group justify="end" mt="sm">
+          <Group justify="end" mt="20px">
             <Button
               component={Link}
               href={`/listing/${makesByType}s`}
@@ -213,16 +218,17 @@ const HeroTabs = ({ setType }) => {
               tt="uppercase"
               color="#E90808"
               ff="heading"
+              classNames={{ root: styles.advroot, label: styles.advanceSearch }}
             >
               Advance Search
             </Button>
           </Group>
         </Tabs.Panel>
 
-        <Tabs.Panel value="bikes" p="xs">
+        <Tabs.Panel value="bikes">
           <Input
             placeholder="Bike Make or Model"
-            mt="lg"
+            mt="32px"
             value={
               selection?.make || selection?.model || selection?.variant
                 ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
@@ -230,20 +236,22 @@ const HeroTabs = ({ setType }) => {
                 : ""
             }
             onClick={openModal}
+            classNames={{ wrapper: styles.wrapper, input: styles.input }}
           />
           <Input
             placeholder="Enter Your Location"
-            mt="md"
+            mt="20px"
             value={
-               locationSelection?.province
-                ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
+              locationSelection?.province
+                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
                   }`.trim()
                 : ""
             }
             onClick={openLocationModal} // Open LocationSelector modal on click
+            classNames={{ wrapper: styles.wrapper, input: styles.input }}
           />
           <Button
-            mt="lg"
+            mt="24px"
             fullWidth
             size="md"
             ff="heading"
@@ -251,10 +259,11 @@ const HeroTabs = ({ setType }) => {
             color="#E90808"
             loading={loading} // Show loading spinner while processing
             onClick={handleSubmit}
+            classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
           >
             Search
           </Button>
-          <Group justify="end" mt="sm">
+          <Group justify="end" mt="20px">
             <Button
               component={Link}
               href={`/listing/${makesByType}s`}
@@ -265,16 +274,17 @@ const HeroTabs = ({ setType }) => {
               tt="uppercase"
               color="#E90808"
               ff="heading"
+              classNames={{ root: styles.advroot, label: styles.advanceSearch }}
             >
               Advance Search
             </Button>
           </Group>
         </Tabs.Panel>
 
-        <Tabs.Panel value="trucks" p="xs">
+        <Tabs.Panel value="trucks">
           <Input
             placeholder="Truck Make or Model"
-            mt="lg"
+            mt="32px"
             value={
               selection?.make || selection?.model || selection?.variant
                 ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
@@ -282,20 +292,22 @@ const HeroTabs = ({ setType }) => {
                 : ""
             }
             onClick={openModal}
+            classNames={{ wrapper: styles.wrapper, input: styles.input }}
           />
           <Input
             placeholder="Enter Your Location"
-            mt="md"
+            mt="20px"
             value={
               locationSelection?.province
-               ? `${locationSelection?.province?.name||""} ${locationSelection?.city || ""
-                 }`.trim()
-               : ""
-           }
+                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
+                  }`.trim()
+                : ""
+            }
             onClick={openLocationModal} // Open LocationSelector modal on click
+            classNames={{ wrapper: styles.wrapper, input: styles.input }}
           />
           <Button
-            mt="lg"
+            mt="24px"
             fullWidth
             size="md"
             ff="heading"
@@ -303,10 +315,11 @@ const HeroTabs = ({ setType }) => {
             color="#E90808"
             loading={loading} // Show loading spinner while processing
             onClick={handleSubmit}
+            classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
           >
             Search
           </Button>
-          <Group justify="end" mt="sm">
+          <Group justify="end" mt="20px">
             <Button
               component={Link}
               href={`/listing/${makesByType}s`}
@@ -317,6 +330,7 @@ const HeroTabs = ({ setType }) => {
               tt="uppercase"
               color="#E90808"
               ff="heading"
+              classNames={{ root: styles.advroot, label: styles.advanceSearch }}
             >
               Advance Search
             </Button>

@@ -1,0 +1,54 @@
+.list {
+  &:before {
+    border-color: rgba(234, 237, 241, 0.6);
+  }
+}
+
+.tab {
+  padding: 0 0 10px;
+  gap: 8px !important;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.tabLabel {
+  font-size: 14px;
+  line-height: 1;
+  color: #878787;
+}
+
+[data-active="true"] .tabLabel {
+  color: #E90808
+}
+
+.wrapper {
+  height: 33px;
+}
+
+.input {
+  height: 33px;
+  min-height: 0;
+}
+
+.buttonRoot {
+  height: 39px;
+}
+
+.buttonLabel {
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+.advroot {
+  border: none;
+  height: auto;
+  min-height: 0;
+}
+
+.advanceSearch {
+  font-weight: 400;
+  line-height: 1;
+  text-transform: capitalize;
+}

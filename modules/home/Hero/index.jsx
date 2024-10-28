@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import HeroTabs from "@/components/hero-tabs";
+import HeroTabs from "@/components/HeroTabs";
 import {
   Card,
   Title,
@@ -11,6 +11,7 @@ import {
   Transition,
   Image,
 } from "@mantine/core";
+import styles from "./Hero.module.css";
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // Current image index
@@ -50,7 +51,7 @@ const Hero = () => {
         <Box className="hero-banner" pos="relative">
           <Box
             className="hero-banner__slider"
-            h={550}
+            h={440}
             display="flex"
             style={{
               transition: "transform 0.5s ease-in-out",
@@ -59,17 +60,17 @@ const Hero = () => {
           >
             {images.map((image, index) => (
               <Box key={index} miw="100%">
-                <Image src={image.src} h={550} />
+                <Image src={image.src} h={440} />
               </Box>
             ))}
           </Box>
 
-          <Box className="container-xl" pos="absolute" inset={0} py={rem(50)}>
+          <Box className="container-xl" pos="absolute" inset={0} py={rem(32)}>
             <Box className="row">
               <Box className="col-lg-4 col-sm-6">
-                <Card shadow="xl" padding={0} radius="md">
-                  <Box p="md" px="lg" ta="left" className="border-bottom">
-                    <Title order={4}>
+                <Card shadow="xl" padding={0} radius="md" className={styles.card}>
+                  <Box ta="left" className={styles.cardHeader}>
+                    <Title order={4} className={styles.cardTitle}>
                       Find your right{" "}
                       <Text
                         span
@@ -81,7 +82,7 @@ const Hero = () => {
                       </Text>
                     </Title>
                   </Box>
-                  <Box p="md" px="lg">
+                  <Box className={styles.cardBody}>
                     <HeroTabs setType={setType} />
                   </Box>
                 </Card>
@@ -95,7 +96,7 @@ const Hero = () => {
                   listStyleType="none"
                   size="sm"
                   display="flex"
-                  // style={{ color: "#fff", cursor: "pointer" }} // Make list items clickable
+                // style={{ color: "#fff", cursor: "pointer" }} // Make list items clickable
                 >
                   {images.map((image, index) => (
                     <List.Item
