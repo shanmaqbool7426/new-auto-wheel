@@ -6,7 +6,6 @@ import NextImage from "next/image";
 import { formatToLac, formatToLacOrCrore, formatToMonthYear } from "@/utils";
 
 const NewCarsCard = ({ vehicle, isRating }) => {
-  console.log("vehicle", vehicle);
   return (
     <Link href={`/new-vehicle/${vehicle?.slug || ""}`}>
       <Card shadow="0px 4px 20px 0px #00000014" pb="xl" pt="0" px="0" mb="xl">

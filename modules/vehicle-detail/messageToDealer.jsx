@@ -12,6 +12,7 @@ import AccountTypeModal from "../auth/AccountType";
 import { useSession } from "next-auth/react";
 import io from 'socket.io-client';
 import { BASE_URL } from "@/constants/api-endpoints";
+import { getLocalStorage } from "@/utils";
 
 const MessageToDealer = ({ sellerId }) => {
   console.log('sellerId',sellerId)
@@ -26,9 +27,8 @@ const MessageToDealer = ({ sellerId }) => {
     acceptedPolicy: false,
   });
 
-  let token =localStorage.getItem('token')
-  console.log('token>>>>',JSON.parse(token))
-  token=JSON.parse(token)
+  const token = getLocalStorage('token');
+
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {

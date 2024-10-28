@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import { useSession } from "next-auth/react";
 import { BASE_URL } from '@/constants/api-endpoints';
+import { getLocalStorage } from '@/utils';
 
 export default function useChat() {
   const [value, setValue] = useState('');
@@ -12,8 +13,8 @@ export default function useChat() {
   const [selectedUserId, setSelectedUserId] = React.useState(null);
 const [selectedUser,setSelectedUser]=useState({})
 
-let token =localStorage.getItem('token')
-token=JSON.parse(token)
+const token = getLocalStorage('token');
+
   const updateConversations = useCallback((messageData) => {
     setConversations((prevConversations) => {
       const updatedConversations = prevConversations.map(conv => {

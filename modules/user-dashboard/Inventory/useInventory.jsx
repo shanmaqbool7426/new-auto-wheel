@@ -4,13 +4,14 @@ import { useForm } from '@mantine/form';
 
 import { useSession } from "next-auth/react";
 import { BASE_URL } from '@/constants/api-endpoints';
+import { getLocalStorage } from '@/utils';
 // import { useRouter } from 'next/router';
 export default function useInventory() {
 
   // const router = useRouter();
   const [searchBy, setSearchBy] = React.useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('inventorySearchBy') || '';
+      return getLocalStorage('inventorySearchBy') || '';
     }
     return '';
   });  const [vehicles, setVehicles] = React.useState([]);
@@ -38,9 +39,8 @@ export default function useInventory() {
     status: '',
     date: 'newToOld',
   });
-  let token =localStorage.getItem('token')
-  console.log('token>>>>',JSON.parse(token))
-  tokenJSON.parse(token)
+  const token = getLocalStorage('token');
+
 
   const fetchVehicles = React.useCallback(async () => {
     try {

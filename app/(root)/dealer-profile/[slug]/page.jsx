@@ -49,6 +49,7 @@ import Link from "next/link";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter, useParams } from 'next/navigation';
 import { useDisclosure } from "@mantine/hooks";
+import { getLocalStorage } from "@/utils";
 
 const DealerRating = () => {
   const [profile, setProfile] = useState(null);
@@ -77,8 +78,8 @@ const DealerRating = () => {
 
   const { slug } = useParams();
 
-  let token = localStorage.getItem('token')
-  token = JSON.parse(token)
+  const token = getLocalStorage('token');
+
 
   const getUserProfile = async () => {
     try {
