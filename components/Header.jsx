@@ -102,7 +102,7 @@ localStorage.setItem('token',JSON.stringify(session.user))
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
           title: "Car Reviews",
-          link: "/car-reviews",
+          link: "/reviews/car",
           description: "Car Reviews",
         },
       ],
@@ -158,6 +158,12 @@ localStorage.setItem('token',JSON.stringify(session.user))
           link: "/comparison/bike",
           description: "Compare bikes",
         },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Bike Reviews",
+          link: "/reviews/bike",
+          description: "Bike Reviews",
+        },
       ],
       secondCol: [
         { title: "Honda CG 125", link: "/listing/bikes/search/-/mk_honda" },
@@ -206,6 +212,12 @@ localStorage.setItem('token',JSON.stringify(session.user))
           title: "Comparison",
           link: "/comparison/truck",
           description: "Compare trucks",
+        },
+        {
+          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          title: "Truck Reviews",
+          link: "/reviews/truck",
+          description: "Truck Reviews",
         },
       ],
       secondCol: [

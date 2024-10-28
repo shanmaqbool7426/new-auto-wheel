@@ -219,7 +219,7 @@ const NewCarsModule = ({
                     c="#333"
                     tt="capitalize"
                     component={Link} 
-                    href={`/car-reviews`}
+                    href={`/reviews/${type}`}
                     autoContrast
                   >
                     {type} Reviews

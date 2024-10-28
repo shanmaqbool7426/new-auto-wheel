@@ -18,7 +18,9 @@ import {
 import {
   CarComparisonSmall,
   CarSmall,
+  MotorBikeSmall,
   SmallReviewIcon,
+  TruckSmall,
 } from "@/components/Icons";
 import UpcomingCars from "@/components/sections/UpcomingCars";
 import ProductCard from "@/components/ui/ProductCard";
@@ -37,6 +39,7 @@ const CarReviewsModule = ({
   fetchMakesByTypeData,
   popularVehicles,
   popularUsedVehicles,
+  type
 }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -66,12 +69,35 @@ const CarReviewsModule = ({
         selection.make,
         selection.model
       );
-      router.push(`/car-reviews/${standardizedVehicle}`);
+      router.push(`/reviews/${type}/${standardizedVehicle}`);
     } else {
       alert("Please select both make and model before searching.");
     }
   };
-
+  const getIconByType = () => {
+    switch (type) {
+      case 'bike':
+        return <MotorBikeSmall />;
+      case 'car':
+        return <CarSmall />;
+      case 'truck':
+        return <TruckSmall />;
+      default:
+        return null;
+    }
+  };
+  const getComparisonIconByType = () => {
+    switch (type) {
+      case 'bike':
+        return <MotorBikeSmall />;
+      case 'car':
+        return <CarComparisonSmall />;
+      case 'truck':
+        return <TruckSmall />;
+      default:
+        return null;
+    }
+  };
   return (
     <>
       <Box component="section" className="cars-reviews">
@@ -82,46 +108,52 @@ const CarReviewsModule = ({
                 <nav className="mt-3">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Anchor href="#">Car</Anchor>
+                      <Anchor href="/" component={Link}>Home</Anchor>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      <Anchor href="#">Car Reviews</Anchor>
+                      <Anchor href={`/reviews/${type}`} component={Link} tt="capitalize">{type} Reviews</Anchor>
                     </li>
                   </ol>
                 </nav>
                 <Group>
                   <Button
-                    leftSection={<CarSmall />}
+                    leftSection={getIconByType()}
                     variant="light"
                     radius="md"
                     size="sm"
                     bg="white"
                     c="#333"
                     autoContrast
+                    tt="capitalize"
+                    component={Link} href={`/new/${type}`}
                   >
-                    New Cars
+                    New {type}s
                   </Button>
                   <Button
-                    leftSection={<CarSmall />}
+                    leftSection={getIconByType()}
                     variant="light"
                     size="sm"
                     radius="md"
                     bg="white"
                     c="#333"
                     autoContrast
+                    tt="capitalize"
+                    component={Link} href={`/listing/${type}s`}
                   >
-                    Used Cars
+                    Used {type}s
                   </Button>
                   <Button
-                    leftSection={<CarComparisonSmall />}
+                    leftSection={getComparisonIconByType()}
                     variant="light"
                     size="sm"
                     radius="md"
                     bg="white"
                     c="#333"
                     autoContrast
+                    tt="capitalize"
+                    component={Link} href={`/comparison/${type}`}
                   >
-                    Car Comparison
+                    {type} Comparison
                   </Button>
                   <Button
                     leftSection={<SmallReviewIcon />}
@@ -131,8 +163,9 @@ const CarReviewsModule = ({
                     bg="#333"
                     c="white"
                     autoContrast
+                    tt="capitalize"
                   >
-                    Car Reviews
+                    {type} Reviews
                   </Button>
                 </Group>
               </Box>
@@ -143,8 +176,8 @@ const CarReviewsModule = ({
                     padding="lg"
                     radius="sm"
                   >
-                    <Title order={3} mb="md">
-                      Browse Reviews For Your Perfect New Car
+                    <Title order={3} mb="md" tt="capitalize">
+                      Browse Reviews For Your Perfect New {type}
                     </Title>
                     <Box className="row" mb="md">
                       <Box className="col-md-9">
@@ -223,8 +256,8 @@ const CarReviewsModule = ({
           <Box className="col-md-12">
             <Title order={3} mt="xl" mb="md">
               Popular New{" "}
-              <Text span inherit className="text-primary">
-                Vehicle
+              <Text span inherit className="text-primary" tt="capitalize">
+              {`${type}s`}
               </Text>
             </Title>
           </Box>
@@ -249,8 +282,8 @@ const CarReviewsModule = ({
             <Box className="col-md-12">
               <Title order={2} mb="xl">
                 Popular Used{" "}
-                <Text span inherit className="text-primary">
-                  Vehicle
+                <Text span inherit className="text-primary" tt="capitalize">
+                  {`${type}s`}
                 </Text>
               </Title>
             </Box>

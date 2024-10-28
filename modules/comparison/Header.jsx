@@ -1,5 +1,5 @@
 "use client";
-import { CarComparisonSmall, CarSmall, SmallReviewIcon } from '@/components/Icons';
+import { CarComparisonSmall, CarSmall, SmallReviewIcon,MotorBikeSmall,TruckSmall } from '@/components/Icons';
 import { Anchor, Box, Button, Card, Group, Image, Input, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import CustomModel from '@/constants/CustomModel';
@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Header = ({type}) => {
-    console.log(type,"Test")
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,6 +66,31 @@ const Header = ({type}) => {
     return null;
   };
 
+  const getIconByType = () => {
+    switch (type) {
+      case 'bike':
+        return <MotorBikeSmall />;
+      case 'car':
+        return <CarSmall />;
+      case 'truck':
+        return <TruckSmall />;
+      default:
+        return null;
+    }
+  };
+  const getComparisonIconByType = () => {
+    switch (type) {
+      case 'bike':
+        return <MotorBikeSmall />;
+      case 'car':
+        return <CarComparisonSmall />;
+      case 'truck':
+        return <TruckSmall />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <CustomModel
@@ -90,27 +114,27 @@ const Header = ({type}) => {
         <div className="container-xl">
           <div className="row">
             <div className="col-md-12">
-              {/* <nav className="mt-3">
+              <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="#">Bikes</Anchor>
+                    <Anchor href="/">Home</Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <Anchor href="#">New Bikes</Anchor>
+                    <Anchor href="#" tt="capitalize">{type} Comparison</Anchor>
                   </li>
                 </ol>
-              </nav> */}
+              </nav>
               <Group>
-                <Button component={Link} href={`/new/${type}`} leftSection={<CarSmall />} variant="light" radius="md" size="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button component={Link} href={`/new/${type}`} leftSection={getIconByType()} variant="light" radius="md" size="md" bg="white" c="#333" autoContrast tt='capitalize'>
                   New {type}s
                 </Button>
-                <Button  component={Link} href={`/listing/${type}s`} leftSection={<CarSmall />} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button  component={Link} href={`/listing/${type}s`} leftSection={getIconByType()} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
                   Used {type}s
                 </Button>
-                <Button leftSection={<CarComparisonSmall />} variant="light" size="md" radius="md" bg="#333" c="white" autoContrast tt='capitalize'>
+                <Button leftSection={getComparisonIconByType()} variant="light" size="md" radius="md" bg="#333" c="white" autoContrast tt='capitalize'>
                   {type} Comparison
                 </Button>
-                <Button component={Link} href={`/car-reviews`} leftSection={<SmallReviewIcon />} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button component={Link} href={`/reviews/${type}`} leftSection={<SmallReviewIcon />} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
                   {type} Reviews
                 </Button>
               </Group>
@@ -118,8 +142,8 @@ const Header = ({type}) => {
             <div className="col-md-12">
               <Box className="search-wrapper-card" mt="lg">
                 <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
-                  <Title order={3} mb="md">
-                    New Cars Comparison
+                  <Title order={3} mb="md" tt="capitalize">
+                    New {`${type}s`} Comparison
                   </Title>
                   <div className="row mb-2">
                     {[1, 2, 3].map((vehicleNumber) => (
@@ -146,7 +170,7 @@ const Header = ({type}) => {
                               vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
                               vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
                               vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
-                              `Add Car ${vehicleNumber}`
+                              `Add ${type} ${vehicleNumber}`
                             }
                           </Text>
                           <Input size="md" radius="md" placeholder="Search by Car Variant" />
