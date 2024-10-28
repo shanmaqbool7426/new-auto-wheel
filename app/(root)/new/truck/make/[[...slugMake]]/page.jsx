@@ -1,18 +1,15 @@
 import React from "react";
-import NewCarsModule from "@/modules/new-cars/index";
 import MakesVehicles from "@/modules/make-vehicles/index";
 import {
   fetchListData,
   fetchMakesAndBodies,
-  fetchMakesByType,
-  fetchVehiclsData,
 } from "@/services/vehicles";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 
 const NewCarsPage = async (params, searchParams) => {
   // Extract slug values
-  const [vehicleType, slugMake] = params.params.newcarslug;
-
+  const [slugMake] = params.params.slugMake;
+  const vehicleType="truck";
   // Fetch initial data
   const makesAndBodies = await fetchMakesAndBodies(vehicleType);
 
@@ -46,25 +43,8 @@ const NewCarsPage = async (params, searchParams) => {
   const altraNativesMake = fetchMakesByTypeData?.data?.filter(
     (make) => make?.name?.toLowerCase() !== slugMake?.toLowerCase()
   );
-  const isMakeVehicles = Boolean(matchedMake);
-
-  // Render the components based on `isMakeVehicles` condition
   return (
     <>
-      {!isMakeVehicles ? (
-        <NewCarsModule
-          makes={makesAndBodies?.makes}
-          bodies={makesAndBodies?.bodies}
-          popularVehicles={popularVehicles}
-          fetchUpComingVehicles={fetchUpComingVehicles}
-          fetchNewlyLaunchedVehicles={fetchNewlyLaunchedVehicles}
-          fetchHondaVehicles={fetchHondaVehicles}
-          fetchMakesByTypeData={fetchMakesByTypeData}
-          params={params}
-          searchParams={searchParams}
-          fetchMakebyVehicles={fetchMakebyVehicles}
-        />
-      ) : (
         <MakesVehicles
           makes={makesAndBodies?.makes}
           bodies={makesAndBodies?.bodies}
@@ -81,7 +61,6 @@ const NewCarsPage = async (params, searchParams) => {
           altraNativesMake={altraNativesMake}
           vehicleType={vehicleType}
         />
-      )}
     </>
   );
 };

@@ -84,18 +84,21 @@ const MakesVehicles = ({
 
   return (
     <>
-      <section className="find-cars">
+      <section className="find-cars" style={{marginTop:"50px"}}>
         <Box className="background-search-verlay" mb="220">
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
                 <nav className="mt-3">
                   <ol className="breadcrumb">
+                  <li className="breadcrumb-item">
+                      <Anchor href={`/`} tt="capitalize" component={Link}>Home</Anchor>
+                    </li>
                     <li className="breadcrumb-item">
-                      <Anchor href="#">Bikes</Anchor>
+                      <Anchor href={`/new/${vehicleType}`} tt="capitalize" component={Link}>New {vehicleType}</Anchor>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      <Anchor href="#">New Bikes</Anchor>
+                      <Anchor href="#" tt="capitalize">{slugMake}</Anchor>
                     </li>
                   </ol>
                 </nav>

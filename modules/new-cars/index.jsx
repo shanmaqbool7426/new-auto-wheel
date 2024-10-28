@@ -22,7 +22,9 @@ import {
   CarComparisonSmall,
   CarSmall,
   GearsHandle,
+  MotorBikeSmall,
   SmallReviewIcon,
+  TruckSmall,
 } from "@/components/Icons";
 import WriteReviewModal from "@/components/ui/WriteReviewModal";
 import QuickLinks from "@/components/QuickLinks";
@@ -41,6 +43,7 @@ import BrowseByMakeAndBodies from "@/components/sections/BrowseByMakeAndBodies";
 import ListingFilter from "@/components/listing/sidebar-filter";
 import { getAllReviews } from "@/services/vehicles";
 import { formatToMonthYear } from "@/utils";
+import Link from "next/link";
 
 const NewCarsModule = ({
   makes,
@@ -50,8 +53,7 @@ const NewCarsModule = ({
   fetchMakebyVehicles,
   fetchHondaVehicles,
   fetchMakesByTypeData,
-  params,
-  searchParams,
+  type,
   fetchNewlyLaunchedVehicles,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -102,7 +104,30 @@ const NewCarsModule = ({
     { type: "space", label: "Space", countKey: "space" },
     { type: "power", label: "Power", countKey: "power" },
   ];
-
+  const getIconByType = () => {
+    switch (type) {
+      case 'bike':
+        return <MotorBikeSmall />;
+      case 'car':
+        return <CarSmall />;
+      case 'truck':
+        return <TruckSmall />;
+      default:
+        return null;
+    }
+  };
+  const getComparisonIconByType = () => {
+    switch (type) {
+      case 'bike':
+        return <MotorBikeSmall />;
+      case 'car':
+        return <CarComparisonSmall />;
+      case 'truck':
+        return <TruckSmall />;
+      default:
+        return null;
+    }
+  };
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -137,46 +162,53 @@ const NewCarsModule = ({
                 <nav>
                   <ol className="breadcrumb mb-3">
                     <li className="breadcrumb-item">
-                      <Anchor href="#">Bikes</Anchor>
+                      <Anchor component={Link} href={`/`} tt="capitalize">Home</Anchor>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      <Anchor href="#">New Bikes</Anchor>
+                      <Anchor href="#" tt="capitalize">New {type}</Anchor>
                     </li>
                   </ol>
                 </nav>
                 <Group>
                   <Button
-                    leftSection={<CarSmall />}
+                    leftSection={getIconByType()}
                     variant="light"
                     radius="md"
                     size="md"
                     bg="#333"
                     c="white"
+                    tt="capitalize"
                     autoContrast
                   >
-                    New {params.params.newcarslug[0]}
+                    New {type}
                   </Button>
                   <Button
-                    leftSection={<CarSmall />}
+                    leftSection={getIconByType()}
                     variant="light"
                     size="md"
                     radius="md"
                     bg="white"
                     c="#333"
+                    tt="capitalize"
+                    component={Link}
+                    href={`/listing/${type}s`}
                     autoContrast
                   >
-                    Used {params.params.newcarslug[0]}
+                    Used {type}
                   </Button>
                   <Button
-                    leftSection={<CarComparisonSmall />}
+                    leftSection={getComparisonIconByType()}
                     variant="light"
                     size="md"
                     radius="md"
                     bg="white"
                     c="#333"
+                    tt="capitalize"
+                    component={Link}
+                    href={`/comparison/${type}`}
                     autoContrast
                   >
-                    {params.params.newcarslug[0]} Comparison
+                    {type} Comparison
                   </Button>
                   <Button
                     leftSection={<SmallReviewIcon />}
@@ -185,20 +217,23 @@ const NewCarsModule = ({
                     radius="md"
                     bg="white"
                     c="#333"
+                    tt="capitalize"
+                    component={Link} 
+                    href={`/car-reviews`}
                     autoContrast
                   >
-                    {params.params.newcarslug[0]} Reviews
+                    {type} Reviews
                   </Button>
                 </Group>
               </div>
               <div className="col-md-12">
-                <SearchBar fetchMakesByTypeData={fetchMakesByTypeData} />
+                <SearchBar fetchMakesByTypeData={fetchMakesByTypeData} type={type}/>
               </div>
             </div>
           </div>
         </Box>
 
-        <BrowseByMakeAndBodies makes={makes} bodies={bodies} />
+        <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/>
         <section className="popular-new-cars py-5">
           <div className="container-xl">
             <div className="row">
@@ -206,7 +241,7 @@ const NewCarsModule = ({
                 <Title order={2}>
                   Popular New{" "}
                   <Text span c="#E90808" inherit>
-                    {params.params.newcarslug[0]}
+                    {type}
                   </Text>
                 </Title>
               </Box>
@@ -227,7 +262,7 @@ const NewCarsModule = ({
                 <Title order={2}>
                   Newly Launched{" "}
                   <Text span c="#E90808" inherit>
-                    {params.params.newcarslug[0]}
+                    {type}
                   </Text>
                 </Title>
               </Box>
@@ -248,7 +283,7 @@ const NewCarsModule = ({
                 <Title order={2}>
                   Upcoming{" "}
                   <Text span c="#E90808" inherit>
-                    {params.params.newcarslug[0]}
+                    {type}
                   </Text>
                 </Title>
               </Box>
@@ -267,8 +302,8 @@ const NewCarsModule = ({
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  {company_1[params.params.newcarslug[0]]} New{" "}
-                  {params.params.newcarslug[0]}{" "}
+                  {company_1[type]} New{" "}
+                  {type}{" "}
                   <Text span c="#E90808" inherit>
                     Models
                   </Text>
@@ -289,8 +324,8 @@ const NewCarsModule = ({
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  {company_2[params.params.newcarslug[0]]} New{" "}
-                  {params.params.newcarslug[0]}{" "}
+                  {company_2[type]} New{" "}
+                  {type}{" "}
                   <Text span c="#E90808" inherit>
                     Models
                   </Text>
