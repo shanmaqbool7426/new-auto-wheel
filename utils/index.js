@@ -260,25 +260,17 @@ export function capitalize(string) {
 }
 
 
-export const getLocalStorage = async (key) => {
-  try {
-    // Check if window is defined (client-side)
-    if (typeof window !== 'undefined') {
-      // Wrap localStorage access in a Promise
-      const item = await Promise.resolve(localStorage.getItem(key));
-      
-      // If item exists, parse it
-      if (item) {
-        const parsedItem = await Promise.resolve(JSON.parse(item));
-        return parsedItem;
-      }
+export const getLocalStorage = (key) => {
+  if (typeof window !== 'undefined') {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : null;
+    } catch (error) {
+      console.error(`Error reading ${key} from localStorage:`, error);
       return null;
     }
-    return null;
-  } catch (error) {
-    console.error(`Error reading ${key} from localStorage:`, error);
-    return null;
   }
+  return null;
 };
 
 export const setLocalStorage = (key, value) => {

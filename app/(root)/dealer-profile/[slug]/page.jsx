@@ -171,7 +171,7 @@ const DealerRating = () => {
       fetchProfile();
       fetchProfileAndStatus();
     }
-  }, [slug,token]);
+  }, [slug]);
 
 
   useEffect(() => {
