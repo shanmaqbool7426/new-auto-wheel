@@ -15,7 +15,7 @@ export const fetchAPI = async (url, options = {}) => {
     };
 
     // Perform the fetch request with the updated options
-    const response = await fetch(url, fetchOptions);
+    const response = await fetch(url);
 
     // Check if the response is ok (status in the range 200-299)
     if (!response.ok) {
