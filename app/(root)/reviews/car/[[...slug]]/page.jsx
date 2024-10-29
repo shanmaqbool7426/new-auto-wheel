@@ -95,6 +95,7 @@ const CarReviews = async ({ params }) => {
           model={model}
           fetchMakesByTypeData={fetchMakesByTypeData}
           variants={variants}
+          type={"car"}
         />
       ) : (
         <CarReviewsModule

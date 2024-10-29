@@ -93,6 +93,7 @@ const BikeReviews = async ({ params }) => {
           model={model}
           fetchMakesByTypeData={fetchMakesByTypeData}
           variants={variants}
+          type={"bike"}
         />
       ) : (
         <BikeReviewsModule

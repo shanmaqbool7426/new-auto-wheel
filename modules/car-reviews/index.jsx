@@ -300,7 +300,7 @@ const CarReviewsModule = ({
         opened={isModalOpen}
         close={closeModal}
         fetchMakesByTypeData={fetchMakesByTypeData}
-        fetchReviews={[]}
+        fetchReviews={()=>{}}
       />
       <CustomModel
         isOpen={isModalOpenCommon}
