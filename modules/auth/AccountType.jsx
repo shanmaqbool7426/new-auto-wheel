@@ -34,16 +34,19 @@ const AccountTypeModal = ({ opened, onClose }) => {
         onClose={onClose}
         withCloseButton={false}
         centered
-        size="xl"
+        size="lg"
         padding="xl"
+        // className="select-auth-modal"
       >
-        <Title order={3} fw={600} tt="uppercase" ta="center" pb="lg">
-          Choose Account Type
-        </Title>
-        <Grid>
-          <Grid.Col span={6}>
+        <Box className="row" py="xl" px="xl">
+          <Box className="col-lg-12">
+            <Title order={3} fw={700} ta="left" pb="lg">
+              Choose Account Type!
+            </Title>
+          </Box>
+          <Box className="col-lg-6">
             <Paper
-              p="lg"
+              p="md"
               radius="md"
               // className={`account-type-box ${
               //   activeType === "personal" ? "active" : ""
@@ -51,7 +54,7 @@ const AccountTypeModal = ({ opened, onClose }) => {
               className="account-type-box"
               onClick={() => handleAccountTypeClick("personal")}
             >
-              <Flex align="flex-start" gap="md">
+              <Flex align="center" gap="md">
                 <NextImage
                   src={personal}
                   alt="Personal Account"
@@ -64,21 +67,20 @@ const AccountTypeModal = ({ opened, onClose }) => {
                     Personal Account
                   </Title>
                   <Text size="sm" mt="3">
-                    If you work individual or Want to Browse Listings
+                    If you work individual or Want to Browse <br /> Listings
                   </Text>
                 </Box>
               </Flex>
             </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={6}>
+          </Box>
+          <Box className="col-lg-6">
             <Paper
               onClick={() => handleAccountTypeClick("dealer")}
               className="account-type-box"
-              p="lg"
+              p="md"
               radius="md"
             >
-              <Flex align="flex-start" gap="md">
+              <Flex align="center" gap="md">
                 <NextImage
                   src={dealer_icon}
                   alt="Personal Account"
@@ -96,8 +98,8 @@ const AccountTypeModal = ({ opened, onClose }) => {
                 </Box>
               </Flex>
             </Paper>
-          </Grid.Col>
-        </Grid>
+          </Box>
+        </Box>
       </Modal>
 
       <SocialsLogin

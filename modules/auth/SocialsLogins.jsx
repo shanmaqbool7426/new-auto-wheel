@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Modal, Stack, Text, Title, Box, Group } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  Stack,
+  Text,
+  Title,
+  Box,
+  Group,
+  rem,
+} from "@mantine/core";
 import Image from "next/image";
 import google_icon from "../../public/auth/google_icon.svg";
 import car from "../../public/auth/car.svg";
@@ -14,8 +23,6 @@ import { signIn } from "next-auth/react";
 
 // import { signIn } from 'next-auth/react';
 
-
-
 import classes from "@/styles/Demo.module.scss";
 const SocialsLogin = ({ socialOpened, socialOnClose }) => {
   const [modalOpened, setModalOpened] = useState(false);
@@ -26,7 +33,7 @@ const SocialsLogin = ({ socialOpened, socialOnClose }) => {
         opened={socialOpened}
         onClose={socialOnClose}
         centered
-        size="md"
+        size={rem(527)}
         padding="xl"
         withCloseButton={false}
       >
@@ -56,7 +63,7 @@ const SocialsLogin = ({ socialOpened, socialOnClose }) => {
             </Stack>
           </Carousel.Slide>
         </Carousel>
-        <Stack w="80%" mx="auto" align="stretch" justify="center" gap="xs">
+        <Stack w="80%" mx="auto" align="stretch" justify="center" gap="md">
           <Button
             variant="default"
             size="lg"
