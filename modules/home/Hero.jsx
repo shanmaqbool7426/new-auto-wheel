@@ -67,7 +67,7 @@ const Hero = () => {
           <Box className="container-xl" pos="absolute" inset={0} py={rem(50)}>
             <Box className="row">
               <Box className="col-lg-4 col-sm-6">
-                <Card shadow="xl" padding={0} radius="md">
+                <Card shadow="xl" padding={0} radius="md" w={rem(360)}>
                   <Box p="md" px="lg" ta="left" className="border-bottom">
                     <Title order={4}>
                       Find your right{" "}
