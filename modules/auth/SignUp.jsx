@@ -12,6 +12,7 @@ import {
   CloseButton,
   Group,
   Alert,
+  rem,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
@@ -38,7 +39,6 @@ function SignUp({ signUpOpened, signUpOnClose }) {
       agreeToTerms: false, // Add agree to terms in initialValues
     },
     validate: validateSignUpForm,
-
   });
 
   const {
@@ -47,7 +47,6 @@ function SignUp({ signUpOpened, signUpOnClose }) {
     handleSubmit,
     data = {},
   } = useFormSubmission(API_ENDPOINTS.AUTH.SIGNUP, form.values, form.validate);
-
 
   const handleClose = () => {
     // form.reset(); // Reset form fields when modal closes
@@ -68,11 +67,10 @@ function SignUp({ signUpOpened, signUpOnClose }) {
       setAgreeError(true); // Set error if checkbox is not checked
       return;
     }
-    
+
     setAgreeError(false); // Reset the error if checkbox is checked
     handleSubmit(event); // Proceed with form submission
   };
-
 
   return (
     <>
@@ -80,15 +78,13 @@ function SignUp({ signUpOpened, signUpOnClose }) {
         opened={signUpOpened}
         onClose={handleClose} // Use modified handleClose function
         withCloseButton={false}
-        padding="xl"
-        size="lg"
+        padding={rem(50)}
+        size={rem(527)}
+        centered
       >
         <form onSubmit={handleFormSubmit}>
           <Group justify="space-between" align="center" mb="md">
-            <Title order={4} tt="uppercase">
-              Let’s get you started!
-            </Title>
-            <CloseButton onClick={handleClose} ml="auto" />
+            <Title order={4}>Let’s get you started!</Title>
           </Group>
           <TextInput
             withAsterisk
@@ -136,8 +132,12 @@ function SignUp({ signUpOpened, signUpOnClose }) {
             size="sm"
             label={
               <>
-                I agree with <b>Privacy Policy</b> and <b>Terms</b> and
-                Conditions.
+                I agree with{" "}
+                <strong className="text-decoration-underline">
+                  Privacy Policy
+                </strong>{" "}
+                and <strong className="text-decoration-underline">Terms</strong>{" "}
+                and Conditions.
               </>
             }
             checked={form.values.agreeToTerms}
@@ -145,8 +145,8 @@ function SignUp({ signUpOpened, signUpOnClose }) {
             onChange={(e) => {
               form.setFieldValue("agreeToTerms", e.currentTarget.checked);
               if (e.currentTarget.checked) {
-                setAgreeError(false)
-              };
+                setAgreeError(false);
+              }
             }}
           />
           {agreeError && (
@@ -196,10 +196,13 @@ function SignUp({ signUpOpened, signUpOnClose }) {
         signOpen={modalOpened}
         signInClose={() => setModalOpened(false)}
       />
-      <Otp otpOpen={modalOpenedOtp} otpClose={() => setModalOpenedOtp(false)} email={form.values?.email}/>
+      <Otp
+        otpOpen={modalOpenedOtp}
+        otpClose={() => setModalOpenedOtp(false)}
+        email={form.values?.email}
+      />
     </>
   );
 }
-
 
 export default SignUp;
