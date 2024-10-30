@@ -173,9 +173,11 @@ const DealerRating = () => {
     }
   }, [slug]);
 
-
+console.log('>>>>>>> id',token?.token?.user?._id)
   useEffect(() => {
     if (profile) {
+
+      console.log('>>>>>>> isFollowing',profile,profile.followers.includes(token?.token?.user?._id))
       setIsFollowing(profile.followers.includes(token?.token?.user?._id)); // Assuming you have access to the current user's ID
       // console.log('token.token.userId',token.token.user?_id)
     }
