@@ -7,11 +7,16 @@ import {
   PasswordInput,
   Text,
   Title,
+  Group,
+  rem,
 } from "@mantine/core";
 import classes from "@/styles/Demo.module.scss";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
-import { signIn } from 'next-auth/react';
+import { signIn } from "next-auth/react";
+import { BsCaretLeft, BsChevronLeft } from "react-icons/bs";
+import { IconChevronCompactLeft } from "@tabler/icons-react";
+import { FaChevronLeft } from "react-icons/fa6";
 
 function SignIn({ signOpen, signInClose }) {
   // Initialize form with validation rules
@@ -35,16 +40,16 @@ function SignIn({ signOpen, signInClose }) {
     form.validate
   );
 
-  const handleSubmitSignIn =async()=>{
-    const result = await signIn('credentials', {
-      redirect: false,  
+  const handleSubmitSignIn = async () => {
+    const result = await signIn("credentials", {
+      redirect: false,
       password: form.values.password,
       email: form.values.email,
-      type:"signIn",
-      action: 'Credentials', 
+      type: "signIn",
+      action: "Credentials",
     });
-    result.ok && signInClose()
-  }
+    result.ok && signInClose();
+  };
 
   return (
     <>
@@ -52,14 +57,17 @@ function SignIn({ signOpen, signInClose }) {
         opened={signOpen}
         onClose={signInClose}
         withCloseButton={false}
-        padding="xl"
+        padding={rem(50)}
+        size={rem(527)}
+        centered
       >
-        <Title order={4} tt="uppercase">
-          Let’s get you started!
-        </Title>
+        <Group mb="lg">
+          <FaChevronLeft />
+          <Title order={4}>Let’s get you started!</Title>
+        </Group>
 
         {/* Form Starts */}
-        <form >
+        <form>
           <TextInput
             label="Email"
             placeholder="Enter email"
@@ -68,18 +76,21 @@ function SignIn({ signOpen, signInClose }) {
             {...form.getInputProps("email")}
             error={form.errors.email} // Display email error if validation fails
           />
-
           <PasswordInput
             label="Password"
             placeholder="Enter password"
             {...form.getInputProps("password")}
             error={form.errors.password} // Display password error if validation fails
           />
-
-          <Text ta="right" c="dimmed" size="sm" mt="xs" className="cursor">
+          <Text
+            ta="right"
+            c="dimmed"
+            size="sm"
+            mt="xs"
+            className="cursor text-primary"
+          >
             Forgot Password?
           </Text>
-
           <Button
             tt="uppercase"
             fw={600}
@@ -88,15 +99,15 @@ function SignIn({ signOpen, signInClose }) {
             color="#E90808"
             autoContrast
             my="md"
+            mt="xl"
             ff="heading"
             loading={isLoading} // Disable button while loading
             onClick={handleSubmitSignIn}
           >
             Sign In
           </Button>
-
-          {error && <Text color="red">{error.message}</Text>} {/* Display API error */}
-
+          {error && <Text color="red">{error.message}</Text>}{" "}
+          {/* Display API error */}
           <Text ta="center">
             Don't have an account?{" "}
             <Text span inherit className="text-primary" fw={600}>

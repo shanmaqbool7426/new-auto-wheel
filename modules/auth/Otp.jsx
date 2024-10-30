@@ -1,20 +1,30 @@
-import { Modal, Button, Group, Text, PinInput, Center } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import {
+  Modal,
+  Button,
+  Group,
+  Text,
+  PinInput,
+  Center,
+  Title,
+  rem,
+  Box,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
 
-import { useEffect, useState } from 'react';
-import { useFormSubmission } from '@/custom-hooks/useForm';
-import { API_ENDPOINTS } from '@/constants/api-endpoints';
-import classes from '@/styles/Demo.module.scss';
-import { signIn } from 'next-auth/react';
+import { useEffect, useState } from "react";
+import { useFormSubmission } from "@/custom-hooks/useForm";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import classes from "@/styles/Demo.module.scss";
+import { signIn } from "next-auth/react";
 
 function Otp({ otpOpen = false, otpClose = () => {}, email }) {
   const form = useForm({
     initialValues: {
-      otp: '',
-      email: email
+      otp: "",
+      email: email,
     },
     validate: {
-      otp: (value) => (value.length === 4 ? null : 'OTP must be 4 digits'),
+      otp: (value) => (value.length === 4 ? null : "OTP must be 4 digits"),
     },
   });
 
@@ -24,25 +34,22 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
     form.validate
   );
 
-
-  const handleSubmitOtp =async()=>{
-    const result = await signIn('credentials', {
-      redirect: false,  
+  const handleSubmitOtp = async () => {
+    const result = await signIn("credentials", {
+      redirect: false,
       otp: form.values.otp,
       email: form.values.email,
-      type:"otp",
-      action: 'Credentials', 
+      type: "otp",
+      action: "Credentials",
     });
-    result.ok &&  otpClose()
-  }
+    result.ok && otpClose();
+  };
   useEffect(() => {
-    form.setFieldValue('email', email); // This ensures that the form state is always up to date with the latest email value
+    form.setFieldValue("email", email); // This ensures that the form state is always up to date with the latest email value
   }, [email]);
 
   useEffect(() => {
-  
     if (data && data.success) {
-    
       // notifications.show({
       //   message: data.message,
       //   position:"top-right",
@@ -56,30 +63,47 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
     }
   }, [data]);
   return (
-    <Modal opened={otpOpen} onClose={otpClose} title="">
-      <div className="otp-model-main">
-        <Text fw={700} size="lg" ta="center">
-          Enter Code!
-        </Text>
-        <Text ta="center" mt="xs" mb="lg">
-          Enter the code you’ve received on your email account to verify your account.
-        </Text>
-        <Center maw={400} h={100}>
-          <PinInput
-            {...form.getInputProps('otp')}
-            length={4}
-            size="lg"
-            placeholder=''
-            error={form.errors.otp}
-          />
-        </Center>
-        {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
-        <Group justify="flex-end" mt="md" className="mx-5 my-5">
-          <Button variant="primary" type="submit" fullWidth disabled={isLoading} onClick={handleSubmitOtp}>
-            {isLoading ? 'Loading...' : 'Submit'}
-          </Button>
-        </Group>
-      </div>
+    <Modal
+      opened={otpOpen}
+      onClose={otpClose}
+      withCloseButton={false}
+      padding={rem(50)}
+      centered
+      size={rem(527)}
+    >
+      <Title order={4}> Enter Code!</Title>
+      <Text mt="xs" mb="lg">
+        Enter the code you’ve received on your email account to verify your
+        account.
+      </Text>
+      <Center maw={400} h={100}>
+        <PinInput
+          {...form.getInputProps("otp")}
+          length={4}
+          size="lg"
+          placeholder=""
+          error={form.errors.otp}
+        />
+      </Center>
+      {error && (
+        <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+      )}
+      <Box px={rem(50)}>
+        <Button
+          type="submit"
+          ff="heading"
+          fullWidth
+          fw={500}
+          size="md"
+          mt="xl"
+          mb="md"
+          color="#E90808"
+          disabled={isLoading}
+          onClick={handleSubmitOtp}
+        >
+          {isLoading ? "Loading..." : "Continue"}
+        </Button>
+      </Box>
     </Modal>
   );
 }
