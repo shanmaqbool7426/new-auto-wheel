@@ -1,0 +1,37 @@
+.typeItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  color: #333;
+  border: none;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 20px;
+  background-color: transparent;
+  position: relative;
+}
+
+.typeItem::before {
+  content: '';
+  height: 0;
+  width: 0;
+  border-top: 10px solid transparent;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.active {
+  background-color: #E90808;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.active::before {
+  border-top-color: #E90808;
+}

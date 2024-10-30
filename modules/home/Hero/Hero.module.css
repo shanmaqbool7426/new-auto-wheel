@@ -1,0 +1,19 @@
+.card {
+  max-width: 330px;
+}
+
+.cardHeader {
+  padding: 24px 24px 10px;
+}
+
+.cardTitle {
+  font-size: 24px;
+  line-height: 1.333333;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #333333;
+}
+
+.cardBody {
+  padding: 10px 16px 24px;
+}
