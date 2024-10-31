@@ -13,9 +13,14 @@ import {
   rem,
   Divider,
   Progress,
+  ActionIcon,
 } from "@mantine/core";
 import { getTimeAgo } from "@/utils";
 import Link from "next/link";
+import { FaStar } from "react-icons/fa";
+import { IconStar } from "@tabler/icons-react";
+import { Carousel } from "@mantine/carousel";
+import classes from "./Card.module.css";
 
 const CarCard = ({ vehicle, index }) => {
   return (
@@ -33,7 +38,45 @@ const CarCard = ({ vehicle, index }) => {
                 {vehicle?.images?.length}
               </Text>
             </Group>
-            <Image
+            <Carousel classNames={classes}>
+              <Carousel.Slide>
+                <Image
+                  mah={200}
+                  mih={200}
+                  fit="cover"
+                  src={
+                    vehicle?.defaultImage
+                      ? vehicle?.defaultImage
+                      : "/products/product-placeholder.png"
+                  }
+                />
+              </Carousel.Slide>
+              <Carousel.Slide>
+                <Image
+                  mah={200}
+                  mih={200}
+                  fit="cover"
+                  src={
+                    vehicle?.defaultImage
+                      ? vehicle?.defaultImage
+                      : "/products/product-placeholder.png"
+                  }
+                />
+              </Carousel.Slide>
+              <Carousel.Slide>
+                <Image
+                  mah={200}
+                  mih={200}
+                  fit="cover"
+                  src={
+                    vehicle?.defaultImage
+                      ? vehicle?.defaultImage
+                      : "/products/product-placeholder.png"
+                  }
+                />
+              </Carousel.Slide>
+            </Carousel>
+            {/* <Image
               mah={200}
               mih={200}
               fit="cover"
@@ -42,7 +85,16 @@ const CarCard = ({ vehicle, index }) => {
                   ? vehicle?.defaultImage
                   : "/products/product-placeholder.png"
               }
-            />
+            /> */}
+            <ActionIcon
+              variant="transparent"
+              c="white"
+              pos="absolute"
+              bottom={15}
+              left={10}
+            >
+              <IconStar width={20} height={20} />
+            </ActionIcon>
             <Group grow gap={2} my={2}>
               <Progress size="xs" value={100} color="#E90808" />
               <Progress size="xs" color="#E90808" />
@@ -105,55 +157,6 @@ const CarCard = ({ vehicle, index }) => {
           </Card.Section>
         </Card>
       </Link>
-      {/* <Box className="card product-card">
-        <img
-          src={
-            vehicle?.defaultImage
-              ? vehicle?.defaultImage
-              : "/products/product-placeholder.png"
-          }
-          alt="..."
-          style={{ objectFit: "cover", maxHeight: "160px", minHeight: "160px" }}
-        />
-        <div className="progress-bars">
-          <span className="single-bar active"></span>
-          <span className="single-bar"></span>
-          <span className="single-bar"></span>
-        </div>
-        <div className="card-body">
-          <div className="product-content">
-            <Link
-              href={`/detail/${vehicle?.slug}`}
-              className="d-inline-block w-50 lc-2 product-title"
-            >
-              {`${vehicle?.year}  ${vehicle?.make} ${vehicle?.model}`}
-            </Link>
-            <div className="product-price">Rs {vehicle?.price}</div>
-          </div>
-          <div className="product-meta">
-            <div className="meta-info d-flex justify-content-between align-items-center">
-              <span className="text-muted d-flex align-items-center gap-1">
-                <FaCalendarDays /> {vehicle?.year}
-              </span>
-              <span className="text-muted d-flex align-items-center gap-1">
-                <GearsHandle /> {vehicle?.specifications?.transmission}
-              </span>
-              <span className="text-muted d-flex align-items-center gap-1">
-                <FaLocationDot /> {vehicle?.city}
-              </span>
-            </div>
-            <div className="stock-info d-flex justify-content-between align-items-center mt-2">
-              <span>
-                <span className="text-muted">stock#</span>{" "}
-                {vehicle?.specifications?.stockId}
-              </span>
-              <span className="text-muted">
-                <FaClock /> (Updated 1 month ago)
-              </span>
-            </div>
-          </div>
-        </div>
-      </Box> */}
     </>
   );
 };
