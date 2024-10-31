@@ -17,6 +17,9 @@ import {
   rem,
   Grid,
   Tabs,
+  Popover,
+  NumberInput,
+  RangeSlider,
 } from "@mantine/core";
 import {
   CarComparisonSmall,
@@ -28,7 +31,7 @@ import { IconSearch } from "@tabler/icons-react";
 import CustomModel from "@/constants/CustomModel";
 import { useRouter } from "next/navigation";
 
-const SearchBar = ({ fetchMakesByTypeData,type }) => {
+const SearchBar = ({ fetchMakesByTypeData, type }) => {
   const router = useRouter(); // Use the useRouter hook to handle URL updates
   const [filters, setFilters] = useState({
     query: "",
@@ -49,12 +52,12 @@ const SearchBar = ({ fetchMakesByTypeData,type }) => {
   const debounceTimeoutRef = useRef(null);
 
   const rangeData = [
-      { value: "0-500000", label: "0-5 lac" },
-      { value: "500000-1000000", label: "5-10 lac" },
-      { value: "1000000-1500000", label: "10-15 lac" },
-      { value: "1500000-2000000", label: "15-20 lac" },
-      { value: "2000000-2500000", label: "20-25 lac" },
-      { value: "2500000-2000000000", label: "25 lac and above" }  
+    { value: "0-500000", label: "0-5 lac" },
+    { value: "500000-1000000", label: "5-10 lac" },
+    { value: "1000000-1500000", label: "10-15 lac" },
+    { value: "1500000-2000000", label: "15-20 lac" },
+    { value: "2000000-2500000", label: "20-25 lac" },
+    { value: "2500000-2000000000", label: "25 lac and above" },
   ];
 
   const handleFilterChange = (filterName, value) => {
@@ -68,25 +71,24 @@ const SearchBar = ({ fetchMakesByTypeData,type }) => {
     const query = {
       pr: `${newFilters.price[0]}_${newFilters.price[1]}`, // Always include price range
     };
-  
+
     if (selection.make) {
       query.mk = selection.make?.toLowerCase();
     }
-  
+
     // Only add 'md' if both 'make' and 'model' are selected
     if (selection.make && selection.model) {
       query.md = selection.model?.toLowerCase();
     }
-  
+
     // Build the query string
     const queryString = Object.keys(query)
       .map((key) => `${key}_${query[key]}`)
       .join("/");
-  
+
     // Push to router
     router.push(`/new/${type}/search/-/${queryString}`);
   };
-  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -124,25 +126,59 @@ const SearchBar = ({ fetchMakesByTypeData,type }) => {
                 onChange={(value) => handleFilterChange("make", value)}
               />
             </div> */}
-            <div className="col-md-3">
-              <Select
-                size="md"
-                radius="sm"
-                placeholder="Choose Price Range"
-                data={rangeData}
-                comboboxProps={{ shadow: "lg" }}
-                onChange={(value) =>
-                  handleFilterChange("price", value.split("-").map(Number))
-                }
-              />
+            <div className="col-md-4">
+              <Popover width="target" position="bottom" withArrow shadow="xl">
+                <Popover.Target>
+                  <Input
+                    size="md"
+                    component="button"
+                    radius="sm"
+                    placeholder="Choose Price Range"
+                    data={rangeData}
+                    comboboxProps={{ shadow: "xl" }}
+                    onChange={(value) =>
+                      handleFilterChange("price", value.split("-").map(Number))
+                    }
+                  >
+                    RS 0 - 10 lac
+                  </Input>
+                </Popover.Target>
+                <Popover.Dropdown p="lg">
+                  <Box className="row">
+                    <Box className="col-md-6">
+                      <Input size="md" radius="sm" placeholder="Min" />
+                      <Input.Label c="muted">Rs 0</Input.Label>
+                    </Box>
+                    <Box className="col-md-6 text-end">
+                      <Input size="md" radius="sm" placeholder="Max" /> 
+                      <Input.Label c="muted">Rs 10 lac</Input.Label>
+                    </Box>
+                    <Box className="col-md-12 mt-3">
+                      <RangeSlider
+                        color="#E90808"
+                        min={0}
+                        max={2000000}
+                        size="xs"
+                        thumbSize={16}
+                        styles={{
+                          thumb: {
+                            borderWidth: rem(2),
+                            padding: rem(2),
+                          },
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                </Popover.Dropdown>
+              </Popover>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-2">
               <Button
                 fullWidth
                 size="md"
                 radius="sm"
+                fw={500}
                 bg="#E90808"
-              
                 leftSection={<IconSearch size={16} />}
                 onClick={handleSearch} // Call handleSearch on button click
               >
