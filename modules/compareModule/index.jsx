@@ -897,6 +897,7 @@ import {
   Paper,
   Select,
   Pagination,
+  rem,
 } from "@mantine/core";
 import QuickLinks from "@/components/QuickLinks";
 import { formatDate } from "@/utils";
@@ -927,8 +928,10 @@ const CompareModule = ({
 
     // Stable sort with selected criteria
     return filtered.slice().sort((a, b) => {
-      if (sortBy === "Highest Rated") return (b.overAllRating || 0) - (a.overAllRating || 0);
-      if (sortBy === "Lowest Rated") return (a.overAllRating || 0) - (b.overAllRating || 0);
+      if (sortBy === "Highest Rated")
+        return (b.overAllRating || 0) - (a.overAllRating || 0);
+      if (sortBy === "Lowest Rated")
+        return (a.overAllRating || 0) - (b.overAllRating || 0);
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   }, [selectedVariant, sortBy, reviewsVehicles]);
@@ -956,17 +959,29 @@ const CompareModule = ({
 
   return (
     <Box component="section" className="car-specification">
-      <Box className="background-search-verlay" mb={{ base: 380, sm: 320, md: 200 }} mt={60}>
+      <Box
+        className="background-search-verlay"
+        mb={{ base: 380, sm: 320, md: 200 }}
+        mt={60}
+      >
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
               <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="/" component={Link}>Home</Anchor>
+                    <Anchor href="/" component={Link}>
+                      Home
+                    </Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href={`/reviews/${type}`} component={Link} tt="capitalize">{type} Reviews</Anchor>
+                    <Anchor
+                      href={`/reviews/${type}`}
+                      component={Link}
+                      tt="capitalize"
+                    >
+                      {type} Reviews
+                    </Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     <Anchor href="#" tt="capitalize">
@@ -979,62 +994,142 @@ const CompareModule = ({
             {/* OverAll Review */}
             <Box className="col-md-12">
               <Box className="search-wrapper-card">
-                <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
+                <Card
+                  shadow="0px 4px 20px 0px #00000014"
+                  padding="lg"
+                  radius="sm"
+                >
                   <Title order={3} mb="md" tt="capitalize">
                     {make} {model} Reviews
                   </Title>
-                  <Box className="row mb-2">
-                    <Box className="col-lg-3 col-sm-6 col-6">
-                      <Card shadow="none" h="100%" withBorder py="lg">
-                        <Flex direction="column" gap="xs" h="100%" justify="center" align="center">
-                          <Image
-                            src={reviewsVehicles?.data?.[0]?.vehicleId?.defaultImage ||'/placeholder.png'}
-                            alt={`${make} Logo`}
-                            h={200}
-                            w={200}
-                          />
-                          <Link href={`/listing/${type}s/mk_${make}`}>
-                            <Button variant="outline" color="#E90808" mt="sm" tt="capitalize">
-                              Used {make} {`${type}s`}
-                            </Button>
-                          </Link>
-                        </Flex>
-                      </Card>
-                    </Box>
-                    <Box className="col-lg-2 col-sm-6 col-6 text-center">
-                      <Flex py={{ base: 20, sm: 0 }} direction="column" h="100%" align="center" justify="center">
-                        <Box mb="sm">
-                          <Text fw="bold" size="lg" className="text-primary" tt="capitalize">
-                            {make} {model}
-                          </Text>
-                          <Text>Overall Ratings</Text>
+                  <Box className="row">
+                    <Box className="col-lg-5">
+                      <Box className="row justify-content-between">
+                        <Box className="col">
+                          <Card shadow="none" h="100%" withBorder py="lg">
+                            <Flex
+                              direction="column"
+                              gap="xs"
+                              h="100%"
+                              justify="center"
+                              align="center"
+                            >
+                              <Image
+                                src={
+                                  reviewsVehicles?.data?.[0]?.vehicleId
+                                    ?.defaultImage || "/placeholder.png"
+                                }
+                                alt={`${make} Logo`}
+                                h={200}
+                                w={200}
+                              />
+                              <Link href={`/listing/${type}s/mk_${make}`}>
+                                <Button
+                                  variant="outline"
+                                  color="#E90808"
+                                  mt="sm"
+                                  tt="capitalize"
+                                >
+                                  Used {make} {`${type}s`}
+                                </Button>
+                              </Link>
+                            </Flex>
+                          </Card>
                         </Box>
-                        <Box mb="sm">
-                          <Flex justify="center" align="center" mb="sm">
-                            <Rating value={reviewsVehiclesOverAll?.data?.overallAverage || 0} readOnly />
-                            <Text>({reviewsVehiclesOverAll?.data?.overallAverage?.toFixed(1) || 0}/5)</Text>
+                        <Box className="col text-center">
+                          <Flex
+                            py={{ base: 20, sm: 0 }}
+                            direction="column"
+                            h="100%"
+                            align="center"
+                            justify="center"
+                          >
+                            <Box mb="sm">
+                              <Text
+                                fw="bold"
+                                size="lg"
+                                className="text-primary"
+                                tt="capitalize"
+                              >
+                                {make} {model}
+                              </Text>
+                              <Text>Overall Ratings</Text>
+                            </Box>
+                            <Box mb="sm">
+                              <Flex justify="center" align="center" mb="sm">
+                                <Rating
+                                  value={
+                                    reviewsVehiclesOverAll?.data
+                                      ?.overallAverage || 0
+                                  }
+                                  readOnly
+                                />
+                                <Text>
+                                  (
+                                  {reviewsVehiclesOverAll?.data?.overallAverage?.toFixed(
+                                    1
+                                  ) || 0}
+                                  /5)
+                                </Text>
+                              </Flex>
+                              <Text>
+                                No of reviews (
+                                {reviewsVehiclesOverAll?.data?.totalReviews ||
+                                  0}
+                                )
+                              </Text>
+                            </Box>
                           </Flex>
-                          <Text>No of reviews ({reviewsVehiclesOverAll?.data?.totalReviews || 0})</Text>
                         </Box>
-                      </Flex>
+                      </Box>
                     </Box>
-                    <Box className="col-lg-3 col-sm-6" mt="xl">
-                      <Table withRowBorders={false} verticalSpacing="md" horizontalSpacing="0">
-                        <Table.Tbody>
-                          {renderRatingRow("Mileage", reviewsVehiclesOverAll?.data?.mileage)}
-                          {renderRatingRow("Maintenance Cost", reviewsVehiclesOverAll?.data?.maintenance)}
-                          {renderRatingRow("Safety", reviewsVehiclesOverAll?.data?.safety)}
-                        </Table.Tbody>
-                      </Table>
-                    </Box>
-                    <Box className="col-lg-3 col-sm-6" mt="xl">
-                      <Table withRowBorders={false} verticalSpacing="md" horizontalSpacing="0">
-                        <Table.Tbody>
-                          {renderRatingRow("Features and Styling", reviewsVehiclesOverAll?.data?.features)}
-                          {renderRatingRow("Comfort", reviewsVehiclesOverAll?.data?.comfort)}
-                          {renderRatingRow("Performance", reviewsVehiclesOverAll?.data?.performance)}
-                        </Table.Tbody>
-                      </Table>
+                    <Box className="col-lg-7">
+                      <Box className="row">
+                        <Box className="col" mt="xl">
+                          <Table
+                            withRowBorders={false}
+                            verticalSpacing="xs"
+                            horizontalSpacing="xs"
+                          >
+                            <Table.Tbody>
+                              {renderRatingRow(
+                                "Mileage",
+                                reviewsVehiclesOverAll?.data?.mileage
+                              )}
+                              {renderRatingRow(
+                                "Maintenance Cost",
+                                reviewsVehiclesOverAll?.data?.maintenance
+                              )}
+                              {renderRatingRow(
+                                "Safety",
+                                reviewsVehiclesOverAll?.data?.safety
+                              )}
+                            </Table.Tbody>
+                          </Table>
+                        </Box>
+                        <Box className="col" mt="xl">
+                          <Table
+                            withRowBorders={false}
+                            verticalSpacing="xs"
+                            horizontalSpacing="xs"
+                          >
+                            <Table.Tbody>
+                              {renderRatingRow(
+                                "Features and Styling",
+                                reviewsVehiclesOverAll?.data?.features
+                              )}
+                              {renderRatingRow(
+                                "Comfort",
+                                reviewsVehiclesOverAll?.data?.comfort
+                              )}
+                              {renderRatingRow(
+                                "Performance",
+                                reviewsVehiclesOverAll?.data?.performance
+                              )}
+                            </Table.Tbody>
+                          </Table>
+                        </Box>
+                      </Box>
                     </Box>
                   </Box>
                 </Card>
@@ -1048,8 +1143,11 @@ const CompareModule = ({
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12" my="xl">
-              <Title order={2} tt="capitalize">
-                Recent {make} {model} {type} <Text span inherit className="text-primary">Reviews</Text>
+              <Title tt="capitalize" size={rem("26px")}>
+                Recent {make} {model} {type}{" "}
+                <Text span inherit className="text-primary">
+                  Reviews
+                </Text>
               </Title>
             </Box>
             <Box className="col-md-12">
@@ -1058,12 +1156,30 @@ const CompareModule = ({
                   <Box className="row align-items-center">
                     <Box className="col-md-2 text-center text-md-start order-3 order-md-1">
                       <Text p={{ base: "sm", md: 0 }}>
-                        <strong>{(currentPage - 1) * ITEMS_PER_PAGE + 1}</strong> - <strong>{Math.min(currentPage * ITEMS_PER_PAGE, filteredReviews.length)}</strong> of <strong>{filteredReviews.length}</strong> Results
+                        <strong>
+                          {(currentPage - 1) * ITEMS_PER_PAGE + 1}
+                        </strong>{" "}
+                        -{" "}
+                        <strong>
+                          {Math.min(
+                            currentPage * ITEMS_PER_PAGE,
+                            filteredReviews.length
+                          )}
+                        </strong>{" "}
+                        of <strong>{filteredReviews.length}</strong> Results
                       </Text>
                     </Box>
                     <Box className="col-md-6 col-sm-6 order-1 order-md-2">
-                      <Flex align="center" gap={{ base: "md", md: "xl" }} justify="stretch">
-                        <Box component="label" fw={500} style={{ flex: "0 0 auto" }}>
+                      <Flex
+                        align="center"
+                        gap={{ base: "md", md: "xl" }}
+                        justify="stretch"
+                      >
+                        <Box
+                          component="label"
+                          fw={500}
+                          style={{ flex: "0 0 auto" }}
+                        >
                           Select Variant :
                         </Box>
                         <Select
@@ -1074,12 +1190,21 @@ const CompareModule = ({
                           data={["All Versions", ...variants]}
                           value={selectedVariant}
                           onChange={setSelectedVariant}
+                          comboboxProps={{ shadow: "xl" }}
                         />
                       </Flex>
                     </Box>
                     <Box className="col-md-4 col-sm-6 order-2 order-md-3">
-                      <Flex align="center" gap={{ base: "md", md: "xl" }} justify="stretch">
-                        <Box component="label" fw={500} style={{ flex: "0 0 auto" }}>
+                      <Flex
+                        align="center"
+                        gap={{ base: "md", md: "xl" }}
+                        justify="stretch"
+                      >
+                        <Box
+                          component="label"
+                          fw={500}
+                          style={{ flex: "0 0 auto" }}
+                        >
                           Sort By :
                         </Box>
                         <Select
@@ -1090,13 +1215,14 @@ const CompareModule = ({
                           data={["Latest", "Highest Rated", "Lowest Rated"]}
                           value={sortBy}
                           onChange={setSortBy}
+                          comboboxProps={{ shadow: "xl" }}
                         />
                       </Flex>
                     </Box>
                   </Box>
                 </Box>
-                {paginatedReviews?.length===0&&                
-                <Card
+                {paginatedReviews?.length === 0 && (
+                  <Card
                     py="xl"
                     px={0}
                     mx="xl"
@@ -1104,9 +1230,9 @@ const CompareModule = ({
                     className="border-bottom customer-review-card text-center"
                     radius={0}
                   >
-                <Text>No Reviews Found</Text>
-                </Card>
-                }
+                    <Text>No Reviews Found</Text>
+                  </Card>
+                )}
                 {paginatedReviews.map((review, index) => (
                   <Card
                     key={index}
@@ -1119,20 +1245,31 @@ const CompareModule = ({
                   >
                     <Box className="row">
                       <Box className="col-md-3">
-                        <Image src={review?.vehicleId?.defaultImage||'/placeholder.png'} alt="Vehicle Image" p="md" />
+                        <Image
+                          src={
+                            review?.vehicleId?.defaultImage ||
+                            "/placeholder.png"
+                          }
+                          alt="Vehicle Image"
+                          p="md"
+                        />
                       </Box>
                       <Box className="col-md-9">
                         <Title className="text-primary" order={4} fw={600}>
-                          {review?.vehicleId?.make} {review?.vehicleId?.model} Review
+                          {review?.vehicleId?.make} {review?.vehicleId?.model}{" "}
+                          Review
                         </Title>
                         {/* {review?.vehicleId &&<Text>{`${review?.vehicleId?.year} ${review?.vehicleId?.make} ${review?.vehicleId?.model} ${review?.vehicleId?.variant}`}</Text>} */}
                         <Text>{`${review?.vehicle}`}</Text>
                         <Flex align="center" mt="sm">
-                          <Rating value={review?.overAllRating||0} readOnly />
-                          <Text span inherit>({review?.overAllRating||0})</Text>
+                          <Rating value={review?.overAllRating || 0} readOnly />
+                          <Text span inherit>
+                            ({review?.overAllRating || 0})
+                          </Text>
                         </Flex>
-                        <Text c="dimmed" fw="400" mt="md" size="lg">
-                          Posted by {review?.reviewBy || "Anonymous"} on {formatDate(review?.createdAt)}
+                        <Text c="dimmed" fw="400" mt="md" size="md">
+                          Posted by {review?.reviewBy || "Anonymous"} on{" "}
+                          {formatDate(review?.createdAt)}
                         </Text>
                       </Box>
                       <Box className="col-md-12">
@@ -1142,24 +1279,42 @@ const CompareModule = ({
                         <Box className="col-md-4">
                           <Table withRowBorders={false} horizontalSpacing={0}>
                             <Table.Tbody>
-                              {renderRatingRow("Mileage", review?.ratings?.mileage)}
-                              {renderRatingRow("Maintenance Cost", review?.ratings?.maintenance)}
+                              {renderRatingRow(
+                                "Mileage",
+                                review?.ratings?.mileage
+                              )}
+                              {renderRatingRow(
+                                "Maintenance Cost",
+                                review?.ratings?.maintenance
+                              )}
                             </Table.Tbody>
                           </Table>
                         </Box>
                         <Box className="col-md-4">
                           <Table withRowBorders={false} horizontalSpacing={0}>
                             <Table.Tbody>
-                              {renderRatingRow("Safety", review?.ratings?.safety)}
-                              {renderRatingRow("Features and Styling", review?.ratings?.features)}
+                              {renderRatingRow(
+                                "Safety",
+                                review?.ratings?.safety
+                              )}
+                              {renderRatingRow(
+                                "Features and Styling",
+                                review?.ratings?.features
+                              )}
                             </Table.Tbody>
                           </Table>
                         </Box>
                         <Box className="col-md-4">
                           <Table withRowBorders={false} horizontalSpacing={0}>
                             <Table.Tbody>
-                              {renderRatingRow("Comfort", review?.ratings?.comfort)}
-                              {renderRatingRow("Performance", review?.ratings?.performance)}
+                              {renderRatingRow(
+                                "Comfort",
+                                review?.ratings?.comfort
+                              )}
+                              {renderRatingRow(
+                                "Performance",
+                                review?.ratings?.performance
+                              )}
                             </Table.Tbody>
                           </Table>
                         </Box>
@@ -1169,7 +1324,7 @@ const CompareModule = ({
                 ))}
               </Paper>
             </Box>
-            <Box className="col-md-12">
+            <Box className="col-md-12 text-center">
               <Pagination
                 total={totalPages}
                 value={currentPage}

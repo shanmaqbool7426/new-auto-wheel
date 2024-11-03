@@ -6,6 +6,7 @@ import {
   Rating,
   Button,
   Group,
+  Box,
 } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
@@ -63,34 +64,27 @@ const ComparisonProducts = ({ title }) => {
                           </div>
                         </div>
                         <div className="card-body">
-                          <Group justify="space-between">
-                            <Flex direction="column" gap="5">
-                              <Title order={6} fw={600}>
-                                2016 Ford Escape Cape
-                              </Title>
-                              <Flex align="center" justify="center" gap={5}>
-                                <Rating defaultValue={2} />
-                                (4/5)
-                              </Flex>
-                            </Flex>
-                            <Flex direction="column" gap="5">
-                              <Title order={6} fw={600}>
-                                2016 Ford Escape Cape
-                              </Title>
-                              <Flex align="center" justify="center" gap={5}>
-                                <Rating defaultValue={2} />
-                                (4/5)
-                              </Flex>
-                            </Flex>
-                            {/* <div className="product-info col">
-                              2016 Ford Escape Cape
-                              <span className="d-block mt-2">
+                          <Flex justify="space-between">
+                            <Box className="car-compare-info">
+                              <Flex direction="column" gap="5">
+                                <Title order={6} fw={600}>
+                                  2016 Ford Escape Cape
+                                </Title>
                                 <Flex align="center" justify="center" gap={5}>
                                   <Rating defaultValue={2} />
                                   (4/5)
                                 </Flex>
-                              </span>
-                            </div> */}
+                              </Flex>
+                              <Flex direction="column" gap="5">
+                                <Title order={6} fw={600}>
+                                  2016 Ford Escape Cape
+                                </Title>
+                                <Flex align="center" justify="center" gap={5}>
+                                  <Rating defaultValue={2} />
+                                  (4/5)
+                                </Flex>
+                              </Flex>
+                            </Box>
 
                             <Button
                               variant="outline"
@@ -100,7 +94,7 @@ const ComparisonProducts = ({ title }) => {
                             >
                               Compare
                             </Button>
-                          </Group>
+                          </Flex>
                         </div>
                       </div>
                     </div>
