@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Pagination } from "@mantine/core";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 
-const ListingPagination = ({ data }) => {
+const ListingPagination = ({ data,type }) => {
   const router = useRouter();
   const { slug } = useParams();
   const searchParams = useSearchParams();
@@ -36,8 +36,8 @@ const ListingPagination = ({ data }) => {
 
       const queryString = searchParams.toString();
       const finalUrl = queryString
-        ? `/new/${updatedPath}?${queryString}`
-        : `/new/${updatedPath}`;
+        ? `/new/${type}/search/${updatedPath}?${queryString}`
+        : `/new/${type}/search/${updatedPath}`;
 
       router.push(finalUrl, { scroll: false });
     },

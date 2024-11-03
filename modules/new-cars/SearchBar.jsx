@@ -81,6 +81,10 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
       query.md = selection.model?.toLowerCase();
     }
 
+    if (selection.make && selection.model && selection.variant) {
+      query.vt = selection.variant?.toLowerCase();
+    }
+
     // Build the query string
     const queryString = Object.keys(query)
       .map((key) => `${key}_${query[key]}`)
@@ -96,6 +100,10 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
   const handleSearch = () => {
     updateFiltersInUrl(filters);
   };
+  function convertToLac(price) {
+    let lacValue = price / 100000;
+    return lacValue?.toFixed(1);
+  }
 
   return (
     <>
@@ -110,7 +118,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                 onClick={openModal}
                 size="md"
                 radius="sm"
-                value={`${selection.make} ${selection.model}`}
+                value={`${selection.make} ${selection.model} ${selection.variant}`}
                 placeholder="Search by Car Make or Model"
                 leftSection={<IconSearch size={16} />}
               />
@@ -140,24 +148,47 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                       handleFilterChange("price", value.split("-").map(Number))
                     }
                   >
-                    RS 0 - 10 lac
+                    Rs {convertToLac(filters.price[0])} lac - Rs {convertToLac(filters.price[1])} lac
                   </Input>
                 </Popover.Target>
                 <Popover.Dropdown p="lg">
                   <Box className="row">
                     <Box className="col-md-6">
-                      <Input size="md" radius="sm" placeholder="Min" />
-                      <Input.Label c="muted">Rs 0</Input.Label>
+                      <NumberInput
+                      hideControls
+                      size="md" radius="sm" placeholder="Min"
+                        value={filters.price[0]}
+                        min={0}
+                        max={filters.price[1]}
+                        onChange={(e) => handleFilterChange("price", [
+                          Number(e || 0),
+                          filters.price[1],
+                        ])
+                        }
+                      />
+                      <Input.Label c="muted">Rs {convertToLac(filters.price[0])} lac</Input.Label>
                     </Box>
                     <Box className="col-md-6 text-end">
-                      <Input size="md" radius="sm" placeholder="Max" /> 
-                      <Input.Label c="muted">Rs 10 lac</Input.Label>
+                      <NumberInput
+                      size="md" radius="sm" placeholder="Max"
+                        hideControls
+                        value={filters.price[1]}
+                        min={filters.price[0]}
+                        max={2000000000}
+                        onChange={(e) =>
+                          handleFilterChange("price", [
+                            filters.price[0],
+                            Number(e || 2000000000),
+                          ])
+                        }
+                      />
+                      <Input.Label c="muted">Rs {convertToLac(filters.price[1])} lac</Input.Label>
                     </Box>
                     <Box className="col-md-12 mt-3">
                       <RangeSlider
                         color="#E90808"
                         min={0}
-                        max={2000000}
+                        max={2000000000}
                         size="xs"
                         thumbSize={16}
                         styles={{
@@ -166,6 +197,8 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                             padding: rem(2),
                           },
                         }}
+                        value={filters.price}
+                        onChange={(value) => handleFilterChange("price", value)}
                       />
                     </Box>
                   </Box>
@@ -195,7 +228,6 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
         setSelection={setSelection}
         onClose={closeModal}
         fetchMakesByTypeData={fetchMakesByTypeData}
-        hide={true}
       />
     </>
   );

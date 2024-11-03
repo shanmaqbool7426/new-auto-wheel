@@ -2,7 +2,7 @@
 import React from "react";
 import { Table, Flex, Title, Image, Switch } from "@mantine/core";
 
-const DetailSection = ({ section }) => {
+const DetailSection = ({ section,setHideCommonFeatures,hideCommonFeatures }) => {
   return (
     <div className="col-md-12">
       <Flex
@@ -11,8 +11,11 @@ const DetailSection = ({ section }) => {
         mb={section.title ? "lg" : "0"}
       >
         {section.title ? <Title order={3}>{section.title}</Title> : null}
-        {section.isSwitchable && (
-          <Switch labelPosition="left" label="Hide Common Features" />
+        {section.title=="Overview"&&(
+          <Switch labelPosition="left" label="Hide Common Features" 
+          checked={hideCommonFeatures}
+      onChange={(event) => setHideCommonFeatures(event.currentTarget.checked)}
+          />
         )}
       </Flex>
       <Table

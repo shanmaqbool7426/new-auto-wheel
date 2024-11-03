@@ -8,8 +8,9 @@ import VehicleComparisonLabels from "./VehicleComparisonLabels";
 import Header from "./vehicleDetailHeader";
 // import { comparisonData } from "@/mock-data/comparions-data";
 import { mapVehicleData } from "@/utils/comparisonData"
-const VehicleComparisonDetail = ({ vehicles,type }) => {
-    const comparisonData = mapVehicleData(vehicles)?.comparisonData;
+const VehicleComparisonDetail = ({ vehicles, type }) => {
+    const [hideCommonFeatures, setHideCommonFeatures] = React.useState(false);
+    const comparisonData = mapVehicleData(vehicles,hideCommonFeatures)?.comparisonData;
     const carDetailLabel = [
         { name: "Overview", href: "#overview" },
         { name: "Dimensions", href: "#dimension" },
@@ -25,24 +26,13 @@ const VehicleComparisonDetail = ({ vehicles,type }) => {
     return (
         <>
             <Box className="comparison-detail">
-                <Box className="background-search-overlay" mb="120">
+                <Box className="background-search-verlay"
+                    mb={{ base: 850, sm: 250 }}
+                    pt={80}
+                    h={500}
+                >
                     <div className="container-xl">
-                        {/* <div className="row">
-                            <div className="col-md-12">
-                                <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
-                                    <Title order={3} mb="md">New Cars Comparison</Title>
-                                    <div className="row mb-3">
-                                        {vehicles?.map((vehicle, index) => (
-                                            <div className="col-md-3" key={index}>
-                                                <ComparisonCard vehicle={vehicle} />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </Card>
-                            </div>
-                        </div> */}
-                        <Header vehicles={vehicles} type={type}/>
-                        {/* Display Vehicle Comparison Labels */}
+                        <Header vehicles={vehicles} type={type} />
                         <VehicleComparisonLabels labels={carDetailLabel} />
                     </div>
                 </Box>
@@ -53,7 +43,7 @@ const VehicleComparisonDetail = ({ vehicles,type }) => {
                 <div className="container-xl">
                     <div className="row">
                         {comparisonData.map((section, sectionIndex) => (
-                            <DetailSection key={sectionIndex} section={section} />
+                            <DetailSection key={sectionIndex} section={section} setHideCommonFeatures={setHideCommonFeatures} hideCommonFeatures={hideCommonFeatures}/>
                         ))}
                     </div>
                 </div>

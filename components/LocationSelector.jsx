@@ -111,14 +111,17 @@ const LocationSelector = ({
       }
 
       if (type === "city") {
-        // closeModal();
+        setActiveTab("suburb");
         return {
           ...updatedSelection,
           suburb:""
         };
       }
-
+      
       if (type === "suburb") {
+        if (!redirect) {
+          closeModal();
+        }
         return {
           ...updatedSelection,
         };

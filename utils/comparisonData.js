@@ -857,6 +857,800 @@
 // };
 
 
+// <---------Without hide feature------>
+
+// import { Button, Flex, Rating, Text } from "@mantine/core";
+// import { GetColor } from '@/constants/colors';
+
+// // SVG Component for Green Tick
+// const GreenTick = () => (
+//     <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path d="M5.55097 10.9466L0.586967 6.20057C0.516364 6.13444 0.460084 6.05453 0.421609 5.96577C0.383133 5.87702 0.363281 5.78131 0.363281 5.68458C0.363281 5.58784 0.383133 5.49213 0.421609 5.40338C0.460084 5.31462 0.516364 5.23471 0.586967 5.16858L1.66297 4.13958C1.80924 4.00226 2.00234 3.92583 2.20297 3.92583C2.4036 3.92583 2.59669 4.00226 2.74297 4.13958L6.08697 7.33457L13.25 0.491575C13.3962 0.354262 13.5893 0.277832 13.79 0.277832C13.9906 0.277832 14.1837 0.354262 14.33 0.491575L15.41 1.52357C15.4806 1.5897 15.5368 1.66962 15.5753 1.75838C15.6138 1.84713 15.6337 1.94284 15.6337 2.03958C15.6337 2.13631 15.6138 2.23202 15.5753 2.32077C15.5368 2.40953 15.4806 2.48944 15.41 2.55557L6.63097 10.9466C6.48469 11.0839 6.2916 11.1603 6.09097 11.1603C5.89034 11.1603 5.69724 11.0839 5.55097 10.9466Z" fill="#1BC744" />
+//     </svg>
+// );
+
+// // Helper function to safely access nested properties
+// const getNested = (obj, path, defaultValue = "") => {
+//     return path.split('.').reduce((acc, part) => acc && acc[part], obj) || defaultValue;
+// };
+
+// // Helper function to render green tick or fallback
+// const renderTick = (condition) => condition ? <GreenTick /> : "-";
+
+// // Helper function to render buttons for brochure
+// const renderButton = (condition, href, label, color) => condition ? (
+//     <Button variant="outline" fw={500} color={color} component="a" href={href}>
+//         {label}
+//     </Button>
+// ) : "-";
+
+// // Helper function to render color buttons
+// const renderColors = (colors) => colors?.length
+//     ? colors.map((color, index) => (
+//         <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color) }} />
+//     ))
+//     : "-";
+
+// // Helper function to render user rating
+// const renderUserRating = (vehicle, averageRating, reviewCount) => {
+//     // Check if the vehicle object is empty (i.e., vehicle does not exist)
+//     const isVehicleEmpty = !vehicle || Object.keys(vehicle).length === 0;
+
+//     if (isVehicleEmpty) {
+//         // Vehicle does not exist; return an empty string
+//         return "";
+//     }
+//     return (
+//         <Flex align="center" justify="center" gap="xs">
+//             <Rating
+//                 value={averageRating ? parseFloat(averageRating) : 0}
+//                 fractions={2}
+//                 size="sm"
+//                 readOnly
+//             />
+//             <Text fw={600}>
+//                 ({averageRating ? parseFloat(averageRating) : 0})
+
+//             </Text>
+//         </Flex>
+//     );
+
+//     // Vehicle exists but has no average rating; display a hyphen
+//     return "-";
+// };
+
+
+// // Define sections and their respective fields
+// const sections = [
+//     // Overview Section
+//     {
+//         title: "Overview",
+//         isSwitchable: true,
+//         fields: [
+//             {
+//                 type: "Size",
+//                 paths: ["dimensions.overallLength", "dimensions.overallWidth", "dimensions.overallHeight"],
+//                 formatter: (vals) => (vals.every(val => val)) ? `${vals[0]} L x ${vals[1]} W x ${vals[2]} H` : "",
+//             },
+//             {
+//                 type: "Mileage",
+//                 paths: ["mileage.city", "mileage.highway"],
+//                 formatter: (vals) => (vals.every(val => val)) ? `${vals[0]} - ${vals[1]} Km/l` : "",
+//             },
+//             {
+//                 type: "Engine",
+//                 paths: ["engine.displacement"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]} cc` : "",
+//             },
+//             {
+//                 type: "No. of Airbags",
+//                 paths: ["safety.airbags"],
+//                 formatter: (vals) => (vals[0] !== "") ? vals[0] : "",
+//             },
+//             {
+//                 type: "User Rating",
+//                 render: (vehicle) =>
+//                     renderUserRating(
+//                         vehicle,
+//                         getNested(vehicle, "averageRating"),
+//                         getNested(vehicle, "reviewCount")
+//                     ),
+//             },
+//             {
+//                 type: "Transmission",
+//                 paths: ["transmission.type"],
+//             },
+//             {
+//                 type: "Anti-lock Braking System",
+//                 paths: ["safety.abs"],
+//                 formatter: (vals) => (vals[0] !== "") ? (vals[0] ? "Yes" : "No") : "",
+//             },
+//             {
+//                 type: "Trunk Space",
+//                 paths: ["dimensions.bootSpace"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]} L` : "",
+//             },
+//             {
+//                 type: "Brochure",
+//                 render: (vehicle) => renderButton(
+//                     getNested(vehicle, "brochureLink"),
+//                     vehicle.brochureLink,
+//                     "Download Brochure",
+//                     "#E90808"
+//                 ),
+//             },
+//         ],
+//     },
+
+//     // Key Features & Specs Section
+//     {
+//         title: "Key Features & Specs",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Dimensions",
+//                 type: "icon",
+//                 iconURL: "/compare/dimension.svg",
+//             },
+//             {
+//                 type: "Overall Length",
+//                 paths: ["dimensions.overallLength"],
+//             },
+//             {
+//                 type: "Overall Width",
+//                 paths: ["dimensions.overallWidth"],
+//             },
+//             {
+//                 type: "Overall Height",
+//                 paths: ["dimensions.overallHeight"],
+//             },
+//             {
+//                 type: "Wheel Base",
+//                 paths: ["dimensions.wheelBase"],
+//             },
+//             {
+//                 type: "Ground Clearance",
+//                 paths: ["dimensions.groundClearance"],
+//             },
+//             {
+//                 type: "Kerb Weight",
+//                 paths: ["dimensions.kerbWeight"],
+//             },
+//             {
+//                 type: "Boot Space",
+//                 paths: ["dimensions.bootSpace"],
+//             },
+//             {
+//                 type: "Seating Capacity",
+//                 paths: ["dimensions.seatingCapacity"],
+//             },
+//             {
+//                 type: "No. of Doors",
+//                 paths: ["dimensions.doors"],
+//             },
+//         ],
+//     },
+
+//     // Engine & Performance Section
+//     {
+//         // title: "Engine & Performance",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Engine & Performance",
+//                 type: "icon",
+//                 iconURL: "/compare/engine-performace.svg",
+//             },
+//             {
+//                 type: "Engine Type",
+//                 paths: ["engine.type"],
+//             },
+//             {
+//                 type: "Displacement",
+//                 paths: ["engine.displacement"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]} cc` : "",
+//             },
+//             {
+//                 type: "Horse Power",
+//                 paths: ["engine.horsepower"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+//             },
+//             {
+//                 type: "Torque",
+//                 paths: ["engine.torque"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]}` : "-",
+//             },
+//             {
+//                 type: "Fuel System",
+//                 paths: ["engine.fuelSystem"],
+//             },
+//             {
+//                 type: "Max Speed",
+//                 paths: ["engine.maxSpeed"],
+//             },
+//             {
+//                 type: "No. of Cylinders",
+//                 paths: ["engine.cylinders"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]}` : "-",
+//             },
+//             {
+//                 type: "Cylinder Configuration",
+//                 paths: ["engine.cylinderConfiguration"],
+//             },
+//             {
+//                 type: "Compression Ratio",
+//                 paths: ["engine.compressionRatio"],
+//             },
+//             {
+//                 type: "Valves per Cylinder",
+//                 paths: ["engine.valvesPerCylinder"],
+//             },
+//             {
+//                 type: "Battery Type (Electrical)",
+//                 paths: ["engine.batteryType"],
+//             },
+//             {
+//                 type: "Battery Capacity (Electrical)",
+//                 paths: ["engine.batteryCapacity"],
+//             },
+//             {
+//                 type: "Charging time (Electrical)",
+//                 paths: ["engine.chargingTime"],
+//             },
+//             {
+//                 type: "Range (Electrical)",
+//                 paths: ["engine.range"],
+//             },
+//             {
+//                 type: "Valve Mechanism",
+//                 paths: ["engine.valveMechanism"],
+//             },
+//         ],
+//     },
+//     // Transmission
+//     {
+//         // title: "Transmission",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Transmission",
+//                 type: "icon",
+//                 iconURL: "/compare/transmission.svg",
+//             },
+//             {
+//                 type: "Transmission Type",
+//                 paths: ["transmission.type"],
+//             },
+//             {
+//                 type: "CVT",
+//                 paths: ["transmission.cvt"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "transmission.cvt")),
+//             },
+//             {
+//                 type: "Gearbox",
+//                 paths: ["transmission.gearbox"],
+//             },
+//         ]
+//     },
+//     // Suspension, Steering & Brakes Section
+//     {
+//         // title: "Suspension, Steering & Brakes",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Suspension, Steering & Brakes",
+//                 type: "icon",
+//                 iconURL: "/compare/suspension.svg",
+//             },
+//             {
+//                 type: "Steering Type",
+//                 paths: ["suspensionSteeringBrakes.steeringType"],
+//             },
+//             {
+//                 type: "Power Assisted",
+//                 paths: ["suspensionSteeringBrakes.powerAssisted"],
+//             },
+//             {
+//                 type: "Minimum Turning Radius",
+//                 paths: ["suspensionSteeringBrakes.minimumTurningRadius"],
+//             },
+//             {
+//                 type: "Front Brakes",
+//                 paths: ["suspensionSteeringBrakes.frontBrakes"],
+//             },
+//             {
+//                 type: "Rear Brakes",
+//                 paths: ["suspensionSteeringBrakes.rearBrakes"],
+//             },
+//         ],
+//     },
+
+//     // Wheels & Tyres Section
+//     {
+//         // title: "Wheels & Tyres",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Wheels & Tyres",
+//                 type: "icon",
+//                 iconURL: "/compare/wheels.svg",
+//             },
+//             {
+//                 type: "Wheel Type",
+//                 paths: ["wheelsAndTyres.wheelType"],
+//             },
+//             {
+//                 type: "Wheel Size",
+//                 paths: ["wheelsAndTyres.wheelSize"],
+//             },
+//             {
+//                 type: "PCD",
+//                 paths: ["wheelsAndTyres.pcd"],
+//                 formatter: (vals) => (vals[0]) ? vals[0] : "-",
+//             },
+//             {
+//                 type: "Tyre Size",
+//                 paths: ["wheelsAndTyres.tyreSize"],
+//             },
+//             {
+//                 type: "Spare Tyre",
+//                 paths: ["wheelsAndTyres.spareTyre"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "wheelsAndTyres.spareTyre")),
+//             },
+//             {
+//                 type: "Spare Tyre Size",
+//                 paths: ["wheelsAndTyres.spareTyreSize"],
+//                 formatter: (vals) => (vals[0]) ? vals[0] : "-",
+//             },
+//         ],
+//     },
+
+//     // Fuel Consumptions Section
+//     {
+//         // title: "Fuel Consumptions",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Fuel Consumptions",
+//                 type: "icon",
+//                 iconURL: "/compare/fuel.svg",
+//             },
+//             {
+//                 type: "Mileage City",
+//                 paths: ["fuelConsumption.mileageCity"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+//             },
+//             {
+//                 type: "Mileage Highway",
+//                 paths: ["fuelConsumption.mileageHighway"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+//             },
+//             {
+//                 type: "Fuel Tank Capacity",
+//                 paths: ["fuelConsumption.tankCapacity"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]} L` : "",
+//             },
+//         ],
+//     },
+
+//     // Safety Section
+//     {
+//         // title: "Safety",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Safety",
+//                 type: "icon",
+//                 iconURL: "/compare/safety.svg",
+//             },
+//             {
+//                 type: "No. of Airbags",
+//                 paths: ["safety.airbags"],
+//                 formatter: (vals) => (vals[0] !== "") ? vals[0] : "",
+//             },
+//             {
+//                 type: "No. of Seat Belts",
+//                 paths: ["safety.seatBelts"],
+//                 formatter: (vals) => (vals[0] !== "") ? vals[0] : "",
+//             },
+//             {
+//                 type: "Immobilizer",
+//                 paths: ["safety.immobilizer"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.immobilizer")),
+//             },
+//             {
+//                 type: "Child Lock",
+//                 paths: ["safety.childLock"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.childLock")),
+//             },
+//             {
+//                 type: "ISOFIX Child Seat Anchors",
+//                 paths: ["safety.isofixAnchors"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.isofixAnchors")),
+//             },
+//             {
+//                 type: "Anti-Lock Braking System (ABS)",
+//                 paths: ["safety.abs"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.abs")),
+//             },
+//             {
+//                 type: "Down Hill Assist Control",
+//                 paths: ["safety.downHillAssist"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.downHillAssist")),
+//             },
+//             {
+//                 type: "Start Hill Start Assist Control",
+//                 paths: ["safety.hillAssist"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.hillAssist")),
+//             },
+//             {
+//                 type: "Traction Control",
+//                 paths: ["safety.tractionControl"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.tractionControl")),
+//             },
+//             {
+//                 type: "Vehicle Stability Control",
+//                 paths: ["safety.vehicleStabilityControl"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "safety.vehicleStabilityControl")),
+//             },
+//         ],
+//     },
+
+//     // Exterior Section
+//     {
+//         // title: "Exterior",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Exterior",
+//                 type: "icon",
+//                 iconURL: "/compare/exterior.svg",
+//             },
+//             {
+//                 type: "Alloy Wheels",
+//                 paths: ["exterior.alloyWheels"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.alloyWheels")),
+//             },
+//             {
+//                 type: "Colored Outside Door Handles",
+//                 paths: ["exterior.coloredOutsideDoorHandles"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.coloredOutsideDoorHandles")),
+//             },
+//             {
+//                 type: "Side Mirrors with Indicators",
+//                 paths: ["exterior.sideMirrorsWithIndicators"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.sideMirrorsWithIndicators")),
+//             },
+//             {
+//                 type: "Rear Spoiler",
+//                 paths: ["exterior.rearSpoiler"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.rearSpoiler")),
+//             },
+//             {
+//                 type: "Adjustable Headlights",
+//                 paths: ["exterior.adjustableHeadlights"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.adjustableHeadlights")),
+//             },
+//             {
+//                 type: "Fog Lights",
+//                 paths: ["exterior.fogLights"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.fogLights")),
+//             },
+//             {
+//                 type: "Sun Roof",
+//                 paths: ["exterior.sunRoof"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.sunRoof")),
+//             },
+//             {
+//                 type: "Moon Roof",
+//                 paths: ["exterior.moonRoof"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "exterior.moonRoof")),
+//             },
+//             {
+//                 type: "Available Colors",
+//                 paths: ["exterior.colorsAvailable"],
+//                 render: (vehicle) => renderColors(getNested(vehicle, "exterior.colorsAvailable")),
+//             },
+//         ],
+//     },
+
+//     // Entertainment & Communications Section
+//     {
+//         // title: "Entertainment & Communications",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Entertainment & Communications",
+//                 type: "icon",
+//                 iconURL: "/compare/communication.svg",
+//             },
+//             {
+//                 type: "Tachometer",
+//                 paths: ["entertainment.tachometer"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.tachometer")),
+//             },
+//             {
+//                 type: "Multi Info",
+//                 paths: ["entertainment.multiInfo"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.multiInfo")),
+//             },
+//             {
+//                 type: "CD DVD Player",
+//                 paths: ["entertainment.cdDvdPlayer"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.cdDvdPlayer")),
+//             },
+//             {
+//                 type: "USB & Auxiliary Cable",
+//                 paths: ["entertainment.usbAndAux"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.usbAndAux")),
+//             },
+//             {
+//                 type: "Display Size",
+//                 paths: ["entertainment.displaySize"],
+//                 formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+//             },
+//             {
+//                 type: "Front Speakers",
+//                 paths: ["entertainment.frontSpeakers"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.frontSpeakers")),
+//             },
+//             {
+//                 type: "Rear Seat Entertainment",
+//                 paths: ["entertainment.rearSeatEntertainment"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.rearSeatEntertainment")),
+//             },
+//         ],
+//     },
+
+//     // Comfort & Convenience Section
+//     {
+//         // title: "Comfort & Convenience",
+//         isSwitchable: false,
+//         fields: [
+//             {
+//                 featureName: "Comfort & Convenience",
+//                 type: "icon",
+//                 iconURL: "/compare/comfort.svg",
+//             },
+//             {
+//                 type: "AC",
+//                 paths: ["comfort.ac"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.ac")),
+//             },
+//             {
+//                 type: "Climate Control",
+//                 paths: ["comfort.climateControl"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.climateControl")),
+//             },
+//             {
+//                 type: "Rear AC Vents",
+//                 paths: ["comfort.rearAcVents"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.rearAcVents")),
+//             },
+//             {
+//                 type: "Heater",
+//                 paths: ["comfort.heater"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.heater")),
+//             },
+//             {
+//                 type: "Heated Seats",
+//                 paths: ["comfort.heatedSeats"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.heatedSeats")),
+//             },
+//             {
+//                 type: "Defogger",
+//                 paths: ["comfort.defogger"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.defogger")),
+//             },
+//             {
+//                 type: "Cool Box",
+//                 paths: ["comfort.coolBox"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.coolBox")),
+//             },
+//             {
+//                 type: "Navigation",
+//                 paths: ["comfort.navigation"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.navigation")),
+//             },
+//             {
+//                 type: "Optional Navigation",
+//                 paths: ["comfort.optionalNavigation"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.optionalNavigation")),
+//             },
+//             {
+//                 type: "Front Camera",
+//                 paths: ["comfort.frontCamera"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.frontCamera")),
+//             },
+//             {
+//                 type: "Rear Camera",
+//                 paths: ["comfort.rearCamera"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.rearCamera")),
+//             },
+//             {
+//                 type: "Rear Central Control",
+//                 paths: ["comfort.rearCentralControl"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.rearCentralControl")),
+//             },
+//             {
+//                 type: "Rear Folding Seat",
+//                 paths: ["comfort.rearFoldingSeat"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.rearFoldingSeat")),
+//             },
+//             {
+//                 type: "Rear Headrest",
+//                 paths: ["comfort.rearHeadrest"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.rearHeadrest")),
+//             },
+//             {
+//                 type: "Rear Wiper",
+//                 paths: ["comfort.rearWiper"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.rearWiper")),
+//             },
+//             {
+//                 type: "Seat Material Type",
+//                 paths: ["comfort.seatMaterialType"],
+//                 formatter: (vals) => (vals[0]) ? vals[0] : "",
+//             },
+//             {
+//                 type: "Steering Adjustment",
+//                 paths: ["comfort.steeringAdjustment"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.steeringAdjustment")),
+//             },
+//             {
+//                 type: "Steering Switches",
+//                 paths: ["comfort.steeringSwitches"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.steeringSwitches")),
+//             },
+//             {
+//                 type: "Cruise Control",
+//                 paths: ["comfort.cruiseControl"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.cruiseControl")),
+//             },
+//             {
+//                 type: "Driving Modes",
+//                 paths: ["comfort.drivingModes"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.drivingModes")),
+//             },
+//             {
+//                 type: "Key Type",
+//                 paths: ["comfort.keyType"],
+//                 formatter: (vals) => (vals[0]) ? vals[0] : "",
+//             },
+//             {
+//                 type: "Keyless Entry",
+//                 paths: ["comfort.keylessEntry"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.keylessEntry")),
+//             },
+//             {
+//                 type: "Push Start",
+//                 paths: ["comfort.pushStart"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.pushStart")),
+//             },
+//             {
+//                 type: "Central Locking",
+//                 paths: ["comfort.centralLocking"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.centralLocking")),
+//             },
+//             {
+//                 type: "Power Door Locks",
+//                 paths: ["comfort.powerDoorLocks"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.powerDoorLocks")),
+//             },
+//             {
+//                 type: "Power Steering",
+//                 paths: ["comfort.powerSteering"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.powerSteering")),
+//             },
+//             {
+//                 type: "Power Windows",
+//                 paths: ["comfort.powerWindows"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.powerWindows")),
+//             },
+//             {
+//                 type: "Power Mirrors",
+//                 paths: ["comfort.powerMirrors"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.powerMirrors")),
+//             },
+//             {
+//                 type: "Cup Holders",
+//                 paths: ["comfort.cupHolders"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.cupHolders")),
+//             },
+//             {
+//                 type: "Arm Rest",
+//                 paths: ["comfort.armRest"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.armRest")),
+//             },
+//             {
+//                 type: "Handbrake",
+//                 paths: ["comfort.handbrake"],
+//                 formatter: (vals) => (vals[0]) ? vals[0] : "",
+//             },
+//             {
+//                 type: "Interior Lighting",
+//                 paths: ["comfort.interiorLighting"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.interiorLighting")),
+//             },
+//             {
+//                 type: "Front Power Outlet",
+//                 paths: ["comfort.frontPowerOutlet"],
+//                 render: (vehicle) => renderTick(getNested(vehicle, "comfort.frontPowerOutlet")),
+//             },
+//         ],
+//     },
+// ];
+
+// export const mapVehicleData = (vehicles = []) => {
+//     if (!vehicles.length) {
+//         return { comparisonData: [] };
+//     }
+
+//     // Destructure vehicles without default values to determine existence
+//     const [vehicle1, vehicle2, vehicle3] = vehicles;
+
+//     const comparisonData = sections.map((section) => {
+//         const overviewTableData = section.fields.map((field) => {
+//             // Handle icon fields
+//             if (field.type === "icon") {
+//                 return {
+//                     featureName: field.featureName,
+//                     type: field.type,
+//                     iconURL: field.iconURL,
+//                 };
+//             }
+
+//             // Handle featureName fields (like Transmission in Engine & Performance)
+//             if (field.featureName && field.type === "icon") {
+//                 return {
+//                     featureName: field.featureName,
+//                     type: field.type,
+//                     iconURL: field.iconURL,
+//                 };
+//             }
+
+//             // Function to render a field for a single vehicle
+//             const renderSingleField = (vehicle) => {
+//                 if (!vehicle) {
+//                     // Vehicle does not exist
+//                     return "";
+//                 }
+
+//                 if (field.render) {
+//                     return field.render(vehicle);
+//                 } else if (field.paths) {
+//                     const values = field.paths.map((path) => getNested(vehicle, path, undefined));
+//                     if (field.formatter) {
+//                         return field.formatter(values);
+//                     } else {
+//                         // Check if all values are present
+//                         const allValuesPresent = values.every(val => val !== undefined && val !== "");
+//                         return allValuesPresent ? values.join(" / ") : "-";
+//                     }
+//                 } else {
+//                     return "-";
+//                 }
+//             };
+
+//             return {
+//                 type: field.type,
+//                 first: renderSingleField(vehicle1),
+//                 second: renderSingleField(vehicle2),
+//                 third: renderSingleField(vehicle3),
+//             };
+//         });
+
+//         return {
+//             title: section.title,
+//             isSwitchable: section.isSwitchable,
+//             overviewTableData,
+//         };
+//     });
+
+//     return { comparisonData };
+// };
+
+// with hide fearture
 import { Button, Flex, Rating, Text } from "@mantine/core";
 import { GetColor } from '@/constants/colors';
 
@@ -912,11 +1706,7 @@ const renderUserRating = (vehicle, averageRating, reviewCount) => {
             </Text>
         </Flex>
     );
-
-    // Vehicle exists but has no average rating; display a hyphen
-    return "-";
 };
-
 
 // Define sections and their respective fields
 const sections = [
@@ -1031,7 +1821,6 @@ const sections = [
 
     // Engine & Performance Section
     {
-        // title: "Engine & Performance",
         isSwitchable: false,
         fields: [
             {
@@ -1105,9 +1894,9 @@ const sections = [
             },
         ],
     },
+
     // Transmission
     {
-        // title: "Transmission",
         isSwitchable: false,
         fields: [
             {
@@ -1130,9 +1919,9 @@ const sections = [
             },
         ]
     },
+
     // Suspension, Steering & Brakes Section
     {
-        // title: "Suspension, Steering & Brakes",
         isSwitchable: false,
         fields: [
             {
@@ -1165,7 +1954,6 @@ const sections = [
 
     // Wheels & Tyres Section
     {
-        // title: "Wheels & Tyres",
         isSwitchable: false,
         fields: [
             {
@@ -1205,7 +1993,6 @@ const sections = [
 
     // Fuel Consumptions Section
     {
-        // title: "Fuel Consumptions",
         isSwitchable: false,
         fields: [
             {
@@ -1233,7 +2020,6 @@ const sections = [
 
     // Safety Section
     {
-        // title: "Safety",
         isSwitchable: false,
         fields: [
             {
@@ -1277,7 +2063,7 @@ const sections = [
                 render: (vehicle) => renderTick(getNested(vehicle, "safety.downHillAssist")),
             },
             {
-                type: "Start Hill Start Assist Control",
+                type: "Hill Start Assist Control",
                 paths: ["safety.hillAssist"],
                 render: (vehicle) => renderTick(getNested(vehicle, "safety.hillAssist")),
             },
@@ -1296,7 +2082,6 @@ const sections = [
 
     // Exterior Section
     {
-        // title: "Exterior",
         isSwitchable: false,
         fields: [
             {
@@ -1354,7 +2139,6 @@ const sections = [
 
     // Entertainment & Communications Section
     {
-        // title: "Entertainment & Communications",
         isSwitchable: false,
         fields: [
             {
@@ -1373,7 +2157,7 @@ const sections = [
                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.multiInfo")),
             },
             {
-                type: "CD DVD Player",
+                type: "CD/DVD Player",
                 paths: ["entertainment.cdDvdPlayer"],
                 render: (vehicle) => renderTick(getNested(vehicle, "entertainment.cdDvdPlayer")),
             },
@@ -1402,7 +2186,6 @@ const sections = [
 
     // Comfort & Convenience Section
     {
-        // title: "Comfort & Convenience",
         isSwitchable: false,
         fields: [
             {
@@ -1579,7 +2362,8 @@ const sections = [
     },
 ];
 
-export const mapVehicleData = (vehicles = []) => {
+// Function to map vehicle data and optionally hide common features
+export const mapVehicleData = (vehicles = [], hideCommonFeatures = false) => {
     if (!vehicles.length) {
         return { comparisonData: [] };
     }
@@ -1587,63 +2371,106 @@ export const mapVehicleData = (vehicles = []) => {
     // Destructure vehicles without default values to determine existence
     const [vehicle1, vehicle2, vehicle3] = vehicles;
 
-    const comparisonData = sections.map((section) => {
-        const overviewTableData = section.fields.map((field) => {
-            // Handle icon fields
-            if (field.type === "icon") {
-                return {
-                    featureName: field.featureName,
-                    type: field.type,
-                    iconURL: field.iconURL,
-                };
-            }
-
-            // Handle featureName fields (like Transmission in Engine & Performance)
-            if (field.featureName && field.type === "icon") {
-                return {
-                    featureName: field.featureName,
-                    type: field.type,
-                    iconURL: field.iconURL,
-                };
-            }
-
-            // Function to render a field for a single vehicle
-            const renderSingleField = (vehicle) => {
-                if (!vehicle) {
-                    // Vehicle does not exist
-                    return "";
-                }
-
-                if (field.render) {
-                    return field.render(vehicle);
-                } else if (field.paths) {
-                    const values = field.paths.map((path) => getNested(vehicle, path, undefined));
-                    if (field.formatter) {
-                        return field.formatter(values);
-                    } else {
-                        // Check if all values are present
-                        const allValuesPresent = values.every(val => val !== undefined && val !== "");
-                        return allValuesPresent ? values.join(" / ") : "-";
+    const comparisonData = sections
+        .map((section) => {
+            const overviewTableData = section.fields
+                .map((field) => {
+                    // Handle icon fields
+                    if (field.type === "icon") {
+                        return {
+                            featureName: field.featureName,
+                            type: field.type,
+                            iconURL: field.iconURL,
+                        };
                     }
-                } else {
-                    return "-";
-                }
-            };
 
-            return {
-                type: field.type,
-                first: renderSingleField(vehicle1),
-                second: renderSingleField(vehicle2),
-                third: renderSingleField(vehicle3),
-            };
-        });
+                    // Function to render a field for a single vehicle
+                    const renderSingleField = (vehicle) => {
+                        if (!vehicle) {
+                            // Vehicle does not exist
+                            return "";
+                        }
 
-        return {
-            title: section.title,
-            isSwitchable: section.isSwitchable,
-            overviewTableData,
-        };
-    });
+                        if (field.render) {
+                            return field.render(vehicle);
+                        } else if (field.paths) {
+                            const values = field.paths.map((path) =>
+                                getNested(vehicle, path, undefined)
+                            );
+                            if (field.formatter) {
+                                return field.formatter(values);
+                            } else {
+                                // Check if all values are present
+                                const allValuesPresent = values.every(
+                                    (val) => val !== undefined && val !== ""
+                                );
+                                return allValuesPresent ? values.join(" / ") : "-";
+                            }
+                        } else {
+                            return "-";
+                        }
+                    };
+
+                    // Get the data for each vehicle
+                    const first = renderSingleField(vehicle1);
+                    const second = renderSingleField(vehicle2);
+                    const third = renderSingleField(vehicle3);
+
+                    return {
+                        type: field.type,
+                        featureName: field.type,
+                        first,
+                        second,
+                        third,
+                    };
+                })
+                .filter((row) => {
+                    if (!hideCommonFeatures) {
+                        return true;
+                    }
+
+                    // Always include icon rows (section headers)
+                    if (row.type === "icon") {
+                        return true;
+                    }
+
+                    const { first, second, third } = row;
+                    const values = [first, second, third];
+
+                    // Get non-empty values
+                    const nonEmptyValues = values.filter(
+                        (v) => v !== undefined && v !== null && v !== ""
+                    );
+
+                    // If only one or none non-empty values, include the row
+                    if (nonEmptyValues.length <= 1) {
+                        return true;
+                    }
+
+                    // Check if all non-empty values are equal
+                    const allEqual = nonEmptyValues.every(
+                        (v) => v === nonEmptyValues[0]
+                    );
+
+                    // Include the row if not all values are equal
+                    return !allEqual;
+                });
+
+            // Include the section only if there are fields after filtering (excluding icon rows)
+            const hasNonIconRows = overviewTableData.some(row => row.type !== "icon");
+
+            if (hasNonIconRows) {
+                return {
+                    title: section.title,
+                    isSwitchable: section.isSwitchable,
+                    overviewTableData,
+                };
+            } else {
+                return null;
+            }
+        })
+        .filter((section) => section !== null);
 
     return { comparisonData };
 };
+

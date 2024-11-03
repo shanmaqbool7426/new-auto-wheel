@@ -61,6 +61,9 @@ const HeroTabs = ({ setType }) => {
       variant: "",
     });
   }
+  const clearLocatiopnSelection = () => {
+    setLocationSelection({ country: "PK", province: "", city: "",suburb:"" });
+  }
   const fetchMakesByType = async (vehicleType) => {
     try {
       const fetchMakes = await fetchMakesByTypeServer(vehicleType);
@@ -102,12 +105,14 @@ const HeroTabs = ({ setType }) => {
 
   const handleSubmit = () => {
     const { make, model, variant } = selection;
-    const { city, province } = locationSelection;
+    const { city, province,suburb } = locationSelection;
     setLoading(true); // Start loading state when button is clicked
 
     // const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
     // const cityQuery = city ? `/ct_${city.toLowerCase()}` : "";
-    const locationQuery = province ? `/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}` : "";
+    const cityQuery = city ? `/ct_${encodeURIComponent(city.toLowerCase())}` : "";
+    const suburbQuery = suburb ? `/ca_${encodeURIComponent(suburb.toLowerCase())}` : "";
+    // const locationQuery = province ? `/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}` : "";
     const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
     const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
     // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
@@ -136,6 +141,7 @@ const HeroTabs = ({ setType }) => {
               setMakesByType("car");
               setType("car");
               clearSelection();
+              clearLocatiopnSelection();
               closeModal();
             }}
           >
@@ -149,6 +155,7 @@ const HeroTabs = ({ setType }) => {
               setMakesByType("bike");
               setType("bike");
               clearSelection();
+              clearLocatiopnSelection();
               closeModal();
             }}
           >
@@ -162,6 +169,7 @@ const HeroTabs = ({ setType }) => {
               setMakesByType("truck");
               setType("truck");
               clearSelection();
+              clearLocatiopnSelection();
               closeModal();
             }}
           >
@@ -188,6 +196,7 @@ const HeroTabs = ({ setType }) => {
             value={
               locationSelection?.province
                 ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
+                  } ${locationSelection?.suburb || ""
                   }`.trim()
                 : ""
             }

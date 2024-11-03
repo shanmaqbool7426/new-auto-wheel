@@ -1,26 +1,30 @@
 // ComparisonCard.jsx
 import React from "react";
 import {
-  Card,
-  Flex,
-  Image,
-  Text,
-  Select,
-  Anchor,
-  Box,
-  Center,
-  CloseButton,
-  Input,
+    Card,
+    Flex,
+    Image,
+    Text,
+    Select,
+    Anchor,
+    Box,
+    Center,
+    CloseButton,
+    Input,
 } from "@mantine/core";
 import { IconArrowUpRight } from "@tabler/icons-react";
 import Link from "next/link";
 
 const ComparisonCard = ({ vehicle }) => {
+    console.log(vehicle, "vehisdsdcle")
     return (
-        <Card withBorder radius="sm" padding="lg" shadow="none" className="position-relative">
+        <Card withBorder radius="sm" padding="lg" shadow="none" className="position-relative" h={"100%"}>
             {/* <CloseButton ml="auto" /> */}
             <Flex direction="column" gap="5" align="center">
-                <Image h={80} mx="auto" alt={`Compare ${vehicle.make}`} src={vehicle.defaultImage || "/compare/compare-car.svg"} />
+                <Image h={120}
+                    w={120}
+                    mb="xs"
+                    className="img-fluid mx-auto" alt={`Compare ${vehicle.make}`} src={vehicle.defaultImage || "/compare/compare-car.svg"} />
                 <Text className="text-primary" fw={500} size="lg">
                     {`${vehicle.make} ${vehicle.model}`}
                 </Text>
@@ -31,8 +35,8 @@ const ComparisonCard = ({ vehicle }) => {
                         `Add Vehicle`
                     }
                 </Text>
-                <Input value={vehicle.make&&`${vehicle.make} ${vehicle.model} ${vehicle.variant}`||""} placeholder="Please Select Vehicle"/>
-                {vehicle.engine && <Text>{`${vehicle.engine?.displacement || ''} cc | ${vehicle.fuelAverage || 'N/A'} Km/l | ${vehicle.transmission || 'N/A'}`}</Text>}
+                <Input value={vehicle.make && `${vehicle.make} ${vehicle.model} ${vehicle.variant}` || ""} placeholder="Please Select Vehicle" />
+                {vehicle.engine && <Text>{`${vehicle.engine?.displacement || ''} cc | ${vehicle.engine.type || ''} | ${vehicle.transmission.type || vehicle.transmission||'N/A'}`}</Text>}
                 {vehicle.minPrice && <Text fw={700} size="xl">
                     {`Rs ${vehicle.minPrice / 100000} - ${vehicle.maxPrice / 100000} Lacs`}
                 </Text>}

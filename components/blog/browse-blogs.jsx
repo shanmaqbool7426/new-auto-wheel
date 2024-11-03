@@ -1,12 +1,14 @@
 "use client";
-import { Anchor, Flex, Text, Title, rem, Image } from "@mantine/core";
+import { Anchor, Flex, Text, Title, rem, Image, Overlay } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 import { fetchBrowseBlogsServer } from "@/actions/index";
 import { formatDate } from "@/utils/index";
+import { useRouter } from "next/navigation";
 
 const BrowseBlogs = ({ type }) => {
+  const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -66,8 +68,9 @@ const BrowseBlogs = ({ type }) => {
         </Flex>
         <div className="row">
           <div className="col-lg-6 col-12">
+            <Link href={`/blog/${firstBlog?.slug}`}>
             <figure
-              href={`/blog/${firstBlog?.slug}`}
+
               className="overflow-hidden position-relative"
             >
               <Image
@@ -77,12 +80,18 @@ const BrowseBlogs = ({ type }) => {
                 radius="sm"
                 className="img-fluid object-fit-cover"
               />
-              <figcaption className="position-absolute bottom-0 p-3">
+                       <Overlay
+                       color="#000"
+            // gradient="linear-gradient(145deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 100%)"
+            opacity={0.85}
+          />
+              <figcaption className="position-absolute bottom-0 p-3 text-white" style={{zIndex:"200"}}>
                 <Text fw={600} size={rem(24)} c="white">
                   {firstBlog?.title}
                 </Text>
               </figcaption>
             </figure>
+            </Link>
           </div>
           <div className="col-lg-6 col-12">
             {remainingBlogs.map((blog) => (

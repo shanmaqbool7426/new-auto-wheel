@@ -609,7 +609,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             </Accordion.Item>
           </Accordion>
         )}
-        {/* {filters.model?.length > 0 && filters.make?.length > 0 && (
+        {filters.model?.length > 0 && filters.make?.length > 0 && (
           <Accordion
             variant="contained"
             mb="lg"
@@ -677,7 +677,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-        )} */}
+        )}
 
         {/* Custom Range Slider for Mileage */}
         {/* <Input.Wrapper mb="lg">
@@ -758,7 +758,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 max={filters.price[1]}
                 onChange={(e) =>
                   handleFilterChange("price", [
-                    Number(e.target.value),
+                    Number(e||0),
                     filters.price[1],
                   ])
                 }
@@ -773,7 +773,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 onChange={(e) =>
                   handleFilterChange("price", [
                     filters.price[0],
-                    Number(e.target.value),
+                    Number(e||2000000000),
                   ])
                 }
               />
@@ -1513,7 +1513,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   </Accordion.Item>
                 </Accordion>
               )}
-              {/* {filters.model?.length > 0 && filters.make?.length > 0 && (
+              {filters.model?.length > 0 && filters.make?.length > 0 && (
                 <Accordion
                   variant="contained"
                   mb="lg"
@@ -1581,7 +1581,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
-              )} */}
+              )}
               {/* <Input.Wrapper mb="lg">
                 <Input.Label>Mileage</Input.Label>
                 <RangeSlider

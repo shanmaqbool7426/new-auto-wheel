@@ -75,7 +75,7 @@ import {
               { maxWidth: 'xs', slideSize: '100%' },
             ]}
           >
-            {news.map((item) => (
+            {news?.map((item) => (
               <Carousel.Slide key={item._id}>
                 <Box
                   sx={{ backgroundColor: '#f9f9f9', padding: '16px', borderRadius: '8px' }}

@@ -2271,7 +2271,23 @@ const suburbs = [
     { city: "Ubauro", suburbs: ["Ubauro Town", "Railway Colony"] },
     { city: "Umarkot", suburbs: ["Umarkot City", "Fort Area"] },
     { city: "Umerkot District", suburbs: ["Umerkot City Center"] },
-    { city: "Warah", suburbs: ["Warah Town"] }
+    { city: "Warah", suburbs: ["Warah Town"] },
+    // Islamabad Capital Territory
+    {
+      city: "Islamabad",
+      suburbs: [
+        "F-6", "F-7", "F-8", "F-10", "F-11", "F-15", "G-5", "G-6", "G-7", "G-8", "G-9",
+        "G-10", "G-11", "G-13", "G-14", "I-8", "I-9", "I-10", "I-11", "H-8", "H-9",
+        "E-7", "E-11", "Blue Area", "Diplomatic Enclave", "Bahria Town", "DHA Phase 1",
+        "DHA Phase 2", "DHA Phase 3", "DHA Phase 5", "PWD", "Soan Garden", "Chak Shahzad",
+        "Banigala", "Bhara Kahu", "Margalla Town", "Shah Allah Ditta", "Golra", "Pir Sohawa",
+        "Bani Gala", "Korang Town", "Media Town", "Gulberg Greens", "B-17", "C-15", "C-16",
+        "FECHS", "Faisal Town", "Jinnah Garden", "Fazaia Housing Scheme", "PWD", "Naval Anchorage",
+        "Top City", "Airport Housing Society", "Park View City", "Top City 1", "Alipur Farash",
+        "Khanpur Dam", "National Police Foundation", "Multi Gardens", "PECHS", "Ghauri Town",
+        "Doctors Town", "PWD Housing Scheme", "Jinnah Town"
+      ]
+    }
   ];
 
 export const getSuburbs=(city)=> {

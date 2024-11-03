@@ -24,7 +24,7 @@ export const Comparison = async (data) => {
     console.log(payload)
 
     // Send the payload to the backend API
-    const response = await fetchAPI(`${API_ENDPOINTS.NEW_VEHICLE.COMPARISON}`+ `?type=${encodeURIComponent(type)}`, {
+    const response = await fetch(`${API_ENDPOINTS.NEW_VEHICLE.COMPARISON}`+ `?type=${encodeURIComponent(type)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const Comparison = async (data) => {
       body: payload,
     });
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error fetching comparison data:", error);
     return {

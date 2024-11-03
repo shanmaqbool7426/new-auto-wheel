@@ -79,9 +79,9 @@ const TopComparison = ({ title, type }) => {
               </Title>
             )}
 
-            <Anchor component={Link} href="#" color="#E90808">
+            {/* <Anchor component={Link} href="#" color="#E90808">
               Show all Comparisons
-            </Anchor>
+            </Anchor> */}
           </Flex>
           <Text size="lg" align="center">
             No comparisons to show
@@ -108,9 +108,9 @@ const TopComparison = ({ title, type }) => {
             </Title>
           )}
 
-          <Anchor component={Link} href="/comparisons" color="#E90808">
+          {/* <Anchor component={Link} href="/comparisons" color="#E90808">
             Show all Comparisons
-          </Anchor>
+          </Anchor> */}
         </Flex>
         <div className="row">
           {comparisons.data.map((comparison, index) => (
