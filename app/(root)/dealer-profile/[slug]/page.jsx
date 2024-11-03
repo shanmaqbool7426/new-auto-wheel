@@ -80,7 +80,6 @@ const DealerRating = () => {
 
   const token = getLocalStorage('token');
 
-  console.log('token',token)
   const getUserProfile = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
@@ -127,7 +126,7 @@ const DealerRating = () => {
   };
   const fetchProfileAndStatus = async () => {
     if (!token) return;
-    
+
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/api/user/profile/${slug}`, {
@@ -173,11 +172,11 @@ const DealerRating = () => {
     }
   }, [slug]);
 
-console.log('>>>>>>> id',token?.token?.user?._id)
+  console.log('>>>>>>> id', token?.token?.user?._id)
   useEffect(() => {
     if (profile) {
 
-      console.log('>>>>>>> isFollowing',profile,profile.followers.includes(token?.token?.user?._id))
+      console.log('>>>>>>> isFollowing', profile, profile.followers.includes(token?.token?.user?._id))
       setIsFollowing(profile.followers.includes(token?.token?.user?._id)); // Assuming you have access to the current user's ID
       // console.log('token.token.userId',token.token.user?_id)
     }
@@ -231,101 +230,106 @@ console.log('>>>>>>> id',token?.token?.user?._id)
         },
         body: JSON.stringify({ action })
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to update like/dislike');
       }
-
+  
       const data = await response.json();
-
+      
       // Update the reviews state with the new like/dislike counts
       setReviews(reviews.map(review =>
         review?._id === reviewId
-          ? { ...review, likes: data.likes, dislikes: data.dislikes }
+          ? {
+              ...review,
+              likes: data.hasLiked ? 
+                [...(review.likes || []), token?.token?.user?._id] : 
+                (review.likes || []).filter(id => id !== token?.token?.user?._id),
+              dislikes: data.hasDisliked ? 
+                [...(review.dislikes || []), token?.token?.user?._id] : 
+                (review.dislikes || []).filter(id => id !== token?.token?.user?._id)
+            }
           : review
       ));
-      fetchReviews()
     } catch (error) {
       console.error('Error updating like/dislike:', error);
-      // You might want to show an error message to the user here
     }
   };
 
-  
 
-  
-    const handleFollow = async () => {
-      setFollowLoading(true);
-      try {
-        const response = await fetch(`${BASE_URL}/api/user/${profile._id}/follow`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token?.token?.token
-          }
-        });
-  
-        if (!response.ok) {
-          throw new Error('Failed to follow user');
+
+  const handleFollow = async () => {
+    setFollowLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/api/user/${profile._id}/follow`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token?.token?.token
         }
-        fetchProfileAndStatus()
-        const data = await response.json();
-        setIsFollowing(true);
-        // notifications.show({
-        //   title: 'Success',
-        //   message: 'Successfully followed user',
-        //   color: 'green'
-        // });
-      } catch (error) {
-        console.error('Error following user:', error);
-        // notifications.show({
-        //   title: 'Error',
-        //   message: 'Failed to follow user',
-        //   color: 'red'
-        // });
-      } finally {
-        setFollowLoading(false);
-      }
-    };
-  
-    const handleUnfollow = async () => {
-      setFollowLoading(true);
-      try {
-        const response = await fetch(`${BASE_URL}/api/user/${profile._id}/unfollow`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization':token?.token?.token
-          }
-        });
+      });
 
-        fetchProfileAndStatus()
-  
-        if (!response.ok) {
-          throw new Error('Failed to unfollow user');
+      if (!response.ok) {
+        throw new Error('Failed to follow user');
+      }
+      fetchProfileAndStatus()
+      const data = await response.json();
+      setIsFollowing(true);
+      // notifications.show({
+      //   title: 'Success',
+      //   message: 'Successfully followed user',
+      //   color: 'green'
+      // });
+    } catch (error) {
+      console.error('Error following user:', error);
+      // notifications.show({
+      //   title: 'Error',
+      //   message: 'Failed to follow user',
+      //   color: 'red'
+      // });
+    } finally {
+      setFollowLoading(false);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    setFollowLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/api/user/${profile._id}/unfollow`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token?.token?.token
         }
-  
-        const data = await response.json();
-        setIsFollowing(false);
-        // notifications.show({
-        //   title: 'Success',
-        //   message: 'Successfully unfollowed user',
-        //   color: 'green'
-        // });
-      } catch (error) {
-        console.error('Error unfollowing user:', error);
-        // notifications.show({
-        //   title: 'Error',
-        //   message: 'Failed to unfollow user',
-        //   color: 'red'
-        // });
-      } finally {
-        setFollowLoading(false);
+      });
+
+      fetchProfileAndStatus()
+
+      if (!response.ok) {
+        throw new Error('Failed to unfollow user');
       }
-    };
+
+      const data = await response.json();
+      setIsFollowing(false);
+      // notifications.show({
+      //   title: 'Success',
+      //   message: 'Successfully unfollowed user',
+      //   color: 'green'
+      // });
+    } catch (error) {
+      console.error('Error unfollowing user:', error);
+      // notifications.show({
+      //   title: 'Error',
+      //   message: 'Failed to unfollow user',
+      //   color: 'red'
+      // });
+    } finally {
+      setFollowLoading(false);
+    }
+  };
 
 
-      // Function to reset the form
+  // Function to reset the form
   const resetForm = () => {
     setReviewForm(initialReviewForm);
     setSubmitError(null);
@@ -614,18 +618,27 @@ console.log('>>>>>>> id',token?.token?.user?._id)
                             <Group>
                               <ActionIcon
                                 variant="subtle"
-                                color="blue"
+                                color={review?.likes?.includes(token?.token?.user?._id) ? "blue" : "gray"}
                                 onClick={() => handleLikeDislike(review?._id, 'like')}
                               >
-                                <FaThumbsUp />
+                                {review?.likes?.includes(token?.token?.user?._id) ? (
+                                  <FaThumbsUp style={{ fill: '#228be6' }} />
+                                ) : (
+                                  <FaThumbsUp style={{ fill: '#868e96' }} />
+                                )}
                               </ActionIcon>
                               <Text>{review?.likes ? review?.likes.length : 0}</Text>
+
                               <ActionIcon
                                 variant="subtle"
-                                color="red"
+                                color={review?.dislikes?.includes(token?.token?.user?._id) ? "red" : "gray"}
                                 onClick={() => handleLikeDislike(review?._id, 'dislike')}
                               >
-                                <FaThumbsDown />
+                                {review?.dislikes?.includes(token?.token?.user?._id) ? (
+                                  <FaThumbsDown style={{ fill: '#fa5252' }} />
+                                ) : (
+                                  <FaThumbsDown style={{ fill: '#868e96' }} />
+                                )}
                               </ActionIcon>
                               <Text>{review?.dislikes ? review?.dislikes.length : 0}</Text>
                             </Group>

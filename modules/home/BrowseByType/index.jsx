@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Pagination, Text, Title } from "@mantine/core";
 import CarCard from "@/components/ui/CarCard";
 import { fetchAPI } from "@/services/fetchAPI";
@@ -19,6 +19,10 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
 
     setVehicles(res || []);
   };
+
+  useEffect(()=>{
+    handleTypeChange(selectedType)
+  },[])
   return (
     <section className={`browse-type-section py-5 ${bg || ""}`}>
       <Box className="container-xl">
