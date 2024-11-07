@@ -208,7 +208,7 @@ const LocationSelector = ({
             >
               City
             </Button>
-            <Button
+           {hide && <Button
               className={`tab-button ${activeTab === "suburb" ? "active" : ""}`}
               variant="subtle"
               bg={activeTab === "suburb" ? "#E90808" : "#F3F3F3"}
@@ -224,7 +224,7 @@ const LocationSelector = ({
               }}
             >
               Suburb
-            </Button>
+            </Button>}
             </>
           )}
           <CloseButton pos="absolute" right={20} onClick={closeModal}/>
@@ -272,7 +272,7 @@ const LocationSelector = ({
             </List>
           </ScrollArea>
         </Grid.Col> */}
-        <Grid.Col span={4} p="md" pt="xl" className="border-end">
+        <Grid.Col span={hide ? 4 : 6} p="md" pt="xl" className="border-end">
           {/* Province Section */}
           <Input
             placeholder="Search by Province"
@@ -347,7 +347,7 @@ const LocationSelector = ({
               </List>
             </ScrollArea>
           </Grid.Col>
-          <Grid.Col span={4} p="md" pt="xl" className="border-end">
+        {hide &&  <Grid.Col span={hide ? 4 : 6} p="md" pt="xl" className="border-end">
             <Input
               placeholder="Search by Suburb"
               leftSection={<BsSearch />}
@@ -382,7 +382,7 @@ const LocationSelector = ({
                   ))}
               </List>
             </ScrollArea>
-          </Grid.Col>
+          </Grid.Col>}
         </>
         )}
       </Grid>

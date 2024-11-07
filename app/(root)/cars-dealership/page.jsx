@@ -30,6 +30,8 @@ import QuickLinks from "@/components/QuickLinks";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
+import LocationSelector from '@/components/LocationSelector';
+
 import { Form } from "@mantine/form";
 const CarsDealerShip = () => {
   const [dealers, setDealers] = useState([]);
@@ -40,9 +42,27 @@ const CarsDealerShip = () => {
   const [showNumbers, setShowNumbers] = useState({});
   const [selectedType, setSelectedType] = useState("");
 
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [selection, setSelection] = useState({
+    country: "PK",
+    province: "",
+    city: "",
+    suburb: ""
+  });
+
+  // Format the display value for the Select
+  const displayValue = selection.suburb
+    ? `${selection.suburb}, ${selection.city}`
+    : selection.city
+      ? selection.city
+      : selection.province?.name
+        ? selection.province.name
+        : "";
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
 
+
+  console.log('displayValue', displayValue)
   const fetchDealers = async () => {
     try {
       const response = await fetch(
@@ -120,7 +140,19 @@ const CarsDealerShip = () => {
                         <Select
                           size="md"
                           placeholder="Choose Location"
-                          data={["React", "Angular", "Vue", "Svelte"]}
+                          value={displayValue || null}
+                          data={displayValue ? [{ value: displayValue, label: displayValue }] : []}
+                          onClick={() => setIsLocationModalOpen(true)}
+                          searchable={false}
+                          readOnly
+                        />
+
+                        <LocationSelector
+                          isOpen={isLocationModalOpen}
+                          onClose={() => setIsLocationModalOpen(false)}
+                          selection={selection}
+                          hideCountry={true}
+                          setSelection={setSelection}
                         />
                       </Box>
                       <Box className="col-lg-auto col-md-4">
@@ -181,7 +213,7 @@ const CarsDealerShip = () => {
               >
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
-                    <Table.Tr key={index} className="border-bottom cursor" onClick={()=>profileHnadler(dealer._id)}>
+                    <Table.Tr key={index} className="border-bottom cursor" onClick={() => profileHnadler(dealer._id)}>
                       <Table.Td >
                         <Flex gap="xs">
                           <Image
