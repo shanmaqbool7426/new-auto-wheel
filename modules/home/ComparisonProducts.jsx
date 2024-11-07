@@ -49,8 +49,8 @@ const ComparisonProducts = ({ title }) => {
                           <div className="product-compare product-first justify-content-start">
                             <Image
                               src="/compare/compare-product.png"
-                              width={143}
-                              height={88}
+                              width={120}
+                              height={80}
                               className="img-fluid"
                             />
                           </div>
@@ -58,8 +58,8 @@ const ComparisonProducts = ({ title }) => {
                           <div className="product-compare product-second justify-content-end">
                             <Image
                               src="/compare/compare-2.png"
-                              width={143}
-                              height={88}
+                              width={120}
+                              height={80}
                               className="img-fluid"
                             />
                           </div>
@@ -70,23 +70,28 @@ const ComparisonProducts = ({ title }) => {
                               wrap="nowrap"
                               className="car-compare-info text-center"
                               mb="lg"
+                              justify="space-between"
                             >
-                              <Flex direction="column" gap="5">
-                                <Title ff="text" size={rem(14)} fw={500}>
+                              <Flex direction="column" gap="xs">
+                                <Title ff="text" size={rem(13)} fw={600}>
                                   2016 Ford Escape Cape
                                 </Title>
                                 <Flex align="center" justify="center" gap={5}>
-                                  <Rating defaultValue={2} />
-                                  (4/5)
+                                  <Rating defaultValue={2} size="sm" />
+                                  <Text span size="sm">
+                                    (4/5)
+                                  </Text>
                                 </Flex>
                               </Flex>
-                              <Flex direction="column" gap="5">
-                                <Title ff="text" size={rem(14)} fw={500}>
+                              <Flex direction="column" gap="xs">
+                                <Title ff="text" size={rem(13)} fw={600}>
                                   2016 Ford Escape Cape
                                 </Title>
                                 <Flex align="center" justify="center" gap={5}>
-                                  <Rating defaultValue={2} />
-                                  (4/5)
+                                  <Rating defaultValue={2} size="sm" />
+                                  <Text span size="sm">
+                                    (4/5)
+                                  </Text>
                                 </Flex>
                               </Flex>
                             </Group>
@@ -97,9 +102,7 @@ const ComparisonProducts = ({ title }) => {
                               fullWidth
                               size="md"
                             >
-                              <Text span inherit ff="heading" fw={500}>
-                                Compare
-                              </Text>
+                              Compare
                             </Button>
                           </Flex>
                         </div>

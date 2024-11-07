@@ -100,7 +100,7 @@ const CarsDealerShip = () => {
                 <Box className="search-wrapper-card">
                   <Card
                     shadow="0px 4px 20px 0px #00000014"
-                    padding="xl"
+                    padding="24px 16px"
                     radius="sm"
                   >
                     <Title order={3} mb="lg">
@@ -114,6 +114,7 @@ const CarsDealerShip = () => {
                           data={["Car", "Bike", "Truck"]}
                           value={selectedType}
                           onChange={setSelectedType}
+                          comboboxProps={{ shadow: "xl" }}
                         />
                       </Box>
                       <Box className="col-lg-5 col-md-4 mb-lg-0 mb-3">
@@ -121,9 +122,10 @@ const CarsDealerShip = () => {
                           size="md"
                           placeholder="Choose Location"
                           data={["React", "Angular", "Vue", "Svelte"]}
+                          comboboxProps={{ shadow: "xl" }}
                         />
                       </Box>
-                      <Box className="col-lg-auto col-md-4">
+                      <Box className="col-lg-2 col-md-4">
                         <Button
                           variant="filled"
                           fullWidth
@@ -131,7 +133,7 @@ const CarsDealerShip = () => {
                           bg="#E90808"
                           autoContrast
                           fw="normal"
-                          leftSection={<BiSearch />}
+                          leftSection={<BiSearch fontSize={rem(18)} />}
                         >
                           Search
                         </Button>
@@ -167,6 +169,7 @@ const CarsDealerShip = () => {
                   size="sm"
                   placeholder="Date: newest First"
                   data={["React", "Angular", "Vue", "Svelte"]}
+                  comboboxProps={{ shadow: "xl" }}  
                 />
               </Flex>
             </Box>
@@ -181,8 +184,12 @@ const CarsDealerShip = () => {
               >
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
-                    <Table.Tr key={index} className="border-bottom cursor" onClick={()=>profileHnadler(dealer._id)}>
-                      <Table.Td >
+                    <Table.Tr
+                      key={index}
+                      className="border-bottom cursor"
+                      onClick={() => profileHnadler(dealer._id)}
+                    >
+                      <Table.Td w="35%">
                         <Flex gap="xs">
                           <Image
                             src="/user-profile.png"
@@ -207,12 +214,12 @@ const CarsDealerShip = () => {
                           </Stack>
                         </Flex>
                       </Table.Td>
-                      <Table.Td align="center">
+                      <Table.Td align="center" w="15%">
                         <Text size="md">
                           No of Ads <strong>({dealer.adsCount})</strong>
                         </Text>
                       </Table.Td>
-                      <Table.Td align="center">
+                      <Table.Td align="center" w="30%">
                         <Flex justify="center" align="center" gap={5}>
                           <PhoneIcon />
                           <Text size="lg" component="strong" fw="bold">
@@ -232,7 +239,7 @@ const CarsDealerShip = () => {
                           </Anchor>
                         </Flex>
                       </Table.Td>
-                      <Table.Td align="center">
+                      <Table.Td w="20%" align="center">
                         <Text fw={600}>
                           <FaLocationDot color="#E90808" className="me-2" />
                           {dealer.location ?? "Not Available"}
@@ -260,7 +267,6 @@ const CarsDealerShip = () => {
         </Box>
 
         {/* Give Rating Modal */}
-
       </Box>
     </>
   );
