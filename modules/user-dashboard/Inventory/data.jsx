@@ -70,7 +70,6 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
     render: ({ isFeatured, id }) => {
       return (
         <>
-          {console.log('>>>>>>>', isFeatured)}
           <Badge
             onClick={(e) => {
               e.stopPropagation(); // Prevent row click event

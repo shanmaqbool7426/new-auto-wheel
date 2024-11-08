@@ -7,6 +7,7 @@ import {
   Button,
   Group,
   Box,
+  rem,
 } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
@@ -64,10 +65,14 @@ const ComparisonProducts = ({ title }) => {
                           </div>
                         </div>
                         <div className="card-body">
-                          <Flex justify="space-between">
-                            <Box className="car-compare-info">
+                          <Flex direction="column" justify="space-between">
+                            <Group
+                              wrap="nowrap"
+                              className="car-compare-info text-center"
+                              mb="lg"
+                            >
                               <Flex direction="column" gap="5">
-                                <Title order={6} fw={600}>
+                                <Title ff="text" size={rem(14)} fw={500}>
                                   2016 Ford Escape Cape
                                 </Title>
                                 <Flex align="center" justify="center" gap={5}>
@@ -76,7 +81,7 @@ const ComparisonProducts = ({ title }) => {
                                 </Flex>
                               </Flex>
                               <Flex direction="column" gap="5">
-                                <Title order={6} fw={600}>
+                                <Title ff="text" size={rem(14)} fw={500}>
                                   2016 Ford Escape Cape
                                 </Title>
                                 <Flex align="center" justify="center" gap={5}>
@@ -84,7 +89,7 @@ const ComparisonProducts = ({ title }) => {
                                   (4/5)
                                 </Flex>
                               </Flex>
-                            </Box>
+                            </Group>
 
                             <Button
                               variant="outline"
@@ -92,7 +97,9 @@ const ComparisonProducts = ({ title }) => {
                               fullWidth
                               size="md"
                             >
-                              Compare
+                              <Text span inherit ff="heading" fw={500}>
+                                Compare
+                              </Text>
                             </Button>
                           </Flex>
                         </div>

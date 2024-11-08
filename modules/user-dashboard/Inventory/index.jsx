@@ -42,6 +42,7 @@ export default function Inventory() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+
   return (
     <>
       <Box className={classes.toolbar}>
@@ -120,7 +121,7 @@ export default function Inventory() {
         />
       </Box>
 
-      <Modal.Root
+      {/* <Modal.Root
         opened={opened}
         onClose={closeModalMakeFeature}
         size={'700px'}
@@ -180,7 +181,7 @@ export default function Inventory() {
             </form>
           </Modal.Body>
         </Modal.Content>
-      </Modal.Root>
+      </Modal.Root> */}
     </>
   )
 }

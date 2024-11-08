@@ -151,7 +151,7 @@ const CarsDealerShip = () => {
                           isOpen={isLocationModalOpen}
                           onClose={() => setIsLocationModalOpen(false)}
                           selection={selection}
-                          hideCountry={true}
+                          hideCountry={false}
                           setSelection={setSelection}
                         />
                       </Box>

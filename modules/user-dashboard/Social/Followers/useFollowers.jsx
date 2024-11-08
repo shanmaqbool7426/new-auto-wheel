@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { api } from '@/app/(user-dashboard)/services/api';
 import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
 import { showNotification } from '@mantine/notifications'; // Add this import
+import { getLocalStorage } from '@/utils';
 
 export default function useFollowers({userId}) {
+  const token = getLocalStorage('token');
+
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,7 +34,7 @@ export default function useFollowers({userId}) {
     console.log('userId>>',userId)
     setLoading(true);
     try {
-      const data = await api.get(`/api/user/67139bb54aabf4d48e4dbfff/followers`, {
+      const data = await api.get(`/api/user/${token?._id}/followers`, {
         page: pagination.page,
         limit: pagination.limit,
         search: searchBy,
@@ -64,7 +67,7 @@ export default function useFollowers({userId}) {
 
   const handleUnfollow = async (userId) => {
     try {
-      const response = await api.post(`/api/user/${userId}/unfollow`);
+      const response = await api.post(`/api/user/${token?._id}/unfollow`);
       console.log('Unfollow response:', response); // For debugging
   
       if (response.success) {

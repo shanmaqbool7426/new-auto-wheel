@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/app/(user-dashboard)/services/api';
 import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
+import { getLocalStorage } from '@/utils';
 
 export default function useFollowers({userId}) {
+  const token = getLocalStorage('token');
+
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +22,7 @@ export default function useFollowers({userId}) {
   const { data: session } = useSession();
 
 
-  console.log('session',session)
+  console.log('session>>>',token)
   useEffect(() => {
     // if (session?.user?._id) {
       fetchFollowers();
@@ -29,7 +32,7 @@ export default function useFollowers({userId}) {
   const fetchFollowers = async () => {
     setLoading(true);
     try {
-      const data = await api.get(`/api/user/67139bb54aabf4d48e4dbfff/following`, {
+      const data = await api.get(`/api/user/${token?._id}/following`, {
         page: pagination.page,
         limit: pagination.limit,
         search: searchBy,
@@ -62,7 +65,7 @@ export default function useFollowers({userId}) {
 
   const handleUnfollow = async (userId) => {
     try {
-      await api.post(`/users/${userId}/unfollow`);
+      await api.post(`/users/${token?._id}/unfollow`);
       fetchFollowers(); // Refresh the list after unfollowing
     } catch (err) {
       setError('Failed to unfollow user');
