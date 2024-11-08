@@ -60,22 +60,22 @@ export default function PostCard({ data }) {
             </Button>
           </Box>
           <Group className={styles.postFooterLikes}>
-            <Group><IconThumbUp /><Box>10</Box></Group>
-            <Group><IconThumbDown /><Box>10</Box></Group>
+            <Group><IconThumbUp /><Box>{data?.likes || 0}</Box></Group>
+            <Group><IconThumbDown /><Box>{data?.dislikes || 0}</Box></Group>
           </Group>
         </Box>
       </Box>
 
       {/* Reviews */}
-      <Box className={styles.reviews}>
+  <Box className={styles.reviews}>
         {data?.reviews && data?.reviews.map(review => (
           <Box key={review?.id} className={styles.review}>
             <h4 className={styles.reviewTitle}>Reply by {review?.replyBy}</h4>
             <Box className={styles.reviewDesc}>{review?.reply}</Box>
             <Box className={styles.reviewMeta}>
               <Group className={styles.postFooterLikes}>
-                <Group><IconThumbUp /><Box>10</Box></Group>
-                <Group><IconThumbDown /><Box>10</Box></Group>
+                <Group><IconThumbUp /><Box>{review?.likes || 0}</Box></Group>
+                <Group><IconThumbDown /><Box>{review?.dislikes || 0}</Box></Group>
               </Group>
             </Box>
           </Box>

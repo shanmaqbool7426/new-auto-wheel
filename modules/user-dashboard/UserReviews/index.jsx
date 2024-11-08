@@ -10,11 +10,14 @@ import PostCard from './PostCard';
 
 export default function UserReviews() {
   const {
+    reviews,
+    loading,
     setSearchBy,
     filterParams,
     handleChangeFilter,
     handleClickDeleteRow,
   } = useUserReviews();
+
 
   return (
     <>
@@ -30,12 +33,35 @@ export default function UserReviews() {
       </Box>
 
       <Box>
-        {postsData.map((post) => (
-          <PostCard
-            key={post.id}
-            data={post}
+        {loading ? (
+          <Box>Loading...</Box>
+        ) : (
+          reviews?.map((review) => (
+            <PostCard
+            key={review._id}
+            data={{
+              id: review._id,
+              title: `Review #${review._id.slice(-4)}`, // You might want to customize this
+              postedBy: review.user.fullName,
+              postedDate: review.createdAt,
+              rating: review.rating,
+              description: review.content,
+              buyingProcess: review.buyingProcess,
+              vehicleSelection: review.vehicleSelection,
+              servicesLevel: review.levelOfServices,
+              reviews: review.comments?.map(comment => ({
+                id: comment._id,
+                replyBy: comment.user?.fullName,
+                reply: comment.content,
+                likes: comment.likes?.length || 0,
+                dislikes: comment.dislikes?.length || 0
+              })) || [],
+              likes: review.likes?.length || 0,
+              dislikes: review.dislikes?.length || 0
+            }}
           />
-        ))}
+          ))
+        )}
       </Box>
     </>
   )
