@@ -166,14 +166,16 @@ const Header = ({type}) => {
                             alt={`Car Comparison ${vehicleNumber}`}
                           />
                           <Text c="dimmed" mb="md">
-                            {
-                              vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
-                              vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
-                              vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
-                              `Add ${type} ${vehicleNumber}`
-                            }
+                            {`Add ${type} ${vehicleNumber}`}
                           </Text>
-                          <Input size="md" radius="md" placeholder="Search by Car Variant" />
+                          <Input size="md" radius="md" placeholder="Search by Car Variant" 
+                          value={
+                            vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
+                            vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
+                            vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
+                            ""
+                          }
+                          />
                         </Card>
                       </div>
                     ))}

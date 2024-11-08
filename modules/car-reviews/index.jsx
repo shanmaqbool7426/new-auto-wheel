@@ -183,7 +183,7 @@ const CarReviewsModule = ({
                       <Box className="col-md-9">
                         <Input
                           size="md"
-                          value={`${selection?.make} ${selection?.model}`}
+                          value={`${selection?.make} ${selection?.model} ${selection?.variant}`}
                           onClick={openModalCommon}
                           placeholder="Search by Car Make or Model"
                           leftSection={<IconSearch size={16} />}
@@ -308,7 +308,6 @@ const CarReviewsModule = ({
         setSelection={setSelection}
         onClose={closeModalCommon}
         fetchMakesByTypeData={fetchMakesByTypeData}
-        hide={true}
       />
     </>
   );

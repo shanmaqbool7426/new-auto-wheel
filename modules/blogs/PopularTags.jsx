@@ -4,7 +4,7 @@ import { Badge, Card, Group, Title, Text } from '@mantine/core';
 import React from 'react';
 import Link from 'next/link';
 const PopularTags = ({ tags }) => {
-    const hasTags = tags?.data && tags.data.length > 0;
+    const hasTags = tags?.data && tags?.data?.length > 0;
 
     return (
         <Card

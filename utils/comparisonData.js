@@ -2361,17 +2361,186 @@ const sections = [
         ],
     },
 ];
+// Define sections specific to bikes
+const bikeSections = [
+    // Overview Section
+    {
+        title: "Overview",
+        isSwitchable: true,
+        fields: [
+            {
+                type: "Size",
+                paths: ["dimensions.length", "dimensions.width", "dimensions.height"],
+                formatter: (vals) => (vals.every(val => val)) ? `${vals[0]} L x ${vals[1]} W x ${vals[2]} H` : "",
+            },
+            {
+                type: "Mileage",
+                paths: ["fuelAverage"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]} KM/L` : "",
+            },
+            {
+                type: "Engine",
+                paths: ["engine.type", "engine.displacement"],
+                formatter: (vals) => (vals[0] && vals[1]) ? `${vals[0]}, ${vals[1]} cc` : "",
+            },
+            {
+                type: "Transmission",
+                paths: ["transmission"],
+            },
+            {
+                type: "Fuel Capacity",
+                paths: ["fuelCapacity"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]} L` : "",
+            },
+            {
+                type: "Top Speed",
+                paths: ["topSpeed"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+            },
+            {
+                type: "User Rating",
+                render: (vehicle) =>
+                    renderUserRating(
+                        vehicle,
+                        getNested(vehicle, "averageRating"),
+                        getNested(vehicle, "reviewCount")
+                    ),
+            },
+        ],
+    },
+
+    // Engine & Performance Section
+    {
+        title: "Engine & Performance",
+        isSwitchable: false,
+        fields: [
+            {
+                featureName: "Engine & Performance",
+                type: "icon",
+                iconURL: "/compare/engine-performace.svg",
+            },
+            {
+                type: "Engine Type",
+                paths: ["engine.type"],
+            },
+            {
+                type: "Displacement",
+                paths: ["engine.displacement"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]} cc` : "",
+            },
+            {
+                type: "Horse Power",
+                paths: ["engine.horsepower"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+            },
+            {
+                type: "Torque",
+                paths: ["engine.torque"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]}` : "-",
+            },
+            {
+                type: "Fuel Average",
+                paths: ["fuelAverage"],
+            },
+            {
+                type: "Max Speed",
+                paths: ["topSpeed"],
+            },
+            {
+                type: "Bore x Stroke",
+                paths: ["engine.boreStroke"],
+            },
+            {
+                type: "Compression Ratio",
+                paths: ["engine.compressionRatio"],
+            },
+            {
+                type: "Clutch Type",
+                paths: ["engine.clutch"],
+            },
+        ],
+    },
+
+    // Transmission Section
+    {
+        title: "Transmission",
+        isSwitchable: false,
+        fields: [
+            {
+                featureName: "Transmission",
+                type: "icon",
+                iconURL: "/compare/transmission.svg",
+            },
+            {
+                type: "Transmission Type",
+                paths: ["transmission"],
+            },
+        ],
+    },
+
+    // Wheels & Tyres Section
+    {
+        title: "Wheels & Tyres",
+        isSwitchable: false,
+        fields: [
+            {
+                featureName: "Wheels & Tyres",
+                type: "icon",
+                iconURL: "/compare/wheels.svg",
+            },
+            {
+                type: "Wheel Size",
+                paths: ["wheelSize"],
+            },
+            {
+                type: "Front Tyre Size",
+                paths: ["tyres.front"],
+            },
+            {
+                type: "Rear Tyre Size",
+                paths: ["tyres.back"],
+            },
+        ],
+    },
+
+    // Fuel Consumptions Section
+    {
+        title: "Fuel Consumptions",
+        isSwitchable: false,
+        fields: [
+            {
+                featureName: "Fuel Consumptions",
+                type: "icon",
+                iconURL: "/compare/fuel.svg",
+            },
+            {
+                type: "Mileage",
+                paths: ["fuelAverage"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]}` : "",
+            },
+            {
+                type: "Fuel Tank Capacity",
+                paths: ["fuelCapacity"],
+                formatter: (vals) => (vals[0]) ? `${vals[0]} L` : "",
+            },
+        ],
+    },
+
+    // Additional Bike-Specific Sections (Optional)
+    // You can add more sections here if needed
+];
+
 
 // Function to map vehicle data and optionally hide common features
-export const mapVehicleData = (vehicles = [], hideCommonFeatures = false) => {
+export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type ="car") => {
     if (!vehicles.length) {
         return { comparisonData: [] };
     }
 
     // Destructure vehicles without default values to determine existence
     const [vehicle1, vehicle2, vehicle3] = vehicles;
-
-    const comparisonData = sections
+    const mapSection= type === "bike" ? bikeSections : sections;
+    const comparisonData = mapSection
         .map((section) => {
             const overviewTableData = section.fields
                 .map((field) => {

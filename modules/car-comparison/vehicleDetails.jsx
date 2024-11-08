@@ -1,8 +1,7 @@
 // VehicleComparisonDetail.jsx
 "use client";
 import React from "react";
-import { Box, Card, Title } from "@mantine/core";
-import ComparisonCard from "./ComparisonCard";
+import { Box,} from "@mantine/core";
 import DetailSection from "./DetailSection";
 import VehicleComparisonLabels from "./VehicleComparisonLabels";
 import Header from "./vehicleDetailHeader";
@@ -10,7 +9,7 @@ import Header from "./vehicleDetailHeader";
 import { mapVehicleData } from "@/utils/comparisonData"
 const VehicleComparisonDetail = ({ vehicles, type }) => {
     const [hideCommonFeatures, setHideCommonFeatures] = React.useState(false);
-    const comparisonData = mapVehicleData(vehicles,hideCommonFeatures)?.comparisonData;
+    const comparisonData = mapVehicleData(vehicles,hideCommonFeatures,type)?.comparisonData;
     const carDetailLabel = [
         { name: "Overview", href: "#overview" },
         { name: "Dimensions", href: "#dimension" },
@@ -29,7 +28,7 @@ const VehicleComparisonDetail = ({ vehicles, type }) => {
                 <Box className="background-search-verlay"
                     mb={{ base: 850, sm: 250 }}
                     pt={80}
-                    h={500}
+                    h={550}
                 >
                     <div className="container-xl">
                         <Header vehicles={vehicles} type={type} />

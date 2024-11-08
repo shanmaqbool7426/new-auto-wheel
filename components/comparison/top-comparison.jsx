@@ -61,7 +61,7 @@ const TopComparison = ({ title, type }) => {
     );
   }
 
-  if (comparisons.data.length === 0) {
+  if (comparisons?.data?.length === 0 || !comparisons?.data) {
     return (
       <section className="comparison-products bg-light py-5">
         <div className="container-xl">
