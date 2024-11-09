@@ -59,7 +59,6 @@ export default function useInventory() {
       const response = await fetch(`${BASE_URL}/api/user/vehicles-by-user/${token?._id}?${queryParams}`);
       const data = await response.json();
       if (data.success) {
-        console.log('data', data);
 
         const transformedVehicles = data.data.vehicles.map((vehicle) => ({
           id: vehicle._id,
@@ -80,10 +79,10 @@ export default function useInventory() {
           transmission: vehicle.specifications.transmission,
           fuelType: vehicle.specifications.fuelType,
         }));
+        console.log('transformedVehicles', transformedVehicles);
         setVehicles(transformedVehicles);
         setTotalPages(data?.data.totalPages);
         setTotalVehicles(data?.data?.totalVehicles)
-        console.log('transformedVehicles', transformedVehicles);
       } else {
         throw new Error(data.message || 'Failed to fetch vehicles');
       }
