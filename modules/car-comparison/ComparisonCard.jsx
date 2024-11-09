@@ -19,7 +19,7 @@ const ComparisonCard = ({ vehicle }) => {
     console.log(vehicle, "vehisdsdcle")
     return (
         <Card withBorder radius="sm" padding="lg" shadow="none" className="position-relative" h={"100%"}>
-            {/* <CloseButton ml="auto" /> */}
+           {/* {vehicle._id && <CloseButton ml="auto" />} */}
             <Flex direction="column" gap="5" align="center">
                 <Image h={120}
                     w={120}
@@ -40,7 +40,7 @@ const ComparisonCard = ({ vehicle }) => {
                 {vehicle.minPrice && <Text fw={700} size="xl">
                     {`Rs ${vehicle.minPrice / 100000} - ${vehicle.maxPrice / 100000} Lacs`}
                 </Text>}
-                {vehicle.id &&
+                {vehicle._id &&
                     <Anchor component={Link} href="#" size="sm" className="text-primary">
                         <Center inline>
                             <Box mr={5}>Buy Used {`${vehicle.make} ${vehicle.model}`}</Box>

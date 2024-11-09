@@ -26,6 +26,7 @@ const DetailSection = ({ section,setHideCommonFeatures,hideCommonFeatures }) => 
         withColumnBorders
         verticalSpacing="md"
         horizontalSpacing="md"
+        id={"dimension"}
       >
         <Table.Tbody>
           {section.overviewTableData?.map((item, index) => (

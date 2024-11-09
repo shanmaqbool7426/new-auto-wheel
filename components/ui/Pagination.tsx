@@ -29,7 +29,7 @@ function PaginationComp() {
   return (
     <>
       {items}
-      <Pagination total={data.length} value={activePage} onChange={setPage} mt="sm" />
+      <Pagination total={data?.length} value={activePage} onChange={setPage} mt="sm" />
     </>
   );
 }
