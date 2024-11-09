@@ -39,8 +39,8 @@ export default function Inventory() {
 
 
   console.log('searchBy',searchBy)
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error: {error}</div>;
 
 
   return (
