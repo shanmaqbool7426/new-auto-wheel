@@ -31,14 +31,12 @@ import {
 } from "@/components/Icons";
 import FAQ from "@/components/Faq";
 
-import {
-  IconCheck,
-} from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
 import BrowseVideos from "@/modules/home/BrowseVideos";
 import { Carousel } from "@mantine/carousel";
-import {  FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
-import {  usePathname } from "next/navigation";
+import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
+import { usePathname } from "next/navigation";
 
 const NewCarsDetail = () => {
   const pathName = usePathname();
@@ -60,7 +58,10 @@ const NewCarsDetail = () => {
       <section className="find-cars cars-detail">
         <Box
           className="background-search-verlay"
-          mb={{ base: pathName === "/new-cars-detail" ? 0 : 550, sm: pathName === "/new-cars-detail" ? 0 : 250 }}
+          mb={{
+            base: pathName === "/new-cars-detail" ? 0 : 550,
+            sm: pathName === "/new-cars-detail" ? 0 : 250,
+          }}
           pt={60}
         >
           <Box className="container-xl">
