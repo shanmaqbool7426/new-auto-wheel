@@ -120,7 +120,7 @@ export const API_ENDPOINTS = {
       }`;
     },
 
-    // LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
+    LISTINGS: `${NEW_VEHICLE_BASE}/vehicles-listing`,
     DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
     TOPCOMPARISON:`${NEW_VEHICLE_BASE}/comparison`,
     COMPARISON:`${NEW_VEHICLE_BASE}/compare`,
