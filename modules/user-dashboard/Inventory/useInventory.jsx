@@ -64,9 +64,9 @@ export default function useInventory() {
         const transformedVehicles = data.data.vehicles.map((vehicle) => ({
           id: vehicle._id,
           title: {
-            title: vehicle.specifications.stockId,
+            title: vehicle.specifications.stockId || `${vehicle.make} ${vehicle.model} ${vehicle.year}`, // Fallback if stockId doesn't exist
             image: vehicle.defaultImage,
-            modal: vehicle.carInfo
+            modal: `${vehicle.carInfo.make} ${vehicle.carInfo.model} ${vehicle.carInfo.variant}` // Properly format the modal string
           },
           createdDate: vehicle.updatedAt,
           type: vehicle.type,
@@ -80,7 +80,6 @@ export default function useInventory() {
           transmission: vehicle.specifications.transmission,
           fuelType: vehicle.specifications.fuelType,
         }));
-
         setVehicles(transformedVehicles);
         setTotalPages(data?.data.totalPages);
         setTotalVehicles(data?.data?.totalVehicles)
