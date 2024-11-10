@@ -23,12 +23,12 @@ export default function ProfileInformation({ profileData }) {
     setBannerImage(bgfile);
   }, [bgfile]);
 
-  console.log('profileFile', profileFile);
+  console.log('profileFile', profileData);
 
   return (
     <Card noContentPadding>
       <Box className={styles.profileBanner}>
-        <img src={bannerImage} alt="Profile Banner" width={354} height={140} />
+        <img src={bannerImage ? bannerImage : profileData.bannerImage} alt="Profile Banner" width={354} height={140} />
         <Button 
           variant="subtle" 
           name='bannerFileInput'
@@ -47,7 +47,7 @@ export default function ProfileInformation({ profileData }) {
 
         <Box className={styles.profilePicture}>
           <Image
-            src={profileFile ? profileFile : "/user-profile/follower.png"}
+            src={profileFile ? profileFile : profileData.profileImage}
             alt="Profile"
             width={144}
             height={144}

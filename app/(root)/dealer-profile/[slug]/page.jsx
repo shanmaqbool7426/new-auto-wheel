@@ -395,10 +395,10 @@ const DealerRating = () => {
                             <FaUserLarge style={{ verticalAlign: "baseline" }} size="0.8rem" />
                             <Text span ml={5}>{profile.accountType}</Text>
                           </Text>
-                          {profile.location && (
+                          {profile.locationAddress && (
                             <Text size="sm">
                               <FaLocationDot size="0.8rem" style={{ verticalAlign: "baseline" }} />
-                              <Text span ml={5}>{profile.location}</Text>
+                              <Text span ml={5}>{profile.locationAddress}</Text>
                             </Text>
                           )}
                           {profile.showEmail && (

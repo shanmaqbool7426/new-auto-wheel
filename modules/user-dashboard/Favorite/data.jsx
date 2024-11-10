@@ -8,14 +8,14 @@ export const getColumns = (onClickDelete) => [
   {
     accessor: 'post',
     title: 'Post',
-    render: ({ make, model, year, defaultImage,_id }) => {
+    render: ({ make, model, year, defaultImage,_id, }) => {
       return (
         <Box className={styles.tableTitle}>
           <Box className={styles.tableTitleImage}>
             <Image src={defaultImage} alt={`${make} ${model}`} width={42} height={26} />
           </Box>
           <Box className={styles.tableTitleText}>
-          <Text className={styles.tableTitleTitle}>{`${_id?.substring(0, 6)}`}</Text>            <Text className={styles.tableTitleTitle}>{`${make} ${model} ${year}`}</Text>
+          <Text className={styles.tableTitleTitle}>Stoack id {`${_id?.substring(0, 4)}`}</Text>            <Text className={styles.tableTitleTitle}>{`${make} ${model} ${year}`}</Text>
           </Box>
         </Box>
       );

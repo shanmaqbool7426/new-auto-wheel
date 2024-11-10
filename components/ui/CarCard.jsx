@@ -346,8 +346,14 @@ import {
 import Link from "next/link";
 import { IconStar } from "@tabler/icons-react";
 import { getTimeAgo } from "@/utils";
+import { notifications } from "@mantine/notifications";
+import { BASE_URL } from "@/constants/api-endpoints";
+import { useRouter } from "next/navigation";
 
-const CarCard = ({ vehicle }) => {
+const CarCard = ({ vehicle,token }) => {
+  const [isFavorite, setIsFavorite] = useState(vehicle?.isFavorite || false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
 
@@ -364,9 +370,70 @@ const CarCard = ({ vehicle }) => {
     setActiveSlide(0);
   };
 
+  const handleCardClick = (e) => {
+    // Don't navigate if clicking the favorite button
+    if (e.target.closest('.favorite-button')) {
+      return;
+    }
+    router.push(`/detail/${vehicle?.slug}`);
+  };
+
+
+  
+  const handleToggleFavorite = async (e) => {
+    e.preventDefault(); // Prevent link navigation
+    e.stopPropagation(); // Prevent event bubbling
+
+    if (!token) {
+      notifications.show({
+        title: 'Authentication Required',
+        message: 'Please login to add vehicles to favorites',
+        color: 'red'
+      });
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+          `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${token._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token._id}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsFavorite(data.data.isFavorite);
+        notifications.show({
+          title: 'Success',
+          message: data.message,
+          color: 'green'
+        });
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Failed to update favorite status',
+        color: 'red'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  console.log('token>>>',token?.token?.user?.favoriteVehicles
+    )
+
   return (
-    <Link href={`/detail/${vehicle?.slug}`}>
-      <Card shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)" radius="sm" mb="lg">
+ 
+      <Card shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)" radius="sm" mb="lg"  onClick={handleCardClick} >
         <Card.Section pos="relative">
           {/* Display total images */}
           <Group c="white" gap={5} pos="absolute" style={{ zIndex: "100" }} left={15} top={15}>
@@ -411,9 +478,24 @@ const CarCard = ({ vehicle }) => {
               />
             ))}
           </Group>
-          <ActionIcon variant="transparent" c="white" pos="absolute" bottom={15} left={10}>
-            <IconStar width={20} height={20} />
-          </ActionIcon>
+          <ActionIcon
+          className="favorite-button" // Add this class
+          variant="transparent"
+          c={isFavorite ? 'red' : 'white'}
+          pos="absolute"
+          bottom={15}
+          left={10}
+          loading={isLoading}
+          onClick={handleToggleFavorite}
+          style={{ zIndex: 10 }} // Ensure button is above other elements
+        >
+          <IconStar
+            width={20}
+            height={20}
+            fill={(token?.token?.user?.favoriteVehicles?.includes(vehicle?._id)) ? 'red' : 'transparent'}
+            stroke={2}
+          />
+        </ActionIcon>
         </Card.Section>
 
         <Card.Section p="md">
@@ -460,7 +542,6 @@ const CarCard = ({ vehicle }) => {
           </Flex>
         </Card.Section>
       </Card>
-    </Link>
   );
 };
 
