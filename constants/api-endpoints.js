@@ -33,7 +33,7 @@
 //   };
 
 // export const BASE_URL = "https://auto-wheel-be.vercel.app";
-export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+export const BASE_URL = 'https://5289-144-48-132-249.ngrok-free.app'; // Uncomment for local development
 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
