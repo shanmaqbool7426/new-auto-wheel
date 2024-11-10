@@ -326,7 +326,7 @@
 
 
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CameraIcon, GearsHandle } from "@/components/Icons";
 import React from "react";
 import { FaLocationDot, FaCalendarDays, FaClock } from "react-icons/fa6";
@@ -357,6 +357,15 @@ const CarCard = ({ vehicle,token }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
 
+    // Preload images to avoid delays on hover
+    useEffect(() => {
+      images.forEach((src) => {
+        const img = new window.Image(); // Use native Image constructor explicitly
+        img.src = src;
+      });
+    }, [images]);
+
+    
   // Function to change slide based on mouse position
   const handleMouseMove = (e) => {
     const { offsetX, target } = e.nativeEvent;
