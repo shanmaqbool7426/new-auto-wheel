@@ -8,8 +8,9 @@ async function fetchWithAuth(url, options = {}) {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
-    },
+    },  
   };
+  
 
   // Ensure there's always a forward slash between base URL and endpoint
   const fullUrl = `${API_BASE_URL}/${url.replace(/^\//, '')}`;

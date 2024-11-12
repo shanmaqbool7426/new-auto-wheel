@@ -8,11 +8,12 @@ export default function useUserReviews() {
   const [reviews, setReviews] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   // ... existing state ...
+  const [searchBy, setSearchBy] = React.useState(null);
 
   const fetchDealerReviews = async (dealerId) => {
     try {
       setLoading(true);
-      const response = await fetch(`${BASE_URL}/api/user-reviews/dealer/${dealerId}`);
+      const response = await fetch(`${BASE_URL}/api/user-reviews/dealer/${dealerId}?search=${searchBy}`);
       if (!response.ok) {
         throw new Error('Failed to fetch reviews');
       }
@@ -30,13 +31,13 @@ export default function useUserReviews() {
     // Replace with actual dealer ID from context/props
    const token= getLocalStorage('token')
     fetchDealerReviews(token?._id);
-  }, []);
+  }, [searchBy]);
 
-  const [searchBy, setSearchBy] = React.useState(null);
 
   const [filterParams, setFilterParams] = React.useState({
     date: 'newToOld',
   });
+  console.log('searchBy>>>', searchBy);
 
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));

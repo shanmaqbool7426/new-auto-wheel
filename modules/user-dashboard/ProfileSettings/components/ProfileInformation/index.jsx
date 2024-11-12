@@ -96,7 +96,7 @@ export default function ProfileInformation({ profileData }) {
           </Box>
           <Box className={styles.contactGroup}>
             <Box className={styles.contactLabel}>Address</Box>
-            <Box className={styles.contactTitle}>{profileData.location}</Box> {/* Display location */}
+            <Box className={styles.contactTitle}>{profileData.locationAddress}</Box> {/* Display location */}
           </Box>
           <Box className={styles.contactGroup}>
             <Box className={styles.contactLabel}>Timing</Box>

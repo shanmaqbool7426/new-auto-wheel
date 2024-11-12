@@ -40,7 +40,7 @@ export default function UserReviews() {
               key={review._id}
               data={{
                 id: review._id,
-                title: `Review #${review._id.slice(-4)}`,
+                title: review.title,
                 postedBy: review.user.fullName,
                 postedDate: review.createdAt,
                 rating: review.rating,

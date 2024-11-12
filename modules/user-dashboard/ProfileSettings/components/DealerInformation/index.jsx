@@ -60,7 +60,7 @@ export default function DealerInformation({ profileData }) {
           </Grid.Col>
           <Grid.Col span={6}>
             <FormField
-              label="Sales Hours"
+              label="Working Hours"
               type="text"
               {...form.getInputProps('salesHours')}
             />
