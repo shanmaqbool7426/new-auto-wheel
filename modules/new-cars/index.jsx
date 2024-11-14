@@ -224,6 +224,21 @@ const NewCarsModule = ({
                   >
                     {type} Reviews
                   </Button>
+
+                  <Button
+                    leftSection={<SmallReviewIcon />}
+                    variant="light"
+                    size="md"
+                    radius="md"
+                    bg="white"
+                    c="#333"
+                    tt="capitalize"
+                    component={Link} 
+                    href={`/cars-dealership`}
+                    autoContrast
+                  >
+                    {type} Dealer
+                  </Button>
                 </Group>
               </div>
               <div className="col-md-12">

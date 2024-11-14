@@ -15,7 +15,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
   {
     accessor: 'title',
     title: 'Title',
-    render: ({ title, id }) => {
+    render: ({ title, id }) => {  
       return (
         <Box
           className={styles.tableTitle}
