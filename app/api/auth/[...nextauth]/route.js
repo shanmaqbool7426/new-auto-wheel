@@ -14,14 +14,14 @@ const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId: '1090899538284-74f4i841j0ascsgk84i743bpriebu7d5.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: '769182412296-57eup05a4647g391ham6g2erfhojr0jf.apps.googleusercontent.com',
+      clientSecret: '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',
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
-          scope: "openid email profile https://www.googleapis.com/auth/contacts.readonly", // Add phone number scope
+          // scope: "openid email profile https://www.googleapis.com/auth/contacts.readonly", // Add phone number scope
         },
       },
     }),
