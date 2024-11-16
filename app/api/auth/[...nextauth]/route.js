@@ -14,8 +14,8 @@ const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId: '769182412296-57eup05a4647g391ham6g2erfhojr0jf.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: '',
+      clientSecret: '',
       authorization: {
         params: {
           prompt: "consent",
