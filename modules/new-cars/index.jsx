@@ -248,7 +248,8 @@ const NewCarsModule = ({
           </div>
         </Box>
 
-        <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/>
+        {/* <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/> */}
+        <BrowseByCategory makes={makes} bodies={bodies} />
         <section className="popular-new-cars py-5">
           <div className="container-xl">
             <div className="row">
