@@ -13,18 +13,18 @@ import axios from 'axios';
 const authOptions = {
   // Configure one or more authentication providers
   providers: [
-    GoogleProvider({
-      clientId: '',
-      clientSecret: '',
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-          // scope: "openid email profile https://www.googleapis.com/auth/contacts.readonly", // Add phone number scope
-        },
-      },
-    }),
+    // GoogleProvider({
+    //   clientId: '',
+    //   clientSecret: '',
+    //   authorization: {
+    //     params: {
+    //       prompt: "consent",
+    //       access_type: "offline",
+    //       response_type: "code",
+    //       // scope: "openid email profile https://www.googleapis.com/auth/contacts.readonly", // Add phone number scope
+    //     },
+    //   },
+    // }),
     FacebookProvider({
       clientId: '874743337540967',
       clientSecret: '8b2eb17676e71487b83cf3cf4b5deb24'
