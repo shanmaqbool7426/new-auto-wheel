@@ -27,7 +27,6 @@ import {
 } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
-import Link from "next/link";
 
 const VehicleDetail = ({ vehicle }) => {
   const {
@@ -65,23 +64,23 @@ console.log(vehicle)
   return (
     <>
       {/* Header Section */}
-      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt="60px">
+      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl">
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
               <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="/" component={Link}>Home</Anchor>
+                    <Anchor href="#">Cars</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
+                    <Anchor href="#">New Cars</Anchor>
                   </li>
-                  {/* <li className="breadcrumb-item" aria-current="page">
+                  <li className="breadcrumb-item" aria-current="page">
                     <Anchor href="#">{make} Cars</Anchor>
-                  </li> */}
+                  </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <Anchor href="#" tt="capitalize">{`${make} ${model} ${variant} ${year}`}</Anchor>
+                    <Anchor href="#">{`${make} ${model} ${variant} ${vehicle.year}`}</Anchor>
                   </li>
                 </ol>
               </nav>
