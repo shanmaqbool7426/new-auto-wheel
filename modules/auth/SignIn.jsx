@@ -17,8 +17,10 @@ import { signIn } from "next-auth/react";
 import { BsCaretLeft, BsChevronLeft } from "react-icons/bs";
 import { IconChevronCompactLeft } from "@tabler/icons-react";
 import { FaChevronLeft } from "react-icons/fa6";
+import ForgotPassword from "./ForgotPassword";
 
 function SignIn({ signOpen, signInClose }) {
+  const [forgotOpen, setForgotOpen] = useState(false);
   // Initialize form with validation rules
   const form = useForm({
     initialValues: {
@@ -88,6 +90,7 @@ function SignIn({ signOpen, signInClose }) {
             size="sm"
             mt="xs"
             className="cursor text-primary"
+            onClick={() => {setForgotOpen(true);signInClose();}}
           >
             Forgot Password?
           </Text>
@@ -117,6 +120,7 @@ function SignIn({ signOpen, signInClose }) {
         </form>
         {/* Form Ends */}
       </Modal>
+      <ForgotPassword open={forgotOpen} onClose={() => setForgotOpen(false)} />
     </>
   );
 }

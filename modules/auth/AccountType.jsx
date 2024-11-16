@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -16,10 +16,16 @@ import personal from "../../public/auth/personal.svg";
 import dealer_icon from "../../public/auth/dealer_icon.svg";
 import SocialsLogin from "./SocialsLogins";
 
-const AccountTypeModal = ({ opened, onClose }) => {
+const AccountTypeModal = ({ opened, onClose, isSignUp }) => {
   const [activeType, setActiveType] = useState("personal");
   const [modalOpened, setModalOpened] = useState(false);
 
+  useEffect(() => {
+    if (!isSignUp && opened) {
+      setModalOpened(true);
+      onClose();
+    }
+  }, [isSignUp,opened]);
   const handleAccountTypeClick = (type) => {
     setModalOpened(true);
     localStorage.setItem("account-type", type);

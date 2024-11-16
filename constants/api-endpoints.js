@@ -46,6 +46,8 @@ export const API_ENDPOINTS = {
     SIGNUP: `${BASE_URL}/api/user/register`,
     LOGIN: `${BASE_URL}/api/user/login`,
     VERIFY_OTP: `${BASE_URL}/api/user/verify-user`,
+    FORGOT_PASSWORD: `${BASE_URL}/api/user/password-reset-request`,
+    RESET_PASSWORD: `${BASE_URL}/api/user/reset-password`,
   },
 
   VEHICLE: {
