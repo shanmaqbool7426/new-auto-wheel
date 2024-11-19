@@ -1,8 +1,8 @@
 "use client";
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Inter, Poppins, Roboto } from "next/font/google";
 import "@/styles/globals.scss";
 import "@mantine/notifications/styles.css";
-
 import NextTopLoader from "nextjs-toploader";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
@@ -68,6 +68,7 @@ export default function Layout({ children }) {
           </MantineProvider>
         </SessionProvider>
       </body>
+      <GoogleAnalytics gaId="G-1SXSFH77HW" />
     </html>
   );
 }
