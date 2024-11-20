@@ -18,15 +18,20 @@ import {
   List,
   CloseIcon,
   Checkbox,
-
 } from "@mantine/core";
-import { GetColor } from '@/constants/colors'
-import { AirBags, DimensionIcon, FuelTank, TransmissionIcon } from "@/components/Icons";
+import { GetColor } from "@/constants/colors";
 import {
-  IconCheck,
-} from "@tabler/icons-react";
+  AirBags,
+  CameraIcon,
+  DetailTransmissionIcon,
+  DimensionIcon,
+  FuelTank,
+  TransmissionIcon,
+} from "@/components/Icons";
+import { IconCheck } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
+import { formatPrice, formatPriceInFactors } from "@/utils";
 
 const VehicleDetail = ({ vehicle }) => {
   const {
@@ -56,15 +61,15 @@ const VehicleDetail = ({ vehicle }) => {
       year,
       bodyType,
       fuelAverage,
-      fuelCapacity
+      fuelCapacity,
     },
-    variants
+    variants,
   } = vehicle || {};
-console.log(vehicle)
+  console.log(vehicle);
   return (
     <>
       {/* Header Section */}
-      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl">
+      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={80} h={200}>
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
@@ -86,7 +91,8 @@ console.log(vehicle)
               </nav>
             </Box>
             <Title order={2} c="white">
-              {`${make} ${model} ${variant} ${year}`} Price in Pakistan, Pictures, and Specs
+              {`${make} ${model} ${variant} ${year}`} Price in Pakistan,
+              Pictures, and Specs
             </Title>
           </Box>
         </Box>
@@ -95,14 +101,24 @@ console.log(vehicle)
       {/* Main Section */}
       <Box component="section" className="cars-detail" py="xl">
         <Box className="container-xl">
-          <Box className="row">
+          <Flex gap="xl" wrap={{ base: "wrap", xl: "nowrap" }}>
             {/* Carousel Section */}
-            <Box className="col-lg-7">
+            <Box w={rem(740)} flex="1 1 740">
               <Box className="gallery-slider">
                 <Box className="large-thumbnail" pos="relative">
                   <Carousel withIndicators={false} controlSize={40} mb="md">
                     {(images || [defaultImage]).map((img, index) => (
                       <Carousel.Slide key={index}>
+                        <Group
+                          gap="xs"
+                          c="white"
+                          pos="absolute"
+                          top={rem(20)}
+                          left={rem(20)}
+                        >
+                          <CameraIcon />
+                          <Text>6</Text>
+                        </Group>
                         <Image
                           radius="sm"
                           alt="car-detail"
@@ -135,20 +151,26 @@ console.log(vehicle)
             </Box>
 
             {/* Car Details Section */}
-            <Box className="col-lg-5" px="lg">
+            <Box w="auto" flex="1 1 auto">
               <Box className="row">
                 <Box className="col-12">
-                  <Text c="dimmed" size="md">
+                  <Text c="dimmed" size={rem(16)}>
                     {make} {model} {variant} {year} Price Range in Pakistan
                   </Text>
-                  <Box my="lg">
-                    <Text c="#E90808" fw="bold" size={rem(26)}>
-                      <span style={{ color: "#E90808", fontWeight: 600 }}>PKR</span> {minPrice} - {maxPrice}
+                  <Group my="lg" wrap="nowrap">
+                    <Text c="#E90808" fw="bold" size={rem(24)}>
+                      <Text span size="lg" c="#E90808" fw={600}>
+                        PKR
+                      </Text>{" "}
+                      <Text span fw={600} size={rem(24)}>
+                        {formatPriceInFactors(minPrice)} -{" "}
+                        {formatPriceInFactors(maxPrice)}
+                      </Text>
                     </Text>
-                    <Text size="md" c="dimmed" ml="xs">
+                    <Text size={rem(14)} c="dimmed">
                       (*Ex-Factory Price)
                     </Text>
-                  </Box>
+                  </Group>
                   <Flex gap="md" align="center">
                     <Flex align="center" gap="3">
                       <Rating defaultValue={averageRating} count={5} />
@@ -166,57 +188,102 @@ console.log(vehicle)
                 <Box className="col-lg-6 border-end">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <FuelTank style={{ width: rem(24), height: rem(24) }} />
-                    <Text c="dimmed">
-                      Engine <span style={{ color: "#000", fontWeight: 600 }}>{engine.type || "N/A"}</span>
+                    <Text c="dimmed" size="sm">
+                      Engine{" "}
+                      <Text c="#000" fw={600}>
+                        {engine.type || "N/A"}
+                      </Text>
                     </Text>
                   </Flex>
                 </Box>
                 <Box className="col-lg-6">
-                {type=='bike'?
-                (
-                  <Flex align="flex-start" gap="sm" c="dimmed">
-                  <FuelTank style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
-                  <Text c="dimmed">
-                    Fuel Tank <span style={{ color: "#000", fontWeight: 600 }}>{fuelCapacity || "N/A"}L</span>
-                  </Text>
-                </Flex>
-                ):(
-                  <Flex align="flex-start" gap="sm" c="dimmed">
-                    <AirBags style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
-                    <Text c="dimmed">
-                      Airbags <span style={{ color: "#000", fontWeight: 600 }}>{safety?.airbags ? safety.airbags : "No"}</span>
-                    </Text>
-                  </Flex>
-                )  
-                }
+                  {type == "bike" ? (
+                    <Flex align="flex-start" gap="sm" c="dimmed">
+                      <FuelTank
+                        style={{
+                          width: rem(24),
+                          height: rem(24),
+                          marginTop: rem(6),
+                        }}
+                      />
+                      <Text c="dimmed" size="sm">
+                        Fuel Tank{" "}
+                        <Text c="#000" fw={600}>
+                          {fuelCapacity || "N/A"}L
+                        </Text>
+                      </Text>
+                    </Flex>
+                  ) : (
+                    <Flex align="flex-start" gap="sm" c="dimmed">
+                      <AirBags
+                        style={{
+                          width: rem(24),
+                          height: rem(24),
+                          marginTop: rem(6),
+                        }}
+                      />
+                      <Text c="dimmed" size="sm">
+                        Airbags{" "}
+                        <Text c="#000" fw={600}>
+                          {safety?.airbags ? safety.airbags : "No"}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  )}
                 </Box>
               </Box>
 
               <Box className="row border-bottom" pb="md" mb="lg">
                 <Box className="col-lg-6 border-end">
-                  {type=='bike'?
-                (
-                  <Flex align="flex-start" gap="sm" c="dimmed">
-                  <DimensionIcon style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
-                  <Text c="dimmed">
-                    Fuel Average <span style={{ color: "#000", fontWeight: 600 }}>{fuelAverage || "N/A"}</span>
-                  </Text>
-                </Flex>
-                ):(
-                  <Flex align="flex-start" gap="sm" c="dimmed">
-                    <DimensionIcon style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
-                    <Text c="dimmed">
-                      Mileage <span style={{ color: "#000", fontWeight: 600 }}>{mileage?.city || "N/A"}</span>
-                    </Text>
-                  </Flex>
-                )  
-                }
+                  {type == "bike" ? (
+                    <Flex align="flex-start" gap="sm" c="dimmed">
+                      <DimensionIcon
+                        style={{
+                          width: rem(24),
+                          height: rem(24),
+                          marginTop: rem(6),
+                        }}
+                      />
+                      <Text c="dimmed" size="sm">
+                        Fuel Average{" "}
+                        <Text span c="#000" fw={600}>
+                          {fuelAverage || "N/A"}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  ) : (
+                    <Flex align="flex-start" gap="sm" c="dimmed">
+                      <DimensionIcon
+                        style={{
+                          width: rem(24),
+                          height: rem(24),
+                          marginTop: rem(6),
+                        }}
+                      />
+                      <Text c="dimmed" size="sm">
+                        Mileage{" "}
+                        <Text c="#000" fw={600}>
+                          {mileage?.city || "N/A"}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  )}
                 </Box>
                 <Box className="col-lg-6">
                   <Flex align="flex-start" gap="sm" c="dimmed">
-                    <TransmissionIcon style={{ width: rem(24), height: rem(24), marginTop: rem(6) }} />
-                    <Text c="dimmed">
-                      Transmission <span style={{ color: "#000", fontWeight: 600 }}>{transmission.type || transmission|| "N/A"}</span>
+                    {/* <TransmissionIcon
+                      style={{
+                        width: rem(24),
+                        height: rem(24),
+                        marginTop: rem(6),
+                      }}
+                    /> */}
+                    <DetailTransmissionIcon />
+                    <Text c="dimmed" size="sm">
+                      Transmission{" "}
+                      <Text c="#000" fw={600}>
+                        {transmission.type || transmission || "N/A"}
+                      </Text>
                     </Text>
                   </Flex>
                 </Box>
@@ -225,22 +292,36 @@ console.log(vehicle)
               {/* Color options */}
               <Box className="row">
                 <Box className="col-lg-12">
-                  <Title order={4} fw={600} mb="md">
+                  <Title order={5} fw={600} mb="md">
                     Available Colors
                   </Title>
                   <Group>
-                    {type==='bike'&&vehicle?.vehicleDetails?.colorsAvailable?.map((color, index) => (
-                      <Button key={index} size="xs" radius="xl" bg={GetColor(color)} />
-                    ))
-                  }
+                    {type === "bike" &&
+                      vehicle?.vehicleDetails?.colorsAvailable?.map(
+                        (color, index) => (
+                          <Button
+                            key={index}
+                            size="xs"
+                            radius="xl"
+                            bd="1px solid #EEE"
+                            bg={GetColor(color)}
+                          />
+                        )
+                      )}
                     {exterior?.colorsAvailable?.map((color, index) => (
-                      <Button key={index} size="xs" radius="xl" bg={GetColor(color)} />
+                      <Button
+                        key={index}
+                        size="xs"
+                        radius="xl"
+                        bd="1px solid #EEE"
+                        bg={GetColor(color)}
+                      />
                     ))}
                   </Group>
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </Flex>
         </Box>
         {/* Additional Car Info */}
         <Box className="container-xl" mt="xl">
@@ -252,7 +333,10 @@ console.log(vehicle)
                   Price in Pakistan
                 </Text>
               </Title>
-              <Text mt="md">The price of {`${make} ${model} ${variant} ${year}`} in Pakistan starts from PKR {minPrice}.</Text>
+              <Text mt="md">
+                The price of {`${make} ${model} ${variant} ${year}`} in Pakistan
+                starts from PKR {minPrice}.
+              </Text>
               {/* <Anchor href={brochureLink} underline="hover" className="text-primary" target="_blank">
                 View Brochure
               </Anchor> */}
@@ -261,59 +345,60 @@ console.log(vehicle)
         </Box>
       </Box>
       {/* Variants Comparison */}
-      {variants && variants.length > 0 && 
+      {variants && variants.length > 0 && (
         <Box className="container mb-4" mt="xl">
-        <Title order={2}>
-          {make} {model} Variants
-        </Title>
-        <Table verticalSpacing="sm" horizontalSpacing="sm" withTableBorder withColumnBorders>
-          <Table.Thead>
-            <Table.Tr bg="#E90808" c="white">
-              <Table.Th w="50%">Variants</Table.Th>
-              <Table.Th w="40%">Ex-Factory Price</Table.Th>
-              <Table.Th w="10%" align="center" ta="center">
-                Compare
-              </Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {variants?.map((variant, index) => (
-              <Table.Tr key={index}>
-                <Table.Td>
-                  <Flex justify="space-between">
-                    {/* Use Flex and multiple Text components instead of nesting */}
-                    <div>
-                      <Text fw={500} size="md" c="#E90808">
-                        {`${variant.make} ${variant.model}`}
-                      </Text>
-                      <Text c="dimmed">
-                        {`${variant.engine.displacement} cc, ${variant.transmission.type}, Petrol`}
-                      </Text>
-                    </div>
-                    <Text>Delivery Time: 1 Month</Text>
-                  </Flex>
-                </Table.Td>
-                <Table.Td>
-                  <Text size="xl" fw="bold">
-                    PKR {variant.minPrice} - {variant.maxPrice}
-                  </Text>
-                </Table.Td>
-                <Table.Td align="center">
-                  <Checkbox labelPosition="left" />
-                </Table.Td>
+          <Title order={2}>
+            {make} {model} Variants
+          </Title>
+          <Table
+            verticalSpacing="sm"
+            horizontalSpacing="sm"
+            withTableBorder
+            withColumnBorders
+          >
+            <Table.Thead>
+              <Table.Tr bg="#E90808" c="white">
+                <Table.Th w="50%">Variants</Table.Th>
+                <Table.Th w="40%">Ex-Factory Price</Table.Th>
+                <Table.Th w="10%" align="center" ta="center">
+                  Compare
+                </Table.Th>
               </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
-      </Box>
-      }
+            </Table.Thead>
+            <Table.Tbody>
+              {variants?.map((variant, index) => (
+                <Table.Tr key={index}>
+                  <Table.Td>
+                    <Flex justify="space-between">
+                      {/* Use Flex and multiple Text components instead of nesting */}
+                      <div>
+                        <Text fw={500} size="md" c="#E90808">
+                          {`${variant.make} ${variant.model}`}
+                        </Text>
+                        <Text c="dimmed">
+                          {`${variant.engine.displacement} cc, ${variant.transmission.type}, Petrol`}
+                        </Text>
+                      </div>
+                      <Text>Delivery Time: 1 Month</Text>
+                    </Flex>
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="xl" fw="bold">
+                      PKR {variant.minPrice} - {variant.maxPrice}
+                    </Text>
+                  </Table.Td>
+                  <Table.Td align="center">
+                    <Checkbox labelPosition="left" />
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+        </Box>
+      )}
 
       {/* Pros and Cons Section */}
-      <Box
-        component="section"
-        className="pros-const-section bg-light"
-        py="xl"
-      >
+      <Box component="section" className="pros-const-section bg-light" py="xl">
         <Box className="container-xl" py="xl">
           <Box className="row">
             <Box className="col-lg-12">
@@ -344,20 +429,18 @@ console.log(vehicle)
                       size="sm"
                       center
                       icon={
-                        <ThemeIcon
-                          color="green"
-                          variant="white"
-                          size={rem(18)}
-                        >
+                        <ThemeIcon color="green" variant="white" size={rem(18)}>
                           <IconCheck
                             style={{ width: rem(18), height: rem(18) }}
                           />
                         </ThemeIcon>
                       }
                     >
-                      {pros && pros.length && pros.map((pros, index) => (
-                        <List.Item key={index}>{pros}</List.Item>
-                      ))}
+                      {pros &&
+                        pros.length &&
+                        pros.map((pros, index) => (
+                          <List.Item key={index}>{pros}</List.Item>
+                        ))}
                     </List>
                   </Box>
                   <Box className="col-lg-6">
@@ -386,9 +469,11 @@ console.log(vehicle)
                         </ThemeIcon>
                       }
                     >
-                      {cons && cons.length && cons.map((cons, index) => (
-                        <List.Item key={index}>{cons}</List.Item>
-                      ))}
+                      {cons &&
+                        cons.length &&
+                        cons.map((cons, index) => (
+                          <List.Item key={index}>{cons}</List.Item>
+                        ))}
                     </List>
                   </Box>
                 </Box>
@@ -452,86 +537,91 @@ console.log(vehicle)
 export default VehicleDetail;
 
 const renderSpecifications = (vehicle) => {
-  if (vehicle.type === 'bike') {
-      return (
-          <Table verticalSpacing="md" horizontalSpacing="md">
-              <Table.Tbody>
-                  <Table.Tr>
-                      <Table.Td>Price</Table.Td>
-                      <Table.Td>{`PKR ${vehicle.minPrice} - PKR ${vehicle.maxPrice}`}</Table.Td>
-                      <Table.Td>Dimension (LxWxH)</Table.Td>
-                      <Table.Td>{`${vehicle.dimensions.length} x ${vehicle.dimensions.width} x ${vehicle.dimensions.height} mm`}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Engine</Table.Td>
-                      <Table.Td>{vehicle.engine.type}</Table.Td>
-                      <Table.Td>Displacement</Table.Td>
-                      <Table.Td>{`${vehicle.engine.displacement} cc`}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Clutch</Table.Td>
-                      <Table.Td>{vehicle.engine.clutch}</Table.Td>
-                      <Table.Td>Transmission</Table.Td>
-                      <Table.Td>{vehicle.transmission}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Horsepower</Table.Td>
-                      <Table.Td>{vehicle.engine.horsepower}</Table.Td>
-                      <Table.Td>Torque</Table.Td>
-                      <Table.Td>{vehicle.engine.torque}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Bore & Stroke</Table.Td>
-                      <Table.Td>{vehicle.engine.boreStroke}</Table.Td>
-                      <Table.Td>Compression Ratio</Table.Td>
-                      <Table.Td>{vehicle.engine.compressionRatio}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Petrol Capacity</Table.Td>
-                      <Table.Td>{`${vehicle.fuelCapacity}L`}</Table.Td>
-                      <Table.Td>Fuel Average</Table.Td>
-                      <Table.Td>{vehicle.fuelAverage}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Starting</Table.Td>
-                      <Table.Td>{vehicle.starting}</Table.Td>
-                      <Table.Td>Top Speed</Table.Td>
-                      <Table.Td>{vehicle.topSpeed}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Dry Weight</Table.Td>
-                      <Table.Td>{`${vehicle.dryWeight}KG`}</Table.Td>
-                      <Table.Td>Frame</Table.Td>
-                      <Table.Td>{vehicle.frame}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Ground Clearance</Table.Td>
-                      <Table.Td>{vehicle.groundClearance}</Table.Td>
-                      <Table.Td>Wheel Size</Table.Td>
-                      <Table.Td>{vehicle.wheelSize}</Table.Td>
-                  </Table.Tr>
-                  <Table.Tr>
-                      <Table.Td>Tyre at Back</Table.Td>
-                      <Table.Td>{vehicle.tyres.back}</Table.Td>
-                      <Table.Td>Tyre at Front</Table.Td>
-                      <Table.Td>{vehicle.tyres.front}</Table.Td>
-                  </Table.Tr>
-              </Table.Tbody>
-          </Table>
-      );
-  } else if (vehicle.type === 'car' ||vehicle.type === 'truck') {
-      return (
-        <Table verticalSpacing="md" horizontalSpacing="md">
+  if (vehicle.type === "bike") {
+    return (
+      <Table verticalSpacing="md" horizontalSpacing="md">
+        <Table.Tbody>
+          <Table.Tr>
+            <Table.Td>Price</Table.Td>
+            <Table.Td>{`PKR ${vehicle.minPrice} - PKR ${vehicle.maxPrice}`}</Table.Td>
+            <Table.Td>Dimension (LxWxH)</Table.Td>
+            <Table.Td>{`${vehicle.dimensions.length} x ${vehicle.dimensions.width} x ${vehicle.dimensions.height} mm`}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Engine</Table.Td>
+            <Table.Td>{vehicle.engine.type}</Table.Td>
+            <Table.Td>Displacement</Table.Td>
+            <Table.Td>{`${vehicle.engine.displacement} cc`}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Clutch</Table.Td>
+            <Table.Td>{vehicle.engine.clutch}</Table.Td>
+            <Table.Td>Transmission</Table.Td>
+            <Table.Td>{vehicle.transmission}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Horsepower</Table.Td>
+            <Table.Td>{vehicle.engine.horsepower}</Table.Td>
+            <Table.Td>Torque</Table.Td>
+            <Table.Td>{vehicle.engine.torque}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Bore & Stroke</Table.Td>
+            <Table.Td>{vehicle.engine.boreStroke}</Table.Td>
+            <Table.Td>Compression Ratio</Table.Td>
+            <Table.Td>{vehicle.engine.compressionRatio}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Petrol Capacity</Table.Td>
+            <Table.Td>{`${vehicle.fuelCapacity}L`}</Table.Td>
+            <Table.Td>Fuel Average</Table.Td>
+            <Table.Td>{vehicle.fuelAverage}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Starting</Table.Td>
+            <Table.Td>{vehicle.starting}</Table.Td>
+            <Table.Td>Top Speed</Table.Td>
+            <Table.Td>{vehicle.topSpeed}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Dry Weight</Table.Td>
+            <Table.Td>{`${vehicle.dryWeight}KG`}</Table.Td>
+            <Table.Td>Frame</Table.Td>
+            <Table.Td>{vehicle.frame}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Ground Clearance</Table.Td>
+            <Table.Td>{vehicle.groundClearance}</Table.Td>
+            <Table.Td>Wheel Size</Table.Td>
+            <Table.Td>{vehicle.wheelSize}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>Tyre at Back</Table.Td>
+            <Table.Td>{vehicle.tyres.back}</Table.Td>
+            <Table.Td>Tyre at Front</Table.Td>
+            <Table.Td>{vehicle.tyres.front}</Table.Td>
+          </Table.Tr>
+        </Table.Tbody>
+      </Table>
+    );
+  } else if (vehicle.type === "car" || vehicle.type === "truck") {
+    return (
+      <Table verticalSpacing="md" horizontalSpacing="md">
         <Table.Tbody>
           <Table.Tr>
             <Table.Td c="dimmed">Price</Table.Td>
-            <Table.Td>{`PKR ${vehicle?.minPrice} - ${vehicle?.maxPrice}` || "N/A"}</Table.Td>
+            <Table.Td>
+              {`PKR ${vehicle?.minPrice} - ${vehicle?.maxPrice}` || "N/A"}
+            </Table.Td>
             <Table.Td c="dimmed">Body Type</Table.Td>
             <Table.Td>{vehicle?.bodyType || "N/A"}</Table.Td>
           </Table.Tr>
           <Table.Tr>
             <Table.Td c="dimmed">Dimensions (L x W x H)</Table.Td>
-            <Table.Td>{`${vehicle?.dimensions?.overallLength} x ${vehicle?.dimensions?.overallWidth} x ${vehicle?.dimensions?.overallHeight}` || "N/A"}</Table.Td>
+            <Table.Td>
+              {`${vehicle?.dimensions?.overallLength} x ${vehicle?.dimensions?.overallWidth} x ${vehicle?.dimensions?.overallHeight}` ||
+                "N/A"}
+            </Table.Td>
             <Table.Td c="dimmed">Ground Clearance</Table.Td>
             <Table.Td>{vehicle?.dimensions?.groundClearance || "N/A"}</Table.Td>
           </Table.Tr>
@@ -557,11 +647,16 @@ const renderSpecifications = (vehicle) => {
             <Table.Td c="dimmed">Fuel Type</Table.Td>
             <Table.Td>{vehicle?.engine?.type || "N/A"}</Table.Td>
             <Table.Td c="dimmed">Mileage</Table.Td>
-            <Table.Td>{`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` || "N/A"}</Table.Td>
+            <Table.Td>
+              {`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` ||
+                "N/A"}
+            </Table.Td>
           </Table.Tr>
           <Table.Tr>
             <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>
-            <Table.Td>{vehicle?.fuelConsumption?.tankCapacity || "N/A"}</Table.Td>
+            <Table.Td>
+              {vehicle?.fuelConsumption?.tankCapacity || "N/A"}
+            </Table.Td>
             <Table.Td c="dimmed">Seating Capacity</Table.Td>
             <Table.Td>{vehicle?.dimensions?.seatingCapacity || "N/A"}</Table.Td>
           </Table.Tr>
@@ -573,8 +668,8 @@ const renderSpecifications = (vehicle) => {
           </Table.Tr>
         </Table.Tbody>
       </Table>
-      );
+    );
   } else {
-      return <p>No specifications available for this vehicle type.</p>;
+    return <p>No specifications available for this vehicle type.</p>;
   }
 };
