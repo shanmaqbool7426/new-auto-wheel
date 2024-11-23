@@ -19,7 +19,7 @@ const FAQ = ({ title, titleSpan, faqs }) => {
           </div>
           <div className="col-md-12">
             <Accordion
-              variant="contained"
+              variant="separated"
               radius="sm"
               chevronPosition="right"
               defaultValue={faqs && faqs.length > 0 ? faqs[0]._id : ""}
