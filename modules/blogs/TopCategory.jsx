@@ -25,11 +25,11 @@ const TopCategory = ({ category }) => {
     <>
       <Title order={2} my="xl">
         Top
-        <Link href={`/blog/${category?.slug?category?.slug:''}`} className='text-decoration-none'>        
-        <Text span className="text-primary" inherit>
-          {" "}
-          {title}
-        </Text>
+        <Link href={`/blog/${category?.slug ? category?.slug : ''}`} className='text-decoration-none'>
+          <Text span className="text-primary" inherit>
+            {" "}
+            {title}
+          </Text>
         </Link>
       </Title>
 
@@ -53,6 +53,8 @@ const TopCategory = ({ category }) => {
               radius="md"
               alt={largePost.title}
               className="img-fluid"
+              h={394}
+              w={"100%"}
             />
           </Card.Section>
           <Flex gap="xs" direction="column" mt="md">
@@ -95,13 +97,19 @@ const TopCategory = ({ category }) => {
           {smallPosts.map((post) => (
             <Grid.Col span={6} key={post._id}>
               <Flex>
-                <Image
-                  src={post.imageUrl || "/blogs/blog-sm.png"}
-                  width={100}
-                  height={100}
+                <Box
+                  w={122}
+                  h={73}
                   radius="sm"
-                  alt={post.title}
-                />
+                >
+              <Image
+                    src={post.imageUrl || "/blogs/blog-sm.png"}
+                    w={122}
+                    h={73}
+                    radius="sm"
+                    alt={post.title}
+                  />
+                </Box>
                 <Box pl="md">
                   <Title order={5} fw={600}>
                     <Link href={`/blog/${post.slug}`} className="text-decoration-none text-dark">

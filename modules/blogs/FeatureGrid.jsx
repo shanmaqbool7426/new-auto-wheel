@@ -1,31 +1,38 @@
 import React from 'react';
-import { BackgroundImage, Box ,Flex,Text,Title} from '@mantine/core';
+import { BackgroundImage, Box, Flex, Overlay, Text, Title } from '@mantine/core';
 import Link from "next/link";
 import { formatDate } from '@/utils/index';
 
 const FeatureGrid = ({ items }) => {
-    const ImageCard = ({ imageUrl, title, publishDate, order ,slug}) => {
-        return (
-          <Box h={order === 1 ? 450 : 214} mb="md">
-            <BackgroundImage h="100%" src={imageUrl} radius="sm">
-              <Flex
-                p="md"
-                h="100%"
-                direction="column"
-                align="flex-start"
-                justify="flex-end"
-              >
-                <Link href={`/blog/${slug}`} className="text-decoration-none">
-                  <Title c="white" fw={500} order={order} mb="xs" lineClamp={2}>
-                    {title}
-                  </Title>
-                </Link>
-                <Text c="white">{formatDate(publishDate)}</Text>
-              </Flex>
-            </BackgroundImage>
-          </Box>
-        );
-      };
+  const ImageCard = ({ imageUrl, title, publishDate, order, slug }) => {
+    return (
+      <Box h={order === 1 ? 450 : 214} mb="md" style={{ position: "relative" }}>
+        <BackgroundImage h="100%" src={imageUrl} radius="sm">
+          <Overlay
+            color="#000" 
+            opacity={0.6} 
+            radius="sm"
+            zIndex={1} 
+          />
+          <Flex
+            p="md"
+            h="100%"
+            direction="column"
+            align="flex-start"
+            justify="flex-end"
+            style={{ position: 'relative', zIndex: 2 }}
+          >
+            <Link href={`/blog/${slug}`} className="text-decoration-none">
+              <Title c="white" fw={500} order={order} mb="xs" lineClamp={2}>
+                {title}
+              </Title>
+            </Link>
+            <Text c="white">{formatDate(publishDate)}</Text>
+          </Flex>
+        </BackgroundImage>
+      </Box>
+    );
+  };
   const renderGrid = () => {
     const count = items.length;
 

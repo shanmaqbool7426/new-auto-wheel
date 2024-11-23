@@ -4,7 +4,7 @@ import { Badge, Card, Group, Title, Text } from '@mantine/core';
 import React from 'react';
 import Link from 'next/link';
 const PopularTags = ({ tags }) => {
-    const hasTags = tags?.data && tags?.data?.length > 0;
+    const hasTags = tags?.data?.data && tags?.data?.data?.length > 0;
 
     return (
         <Card
@@ -19,7 +19,7 @@ const PopularTags = ({ tags }) => {
 
             {hasTags ? (<Group my="sm" gap="xs">
                 {
-                    (tags?.data.map((tag) => (
+                    (tags?.data?.data?.map((tag) => (
                         <Link href={`/blog/tag/${tag?.slug}`}>
                         <Badge
                             key={tag?.id}

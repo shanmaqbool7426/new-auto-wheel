@@ -149,7 +149,7 @@ export const API_ENDPOINTS = {
   VIDEOS: {
     BASE: VIDEO_BASE,
     BROWSE: `${VIDEO_BASE}/browse-videos`,
-    LIST: `${VIDEO_BASE}/video-listing`,
+    LIST: `${VIDEO_BASE}/video-listing/`,
     DETAIL: (id) => `${VIDEO_BASE}/${id}`, // Dynamic ID for video detail
   },
 
