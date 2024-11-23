@@ -515,7 +515,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           </Accordion.Item>
         </Accordion>
 
-        {filters.make?.length > 0 && (
+        {/* {filters.make?.length > 0 && (
           <Accordion
             variant="contained"
             mb="lg"
@@ -677,7 +677,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-        )}
+        )} */}
 
         {/* Custom Range Slider for Mileage */}
         {/* <Input.Wrapper mb="lg">
@@ -1438,7 +1438,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 </Accordion.Item>
               </Accordion>
 
-              {filters.make?.length > 0 && (
+              {/* {filters.make?.length > 0 && (
                 <Accordion
                   variant="contained"
                   mb="lg"
@@ -1581,7 +1581,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
-              )}
+              )} */}
               {/* <Input.Wrapper mb="lg">
                 <Input.Label>Mileage</Input.Label>
                 <RangeSlider

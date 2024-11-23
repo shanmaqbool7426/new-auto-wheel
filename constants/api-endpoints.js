@@ -32,8 +32,8 @@
 //     IMAGE_UPLOADS:`${BASE_URL}/upload-image`
 //   };
 
-export const BASE_URL = "https://auto-wheel-be.vercel.app";
-// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// export const BASE_URL = "https://auto-wheel-be.vercel.app";
+export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
@@ -149,7 +149,7 @@ export const API_ENDPOINTS = {
   VIDEOS: {
     BASE: VIDEO_BASE,
     BROWSE: `${VIDEO_BASE}/browse-videos`,
-    LIST: `${VIDEO_BASE}/video-listing`,
+    LIST: `${VIDEO_BASE}/video-listing/`,
     DETAIL: (id) => `${VIDEO_BASE}/${id}`, // Dynamic ID for video detail
   },
 

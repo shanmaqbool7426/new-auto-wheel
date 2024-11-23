@@ -32,6 +32,7 @@ import { IconCheck } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
+import Link from "next/link";
 
 const VehicleDetail = ({ vehicle }) => {
   const {
@@ -76,16 +77,16 @@ const VehicleDetail = ({ vehicle }) => {
               <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="#">Cars</Anchor>
+                    <Anchor href="/" tt="capitalize" component={Link}>Home</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href="#">New Cars</Anchor>
+                    <Anchor href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href="#">{make} Cars</Anchor>
+                    <Anchor component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <Anchor href="#">{`${make} ${model} ${variant} ${vehicle.year}`}</Anchor>
+                    <Anchor href="#">{`${make} ${model} ${variant}`}</Anchor>
                   </li>
                 </ol>
               </nav>
@@ -513,9 +514,9 @@ const VehicleDetail = ({ vehicle }) => {
                     Specifications
                   </Text>
                 </Title>
-                <Anchor href="#" underline="hover" className="text-primary">
+                {/* <Anchor href="#" underline="hover" className="text-primary">
                   Full Specifications
-                </Anchor>
+                </Anchor> */}
               </Flex>
             </Box>
             <Box className="col-lg-12">

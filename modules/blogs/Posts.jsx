@@ -27,13 +27,32 @@ const Posts = ({ title, posts, count, description }) => {
                     className="pb-4 mb-4 card-border-bottom"
                 >
                     <Flex align="top" wrap={{ sm: "wrap", md: "nowrap" }}>
-                        <Image
-                            src={post.imageUrl || "/blogs/recent-placeholder.png"}
+                        <Box
+                            h={192}
+                            w={300}
                             radius="md"
-                            alt={post.title}
-                            height={210}
-                            width={192}
-                        />
+                            pos={"relative"}
+                        >
+                            <Image
+                                src={post.imageUrl || "/blogs/recent-placeholder.png"}
+                                alt={post.title}
+                                h={192}
+                                w={300}
+                                radius="md"
+                            />
+                            {post?.categories[0]?.name &&
+                                <Badge
+                                    bg="#E90808"
+                                    c="white"
+                                    radius="sm"
+                                    size="lg"
+                                    pos={"absolute"}
+                                    className="bottom-0"
+                                >
+                                    {post.categories[0]?.name}
+                                </Badge>
+                            }
+                        </Box>
                         <Flex gap="xs" direction="column" p="sm" pl="md">
                             <Title fw={600} order={4}>
                                 <Link

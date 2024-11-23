@@ -1047,7 +1047,7 @@ import { submitFormData } from "@/services/forms";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
 import { cities, colorOptions, registrationOptions, suburbs, carTags, yearList, carEngines, truckEngines, bikeEngines, bikeDrives, carTruckDrives } from "@/mock-data/mock-array"
-import {getSuburbs} from "@/constants/suburbs";
+import { getSuburbs } from "@/constants/suburbs";
 import { uploadImageServer } from "@/actions";
 import { showNotification } from "@mantine/notifications";
 const PostAnAd = (params) => {
@@ -1135,7 +1135,6 @@ const PostAnAd = (params) => {
   };
 
 
-  console.log('>>>>>',session?.user)
   useEffect(() => {
     setFormDataStep1((prev) => ({
       ...prev,
@@ -1147,13 +1146,13 @@ const PostAnAd = (params) => {
   const closeModal = () => setIsModalOpen(false);
 
   const handleChangeStep1 = (value, field) => {
-    if (field==="city") {
+    if (field === "city") {
       setFormDataStep1((prevData) => ({
         ...prevData,
-        ["suburb"]:"",
+        ["suburb"]: "",
         [field]: value,
       }));
-    }else{
+    } else {
       setFormDataStep1((prevData) => ({
         ...prevData,
         [field]: value,
@@ -1216,7 +1215,6 @@ const PostAnAd = (params) => {
   const handleSubmit = async () => {
     const specifications = {
       suburb: formDataStep1.suburb,
-      rego: formDataStep1.rego,
       exteriorColor: formDataStep1.exteriorColor,
       mileage: formDataStep1.milage,
       engine: formDataStep2.engine,
@@ -1236,6 +1234,7 @@ const PostAnAd = (params) => {
       ...formDataStep1,
       ...formDataStep2,
       specifications,
+      rego: formDataStep1.rego,
       price: formDataStep1.price || 0,
       startPrice: formDataStep1.price || 0,
       endPrice: formDataStep1.price || 0,
@@ -1554,10 +1553,16 @@ const PostAnAd = (params) => {
                           </Input.Label>
                         </Box>
                         <Box className="col-md-7" onClick={openModal} >
-                          <Text className="border p-2 rounded" >
-                            {selection.make}  {selection.model} {selection.variant}
-                          </Text>
-
+                          <Input
+                            placeholder={`Select ${vehicle} Info`}
+                            size="md"
+                            value={
+                              selection.make || selection.model || selection.variant
+                                ? `${selection.make} ${selection.model} ${selection.variant}`
+                                : ""
+                            }
+                            readOnly
+                          />
                         </Box>
                       </Box>
                       <Box className="row align-items-center" mb="xl">
@@ -1586,12 +1591,12 @@ const PostAnAd = (params) => {
                           </Input.Label>
                         </Box>
                         <Box className="col-md-7">
-                          <Select
+                          <Input
+                            type="date"
                             size="md"
-                            placeholder="Rego"
-                            data={registrationOptions}
+                            placeholder="Date"
                             value={formDataStep1.rego}
-                            onChange={(value) => handleChangeStep1(value, 'rego')}
+                            onChange={(value) => handleChangeStep1(value.target.value, 'rego')}
                           />
                         </Box>
                       </Box>
@@ -1814,40 +1819,40 @@ const PostAnAd = (params) => {
                           />
                         </Box>
                       </Box>
-                      {vehicle!=="bike"&&
-                      <>
-                      
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Doors
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <NumberInput
-                            size="md"
-                            placeholder="4"
-                            value={formDataStep2.doors}
-                            onChange={(value) => handleInputChangeStep2('doors', value)}
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Seats
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <NumberInput
-                            size="md"
-                            placeholder="4"
-                            value={formDataStep2.seats}
-                            onChange={(value) => handleInputChangeStep2('seats', value)}
-                          />
-                        </Box>
-                      </Box>
-                      </>                      
+                      {vehicle !== "bike" &&
+                        <>
+
+                          <Box className="row align-items-center" mb="xl">
+                            <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                              <Input.Label required size="md">
+                                Doors
+                              </Input.Label>
+                            </Box>
+                            <Box className="col-md-7">
+                              <NumberInput
+                                size="md"
+                                placeholder="4"
+                                value={formDataStep2.doors}
+                                onChange={(value) => handleInputChangeStep2('doors', value)}
+                              />
+                            </Box>
+                          </Box>
+                          <Box className="row align-items-center" mb="xl">
+                            <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                              <Input.Label required size="md">
+                                Seats
+                              </Input.Label>
+                            </Box>
+                            <Box className="col-md-7">
+                              <NumberInput
+                                size="md"
+                                placeholder="4"
+                                value={formDataStep2.seats}
+                                onChange={(value) => handleInputChangeStep2('seats', value)}
+                              />
+                            </Box>
+                          </Box>
+                        </>
 
                       }
                       <Box className="row align-items-center" mb="xl">

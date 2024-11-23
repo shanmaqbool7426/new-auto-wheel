@@ -104,6 +104,13 @@ export const reorderSlug = (slug, view, sortBy) => {
 
   return `/${dynamicSlug.join("/")}`;
 };
+export const getBreadCrumbMake = (slug) => {
+  const makes = slug
+    .filter((item) => item.startsWith("mk_")) // Filter items that start with "mk_"
+    .map((item) => item.replace("mk_", "")); // Remove the "mk_" prefix
+  return makes.join(", "); // Return as comma-separated string
+};
+
 export const reorderSlugNew = (slug, view, sortBy, type) => {
   const makes = slug.filter((item) => item.startsWith("mk_"));
   const models = slug.filter((item) => item.startsWith("md_"));

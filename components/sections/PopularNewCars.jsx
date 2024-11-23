@@ -2,7 +2,7 @@ import { formatToLacOrCrore } from "@/utils";
 import { Box, Card, Flex, Image, Rating, Text, Title } from "@mantine/core";
 import React from "react";
 
-const PopularNewCars = ({ bg = true, popularVehicles }) => {
+const PopularNewCars = ({ bg = true, popularVehicles ,type}) => {
   return (
     <Box
       component="section"
@@ -13,8 +13,8 @@ const PopularNewCars = ({ bg = true, popularVehicles }) => {
           <Box className="col-md-12" mb="xl">
             <Title order={2}>
               Popular New{" "}
-              <Text span c="#E90808" inherit>
-                Cars
+              <Text span c="#E90808" inherit tt="capitalize">
+                {`${type}s`}
               </Text>
             </Title>
           </Box>
