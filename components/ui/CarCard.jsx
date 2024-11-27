@@ -345,7 +345,7 @@ import {
 } from "@mantine/core";
 import Link from "next/link";
 import { IconStar } from "@tabler/icons-react";
-import { getTimeAgo } from "@/utils";
+import { formatPrice, getTimeAgo } from "@/utils";
 import { notifications } from "@mantine/notifications";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
@@ -521,7 +521,8 @@ const CarCard = ({ vehicle,token }) => {
                 clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)"
               }}
             >
-              <Text fw={700} size="sm">Rs {vehicle?.price}</Text>
+              <Text fw={700} size="sm">Rs {formatPrice
+              (vehicle?.price)}</Text>
             </Box>
           </Group>
           <Divider />
@@ -541,7 +542,7 @@ const CarCard = ({ vehicle,token }) => {
           </Flex>
           <Flex mt="md" gap="md" justify="space-between" wrap="wrap">
             <Group c="dimmed" gap={rem(5)} align="center">
-              <Text span c="dimmed" size="xs">Stock#</Text>
+              <Text span c="dimmed" size="xs">ID#</Text>
               <Text c="dark" size="xs">{vehicle?.specifications?.stockId}</Text>
             </Group>
             <Group c="dimmed" gap={rem(5)} align="center">

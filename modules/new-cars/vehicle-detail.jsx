@@ -70,7 +70,7 @@ const VehicleDetail = ({ vehicle }) => {
   return (
     <>
       {/* Header Section */}
-      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={80} h={200}>
+      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={60} h={160}>
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">

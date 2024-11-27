@@ -216,7 +216,7 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
                                                         </Group>
 
                                                         <Box className="review-card-footer" mt="md">
-                                                            <Text>By pooja kate</Text>
+                                                            <Text>By {review?.reviewBy}</Text>
                                                             <Text c="dimmed">{formatToMonthYear(review?.createdAt)} | 62 Views</Text>
                                                         </Box>
                                                     </Card>

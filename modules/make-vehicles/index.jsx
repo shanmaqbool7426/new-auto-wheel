@@ -132,7 +132,7 @@ const MakesVehicles = ({
                             <Title order={5} fw={600} c="#E90808">
                               {slugMake} Pricelist
                             </Title>
-                            <Button variant="outline" color="#E90808" mt="sm">
+                            <Button href={`/listing/${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`} variant="outline" color="#E90808" mt="sm" component={Link} >
                               Used {slugMake} Cars for sale
                             </Button>
                           </Flex>
@@ -203,7 +203,7 @@ const MakesVehicles = ({
                             src={item.companyImage}
                             className="mx-auto text-center"
                           />
-                          <Anchor component={Link} href={`/new/car/${item.name}`} c="#333">
+                          <Anchor component={Link} href={`/new/car/make/${item.name}`} c="#333">
                             {item.name}
                           </Anchor>
                         </Flex>
