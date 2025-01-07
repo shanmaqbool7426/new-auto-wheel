@@ -35,6 +35,8 @@ import { formatPrice, formatPriceInFactors } from "@/utils";
 import Link from "next/link";
 
 const VehicleDetail = ({ vehicle }) => {
+  console.log("vehicle>>>>",vehicle);
+
   const {
     vehicleDetails: {
       make,
@@ -66,7 +68,6 @@ const VehicleDetail = ({ vehicle }) => {
     },
     variants,
   } = vehicle || {};
-  console.log(vehicle);
   return (
     <>
       {/* Header Section */}

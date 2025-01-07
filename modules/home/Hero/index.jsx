@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import styles from "./Hero.module.css";
 
-const Hero = () => {
+const Hero = ({banner}) => {
   const [currentIndex, setCurrentIndex] = useState(0); // Current image index
   const [slideDirection, setSlideDirection] = useState("right"); // Direction of
   const [type, setType] = useState("car");
@@ -58,9 +58,9 @@ const Hero = () => {
               transform: `translateX(-${currentIndex * 100}%)`, // Slide effect
             }}
           >
-            {images.map((image, index) => (
+            {banner.map((item, index) => (
               <Box key={index} miw="100%">
-                <Image src={image.src} h={440} />
+                <Image src={item.image} h={440} />
               </Box>
             ))}
           </Box>
@@ -98,13 +98,13 @@ const Hero = () => {
                   display="flex"
                 // style={{ color: "#fff", cursor: "pointer" }} // Make list items clickable
                 >
-                  {images.map((image, index) => (
+                  {banner.map((item, index) => (
                     <List.Item
                       key={index}
                       className={currentIndex === index ? "active" : ""}
                       onClick={() => changeSlide(index)} // Switch to corresponding slide
                     >
-                      {image.title}
+                      {item.title}
                     </List.Item>
                   ))}
                 </List>

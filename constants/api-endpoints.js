@@ -32,8 +32,8 @@
 //     IMAGE_UPLOADS:`${BASE_URL}/upload-image`
 //   };
 
-export const BASE_URL = "https://auto-wheel-be.vercel.app";
-// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// export const BASE_URL = "https://auto-wheel-be.vercel.app";
+export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
@@ -48,6 +48,10 @@ export const API_ENDPOINTS = {
     VERIFY_OTP: `${BASE_URL}/api/user/verify-user`,
     FORGOT_PASSWORD: `${BASE_URL}/api/user/password-reset-request`,
     RESET_PASSWORD: `${BASE_URL}/api/user/reset-password`,
+  },
+  COMPARISON: {
+    BASE: `${BASE_URL}/api/comparison`,
+    GET_COMPARISON_LIST: `${BASE_URL}/api/comparison/list`,
   },
 
   VEHICLE: {
@@ -166,6 +170,7 @@ export const API_ENDPOINTS = {
   COMMENTS: {
     BASE: `${BASE_URL}/api/comment`,
   },
+  BANNER:  `${BASE_URL}/api/banners/active`,
 
   TAGS: {
     BASE: `${BASE_URL}/api/tag`,

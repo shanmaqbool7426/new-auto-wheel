@@ -116,24 +116,25 @@ const TopComparison = ({ title, type }) => {
           {comparisons.data.map((comparison, index) => (
             <div className="col-lg-4" key={index}>
               <div className="card comparison-card">
+                {console.log(comparison)}
                 <div className="two-col-comparison position-relative">
                   <div className="product-compare product-first justify-content-start">
                     <Image
-                      src={comparison.vehicle1.defaultImage}
+                      src={comparison.vehicle1.defaultImage || ""}
                       width={143}
                       height={88}
                       className="img-fluid object-fit-cover"
-                      alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
+                      // alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
                     />
                   </div>
                   <span className="compare-txt">VS</span>
                   <div className="product-compare product-second justify-content-end">
                     <Image
-                      src={comparison.vehicle2.defaultImage}
+                      src={comparison.vehicle2.defaultImage || ""}
                       width={143}
                       height={88}
                       className="img-fluid object-fit-cover"
-                      alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
+                      // alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
                     />
                   </div>
                 </div>

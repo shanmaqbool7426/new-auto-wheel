@@ -13,7 +13,7 @@ const NewCarsCard = ({ vehicle, isRating }) => {
           p="lg"
           pt="xl"
           component={NextImage}
-          src={vehicle?.defaultImage}
+          src={vehicle?.defaultImage || ""}
           height={130}
           width={130}
           alt="Mehran"
