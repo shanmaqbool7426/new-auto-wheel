@@ -37,7 +37,7 @@ const NewCarsCard = ({ vehicle, isRating }) => {
 
           {isRating && (
             <Flex align="center" justify="center" gap="xs">
-              <Rating defaultValue={vehicle?.averageRating ?? 0} />
+              <Rating defaultValue={vehicle.averageRating ?? 0} />
               <Text span inherit>
                 {vehicle?.averageRating
                   ? `(${

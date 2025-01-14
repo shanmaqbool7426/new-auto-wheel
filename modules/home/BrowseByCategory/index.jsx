@@ -69,7 +69,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         {group.map((item, index) => (
                           <Box key={index} className="text-center" py="15px">
                             <Anchor 
-                              href={`/new/car/${item.name}`} 
+                              href={`/listing/cars/search/-/mk_${item.name}`} 
                               td="none" 
                               className={styles.browseItem}
                             >

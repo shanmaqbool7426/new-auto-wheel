@@ -35,7 +35,7 @@ import { IconSearch } from "@tabler/icons-react";
 import BrowseByCategory from "./browse-by-category";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
 import BrowseVideos from "@/components/videos/browse-videos";
-import BrowseBlogs from "@/components/blog/browse-blogs";
+// import BrowseBlogs from "@/components/blog/browse-blogs";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -361,12 +361,12 @@ const NewCarsModule = ({
         <ComparisonProducts />
         <BrowseVideos />
         <BrowseBlogs />
-
+              
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
-        <QuickLinks />
+        {/* <QuickLinks /> */}
       </section>
-      {/* <WriteReviewModal opened={isModalOpen} close={closeModal} /> */}
+      <WriteReviewModal opened={isModalOpen}   close={closeModal} />
     </>
   );
 };

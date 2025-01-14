@@ -20,10 +20,12 @@ const TopComparison = ({ title, type }) => {
   const [comparisons, setComparisons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log(">>>>>>>>>>>>>>>",comparisons)
   useEffect(() => {
     const fetchComparisons = async () => {
       try {
         const data = await fetchTopComparisonByTypeServer(type);
+       
         setComparisons(data); // Adjust based on your API response structure
       } catch (err) {
         console.error("Error fetching comparisons:", err);
@@ -35,6 +37,7 @@ const TopComparison = ({ title, type }) => {
 
     fetchComparisons();
   }, [type]);
+  console.log(">>>>>>>>>>>>>>>comparisons?.comparisons",comparisons)
 
   if (loading) {
     return (
@@ -91,6 +94,7 @@ const TopComparison = ({ title, type }) => {
     );
   }
 
+
   return (
     <section className="comparison-products bg-light py-5">
       <div className="container-xl">
@@ -113,7 +117,7 @@ const TopComparison = ({ title, type }) => {
           </Anchor> */}
         </Flex>
         <div className="row">
-          {comparisons.data.map((comparison, index) => (
+          {comparisons?.data?.map((comparison, index) => (
             <div className="col-lg-4" key={index}>
               <div className="card comparison-card">
                 {console.log(comparison)}
