@@ -7,19 +7,21 @@ export const fetchAPI = async (url, options = {}) => {
     urlWithParams.searchParams.append('_t', timestamp);
     urlWithParams.searchParams.append('_r', random);
 
-    // Set default options with proper caching strategy
+    // Set default options with comprehensive cache-busting headers
     const fetchOptions = {
       ...options,
+      cache: 'no-store',
       headers: {
         ...options.headers,
         'Cache-Control': 'no-cache, no-store, must-revalidate, private',
         'Pragma': 'no-cache',
         'Expires': '0',
+        'If-None-Match': random.toString(), // Prevent If-None-Match header matching
       },
       next: {
-        revalidate: 0 // This tells Next.js to fetch fresh data on each request
-      },
-      cache: 'no-store' // This ensures we always get fresh data
+        revalidate: 0,
+        tags: [`request-${timestamp}`]
+      }
     };
 
     // Perform the fetch request with the updated options
@@ -35,9 +37,8 @@ export const fetchAPI = async (url, options = {}) => {
     return data;
 
   } catch (error) {
-    // Log error but don't expose internal details
-    console.error("API Request failed:", error.message);
-    throw new Error("Failed to fetch data. Please try again later.");
+    console.error("🚀 ~ fetchAPI ~ error:", error);
+    throw error;
   }
 };
 
