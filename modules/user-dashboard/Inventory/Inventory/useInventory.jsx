@@ -116,33 +116,33 @@ export default function useInventory() {
   };
 
 
-  const handleToggleFeature = async (id) => {
-    try {
-      const response = await fetch(`${BASE_URL}/api/vehicle/${id}/toggle-featured`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any authentication headers if required
-        },
-      });
+  // const handleToggleFeature = async (id) => {
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/api/vehicle/${id}/toggle-featured`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         // Add any authentication headers if required
+  //       },
+  //     });
 
-      const data = await response.json();
-      console.log('datadata', data)
-      if (data.success) {
-        // Update the local state
-        setVehicles(prevVehicles =>
-          prevVehicles.map(vehicle =>
-            vehicle.id === id ? { ...vehicle, isFeatured: !vehicle.isFeatured } : vehicle
-          )
-        );
-      } else {
-        throw new Error(data.message || 'Failed to toggle featured status');
-      }
-    } catch (error) {
-      console.error('Error toggling featured status:', error);
-      // Optionally, show an error message to the user
-    }
-  };
+  //     const data = await response.json();
+  //     console.log('datadata', data)
+  //     if (data.success) {
+  //       // Update the local state
+  //       setVehicles(prevVehicles =>
+  //         prevVehicles.map(vehicle =>
+  //           vehicle.id === id ? { ...vehicle, isFeatured: !vehicle.isFeatured } : vehicle
+  //         )
+  //       );
+  //     } else {
+  //       throw new Error(data.message || 'Failed to toggle featured status');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error toggling featured status:', error);
+  //     // Optionally, show an error message to the user
+  //   }
+  // };
 
   const handleClickEditRow = (id) => {
     console.log('Edit Row', id);
@@ -185,6 +185,61 @@ export default function useInventory() {
     }
   };
 
+  // Add this state to track selected vehicle
+const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+
+// Modify the form initialization
+const form = useForm({
+  initialValues: {
+    featuresDays: '',
+  },
+  validate: {
+    featuresDays: (value) => (!value ? 'Please select duration' : null),
+  },
+});
+
+// Update handleToggleFeature to open modal
+const handleToggleFeature = (id) => {
+  setSelectedVehicleId(id);
+  openModalMakeFeature();
+};
+
+// Update handleSubmit to make API call
+const handleSubmit = async (values) => {
+  try {
+    const duration = parseInt(values.featuresDays);
+    const response = await fetch(`${BASE_URL}/api/vehicle/${selectedVehicleId}/toggle-featured`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Add your auth token if required
+      },
+      body: JSON.stringify({ duration }),
+    });
+
+    const data = await response.json();
+    
+    if (data.success) {
+      // Update the local state
+      setVehicles(prevVehicles =>
+        prevVehicles.map(vehicle =>
+          vehicle.id === selectedVehicleId 
+            ? { ...vehicle, isFeatured: true } 
+            : vehicle
+        )
+      );
+      closeModalMakeFeature();
+      form.reset();
+      // Optionally show success notification
+    } else {
+      throw new Error(data.message || 'Failed to feature vehicle');
+    }
+  } catch (error) {
+    console.error('Error featuring vehicle:', error);
+    // Optionally show error notification
+  }
+};
+
   return {
     searchBy,
     setSearchBy: handleSearch,
@@ -203,5 +258,12 @@ export default function useInventory() {
     expandedRowIds,
     handleToggleFeature,
     onPageChange: handlePageChange,
+    selectedVehicleId,
+    setSelectedVehicleId,
+    opened,
+    openModalMakeFeature,
+    closeModalMakeFeature,
+    form,
+    handleSubmit,
   };
 }

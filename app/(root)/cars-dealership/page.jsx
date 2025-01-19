@@ -273,7 +273,7 @@ const CarsDealerShip = () => {
                       <Table.Td w="20%" align="center">
                         <Text fw={600}>
                           <FaLocationDot color="#E90808" className="me-2" />
-                          {dealer.location ?? "Not Available"}
+                          {dealer.locationAddress ?? "Not Available"}
                         </Text>
                       </Table.Td>
                     </Table.Tr>

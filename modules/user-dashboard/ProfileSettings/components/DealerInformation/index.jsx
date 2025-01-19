@@ -23,8 +23,8 @@ export default function DealerInformation({ profileData }) {
       if (!form.values.licenseNumber) {
         form.setFieldValue('licenseNumber', profileData.licenseNumber || '');
       }
-      if (!form.values.location) {
-        form.setFieldValue('location', profileData.location || '');
+      if (!form.values.locationAddress) {
+        form.setFieldValue('locationAddress', profileData.locationAddress  || '');
       }
       if (!form.values.salesHours) {
         form.setFieldValue('salesHours', profileData.salesHours || '');
@@ -60,7 +60,7 @@ export default function DealerInformation({ profileData }) {
           </Grid.Col>
           <Grid.Col span={6}>
             <FormField
-              label="Sales Hours"
+              label="Working Hours"
               type="text"
               {...form.getInputProps('salesHours')}
             />

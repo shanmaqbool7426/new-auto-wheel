@@ -10,8 +10,9 @@ import {
   fetchMakesByType,
   fetchVehiclsData,
 } from "@/services/vehicles";
-import { reorderSlug } from "@/utils";
+import { getLocalStorage, reorderSlug } from "@/utils";
 export default async function Listing({ params, searchParams }) {
+  const token = getLocalStorage('token')
   const view = searchParams.view;
   const typeMapping = {
     cars: "car",
@@ -88,9 +89,9 @@ export default async function Listing({ params, searchParams }) {
                     }
                   >
                     {view === "list" ? (
-                      <ListCardView index={index} vehicle={vehicle} />
+                      <ListCardView index={index} vehicle={vehicle} token={token} />
                     ) : (
-                      <CarCard vehicle={vehicle} index={index} />
+                      <CarCard vehicle={vehicle} index={index} token={token} />
                     )}
                   </div>
                 ))}

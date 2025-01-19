@@ -11,11 +11,11 @@ import Link from 'next/link'
 
 
 
-export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRow, handleToggleFeature) => [
+export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRow, handleToggleFeature,openModalMakeFeature) => [
   {
     accessor: 'title',
     title: 'Title',
-    render: ({ title, id }) => {
+    render: ({ title, id }) => {  
       return (
         <Box
           className={styles.tableTitle}
@@ -74,6 +74,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
             onClick={(e) => {
               e.stopPropagation(); // Prevent row click event
               handleToggleFeature(id);
+              // openModalMakeFeature()
             }}
             label={isFeatured ? 'Featured' : 'Make it Feature'}
             variant={isFeatured ? 'Rejected' : 'Info'}

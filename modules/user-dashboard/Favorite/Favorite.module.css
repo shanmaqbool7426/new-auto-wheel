@@ -48,8 +48,10 @@
 }
 
 .tableTitleTitle {
-  color: #1B84FF;
+  color: black;
   line-height: 1;
+  font-weight: 400;
+
 }
 
 .tableTitleModal {

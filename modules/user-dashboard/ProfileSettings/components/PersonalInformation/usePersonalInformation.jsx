@@ -19,7 +19,7 @@ export default function useDealerInformation() {
   const handleSubmit = async (values) => {
     console.log('Dealer Information Data:: ', values);
     try {
-      const response = await fetch(`${BASE_URL}/api/user/dealer-info`, {
+      const response = await fetch(`${BASE_URL}/api/user/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

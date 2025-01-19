@@ -7,10 +7,12 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { RightArrowIcon } from "@/components/Icons";
 import Link from "next/link";
 import styles from './BrowseByType.module.css';
+import { getLocalStorage } from "@/utils";
 
 const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   const [selectedType, setSelectedType] = useState("All");
   const [vehicles, setVehicles] = useState(initialVehicles || []);
+  const token = getLocalStorage('token')
   const handleTypeChange = async (type) => {
     setSelectedType(type);
     const res = await fetchAPI(
@@ -61,7 +63,7 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                 <Box className="row">
                   {vehicles?.data?.results?.map((vehicle, index) => (
                     <Box className="col-lg-3" key={index}>
-                      <CarCard index={index} vehicle={vehicle} />
+                      <CarCard index={index} vehicle={vehicle} token={token} />
                     </Box>
                   ))}
                 </Box>
@@ -73,12 +75,12 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                       {vehicles?.data?.map((vehicle, index) => (
                         <>
                           <Box className="col-lg-3 col-sm-6" key={index}>
-                            <CarCard index={index} vehicle={vehicle} />
+                            <CarCard index={index} vehicle={vehicle} token={token} />
                           </Box>
                         </>
                       ))}
                       {selectedType !== "All" && (
-                        <Link href={`/listing/${selectedType}s`}>
+                        <Link href={`/listing/${selectedType}s`}> 
                           {" "}
                           <Text fz="sm" c="#EB2321" ta="right">
                             Show More Ads <RightArrowIcon />

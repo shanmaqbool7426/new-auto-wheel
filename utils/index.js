@@ -8,6 +8,16 @@ export const formatPrice = (price) => {
   return price?.toFixed()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+export const formatPriceInFactors = (price) => {
+  if (price >= 1_000_000_000) {
+    return (price / 1_000_000_000).toFixed(2) + "B"; // Billions
+  } else if (price >= 1_000_000) {
+    return (price / 1_000_000).toFixed(2) + "M"; // Millions
+  } else {
+    return price.toString(); // Less than a million
+  }
+};
+
 // Utility function to calculate the time ago string
 export const getTimeAgo = (lastUpdateDate) => {
   const timeDiff = new Date() - new Date(lastUpdateDate);
@@ -39,8 +49,7 @@ export const TimeAgo = (lastUpdateDate) => {
   if (months > 0) return `${months} month${months > 1 ? "s" : ""} ago`;
   if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
   if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  if (minutes > 0)
-    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+  if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
 
   return "just now";
 };
@@ -55,7 +64,7 @@ export const reorderSlug = (slug, view, sortBy) => {
   const basePath = slug[0];
   const makes = slug.filter((item) => item.startsWith("mk_"));
   const models = slug.filter((item) => item.startsWith("md_"));
-  const variants= slug.filter((item) => item.startsWith("vt_"));
+  const variants = slug.filter((item) => item.startsWith("vt_"));
   const cities = slug.filter((item) => item.startsWith("ct_"));
   const bodyType = slug.filter((item) => item.startsWith("bt_"));
   const page = slug.find((item) => item.startsWith("page_"));
@@ -95,10 +104,10 @@ export const reorderSlug = (slug, view, sortBy) => {
 
   return `/${dynamicSlug.join("/")}`;
 };
-export const reorderSlugNew = (slug, view, sortBy,type) => {
+export const reorderSlugNew = (slug, view, sortBy, type) => {
   const makes = slug.filter((item) => item.startsWith("mk_"));
   const models = slug.filter((item) => item.startsWith("md_"));
-  const variants= slug.filter((item) => item.startsWith("vt_"));
+  const variants = slug.filter((item) => item.startsWith("vt_"));
   const cities = slug.filter((item) => item.startsWith("ct_"));
   const bodyType = slug.filter((item) => item.startsWith("bt_"));
   const page = slug.find((item) => item.startsWith("page_"));
@@ -257,13 +266,12 @@ export const updateFilters = (
 };
 
 export function capitalize(string) {
-  if (typeof string !== 'string' || string.length === 0) return string;
+  if (typeof string !== "string" || string.length === 0) return string;
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-
 export const getLocalStorage = (key) => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : null;
@@ -276,7 +284,7 @@ export const getLocalStorage = (key) => {
 };
 
 export const setLocalStorage = (key, value) => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {

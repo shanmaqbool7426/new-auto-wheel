@@ -34,7 +34,7 @@ import NewCarsCard from "@/components/ui/NewCarsCard";
 import { useSession } from "next-auth/react";
 import CustomModel from "@/constants/CustomModel";
 import { useRouter } from "next/navigation";
-
+import { getLocalStorage } from "@/utils";
 const CarReviewsModule = ({
   fetchMakesByTypeData,
   popularVehicles,
@@ -43,7 +43,7 @@ const CarReviewsModule = ({
 }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
-
+  const token = getLocalStorage('token')
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenCommon, setIsModalOpenCommon] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -289,7 +289,7 @@ const CarReviewsModule = ({
             </Box>
             {popularUsedVehicles?.data?.map((vehicle, index) => (
               <Box className="col-lg-3 col-sm-4" key={index}>
-                <CarCard index={index} vehicle={vehicle} />
+                <CarCard index={index} vehicle={vehicle} token={token}/>
               </Box>
             ))}
           </Box>

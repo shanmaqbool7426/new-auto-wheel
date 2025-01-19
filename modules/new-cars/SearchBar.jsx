@@ -105,6 +105,18 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
     return lacValue?.toFixed(1);
   }
 
+
+  const formatPrice = (value) => {
+    if (value >= 10000000) {
+      // For values >= 1 crore
+      return `${(value / 10000000).toFixed(1)}Cr`;
+    } else {
+      // For values in lacs
+      return `${(value / 100000).toFixed(1)}L`;
+    }
+  };
+
+
   return (
     <>
       <Box className="search-wrapper-card" mt="md">
@@ -155,8 +167,8 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                   <Box className="row">
                     <Box className="col-md-6">
                       <NumberInput
-                      hideControls
-                      size="md" radius="sm" placeholder="Min"
+                        hideControls
+                        size="md" radius="sm" placeholder="Min"
                         value={filters.price[0]}
                         min={0}
                         max={filters.price[1]}
@@ -170,7 +182,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                     </Box>
                     <Box className="col-md-6 text-end">
                       <NumberInput
-                      size="md" radius="sm" placeholder="Max"
+                        size="md" radius="sm" placeholder="Max"
                         hideControls
                         value={filters.price[1]}
                         min={filters.price[0]}
@@ -188,17 +200,30 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                       <RangeSlider
                         color="#E90808"
                         min={0}
-                        max={2000000000}
+                        max={100000000} // 10 crores
+                        step={100000} // 1 lac steps
                         size="xs"
+                        label={null}
+                        labelAlwaysOn={false}  // Disable always-on labels
+                        showLabelOnHover={false}  //
                         thumbSize={16}
+
                         styles={{
                           thumb: {
                             borderWidth: rem(2),
                             padding: rem(2),
                           },
+                          mark: {
+                            width: '1px',
+                            height: '8px',
+                          },
+                          markLabel: {
+                            fontSize: '12px',
+                          }
                         }}
                         value={filters.price}
                         onChange={(value) => handleFilterChange("price", value)}
+                        formatLabel={formatPrice}
                       />
                     </Box>
                   </Box>
