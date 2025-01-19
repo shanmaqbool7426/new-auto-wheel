@@ -47,7 +47,8 @@ const BrowseByCategory = ({ makes, bodies }) => {
   console.log("Chunked makes:", makes?.data ? chunkArray(makes.data, 2) : []);
 
   return (
-    <Box className="browse-cats-section bg-light" pt="55px" pb="25px">
+    <Box className="browse-cats-section bg-light" pt="55px" pb="55px"> 
+    {/* /*25px*/ }
       <Box className="container-xl">
         <Box className="row">
           <Box className="col-lg-6">
@@ -55,9 +56,13 @@ const BrowseByCategory = ({ makes, bodies }) => {
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit className="text-decoration-underline">
-                  Make
+                  Make 
                 </Text>
               </Title>
+
+              <Anchor component={Link} href="#" c="#E90808" size="sm">
+                Show all Makes
+              </Anchor>
             </Flex>
 
             <Box className="cat-by-brand">
@@ -103,6 +108,10 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Body
                 </Text>
               </Title>
+
+              <Anchor component={Link} href="#" c="#E90808" size="sm">
+                Show all Bodies
+              </Anchor>
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">
