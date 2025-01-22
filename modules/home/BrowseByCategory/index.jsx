@@ -60,7 +60,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 </Text>
               </Title>
 
-              <Anchor component={Link} href="#" c="#E90808" size="sm">
+              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Makes
               </Anchor>
             </Flex>
@@ -109,7 +109,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 </Text>
               </Title>
 
-              <Anchor component={Link} href="#" c="#E90808" size="sm">
+              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Bodies
               </Anchor>
             </Flex>
