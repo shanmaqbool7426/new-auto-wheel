@@ -8,6 +8,8 @@ import VideoPagination from '@/components/videos/pagination'
 import { fetchVideosPageData } from "@/services/videos";
 const VideosModule = async ({ params }) => {
   const [videosData] = await Promise.all([fetchVideosPageData(params)]);
+
+  console.log("videosData", videosData);
   const { data } = videosData || {};
   const isMainPage = data?.type === 'videos';
   const isCategoryPage = data?.type === 'category';
