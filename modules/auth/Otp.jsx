@@ -1,23 +1,19 @@
 import {
-  Modal,
   Button,
-  Group,
   Text,
   PinInput,
   Center,
   Title,
-  rem,
   Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
-import classes from "@/styles/Demo.module.scss";
 import { signIn } from "next-auth/react";
+import { rem } from "@mantine/core";
 
-function Otp({ otpOpen = false, otpClose = () => {}, email }) {
+function Otp({ email, onSuccess }) {
   const form = useForm({
     initialValues: {
       otp: "",
@@ -29,7 +25,7 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
   });
 
   const { isLoading, error, handleSubmit, data } = useFormSubmission(
-    API_ENDPOINTS.AUTH.VERIFY_OTP, // Replace with your OTP verification endpoint
+    API_ENDPOINTS.AUTH.VERIFY_OTP,
     form.values,
     form.validate
   );
@@ -42,41 +38,31 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
       type: "otp",
       action: "Credentials",
     });
-    result.ok && otpClose();
+    
+    if (result.ok) {
+      onSuccess?.();
+    }
   };
+
   useEffect(() => {
-    form.setFieldValue("email", email); // This ensures that the form state is always up to date with the latest email value
+    form.setFieldValue("email", email);
   }, [email]);
 
   useEffect(() => {
-    if (data && data.success) {
-      // notifications.show({
-      //   message: data.message,
-      //   position:"top-right",
-      //   color: "green",
-      //   duration: 4000,
-      //   ripple: true,
-      // })
-
-      // Handle successful OTP verification, e.g., navigate to another page
-      otpClose(); // Close OTP modal on successful verification
+    if (data?.success) {
+      onSuccess?.();
     }
   }, [data]);
+
   return (
-    <Modal
-      opened={otpOpen}
-      onClose={otpClose}
-      withCloseButton={false}
-      padding={rem(50)}
-      centered
-      size={rem(527)}
-    >
-      <Title order={4}> Enter Code!</Title>
+    <>
+      <Title order={4}>Enter Code!</Title>
       <Text mt="xs" mb="lg">
-        Enter the code you’ve received on your email account to verify your
+        Enter the code you've received on your email account to verify your
         account.
       </Text>
-      <Center maw={400} h={100}>
+      
+      <Center maw={400} h={100} className="m-[auto]">
         <PinInput
           {...form.getInputProps("otp")}
           length={4}
@@ -85,9 +71,11 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
           error={form.errors.otp}
         />
       </Center>
+      
       {error && (
         <div style={{ color: "red", textAlign: "center" }}>{error}</div>
       )}
+      
       <Box px={rem(50)}>
         <Button
           type="submit"
@@ -104,7 +92,7 @@ function Otp({ otpOpen = false, otpClose = () => {}, email }) {
           {isLoading ? "Loading..." : "Continue"}
         </Button>
       </Box>
-    </Modal>
+    </>
   );
 }
 
