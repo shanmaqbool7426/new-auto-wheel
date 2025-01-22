@@ -5,14 +5,16 @@ import ComparisonProducts from "./ComparisonProducts";
 import SearchByLocations from "./SearchByLocations";
 import BrowseVideos from "@/components/videos/browse-videos";
 import BrowseBlogs from "@/components/blog/browse-blogs";
-import { fetcHomeData } from "../../services/home";
+import { fetchBanner, fetcHomeData } from "../../services/home";
 
 export default async function HomeModule() {
   const res = await fetcHomeData();
+  const banner = await fetchBanner();
 
+  console.log("res>>>>>>----1", banner);
   return (
     <>
-      <Hero />
+      <Hero banner={banner?.data} />
       <BrowseByCategory makes={res?.makes} bodies={res?.bodies} />
       <BrowseByType vehicles={res?.vehiclesTypes} />
       <ComparisonProducts />

@@ -40,7 +40,7 @@ const CategoryPosts = ({ category }) => {
                   src={blog.imageUrl || "/blogs/img-large.png"}
                   alt={blog.title}
                   radius="md"
-                  height={210}
+                  height={133}
                 />
               </Card.Section>
               <Link href={`/blog/${category.slug}`} className='text-decoration-none text-black'>

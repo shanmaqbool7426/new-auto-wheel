@@ -8,7 +8,7 @@ import {
   fetchMakesByType,
   fetchNewVehiclsData,
 } from "@/services/vehicles";
-import { reorderSlugNew } from "@/utils";
+import { getBreadCrumbMake, reorderSlugNew } from "@/utils";
 import Link from "next/link";
 export default async function Listing({ params, searchParams, type }) {
   const view = searchParams.view;
@@ -21,12 +21,12 @@ export default async function Listing({ params, searchParams, type }) {
   const dataofVehcles = await fetchNewVehiclsData(reorderedSlug);
   const vehicleMakes = await fetchMakesByType(type);
   const vehicleBodies = await fetchBodiesByType(type);
-
+  const activeBreadcrumbSlug = getBreadCrumbMake(params.slug);
   loading = false;
   return (
     <>
       <Box pb={80} className="product-listing position-relative">
-      <Box pt={60} bg="#e90808cc" mb="20">
+        <Box pt={60} bg="#e90808cc" mb="20">
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
@@ -39,7 +39,7 @@ export default async function Listing({ params, searchParams, type }) {
                       <Anchor href={`/new/${type}`} tt="capitalize" component={Link}>New {type}</Anchor>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      <Anchor href="#" tt="capitalize">Search</Anchor>
+                      <Anchor href="#" tt="capitalize">{activeBreadcrumbSlug ?activeBreadcrumbSlug:"Search"}</Anchor>
                     </li>
                   </ol>
                 </nav>
@@ -84,7 +84,7 @@ export default async function Listing({ params, searchParams, type }) {
                     clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
                   }}
                 >
-                 New {type}s
+                  New {type}s
                 </Title>
                 {/* <Link href={"#"} className="text-primary text-decoration-none">
                   Show all

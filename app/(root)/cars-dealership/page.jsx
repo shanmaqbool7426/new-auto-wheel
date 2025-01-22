@@ -131,7 +131,7 @@ const CarsDealerShip = () => {
                         <Select
                           size="md"
                           placeholder="Choose Type"
-                          data={["Car", "Bike", "Truck"]}
+                          data={["All","Car", "Bike", "Truck"]}
                           value={selectedType}
                           onChange={setSelectedType}
                           comboboxProps={{ shadow: "xl" }}
@@ -302,5 +302,6 @@ const CarsDealerShip = () => {
     </>
   );
 };
+
 
 export default CarsDealerShip;

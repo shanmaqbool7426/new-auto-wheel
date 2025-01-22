@@ -15,19 +15,33 @@ export const fetcHomeData = async () => {
 
     fetchAPI(API_ENDPOINTS.VIDEOS.BROWSE),
 
-    fetchAPI(API_ENDPOINTS.BLOGS.BROWSE),
+   
+
   ]);
 
-  const data = {
-    makes: results[0].status === "fulfilled" ? results[0].value : [],
-    bodies: results[1].status === "fulfilled" ? results[1].value : [],
-    vehiclesTypes: results[2].status === "fulfilled" ? results[2].value : [],
-    comparisons: results[3].status === "fulfilled" ? results[3].value : [],
-    instantUsedCars: results[4].status === "fulfilled" ? results[4].value : [],
-    videos: results[5].status === "fulfilled" ? results[5].value : [],
-    blogs: results[6].status === "fulfilled" ? results[6].value : [],
-  };
 
+
+
+// ... existing code ...
+
+const dataKeys = [
+  'makes',
+  'bodies',
+  'vehiclesTypes',
+  'comparisons',
+  'instantUsedCars',
+  'videos',
+  'blogs'
+];
+
+const data = dataKeys.reduce((acc, key, index) => ({
+  ...acc,
+  [key]: results[index]?.status === "fulfilled" ? results[index].value : []
+}), {});
+
+// ... existing code ...
+
+  console.log("maaaaa",data?.banner);
   results.forEach((result, index) => {
     if (result.status === "rejected") {
       console.error(
@@ -38,4 +52,9 @@ export const fetcHomeData = async () => {
   });
 
   return data;
+};
+
+export const fetchBanner = async () => {
+  const res = await fetchAPI(API_ENDPOINTS.BANNER);
+  return res;
 };

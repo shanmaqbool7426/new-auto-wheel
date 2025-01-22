@@ -32,8 +32,11 @@ import { IconCheck } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
+import Link from "next/link";
 
 const VehicleDetail = ({ vehicle }) => {
+  console.log("vehicle>>>>",vehicle);
+
   const {
     vehicleDetails: {
       make,
@@ -65,27 +68,26 @@ const VehicleDetail = ({ vehicle }) => {
     },
     variants,
   } = vehicle || {};
-  console.log(vehicle);
   return (
     <>
       {/* Header Section */}
-      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={80} h={200}>
+      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={60} h={160}>
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
               <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="#">Cars</Anchor>
+                    <Anchor href="/" tt="capitalize" component={Link}>Home</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href="#">New Cars</Anchor>
+                    <Anchor href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href="#">{make} Cars</Anchor>
+                    <Anchor component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <Anchor href="#">{`${make} ${model} ${variant} ${vehicle.year}`}</Anchor>
+                    <Anchor href="#">{`${make} ${model} ${variant}`}</Anchor>
                   </li>
                 </ol>
               </nav>
@@ -513,9 +515,9 @@ const VehicleDetail = ({ vehicle }) => {
                     Specifications
                   </Text>
                 </Title>
-                <Anchor href="#" underline="hover" className="text-primary">
+                {/* <Anchor href="#" underline="hover" className="text-primary">
                   Full Specifications
-                </Anchor>
+                </Anchor> */}
               </Flex>
             </Box>
             <Box className="col-lg-12">

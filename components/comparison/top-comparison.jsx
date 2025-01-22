@@ -20,10 +20,12 @@ const TopComparison = ({ title, type }) => {
   const [comparisons, setComparisons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log(">>>>>>>>>>>>>>>",comparisons)
   useEffect(() => {
     const fetchComparisons = async () => {
       try {
         const data = await fetchTopComparisonByTypeServer(type);
+       
         setComparisons(data); // Adjust based on your API response structure
       } catch (err) {
         console.error("Error fetching comparisons:", err);
@@ -35,6 +37,7 @@ const TopComparison = ({ title, type }) => {
 
     fetchComparisons();
   }, [type]);
+  console.log(">>>>>>>>>>>>>>>comparisons?.comparisons",comparisons)
 
   if (loading) {
     return (
@@ -91,6 +94,7 @@ const TopComparison = ({ title, type }) => {
     );
   }
 
+
   return (
     <section className="comparison-products bg-light py-5">
       <div className="container-xl">
@@ -113,27 +117,28 @@ const TopComparison = ({ title, type }) => {
           </Anchor> */}
         </Flex>
         <div className="row">
-          {comparisons.data.map((comparison, index) => (
+          {comparisons?.data?.map((comparison, index) => (
             <div className="col-lg-4" key={index}>
               <div className="card comparison-card">
+                {console.log(comparison)}
                 <div className="two-col-comparison position-relative">
                   <div className="product-compare product-first justify-content-start">
                     <Image
-                      src={comparison.vehicle1.defaultImage}
+                      src={comparison.vehicle1.defaultImage || ""}
                       width={143}
                       height={88}
                       className="img-fluid object-fit-cover"
-                      alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
+                      // alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
                     />
                   </div>
                   <span className="compare-txt">VS</span>
                   <div className="product-compare product-second justify-content-end">
                     <Image
-                      src={comparison.vehicle2.defaultImage}
+                      src={comparison.vehicle2.defaultImage || ""}
                       width={143}
                       height={88}
                       className="img-fluid object-fit-cover"
-                      alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
+                      // alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
                     />
                   </div>
                 </div>

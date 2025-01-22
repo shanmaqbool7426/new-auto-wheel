@@ -253,6 +253,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
         setSelection={setSelection}
         onClose={closeModal}
         fetchMakesByTypeData={fetchMakesByTypeData}
+        hide
       />
     </>
   );

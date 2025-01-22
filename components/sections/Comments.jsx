@@ -43,31 +43,29 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
 
     const [reviews, setReviews] = useState([]);
     const [counts, setCounts] = useState({
-        service: 0,
+        safety: 0,
         mileage: 0,
-        looks: 0,
+        performance: 0,
         comfort: 0,
-        space: 0,
-        power: 0,
+        maintenance: 0,
         // total: 0,
     });
     const filterOptions = [
         { type: 'all', label: 'All', countKey: 'total' },
-        { type: 'service', label: 'Service', countKey: 'service' },
+        { type: 'safety', label: 'Safety', countKey: 'safety' },
         { type: 'mileage', label: 'Mileage', countKey: 'mileage' },
-        { type: 'looks', label: 'Looks', countKey: 'looks' },
+        { type: 'performance', label: 'Performance', countKey: 'performance' },
         { type: 'comfort', label: 'Comfort', countKey: 'comfort' },
-        { type: 'space', label: 'Space', countKey: 'space' },
-        { type: 'power', label: 'Power', countKey: 'power' },
+        { type: 'maintenance', label: 'Maintenance', countKey: 'maintenance' },
     ];
 
     const fetchReviews = async () => {
         try {
             setLoading(true);
             const response = await getAllReviews(filter);
-            setReviews(response);
-            setReviews(response?.reviews);
-            setCounts(response?.stats);
+            console.log('response', response);
+            setReviews(response?.reviews || []);
+            setCounts(response?.stats || {});
         } catch (err) {
             setError('Error fetching reviews');
         } finally {
@@ -93,10 +91,10 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
                                         <Flex align="center" gap="xs">
                                             <Rating size={rem(42)} defaultValue={1} count={1} />
                                             <Text size={rem(42)} fw="700">
-                                                {counts?.averageRating} .0
+                                            {counts?.filterSpecificAverageRating || counts?.averageRating ||0}
                                             </Text>
                                             <Text ml="xl">
-                                                Based on {reviews?.length} <br /> User reviews
+                                            Based on {reviews?.length || 0} <br /> User reviews
                                             </Text>
                                         </Flex>
                                     </Box>
@@ -218,7 +216,7 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
                                                         </Group>
 
                                                         <Box className="review-card-footer" mt="md">
-                                                            <Text>By pooja kate</Text>
+                                                            <Text>By {review?.reviewBy}</Text>
                                                             <Text c="dimmed">{formatToMonthYear(review?.createdAt)} | 62 Views</Text>
                                                         </Box>
                                                     </Card>

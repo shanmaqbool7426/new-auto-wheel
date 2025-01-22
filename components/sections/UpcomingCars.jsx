@@ -2,7 +2,7 @@ import { formatDate, formatToLacOrCrore } from "@/utils";
 import { Box, Card, Flex, Image, Text, Title } from "@mantine/core";
 import React from "react";
 
-const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles }) => {
+const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles,type }) => {
   return (
     <Box component="section" className="upcoming-cars py-5">
       <Box className="container-xl">
@@ -10,8 +10,8 @@ const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles }) => {
           <Box className="col-md-12" mb="xl">
             <Title order={2}>
               Upcoming{" "}
-              <Text span c="#E90808" inherit>
-                Cars
+              <Text span c="#E90808" inherit tt="capitalize">
+                {`${type}s`}
               </Text>
             </Title>
           </Box>

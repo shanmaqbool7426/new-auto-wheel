@@ -26,11 +26,13 @@ const PopularPosts = ({ posts }) => {
               alt={displayedPosts[0].title}
               mx="auto"
               my="md"
+              h={168}
+              w="100%"
             />
-              <Link href={`/blog/${displayedPosts[0].slug}`} className="text-decoration-none text-black">            
-            <Title order={5} fw={600}>
-              {displayedPosts[0].title}
-            </Title>
+            <Link href={`/blog/${displayedPosts[0].slug}`} className="text-decoration-none text-black">
+              <Title order={5} fw={600}>
+                {displayedPosts[0].title}
+              </Title>
             </Link>
             <Text c="dimmed" mt="xs">
               {formatDate(displayedPosts[0].publishDate)}
@@ -40,17 +42,24 @@ const PopularPosts = ({ posts }) => {
           {displayedPosts?.slice(1).map((post) => (
             <Box className="small-post" pb="md" mb="md" key={post._id}>
               <Group grow>
-                <Image
-                  className="img-fluid"
-                  src={post.imageUrl}
-                  alt={post.title}
-                />
+                <Box
+                  h={90}
+                  w={140}
+                >
+                  <Image
+                    className="img-fluid"
+                    src={post.imageUrl}
+                    alt={post.title}
+                    h={90}
+                    w={140}
+                  />
+                </Box>
                 <Box>
-                <Link href={`/blog/${post.slug}`} className="text-decoration-none text-black">
-                  <Title order={6} fw={600}>
-                    {post.title}
-                  </Title>
-                </Link>
+                  <Link href={`/blog/${post.slug}`} className="text-decoration-none text-black">
+                    <Title order={6} fw={600}>
+                      {post.title}
+                    </Title>
+                  </Link>
                   <Text c="dimmed" mt="5px" size="sm">
                     {formatDate(post.publishDate)}
                   </Text>

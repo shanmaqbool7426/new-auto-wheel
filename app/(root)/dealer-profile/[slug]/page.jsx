@@ -77,7 +77,6 @@ const DealerRating = () => {
   const [submitError, setSubmitError] = useState(null);
 
   const { slug } = useParams();
-
   const token = getLocalStorage('token');
 
   const getUserProfile = async () => {
@@ -172,6 +171,9 @@ const DealerRating = () => {
     }
   }, [slug]);
 
+  const isDealer =()=>{
+    return token?.token?.user?._id === slug
+  }   
   console.log('>>>>>>> id', token?.token?.user?._id)
   useEffect(() => {
     if (profile) {
@@ -643,11 +645,11 @@ const DealerRating = () => {
                               <Text>{review?.dislikes ? review?.dislikes.length : 0}</Text>
                             </Group>
                           </Box>
-                          <Box className="col-md-6 text-end">
+                          {isDealer()&&<Box className="col-md-6 text-end">
                             <Anchor component={Link} href="#" underline="always" className="text-primary">
                               Reply
                             </Anchor>
-                          </Box>
+                          </Box>}
                         </Box>
                       </Card>
                     </Paper>

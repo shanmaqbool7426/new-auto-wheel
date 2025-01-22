@@ -24,8 +24,10 @@ import { signIn } from "next-auth/react";
 // import { signIn } from 'next-auth/react';
 
 import classes from "@/styles/Demo.module.scss";
+import SignIn from "./SignIn";
 const SocialsLogin = ({ socialOpened, socialOnClose }) => {
   const [modalOpened, setModalOpened] = useState(false);
+  const [modalSignInOpened, setModalSignInOpened] = useState(false);
 
   return (
     <>
@@ -102,6 +104,10 @@ const SocialsLogin = ({ socialOpened, socialOnClose }) => {
             size="lg"
             ff="heading"
             leftSection={<Image src={email_icon} alt="Email" />}
+            onClick={() => {
+              setModalSignInOpened(true);
+              socialOnClose();
+            }}
           >
             <Text size="sm" fw={600}>
               Continue with Email
@@ -128,6 +134,10 @@ const SocialsLogin = ({ socialOpened, socialOnClose }) => {
       <SignUp
         signUpOpened={modalOpened}
         signUpOnClose={() => setModalOpened(false)}
+      />
+      <SignIn
+        signOpen={modalSignInOpened}
+        signInClose={() => setModalSignInOpened(false)}
       />
     </>
   );

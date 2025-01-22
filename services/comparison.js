@@ -1,5 +1,5 @@
 import { fetchAPI } from "./fetchAPI";
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
 
 export const Comparison = async (data) => {
   try {
@@ -40,3 +40,47 @@ export const Comparison = async (data) => {
     };
   }
 };
+
+// Get all comparisons
+export const getCompares = async (params = {}) => {
+  try {
+    const queryParams = new URLSearchParams({
+      page: params.page || 1,
+      limit: params.limit || 10,
+      ...(params.type && { type: params.type }),
+      ...(params.search && { search: params.search })
+    }).toString();
+
+
+    console.log(BASE_URL,"API_ENDPOINTS.COMPARISON.GET_COMPARISON_SETS")
+    const response = await fetch(
+      `${BASE_URL}/api/comparison/list?${queryParams}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch comparisons');
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching comparisons:', error);
+    return {
+      comparisons: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        pages: 1,
+        limit: 10
+      }
+    };
+  }
+};
+

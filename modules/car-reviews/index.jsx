@@ -268,7 +268,7 @@ const CarReviewsModule = ({
               </Box>
             ))}
           </Box>
-        </Box>
+        </Box>                          
       </Box>
 
       <Box

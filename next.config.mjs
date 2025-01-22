@@ -2,39 +2,44 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-      remotePatterns: [
-        {
-          protocol: 'http',
-          hostname: "res.cloudinary.com"
-          // You can add these as well 
-          // port: '',
-          // pathname: 'arifscloud/image/upload/**',
-        },
-
-        {
-          protocol: 'https',
-          hostname: "res.cloudinary.com"
-          // You can add these as well 
-          // port: '',
-          // pathname: 'arifscloud/image/upload/**',
-        },
-        {
-           protocol: 'https',
-          hostname: "lh3.googleusercontent.com"
-        } ,
-        { 
-          protocol: 'https',
-         hostname: "example.com"
-       },
-       { 
+    domains: ['res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: "res.cloudinary.com"
+        // You can add these as well 
+        // port: '',
+        // pathname: 'arifscloud/image/upload/**',
+      },
+      {
         protocol: 'https',
-       hostname: "via.placeholder.com"
-     } ,
-      ],
-    },
+        hostname: "res.cloudinary.com",
+        pathname: '/dcfpazr4b/**'  // Add your cloudinary cloud name path
+      },
+      {
+        protocol: 'https',
+        hostname: "res.cloudinary.com"
+        // You can add these as well 
+        // port: '',
+        // pathname: 'arifscloud/image/upload/**',
+      },
+      {
+        protocol: 'https',
+        hostname: "lh3.googleusercontent.com"
+      },
+      {
+        protocol: 'https',
+        hostname: "example.com"
+      },
+      {
+        protocol: 'https',
+        hostname: "via.placeholder.com"
+      },
+    ],
+  },
   async headers() {
     return [
-      {   
+      {
         source: '/(.*)', // Match all routes
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },

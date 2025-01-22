@@ -13,7 +13,7 @@ const NewCarsCard = ({ vehicle, isRating }) => {
           p="lg"
           pt="xl"
           component={NextImage}
-          src={vehicle?.defaultImage}
+          src={vehicle?.defaultImage || ""}
           height={130}
           width={130}
           alt="Mehran"
@@ -37,7 +37,7 @@ const NewCarsCard = ({ vehicle, isRating }) => {
 
           {isRating && (
             <Flex align="center" justify="center" gap="xs">
-              <Rating defaultValue={vehicle?.averageRating ?? 0} />
+              <Rating defaultValue={vehicle.averageRating ?? 0} />
               <Text span inherit>
                 {vehicle?.averageRating
                   ? `(${

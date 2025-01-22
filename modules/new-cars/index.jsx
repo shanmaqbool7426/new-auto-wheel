@@ -32,7 +32,7 @@ import SearchBar from "./SearchBar";
 import Comments from "@/components/sections/Comments";
 import NewCarsCard from "@/components/ui/NewCarsCard";
 import { IconSearch } from "@tabler/icons-react";
-import BrowseByCategory from "@/modules/home/BrowseByCategory";
+import BrowseByCategory from "./browse-by-category";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
 import BrowseVideos from "@/components/videos/browse-videos";
 import BrowseBlogs from "@/components/blog/browse-blogs";
@@ -248,15 +248,16 @@ const NewCarsModule = ({
           </div>
         </Box>
 
-        <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/>
+        {/* <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/> */}
+        <BrowseByCategory makes={makes} bodies={bodies} type={type}/>
         <section className="popular-new-cars py-5">
           <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
                   Popular New{" "}
-                  <Text span c="#E90808" inherit>
-                    {type}
+                  <Text span c="#E90808" inherit tt="capitalize">
+                  {`${type}s`}
                   </Text>
                 </Title>
               </Box>
@@ -276,8 +277,8 @@ const NewCarsModule = ({
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
                   Newly Launched{" "}
-                  <Text span c="#E90808" inherit>
-                    {type}
+                  <Text span c="#E90808" inherit tt="capitalize">
+                  {`${type}s`}
                   </Text>
                 </Title>
               </Box>
@@ -297,8 +298,8 @@ const NewCarsModule = ({
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
                   Upcoming{" "}
-                  <Text span c="#E90808" inherit>
-                    {type}
+                  <Text span c="#E90808" inherit tt="capitalize">
+                    {`${type}s`}
                   </Text>
                 </Title>
               </Box>
@@ -316,7 +317,7 @@ const NewCarsModule = ({
           <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+                <Title order={2} tt="capitalize">
                   {company_1[type]} New{" "}
                   {type}{" "}
                   <Text span c="#E90808" inherit>
@@ -338,7 +339,7 @@ const NewCarsModule = ({
           <div className="container-xl">
             <div className="row">
               <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+                <Title order={2} tt="capitalize">
                   {company_2[type]} New{" "}
                   {type}{" "}
                   <Text span c="#E90808" inherit>
@@ -360,12 +361,12 @@ const NewCarsModule = ({
         <ComparisonProducts />
         <BrowseVideos />
         <BrowseBlogs />
-
+              
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
-        <QuickLinks />
+        {/* <QuickLinks /> */}
       </section>
-      {/* <WriteReviewModal opened={isModalOpen} close={closeModal} /> */}
+      <WriteReviewModal opened={isModalOpen}   close={closeModal} />
     </>
   );
 };

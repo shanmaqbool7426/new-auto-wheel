@@ -46,6 +46,12 @@ export const API_ENDPOINTS = {
     SIGNUP: `${BASE_URL}/api/user/register`,
     LOGIN: `${BASE_URL}/api/user/login`,
     VERIFY_OTP: `${BASE_URL}/api/user/verify-user`,
+    FORGOT_PASSWORD: `${BASE_URL}/api/user/password-reset-request`,
+    RESET_PASSWORD: `${BASE_URL}/api/user/reset-password`,
+  },
+  COMPARISON: {
+    BASE: `${BASE_URL}/api/comparison`,
+    GET_COMPARISON_LIST: `${BASE_URL}/api/comparison/list`,
   },
 
   VEHICLE: {
@@ -147,7 +153,7 @@ export const API_ENDPOINTS = {
   VIDEOS: {
     BASE: VIDEO_BASE,
     BROWSE: `${VIDEO_BASE}/browse-videos`,
-    LIST: `${VIDEO_BASE}/video-listing`,
+    LIST: `${VIDEO_BASE}/video-listing/`,
     DETAIL: (id) => `${VIDEO_BASE}/${id}`, // Dynamic ID for video detail
   },
 
@@ -159,11 +165,15 @@ export const API_ENDPOINTS = {
   COMPARISON: {
     ADD: `${BASE_URL}/api/comparison/add`,
     GET: `${BASE_URL}/api/comparison`,
+    COMPARISON_LIST: `${BASE_URL}/api/comparison/top`,
+    TOP_COMPARISON: `${BASE_URL}/api/comparison/top-comparison`,
   },
+
 
   COMMENTS: {
     BASE: `${BASE_URL}/api/comment`,
   },
+  BANNER:  `${BASE_URL}/api/banners/active`,
 
   TAGS: {
     BASE: `${BASE_URL}/api/tag`,

@@ -104,6 +104,13 @@ export const reorderSlug = (slug, view, sortBy) => {
 
   return `/${dynamicSlug.join("/")}`;
 };
+export const getBreadCrumbMake = (slug) => {
+  const makes = slug
+    .filter((item) => item.startsWith("mk_")) // Filter items that start with "mk_"
+    .map((item) => item.replace("mk_", "")); // Remove the "mk_" prefix
+  return makes.join(", "); // Return as comma-separated string
+};
+
 export const reorderSlugNew = (slug, view, sortBy, type) => {
   const makes = slug.filter((item) => item.startsWith("mk_"));
   const models = slug.filter((item) => item.startsWith("md_"));
@@ -292,3 +299,30 @@ export const setLocalStorage = (key, value) => {
     }
   }
 };
+
+
+// /**
+//  * Formats a price with comma separators.
+//  * If the input is null, undefined, or invalid, returns '0'.
+//  *
+//  * @param {number|string|null|undefined} price - The price to format.
+//  * @returns {string} - The formatted price or '0' if input is invalid.
+//  */
+// export function formatPrice(price) {
+//   // Check if price is null or undefined
+//   if (price === null || price === undefined) {
+//     return '0';
+//   }
+
+//   // Convert the input to a number
+//   const number = typeof price === 'number' ? price : parseFloat(price.toString().replace(/,/g, ''));
+
+//   // Check if the converted number is a valid finite number
+//   if (isNaN(number) || !isFinite(number)) {
+//     return '0';
+//   }
+
+//   // Format the number with commas as thousand separators
+//   // Using toLocaleString for better internationalization support
+//   return number.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 0 });
+// }

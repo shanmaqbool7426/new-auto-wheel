@@ -106,3 +106,54 @@
   cursor: pointer; /* Change cursor to pointer */
   z-index: 1; /* Ensure it appears above other elements */
 }
+
+.timingContainer {
+  position: relative;
+}
+
+.timingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.timingRow:last-child {
+  margin-bottom: 0;
+}
+
+.timingDays {
+  font-weight: 500;
+  color: #495057;
+  min-width: 80px;
+}
+
+.timingHours {
+  color: #212529;
+}
+
+.toggleButton {
+  margin-top: 8px;
+  padding: 0;
+  height: auto;
+  color: #1B84FF;
+  font-size: 12px;
+  
+  &:hover {
+    background: transparent;
+    text-decoration: underline;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .timingDays {
+    min-width: 70px;
+  }
+  
+  .timingRow {
+    font-size: 13px;
+  }
+}

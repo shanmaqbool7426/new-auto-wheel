@@ -7,7 +7,7 @@ export const fetchVideosPageData = async (params) => {
     ? params.slug.map(item => item).join('/') 
     : '';
 
-    const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.BROWSE}${path}`);
+    const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.LIST}${path}`);
     return videos
   } catch (error) {
     console.error('Error fetching dashboard data:', error);

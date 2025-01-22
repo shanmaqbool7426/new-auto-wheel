@@ -43,6 +43,7 @@ const Header = () => {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const [modalOpened, setModalOpened] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const { data: session, status } = useSession();
 
   const handleLogout = () => {
@@ -55,7 +56,21 @@ const Header = () => {
 localStorage.setItem('token',JSON.stringify(session.user))
   }
 
+const handleSignUp = (e) => {
+  e.stopPropagation()
+    setModalOpened(true);
+    setIsSignUp(true);
+  };
 
+  const handleSignIn = (e) => {
+    e.stopPropagation()
+    setModalOpened(true);
+    setIsSignUp(false);
+  };
+
+const closeAuthModal=()=>{
+    setModalOpened(false);
+  }
 
   // Data for cars, bikes, and trucks
   const data = {
@@ -537,9 +552,14 @@ localStorage.setItem('token',JSON.stringify(session.user))
                   color="#E90808"
                   autoContrast
                   ff="heading"
-                  onClick={() => setModalOpened(true)}
                 >
-                  Login
+                  <span onClick={(e) => handleSignIn(e)}>
+                    Login
+                  </span>
+                  /
+                  <span onClick={(e) => handleSignUp(e)}>
+                    Signup
+                  </span>
                 </Button>
               )}
 
@@ -678,7 +698,8 @@ localStorage.setItem('token',JSON.stringify(session.user))
 
       <AccountTypeModal
         opened={modalOpened}
-        onClose={() => setModalOpened(false)}
+        isSignUp={isSignUp}
+        onClose={() => closeAuthModal()}
       />
     </>
   );

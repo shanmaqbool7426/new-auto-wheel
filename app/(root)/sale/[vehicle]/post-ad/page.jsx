@@ -44,15 +44,14 @@
 // import { submitFormData } from "@/services/forms";
 // import { API_ENDPOINTS } from "@/constants/api-endpoints";
 // import { useRouter } from 'next/navigation';
-// // import { cities } from "@/constants/vehicle-constants"; 
-
+// // import { cities } from "@/constants/vehicle-constants";
 
 // const PostAnAd = () => {
 //   const [activeStep, setActiveStep] = useState(0);
 //   const [images, setImages] = useState([]);
-//   const [makes, setMakes] = useState({}); 
+//   const [makes, setMakes] = useState({});
 // const router= useRouter()
-//   // const [fetchMakesByType, setFetchMakesByType] = useState({}); 
+//   // const [fetchMakesByType, setFetchMakesByType] = useState({});
 //   const [isModalOpen, setIsModalOpen] = useState(false);
 //   const [selection, setSelection] = useState({
 //     make: '',
@@ -86,8 +85,6 @@
 //     secondaryNumber: '',
 //     allowWhatsAppContact: false,
 //   });
-
-
 
 //   const validateStep = (step) => {
 //     const formData = {
@@ -129,7 +126,6 @@
 
 //     return validators[step] ? validators[step](formData) : false;
 //   };
-
 
 //   useEffect(() => {
 
@@ -173,7 +169,6 @@
 //       [name]: value,
 //     }));
 //   };
-
 
 //   // Handle feature selection
 //   const handleFeatureChange = (feature) => {
@@ -235,13 +230,11 @@
 //     }
 //   };
 
-
 //   const nextStep = () => {
 //     if (!validateStep(activeStep)) {
 //       alert('Please fill in all required fields.');
 //       return;
 //     }
-
 
 //     // Proceed to the next step
 //     setActiveStep(prev => prev + 1);
@@ -278,7 +271,6 @@
 //     } catch (error) {
 //     }
 //   };
-
 
 //   const previews = images.map((file, index) => {
 //     const imageUrl = URL.createObjectURL(file);
@@ -702,7 +694,6 @@
 
 //                       {/* step 1 end*/}
 
-
 //                     </Card>
 //                   </Stepper.Step>
 //                   <Stepper.Step
@@ -1004,7 +995,6 @@
 //         </Box>
 //       </Box>
 
-
 //       <CustomModel isOpen={isModalOpen} selection={selection} setSelection={setSelection} onClose={closeModal} fetchMakesByTypeData={makes} />
 //     </>
 //   );
@@ -1036,7 +1026,14 @@ import {
 } from "@mantine/core";
 
 import { BiMobileAlt, BiSolidUserRectangle } from "react-icons/bi";
-import { FaArrowLeftLong, FaArrowRightLong, FaCar, FaWhatsapp, FaMotorcycle, FaTruck } from "react-icons/fa6";
+import {
+  FaArrowLeftLong,
+  FaArrowRightLong,
+  FaCar,
+  FaWhatsapp,
+  FaMotorcycle,
+  FaTruck,
+} from "react-icons/fa6";
 import { LightBulb } from "@/components/Icons";
 import { IconCircleCheck } from "@tabler/icons-react";
 import { HiDocumentAdd } from "react-icons/hi";
@@ -1046,8 +1043,20 @@ import { fetchBodiesByType, fetchMakesByType } from "@/services/vehicles";
 import { submitFormData } from "@/services/forms";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
-import { cities, colorOptions, registrationOptions, suburbs, carTags, yearList, carEngines, truckEngines, bikeEngines, bikeDrives, carTruckDrives } from "@/mock-data/mock-array"
-import {getSuburbs} from "@/constants/suburbs";
+import {
+  cities,
+  colorOptions,
+  registrationOptions,
+  suburbs,
+  carTags,
+  yearList,
+  carEngines,
+  truckEngines,
+  bikeEngines,
+  bikeDrives,
+  carTruckDrives,
+} from "@/mock-data/mock-array";
+import { getSuburbs } from "@/constants/suburbs";
 import { uploadImageServer } from "@/actions";
 import { showNotification } from "@mantine/notifications";
 const PostAnAd = (params) => {
@@ -1134,8 +1143,6 @@ const PostAnAd = (params) => {
     return validators[step] ? validators[step](formData) : false;
   };
 
-
-  console.log('>>>>>',session?.user)
   useEffect(() => {
     setFormDataStep1((prev) => ({
       ...prev,
@@ -1147,13 +1154,13 @@ const PostAnAd = (params) => {
   const closeModal = () => setIsModalOpen(false);
 
   const handleChangeStep1 = (value, field) => {
-    if (field==="city") {
+    if (field === "city") {
       setFormDataStep1((prevData) => ({
         ...prevData,
-        ["suburb"]:"",
+        ["suburb"]: "",
         [field]: value,
       }));
-    }else{
+    } else {
       setFormDataStep1((prevData) => ({
         ...prevData,
         [field]: value,
@@ -1216,7 +1223,6 @@ const PostAnAd = (params) => {
   const handleSubmit = async () => {
     const specifications = {
       suburb: formDataStep1.suburb,
-      rego: formDataStep1.rego,
       exteriorColor: formDataStep1.exteriorColor,
       mileage: formDataStep1.milage,
       engine: formDataStep2.engine,
@@ -1236,6 +1242,7 @@ const PostAnAd = (params) => {
       ...formDataStep1,
       ...formDataStep2,
       specifications,
+      rego: formDataStep1.rego,
       price: formDataStep1.price || 0,
       startPrice: formDataStep1.price || 0,
       endPrice: formDataStep1.price || 0,
@@ -1251,10 +1258,13 @@ const PostAnAd = (params) => {
       seller: session?.user?._id,
     };
     try {
-
-      const data = await submitFormData(API_ENDPOINTS.VEHICLE.ADD, JSON.stringify(payload), {
-        "Content-Type": "application/json",
-      });
+      const data = await submitFormData(
+        API_ENDPOINTS.VEHICLE.ADD,
+        JSON.stringify(payload),
+        {
+          "Content-Type": "application/json",
+        }
+      );
       router.push(`/listing/${vehicle}s`);
     } catch (error) {
       console.error(error);
@@ -1264,9 +1274,9 @@ const PostAnAd = (params) => {
   const nextStep = () => {
     if (!validateStep(activeStep)) {
       showNotification({
-        title: 'Post an ad',
-        message: 'Please fill in all required fields.',
-        color: 'red',
+        title: "Post an ad",
+        message: "Please fill in all required fields.",
+        color: "red",
       });
       return;
     }
@@ -1305,7 +1315,12 @@ const PostAnAd = (params) => {
     const imageUrl = URL.createObjectURL(file);
     return (
       <Box className="uploaded-image-wrapper" pos="relative" key={index}>
-        <Image h={{ base: 140, sm: 140 }} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} radius="md" />
+        <Image
+          h={{ base: 140, sm: 140 }}
+          src={imageUrl}
+          onLoad={() => URL.revokeObjectURL(imageUrl)}
+          radius="md"
+        />
       </Box>
     );
   });
@@ -1427,8 +1442,7 @@ const PostAnAd = (params) => {
       default:
         return carEngines; // Default to car features
     }
-
-  }
+  };
   // Usage example:
   const engineList = getEngineListByVehicle(vehicle);
   const getDriveListByVehicle = (vehicleType) => {
@@ -1441,8 +1455,7 @@ const PostAnAd = (params) => {
       default:
         return carTruckDrives; // Default to car features
     }
-
-  }
+  };
   // Usage example:
   const driveList = getDriveListByVehicle(vehicle);
 
@@ -1474,15 +1487,58 @@ const PostAnAd = (params) => {
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12 text-center">
-              <Stepper active={activeStep} onStepClick={setActiveStep} color="#E90808" completedIcon={<IconCircleCheck />}>
-                <Stepper.Step icon={vehicle == "bike" ? <FaMotorcycle /> : vehicle == "truck" ? <FaTruck /> : <FaCar />} label="Step 1" py="lg" description={`Enter Your ${vehicle} Information`}>
-                  <Card shadow="0px 4px 20px 0px #00000014" p={{ base: "md", md: "lg" }} className="text-start border-top border-primary border-5">
+              <Stepper
+                active={activeStep}
+                onStepClick={setActiveStep}
+                color="#E90808"
+                completedIcon={<IconCircleCheck />}
+              >
+                <Stepper.Step
+                  icon={
+                    vehicle == "bike" ? (
+                      <FaMotorcycle />
+                    ) : vehicle == "truck" ? (
+                      <FaTruck />
+                    ) : (
+                      <FaCar />
+                    )
+                  }
+                  label="Step 1"
+                  py="lg"
+                  description={`Enter Your ${vehicle} Information`}
+                >
+                  <Card
+                    shadow="0px 4px 20px 0px #00000014"
+                    p={{ base: "md", md: "xl" }}
+                    className="text-start border-top border-primary border-5"
+                  >
                     <Title order={3}>Vehicle Information</Title>
-                    <Text c="dimmed">(All fields marked with * are mandatory)</Text>
+                    <Text size="sm">
+                      (All fields marked with * are mandatory)
+                    </Text>
                     {/* Step 1 content goes here */}
                     {/* step 1 start*/}
 
                     <Box className="stepper-form" mt="xl">
+                    <Box className="row align-items-center" mb="xl">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                          <Input.Label required size="md">
+                            Condition
+                          </Input.Label>
+                        </Box>
+                        <Box className="col-md-7">
+                          <Select
+                            size="md"
+                            placeholder="New"
+                            data={yearList}
+                            value={formDataStep1.year}
+                            onChange={(value) =>
+                              handleChangeStep1(value, "year")
+                            }
+                          />
+                        </Box>
+                      </Box>
+
                       <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
@@ -1495,8 +1551,9 @@ const PostAnAd = (params) => {
                             placeholder="2024"
                             data={yearList}
                             value={formDataStep1.year}
-                            onChange={(value) => handleChangeStep1(value, 'year')}
-
+                            onChange={(value) =>
+                              handleChangeStep1(value, "year")
+                            }
                           />
                         </Box>
                       </Box>
@@ -1515,11 +1572,13 @@ const PostAnAd = (params) => {
                             value={formDataStep1.city}
                             searchable
                             nothingFoundMessage="Nothing found..."
-                            onChange={(value) => handleChangeStep1(value, 'city')}
+                            onChange={(value) =>
+                              handleChangeStep1(value, "city")
+                            }
                           />
                         </Box>
-                        <Box className="col-md-3 text-center">
-                          <Group gap="xs" align="center">
+                        <Box className="col-md-3 text-start">
+                          <Group gap="xs" align="center" wrap="nowrap">
                             <LightBulb />
                             <Text size="sm">
                               We don't allow duplicates of same ad.
@@ -1542,8 +1601,9 @@ const PostAnAd = (params) => {
                             value={formDataStep1.suburb}
                             searchable
                             nothingFoundMessage="Nothing found..."
-                            onChange={(value) => handleChangeStep1(value, 'suburb')}
-
+                            onChange={(value) =>
+                              handleChangeStep1(value, "suburb")
+                            }
                           />
                         </Box>
                       </Box>
@@ -1553,11 +1613,19 @@ const PostAnAd = (params) => {
                             {vehicle} Info
                           </Input.Label>
                         </Box>
-                        <Box className="col-md-7" onClick={openModal} >
-                          <Text className="border p-2 rounded" >
-                            {selection.make}  {selection.model} {selection.variant}
-                          </Text>
-
+                        <Box className="col-md-7" onClick={openModal}>
+                          <Input
+                            placeholder={`Select ${vehicle} Info`}
+                            size="md"
+                            value={
+                              selection.make ||
+                              selection.model ||
+                              selection.variant
+                                ? `${selection.make} ${selection.model} ${selection.variant}`
+                                : ""
+                            }
+                            readOnly
+                          />
                         </Box>
                       </Box>
                       <Box className="row align-items-center" mb="xl">
@@ -1574,8 +1642,9 @@ const PostAnAd = (params) => {
                             value={formDataStep1.registeredIn}
                             searchable
                             nothingFoundMessage="Nothing found..."
-                            onChange={(value) => handleChangeStep1(value, 'registeredIn')}
-
+                            onChange={(value) =>
+                              handleChangeStep1(value, "registeredIn")
+                            }
                           />
                         </Box>
                       </Box>
@@ -1586,12 +1655,14 @@ const PostAnAd = (params) => {
                           </Input.Label>
                         </Box>
                         <Box className="col-md-7">
-                          <Select
+                          <Input
+                            type="date"
                             size="md"
-                            placeholder="Rego"
-                            data={registrationOptions}
+                            placeholder="Date"
                             value={formDataStep1.rego}
-                            onChange={(value) => handleChangeStep1(value, 'rego')}
+                            onChange={(value) =>
+                              handleChangeStep1(value.target.value, "rego")
+                            }
                           />
                         </Box>
                       </Box>
@@ -1607,8 +1678,9 @@ const PostAnAd = (params) => {
                             placeholder="Exterior Color"
                             data={colorOptions}
                             value={formDataStep1.exteriorColor}
-                            onChange={(value) => handleChangeStep1(value, 'exteriorColor')}
-
+                            onChange={(value) =>
+                              handleChangeStep1(value, "exteriorColor")
+                            }
                           />
                         </Box>
                       </Box>
@@ -1626,12 +1698,12 @@ const PostAnAd = (params) => {
                                 KM
                               </Text>
                             }
-
                             size="md"
                             value={formDataStep1.milage}
                             type="number"
-                            onChange={(value) => handleChangeStep1(value.target.value, 'milage')}
-
+                            onChange={(value) =>
+                              handleChangeStep1(value.target.value, "milage")
+                            }
                           />
                         </Box>
                         <Box className="col-md-3 text-start">
@@ -1658,19 +1730,20 @@ const PostAnAd = (params) => {
                                 PKR
                               </Text>
                             }
-
                             size="md"
                             value={formDataStep1.price}
                             type="number"
-                            onChange={(value) => handleChangeStep1(value.target.value, 'price')}
+                            onChange={(value) =>
+                              handleChangeStep1(value.target.value, "price")
+                            }
                           />
                         </Box>
                         <Box className="col-md-3 text-start">
                           <Flex align="center" gap="xs">
                             <LightBulb styles={{ flex: "1 1 2.5rem" }} />
                             <Text size="sm">
-                              Please enter a realistic price to get more
-                              genuine responses.
+                              Please enter a realistic price to get more genuine
+                              responses.
                             </Text>
                           </Flex>
                         </Box>
@@ -1690,7 +1763,9 @@ const PostAnAd = (params) => {
                             maxRows={6}
                             fs={8}
                             value={formDataStep1.description}
-                            onChange={(e) => handleChangeStep1(e.target.value, 'description')}
+                            onChange={(e) =>
+                              handleChangeStep1(e.target.value, "description")
+                            }
                           />
                           <Group gap={0}>
                             <Text size="sm" c="dimmed" ml="auto">
@@ -1718,18 +1793,26 @@ const PostAnAd = (params) => {
                             Predefined Template
                           </Input.Label>
                         </Box>
-                        <Box className="col-md-7 border p-2 cursor-pointer ">
-                          <Text size="sm">You can also use these suggestions</Text>
-                          <Box className=" d-flex flex-wrap flex-row	gap-1 mt-2  "  >
+                        <Box className="col-md-7 rounded border p-3 cursor-pointer">
+                          <Text size="sm">
+                            You can also use these suggestions
+                          </Text>
+                          <Group gap="sm" mt="md">
                             {carTags.map((tag, index) => (
                               <>
-                                <Box className="border p-2  rounded  m-2" key={`-${index}`}
-                                  onClick={() => handleDescriptionClick(tag + ' ')} >
-                                  <Text size="sm" >{tag}</Text>
-                                </Box>
+                                <Button
+                                  variant="default"
+                                  size="sm"
+                                  key={`-${index}`}
+                                  onClick={() =>
+                                    handleDescriptionClick(tag + " ")
+                                  }
+                                >
+                                  <Text size="sm">{tag}</Text>
+                                </Button>
                               </>
                             ))}
-                          </Box>
+                          </Group>
                         </Box>
                       </Box>
                       <Box className="row align-items-start" mb="xl">
@@ -1763,8 +1846,16 @@ const PostAnAd = (params) => {
                   </Card>
                 </Stepper.Step>
 
-                <Stepper.Step icon={<HiDocumentAdd />} label="Step 2" description={`Additional ${vehicle} Information`}>
-                  <Card shadow="0px 4px 20px 0px #00000014" p={{ base: "md", md: "lg" }} className="text-start border-top border-primary border-5">
+                <Stepper.Step
+                  icon={<HiDocumentAdd />}
+                  label="Step 2"
+                  description={`Additional ${vehicle} Information`}
+                >
+                  <Card
+                    shadow="0px 4px 20px 0px #00000014"
+                    p={{ base: "md", md: "lg" }}
+                    className="text-start border-top border-primary border-5"
+                  >
                     <Title order={3}>Additional Information</Title>
                     <Box className="stepper-form" mt="xl">
                       <Box className="row align-items-center" mb="xl">
@@ -1779,7 +1870,9 @@ const PostAnAd = (params) => {
                             placeholder="Petrol"
                             data={["Petrol", "Diesel", "Electric", "Hybrid"]}
                             value={formDataStep2.engineType}
-                            onChange={(value) => handleInputChangeStep2('engineType', value)}
+                            onChange={(value) =>
+                              handleInputChangeStep2("engineType", value)
+                            }
                           />
                         </Box>
                       </Box>
@@ -1795,7 +1888,9 @@ const PostAnAd = (params) => {
                             placeholder="3.0L V6"
                             data={engineList}
                             value={formDataStep2.engine}
-                            onChange={(value) => handleInputChangeStep2('engine', value)}
+                            onChange={(value) =>
+                              handleInputChangeStep2("engine", value)
+                            }
                           />
                         </Box>
                       </Box>
@@ -1810,46 +1905,50 @@ const PostAnAd = (params) => {
                             size="md"
                             placeholder="1300"
                             value={formDataStep2.engineCapacity}
-                            onChange={(value) => handleInputChangeStep2('engineCapacity', value)}
+                            onChange={(value) =>
+                              handleInputChangeStep2("engineCapacity", value)
+                            }
                           />
                         </Box>
                       </Box>
-                      {vehicle!=="bike"&&
-                      <>
-                      
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Doors
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <NumberInput
-                            size="md"
-                            placeholder="4"
-                            value={formDataStep2.doors}
-                            onChange={(value) => handleInputChangeStep2('doors', value)}
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Seats
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <NumberInput
-                            size="md"
-                            placeholder="4"
-                            value={formDataStep2.seats}
-                            onChange={(value) => handleInputChangeStep2('seats', value)}
-                          />
-                        </Box>
-                      </Box>
-                      </>                      
-
-                      }
+                      {vehicle !== "bike" && (
+                        <>
+                          <Box className="row align-items-center" mb="xl">
+                            <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                              <Input.Label required size="md">
+                                Doors
+                              </Input.Label>
+                            </Box>
+                            <Box className="col-md-7">
+                              <NumberInput
+                                size="md"
+                                placeholder="4"
+                                value={formDataStep2.doors}
+                                onChange={(value) =>
+                                  handleInputChangeStep2("doors", value)
+                                }
+                              />
+                            </Box>
+                          </Box>
+                          <Box className="row align-items-center" mb="xl">
+                            <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                              <Input.Label required size="md">
+                                Seats
+                              </Input.Label>
+                            </Box>
+                            <Box className="col-md-7">
+                              <NumberInput
+                                size="md"
+                                placeholder="4"
+                                value={formDataStep2.seats}
+                                onChange={(value) =>
+                                  handleInputChangeStep2("seats", value)
+                                }
+                              />
+                            </Box>
+                          </Box>
+                        </>
+                      )}
                       <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
@@ -1860,9 +1959,16 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Transmission"
-                            data={["Automatic", "Manual", "CVT", "Semi-Automatic"]}
+                            data={[
+                              "Automatic",
+                              "Manual",
+                              "CVT",
+                              "Semi-Automatic",
+                            ]}
                             value={formDataStep2.transmission}
-                            onChange={(value) => handleInputChangeStep2('transmission', value)}
+                            onChange={(value) =>
+                              handleInputChangeStep2("transmission", value)
+                            }
                           />
                         </Box>
                       </Box>
@@ -1878,7 +1984,9 @@ const PostAnAd = (params) => {
                             placeholder="Drive"
                             data={driveList}
                             value={formDataStep2.drive}
-                            onChange={(value) => handleInputChangeStep2('drive', value)}
+                            onChange={(value) =>
+                              handleInputChangeStep2("drive", value)
+                            }
                           />
                         </Box>
                       </Box>
@@ -1894,7 +2002,9 @@ const PostAnAd = (params) => {
                             placeholder="Local"
                             data={["Local", "Imported"]}
                             value={formDataStep2.assembly}
-                            onChange={(value) => handleInputChangeStep2('assembly', value)}
+                            onChange={(value) =>
+                              handleInputChangeStep2("assembly", value)
+                            }
                           />
                         </Box>
                       </Box>
@@ -1907,18 +2017,34 @@ const PostAnAd = (params) => {
                         <Box className="col-md-7">
                           <Grid mb="lg">
                             {bodies?.data?.map((bodyType) => (
-                              <Grid.Col span={6} ta="center" key={bodyType.name}>
+                              <Grid.Col
+                                span={6}
+                                ta="center"
+                                key={bodyType.name}
+                              >
                                 <div className="single-brand-item selected-brand-item text-center">
                                   <label
-                                    className={`text-decoration-none ${formDataStep2.body === bodyType.name.toLowerCase() ? "checked" : ""
-                                      }`}
+                                    className={`text-decoration-none ${
+                                      formDataStep2.body ===
+                                      bodyType.name.toLowerCase()
+                                        ? "checked"
+                                        : ""
+                                    }`}
                                   >
                                     <input
                                       type="radio"
                                       name="bodyType"
                                       value={bodyType.name.toLowerCase()}
-                                      checked={formDataStep2.body === bodyType.name.toLowerCase()}
-                                      onChange={() => handleInputChangeStep2("body", bodyType.name.toLowerCase())}
+                                      checked={
+                                        formDataStep2.body ===
+                                        bodyType.name.toLowerCase()
+                                      }
+                                      onChange={() =>
+                                        handleInputChangeStep2(
+                                          "body",
+                                          bodyType.name.toLowerCase()
+                                        )
+                                      }
                                     />
                                     <Image
                                       width={80}
@@ -1927,13 +2053,14 @@ const PostAnAd = (params) => {
                                       className="mx-auto text-center"
                                       alt={`${bodyType.name} body type`}
                                     />
-                                    <h6 className="mb-0 text-dark">{bodyType.name}</h6>
+                                    <h6 className="mb-0 text-dark">
+                                      {bodyType.name}
+                                    </h6>
                                   </label>
                                 </div>
                               </Grid.Col>
                             ))}
                           </Grid>
-
                         </Box>
                       </Box>
                       <Box className="row align-items-start" mb="xl">
@@ -1951,8 +2078,12 @@ const PostAnAd = (params) => {
                                     label={item.name}
                                     mb="sm"
                                     size="sm"
-                                    checked={formDataStep2.features.includes(item.name)}
-                                    onChange={() => handleFeatureChange(item.name)}
+                                    checked={formDataStep2.features.includes(
+                                      item.name
+                                    )}
+                                    onChange={() =>
+                                      handleFeatureChange(item.name)
+                                    }
                                   />
                                 </>
                               ))}
@@ -1966,8 +2097,12 @@ const PostAnAd = (params) => {
                                     label={item.name}
                                     mb="sm"
                                     size="sm"
-                                    checked={formDataStep2.features.includes(item.name)}
-                                    onChange={() => handleFeatureChange(item.name)}
+                                    checked={formDataStep2.features.includes(
+                                      item.name
+                                    )}
+                                    onChange={() =>
+                                      handleFeatureChange(item.name)
+                                    }
                                   />
                                 </>
                               ))}
@@ -1981,8 +2116,12 @@ const PostAnAd = (params) => {
                                     label={item.name}
                                     mb="sm"
                                     size="sm"
-                                    checked={formDataStep2.features.includes(item.name)}
-                                    onChange={() => handleFeatureChange(item.name)}
+                                    checked={formDataStep2.features.includes(
+                                      item.name
+                                    )}
+                                    onChange={() =>
+                                      handleFeatureChange(item.name)
+                                    }
                                   />
                                 </>
                               ))}
@@ -1995,8 +2134,16 @@ const PostAnAd = (params) => {
                   </Card>
                 </Stepper.Step>
 
-                <Stepper.Step icon={<BiSolidUserRectangle />} label="Step 3" description="Contact Information">
-                  <Card shadow="0px 4px 20px 0px #00000014" p={{ base: "md", md: "lg" }} className="text-start border-top border-primary border-5">
+                <Stepper.Step
+                  icon={<BiSolidUserRectangle />}
+                  label="Step 3"
+                  description="Contact Information"
+                >
+                  <Card
+                    shadow="0px 4px 20px 0px #00000014"
+                    p={{ base: "md", md: "lg" }}
+                    className="text-start border-top border-primary border-5"
+                  >
                     <Title order={3}>Contact Information</Title>
                     {/* Step 3 content goes here */}
                     <Box className="stepper-form" mt="xl">
@@ -2070,16 +2217,34 @@ const PostAnAd = (params) => {
 
               <Flex justify="space-between" mt="md">
                 {activeStep > 0 && (
-                  <Button variant="light" fw={500} leftSection={<FaArrowLeftLong />} size="lg" onClick={prevStep}>
+                  <Button
+                    variant="light"
+                    fw={500}
+                    leftSection={<FaArrowLeftLong />}
+                    size="lg"
+                    onClick={prevStep}
+                  >
                     Back
                   </Button>
                 )}
                 {activeStep < 2 ? (
-                  <Button fw={500} color="#E90808" size="lg" rightSection={<FaArrowRightLong />} onClick={nextStep}>
+                  <Button
+                    fw={500}
+                    color="#E90808"
+                    size="lg"
+                    rightSection={<FaArrowRightLong />}
+                    onClick={nextStep}
+                  >
                     Next
                   </Button>
                 ) : (
-                  <Button fw={500} color="#E90808" size="lg" onClick={handleSubmit} variant="filled">
+                  <Button
+                    fw={500}
+                    color="#E90808"
+                    size="lg"
+                    onClick={handleSubmit}
+                    variant="filled"
+                  >
                     Submit
                   </Button>
                 )}
@@ -2089,7 +2254,13 @@ const PostAnAd = (params) => {
         </Box>
       </Box>
 
-      <CustomModel isOpen={isModalOpen} selection={selection} setSelection={setSelection} onClose={closeModal} fetchMakesByTypeData={makes} />
+      <CustomModel
+        isOpen={isModalOpen}
+        selection={selection}
+        setSelection={setSelection}
+        onClose={closeModal}
+        fetchMakesByTypeData={makes}
+      />
     </Box>
   );
 };
