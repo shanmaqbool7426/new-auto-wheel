@@ -1469,8 +1469,8 @@ const PostAnAd = (params) => {
     );
   }
   return (
-    <Box component="section" className="post-an-ad" my="xl">
-      <Box className="header-section bg-light" py={80}>
+    <Box component="section" className="post-an-ad" mt={100}>
+      <Box className="header-section bg-light" py={50}>
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12 text-center">
