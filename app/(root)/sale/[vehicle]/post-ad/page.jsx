@@ -23,9 +23,7 @@ import {
   rem,
 } from "@mantine/core";
 
-import {
-  BiSolidUserRectangle,
-} from "react-icons/bi";
+import { BiSolidUserRectangle } from "react-icons/bi";
 import {
   FaCar,
   FaWhatsapp,
@@ -322,7 +320,7 @@ const PostAnAd = (params) => {
       </Box>
     );
   });
-    
+
   const getFeaturesByVehicle = (vehicleType) => {
     // Common features shared by both cars and trucks
     const commonCarTruckFeatures = {
@@ -1213,7 +1211,7 @@ const PostAnAd = (params) => {
                 </Stepper.Completed>
               </Stepper>
 
-              <Flex gap="sm" justify="flex-end"  mt="md">
+              <Flex gap="sm" justify="flex-end" mt="md">
                 {activeStep > 0 && (
                   <Button
                     variant="light"
