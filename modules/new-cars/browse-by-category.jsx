@@ -79,7 +79,7 @@ const BrowseByCategory = ({ makes, bodies, type }) => {
                     <Box className="col-sm-3 text-center" key={index} py="30px">
                       <Anchor
                       component={Link}
-                        href={`/new/${type}/search/-/bt_${body?.name?.toLowerCase()}`}
+                        href={`/new/${type}/search/-/bt_${body?.title?.toLowerCase()}`}
                         td="none"
                         className={styles.browseItem}
                       >

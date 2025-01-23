@@ -55,9 +55,13 @@ const BrowseByCategory = ({ makes, bodies }) => {
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit className="text-decoration-underline">
-                  Make
+                  Make 
                 </Text>
               </Title>
+{/* 
+              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
+                Show all Makes
+              </Anchor> */}
             </Flex>
 
             <Box className="cat-by-brand">
@@ -103,6 +107,10 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Body
                 </Text>
               </Title>
+{/* 
+              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
+                Show all Bodies
+              </Anchor> */}
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">
@@ -113,7 +121,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       {group.map((body, index) => (
                         <Box key={index} className="text-center" py="15px">
                           <Anchor
-                            href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`}
+                            href={`/listing/cars/search/-/bt_${body?.title?.toLowerCase()}`}
                             td="none"
                             className={styles.browseItem}
                           >
@@ -124,7 +132,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                               src={body.bodyImage} 
                             />
                             <Title order={6} lts={-0.4} mt="sm" fw={400}>
-                              {body.name}
+                              {body.title}
                             </Title>
                           </Anchor>
                         </Box>
