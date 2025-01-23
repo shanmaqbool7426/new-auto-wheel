@@ -1520,12 +1520,12 @@ const PostAnAd = (params) => {
 
                     <Box className="stepper-form" mt="xl">
                     <Box className="row align-items-center" mb="xl">
-                        {/* <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
                             Condition
                           </Input.Label>
-                        </Box> */}
-                        {/* <Box className="col-md-7">
+                        </Box>
+                        <Box className="col-md-7">
                           <Select
                             size="md"
                             placeholder="New"
@@ -1535,7 +1535,7 @@ const PostAnAd = (params) => {
                               handleChangeStep1(value, "year")
                             }
                           />
-                        </Box> */}
+                        </Box>
                       </Box>
 
                       <Box className="row align-items-center" mb="xl">
