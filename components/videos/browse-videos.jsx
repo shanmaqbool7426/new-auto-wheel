@@ -29,6 +29,8 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
     try {
       setLoading(true);
       const data = await fetchVideoDataServer(params); // Pass both slug and search to the fetch function
+
+      console.log("shan<<<<<<<<<<<<<<<<<<shan<<<<", data,data.currentVideo );
       setCurrentVideo(data.currentVideo);
       setSuggestions(data.suggestions);
       setLoading(false);
@@ -90,6 +92,8 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
       </section>
     );
   }
+
+  console.log("currentVideo", currentVideo);
 
   return (
     <section className="browse-videos bg-white py-5">

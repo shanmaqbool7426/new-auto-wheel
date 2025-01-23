@@ -10,6 +10,7 @@ import {
   List,
   Transition,
   Image,
+  Button,
 } from "@mantine/core";
 import styles from "./Hero.module.css";
 
@@ -59,8 +60,90 @@ const Hero = ({banner}) => {
             }}
           >
             {banner.map((item, index) => (
-              <Box key={index} miw="100%">
-                <Image src={item.image} h={440} />
+              <Box key={index} miw="100%" pos="relative">
+                {/* Image Background */}
+                <Image 
+                  src={item.image} 
+                  h={440} 
+                  style={{
+                    cursor: item.link ? 'pointer' : 'default',
+                    filter: 'brightness(0.7)' // Darker overlay for better text visibility
+                  }}
+                  onClick={() => item.link && window.open(item.link, '_blank')}
+                />
+                
+                {/* Content Overlay - Moved to right side */}
+                <Box
+                  pos="absolute"
+                  top="50%"
+                  right={240}
+                  style={{
+                    transform: 'translateY(-50%)',
+                    maxWidth: '600px',
+                    zIndex: 2,
+                    textAlign: 'center' // Align text to right
+                  }}
+                >
+                  {/* Title */}
+                  <Title
+                    order={1}
+                    mb={16}
+                    c="white"
+                    style={{
+                      fontSize: '48px',
+                      fontWeight: 700,
+                      lineHeight: 1.2,
+                      textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                      textAlign: 'right' // Ensure title is right-aligned
+                    }}
+                  >
+                    {item.title}
+                  </Title>
+
+                  {/* Description */}
+                  {item.description && (
+                    <Text
+                      c="white"
+                      mb={32}
+                      style={{
+                        fontSize: '18px',
+                        lineHeight: 1.5,
+                        opacity: 0.9,
+                        marginLeft: 'auto', // Push text to right
+                        textAlign: 'right', // Right align text
+                        maxWidth: '80%'
+                      }}
+                    >
+                      {item.description}
+                    </Text>
+                  )}
+
+                  {/* Link Button - Right aligned */}
+                  {item.link && (
+                    <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button
+                        variant="filled"
+                        bg="#E90808"
+                        size="lg"
+                        radius="md"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(item.link, '_blank');
+                        }}
+                        style={{
+                          padding: '12px 32px',
+                          fontSize: '16px',
+                          fontWeight: 600,
+                          textTransform: 'none',
+                          border: 'none',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                        }}
+                      >
+                        Learn More
+                      </Button>
+                    </Box>
+                  )}
+                </Box>
               </Box>
             ))}
           </Box>

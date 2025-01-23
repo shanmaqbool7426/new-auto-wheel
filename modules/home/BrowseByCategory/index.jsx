@@ -59,10 +59,17 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Make 
                 </Text>
               </Title>
+<<<<<<< HEAD
+{/* 
+              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
+                Show all Makes
+              </Anchor> */}
+=======
 
               <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Makes
               </Anchor>
+>>>>>>> b65caf0f8c34bbb3e4a9e18f0217be5878837a03
             </Flex>
 
             <Box className="cat-by-brand">
@@ -108,10 +115,17 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Body
                 </Text>
               </Title>
+<<<<<<< HEAD
+{/* 
+              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
+                Show all Bodies
+              </Anchor> */}
+=======
 
               <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Bodies
               </Anchor>
+>>>>>>> b65caf0f8c34bbb3e4a9e18f0217be5878837a03
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">
@@ -122,7 +136,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       {group.map((body, index) => (
                         <Box key={index} className="text-center" py="15px">
                           <Anchor
-                            href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`}
+                            href={`/listing/cars/search/-/bt_${body?.title?.toLowerCase()}`}
                             td="none"
                             className={styles.browseItem}
                           >
@@ -133,7 +147,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                               src={body.bodyImage} 
                             />
                             <Title order={6} lts={-0.4} mt="sm" fw={400}>
-                              {body.name}
+                              {body.title}
                             </Title>
                           </Anchor>
                         </Box>

@@ -6,7 +6,7 @@ export const fetchVideosPageData = async (params) => {
     const path = Array.isArray(params?.slug) && params.slug.length > 0 
     ? params.slug.map(item => item).join('/') 
     : '';
-
+console.log("shan<<>>>>>",`${API_ENDPOINTS.VIDEOS.LIST}${path}`)
     const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.LIST}${path}`);
     return videos
   } catch (error) {

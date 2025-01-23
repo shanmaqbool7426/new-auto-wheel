@@ -1120,7 +1120,6 @@ const PostAnAd = (params) => {
 
     const validators = {
       0: (data) =>
-        data.condition &&
         data.city &&
         data.suburb &&
         data.registeredIn &&
@@ -1330,7 +1329,7 @@ const PostAnAd = (params) => {
       </Box>
     );
   });
-
+    
   const getFeaturesByVehicle = (vehicleType) => {
     // Common features shared by both cars and trucks
     const commonCarTruckFeatures = {
