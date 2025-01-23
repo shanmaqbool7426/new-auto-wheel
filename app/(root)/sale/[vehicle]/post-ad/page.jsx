@@ -1023,9 +1023,14 @@ import {
   Switch,
   ThemeIcon,
   Grid,
+  rem,
 } from "@mantine/core";
 
-import { BiMobileAlt, BiSolidUserRectangle } from "react-icons/bi";
+import {
+  BiMobileAlt,
+  BiSolidMobile,
+  BiSolidUserRectangle,
+} from "react-icons/bi";
 import {
   FaArrowLeftLong,
   FaArrowRightLong,
@@ -1033,6 +1038,7 @@ import {
   FaWhatsapp,
   FaMotorcycle,
   FaTruck,
+  FaMobile,
 } from "react-icons/fa6";
 import { LightBulb } from "@/components/Icons";
 import { IconCircleCheck } from "@tabler/icons-react";
@@ -1520,7 +1526,7 @@ const PostAnAd = (params) => {
                     {/* step 1 start*/}
 
                     <Box className="stepper-form" mt="xl">
-                    <Box className="row align-items-center" mb="xl">
+                      <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
                             Condition
@@ -2161,7 +2167,7 @@ const PostAnAd = (params) => {
                             placeholder="Mobile Number"
                             value={formDataStep3.mobileNumber}
                             onChange={handleChangeStep3}
-                            rightSection={<BiMobileAlt />}
+                            rightSection={<FaMobile color="#222" />}
                           />
                         </Box>
                       </Box>
@@ -2179,7 +2185,6 @@ const PostAnAd = (params) => {
                             placeholder="Secondary Number (Optional)"
                             value={formDataStep3.secondaryNumber}
                             onChange={handleChangeStep3}
-                            rightSection={<BiMobileAlt />}
                           />
                         </Box>
                       </Box>
@@ -2192,6 +2197,7 @@ const PostAnAd = (params) => {
                                 radius="lg"
                                 size="lg"
                                 color="green"
+                                sx={{ boxShadow: "0px 4px 20px 0px #00000014" }}
                               >
                                 <FaWhatsapp
                                   style={{ width: "60%", height: "60%" }}
@@ -2215,13 +2221,15 @@ const PostAnAd = (params) => {
                 </Stepper.Completed>
               </Stepper>
 
-              <Flex justify="space-between" mt="md">
+              <Flex gap="sm" justify="flex-end"  mt="md">
                 {activeStep > 0 && (
                   <Button
                     variant="light"
+                    bg="#ddd"
                     fw={500}
-                    leftSection={<FaArrowLeftLong />}
+                    color="#333"
                     size="lg"
+                    w="130px"
                     onClick={prevStep}
                   >
                     Back
@@ -2232,7 +2240,7 @@ const PostAnAd = (params) => {
                     fw={500}
                     color="#E90808"
                     size="lg"
-                    rightSection={<FaArrowRightLong />}
+                    w="130px"
                     onClick={nextStep}
                   >
                     Next
@@ -2244,6 +2252,7 @@ const PostAnAd = (params) => {
                     size="lg"
                     onClick={handleSubmit}
                     variant="filled"
+                    w="130px"
                   >
                     Submit
                   </Button>
