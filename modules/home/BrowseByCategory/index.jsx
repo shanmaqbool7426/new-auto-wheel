@@ -59,17 +59,10 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Make 
                 </Text>
               </Title>
-<<<<<<< HEAD
-{/* 
-              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
-                Show all Makes
-              </Anchor> */}
-=======
 
               <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Makes
               </Anchor>
->>>>>>> b65caf0f8c34bbb3e4a9e18f0217be5878837a03
             </Flex>
 
             <Box className="cat-by-brand">
@@ -115,17 +108,10 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Body
                 </Text>
               </Title>
-<<<<<<< HEAD
-{/* 
-              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
-                Show all Bodies
-              </Anchor> */}
-=======
 
               <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Bodies
               </Anchor>
->>>>>>> b65caf0f8c34bbb3e4a9e18f0217be5878837a03
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">

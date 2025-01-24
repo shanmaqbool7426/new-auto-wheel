@@ -6,6 +6,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { fetchBrowseBlogsServer } from "@/actions/index";
 import { formatDate } from "@/utils/index";
 import { useRouter } from "next/navigation";
+import { convert } from 'html-to-text';
 
 const BrowseBlogs = ({ type }) => {
   const router = useRouter();
@@ -114,7 +115,13 @@ const BrowseBlogs = ({ type }) => {
                       {blog.title}
                     </Title>
                     <Text c="dimmed" size="sm" lineClamp={3} mb="5">
-                      {blog.content.substring(0, 100)}...
+                      {convert(blog.content, {
+                        wordwrap: 130,
+                        selectors: [
+                          { selector: 'img', format: 'skip' },
+                          { selector: 'a', options: { ignoreHref: true } }
+                        ]
+                      }).substring(0, 100)}...
                     </Text>
                     <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
                       Read More <BsArrowRight />
@@ -178,7 +185,7 @@ const BrowseBlogs = ({ type }) => {
                         {blog.title}
                       </Title>
                       <Text c="dimmed" size="sm" lineClamp={3} mb="5">
-                        {blog.content.substring(0, 100)}...
+                        {blog.content.replace(/<[^>]*>/g, '').substring(0, 100)}...
                       </Text>
                       <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
                         Read More <BsArrowRight />

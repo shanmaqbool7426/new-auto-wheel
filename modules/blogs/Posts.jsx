@@ -6,6 +6,7 @@ import Link from "next/link"
 import BlogPagination from "@/components/blog/pagination"
 import { EyeIcon, ViewIcon } from '@/components/Icons';
 import { formatDate } from '@/utils/index';
+import parse from "html-react-parser";
 
 const Posts = ({ title, posts, count, description }) => {
     return (
@@ -101,7 +102,7 @@ const Posts = ({ title, posts, count, description }) => {
                                 </Box>
                             </Flex>
                             <Text lineClamp={4} size="sm">
-                                {post.content}
+                                {parse(post.content)}
                             </Text>
                         </Flex>
                     </Flex>
