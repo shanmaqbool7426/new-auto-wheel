@@ -77,7 +77,9 @@ export const fetchVideoDataServer = async (params) => {
     if (params?.slug) query.append('slug', params.slug);
     if (params?.search) query.append('search', params.search);
 
+    console.log( "shan<<<<<<<<<<<<<<<<<<shan<<<<",`${API_ENDPOINTS.VIDEOS.BROWSE}${query.toString() ? `?${query.toString()}` : ''}`)
     const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.BROWSE}${query.toString() ? `?${query.toString()}` : ''}`);
+    console.log(">>>>>>> videoo",videos)
     return videos?.data;
   } catch (error) {
     return {
@@ -87,7 +89,7 @@ export const fetchVideoDataServer = async (params) => {
 };
 
 export const uploadImageServer = async (formData) => {
-  try {
+  try { 
     const response = await fetchAPI(API_ENDPOINTS.IMAGE_UPLOAD, {
       method: 'POST',
       body: formData,

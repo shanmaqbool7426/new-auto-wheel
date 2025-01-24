@@ -122,7 +122,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       {group.map((body, index) => (
                         <Box key={index} className="text-center" py="15px">
                           <Anchor
-                            href={`/listing/cars/search/-/bt_${body?.name?.toLowerCase()}`}
+                            href={`/listing/cars/search/-/bt_${body?.title?.toLowerCase()}`}
                             td="none"
                             className={styles.browseItem}
                           >
@@ -133,7 +133,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                               src={body.bodyImage} 
                             />
                             <Title order={6} lts={-0.4} mt="sm" fw={400}>
-                              {body.name}
+                              {body.title}
                             </Title>
                           </Anchor>
                         </Box>
