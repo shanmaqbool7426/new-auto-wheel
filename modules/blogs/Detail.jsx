@@ -5,7 +5,7 @@ import BlogDetailHtml from "@/components/blog/blog-detail-html";
 import BlogComments from "./BlogComments";
 import parse from "html-react-parser";
 
-const Detail = ({ blog ,comments}) => {
+const Detail = ({ blog ,comments,onCommentSubmit}) => {
     return (
         <>
             <Title order={2} mb="lg">
@@ -30,7 +30,7 @@ const Detail = ({ blog ,comments}) => {
             <BlogComments blog={blog} comments={comments}/>
 
             {/* Reply Section */}
-            <ReplyBlog blog={blog} />
+            <ReplyBlog blog={blog} onCommentSubmit={onCommentSubmit}/>
 
         </>
 

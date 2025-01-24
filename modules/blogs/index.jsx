@@ -1,4 +1,5 @@
-import React from "react";
+'use client';
+import React, { useState } from "react";
 import Vehicles from "@/modules/blogs/Vehicles";
 import { Box } from "@mantine/core";
 import { fetchTags } from "@/services/tags";
@@ -13,11 +14,17 @@ import CategoryPosts from "@/modules/blogs/CategoryPosts";
 import BlogDetails from "@/modules/blogs/Detail";
 
 const BlogModule = async ({ params }) => {
-  // Fetch data concurrently
+  const [refresh, setRefresh] = useState(0);
+
+  // Fetch data concurrently with refresh dependency
   const [tags, blogsData] = await Promise.all([
     fetchTags(),
     fetchBlogsPageData(params)
   ]);
+
+  const handleRefresh = () => {
+    setRefresh(prev => prev + 1);
+  };
 
   const { data } = blogsData || {};
   const isBlogsPage = data?.type === 'blogs';
@@ -46,7 +53,11 @@ const BlogModule = async ({ params }) => {
             )}
             {
               isSingleBlog && (
-                <BlogDetails blog={data?.blog} comments={data?.comments}/>
+                <BlogDetails 
+                  blog={data?.blog} 
+                  comments={data?.comments}
+                  onCommentSubmit={handleRefresh}
+                />
               )
             }
             {isBlogsPage && (
