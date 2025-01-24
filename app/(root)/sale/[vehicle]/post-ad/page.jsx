@@ -575,7 +575,7 @@ const PostAnAd = (params) => {
                         </Box>
                         <Box className="col-md-3 text-start">
                           <Group gap="xs" align="center" wrap="nowrap">
-                            <LightBulb />
+                            <LightBulb styles={{marginTop:"-8px"}}/>
                             <Text size="sm">
                               We don't allow duplicates of same ad.
                             </Text>

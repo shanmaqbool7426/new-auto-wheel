@@ -1277,7 +1277,7 @@ export function SmallReviewIcon() {
 export const LightBulb = ({ styles }) => {
   return (
     <svg
-      width="23"
+      width="24"
       height="24"
       viewBox="0 0 23 24"
       fill="none"

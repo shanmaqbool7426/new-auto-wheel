@@ -38,8 +38,9 @@ const SocialsLogin = ({ socialOpened, socialOnClose }) => {
         size={rem(527)}
         padding="xl"
         withCloseButton={false}
+        className="social-login-modal"
       >
-        <Carousel>
+        <Carousel withIndicators height={230}>
           <Carousel.Slide>
             <Stack align="center" gap={0} mb="md" ta="center">
               <Image width={120} height={120} src={car} alt="Google" />
@@ -115,7 +116,7 @@ const SocialsLogin = ({ socialOpened, socialOnClose }) => {
           </Button>
         </Stack>
 
-        <Text ta="center" size="md" mt="xs">
+        <Text ta="center" size="md" mt="lg" mb="md">
           Don't have an account?{" "}
           <Text
             span
