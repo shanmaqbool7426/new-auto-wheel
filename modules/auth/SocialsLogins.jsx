@@ -35,9 +35,9 @@ function SocialsLogin({ onEmailLogin, onSignUp, onBack, accountType }) {
         />
       )}
       
-      <Carousel withIndicators>
+      <Carousel withIndicators classNames={{ indicator: "bg-primary mt-10" }}>
         <Carousel.Slide>
-          <Stack align="center" gap={0} mb="md" ta="center">
+          <Stack align="center" gap={0} mb="md" ta="center" pb={"0.4rem"}>
             <Image width={120} height={120} src={car} alt="Car Alert" />
             <Title order={5} fw={600}>
               New Car Alert

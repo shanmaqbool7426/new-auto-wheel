@@ -45,7 +45,7 @@ const ReportModal = ({ opened, onClose }) => {
         />
       )}
 
-      <Button fullWidth mt="lg" onClick={onClose}>
+      <Button fullWidth mt="lg" onClick={onClose} className='bg-primary'>
         Submit
       </Button>
     </Modal>
@@ -63,7 +63,7 @@ const ReportAdd = () => {
     <>
     <div className="col-12">
     <div className="card mb-3">
-      <div className="card-body gap-2 align-items-center justify-content-center text-uppercase" onClick={()=>setValue(true)}>
+      <div className="card-body gap-2 align-items-center justify-content-center text-uppercase"  style={{ cursor: 'pointer' }} onClick={()=>setValue(true)}>
         <ReportFlag />
         <h5 className="mb-0 fw-semibold text-primary">
           Report this ad
