@@ -14,7 +14,7 @@ const NewCarsPage = async () => {
   const vehicleType="truck";
   // Fetch initial data
   const makesAndBodies = await fetchMakesAndBodies(vehicleType);
-x``
+
   // Fetch vehicle-related data
   const popularVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, vehicleType)
