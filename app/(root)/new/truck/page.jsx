@@ -1,5 +1,5 @@
 import React from "react";
-import xxNewCarsModule from "@/modules/new-cars/index";
+import NewCarsModule from "@/modules/new-cars/index";
 import MakesVehicles from "@/modules/make-vehicles/index";
 import {
   fetchListData,
