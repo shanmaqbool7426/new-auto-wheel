@@ -360,11 +360,11 @@ const NewCarsModule = ({
 
         <ComparisonProducts />
         <BrowseVideos />
-        <BrowseBlogs />
+        <BrowseBlogs/>
               
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
-        {/* <QuickLinks /> */}
+        <QuickLinks />
       </section>
       <WriteReviewModal opened={isModalOpen}   close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData}/>
     </>

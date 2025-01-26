@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Flex,
   Text,
@@ -8,16 +10,40 @@ import {
   Group,
   Box,
   rem,
+  Loader,
 } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { getCompares } from "@/services/comparison";
 import { MdEdit, MdDelete } from "react-icons/md";
 
-const ComparisonProducts = async ({ title }) => {
-  const data = await getCompares();
-  const vehiclePairs = data || [];
+const ComparisonProducts = ({ title }) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getCompares();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching comparisons:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <Flex justify="center" align="center" h={200}>
+        <Loader color="red" />
+      </Flex>
+    );
+  }
 
   return (
     <section className="comparison-products bg-light py-5">
@@ -42,7 +68,7 @@ const ComparisonProducts = async ({ title }) => {
           </div>
           <div className="col-lg-12">
             <div className="row">
-              {vehiclePairs?.map((pair, idx) => (
+              {data.map((pair, idx) => (
                 <div className="col-lg-4 col-sm-6" key={idx}>
                   <div className="card comparison-card position-relative">
                     <div className="two-col-comparison position-relative">
