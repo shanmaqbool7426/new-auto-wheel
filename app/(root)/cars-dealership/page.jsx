@@ -62,7 +62,6 @@ const CarsDealerShip = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
 
-  console.log('displayValue', displayValue)
   const fetchDealers = async () => {
     try {
       const response = await fetch(
@@ -91,7 +90,6 @@ const CarsDealerShip = () => {
   }
 
   const profileHnadler = (slug) => {
-    console.log(">>>>>>>>>>>>>.");
     router.push(`/dealer-profile/${slug}`);
   };
   return (

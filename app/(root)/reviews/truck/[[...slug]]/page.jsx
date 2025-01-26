@@ -82,7 +82,6 @@ const TruckReviews = async ({ params }) => {
     }
   }
 
-  console.log("Variants for", make, model, ":", variants);
 
   return (
     <>

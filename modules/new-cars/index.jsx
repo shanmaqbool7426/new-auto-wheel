@@ -366,7 +366,7 @@ const NewCarsModule = ({
 
         {/* <QuickLinks /> */}
       </section>
-      <WriteReviewModal opened={isModalOpen}   close={closeModal} />
+      <WriteReviewModal opened={isModalOpen}   close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData}/>
     </>
   );
 };

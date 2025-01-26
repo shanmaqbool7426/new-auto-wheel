@@ -1,5 +1,5 @@
 import React from "react";
-import NewCarsModule from "@/modules/new-cars/index";
+import xxNewCarsModule from "@/modules/new-cars/index";
 import MakesVehicles from "@/modules/make-vehicles/index";
 import {
   fetchListData,
@@ -14,7 +14,7 @@ const NewCarsPage = async () => {
   const vehicleType="truck";
   // Fetch initial data
   const makesAndBodies = await fetchMakesAndBodies(vehicleType);
-
+x``
   // Fetch vehicle-related data
   const popularVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, vehicleType)

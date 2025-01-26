@@ -40,7 +40,6 @@ import { usePathname } from "next/navigation";
 
 const NewCarsDetail = () => {
   const pathName = usePathname();
-  console.log(pathName, "[pathName]");
   const { ScrollContainer } = Table;
   const tagsArray = [
     { name: "All (601)", isSelected: true },

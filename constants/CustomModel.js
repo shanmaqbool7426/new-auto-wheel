@@ -29,11 +29,13 @@ const CustomModel = ({
   const [models, setModels] = useState({});
   const [variants, setVariants] = useState({});
   const [activeTab, setActiveTab] = useState("make"); // State to track active tab
-
+ 
   useEffect(() => {
     const fetchedMakes = [];
     const fetchedModels = {};
     const fetchedVariants = {};
+
+
 
     fetchMakesByTypeData?.data?.forEach((make) => {
       fetchedMakes.push(make.name);

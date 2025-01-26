@@ -11,7 +11,6 @@ export default async function HomeModule() {
   const res = await fetcHomeData();
   const banner = await fetchBanner();
 
-  console.log("res>>>>>>----1", banner);
   return (
     <>
       <Hero banner={banner?.data} />

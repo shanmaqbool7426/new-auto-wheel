@@ -16,7 +16,6 @@ import { IconArrowUpRight } from "@tabler/icons-react";
 import Link from "next/link";
 
 const ComparisonCard = ({ vehicle }) => {
-    console.log(vehicle, "vehisdsdcle")
     return (
         <Card withBorder radius="sm" padding="lg" shadow="none" className="position-relative" h={"100%"}>
            {/* {vehicle._id && <CloseButton ml="auto" />} */}

@@ -168,7 +168,7 @@ const PostAnAd = (params) => {
     const getMakes = async () => {
       if (vehicle) {
         const response = await fetchMakesByType(vehicle); // Fetch based on vehicle type
-        setMakes(response);
+        setMakes(response);  
       }
     };
 

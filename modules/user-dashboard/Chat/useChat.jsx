@@ -37,7 +37,6 @@ const token = getLocalStorage('token');
   }, []);
 
   const handleUserSelect = useCallback((userId) => {
-    console.log('get_messages',{userId: session.user._id, otherUserId: userId})
 
     setSelectedUserId(userId);
     if (socket && session?.user?._id) {

@@ -16,7 +16,8 @@ import { getCompares } from "@/services/comparison";
 import { MdEdit, MdDelete } from "react-icons/md";
 
 const ComparisonProducts = async ({ title }) => {
-  const { comparisons } = await getCompares();
+  const data = await getCompares();
+  const vehiclePairs = data || [];
 
   return (
     <section className="comparison-products bg-light py-5">
@@ -25,9 +26,7 @@ const ComparisonProducts = async ({ title }) => {
           <div className="col">
             <Flex justify="space-between" align="center" mb="xl">
               {title ? (
-                <Title order={2} lts={-0.5}>
-                  {title}
-                </Title>
+                <Title order={2} lts={-0.5}>{title}</Title>
               ) : (
                 <Title order={2} lts={-0.5}>
                   Top{" "}
@@ -36,7 +35,6 @@ const ComparisonProducts = async ({ title }) => {
                   </Text>
                 </Title>
               )}
-
               <Anchor component={Link} href="/compare" c="#E90808">
                 Show all Comparison
               </Anchor>
@@ -44,13 +42,11 @@ const ComparisonProducts = async ({ title }) => {
           </div>
           <div className="col-lg-12">
             <div className="row">
-              {comparisons?.map((comparison) => (
-                <div className="col-lg-4 col-sm-6" key={comparison.compareSetId}>
+              {vehiclePairs?.map((pair, idx) => (
+                <div className="col-lg-4 col-sm-6" key={idx}>
                   <div className="card comparison-card position-relative">
-                   
-
                     <div className="two-col-comparison position-relative">
-                      {comparison.vehicles.map((vehicle, index) => (
+                      {[pair.vehicle1, pair.vehicle2].map((vehicle, index) => (
                         <React.Fragment key={vehicle._id}>
                           <div
                             className={`product-compare ${
@@ -60,10 +56,7 @@ const ComparisonProducts = async ({ title }) => {
                             }`}
                           >
                             <Image
-                              src={
-                                vehicle.defaultImage ||
-                                "/compare/compare-product.png"
-                              }
+                              src={vehicle.defaultImage || "/compare/compare-product.png"}
                               width={120}
                               height={80}
                               alt={`${vehicle.make} ${vehicle.model}`}
@@ -82,15 +75,19 @@ const ComparisonProducts = async ({ title }) => {
                           mb="lg"
                           justify="space-between"
                         >
-                          {comparison.vehicles.map((vehicle) => (
+                          {[pair.vehicle1, pair.vehicle2].map((vehicle) => (
                             <Flex key={vehicle._id} direction="column" gap="xs">
                               <Title ff="text" size={rem(13)} fw={600}>
                                 {vehicle.year} {vehicle.make} {vehicle.model}
                               </Title>
                               <Flex align="center" justify="center" gap={5}>
-                                <Rating defaultValue={0} size="sm" readOnly />
+                                <Rating 
+                                  value={vehicle.averageRating || 0} 
+                                  size="sm" 
+                                  readOnly 
+                                />
                                 <Text span size="sm">
-                                  (0)
+                                  ({vehicle.reviewCount || 0})
                                 </Text>
                               </Flex>
                             </Flex>
@@ -103,7 +100,7 @@ const ComparisonProducts = async ({ title }) => {
                           fullWidth
                           size="md"
                           component={Link}
-                          href={`/comparison/${comparison.type}/${comparison.vehicles.map(vehicle => 
+                          href={`/comparison/${pair.vehicle1.type}/${[pair.vehicle1, pair.vehicle2].map(vehicle => 
                             `${vehicle.make}-${vehicle.model}${vehicle.variant ? '-' + vehicle.variant : ''}`
                           ).join('_')}`}
                         >

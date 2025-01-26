@@ -108,12 +108,10 @@ const DealerRating = () => {
           'Authorization': token?.token?.token
         }
       });
-      console.log('chlaaaaa')
       if (!response.ok) {
         throw new Error('Failed to fetch reviews');
       }
 
-      console.log('chlaaaaa', response)
       const data = await response.json();
       setReviews(data.reviews);
     } catch (error) {
@@ -174,11 +172,9 @@ const DealerRating = () => {
   const isDealer =()=>{
     return token?.token?.user?._id === slug
   }   
-  console.log('>>>>>>> id', token?.token?.user?._id)
   useEffect(() => {
     if (profile) {
 
-      console.log('>>>>>>> isFollowing', profile, profile.followers.includes(token?.token?.user?._id))
       setIsFollowing(profile.followers.includes(token?.token?.user?._id)); // Assuming you have access to the current user's ID
       // console.log('token.token.userId',token.token.user?_id)
     }

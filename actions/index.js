@@ -18,7 +18,6 @@ export const fetchMakesByTypeServer = async (type) => {
 export const fetchTopComparisonByTypeServer = async (type) => {
   try {
     const comparison = await fetchAPI(API_ENDPOINTS.COMPARISON.COMPARISON_LIST + `?type=${encodeURIComponent(type)}`);
-    console.log(">>>>>>>>>>>>>>",API_ENDPOINTS.COMPARISON.COMPARISON_LIST,comparison)
     return comparison;
   } catch (error) {
     return {
@@ -77,9 +76,7 @@ export const fetchVideoDataServer = async (params) => {
     if (params?.slug) query.append('slug', params.slug);
     if (params?.search) query.append('search', params.search);
 
-    console.log( "shan<<<<<<<<<<<<<<<<<<shan<<<<",`${API_ENDPOINTS.VIDEOS.BROWSE}${query.toString() ? `?${query.toString()}` : ''}`)
     const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.BROWSE}${query.toString() ? `?${query.toString()}` : ''}`);
-    console.log(">>>>>>> videoo",videos)
     return videos?.data;
   } catch (error) {
     return {

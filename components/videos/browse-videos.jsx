@@ -30,7 +30,6 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
       setLoading(true);
       const data = await fetchVideoDataServer(params); // Pass both slug and search to the fetch function
 
-      console.log("shan<<<<<<<<<<<<<<<<<<shan<<<<", data,data.currentVideo );
       setCurrentVideo(data.currentVideo);
       setSuggestions(data.suggestions);
       setLoading(false);

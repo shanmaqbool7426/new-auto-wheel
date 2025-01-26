@@ -61,7 +61,6 @@ const CarReviewsModule = ({
   };
   const openModalCommon = () => setIsModalOpenCommon(true);
   const closeModalCommon = () => setIsModalOpenCommon(false);
-  console.log("session", session);
 
   const handleSearch = () => {
     if (selection.make && selection.model) {
