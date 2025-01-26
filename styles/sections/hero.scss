@@ -1,17 +1,17 @@
 .hero-banner {
-    // background-image : url("../../../public/hero-banner.png");
     background-repeat   : no-repeat;
-    // min-height       : 450px;
     background-size     : cover;
     color               : $white;
     overflow            : hidden;
 
     .hero-content {
-        height         : 100%;
-        display        : flex;
-        justify-content: space-evenly;
-        align-items    : flex-start;
-        flex-direction : column;
+        // height         : 100%;
+        // display        : flex;
+        // justify-content: space-evenly;
+        // align-items    : flex-start;
+        // flex-direction : column;
+        margin-bottom: 50px;
+
     }
 
     .car-lists-slider {
