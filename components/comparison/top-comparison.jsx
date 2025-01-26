@@ -34,7 +34,7 @@ const TopComparison = ({ title, type }) => {
       }
     };
 
-    fetchComparisons();
+    // fetchComparisons();
   }, [type]);
 
   if (loading) {

@@ -216,7 +216,7 @@ const NewCarsDetail = () => {
                       </Text>
                     </Flex>
                   </Box>
-                  <Box className="col-lg-6">
+                  <Box className="col-lg-6">  
                     <Flex align="flex-start" gap="sm" c="dimmed">
                       <TransmissionIcon
                         customFill={true}
