@@ -16,7 +16,7 @@ export default async function HomeModule() {
       <Hero banner={banner?.data} />
       <BrowseByCategory makes={res?.makes} bodies={res?.bodies} />
       <BrowseByType vehicles={res?.vehiclesTypes} />
-      {/* <ComparisonProducts /> */}
+      <ComparisonProducts />
       <SearchByLocations />
       <BrowseVideos />
       <BrowseBlogs />
