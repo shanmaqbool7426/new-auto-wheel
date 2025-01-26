@@ -54,7 +54,7 @@ export const getCompares = async (params = {}) => {
 
     console.log(BASE_URL,"API_ENDPOINTS.COMPARISON.GET_COMPARISON_SETS")
     const response = await fetch(
-      `${BASE_URL}/api/comparison/top?${queryParams}`,
+      `${BASE_URL}/api/comparison/list?${queryParams}`,
       {
         method: 'GET',
         headers: {
