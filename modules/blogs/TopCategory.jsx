@@ -5,6 +5,7 @@ import React from 'react';
 import { EyeIcon, ViewIcon } from '@/components/Icons';
 import Link from 'next/link';
 import { formatDate } from '@/utils/index';
+import parse from "html-react-parser";
 
 const TopCategory = ({ category }) => {
   let posts = category?.blogs || [];
@@ -13,7 +14,7 @@ const TopCategory = ({ category }) => {
   if (!posts || posts.length === 0) {
     return (
       <Text align="center" c="dimmed">
-        No posts available.
+        No posts available...
       </Text>
     );
   }
@@ -43,6 +44,7 @@ const TopCategory = ({ category }) => {
                 c="white"
                 radius="sm"
                 size="xl"
+                fw={"normal"}
                 className="position-absolute bottom-0"
               >
                 {largePost.categoryDetails?.name || "CATEGORY"}
@@ -84,7 +86,7 @@ const TopCategory = ({ category }) => {
               </Box>
             </Flex>
             <Text lineClamp={4} size="sm">
-              {largePost.content}
+              {parse(largePost.content)}
             </Text>
           </Flex>
         </Card>

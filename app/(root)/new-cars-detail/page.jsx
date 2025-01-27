@@ -768,7 +768,7 @@ const NewCarsDetail = () => {
         </Box>
 
         {/* Broswse Videos Section */}
-        <BrowseVideos />
+        <BrowseVideos type="car"/>
 
         {/* Latest Reviews Section */}
         <Box component="section" className="latest-reviews bg-light py-5">

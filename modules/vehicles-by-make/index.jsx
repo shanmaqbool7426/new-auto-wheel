@@ -109,7 +109,7 @@ const VehiclesByMake = ({vehicles}) => {
             <div className="row">
               <Box className="col-md-12" mb="xl">
                 <Title order={2}>
-                  Upcomingqqqqqq{" "}
+                  Upcoming{" "}
                   <Text span c="#E90808" inherit>
                     Cars
                   </Text>

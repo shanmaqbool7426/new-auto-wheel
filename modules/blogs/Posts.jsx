@@ -46,9 +46,10 @@ const Posts = ({ title, posts, count, description }) => {
                                     bg="#E90808"
                                     c="white"
                                     radius="sm"
-                                    size="lg"
+                                    size="md"
                                     pos={"absolute"}
                                     className="bottom-0"
+                                    fw="normal"
                                 >
                                     {post.categories[0]?.name}
                                 </Badge>

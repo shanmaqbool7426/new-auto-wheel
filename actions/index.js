@@ -75,6 +75,7 @@ export const fetchVideoDataServer = async (params) => {
     const query = new URLSearchParams();
     if (params?.slug) query.append('slug', params.slug);
     if (params?.search) query.append('search', params.search);
+    if (params?.type) query.append('type', params.type);
 
     const videos = await fetchAPI(`${API_ENDPOINTS.VIDEOS.BROWSE}${query.toString() ? `?${query.toString()}` : ''}`);
     return videos?.data;

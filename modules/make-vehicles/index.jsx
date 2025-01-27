@@ -159,7 +159,7 @@ const MakesVehicles = ({
 
         <UpcomingCars fetchUpComingVehicles={fetchUpComingVehicles} type={vehicleType}/>
         <ComparisonProducts type={vehicleType}/>
-        <BrowseVideos />
+        <BrowseVideos type={vehicleType}/>
         <BrowseBlogs />
 
         <Comments

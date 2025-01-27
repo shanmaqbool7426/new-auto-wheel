@@ -359,7 +359,7 @@ const NewCarsModule = ({
         </section>
 
         <ComparisonProducts type={type}/>
-        <BrowseVideos />
+        <BrowseVideos type={type}/>
         <BrowseBlogs/>
               
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />

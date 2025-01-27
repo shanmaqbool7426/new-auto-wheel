@@ -31,6 +31,7 @@ const CategoryPosts = ({ category }) => {
                   c="white"
                   radius="sm"
                   size="lg"
+                  fw={"normal"}
                   className="position-absolute bottom-0"
                 >
                   {category.category}
