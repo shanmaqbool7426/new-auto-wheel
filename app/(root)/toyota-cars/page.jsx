@@ -129,7 +129,7 @@ const NewCarsDetailPage = () => {
 
         <UpcomingCars />
         <ComparisonProducts type={"car"}/>
-        <BrowseVideos />
+        <BrowseVideos type="car"/>
         <BrowseBlogs />
 
         <section className="latest-reviews py-5">
