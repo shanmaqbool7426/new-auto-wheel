@@ -943,7 +943,7 @@ const NewCarsDetail = () => {
         </Box>
 
         {/* Comparison Products Section */}
-        <ComparisonProducts />
+        <ComparisonProducts type={"car"}/>
 
         {/* Cars For Sale */}
         <Box component="section" className="upcoming-cars py-5">

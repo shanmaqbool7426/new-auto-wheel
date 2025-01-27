@@ -128,7 +128,7 @@ const NewCarsDetailPage = () => {
         <PopularNewCars />
 
         <UpcomingCars />
-        <ComparisonProducts />
+        <ComparisonProducts type={"car"}/>
         <BrowseVideos />
         <BrowseBlogs />
 

@@ -407,7 +407,7 @@ const CarComparionDetail = () => {
           </div>
         </div>
       </Box>
-      <ComparisonProducts title="Similar Car Comparison" />
+      <ComparisonProducts title="Similar Car Comparison" type="car"/>
       <QuickLinks
         titlePopular="Popular Used Cars"
         titleUsed="Used Cars by City"

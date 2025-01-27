@@ -44,7 +44,7 @@ export const Comparison = async (data) => {
 // Get all comparisons
 export const getCompares = async (params = {}) => {
   try {
-    console.log(">>>>>>>>>>>>>>.............")
+    console.log(">>>>>>>>>>>>>>.............",params)
     const queryParams = new URLSearchParams({
       page: params.page || 1,
       limit: params.limit || 10,

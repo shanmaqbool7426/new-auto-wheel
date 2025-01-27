@@ -18,14 +18,14 @@ import React, { useState, useEffect } from "react";
 import { getCompares } from "@/services/comparison";
 import { MdEdit, MdDelete } from "react-icons/md";
 
-const ComparisonProducts = ({ title }) => {
+const ComparisonProducts = ({ title,type }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getCompares();
+        const result = await getCompares({type: type});
         setData(result);
       } catch (error) {
         console.error('Error fetching comparisons:', error);

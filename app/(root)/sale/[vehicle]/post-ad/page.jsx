@@ -1022,7 +1022,7 @@ const PostAnAd = (params) => {
                                   <label
                                     className={`text-decoration-none ${
                                       formDataStep2.body ===
-                                      bodyType.name.toLowerCase()
+                                      bodyType.title.toLowerCase()
                                         ? "checked"
                                         : ""
                                     }`}
@@ -1030,15 +1030,15 @@ const PostAnAd = (params) => {
                                     <input
                                       type="radio"
                                       name="bodyType"
-                                      value={bodyType.name.toLowerCase()}
+                                      value={bodyType.title.toLowerCase()}
                                       checked={
                                         formDataStep2.body ===
-                                        bodyType.name.toLowerCase()
+                                        bodyType.title.toLowerCase()
                                       }
                                       onChange={() =>
                                         handleInputChangeStep2(
                                           "body",
-                                          bodyType.name.toLowerCase()
+                                          bodyType.title.toLowerCase()
                                         )
                                       }
                                     />

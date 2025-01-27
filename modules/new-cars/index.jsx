@@ -358,7 +358,7 @@ const NewCarsModule = ({
           </div>
         </section>
 
-        <ComparisonProducts />
+        <ComparisonProducts type={type}/>
         <BrowseVideos />
         <BrowseBlogs/>
               
