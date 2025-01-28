@@ -11,37 +11,37 @@ export const overviewCardData = [
   {
     id: 1,
     icon: IconPageViews,
-    value: '130',
+    key: 'pageViews',
     title: 'Page Views'
   },
   {
     id: 2,
     icon: IconClicks,
-    value: '130',
+    key: 'clicks',
     title: 'Clicks'
   },
   {
     id: 3,
     icon: IconNoViews,
-    value: '130',
+    key: 'noViews',
     title: 'No Views'
   },
   {
     id: 4,
     icon: IconActiveAds,
-    value: '130',
+    key: 'activeAds',
     title: 'Active Ads'
   },
   {
-    id: 4,
+    id: 5,
     icon: IconPendingAds,
-    value: '130',
+    key: 'pendingAds',
     title: 'Pending Ads'
   },
   {
-    id: 4,
+    id: 6,
     icon: IconInactiveAds,
-    value: '130',
+    key: 'inactiveAds',
     title: 'Inactive Ads'
   },
 ];

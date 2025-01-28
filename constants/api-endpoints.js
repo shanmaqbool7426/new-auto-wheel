@@ -169,6 +169,9 @@ export const API_ENDPOINTS = {
     COMPARISON_LIST: `${BASE_URL}/api/comparison/top`,
     TOP_COMPARISON: `${BASE_URL}/api/comparison/top-comparison`,
   },
+  USER: {
+    GET_DASHBOARD_OVERVIEW: `${BASE_URL}/api/vehicle/get-user-dashboard-overview`,
+  },
 
 
   COMMENTS: {

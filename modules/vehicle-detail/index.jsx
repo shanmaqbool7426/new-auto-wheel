@@ -168,6 +168,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
             </span>
           </div>
         </div>
+
       </div>
     </div>
   ), [sellerInfo]);
@@ -312,7 +313,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                             <li key={index} className="mb-4 flex flex-col" style={{ flexWrap: "wrap", display: "flex" }}>
                               <span className="fs-6 text-primary icon">{item.icon}</span>
                               <span className="text-muted summary-info">{item.label}</span>
-                              <span className={`text-dark fw-semibold ${item.label=='Drive'?'text-uppercase':'text-capitalize'}`} style={{ display: "flex", marginLeft: "auto" }}>{item.value}</span>
+                              <span className={`text-dark fw-semibold ${item.label == 'Drive' ? 'text-uppercase' : 'text-capitalize'}`} style={{ display: "flex", marginLeft: "auto" }}>{item.value}</span>
                             </li>
                           ))}
                         </ul>
@@ -324,7 +325,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
               {/* Features List Section */}
               <section className="featured-section">
                 <h4 className="section-title fw-semibold mb-4">Feature</h4>
-                <ul className="list-unstyled list-inline" style={{display:'flex',alignItems:"baseline", gap:"0.5rem",flexWrap:'wrap'}}>
+                <ul className="list-unstyled list-inline" style={{ display: 'flex', alignItems: "baseline", gap: "0.5rem", flexWrap: 'wrap' }}>
                   {vehicleInfo.features.map((feature, index) => (
                     <li className="list-inline-item" key={index}>
                       <span className="icon text-primary me-2 fs-6">
@@ -380,8 +381,11 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
               <div className="card border-0 shadow-none contact-seller-info">
                 <div className="card-body card-border">
                   {SellerCard}
+                </div>
+                <div className="px-3">
                   <SocialContact detail={detail} />
                 </div>
+
               </div>
             </div>
             <div className="col-md-7" ref={messageRef}>
