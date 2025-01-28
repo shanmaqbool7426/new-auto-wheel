@@ -216,7 +216,7 @@ const CarComparison = () => {
             </div>
           </div>
         </Box>
-        <ComparisonProducts />
+        <ComparisonProducts  type={"car"}/>
         <BrowseVideos />
         <BrowseBlogs />
         <QuickLinks />

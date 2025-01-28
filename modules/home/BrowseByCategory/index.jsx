@@ -42,9 +42,6 @@ const BrowseByCategory = ({ makes, bodies }) => {
     return chunks;
   };
 
-  // Add debugging
-  console.log("Makes data:", makes?.data);
-  console.log("Chunked makes:", makes?.data ? chunkArray(makes.data, 2) : []);
 
   return (
     <Box className="browse-cats-section bg-light" pt="55px" pb="55px"> 
@@ -60,9 +57,9 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 </Text>
               </Title>
 
-              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
+              {/* <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Makes
-              </Anchor>
+              </Anchor> */}
             </Flex>
 
             <Box className="cat-by-brand">
@@ -109,9 +106,9 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 </Text>
               </Title>
 
-              <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
+              {/* <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
                 Show all Bodies
-              </Anchor>
+              </Anchor> */}
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">

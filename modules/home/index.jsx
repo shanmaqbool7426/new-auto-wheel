@@ -11,13 +11,12 @@ export default async function HomeModule() {
   const res = await fetcHomeData();
   const banner = await fetchBanner();
 
-  console.log("res>>>>>>----1", banner);
   return (
     <>
       <Hero banner={banner?.data} />
       <BrowseByCategory makes={res?.makes} bodies={res?.bodies} />
       <BrowseByType vehicles={res?.vehiclesTypes} />
-      <ComparisonProducts />
+      <ComparisonProducts type="car"/>
       <SearchByLocations />
       <BrowseVideos />
       <BrowseBlogs />

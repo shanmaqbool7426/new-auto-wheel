@@ -3,7 +3,6 @@ import { Avatar, Box, Group, Paper, Text, Title } from '@mantine/core';
 import React from 'react'
 
 const BlogComments = ({ comments }) => {
-  console.log(comments);
 if (!comments.length) {
   return (
     <>

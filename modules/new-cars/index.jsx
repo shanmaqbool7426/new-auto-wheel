@@ -358,15 +358,15 @@ const NewCarsModule = ({
           </div>
         </section>
 
-        <ComparisonProducts />
-        <BrowseVideos />
-        <BrowseBlogs />
+        <ComparisonProducts type={type}/>
+        <BrowseVideos type={type}/>
+        <BrowseBlogs/>
               
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
-        {/* <QuickLinks /> */}
+        <QuickLinks />
       </section>
-      <WriteReviewModal opened={isModalOpen}   close={closeModal} />
+      <WriteReviewModal opened={isModalOpen}   close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData}/>
     </>
   );
 };

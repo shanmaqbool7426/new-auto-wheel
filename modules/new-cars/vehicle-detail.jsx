@@ -35,7 +35,6 @@ import { formatPrice, formatPriceInFactors } from "@/utils";
 import Link from "next/link";
 
 const VehicleDetail = ({ vehicle }) => {
-  console.log("vehicle>>>>",vehicle);
 
   const {
     vehicleDetails: {

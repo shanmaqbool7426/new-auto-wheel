@@ -25,7 +25,7 @@ const PopularTags = ({ tags }) => {
                             key={tag?.id}
                             variant="light"
                             size="lg"
-                            fw={500}
+                            fw={"normal"}
                             c="#222222"
                             p="md"
                             bg="#F3F3F3"

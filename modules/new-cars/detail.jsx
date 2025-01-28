@@ -9,7 +9,7 @@ const NewVehicleDetailModule = ({ vehicle }) => {
   return (
     <div>
       <VehicleDetail vehicle={vehicle} />
-      <BrowseVideos />
+      <BrowseVideos type="car"/>
       <Comments />
       <BrowseBlogCarousel type={"car"} title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`}/>
       {/* Faq's */}

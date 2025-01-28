@@ -44,6 +44,7 @@ export const Comparison = async (data) => {
 // Get all comparisons
 export const getCompares = async (params = {}) => {
   try {
+    console.log(">>>>>>>>>>>>>>.............",params)
     const queryParams = new URLSearchParams({
       page: params.page || 1,
       limit: params.limit || 10,
@@ -54,7 +55,7 @@ export const getCompares = async (params = {}) => {
 
     console.log(BASE_URL,"API_ENDPOINTS.COMPARISON.GET_COMPARISON_SETS")
     const response = await fetch(
-      `${BASE_URL}/api/comparison/list?${queryParams}`,
+      `${BASE_URL}/api/comparison/top?${queryParams}`,
       {
         method: 'GET',
         headers: {
@@ -62,12 +63,11 @@ export const getCompares = async (params = {}) => {
         },
       }
     );
-
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch comparisons');
     }
-
+    
     const data = await response.json();
     return data.data;
   } catch (error) {

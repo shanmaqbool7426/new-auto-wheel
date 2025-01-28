@@ -168,7 +168,7 @@ const PostAnAd = (params) => {
     const getMakes = async () => {
       if (vehicle) {
         const response = await fetchMakesByType(vehicle); // Fetch based on vehicle type
-        setMakes(response);
+        setMakes(response);  
       }
     };
 
@@ -517,12 +517,12 @@ const PostAnAd = (params) => {
 
                     <Box className="stepper-form" mt="xl">
                       <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                        {/* <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
                             Condition
                           </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
+                        </Box> */}
+                        {/* <Box className="col-md-7">
                           <Select
                             size="md"
                             placeholder="New"
@@ -532,7 +532,7 @@ const PostAnAd = (params) => {
                               handleChangeStep1(value, "year")
                             }
                           />
-                        </Box>
+                        </Box> */}
                       </Box>
 
                       <Box className="row align-items-center" mb="xl">
@@ -575,7 +575,7 @@ const PostAnAd = (params) => {
                         </Box>
                         <Box className="col-md-3 text-start">
                           <Group gap="xs" align="center" wrap="nowrap">
-                            <LightBulb />
+                            <LightBulb styles={{marginTop:"-8px"}}/>
                             <Text size="sm">
                               We don't allow duplicates of same ad.
                             </Text>
@@ -1022,7 +1022,7 @@ const PostAnAd = (params) => {
                                   <label
                                     className={`text-decoration-none ${
                                       formDataStep2.body ===
-                                      bodyType.name.toLowerCase()
+                                      bodyType.title.toLowerCase()
                                         ? "checked"
                                         : ""
                                     }`}
@@ -1030,15 +1030,15 @@ const PostAnAd = (params) => {
                                     <input
                                       type="radio"
                                       name="bodyType"
-                                      value={bodyType.name.toLowerCase()}
+                                      value={bodyType.title.toLowerCase()}
                                       checked={
                                         formDataStep2.body ===
-                                        bodyType.name.toLowerCase()
+                                        bodyType.title.toLowerCase()
                                       }
                                       onChange={() =>
                                         handleInputChangeStep2(
                                           "body",
-                                          bodyType.name.toLowerCase()
+                                          bodyType.title.toLowerCase()
                                         )
                                       }
                                     />

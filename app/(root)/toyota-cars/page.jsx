@@ -128,8 +128,8 @@ const NewCarsDetailPage = () => {
         <PopularNewCars />
 
         <UpcomingCars />
-        <ComparisonProducts />
-        <BrowseVideos />
+        <ComparisonProducts type={"car"}/>
+        <BrowseVideos type="car"/>
         <BrowseBlogs />
 
         <section className="latest-reviews py-5">

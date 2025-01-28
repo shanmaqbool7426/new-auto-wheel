@@ -110,8 +110,7 @@ const CarCard = ({ vehicle, token }) => {
       setIsLoading(false);
     }
   };
-  console.log(' ',token?.token?.user?.favoriteVehicles
-    )
+
 
   // Simplified favorite button component
   const FavoriteButton = () => (

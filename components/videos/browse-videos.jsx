@@ -17,7 +17,7 @@ import { PlayButton } from "@/components/Icons";
 import Link from "next/link";
 import { fetchVideoDataServer } from "@/actions/index"; // Your action to fetch video data
 
-const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
+const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
   const [slug, setSlug] = useState(initialSlug || null); // Manage the slug in the state
   const [currentVideo, setCurrentVideo] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
@@ -30,7 +30,6 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
       setLoading(true);
       const data = await fetchVideoDataServer(params); // Pass both slug and search to the fetch function
 
-      console.log("shan<<<<<<<<<<<<<<<<<<shan<<<<", data,data.currentVideo );
       setCurrentVideo(data.currentVideo);
       setSuggestions(data.suggestions);
       setLoading(false);
@@ -44,11 +43,11 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title }) => {
   useEffect(() => {
     // Fetch video data when the slug or search changes
     if (slug || search) {
-      fetchVideoData({ slug, search });
+      fetchVideoData({ slug, search,type });
     } else {
       fetchVideoData();
     }
-  }, [slug, search]);
+  }, [slug, search,type]);
 
   const handleVideoSelect = (newSlug) => {
     setSlug(newSlug);

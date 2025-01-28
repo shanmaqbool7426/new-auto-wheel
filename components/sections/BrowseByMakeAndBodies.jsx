@@ -18,9 +18,9 @@ const BrowseByMakeAndBodies = ({ makes, bodies, type }) => {
                 </Text>
               </Title>
 
-              <Anchor component={Link} href="#" c="#E90808">
+              {/* <Anchor component={Link} href="#" c="#E90808">
                 Show all Makes
-              </Anchor>
+              </Anchor> */}
             </Flex>
             <Box className="cat-by-brand">
               <Box className="row">
@@ -53,9 +53,9 @@ const BrowseByMakeAndBodies = ({ makes, bodies, type }) => {
                   Body
                 </Text>
               </Title>
-              <Anchor component={Link} href="#" c="pink">
+              {/* <Anchor component={Link} href="#" c="pink">
                 Show all Makes
-              </Anchor>
+              </Anchor> */}
             </Flex>
 
             <Box className="cat-by-brand cat-by-body">

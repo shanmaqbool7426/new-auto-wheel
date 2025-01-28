@@ -22,7 +22,6 @@ const VehicleComparisonDetail = ({ vehicles, type }) => {
         { name: "Exterior", href: "#exterior" },
     ];
 
-    console.log("comparisonData>>>>>>>>>>>>",comparisonData)
 
     return (
         <>
