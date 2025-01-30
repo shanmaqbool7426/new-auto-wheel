@@ -8,7 +8,7 @@ import axios from 'axios';
 const handleAuthResponse = async (response) => {
   if (response.data?.statusCode === 200 || response.data?.statusCode === 201) {
 
-    const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
+    const userData = response.data?.data.user ? response.data?.data?.user : response.data?.data;
     return {
       id: userData._id,
       fullName: userData.fullName,
@@ -20,7 +20,7 @@ const handleAuthResponse = async (response) => {
       createdAt: userData.createdAt,
       updatedAt: userData.updatedAt,
       verificationCode: userData.verificationCode,
-      token:res.data?.data
+      token:response.data?.data
     };
   }
   throw new Error(response.data?.message || "Authentication failed");

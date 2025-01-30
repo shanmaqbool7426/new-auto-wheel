@@ -7,9 +7,9 @@ export const columns = [
     width: 140,
   },
   {
-    accessor: 'createdDate',
+    accessor: 'created',
     title: 'Created',
-    render: ({ createdDate }) => dayjs(createdDate).format('DD--MM-YYYY'),
+    render: ({ created }) => dayjs(created).format('DD--MM-YYYY'),
   },
   {
     accessor: 'views',

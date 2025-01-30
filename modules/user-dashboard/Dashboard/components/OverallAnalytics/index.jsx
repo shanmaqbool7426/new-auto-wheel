@@ -5,11 +5,12 @@ import useOverallAnalytics from './useOverallAnalytics';
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export default function OverallAnalytics() {
+export default function OverallAnalytics({data}) {
+  console.log(data);
   const {
     series,
     options,
-  } = useOverallAnalytics();
+  } = useOverallAnalytics({data});
 
   return (
     <Box className={styles.card}>

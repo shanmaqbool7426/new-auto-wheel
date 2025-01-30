@@ -40,6 +40,7 @@ const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
 const NEW_VEHICLE_BASE = `${BASE_URL}/api/new-vehicles`;
 const REVIEW_BASE = `${BASE_URL}/api/reviews`;
 const VIDEO_BASE = `${BASE_URL}/api/video`;
+const USER_REVIEWS_BASE = `${BASE_URL}/api/user-reviews`;
 
 export const API_ENDPOINTS = {
   AUTH: {
@@ -75,6 +76,7 @@ export const API_ENDPOINTS = {
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
     },
+    TOP_PERFORMING_POSTS:`${VEHICLE_BASE}/get-user-top-performing-posts`
   },
   NEW_VEHICLE: {
     BASE: NEW_VEHICLE_BASE,
@@ -148,7 +150,11 @@ export const API_ENDPOINTS = {
     SUBMIT: `${REVIEW_BASE}`,
     GET_ALL: `${REVIEW_BASE}`,
     REVIEWS_BY_VEHICLE: `${REVIEW_BASE}/by-vehicle`,
-    REVIEWS_BY_VEHICLE_OVERALL: `${REVIEW_BASE}/overall-ratings`
+    REVIEWS_BY_VEHICLE_OVERALL: `${REVIEW_BASE}/overall-ratings`,
+  },
+  USER_REVIEWS: {
+    BASE: USER_REVIEWS_BASE,
+    GET_USER_REVIEWS_BY_DEALER_ID: `${USER_REVIEWS_BASE}/dealer`
   },
 
   VIDEOS: {

@@ -34,7 +34,7 @@ export default function Dashboard() {
           <OverView data={overview}/>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-          <OverallAnalytics />
+          <OverallAnalytics data={overview}/>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
           <TopPerformingPost />

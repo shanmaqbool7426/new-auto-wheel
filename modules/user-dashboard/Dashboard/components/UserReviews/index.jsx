@@ -3,18 +3,22 @@ import dayjs from 'dayjs';
 import { Box, Group, Rating } from '@mantine/core';
 import styles from './UserReviews.module.css';
 import ViewallButton from '../ViewallButton';
-import { reviewData } from './data';
+import useUserReviews from './useUserReviews';
+import Link from 'next/link';
 
 export default function UserReviews() {
+  const {reviews} = useUserReviews();
   return (
     <Box className={styles.card}>
       <Box className={styles.cardHeader}>
         <Box className={styles.cardTitle}>User Reviews</Box>
-        <ViewallButton onClick={() => alert('I am clicked')} />
+        <Link href="/user/reviews">
+        <ViewallButton />
+        </Link>
       </Box>
       <Box className={styles.cardContent}>
         <ul className={styles.reviewsList}>
-          {reviewData.map((review) => (
+          {reviews?.map((review) => (
             <li className={styles.reviewListItem}>
               <Box className={styles.review}>
                 <Box className={styles.reviewHeader}>
@@ -28,10 +32,11 @@ export default function UserReviews() {
                 </Box>
                 <Box className={styles.reviewMeta}>
                   <Box className={styles.reviewModal}>{review.modal}</Box>
-                  <Box className={styles.reviewAuthor}>Posted by {review.postedBy} on {dayjs(review.postedDate).format('MMM D, YYYY')}</Box>
+                  <Box className={styles.reviewAuthor}>Posted by {review?.user?.fullName} on {dayjs(review?.createdAt).format('MMM D, YYYY')}</Box>
                 </Box>
                 <Box className={styles.reviewContent}>
-                  {review.description} <Box className={styles.redText} component='span'>read more</Box>
+                  {review.content} 
+                  {/* <Box className={styles.redText} component='span'>read more</Box> */}
                 </Box>
               </Box>
             </li>

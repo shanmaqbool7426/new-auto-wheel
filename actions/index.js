@@ -113,3 +113,32 @@ export const fetchUserDasboardOverview = async (token) => {
     throw error;
   }
 };
+
+export const fetchTopPerformingPosts = async (token,page=1,limit=6) => {
+  try { 
+    const response = await fetchAPI(`${API_ENDPOINTS.VEHICLE.TOP_PERFORMING_POSTS}?page=${page}&limit=${limit}`, {
+      headers: {
+        'Authorization': token
+      }
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    throw error;
+  }
+};
+export const fetchUserReviewsByDealerId = async (token,dealerId,page=1,limit=3) => {
+  try { 
+    const response = await fetchAPI(`${API_ENDPOINTS.USER_REVIEWS.GET_USER_REVIEWS_BY_DEALER_ID}/${dealerId}?page=${page}&limit=${limit}`, {
+      headers: {
+        'Authorization': token
+      }
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    throw error;
+  }
+};
