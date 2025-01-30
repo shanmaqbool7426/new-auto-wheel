@@ -48,6 +48,7 @@ export const API_ENDPOINTS = {
     VERIFY_OTP: `${BASE_URL}/api/user/verify-user`,
     FORGOT_PASSWORD: `${BASE_URL}/api/user/password-reset-request`,
     RESET_PASSWORD: `${BASE_URL}/api/user/reset-password`,
+    SOCIAL_LOGIN: `${BASE_URL}/api/user/social-login`,
   },
   COMPARISON: {
     BASE: `${BASE_URL}/api/comparison`,
@@ -167,6 +168,9 @@ export const API_ENDPOINTS = {
     GET: `${BASE_URL}/api/comparison`,
     COMPARISON_LIST: `${BASE_URL}/api/comparison/top`,
     TOP_COMPARISON: `${BASE_URL}/api/comparison/top-comparison`,
+  },
+  USER: {
+    GET_DASHBOARD_OVERVIEW: `${BASE_URL}/api/vehicle/get-user-dashboard-overview`,
   },
 
 

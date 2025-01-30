@@ -27,7 +27,7 @@ export default function ChatSidebar({ conversations, onSelectUser, selectedUserI
               >
                 <Group gap={16}>
                   <Avatar
-                    src={conversation.otherUser.avatar || 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'}
+                    src={conversation.otherUser.profileImage || 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'}
                     radius="xl"
                     size={48}
                   />

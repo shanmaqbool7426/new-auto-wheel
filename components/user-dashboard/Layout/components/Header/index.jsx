@@ -4,13 +4,14 @@ import styles from './Header.module.css';
 import Search from '@/components/user-dashboard/Search';
 import { IconCog, IconNotification } from './icons';
 import useHeader from './useHeader';
+import { useSession } from 'next-auth/react';
 
 export default function Header() {
   const {
     isNotification,
     title,
   } = useHeader();
-
+  const { data: session, status } = useSession();
   return (
     <Box className={styles.header}>
       <Box className={styles.headerLeft}>
@@ -46,7 +47,7 @@ export default function Header() {
               <UnstyledButton>
                 <Group gap={8}>
                   <Avatar
-                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+                    src={session?.user?.image??"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"}
                     radius="xl"
                     size={45}
                     variant='outline'
@@ -55,11 +56,11 @@ export default function Header() {
 
                   <div style={{ flex: 1 }}>
                     <Box className={styles.userName}>
-                      Jason Young
+                    {session?.user?.fullName || session?.user?.name}
                     </Box>
 
                     <Box className={styles.userEmail}>
-                      jasonyoung@solartint.com
+                    {session?.user?.email}
                     </Box>
                   </div>
                 </Group>

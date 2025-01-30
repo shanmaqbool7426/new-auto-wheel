@@ -10,7 +10,7 @@ import FormField from '@/components/user-dashboard/FormField';
 import styles from './Overview.module.css';
 import { overviewCardData } from './data';
 
-export default function OverView() {
+export default function OverView({data:overview}) {
   const [value, setValue] = React.useState({ value: 'january', label: 'January' });
 
   return (
@@ -44,7 +44,7 @@ export default function OverView() {
             <Group gap={12}>
               <Box className={styles.cardIcon}><card.icon /></Box>
               <Box>
-                <Box className={styles.cardValue}>{card.value}</Box>
+                <Box className={styles.cardValue}>{overview?.[card.key] || 0}</Box>
                 <Box className={styles.cardText}>{card.title}</Box>
               </Box>
             </Group>

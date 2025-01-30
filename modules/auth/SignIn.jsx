@@ -1,33 +1,24 @@
-import { useState } from "react";
 import { useForm } from "@mantine/form";
 import {
-  Modal,
   Button,
   TextInput,
   PasswordInput,
   Text,
   Title,
   Group,
-  rem,
 } from "@mantine/core";
 import classes from "@/styles/Demo.module.scss";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { signIn } from "next-auth/react";
-import { BsCaretLeft, BsChevronLeft } from "react-icons/bs";
-import { IconChevronCompactLeft } from "@tabler/icons-react";
 import { FaChevronLeft } from "react-icons/fa6";
-import ForgotPassword from "./ForgotPassword";
 
-function SignIn({ signOpen, signInClose }) {
-  const [forgotOpen, setForgotOpen] = useState(false);
-  // Initialize form with validation rules
+function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
   const form = useForm({
     initialValues: {
       email: "",
       password: "",
     },
-
     validate: {
       email: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Please enter a valid email",
@@ -36,8 +27,8 @@ function SignIn({ signOpen, signInClose }) {
     },
   });
 
-  const { isLoading, error, handleSubmit, data } = useFormSubmission(
-    API_ENDPOINTS.AUTH.LOGIN, // Replace with your login endpoint
+  const { isLoading, error, handleSubmit } = useFormSubmission(
+    API_ENDPOINTS.AUTH.LOGIN,
     form.values,
     form.validate
   );
@@ -50,77 +41,75 @@ function SignIn({ signOpen, signInClose }) {
       type: "signIn",
       action: "Credentials",
     });
-    result.ok && signInClose();
+    
+    if (result.ok) {
+      onSuccess?.();
+    }
   };
 
   return (
     <>
-      <Modal
-        opened={signOpen}
-        onClose={signInClose}
-        withCloseButton={false}
-        padding={rem(50)}
-        size={rem(527)}
-        centered
-      >
-        <Group mb="lg">
-          <FaChevronLeft />
-          <Title order={4}>Let’s get you started!</Title>
-        </Group>
+      <Group mb="lg">
+        {onBack && (
+          <FaChevronLeft className="cursor-pointer" onClick={onBack} />
+        )}
+        <Title order={4}>Let's get you started!</Title>
+      </Group>
 
-        {/* Form Starts */}
-        <form>
-          <TextInput
-            label="Email"
-            placeholder="Enter email"
-            className="my-3"
-            classNames={classes}
-            {...form.getInputProps("email")}
-            error={form.errors.email} // Display email error if validation fails
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Enter password"
-            {...form.getInputProps("password")}
-            error={form.errors.password} // Display password error if validation fails
-          />
-          <Text
-            ta="right"
-            c="dimmed"
-            size="sm"
-            mt="xs"
-            className="cursor text-primary"
-            onClick={() => {setForgotOpen(true);signInClose();}}
-          >
-            Forgot Password?
-          </Text>
-          <Button
-            tt="uppercase"
+      <form>
+        <TextInput
+          label="Email"
+          placeholder="Enter email"
+          className="my-3"
+          classNames={classes}
+          {...form.getInputProps("email")}
+          error={form.errors.email}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Enter password"
+          {...form.getInputProps("password")}
+          error={form.errors.password}
+        />
+        <Text
+          ta="right"
+          c="dimmed"
+          size="sm"
+          mt="xs"
+          className="cursor text-primary"
+          onClick={onForgotPassword}
+        >
+          Forgot Password?
+        </Text>
+        <Button
+          tt="uppercase"
+          fw={600}
+          size="md"
+          fullWidth
+          color="#E90808"
+          autoContrast
+          my="md"
+          mt="xl"
+          ff="heading"
+          loading={isLoading}
+          onClick={handleSubmitSignIn}
+        >
+          Sign In
+        </Button>
+        {error && <Text color="red">{error.message}</Text>}
+        <Text ta="center">
+          Don't have an account?{" "}
+          <Text 
+            span 
+            inherit 
+            className="text-primary cursor" 
             fw={600}
-            size="md"
-            fullWidth
-            color="#E90808"
-            autoContrast
-            my="md"
-            mt="xl"
-            ff="heading"
-            loading={isLoading} // Disable button while loading
-            onClick={handleSubmitSignIn}
+            onClick={onSignUp}
           >
-            Sign In
-          </Button>
-          {error && <Text color="red">{error.message}</Text>}{" "}
-          {/* Display API error */}
-          <Text ta="center">
-            Don't have an account?{" "}
-            <Text span inherit className="text-primary" fw={600}>
-              Sign up
-            </Text>
+            Sign up
           </Text>
-        </form>
-        {/* Form Ends */}
-      </Modal>
-      <ForgotPassword open={forgotOpen} onClose={() => setForgotOpen(false)} />
+        </Text>
+      </form>
     </>
   );
 }

@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
-  Modal,
   Stack,
   Text,
   Title,
-  Box,
-  Group,
-  rem,
 } from "@mantine/core";
 import Image from "next/image";
 import google_icon from "../../public/auth/google_icon.svg";
@@ -16,132 +12,118 @@ import facebook_icon from "../../public/auth/facebook_icon.svg";
 import email_icon from "../../public/auth/email_icon.svg";
 import apple_icon from "../../public/auth/apple_icon.svg";
 import { Carousel } from "@mantine/carousel";
-import { IconArrowRight, IconArrowLeft } from "@tabler/icons-react";
+import { FaChevronLeft } from "react-icons/fa6";
 import "@mantine/carousel/styles.css";
-import SignUp from "./SignUp";
 import { signIn } from "next-auth/react";
 
-// import { signIn } from 'next-auth/react';
-
-import classes from "@/styles/Demo.module.scss";
-import SignIn from "./SignIn";
-const SocialsLogin = ({ socialOpened, socialOnClose }) => {
-  const [modalOpened, setModalOpened] = useState(false);
-  const [modalSignInOpened, setModalSignInOpened] = useState(false);
+function SocialsLogin({ onEmailLogin, onSignUp, onBack, accountType }) {
+  const handleSocialSignIn = (provider) => {
+    signIn(provider, { 
+      redirectTo: "/",
+      callbackUrl: "/",
+      accountType
+    });
+  };
 
   return (
     <>
-      <Modal
-        opened={socialOpened}
-        onClose={socialOnClose}
-        centered
-        size={rem(527)}
-        padding="xl"
-        withCloseButton={false}
-        className="social-login-modal"
-      >
-        <Carousel withIndicators height={230}>
-          <Carousel.Slide>
-            <Stack align="center" gap={0} mb="md" ta="center">
-              <Image width={120} height={120} src={car} alt="Google" />
-              <Title order={5} fw={600}>
-                New Car Alert
-              </Title>
-
-              <Text size="sm" w="75%" mt={5} mx="auto">
-                Create alerts quickly and get notified when new car available
-              </Text>
-            </Stack>
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Stack align="center" gap={0} mb="md" ta="center">
-              <Image width={120} height={120} src={car} alt="Google" />
-              <Title order={5} fw={600}>
-                New Car Alert
-              </Title>
-
-              <Text size="sm" w="75%" mt={5} mx="auto">
-                Create alerts quickly and get notified when new car available
-              </Text>
-            </Stack>
-          </Carousel.Slide>
-        </Carousel>
-        <Stack w="80%" mx="auto" align="stretch" justify="center" gap="md">
-          <Button
-            variant="default"
-            size="lg"
-            ff="heading"
-            leftSection={<Image src={google_icon} alt="Google" />}
-            onClick={() => signIn("google", { redirectTo: "/" })}
-          >
-            <Text size="sm" fw={600}>
-              Continue with Google
+      {onBack && (
+        <FaChevronLeft 
+          className="cursor-pointer" 
+          onClick={onBack}
+          style={{ marginBottom: '1rem' }}
+        />
+      )}
+      
+      <Carousel withIndicators classNames={{ indicator: "bg-primary mt-10" }}>
+        <Carousel.Slide>
+          <Stack align="center" gap={0} mb="md" ta="center" pb={"0.4rem"}>
+            <Image width={120} height={120} src={car} alt="Car Alert" />
+            <Title order={5} fw={600}>
+              New Car Alert
+            </Title>
+            <Text size="sm" w="75%" mt={5} mx="auto">
+              Create alerts quickly and get notified when new car available
             </Text>
-          </Button>
+          </Stack>
+        </Carousel.Slide>
+        <Carousel.Slide>
+          <Stack align="center" gap={0} mb="md" ta="center">
+            <Image width={120} height={120} src={car} alt="Car Alert" />
+            <Title order={5} fw={600}>
+              New Car Alert
+            </Title>
+            <Text size="sm" w="75%" mt={5} mx="auto">
+              Create alerts quickly and get notified when new car available
+            </Text>
+          </Stack>
+        </Carousel.Slide>
+      </Carousel>
 
-          <Button
-            variant="default"
-            size="lg"
-            ff="heading"
-            leftSection={<Image src={facebook_icon} alt="Facebook" />}
-            onClick={() => signIn("facebook", { redirectTo: "/" })}
-          >
-            <Text size="sm" fw={600}>
-              Continue with Facebook
-            </Text>
-          </Button>
-          <Button
-            variant="default"
-            size="lg"
-            ff="heading"
-            leftSection={<Image src={apple_icon} alt="Apple" />}
-          >
-            <Text size="sm" fw={600}>
-              Continue with Apple
-            </Text>
-          </Button>
-          <Button
-            variant="default"
-            size="lg"
-            ff="heading"
-            leftSection={<Image src={email_icon} alt="Email" />}
-            onClick={() => {
-              setModalSignInOpened(true);
-              socialOnClose();
-            }}
-          >
-            <Text size="sm" fw={600}>
-              Continue with Email
-            </Text>
-          </Button>
-        </Stack>
-
-        <Text ta="center" size="md" mt="lg" mb="md">
-          Don't have an account?{" "}
-          <Text
-            span
-            fw={600}
-            inherit
-            className="text-primary primary cursor"
-            onClick={() => {
-              setModalOpened(true);
-              socialOnClose();
-            }}
-          >
-            Sign Up
+      <Stack w="80%" mx="auto" align="stretch" justify="center" gap="md">
+        <Button
+          variant="default"
+          size="lg"
+          ff="heading"
+          leftSection={<Image src={google_icon} alt="Google" />}
+          onClick={() => handleSocialSignIn("google")}
+        >
+          <Text size="sm" fw={600}>
+            Continue with Google
           </Text>
+        </Button>
+
+        <Button
+          variant="default"
+          size="lg"
+          ff="heading"
+          leftSection={<Image src={facebook_icon} alt="Facebook" />}
+          onClick={() => handleSocialSignIn("facebook")}
+        >
+          <Text size="sm" fw={600}>
+            Continue with Facebook
+          </Text>
+        </Button>
+
+        <Button
+          variant="default"
+          size="lg"
+          ff="heading"
+          leftSection={<Image src={apple_icon} alt="Apple" />}
+          onClick={() => handleSocialSignIn("apple")}
+        >
+          <Text size="sm" fw={600}>
+            Continue with Apple
+          </Text>
+        </Button>
+
+        <Button
+          variant="default"
+          size="lg"
+          ff="heading"
+          leftSection={<Image src={email_icon} alt="Email" />}
+          onClick={onEmailLogin}
+        >
+          <Text size="sm" fw={600}>
+            Continue with Email
+          </Text>
+        </Button>
+      </Stack>
+
+      <Text ta="center" size="md" mt="xs">
+        Don't have an account?{" "}
+        <Text
+          span
+          fw={600}
+          inherit
+          className="text-primary primary cursor"
+          onClick={onSignUp}
+        >
+          Sign Up
         </Text>
-      </Modal>
-      <SignUp
-        signUpOpened={modalOpened}
-        signUpOnClose={() => setModalOpened(false)}
-      />
-      <SignIn
-        signOpen={modalSignInOpened}
-        signInClose={() => setModalSignInOpened(false)}
-      />
+      </Text>
     </>
   );
-};
+}
 
 export default SocialsLogin;

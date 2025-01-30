@@ -1,11 +1,14 @@
 import { useSearchParams } from "next/navigation";
-import { Modal, Button, PasswordInput, Text, Group, rem, Title } from "@mantine/core";
+import { Button, PasswordInput, Text, Group, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { useRouter } from "next/navigation";
 
-function ResetPassword({ open, onClose }) {
-  const { token } = useSearchParams(); // Get the token from URL query params
+function ResetPassword({ onSuccess, token: propToken }) {
+  const router = useRouter();
+  const { token: urlToken } = useSearchParams(); // Get the token from URL query params
+  const token = propToken || urlToken; // Use prop token or fallback to URL token
 
   // Initialize form with validation rules
   const form = useForm({
@@ -41,20 +44,13 @@ function ResetPassword({ open, onClose }) {
     const response = await handleSubmit(e);
     if (response && response.ok) {
       alert("Password has been reset successfully!");
-      onClose();
+      onSuccess?.();
       router.push("/login"); // Redirect to login page after success
     }
   };
 
   return (
-    <Modal
-      opened={open}
-      onClose={onClose}
-      withCloseButton={false}
-      padding={rem(50)}
-      size={rem(527)}
-      centered
-    >
+    <>
       <Group mb="lg">
         <Title order={4}>Reset Password!</Title>
         <Text c="dimmed" size="sm" mt="xs">
@@ -93,7 +89,7 @@ function ResetPassword({ open, onClose }) {
         </Button>
         {error && <Text color="red">{error.message}</Text>}
       </form>
-    </Modal>
+    </>
   );
 }
 

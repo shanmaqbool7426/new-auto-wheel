@@ -99,3 +99,17 @@ export const uploadImageServer = async (formData) => {
     throw error;
   }
 };
+export const fetchUserDasboardOverview = async (token) => {
+  try { 
+    const response = await fetchAPI(API_ENDPOINTS.USER.GET_DASHBOARD_OVERVIEW, {
+      headers: {
+        'Authorization': token
+      }
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    throw error;
+  }
+};
