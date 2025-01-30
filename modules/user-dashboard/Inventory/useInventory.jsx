@@ -66,7 +66,7 @@ export default function useInventory() {
           title: {
             title: vehicle.specifications.stockId || `${vehicle.make} ${vehicle.model} ${vehicle.year}`, // Fallback if stockId doesn't exist
             image: vehicle.defaultImage,
-            modal: `${vehicle.carInfo.make} ${vehicle.carInfo.model} ${vehicle.carInfo.variant}` // Properly format the modal string
+            modal: `${vehicle.Info.make} ${vehicle.Info.model} ${vehicle.Info.variant}` // Properly format the modal string
           },
           createdDate: vehicle.updatedAt,
           type: vehicle.type,

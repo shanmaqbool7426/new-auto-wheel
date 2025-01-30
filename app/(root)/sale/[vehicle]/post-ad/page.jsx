@@ -81,7 +81,7 @@ const PostAnAd = (params) => {
     milage: "",
     price: "",
     description: "",
-    carInfo: {},
+    Info: {},
     images: [],
   });
   const [formDataStep2, setFormDataStep2] = useState({
@@ -142,7 +142,7 @@ const PostAnAd = (params) => {
   useEffect(() => {
     setFormDataStep1((prev) => ({
       ...prev,
-      carInfo: selection,
+      Info: selection,
     }));
   }, [selection]);
 

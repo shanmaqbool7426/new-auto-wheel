@@ -50,7 +50,7 @@ const Header = () => {
     signOut();
   };
 
-
+  
   if (session) {
  
 localStorage.setItem('token',JSON.stringify(session.user))

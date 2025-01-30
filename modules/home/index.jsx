@@ -18,7 +18,7 @@ export default async function HomeModule() {
       <BrowseByType vehicles={res?.vehiclesTypes} />
       <ComparisonProducts type="car"/>
       <SearchByLocations />
-      <BrowseVideos />
+      <BrowseVideos type="car" />
       <BrowseBlogs />
     </>
   );

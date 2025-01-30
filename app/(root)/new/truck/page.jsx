@@ -22,17 +22,19 @@ const NewCarsPage = async () => {
   const fetchUpComingVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType)
   );
+
+  console.log(".........>>>>>>>>>.........",API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType))
   const fetchNewlyLaunchedVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, vehicleType)
   );
   const fetchMakebyVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(
-      slugMake || "Toyota",
+      slugMake || "Forland",
       vehicleType
     )
   );
   const fetchHondaVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Honda", vehicleType)
+    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Isuzu", vehicleType)
   );
   const fetchMakesByTypeData = await fetchListData(
     `${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`

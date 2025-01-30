@@ -56,7 +56,7 @@ export default function useInventory() {
           title: {
             title: vehicle.specifications.stockId,
             image: vehicle.defaultImage,
-            modal: vehicle.carInfo
+            modal: vehicle.Info
           },
           createdDate: vehicle.updatedAt,
           type: vehicle.type,

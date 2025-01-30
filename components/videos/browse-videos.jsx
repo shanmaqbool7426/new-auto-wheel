@@ -45,7 +45,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
     if (slug || search) {
       fetchVideoData({ slug, search,type });
     } else {
-      fetchVideoData();
+      fetchVideoData({type});
     }
   }, [slug, search,type]);
 
