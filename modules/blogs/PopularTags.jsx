@@ -13,7 +13,7 @@ const PopularTags = ({ tags }) => {
             withBorder
             className="border-light"
         >
-            <Title order={5} className="title-with-border" pb="xs" mb="xs">
+            <Title fz="14px" order={5} className="title-with-border" pb="xs" mb="xs">
                 Popular Tags
             </Title>
 
@@ -21,17 +21,20 @@ const PopularTags = ({ tags }) => {
                 {
                     (tags?.data?.data?.map((tag) => (
                         <Link href={`/blog/tag/${tag?.slug}`}>
-                        <Badge
-                            key={tag?.id}
-                            variant="light"
-                            size="lg"
-                            fw={"normal"}
-                            c="#222222"
-                            p="md"
-                            bg="#F3F3F3"
-                        >
-                            {tag.name}
-                        </Badge>
+                            <Badge
+                                key={tag?.id}
+                                variant="light"
+                                size="lg"
+                                fw={"normal"}
+                                c="#222222"
+                                p="md"
+                                bg="#F3F3F3"
+                                fz="12px"
+                                lh="1"
+                                h={'23px'}
+                            >
+                                {tag.name}
+                            </Badge>
                         </Link>
                     )))}
             </Group>)

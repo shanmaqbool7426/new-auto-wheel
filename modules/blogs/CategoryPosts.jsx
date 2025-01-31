@@ -25,18 +25,19 @@ const CategoryPosts = ({ category }) => {
           <Box className="col-md-3" key={blog._id}>
             <Card padding="none" mb="xl">
               <Card.Section className="position-relative">
-              <Link href={`/blog/${category.slug}`}>
-                <Badge
-                  bg="#E90808"
-                  c="white"
-                  radius="sm"
-                  size="lg"
-                  fw={"normal"}
-                  className="position-absolute bottom-0"
-                >
-                  {category.category}
-                </Badge>
-              </Link>
+                <Link href={`/blog/${category.slug}`}>
+                  <Badge
+                    bg="#E90808"
+                    c="white"
+                    radius="sm"
+                    size="lg"
+                    fw={"normal"}
+                    className="position-absolute bottom-0"
+                    fz="11px"
+                  >
+                    {category.category}
+                  </Badge>
+                </Link>
                 <Image
                   src={blog.imageUrl || "/blogs/img-large.png"}
                   alt={blog.title}
@@ -45,16 +46,16 @@ const CategoryPosts = ({ category }) => {
                 />
               </Card.Section>
               <Link href={`/blog/${category.slug}`} className='text-decoration-none text-black'>
-              <Title order={5} fw={600} lineClamp={2} mt="md">
-                {blog.title}
-              </Title>
+                <Title order={5} fw={700} lineClamp={2} mt="md" fz="14px" lh="1.2857">
+                  {blog.title}
+                </Title>
               </Link>
               <Flex gap="sm" mt="5">
-                <Text span fw={400} className="d-flex gap-1 align-items-center">
+                <Text span fw={400} className="d-flex gap-1 align-items-center" fz="12px" lh="1" c="#878787">
                   {blog.author} <span className="dot"></span>
                 </Text>
-                <Text span>
-                    {formatDate(blog.publishDate)}
+                <Text span fz="12px" lh="1" c="#878787">
+                  {formatDate(blog.publishDate)}
                 </Text>
               </Flex>
             </Card>

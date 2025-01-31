@@ -35,6 +35,7 @@ const FollowUs = () => {
         className="title-with-border"
         pb="xs"
         mb="xs"
+        fz="14px"
       >
         Follow Us
       </Title>
@@ -43,10 +44,10 @@ const FollowUs = () => {
           <Grid.Col key={index} span={4}>
             <Stack align="center" justify="center" gap="0">
               <Icon />
-              <Text fw={600} mt="xs" c="#222222">
+              <Text fz="12px" fw={700} mt="xs" c="#222222">
                 {count}
               </Text>
-              <Text size="sm" c="#222222">
+              <Text fz="12px" size="sm" c="#222222">
                 {label}
               </Text>
             </Stack>

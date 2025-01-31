@@ -13,7 +13,7 @@ const PopularPosts = ({ posts }) => {
       withBorder
       className="border-light"
     >
-      <Title order={5} className="title-with-border" pb="xs" mb="xs">
+      <Title fz="14px" order={5} className="title-with-border" pb="xs" mb="xs">
         Popular Posts
       </Title>
 
@@ -30,37 +30,34 @@ const PopularPosts = ({ posts }) => {
               w="100%"
             />
             <Link href={`/blog/${displayedPosts[0].slug}`} className="text-decoration-none text-black">
-              <Title order={5} fw={600}>
+              <Title fz="12px" order={5} fw={700} lh="15px">
                 {displayedPosts[0].title}
               </Title>
             </Link>
-            <Text c="dimmed" mt="xs">
+            <Text c="dimmed" fz={'12px'} lh="1" mt="8px">
               {formatDate(displayedPosts[0].publishDate)}
             </Text>
           </Box>
 
           {displayedPosts?.slice(1).map((post) => (
             <Box className="small-post" pb="md" mb="md" key={post._id}>
-              <Group grow>
-                <Box
-                  h={90}
-                  w={140}
-                >
+              <Group gap="12px">
+                <Box>
                   <Image
                     className="img-fluid"
                     src={post.imageUrl}
                     alt={post.title}
-                    h={90}
-                    w={140}
+                    h={44}
+                    w={90}
                   />
                 </Box>
-                <Box>
+                <Box flex="1">
                   <Link href={`/blog/${post.slug}`} className="text-decoration-none text-black">
-                    <Title order={6} fw={600}>
+                    <Title order={6} fz="12px" fw={700} lh="15px">
                       {post.title}
                     </Title>
                   </Link>
-                  <Text c="dimmed" mt="5px" size="sm">
+                  <Text c="dimmed" mt="8px" size="sm" fz={'10px'} lh="1">
                     {formatDate(post.publishDate)}
                   </Text>
                 </Box>
