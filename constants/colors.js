@@ -58,6 +58,28 @@ const colorConfig = {
   };
   
 export const GetColor = (color) => {
-    return colorConfig[color] || '#000';
+  if (!color) return '#000';
+    
+  // Convert the input to Title Case
+  const formattedColor = color
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
+  // Direct match
+  if (colorConfig[formattedColor]) {
+      return colorConfig[formattedColor];
+  }
+    // Simple color match (e.g., "white" matches "White" or "Super White")
+    const simpleColor = formattedColor.split(' ').pop(); // Get last word
+    const colorEntry = Object.entries(colorConfig).find(([key]) => 
+        key.split(' ').pop() === simpleColor
+    );
+
+    if (colorEntry) {
+        return colorEntry[1];
+    }
+
+    return '#000'; // Default color if no match found
 
 }
