@@ -1,5 +1,5 @@
-const API_BASE_URL = 'http://localhost:5000';
-
+// const BASE_URL = 'http://localhost:5000';
+import { BASE_URL } from '../../../constants/api-endpoints';
 async function fetchWithAuth(url, options = {}) {
   // You might want to get the token from your auth solution
   const token = 'YOUR_AUTH_TOKEN';
@@ -13,7 +13,7 @@ async function fetchWithAuth(url, options = {}) {
   
 
   // Ensure there's always a forward slash between base URL and endpoint
-  const fullUrl = `${API_BASE_URL}/${url.replace(/^\//, '')}`;
+  const fullUrl = `${BASE_URL}/${url.replace(/^\//, '')}`;
   console.log('Full URL:', fullUrl);
 
   const response = await fetch(fullUrl, {
