@@ -26,6 +26,7 @@ const Posts = ({ title, posts, count, description }) => {
                     shadow="none"
                     padding="none"
                     className="pb-4 mb-4 card-border-bottom"
+                    radius="0"
                 >
                     <Flex align="top" wrap={{ sm: "wrap", md: "nowrap" }}>
                         <Box
