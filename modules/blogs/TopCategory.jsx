@@ -60,32 +60,32 @@ const TopCategory = ({ category }) => {
             />
           </Card.Section>
           <Flex gap="xs" direction="column" mt="md">
-            <Title fw={600} order={4}>
+            <Title fw={700} order={4} fz="24px" lh='1.25'>
               <Link href={`/blog/${largePost.slug}`} className="text-decoration-none text-dark">
                 {largePost.title}
               </Link>
             </Title>
             <Flex direction="row" c="dimmed" wrap={true} justify="space-between" align="center">
               <Box className="left d-flex gap-2">
-                <Text span size="sm" className="d-flex gap-1 align-items-center">
+                <Text span size="sm" fz="12px" className="d-flex gap-1 align-items-center">
                   {largePost.author} <span className="dot"></span>
                 </Text>
-                <Text span size="sm">
+                <Text span size="sm" fz="12px">
                   {formatDate(largePost.publishDate)}
                 </Text>
-                <Text span className="d-flex gap-1 align-items-center" size="sm">
+                <Text span className="d-flex gap-1 align-items-center" size="sm" fz="12px">
                   <EyeIcon />
                   {largePost.viewCount}
                 </Text>
               </Box>
               <Box className="right">
-                <Text span className="d-flex gap-1 align-items-center" size="sm">
+                <Text span className="d-flex gap-1 align-items-center" size="sm" fz="12px">
                   <ViewIcon />
                   10
                 </Text>
               </Box>
             </Flex>
-            <Text lineClamp={4} size="sm">
+            <Text lineClamp={4} size="sm" fz="14px">
               {parse(largePost.content)}
             </Text>
           </Flex>
@@ -104,7 +104,7 @@ const TopCategory = ({ category }) => {
                   h={73}
                   radius="sm"
                 >
-              <Image
+                  <Image
                     src={post.imageUrl || "/blogs/blog-sm.png"}
                     w={122}
                     h={73}
@@ -113,12 +113,12 @@ const TopCategory = ({ category }) => {
                   />
                 </Box>
                 <Box pl="md">
-                  <Title order={5} fw={600}>
+                  <Title order={5} fw={700} fz="14" lh="1.42857">
                     <Link href={`/blog/${post.slug}`} className="text-decoration-none text-dark">
                       {post.title}
                     </Link>
                   </Title>
-                  <Text c="dimmed">
+                  <Text c="dimmed" fz="12px" lh="1" mt="8px">
                     {formatDate(post.publishDate)}
                   </Text>
                 </Box>

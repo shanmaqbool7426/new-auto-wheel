@@ -1157,8 +1157,8 @@ export const ViewIcon = () => {
 export const FacebookCircle = () => {
   return (
     <svg
-      width="45"
-      height="45"
+      width="32"
+      height="32"
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1174,8 +1174,8 @@ export const FacebookCircle = () => {
 export const YoutubeCircle = () => {
   return (
     <svg
-      width="45"
-      height="45"
+      width="32"
+      height="32"
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1191,8 +1191,8 @@ export const YoutubeCircle = () => {
 export const InstagramCircle = () => {
   return (
     <svg
-      width="45"
-      height="45"
+      width="32"
+      height="32"
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

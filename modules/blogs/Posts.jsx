@@ -39,7 +39,7 @@ const Posts = ({ title, posts, count, description }) => {
                                 alt={post.title}
                                 h={192}
                                 w={300}
-                                radius="md"
+                                radius="5px"
                             />
                             {post?.categories[0]?.name &&
                                 <Badge
@@ -55,7 +55,7 @@ const Posts = ({ title, posts, count, description }) => {
                                 </Badge>
                             }
                         </Box>
-                        <Flex gap="xs" direction="column" p="sm" pl="md">
+                        <Flex gap="xs" direction="column" pl="17px">
                             <Title fw={600} order={4}>
                                 <Link
                                     href={`/blog/${post.slug}`}
@@ -76,16 +76,18 @@ const Posts = ({ title, posts, count, description }) => {
                                         span
                                         size="sm"
                                         className="d-flex gap-1 align-items-center"
+                                        fz="12px"
                                     >
                                         {post.author} <span className="dot"></span>
                                     </Text>
-                                    <Text span size="sm">
+                                    <Text span size="sm" fz="12px">
                                         {formatDate(post.publishDate)}
                                     </Text>
                                     <Text
                                         span
                                         className="d-flex gap-1 align-items-center"
                                         size="sm"
+                                        fz="12px"
                                     >
                                         <EyeIcon />
                                         {post.viewCount}
@@ -96,6 +98,7 @@ const Posts = ({ title, posts, count, description }) => {
                                         span
                                         className="d-flex gap-1 align-items-center"
                                         size="sm"
+                                        fz="12px"
                                     >
                                         <ViewIcon />
                                         {post?.commentCount}

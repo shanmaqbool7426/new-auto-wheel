@@ -1,0 +1,42 @@
+.gridRow {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.gridColBig {
+  padding-left: 10px;
+  padding-right: 10px;
+  max-width: 100%;
+  flex: 0 0 auto;
+  width: 55.2%;
+}
+
+.gridColSmall {
+  padding-left: 10px;
+  padding-right: 10px;
+  max-width: 100%;
+  flex: 0 0 auto;
+  width: 44.8%;
+}
+
+.rowgutter {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.rowgutter>* {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media (max-width: 767px) {
+  .gridColBig {
+    width: 100%;
+  }
+
+  .gridColSmall {
+    width: 100%;
+  }
+}

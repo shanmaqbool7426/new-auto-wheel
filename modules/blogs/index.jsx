@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import Vehicles from "@/modules/blogs/Vehicles";
-import { Box, Card, Title ,Badge,Flex,Text} from "@mantine/core";
+import { Box, Card, Title, Badge, Flex, Text } from "@mantine/core";
 import { fetchTags } from "@/services/tags";
 import { fetchBlogsPageData } from "@/services/blogs";
 import PopularTags from "@/modules/blogs/PopularTags";
@@ -14,6 +14,7 @@ import CategoryPosts from "@/modules/blogs/CategoryPosts";
 import BlogDetails from "@/modules/blogs/Detail";
 import BrowseVideos from "@/components/videos/browse-videos";
 import Image from "next/image";
+import styles from "./blogs.module.css";
 const BlogModule = async ({ params }) => {
   const [refresh, setRefresh] = useState(0);
 
@@ -35,46 +36,48 @@ const BlogModule = async ({ params }) => {
     <Box component="section" className="blog-page" pt={100}>
       {/* Feature Grid Section */}
       {isBlogsPage && (
-        <Box className="container p-4">
+        <Box className="container-xl">
           <FeatureGrid items={data?.featurePosts} />
         </Box>
       )}
 
       {/* Recent Posts Section */}
-      <section className="recent-posts my-5 border-bottom pb-5 mb-5 border-box">
-        <Box className="row container m-auto">
-          <Box className="col-md-8">
-            {!isSingleBlog && (
-              <Posts
-                title={isBlogsPage ? "Recent" : data?.category || data?.tag}
-                description={data?.description || ''}
-                posts={data?.blogs}
-                count={data?.count}
-              />
-            )}
-            {
-              isSingleBlog && (
-                <BlogDetails 
-                  blog={data?.blog} 
-                  comments={data?.comments}
-                  onCommentSubmit={handleRefresh}
+      <section className={`recent-posts border-box ${styles.section}`}>
+        <Box className="container-xl">
+          <Box className="row">
+            <Box className="col-md-8">
+              {!isSingleBlog && (
+                <Posts
+                  title={isBlogsPage ? "Recent" : data?.category || data?.tag}
+                  description={data?.description || ''}
+                  posts={data?.blogs}
+                  count={data?.count}
                 />
-              )
-            }
-            {isBlogsPage && (
-              <TopCategory category={data?.categories?.find(category => category.slug === 'news')} />
-            )}
-          </Box>
-      
-          {/* Sidebar Section */}
-          <Box className="col-md-4">
-            <FollowUs />
-            <PopularPosts posts={data?.blogs} />
-            <PopularTags tags={tags} />
+              )}
+              {
+                isSingleBlog && (
+                  <BlogDetails
+                    blog={data?.blog}
+                    comments={data?.comments}
+                    onCommentSubmit={handleRefresh}
+                  />
+                )
+              }
+              {isBlogsPage && (
+                <TopCategory category={data?.categories?.find(category => category.slug === 'news')} />
+              )}
+            </Box>
+
+            {/* Sidebar Section */}
+            <Box className="col-md-4">
+              <FollowUs />
+              <PopularPosts posts={data?.blogs} />
+              <PopularTags tags={tags} />
+            </Box>
           </Box>
         </Box>
 
-          <Box>
+        <Box>
           {/* <section className="tips-section">
             <Box className="row">
               <Title order={2} mb="lg">
@@ -125,20 +128,23 @@ const BlogModule = async ({ params }) => {
               </Box>
             </Box>
           </section> */}
-          </Box>
-
-        {/* Additional Categories Section */}
-        {isBlogsPage && filteredCategories.map((category, index) => (
-          <section className="category-section container mt-5" key={index}>
-            <CategoryPosts category={category} />
-          </section>
-        ))}
+        </Box>
       </section>
+      <Box className="container-xl">
+        <Box className="border-bottom pt-5"></Box>
+      </Box>
+      {/* Additional Categories Section */}
+      {isBlogsPage && filteredCategories.map((category, index) => (
+        <section className="category-section container mt-5" key={index}>
+          <CategoryPosts category={category} />
+        </section>
+      ))}
+
 
       {/* Vehicles Section */}
       {isBlogsPage && <Vehicles />}
 
-      <BrowseVideos type="car"/>
+      <BrowseVideos type="car" />
     </Box>
   );
 };
