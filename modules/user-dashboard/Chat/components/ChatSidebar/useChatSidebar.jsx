@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { BASE_URL } from '../../../../../constants/api-endpoints';
 
 export default function useChatSidebar(onSelectUser) {
   const [searchBy, setSearchBy] = useState('');
@@ -8,7 +9,7 @@ export default function useChatSidebar(onSelectUser) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3000'); // Replace with your server URL
+    const newSocket = io(BASE_URL); // Replace with your server URL
     setSocket(newSocket);
 
     newSocket.on('connect', () => {

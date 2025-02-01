@@ -39,9 +39,7 @@ const OfferPriceModal = ({ opened, close, detail }) => {
   // Socket connection setup
   useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {
-      const newSocket = io(BASE_URL, {
-        withCredentials: true,
-      });
+      const newSocket = io(BASE_URL);
       setSocket(newSocket);
 
       newSocket.on('connect', () => {
