@@ -1,48 +1,48 @@
 import React from "react";
-import { Flex, Text, Title, Image, Card, Rating } from "@mantine/core";
+import { Flex, Text, Title, Image, Card, Rating, Box } from "@mantine/core";
 import Link from "next/link";
 
 import NextImage from "next/image";
 import { formatToLac, formatToLacOrCrore, formatToMonthYear } from "@/utils";
+import styles from './Card.module.css'
 
 const NewCarsCard = ({ vehicle, isRating }) => {
   return (
     <Link href={`/new-vehicle/${vehicle?.slug || ""}`}>
-      <Card shadow="0px 4px 20px 0px #00000014" pb="xl" pt="0" px="0" mb="xl">
-        <Image
-          p="lg"
-          pt="xl"
-          component={NextImage}
-          src={vehicle?.defaultImage || ""}
-          height={130}
-          width={130}
-          alt="Mehran"
-          className="img-fluid"
-        />
+      <Card shadow="0px 4px 20px 0px #00000014" pb="28px" pt="0" px="0" mb="32px">
+        <Box className={styles.cardMedia}>
+          <Image
+            component={NextImage}
+            src={vehicle?.defaultImage || ""}
+            height={130}
+            width={130}
+            alt="Mehran"
+            className="img-fluid"
+          />
+        </Box>
 
-        <Flex direction="column" align="center" gap="xs">
-          <Title order={5} fw={500} c="#E90808">
+        <Flex direction="column" align="center" gap="12px">
+          <Title order={5} fw={500} c="#E90808" lh="1" fz="12px">
             {vehicle?.make} {vehicle?.model}
           </Title>
-          <Text fw={600} fs="xl">
+          <Text fw={700} fz="12px">
             Rs {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
             {formatToLacOrCrore(vehicle?.maxPrice)}
           </Text>
 
           {!isRating && (
-            <Text span inherit>
+            <Text span inherit fz="12px">
               (Launched {formatToMonthYear(vehicle.releaseDate)}*)
             </Text>
           )}
 
           {isRating && (
             <Flex align="center" justify="center" gap="xs">
-              <Rating defaultValue={vehicle.averageRating ?? 0} />
-              <Text span inherit>
+              <Rating defaultValue={vehicle.averageRating ?? 0} size={'xs'} />
+              <Text span inherit fz="12px">
                 {vehicle?.averageRating
-                  ? `(${
-                      Math.round(parseFloat(vehicle.averageRating) * 10) / 10
-                    }/5)`
+                  ? `(${Math.round(parseFloat(vehicle.averageRating) * 10) / 10
+                  }/5)`
                   : null}
               </Text>
             </Flex>
