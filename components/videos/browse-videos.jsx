@@ -17,7 +17,7 @@ import { PlayButton } from "@/components/Icons";
 import Link from "next/link";
 import { fetchVideoDataServer } from "@/actions/index"; // Your action to fetch video data
 
-const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
+const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type }) => {
   const [slug, setSlug] = useState(initialSlug || null); // Manage the slug in the state
   const [currentVideo, setCurrentVideo] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
@@ -43,11 +43,11 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
   useEffect(() => {
     // Fetch video data when the slug or search changes
     if (slug || search) {
-      fetchVideoData({ slug, search,type });
+      fetchVideoData({ slug, search, type });
     } else {
-      fetchVideoData({type});
+      fetchVideoData({ type });
     }
-  }, [slug, search,type]);
+  }, [slug, search, type]);
 
   const handleVideoSelect = (newSlug) => {
     setSlug(newSlug);
@@ -55,12 +55,12 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
 
   if (firstTimeLoading) {
     return (
-      <section className="browse-videos bg-white py-5">
+      <section className="browse-videos py-5">
         <Box className="container min-h[500]" pos="relative" h="500">
           <LoadingOverlay
             visible={true}
             zIndex={1000}
-            overlayProps={{ radius: "sm", blur: 2 }}
+            overlayProps={{ radius: "md", blur: 2 }}
           />
         </Box>
       </section>
@@ -69,7 +69,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
 
   if (!currentVideo) {
     return (
-      <section className="browse-videos bg-white py-5">
+      <section className="browse-videos py-5">
         <Box className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2} lts={-0.4}>
@@ -95,7 +95,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
   console.log("currentVideo", currentVideo);
 
   return (
-    <section className="browse-videos bg-white py-5">
+    <Box component="section" className="browse-videos bg-light py-5">
       <Box className="container-xl" pos="relative">
         {loading && (
           <LoadingOverlay
@@ -123,44 +123,69 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
 
         {/* Main video display */}
         <Box className="row">
-          <Box className="col-lg-7">
-            <AspectRatio ratio={16 / 10} mb="xs">
-              <iframe
-                style={{ border: 0, borderRadius: "0.25rem" }}
-                src={currentVideo.url} // Use the full URL from the current video
-                title={currentVideo.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </AspectRatio>
-            <Title ff="text" order={3} fw={600}>
+          <Box className="col">
+            {/* <AspectRatio ratio={16 / 10} mah={450}> */}
+            <iframe
+              height={365}
+              width="620px"
+              style={{ borderRadius: "5px" }}
+              src={currentVideo.url} // Use the full URL from the current video
+              title={currentVideo.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+            {/* </AspectRatio> */}
+            <Anchor
+              ff="heading"
+              size={"xl"}
+              c="dark"
+              fw={600}
+              component={Link}
+              href={currentVideo.url}
+            >
               {currentVideo.title}
-            </Title>
+            </Anchor>
           </Box>
 
           {/* Video suggestions */}
-          <Box className="col-lg-5 mt-lg-0 mt-4">
+          <Box className="col">
             <Box className="row">
               {suggestions.map((video) => (
                 <Box className="col-lg-6 col-sm-6 mb-3" key={video.slug}>
                   <Card
                     padding={0}
-                    onClick={() => handleVideoSelect(video.slug)}
+                    // onClick={() => handleVideoSelect(video.slug)}
                   >
-                    <Card.Section className="position-relative">
-                      <UnstyledButton pos="absolute" left="40%" top="40%">
+                    <Card.Section className="position-relative" mb={rem(5)}>
+                      <UnstyledButton
+                        pos="absolute"
+                        left="40%"
+                        top="40%"
+                        onClick={() => handleVideoSelect(video.slug)}
+                      >
                         <PlayButton />
                       </UnstyledButton>
                       <Image
                         src={video.thumbnail}
-                        radius="sm"
+                        radius={rem(5)}
+                        h={160}
                         className="img-fluid"
                         alt={video.title}
                       />
                     </Card.Section>
-                    <Title mt="xs" fw={600} order={6}>
+                    <Anchor
+                      ff="heading"
+                      size="sm"
+                      lineClamp={1}
+                      c="dark"
+                      fw={600}
+                      onClick={() => handleVideoSelect(video.slug)}
+                    >
                       {video.title}
-                    </Title>
+                    </Anchor>
+                    {/* <Title mt="xs" lineClamp={1} fw={600} order={6}>
+                      {video.title}
+                    </Title> */}
                   </Card>
                 </Box>
               ))}
@@ -168,7 +193,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title ,type}) => {
           </Box>
         </Box>
       </Box>
-    </section>
+    </Box>
   );
 };
 

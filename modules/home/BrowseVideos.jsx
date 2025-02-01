@@ -6,7 +6,7 @@ import React from "react";
 
 const BrowseVideos = () => {
   return (
-    <section className="browse-videos bg-white py-5">
+    <section className="browse-videos bg-light py-5">
       <Box className="container-xl">
         <Box className="row">
           <Box className="col-12">
