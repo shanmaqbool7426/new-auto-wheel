@@ -64,6 +64,7 @@ const VehicleDetail = ({ vehicle }) => {
       bodyType,
       fuelAverage,
       fuelCapacity,
+      slug
     },
     variants,
   } = vehicle || {};
@@ -514,9 +515,9 @@ const VehicleDetail = ({ vehicle }) => {
                     Specifications
                   </Text>
                 </Title>
-                {/* <Anchor href="#" underline="hover" className="text-primary">
+                <Anchor component={Link} href={`/specification-detail/${slug}`} underline="hover" className="text-primary">
                   Full Specifications
-                </Anchor> */}
+                </Anchor>
               </Flex>
             </Box>
             <Box className="col-lg-12">
