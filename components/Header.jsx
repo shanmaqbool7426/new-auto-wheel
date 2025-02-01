@@ -44,31 +44,31 @@ const Header = () => {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const [authModalOpened, setAuthModalOpened] = useState(false);
-  const [initialAuthView, setInitialAuthView] = useState(AUTH_VIEWS.ACCOUNT_TYPE);
+  const [initialAuthView, setInitialAuthView] = useState(
+    AUTH_VIEWS.ACCOUNT_TYPE
+  );
   const { data: session, status } = useSession();
 
   const handleLogout = () => {
     signOut();
   };
 
-  
   if (session) {
- 
-localStorage.setItem('token',JSON.stringify(session.user))
+    localStorage.setItem("token", JSON.stringify(session.user));
   }
-  console.log(session,"session");
+  console.log(session, "session");
 
-const handleSignUp = (e) => {
-  e.stopPropagation();
-  setInitialAuthView(AUTH_VIEWS.ACCOUNT_TYPE);
-  setAuthModalOpened(true);
-};
+  const handleSignUp = (e) => {
+    e.stopPropagation();
+    setInitialAuthView(AUTH_VIEWS.ACCOUNT_TYPE);
+    setAuthModalOpened(true);
+  };
 
-const handleSignIn = (e) => {
-  e.stopPropagation();
-  setInitialAuthView(AUTH_VIEWS.SOCIAL_LOGIN);
-  setAuthModalOpened(true);
-};
+  const handleSignIn = (e) => {
+    e.stopPropagation();
+    setInitialAuthView(AUTH_VIEWS.SOCIAL_LOGIN);
+    setAuthModalOpened(true);
+  };
 
   // Data for cars, bikes, and trucks
   const data = {
@@ -101,19 +101,25 @@ const handleSignIn = (e) => {
           description: "Find new cars in Pakistan",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Comparison",
           link: "/comparison/car",
           description: "Compare cars",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Car Dealer",
           link: "/cars-dealership",
           description: "Car Dealership",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Car Reviews",
           link: "/reviews/car",
           description: "Car Reviews",
@@ -166,13 +172,17 @@ const handleSignIn = (e) => {
           description: "Find new bikes in Pakistan",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Comparison",
           link: "/comparison/bike",
           description: "Compare bikes",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Bike Reviews",
           link: "/reviews/bike",
           description: "Bike Reviews",
@@ -221,13 +231,17 @@ const handleSignIn = (e) => {
           description: "Find new trucks in Pakistan",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Comparison",
           link: "/comparison/truck",
           description: "Compare trucks",
         },
         {
-          icon: <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />,
+          icon: (
+            <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
+          ),
           title: "Truck Reviews",
           link: "/reviews/truck",
           description: "Truck Reviews",
@@ -292,9 +306,9 @@ const handleSignIn = (e) => {
     <>
       <Group align="center" mb="xs" gap={10}>
         <Image
-          w={17} 
-          h={17} 
-          mt={3}  
+          w={17}
+          h={17}
+          mt={3}
           src={
             hoverTarget === "cars"
               ? "megamenu/new-car.svg"
@@ -368,9 +382,9 @@ const handleSignIn = (e) => {
       <Box component="header" className="header">
         <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
-          <Link href="/">
-            <Image src="/logo.png" alt="Logo" />
-          </Link>
+            <Link href="/">
+              <Image src="/logo.png" alt="Logo" />
+            </Link>
             <Group h="100%" gap={0} visibleFrom="md" wrap={false}>
               <HoverCard
                 withArrow
@@ -523,7 +537,9 @@ const handleSignIn = (e) => {
 
                     <Menu.Dropdown>
                       <Menu.Label>Settings</Menu.Label>
-                      <Menu.Item component={Link} href="/user/profile-settings">Profile</Menu.Item>
+                      <Menu.Item component={Link} href="/user/profile-settings">
+                        Profile
+                      </Menu.Item>
                       <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
                     </Menu.Dropdown>
                   </Menu>
@@ -551,13 +567,8 @@ const handleSignIn = (e) => {
                   autoContrast
                   ff="heading"
                 >
-                  <span onClick={(e) => handleSignIn(e)}>
-                    Login
-                  </span>
-                  /
-                  <span onClick={(e) => handleSignUp(e)}>
-                    Signup
-                  </span>
+                  <span onClick={(e) => handleSignIn(e)}>Login</span>/
+                  <span onClick={(e) => handleSignUp(e)}>Signup</span>
                 </Button>
               )}
 
@@ -693,15 +704,13 @@ const handleSignIn = (e) => {
           </Group>
         </ScrollArea>
       </Drawer>
-      {
-        authModalOpened && (
-          <AuthModal
-            opened={authModalOpened}
-            onClose={() => setAuthModalOpened(false)}
-            initialView={initialAuthView}
-          />
-        )
-      }
+      {authModalOpened && (
+        <AuthModal
+          opened={authModalOpened}
+          onClose={() => setAuthModalOpened(false)}
+          initialView={initialAuthView}
+        />
+      )}
     </>
   );
 };
