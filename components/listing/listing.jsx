@@ -12,7 +12,7 @@ import {
 } from "@/services/vehicles";
 import { getLocalStorage, reorderSlug } from "@/utils";
 export default async function Listing({ params, searchParams }) {
-  const token = getLocalStorage('token')
+  const token = getLocalStorage("token");
   const view = searchParams.view;
   const typeMapping = {
     cars: "car",
@@ -63,20 +63,18 @@ export default async function Listing({ params, searchParams }) {
                 mb="md"
               >
                 <Title
-                  order={6}
+                  order={5}
                   bg="#E90808"
                   c="white"
                   tt="uppercase"
                   p="10 50 10 12"
+                  fw={500}
                   style={{
                     clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
                   }}
                 >
                   Featured Classified
                 </Title>
-                {/* <Link href={"#"} className="text-primary text-decoration-none">
-                  Show all
-                </Link> */}
               </Group>
 
               {/* Product View List */}
@@ -89,7 +87,11 @@ export default async function Listing({ params, searchParams }) {
                     }
                   >
                     {view === "list" ? (
-                      <ListCardView index={index} vehicle={vehicle} token={token} />
+                      <ListCardView
+                        index={index}
+                        vehicle={vehicle}
+                        token={token}
+                      />
                     ) : (
                       <CarCard vehicle={vehicle} index={index} token={token} />
                     )}

@@ -4,7 +4,7 @@ import { CiSearch } from "react-icons/ci";
 // import classes from "@/app/styles/theme-css/Select.module.css";
 import { ResetFiltersIcon, SearchWithCar } from "@/components/Icons";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
-import { GetColor } from '@/constants/colors';
+import { GetColor } from "@/constants/colors";
 import {
   Accordion,
   Button,
@@ -484,32 +484,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     </Badge>
                   )}
                 </Box>
-                //   <div className="form-check" key={make?.name?.toLowerCase()}>
-                //    <input
-                //     className="form-check-input"
-                //     type="checkbox"
-                //     id={make.name}
-                //     checked={decodedFilterMake.includes(
-                //       make?.name?.toLowerCase()
-                //     )}
-                //     onChange={(e) =>
-                //       handleFilterChange(
-                //         "make",
-                //         make?.name?.toLowerCase(),
-                //         e.target.checked
-                //       )
-                //     }
-                //   />
-                //   <label className="form-check-label" htmlFor={make.name}>
-                //     {make.name}
-                //   </label>
-                //   {getCountByTypeAndKey("makeCounts", make.name) && (
-                //     <div className="count">
-                //       {getCountByTypeAndKey("makeCounts", make.name)}
-                //     </div>
-
-                //   )}
-                // </div>
               ))}
             </Accordion.Panel>
           </Accordion.Item>
@@ -932,17 +906,22 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     mb="xs"
                     size="xs"
                     styles={{
-                      body: {
-                        display: 'flex',
-                        alignItems: 'center',
-                      },
+                      body: { alignItems: "center" },
+                      labelWrapper: { width: "100%" },
                     }}
                     label={
-                      <Tooltip label={color.label} position="top" withArrow>
-                        <div>
-                    <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color.label) }} /> {color.label}
-                        </div>
-                    </Tooltip>
+                      <Group justify="space-between" align="center">
+                        {color.label}
+                        <Tooltip label={color.label} position="top" withArrow>
+                          <Button
+                            p={0}
+                            radius={rem(20)}
+                            h={rem(20)}
+                            w={rem(20)}
+                            bg={GetColor(color.label)}
+                          />
+                        </Tooltip>
+                      </Group>
                     }
                     key={color.value}
                     checked={color?.value === filters.exteriorColor}

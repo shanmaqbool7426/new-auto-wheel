@@ -73,13 +73,14 @@ const ListingPagination = ({ data }) => {
     <>
       <Pagination
         display="flex"
-        my="md"
+        my="xl"
         total={Math.ceil(data?.count / pagination?.limit)}
         value={pagination?.page}
         onChange={handlePageChange}
         siblings={1}
         size="md"
         color="#E90808"
+        styles={{ root: { justifyContent: "center" } }}
       />
     </>
   );
