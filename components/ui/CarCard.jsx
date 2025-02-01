@@ -15,8 +15,10 @@ import {
   Divider,
   Progress,
   ActionIcon,
+  Anchor,
+  Overlay,
 } from "@mantine/core";
-import Link from "next/link";
+import NextLink from "next/link";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
 import { notifications } from "@mantine/notifications";
@@ -30,15 +32,14 @@ const CarCard = ({ vehicle, token }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
 
-    // Preload images to avoid delays on hover
-    useEffect(() => {
-      images.forEach((src) => {
-        const img = new window.Image(); // Use native Image constructor explicitly
-        img.src = src;
-      });
-    }, [images]);
+  // Preload images to avoid delays on hover
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new window.Image(); // Use native Image constructor explicitly
+      img.src = src;
+    });
+  }, [images]);
 
-    
   // Function to change slide based on mouse position
   const handleMouseMove = (e) => {
     const { offsetX, target } = e.nativeEvent;
@@ -54,23 +55,21 @@ const CarCard = ({ vehicle, token }) => {
 
   const handleCardClick = (e) => {
     // Don't navigate if clicking the favorite button
-    if (e.target.closest('.favorite-button')) {
+    if (e.target.closest(".favorite-button")) {
       return;
     }
     router.push(`/detail/${vehicle?.slug}`);
   };
 
-
-  
   const handleToggleFavorite = async (e) => {
     e.preventDefault(); // Prevent link navigation
     e.stopPropagation(); // Prevent event bubbling
 
     if (!token) {
       notifications.show({
-        title: 'Authentication Required',
-        message: 'Please login to add vehicles to favorites',
-        color: 'red'
+        title: "Authentication Required",
+        message: "Please login to add vehicles to favorites",
+        color: "red",
       });
       return;
     }
@@ -78,11 +77,11 @@ const CarCard = ({ vehicle, token }) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-          `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${token._id}`,
+        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${token._id}`,
         {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token._id}`,
           },
         }
@@ -93,24 +92,23 @@ const CarCard = ({ vehicle, token }) => {
       if (data.success) {
         setIsFavorite(data.data.isFavorite);
         notifications.show({
-          title: 'Success',
+          title: "Success",
           message: data.message,
-          color: 'green'
+          color: "green",
         });
       } else {
         throw new Error(data.message);
       }
     } catch (error) {
       notifications.show({
-        title: 'Error',
-        message: error.message || 'Failed to update favorite status',
-        color: 'red'
+        title: "Error",
+        message: error.message || "Failed to update favorite status",
+        color: "red",
       });
     } finally {
       setIsLoading(false);
     }
   };
-
 
   // Simplified favorite button component
   const FavoriteButton = () => (
@@ -118,30 +116,31 @@ const CarCard = ({ vehicle, token }) => {
       className="favorite-button"
       variant="transparent"
       pos="absolute"
+      size="lg"
       bottom={15}
       left={10}
       loading={isLoading}
       onClick={handleToggleFavorite}
-      style={{ 
-        zIndex: 10,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: '50%',
-        padding: '8px'
+      style={{
+        zIndex: 201,
+        // backgroundColor: "rgba(0, 0, 0, 0.3)",
+        // borderRadius: "50%",
+        padding: "5px",
       }}
     >
       {token?.token?.user?.favoriteVehicles?.includes(vehicle?._id) ? (
         <IconStarFilled
           size={20}
           style={{
-            color: '#E90808', // Your primary red color
-            fill: '#E90808'
+            color: "#E90808", // Your primary red color
+            fill: "#E90808",
           }}
         />
       ) : (
         <IconStar
           size={20}
           style={{
-            color: '#fff'
+            color: "#fff",
           }}
         />
       )}
@@ -149,102 +148,153 @@ const CarCard = ({ vehicle, token }) => {
   );
 
   return (
- 
-      <Card shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)" radius="sm" mb="lg"  onClick={handleCardClick} >
-        <Card.Section pos="relative">
-          {/* Display total images */}
-          <Group c="white" gap={5} pos="absolute" style={{ zIndex: "100" }} left={15} top={15}>
-            <CameraIcon width={20} height={20} />
-            <Text span fw={600}>{vehicle?.images?.length}</Text>
-          </Group>
+    <Card
+      shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
+      radius="sm"
+      mb="lg"
+      onClick={handleCardClick}
+    >
+      <Card.Section pos="relative">
+        {/* Display total images */}
+        <Group
+          c="white"
+          gap={5}
+          pos="absolute"
+          style={{ zIndex: "201" }}
+          left={15}
+          top={15}
+        >
+          <CameraIcon width={18} height={18} />
+          <Text span fw={500} size="sm">
+            {vehicle?.images?.length}
+          </Text>
+        </Group>
 
-          {/* Custom image slider controlled by mouse hover */}
-          <div
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{ cursor: 'pointer', position: 'relative' }}
+        {/* Custom image slider controlled by mouse hover */}
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{ cursor: "pointer", position: "relative" }}
+        >
+          {images.length > 0 ? (
+            <Image
+              mah={160}
+              mih={160}
+              fit="cover"
+              src={images[activeSlide] || "https://placehold.co/270x160"}
+              alt={`${vehicle?.make.toLowerCase()}_${vehicle?.model.toLowerCase()}_${activeSlide + 1}`}
+            />
+          ) : (
+            <Image
+              mah={160}
+              mih={160}
+              fit="cover"
+              src={vehicle?.defaultImage || "https://placehold.co/270x160"}
+              alt="Placeholder"
+            />
+          )}
+            <Overlay color="#000" backgroundOpacity={0.3} />
+        </div>
+
+        {/* Progress bar with hover functionality */}
+        <Group grow gap={2} my={2}>
+          {images.map((_, index) => (
+            <Progress
+              key={index}
+              size="xs"
+              value={index === activeSlide ? 100 : 30}
+              color={index === activeSlide ? "#E90808" : "#E0E0E0"}
+              onMouseEnter={() => setActiveSlide(index)}
+            />
+          ))}
+      
+        </Group>
+        <FavoriteButton />
+      </Card.Section>
+
+      <Card.Section p="sm">
+        {/* Car details */}
+        <Group
+          justify="space-between"
+          grow
+          mb="md"
+          align="center"
+          wrap="nowrap"
+        >
+          <Text
+            lts={-0.3}
+            c="dark"
+            component={Anchor}
+            underline="hover"
+            href={`/detail/${vehicle.slug}`}
+            size="sm"
+            fw={600}
+            lineClamp={1}
           >
-            {images.length > 0 ? (
-              <Image
-                mah={200}
-                mih={200}
-                fit="cover"
-                src={images[activeSlide] || "/products/product-placeholder.png"}
-                alt={`Image ${activeSlide + 1}`}
-              />
-            ) : (
-              <Image
-                mah={200}
-                mih={200}
-                fit="cover"
-                src={vehicle?.defaultImage || "/products/product-placeholder.png"}
-                alt="Placeholder"
-              />
-            )}
-          </div>
-
-          {/* Progress bar with hover functionality */}
-          <Group grow gap={2} my={2}>
-            {images.map((_, index) => (
-              <Progress
-                key={index}
-                size="xs"
-                value={index === activeSlide ? 100 : 30}
-                color={index === activeSlide ? "#E90808" : "#E0E0E0"}
-                onMouseEnter={() => setActiveSlide(index)}
-              />
-            ))}
+            {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
+          </Text>
+          <Box
+            c="#FFF"
+            bg="#E90808"
+            p="5px 5px 5px 15px"
+            ta="right"
+            style={{
+              clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+            }}
+          >
+            <Text fw={600} size="xs">
+              Rs {formatPrice(vehicle?.price)}
+            </Text>
+          </Box>
+        </Group>
+        <Divider />
+        <Flex mt="md" gap="sm" justify="space-between" wrap="wrap">
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <FaCalendarDays />
+            <Text style={{ fontSize: "12px" }}>{vehicle?.year}</Text>
           </Group>
-          <FavoriteButton />
-        </Card.Section>
-
-        <Card.Section p="md">
-          {/* Car details */}
-          <Group justify="space-between" mb="md" align="center" wrap="nowrap">
-            <Title order={6} lts={-0.3} fw={600} lineClamp={1}>
-              {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
-            </Title>
-            <Box
-              c="#FFF"
-              bg="#E90808"
-              p="5px 10px 5px 30px"
-              style={{
-                clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)"
-              }}
-            >
-              <Text fw={700} size="sm">Rs {formatPrice
-              (vehicle?.price)}</Text>
-            </Box>
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <GearsHandle />
+            <Text style={{ fontSize: "12px" }}>
+              {vehicle?.specifications?.transmission}
+            </Text>
           </Group>
-          <Divider />
-          <Flex mt="md" gap="md" justify="space-between" wrap="wrap">
-            <Group c="dimmed" gap={rem(5)} align="center">
-              <FaCalendarDays />
-              <Text size="xs">{vehicle?.year}</Text>
-            </Group>
-            <Group c="dimmed" gap={rem(5)} align="center">
-              <GearsHandle />
-              <Text size="xs">{vehicle?.specifications?.transmission}</Text>
-            </Group>
-            <Group c="dimmed" gap={rem(5)} align="center">
-              <FaLocationDot />
-              <Text size="xs">{vehicle?.city}</Text>
-            </Group>
-          </Flex>
-          <Flex mt="md" gap="md" justify="space-between" wrap="wrap">
-            <Group c="dimmed" gap={rem(5)} align="center">
-              <Text span c="dimmed" size="xs">ID#</Text>
-              <Text c="dark" size="xs">{vehicle?.specifications?.stockId}</Text>
-            </Group>
-            <Group c="dimmed" gap={rem(5)} align="center">
-              <FaClock />
-              <Text size="xs">{getTimeAgo(vehicle?.createdAt)}</Text>
-            </Group>
-          </Flex>
-        </Card.Section>
-      </Card>
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <FaLocationDot />
+            <Text style={{ fontSize: "12px" }}>{vehicle?.city}</Text>
+          </Group>
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <Text span c="dimmed" style={{ fontSize: "12px" }}>
+              ID#
+            </Text>
+            <Text c="dark" style={{ fontSize: "12px" }}>
+              {vehicle?.specifications?.stockId?.slice(0, 4)}
+            </Text>
+          </Group>
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <FaClock />
+            <Text style={{ fontSize: "12px" }}>
+              {getTimeAgo(vehicle?.createdAt)}
+            </Text>
+          </Group>
+        </Flex>
+        {/* <Flex mt="md" gap="md" wrap="nowrap">
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <Text span c="dimmed" size="xs">
+              ID#
+            </Text>
+            <Text c="dark" size="xs">
+              {vehicle?.specifications?.stockId?.slice(0,4)}
+            </Text>
+          </Group>
+          <Group c="dimmed" gap={rem(5)} align="center">
+            <FaClock />
+            <Text size="xs">{getTimeAgo(vehicle?.createdAt)}</Text>
+          </Group>
+        </Flex> */}
+      </Card.Section>
+    </Card>
   );
 };
 
 export default CarCard;
-

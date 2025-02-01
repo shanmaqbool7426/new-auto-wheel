@@ -111,18 +111,13 @@ const TopComparison = ({ title, type }) => {
               </Text>
             </Title>
           )}
-
-          {/* <Anchor component={Link} href="/comparisons" color="#E90808">
-            Show all Comparisons
-          </Anchor> */}
         </Flex>
         <div className="row">
           {comparisons?.data?.map((comparison, index) => (
-            <div className="col-lg-4" key={index}>
-              <div className="card comparison-card">
-                {console.log(comparison)}
-                <div className="two-col-comparison position-relative">
-                  <div className="product-compare product-first justify-content-start">
+            <Box className="col-lg-4" key={index}>
+              <Box className="card comparison-card">
+                <Box className="two-col-comparison position-relative h-100">
+                  <Box className="product-compare product-first justify-content-start" h={100}>
                     <Image
                       src={comparison.vehicle1.defaultImage || ""}
                       width={143}
@@ -130,9 +125,9 @@ const TopComparison = ({ title, type }) => {
                       className="img-fluid object-fit-cover"
                       // alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
                     />
-                  </div>
+                  </Box>
                   <span className="compare-txt">VS</span>
-                  <div className="product-compare product-second justify-content-end">
+                  <Box className="product-compare product-second justify-content-end" h={100}>
                     <Image
                       src={comparison.vehicle2.defaultImage || ""}
                       width={143}
@@ -140,9 +135,9 @@ const TopComparison = ({ title, type }) => {
                       className="img-fluid object-fit-cover"
                       // alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
                     />
-                  </div>
-                </div>
-                <div className="card-body">
+                  </Box>
+                </Box>
+                <Box className="card-body">
                   <Group justify="space-between">
                     <Flex direction="column" gap="5">
                       <Title order={6} fw={600}>
@@ -181,89 +176,9 @@ const TopComparison = ({ title, type }) => {
                       Compare
                     </Button>
                   </Group>
-                </div>
-              </div>
-            </div>
-            // <div className="col-lg-4 mb-4" key={index}>
-            //   <div className="card comparison-card h-100">
-            //     <div className="two-col-comparison position-relative p-3">
-            //       <div className="product-compare product-first d-flex justify-content-start align-items-center">
-            //         <Image
-            //           src={comparison.vehicle1.defaultImage}
-            //           width={143}
-            //           height={88}
-            //           className="img-fluid object-fit-cover"
-            //           alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
-            //         />
-            //       </div>
-            //       <span className="compare-txt">VS</span>
-            //       <div className="product-compare product-second d-flex justify-content-end align-items-center">
-            //         <Image
-            //           src={comparison.vehicle2.defaultImage}
-            //           width={143}
-            //           height={88}
-            //           className="img-fluid object-fit-cover"
-            //           alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
-            //         />
-            //       </div>
-            //     </div>
-            //     <div className="card-body">
-            //       <Group position="apart" align="flex-start">
-            //         <Flex direction="column" gap="sm" style={{ flex: 1 }}>
-            //           {/* Vehicle 1 Details */}
-            //           <Flex direction="column" gap="xs">
-            //             <Title order={6} fw={600}>
-            //               {`${comparison.vehicle1.make} ${comparison.vehicle1.model} (${comparison.vehicle1.year})`}
-            //             </Title>
-            //             <Flex align="center" gap={5}>
-            //               <Rating
-            //                 value={comparison.vehicle1.averageRating || 0}
-            //                 fractions={2}
-            //                 readOnly
-            //               />
-            //               <Text size="sm" color="dimmed">
-            //                 ({comparison.vehicle1.reviewCount || 0})
-            //               </Text>
-            //             </Flex>
-            //             <Text size="sm" color="dimmed">
-            //               Price: ₱{comparison.vehicle1.minPrice.toLocaleString()} - ₱{comparison.vehicle1.maxPrice.toLocaleString()}
-            //             </Text>
-            //           </Flex>
-
-            //           {/* Vehicle 2 Details */}
-            //           <Flex direction="column" gap="xs">
-            //             <Title order={6} fw={600}>
-            //               {`${comparison.vehicle2.make} ${comparison.vehicle2.model} (${comparison.vehicle2.year})`}
-            //             </Title>
-            //             <Flex align="center" gap={5}>
-            //               <Rating
-            //                 value={comparison.vehicle2.averageRating || 0}
-            //                 fractions={2}
-            //                 readOnly
-            //               />
-            //               <Text size="sm" color="dimmed">
-            //                 ({comparison.vehicle2.reviewCount || 0})
-            //               </Text>
-            //             </Flex>
-            //             <Text size="sm" color="dimmed">
-            //               Price: ₱{comparison.vehicle2.minPrice.toLocaleString()} - ₱{comparison.vehicle2.maxPrice.toLocaleString()}
-            //             </Text>
-            //           </Flex>
-            //         </Flex>
-            //         <Button
-            //           variant="outline"
-            //           color="#E90808"
-            //           size="md"
-            //           component={Link}
-            //           href={`/compare/${comparison.vehicle1.slug}-vs-${comparison.vehicle2.slug}`}
-            //           style={{ alignSelf: "center" }}
-            //         >
-            //           Compare <BsArrowRight />
-            //         </Button>
-            //       </Group>
-            //     </div>
-            //   </div>
-            // </div>
+                </Box>
+              </Box>
+            </Box>
           ))}
         </div>
       </div>
