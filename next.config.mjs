@@ -12,6 +12,18 @@ const nextConfig = {
         // pathname: 'arifscloud/image/upload/**',
       },
       {
+        protocol: 'http',
+        hostname: "res.cloudinary.com"
+      },
+      {
+        protocol: 'http',
+        hostname: "example.com"
+      },
+      {
+        protocol: 'http',
+        hostname: "via.placeholder.com"
+      },
+      {
         protocol: 'https',
         hostname: "res.cloudinary.com",
         pathname: '/dcfpazr4b/**'  // Add your cloudinary cloud name path

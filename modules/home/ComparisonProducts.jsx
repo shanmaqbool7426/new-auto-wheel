@@ -68,7 +68,7 @@ const ComparisonProducts = ({ title,type }) => {
           </div>
           <div className="col-lg-12">
             <div className="row">
-              {data?.map((pair, idx) => (
+              { data?.length >0 && data?.map((pair, idx) => (
                 <div className="col-lg-4 col-sm-6" key={idx}>
                   <div className="card comparison-card position-relative">
                     <div className="two-col-comparison position-relative">
