@@ -1,0 +1,26 @@
+.ratingBar {
+  display: flex;
+  align-items: center;
+}
+
+.ratingTitl {
+  flex: 1;
+}
+
+.writeReviewButton {
+  max-width: 400px;
+  width: 100%;
+}
+
+.controls {
+  position: absolute;
+  left: auto;
+  top: -60px;
+  right: -99px;
+  width: 64px;
+  padding: 0;
+}
+
+.control {
+  position: static;
+}

@@ -5,10 +5,10 @@ import React from "react";
 
 const QuickLinks = ({ titlePopular, titleUsed }) => {
   return (
-    <section className="quick-links py-5">
+    <Box component="section" className="quick-links" py="56px">
       <Box className="container-xl">
-        <SimpleGrid cols={1} mb="md">
-          <Title order={3}>
+        <SimpleGrid cols={1} mb="24px">
+          <Title order={3} lh="1">
             {titlePopular ? titlePopular : "Popular Used Trucks"}
           </Title>
         </SimpleGrid>
@@ -103,7 +103,7 @@ const QuickLinks = ({ titlePopular, titleUsed }) => {
         </SimpleGrid>
 
         {/* Used Car Links */}
-        <SimpleGrid cols={1} mb="md" mt="md">
+        <SimpleGrid cols={1} mb="24px" mt="56px">
           <Title order={3}>{titleUsed ? titleUsed : "Used Cars by City"}</Title>
         </SimpleGrid>
 
@@ -202,7 +202,7 @@ const QuickLinks = ({ titlePopular, titleUsed }) => {
           </ul>
         </SimpleGrid>
       </Box>
-    </section>
+    </Box>
   );
 };
 

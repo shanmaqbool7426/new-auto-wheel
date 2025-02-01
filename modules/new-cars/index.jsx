@@ -276,11 +276,11 @@ const NewCarsModule = ({
             </div>
           </div>
         </Box>
-        <Box component="section" className="newly-launched-cars bg-light py-5">
+        <Box component="section" className="newly-launched-cars bg-light" pt="40px" pb="8px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} lh="1">
                   Newly Launched{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
                     {`${type}s`}
@@ -297,11 +297,11 @@ const NewCarsModule = ({
             </div>
           </div>
         </Box>
-        <section className="upcoming-cars py-5">
+        <Box component="section" className="upcoming-cars" pt="56px" pb="24px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} lh="1">
                   Upcoming{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
                     {`${type}s`}
@@ -317,12 +317,12 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
-        <section className="cars-by-model bg-light py-5">
+        </Box>
+        <Box component="section" className="cars-by-model bg-light" pt="40px" pb="8px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2} tt="capitalize">
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} tt="capitalize" lh={'1'}>
                   {company_1[type]} New{" "}
                   {type}{" "}
                   <Text span c="#E90808" inherit>
@@ -339,12 +339,12 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
-        <section className="cars-by-model py-5">
+        </Box>
+        <Box component="section" className="cars-by-model" pt="56px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2} tt="capitalize">
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} tt="capitalize" lh="1">
                   {company_2[type]} New{" "}
                   {type}{" "}
                   <Text span c="#E90808" inherit>
@@ -361,7 +361,7 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
+        </Box>
 
         <ComparisonProducts type={type} />
         <BrowseVideos type={type} />
