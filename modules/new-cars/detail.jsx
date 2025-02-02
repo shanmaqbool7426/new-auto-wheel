@@ -5,10 +5,10 @@ import FAQ from "./faqs";
 
 import Comments from "@/components/sections/Comments"
 
-const NewVehicleDetailModule = ({ vehicle }) => {
+const NewVehicleDetailModule = ({ vehicle ,variantsVehicles}) => {
   return (
     <div>
-      <VehicleDetail vehicle={vehicle} />
+      <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles}/>
       <BrowseVideos type="car"/>
       <Comments />
       <BrowseBlogCarousel type={"car"} title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`}/>

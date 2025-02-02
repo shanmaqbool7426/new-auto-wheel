@@ -390,6 +390,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Checkbox
                         mb="xs"
                         size="xs"
+                        color="#E90808"
                         label={city.label}
                         key={city.value}
                         checked={filters.city.includes(city.value)}
@@ -457,6 +458,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   <Checkbox
                     mb="xs"
                     size="xs"
+                    color="#E90808"
+
                     label={make.name}
                     key={make.value}
                     checked={decodedFilterMake.includes(
@@ -552,6 +555,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         mb="xs"
                         size="xs"
                         label={model.name}
+                        color="#E90808"
+
                         key={index}
                         checked={decodedFilterModel.includes(
                           model.name?.toLowerCase()
@@ -646,6 +651,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         mb="xs"
                         size="xs"
                         label={variant}
+                        color="#E90808"
+
                         key={index}
                         checked={decodedFilterVariant.includes(
                           variant?.toLowerCase()
@@ -867,6 +874,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   <Checkbox
                     mb="xs"
                     size="xs"
+                    color="#E90808"
+
                     label={transmission.label}
                     key={transmission.value}
                     checked={transmission?.value === filters.transmission}
@@ -900,6 +909,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   <Checkbox
                     mb="xs"
                     size="xs"
+                    color="#E90808"
+
                     label={drive.label}
                     key={drive.value}
                     checked={drive?.value === filters.drive}
@@ -931,6 +942,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   <Checkbox
                     mb="xs"
                     size="xs"
+                    color="#E90808"
+
                     styles={{
                       body: {
                         display: 'flex',
@@ -976,6 +989,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   <Checkbox
                     mb="xs"
                     size="xs"
+                    color="#E90808"
+
                     label={fuel.label}
                     key={fuel.value}
                     checked={fuel?.value === filters.fuelType}
@@ -1242,7 +1257,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     <label
                       className={`text-decoration-none ${
                         decodedFilterBodies.includes(
-                          bodyType?.name?.toLowerCase()
+                          bodyType?.title?.toLowerCase()
                         )
                           ? "checked"
                           : ""
@@ -1251,14 +1266,14 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <input
                         type="checkbox"
                         name="bodyType"
-                        value={bodyType.name?.toLowerCase()}
+                        value={bodyType.title?.toLowerCase()}
                         checked={decodedFilterBodies.includes(
-                          bodyType?.name?.toLowerCase()
+                          bodyType?.title?.toLowerCase()
                         )}
                         onChange={(e) =>
                           handleFilterChange(
                             "bodyType",
-                            bodyType.name?.toLowerCase(),
+                            bodyType.title?.toLowerCase(),
                             e.target.checked
                           )
                         }
@@ -1268,9 +1283,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         height={60}
                         src={bodyType.bodyImage}
                         className="mx-auto text-center"
-                        alt={`${bodyType.name} body type`}
+                        alt={`${bodyType.title} body type`}
                       />
-                      <h6 className="mb-0 text-dark">{bodyType.name}</h6>
+                      <h6 style={{fontSize:"14px"}} className="mb-0 text-dark">{bodyType.title}</h6>
                     </label>
                   </div>
                 </Grid.Col>
@@ -1337,6 +1352,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             <Checkbox
                               mb="xs"
                               size="xs"
+                        color="#E90808"
+
                               label={city.label}
                               key={city.value}
                               checked={filters.city.includes(city.value)}
@@ -1405,6 +1422,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           <Checkbox
                             mb="xs"
                             size="xs"
+                        color="#E90808"
+
                             label={make.name}
                             key={make.value}
                             checked={decodedFilterMake.includes(
@@ -1474,6 +1493,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             <Checkbox
                               mb="xs"
                               size="xs"
+                        color="#E90808"
+
                               label={model.name}
                               key={model.value}
                               checked={decodedFilterModel.includes(
@@ -1549,6 +1570,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             <Checkbox
                               mb="xs"
                               size="xs"
+                        color="#E90808"
+
                               label={variant}
                               key={index}
                               checked={decodedFilterVariant.includes(
@@ -1765,6 +1788,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
+                        color="#E90808"
+
                           size="xs"
                           label={transmission.label}
                           key={transmission.value}
@@ -1802,6 +1827,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
+                        color="#E90808"
+
                           size="xs"
                           label={drive.label}
                           key={drive.value}
@@ -1835,6 +1862,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
+                        color="#E90808"
+
                           size="xs"
                           label={color.label}
                           key={color.value}
@@ -1868,6 +1897,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
+                        color="#E90808"
+
                           size="xs"
                           label={fuel.label}
                           key={fuel.value}
@@ -1915,7 +1946,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           <label
                             className={`text-decoration-none ${
                               decodedFilterBodies.includes(
-                                bodyType?.name?.toLowerCase()
+                                bodyType?.title?.toLowerCase()
                               )
                                 ? "checked"
                                 : ""
@@ -1924,14 +1955,14 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             <input
                               type="checkbox"
                               name="bodyType"
-                              value={bodyType.name?.toLowerCase()}
+                              value={bodyType.title?.toLowerCase()}
                               checked={decodedFilterBodies.includes(
-                                bodyType?.name?.toLowerCase()
+                                bodyType?.title?.toLowerCase()
                               )}
                               onChange={(e) =>
                                 handleFilterChange(
                                   "bodyType",
-                                  bodyType.name?.toLowerCase(),
+                                  bodyType.title?.toLowerCase(),
                                   e.target.checked
                                 )
                               }
@@ -1941,9 +1972,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               height={60}
                               src={bodyType.bodyImage}
                               className="mx-auto text-center"
-                              alt={`${bodyType.name} body type`}
+                              alt={`${bodyType.title} body type`}
                             />
-                            <h6 className="mb-0 text-dark">{bodyType.name}</h6>
+                            <h6 className="mb-0 text-dark">{bodyType.title}</h6>
                           </label>
                         </div>
                       </Grid.Col>

@@ -30,12 +30,19 @@ import {
 } from "@/components/Icons";
 import { IconCheck } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
+
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
 import Link from "next/link";
+import { useState } from "react";
 
-const VehicleDetail = ({ vehicle }) => {
+const VehicleDetail = ({ vehicle, variantsVehicles }) => {
 
+  // selected vehicle for compare
+  const [selectedVehicle, setSelectedVehicle] = useState([]);
+
+
+  console.log("selectedVehicle", selectedVehicle)
   const {
     vehicleDetails: {
       make,
@@ -68,6 +75,8 @@ const VehicleDetail = ({ vehicle }) => {
     },
     variants,
   } = vehicle || {};
+
+  console.log("variantsVehicles", variantsVehicles)
   return (
     <>
       {/* Header Section */}
@@ -343,7 +352,7 @@ const VehicleDetail = ({ vehicle }) => {
                 View Brochure
               </Anchor> */}
             </Box>
-            {variants && variants.length > 0 && (
+            {variantsVehicles?.data?.variants && variantsVehicles?.data?.variants.length > 0 && (
               <Box className="col-lg-12" mt="xl">
                 <Table
                   verticalSpacing="sm"
@@ -361,111 +370,64 @@ const VehicleDetail = ({ vehicle }) => {
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
-                    {variants?.map((variant, index) => (
-                      <Table.Tr>
+                    {variantsVehicles?.data?.variants?.map((variant, index) => (
+                      <Table.Tr key={variant._id}>
                         <Table.Td>
                           <Flex justify="space-between">
-                            <Text fw={400} size="14px" c="#E90808">
-                              {`${variant.make} ${variant.model}`}
-                              <Text size="12px" c="#878787" mt="6px">
-                                {`${variant.engine.displacement} cc, ${variant.transmission.type}, Petrol`}
+                            <Box>
+                              <Text fw={400} size="14px" c="#E90808">
+                                {`${variant.make} ${variant.model} ${variant.variant}`}
                               </Text>
-                            </Text>
-                            <Text size="12px" c="#878787">Delivery Time: <Text span c="#333">1 Month</Text></Text>
+                              <Text size="12px" c="#878787" mt="6px">
+                                {`${variant.engine?.displacement || 'N/A'} cc, ${variant.transmission?.type || 'N/A'}, ${variant.engine?.type || 'N/A'}`}
+                              </Text>
+                            </Box>
                           </Flex>
                           <Text size="12px" mt="12px" c="#878787">
-                            2 Airbags, Navigation, Steering Switches, Rear Camera,
-                            ABS, 9.0" Infotainment
+                            {getKeyFeatures(variant)}
                           </Text>
                         </Table.Td>
                         <Table.Td>
                           <Text size="14px" fw="700" c="#333">
-                            PKR {variant.minPrice} - {variant.maxPrice}
+                            PKR {formatPrice(variant.minPrice)} - {formatPrice(variant.maxPrice)}
                           </Text>
                           <Text size="12px" c="#E90808" mt="12px">
-                            Get Corolla Altis X Manual 1.6 On Road Price
+                            Get {variant.make} {variant.model} {variant.transmission?.type ? variant.transmission?.type : ''} {variant.variant} On Road Price
                           </Text>
                         </Table.Td>
                         <Table.Td align="center">
-                          <Checkbox labelPosition="left" />
+                          <Checkbox labelPosition="left"   color="#E90808" onChange={(e) => setSelectedVehicle(e.target.checked ? [...selectedVehicle, {make: variant?.make, model: variant?.model, variant: variant?.variant, year: variant?.year, _id: variant?._id}] : selectedVehicle.filter(item => item._id !== variant._id))}/>
                         </Table.Td>
                       </Table.Tr>
                     ))}
                   </Table.Tbody>
                 </Table>
                 <Text c="#E90808" mt="xl" size="12px">
-                  Toyota Corolla 2022 Price
-                  <Text span inherit mx="xs" c="dark">
-                    |
-                  </Text>
-                  Toyota Corolla 2021 Price
-                  <Text span inherit mx="xs" c="dark">
-                    |
-                  </Text>
-                  Toyota Corolla 2020 Price
-                  <Text span inherit mx="xs" c="dark">
-                    |
-                  </Text>
-                  Toyota Corolla 2019 Price
+                  {variantsVehicles?.data?.variants?.map((variant, index) => (
+                    <>
+                    <Text c="#E90808" span inherit mx="xs"  key={index}>{variant.make} {variant.model} {variant.variant} {variant.year} Price</Text> {index < variantsVehicles?.data?.variants?.length - 1 && '|'}
+                  </>
+                  ))}
                 </Text>
+                {/* //  href={`/comparison/${pair.vehicle1.type}/${[
+              pair.vehicle1,
+              pair.vehicle2,
+            ]
+              .map(
+                (vehicle) =>
+                  `${vehicle.make}-${vehicle.model}${
+                    vehicle.variant ? "-" + vehicle.variant : ""
+                  }`
+              )
+              .join("_")}`} */}
+              {selectedVehicle?.length> 1 && <Button component={Link} mt="md" size="sm" radius="md" bg="#E90808" c="white" href={`/comparison/${type}/${selectedVehicle.map(vehicle => `${vehicle.make}-${vehicle.model}${vehicle.variant ? "-" + vehicle.variant : ""}`).join("_")}`} >
+               Compare
+                </Button>}
               </Box>
             )}
           </Box>
         </Box>
       </Box>
-      {/* Variants Comparison */}
-      {variants && variants.length > 0 && (
-        <Box className="container mb-4" mt="xl">
-          <Title order={2}>
-            {make} {model} Variants
-          </Title>
-          <Table
-            verticalSpacing="sm"
-            horizontalSpacing="sm"
-            withTableBorder
-            withColumnBorders
-          >
-            <Table.Thead>
-              <Table.Tr bg="#E90808" c="white">
-                <Table.Th w="50%" fz="16px">Variants</Table.Th>
-                <Table.Th w="40%" fz="16px">Ex-Factory Price</Table.Th>
-                <Table.Th w="10%" fz="16px" align="center" ta="center">
-                  Compare
-                </Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {variants?.map((variant, index) => (
-                <Table.Tr key={index}>
-                  <Table.Td>
-                    <Flex justify="space-between">
-                      {/* Use Flex and multiple Text components instead of nesting */}
-                      <div>
-                        <Text fw={400} size="14px" c="#E90808">
-                          {`${variant.make} ${variant.model}`}
-                        </Text>
-                        <Text c="dimmed">
-                          {`${variant.engine.displacement} cc, ${variant.transmission.type}, Petrol`}
-                        </Text>
-                      </div>
-                      <Text>Delivery Time: 1 Month</Text>
-                    </Flex>
-                  </Table.Td>
-                  <Table.Td>
-                    <Text size="xl" fw="bold">
-                      PKR {variant.minPrice} - {variant.maxPrice}
-                    </Text>
-                  </Table.Td>
-                  <Table.Td align="center">
-                    <Checkbox labelPosition="left" />
-                  </Table.Td>
-                </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Box>
-      )}
-
       {/* Pros and Cons Section */}
       <Box component="section" className="pros-const-section" py="48px" bg="#F3F3F3">
         <Box className="container-xl">
@@ -692,53 +654,30 @@ const renderSpecifications = (vehicle) => {
                 "N/A"}
             </Table.Td>
             <Table.Td c="dimmed">Ground Clearance</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.groundClearance || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Displacement</Table.Td>
-            <Table.Td>{vehicle?.engine?.displacement || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Transmission</Table.Td>
-            <Table.Td>{vehicle?.transmission?.type || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Horse Power</Table.Td>
-            <Table.Td>{vehicle?.engine?.horsepower || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Torque</Table.Td>
-            <Table.Td>{vehicle?.engine?.torque || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Boot Space</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.bootSpace || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Kerb Weight</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.kerbWeight || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Fuel Type</Table.Td>
-            <Table.Td>{vehicle?.engine?.type || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Mileage</Table.Td>
-            <Table.Td>
-              {`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` ||
-                "N/A"}
-            </Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>
-            <Table.Td>
-              {vehicle?.fuelConsumption?.tankCapacity || "N/A"}
-            </Table.Td>
-            <Table.Td c="dimmed">Seating Capacity</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.seatingCapacity || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Top Speed</Table.Td>
-            <Table.Td>{vehicle?.engine?.maxSpeed || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Tyre Size</Table.Td>
-            <Table.Td>{vehicle?.wheelsAndTyres?.tyreSize || "N/A"}</Table.Td>
-          </Table.Tr>
-        </Table.Tbody>
-      </Table>
-    );
-  } else {
-    return <p>No specifications available for this vehicle type.</p>;
-  }
+            <Table.Td>{vehicle?.dimensions?.groundClearance || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Displacement</Table.Td>            <Table.Td>{vehicle?.engine?.displacement || "N/A"}</Table.Td>            <Table.Td c="dimmed">Transmission</Table.Td>            <Table.Td>{vehicle?.transmission?.type || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Horse Power</Table.Td>            <Table.Td>{vehicle?.engine?.horsepower || "N/A"}</Table.Td>            <Table.Td c="dimmed">Torque</Table.Td>            <Table.Td>{vehicle?.engine?.torque || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Boot Space</Table.Td>            <Table.Td>{vehicle?.dimensions?.bootSpace || "N/A"}</Table.Td>            <Table.Td c="dimmed">Kerb Weight</Table.Td>            <Table.Td>{vehicle?.dimensions?.kerbWeight || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Fuel Type</Table.Td>            <Table.Td>{vehicle?.engine?.type || "N/A"}</Table.Td>            <Table.Td c="dimmed">Mileage</Table.Td>            <Table.Td>              {`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` || "N/A"}            </Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>            <Table.Td>              {vehicle?.fuelConsumption?.tankCapacity || "N/A"}            </Table.Td>            <Table.Td c="dimmed">Seating Capacity</Table.Td>            <Table.Td>{vehicle?.dimensions?.seatingCapacity || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Top Speed</Table.Td>            <Table.Td>{vehicle?.engine?.maxSpeed || "N/A"}</Table.Td>            <Table.Td c="dimmed">Tyre Size</Table.Td>            <Table.Td>{vehicle?.wheelsAndTyres?.tyreSize || "N/A"}</Table.Td>          </Table.Tr>        </Table.Tbody>      </Table>);
+  } else { return <p>No specifications available for this vehicle type.</p>; }
+};
+
+const getKeyFeatures = (variant) => {
+  const features = [];
+
+  // Priority features to check (in order of importance)
+  if (variant.safety?.airbags) features.push(`${variant.safety.airbags} Airbags`);
+  if (variant.engine?.type) features.push(variant.engine.type);
+  if (variant.safety?.abs) features.push('ABS');
+  if (variant.engine?.displacement) features.push(`${variant.engine.displacement} cc`);
+  if (variant.engine?.horsepower) features.push(`${variant.engine.horsepower} HP`);
+  if (variant.engine?.torque) features.push(`${variant.engine.torque} Nm`);
+  if (variant.comfort?.navigation) features.push('Navigation');
+  if (variant.comfort?.rearCamera) features.push('Rear Camera');
+  
+  if (variant.exterior?.sunRoof) features.push('Sunroof');
+  if (variant.comfort?.ac) features.push('AC');
+  if (variant.comfort?.keylessEntry) features.push('Keyless Entry');
+  if (variant.comfort?.infotainment) features.push('Infotainment');
+  if (variant.comfort?.steeringSwitches) features.push('Steering Switches');
+  if (variant.comfort?.rearCamera) features.push('Rear Camera');
+  
+  // Only take the first 7 features
+  return features.slice(0, 7).join(', ');
 };

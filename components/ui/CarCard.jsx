@@ -238,11 +238,16 @@ const CarCard = ({ vehicle, token }) => {
             bg="#E90808"
             p="5px 5px 5px 15px"
             ta="right"
+            display="inline-flex"  // Changed to inline-flex
             style={{
               clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+              minWidth: 'fit-content', // Changed to fit-content
+              width: 'auto',
+              alignItems: 'center',    // Added to center content vertically
+              justifyContent: 'flex-end' // Added to align content to the right
             }}
           >
-            <Text fw={600} size="xs">
+            <Text fw={600} size="xs" style={{ whiteSpace: 'nowrap', lineHeight: 1 }}>
               Rs {formatPrice(vehicle?.price)}
             </Text>
           </Box>

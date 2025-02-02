@@ -13,6 +13,7 @@ import {
   Paper,
   ScrollArea,
   Title,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
@@ -34,8 +35,6 @@ const CustomModel = ({
     const fetchedMakes = [];
     const fetchedModels = {};
     const fetchedVariants = {};
-
-
 
     fetchMakesByTypeData?.data?.forEach((make) => {
       fetchedMakes.push(make.name);
@@ -117,6 +116,12 @@ const CustomModel = ({
     };
   }, [selection]);
 
+  const NoResultsMessage = ({ text }) => (
+    <Text c="dimmed" ta="center" py="xl" fz="sm">
+      {text}
+    </Text>
+  );
+
   return (
     <Modal
       opened={isOpen}
@@ -124,6 +129,14 @@ const CustomModel = ({
       withCloseButton={false}
       size={"xl"}
       padding={0}
+      styles={{
+        inner: {
+          paddingTop: '80px' // Add top padding to create gap from header
+        },
+        content: {
+          maxHeight: 'calc(100vh - 100px)' // Adjust max height to account for top gap
+        }
+      }}
       closeOnClickOutside={false} // Prevent modal from closing on outside click
     >
       <Paper
@@ -209,27 +222,31 @@ const CustomModel = ({
             scrollHideDelay={500}
             scrollbars="y"
           >
-            <List className="search-dropdown-lists" listStyleType="none">
-              {filteredMakes.map((make) => (
-                <List.Item
-                  key={make}
-                  className={`search-dropdown-lists__item ${
-                    selection.make === make ? "selected" : ""
-                  }`}
-                  icon={
-                    <Image
-                      src={`/megamenu/search-menu/${make.toLowerCase()}-sm.svg`}
-                    />
-                  }
-                  onClick={() => {
-                    handleSelection("make", make);
-                    setActiveTab("model"); // Set active tab to model
-                  }}
-                >
-                  {make} <BsArrowRight />
-                </List.Item>
-              ))}
-            </List>
+            {filteredMakes.length > 0 ? (
+              <List className="search-dropdown-lists" listStyleType="none">
+                {filteredMakes.map((make) => (
+                  <List.Item
+                    key={make}
+                    className={`search-dropdown-lists__item ${
+                      selection.make === make ? "selected" : ""
+                    }`}
+                    icon={
+                      <Image
+                        src={`/megamenu/search-menu/${make.toLowerCase()}-sm.svg`}
+                      />
+                    }
+                    onClick={() => {
+                      handleSelection("make", make);
+                      setActiveTab("model"); // Set active tab to model
+                    }}
+                  >
+                    {make} <BsArrowRight />
+                  </List.Item>
+                ))}
+              </List>
+            ) : (
+              <NoResultsMessage text={`No makes found matching "${makeSearch}"`} />
+            )}
           </ScrollArea>
         </Grid.Col>
         <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
@@ -250,23 +267,31 @@ const CustomModel = ({
             scrollHideDelay={500}
             scrollbars="y"
           >
-            <List className="search-dropdown-lists" listStyleType="none">
-              {selection.make &&
-                filteredModels.map((model) => (
-                  <List.Item
-                    key={model}
-                    className={`search-dropdown-lists__item ${
-                      selection.model === model ? "selected" : ""
-                    }`}
-                    onClick={() => {
-                      handleSelection("model", model);
-                      setActiveTab("variant"); // Set active tab to variant
-                    }}
-                  >
-                    {model} <BsArrowRight />
-                  </List.Item>
-                ))}
-            </List>
+            {selection.make ? (
+              filteredModels.length > 0 ? (
+                <List className="search-dropdown-lists" listStyleType="none">
+                  {selection.make &&
+                    filteredModels.map((model) => (
+                      <List.Item
+                        key={model}
+                        className={`search-dropdown-lists__item ${
+                          selection.model === model ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          handleSelection("model", model);
+                          setActiveTab("variant"); // Set active tab to variant
+                        }}
+                      >
+                        {model} <BsArrowRight />
+                      </List.Item>
+                    ))}
+                </List>
+              ) : (
+                <NoResultsMessage text={`No models found matching "${modelSearch}"`} />
+              )
+            ) : (
+              <NoResultsMessage text="Please select a make first" />
+            )}
           </ScrollArea>
         </Grid.Col>
         {!hide && ( // Conditionally render Variants column
@@ -286,23 +311,31 @@ const CustomModel = ({
               scrollHideDelay={500}
               scrollbars="y"
             >
-              <List className="search-dropdown-lists" listStyleType="none">
-                {selection.model &&
-                  filteredVariants.map((variant) => (
-                    <List.Item
-                      key={variant}
-                      className={`search-dropdown-lists__item ${
-                        selection.variant === variant ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        handleSelection("variant", variant);
-                        setActiveTab("variant"); // Set active tab to variant
-                      }}
-                    >
-                      {variant} <BsArrowRight />
-                    </List.Item>
-                  ))}
-              </List>
+              {selection.model ? (
+                filteredVariants.length > 0 ? (
+                  <List className="search-dropdown-lists" listStyleType="none">
+                    {selection.model &&
+                      filteredVariants.map((variant) => (
+                        <List.Item
+                          key={variant}
+                          className={`search-dropdown-lists__item ${
+                            selection.variant === variant ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            handleSelection("variant", variant);
+                            setActiveTab("variant"); // Set active tab to variant
+                          }}
+                        >
+                          {variant} <BsArrowRight />
+                        </List.Item>
+                      ))}
+                  </List>
+                ) : (
+                  <NoResultsMessage text={`No variants found matching "${variantSearch}"`} />
+                )
+              ) : (
+                <NoResultsMessage text="Please select a model first" />
+              )}
             </ScrollArea>
           </Grid.Col>
         )}
