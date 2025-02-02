@@ -19,6 +19,8 @@ const ComparisonProducts = ({ title, type }) => {
       try {
         setState(prev => ({ ...prev, loading: true }));
         const result = await getCompares({ type });
+
+        console.log("result", result);
         setState({ data: result, loading: false, error: null });
       } catch (error) {
         console.error("Error fetching comparisons:", error);
@@ -100,7 +102,7 @@ const ComparisonProducts = ({ title, type }) => {
           </Box>
           <Box className="col-lg-12">
             <Box className="row">
-              {state.data?.map((pair, idx) => (
+              {state?.data?.map((pair, idx) => (
                 <ComparisonCard key={idx} pair={pair} />
               ))}
             </Box>
