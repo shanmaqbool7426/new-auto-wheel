@@ -27,7 +27,7 @@ const CategoryVideos = ({ category, breadcrumb }) => {
       </Flex>
       <Grid gutter="22px">
         {category.videos.map((video) => (
-          <Grid.Col key={video._id} span={{ base: 12, md: 6, lg: 4 }}>
+          <Grid.Col key={video._id} span={{ base: 6, xs: 6, sm: 4 }}>
             <VideoCard video={video} />
           </Grid.Col>
         ))}
