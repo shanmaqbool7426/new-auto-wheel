@@ -7,4 +7,6 @@ export { default as IconInactiveAds } from './user-dashboard/dashboard/IconInact
 export { default as IconArrowRightRed } from './user-dashboard/dashboard/IconArrowRightRed';
 export { default as IconModalClose } from './user-dashboard/inventory/IconModalClose';
 
+export { default as IconPlayVideo } from './videos/IconPlayVideo';
+
 
