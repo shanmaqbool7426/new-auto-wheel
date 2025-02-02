@@ -13,8 +13,7 @@ export default async function HomeModule() {
 
   return (
     <>
-    <h1>this is home page</h1>
-      {/* <Hero banner={banner?.data} /> */}
+      <Hero banner={banner?.data} />
       {/* <BrowseByCategory makes={res?.makes} bodies={res?.bodies} /> */}
       {/* <BrowseByType vehicles={res?.vehiclesTypes} /> */}
       {/* <ComparisonProducts type="car"/> */}
