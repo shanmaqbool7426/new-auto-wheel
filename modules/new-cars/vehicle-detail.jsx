@@ -71,23 +71,23 @@ const VehicleDetail = ({ vehicle }) => {
   return (
     <>
       {/* Header Section */}
-      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={60} h={160}>
+      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={60} h={169}>
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
               <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="/" tt="capitalize" component={Link}>Home</Anchor>
+                    <Anchor fz="14px" href="/" tt="capitalize" component={Link}>Home</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
+                    <Anchor fz="14px" href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
+                    <Anchor fz="14px" component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <Anchor href="#">{`${make} ${model} ${variant}`}</Anchor>
+                    <Anchor fw="700" fz="14px" href="#">{`${make} ${model} ${variant}`}</Anchor>
                   </li>
                 </ol>
               </nav>
@@ -101,7 +101,7 @@ const VehicleDetail = ({ vehicle }) => {
       </Box>
 
       {/* Main Section */}
-      <Box component="section" className="cars-detail" py="xl">
+      <Box component="section" className="cars-detail" py="24px">
         <Box className="container-xl">
           <Flex gap="xl" wrap={{ base: "wrap", xl: "nowrap" }}>
             {/* Carousel Section */}
@@ -122,7 +122,7 @@ const VehicleDetail = ({ vehicle }) => {
                           <Text>6</Text>
                         </Group>
                         <Image
-                          radius="sm"
+                          radius="5px"
                           alt="car-detail"
                           src={img || defaultImage}
                           h="433"
@@ -175,7 +175,7 @@ const VehicleDetail = ({ vehicle }) => {
                   </Group>
                   <Flex gap="md" align="center">
                     <Flex align="center" gap="3">
-                      <Rating defaultValue={averageRating} count={5} />
+                      <Rating defaultValue={averageRating} count={5} size={'16px'} />
                       <Text span inherit>
                         ({averageRating || 0})
                       </Text>
@@ -190,9 +190,9 @@ const VehicleDetail = ({ vehicle }) => {
                 <Box className="col-lg-6 border-end">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <FuelTank style={{ width: rem(24), height: rem(24) }} />
-                    <Text c="dimmed" size="sm">
+                    <Text c="dimmed" size="10px" lh="1">
                       Engine{" "}
-                      <Text c="#000" fw={600}>
+                      <Text c="#333333" fw={700} mt="4px">
                         {engine.type || "N/A"}
                       </Text>
                     </Text>
@@ -208,9 +208,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="10px" lh="1">
                         Fuel Tank{" "}
-                        <Text c="#000" fw={600}>
+                        <Text c="#333333" fw={700} mt="4px">
                           {fuelCapacity || "N/A"}L
                         </Text>
                       </Text>
@@ -224,9 +224,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
-                        Airbags{" "}
-                        <Text c="#000" fw={600}>
+                      <Text c="dimmed" size="10px" lh="1">
+                        No Of Air Bags{" "}
+                        <Text c="#333333" fw={700} mt="4px">
                           {safety?.airbags ? safety.airbags : "No"}
                         </Text>
                       </Text>
@@ -246,9 +246,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="10px" lh="1">
                         Fuel Average{" "}
-                        <Text span c="#000" fw={600}>
+                        <Text span c="#333333" fw={700} mt="4px">
                           {fuelAverage || "N/A"}
                         </Text>
                       </Text>
@@ -262,9 +262,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="10px" lh="1">
                         Mileage{" "}
-                        <Text c="#000" fw={600}>
+                        <Text c="#333333" fw={700} mt="4px">
                           {mileage?.city || "N/A"}
                         </Text>
                       </Text>
@@ -281,9 +281,9 @@ const VehicleDetail = ({ vehicle }) => {
                       }}
                     /> */}
                     <DetailTransmissionIcon />
-                    <Text c="dimmed" size="sm">
+                    <Text c="dimmed" size="10px" lh="1">
                       Transmission{" "}
-                      <Text c="#000" fw={600}>
+                      <Text c="#333333" fw={700} mt="4px">
                         {transmission.type || transmission || "N/A"}
                       </Text>
                     </Text>
@@ -326,10 +326,10 @@ const VehicleDetail = ({ vehicle }) => {
           </Flex>
         </Box>
         {/* Additional Car Info */}
-        <Box className="container-xl" mt="xl">
+        <Box className="container-xl" mt="56px">
           <Box className="row">
             <Box className="col-lg-12">
-              <Title order={2}>
+              <Title order={2} fz="20px" lh={'1.25'}>
                 {`${make} ${model} ${variant} ${year}`}{" "}
                 <Text span inherit c="#E90808">
                   Price in Pakistan
@@ -400,12 +400,12 @@ const VehicleDetail = ({ vehicle }) => {
       )}
 
       {/* Pros and Cons Section */}
-      <Box component="section" className="pros-const-section bg-light" py="xl">
-        <Box className="container-xl" py="xl">
+      <Box component="section" className="pros-const-section" py="48px" bg="#F3F3F3">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12">
-              <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
-                <Title mb="lg" order={3}>
+              <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="5px">
+                <Title mb="lg" order={3} fz="20px">
                   {`${make} ${model} ${variant} ${year}`}{" "}
                   <Text span inherit className="text-primary">
                     Pros & Cons
@@ -485,13 +485,13 @@ const VehicleDetail = ({ vehicle }) => {
         </Box>
       </Box>
       {/* Rich Text Overview */}
-      <Box component="section" className="detail-overview" py="xl">
-        <Box className="container-xl" py="xl">
+      <Box component="section" className="detail-overview" py="56px">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12">
               <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
-                <Title mb="lg" order={3}>
-                  {`${make} ${model} ${variant} ${year}`} Overview
+                <Title mb="lg" order={2}>
+                  {`${make} ${model} ${variant} ${year}`} <Text span inherit className="text-primary">Overview</Text>
                 </Title>
                 {/* Render Rich Text Description */}
                 <Box
@@ -504,12 +504,12 @@ const VehicleDetail = ({ vehicle }) => {
         </Box>
       </Box>
       {/* Detail Specification Section */}
-      <Box component="section" className="pros-const-section bg-light" py="xl">
-        <Box className="container-xl" py="xl">
+      <Box component="section" className="pros-const-section" py="56px" bg="#F3F3F3">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12">
-              <Flex justify="space-between" align="center">
-                <Title mb="lg" order={2}>
+              <Flex justify="space-between" align="center" mb="lg">
+                <Title order={2}>
                   {`${make} ${model} ${variant} ${year}`}{" "}
                   <Text span inherit className="text-primary">
                     Specifications
