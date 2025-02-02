@@ -17,9 +17,9 @@ export default async function HomeModule() {
       <BrowseByCategory makes={res?.makes} bodies={res?.bodies} />
       <BrowseByType vehicles={res?.vehiclesTypes} />
       <ComparisonProducts type="car"/>
-      {/* <SearchByLocations /> */}
-      {/* <BrowseVideos type="car" /> */}
-      {/* <BrowseBlogs /> */}
+      <SearchByLocations />
+      <BrowseVideos type="car" />
+      <BrowseBlogs />
     </>
   );
 }
