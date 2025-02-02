@@ -30,7 +30,7 @@ import { getAllReviews } from "@/services/vehicles";
 import { formatToMonthYear } from "@/utils";
 import { useSession, signOut } from "next-auth/react";
 
-const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
+const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 	const { data: session, status } = useSession();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,9 +78,9 @@ const Comments = ({ vehicleType, fetchMakesByTypeData }) => {
 
 	return (
 		<>
-			<Box component="section" className="latest-reviews" py="56px">
+			<Box component="section" className="latest-reviews" py="56px" bg={bg}>
 				<div className="container-xl">
-					<Card shadow="0px 4px 20px 0px #00000014" pt="32" pl="40px" pr="130px">
+					<Card shadow="0px 4px 20px 0px #00000014" className={styles.commentCard}>
 						<Title order={2} mb="20px" lh="1">
 							Latest Reviews of Toyota Corolla 2024
 						</Title>
