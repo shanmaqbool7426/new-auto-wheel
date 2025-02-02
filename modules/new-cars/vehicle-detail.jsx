@@ -101,7 +101,7 @@ const VehicleDetail = ({ vehicle }) => {
       </Box>
 
       {/* Main Section */}
-      <Box component="section" className="cars-detail" py="24px">
+      <Box component="section" className="cars-detail" pt="24px" pb="56px">
         <Box className="container-xl">
           <Flex gap="xl" wrap={{ base: "wrap", xl: "nowrap" }}>
             {/* Carousel Section */}
@@ -343,6 +343,73 @@ const VehicleDetail = ({ vehicle }) => {
                 View Brochure
               </Anchor> */}
             </Box>
+            {variants && variants.length > 0 && (
+              <Box className="col-lg-12" mt="xl">
+                <Table
+                  verticalSpacing="sm"
+                  horizontalSpacing="sm"
+                  withTableBorder
+                  withColumnBorders
+                >
+                  <Table.Thead>
+                    <Table.Tr bg="#E90808" c="white">
+                      <Table.Th w="50%" fz="16px">Variants</Table.Th>
+                      <Table.Th w="40%" fz="16px">Ex-Factory Price</Table.Th>
+                      <Table.Th w="10%" fz="16px" align="center" ta="center">
+                        Compare
+                      </Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {variants?.map((variant, index) => (
+                      <Table.Tr>
+                        <Table.Td>
+                          <Flex justify="space-between">
+                            <Text fw={400} size="14px" c="#E90808">
+                              {`${variant.make} ${variant.model}`}
+                              <Text size="12px" c="#878787" mt="6px">
+                                {`${variant.engine.displacement} cc, ${variant.transmission.type}, Petrol`}
+                              </Text>
+                            </Text>
+                            <Text size="12px" c="#878787">Delivery Time: <Text span c="#333">1 Month</Text></Text>
+                          </Flex>
+                          <Text size="12px" mt="12px" c="#878787">
+                            2 Airbags, Navigation, Steering Switches, Rear Camera,
+                            ABS, 9.0" Infotainment
+                          </Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text size="14px" fw="700" c="#333">
+                            PKR {variant.minPrice} - {variant.maxPrice}
+                          </Text>
+                          <Text size="12px" c="#E90808" mt="12px">
+                            Get Corolla Altis X Manual 1.6 On Road Price
+                          </Text>
+                        </Table.Td>
+                        <Table.Td align="center">
+                          <Checkbox labelPosition="left" />
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+                <Text c="#E90808" mt="xl" size="12px">
+                  Toyota Corolla 2022 Price
+                  <Text span inherit mx="xs" c="dark">
+                    |
+                  </Text>
+                  Toyota Corolla 2021 Price
+                  <Text span inherit mx="xs" c="dark">
+                    |
+                  </Text>
+                  Toyota Corolla 2020 Price
+                  <Text span inherit mx="xs" c="dark">
+                    |
+                  </Text>
+                  Toyota Corolla 2019 Price
+                </Text>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
@@ -360,9 +427,9 @@ const VehicleDetail = ({ vehicle }) => {
           >
             <Table.Thead>
               <Table.Tr bg="#E90808" c="white">
-                <Table.Th w="50%">Variants</Table.Th>
-                <Table.Th w="40%">Ex-Factory Price</Table.Th>
-                <Table.Th w="10%" align="center" ta="center">
+                <Table.Th w="50%" fz="16px">Variants</Table.Th>
+                <Table.Th w="40%" fz="16px">Ex-Factory Price</Table.Th>
+                <Table.Th w="10%" fz="16px" align="center" ta="center">
                   Compare
                 </Table.Th>
               </Table.Tr>
@@ -374,7 +441,7 @@ const VehicleDetail = ({ vehicle }) => {
                     <Flex justify="space-between">
                       {/* Use Flex and multiple Text components instead of nesting */}
                       <div>
-                        <Text fw={500} size="md" c="#E90808">
+                        <Text fw={400} size="14px" c="#E90808">
                           {`${variant.make} ${variant.model}`}
                         </Text>
                         <Text c="dimmed">
