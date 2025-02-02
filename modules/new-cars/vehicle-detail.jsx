@@ -18,6 +18,7 @@ import {
   List,
   CloseIcon,
   Checkbox,
+  Grid,
 } from "@mantine/core";
 import { GetColor } from "@/constants/colors";
 import {
@@ -112,91 +113,97 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
       {/* Main Section */}
       <Box component="section" className="cars-detail" pt="24px" pb="56px">
         <Box className="container-xl">
-          <Flex gap="xl" wrap={{ base: "wrap", xl: "nowrap" }}>
+          <Grid gutter="32px">
             {/* Carousel Section */}
-            <Box w={rem(740)} flex="1 1 740">
-              <Box className="gallery-slider">
-                <Box className="large-thumbnail" pos="relative">
-                  <Carousel withIndicators={false} controlSize={40} mb="md">
-                    {(images || [defaultImage]).map((img, index) => (
-                      <Carousel.Slide key={index}>
-                        <Group
-                          gap="xs"
-                          c="white"
-                          pos="absolute"
-                          top={rem(20)}
-                          left={rem(20)}
-                        >
-                          <CameraIcon />
-                          <Text>6</Text>
-                        </Group>
-                        <Image
-                          radius="5px"
-                          alt="car-detail"
-                          src={img || defaultImage}
-                          h="433"
-                          w="100%"
-                          fit="cover"
-                        />
-                      </Carousel.Slide>
-                    ))}
-                  </Carousel>
-                  <Box className="img-gallery-slider">
-                    <SimpleGrid cols={5}>
-                      {(images || [defaultImage]).map((img, index) => (
-                        <UnstyledButton key={index}>
-                          <Image
-                            radius="sm"
-                            alt="car-thumbnail"
-                            src={img || defaultImage}
-                            h="83"
-                            w="100%"
-                            fit="cover"
-                          />
-                        </UnstyledButton>
-                      ))}
-                    </SimpleGrid>
-                  </Box>
-                </Box>
+            <Grid.Col span={{ base: 12, lg: 8 }}>
+              <Carousel withIndicators={false} controlSize={40} mb="md">
+                {(images || [defaultImage]).map((img, index) => (
+                  <Carousel.Slide key={index}>
+                    <Image
+                      radius="5px"
+                      alt="car-detail"
+                      src={img || defaultImage}
+                      h="433"
+                      w="100%"
+                      fit="cover"
+                    />
+                    <Group
+                      gap="xs"
+                      c="white"
+                      pos="absolute"
+                      top={rem(20)}
+                      left={rem(20)}
+                    >
+                      <CameraIcon />
+                      <Text>6</Text>
+                    </Group>
+                  </Carousel.Slide>
+                ))}
+              </Carousel>
+              <Box className="img-gallery-slider">
+                <SimpleGrid cols={5}>
+                  {(images || [defaultImage]).map((img, index) => (
+                    <UnstyledButton key={index}>
+                      <Image
+                        radius="sm"
+                        alt="car-thumbnail"
+                        src={img || defaultImage}
+                        h="83"
+                        w="100%"
+                        fit="cover"
+                      />
+                    </UnstyledButton>
+                  ))}
+                </SimpleGrid>
               </Box>
-            </Box>
+            </Grid.Col>
 
             {/* Car Details Section */}
-            <Box w="auto" flex="1 1 auto">
-              <Box className="row">
-                <Box className="col-12">
-                  <Text c="dimmed" size={rem(16)}>
-                    {make} {model} {variant} {year} Price Range in Pakistan
-                  </Text>
-                  <Group my="lg" wrap="nowrap">
-                    <Text c="#E90808" fw="bold" size={rem(24)}>
-                      <Text span size="lg" c="#E90808" fw={600}>
-                        PKR
-                      </Text>{" "}
-                      <Text span fw={600} size={rem(24)}>
-                        {formatPriceInFactors(minPrice)} -{" "}
-                        {formatPriceInFactors(maxPrice)}
-                      </Text>
-                    </Text>
-                    <Text size={rem(14)} c="dimmed">
+            <Grid.Col span={{ base: 12, lg: 4 }}>
+              <Box>
+                <Text c="dimmed" size={rem(16)}>
+                  {make} {model} {variant} {year} Price Range in Pakistan
+                </Text>
+                <Group mt="20px" wrap="nowrap">
+                  <Text c="#E90808" size="24px" lh="1">
+                    <Text span fw="700" size="16px" c="#E90808">
+                      PKR
+                    </Text>{" "}
+                    <Text span fw="700" size="24px" c="#E90808">
+                      {formatPriceInFactors(minPrice)} -{" "}
+                      {formatPriceInFactors(maxPrice)}
+                    </Text>{" "}
+                    <Text span size={'14px'} c="dimmed">
                       (*Ex-Factory Price)
                     </Text>
-                  </Group>
-                  <Flex gap="md" align="center">
-                    <Flex align="center" gap="3">
-                      <Rating defaultValue={averageRating} count={5} size={'16px'} />
-                      <Text span inherit>
-                        ({averageRating || 0})
-                      </Text>
-                    </Flex>
-                    <Text c="dimmed">(Reviews {reviewCount || 0})</Text>
+                  </Text>
+
+                </Group>
+                <Flex gap="md" align="center" mt="20px">
+                  <Flex align="center" gap="3">
+                    <Rating defaultValue={averageRating} count={5} size={'16px'} />
+                    <Text span inherit size="16px" lh="1">
+                      ({averageRating || 0})
+                    </Text>
                   </Flex>
-                </Box>
+                  <Text lh="1" size="16px" c="dimmed">(Reviews {reviewCount || 0})</Text>
+                </Flex>
+                <Button
+                  mt="20px"
+                  size="md"
+                  fw={400}
+                  color="#E90808"
+                  variant="outline"
+                  h="29px"
+                  fz={'14px'}
+                >
+                  Used Toyota Cars for sale
+                </Button>
               </Box>
 
               {/* Car Specifications */}
               <Box className="row border-bottom" mt="xl" pb="md" mb="md">
-                <Box className="col-lg-6 border-end">
+                <Box className="col border-end">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <FuelTank style={{ width: rem(24), height: rem(24) }} />
                     <Text c="dimmed" size="10px" lh="1">
@@ -207,7 +214,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     </Text>
                   </Flex>
                 </Box>
-                <Box className="col-lg-6">
+                <Box className="col">
                   {type == "bike" ? (
                     <Flex align="flex-start" gap="sm" c="dimmed">
                       <FuelTank
@@ -245,7 +252,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               </Box>
 
               <Box className="row border-bottom" pb="md" mb="lg">
-                <Box className="col-lg-6 border-end">
+                <Box className="col border-end">
                   {type == "bike" ? (
                     <Flex align="flex-start" gap="sm" c="dimmed">
                       <DimensionIcon
@@ -280,7 +287,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     </Flex>
                   )}
                 </Box>
-                <Box className="col-lg-6">
+                <Box className="col">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     {/* <TransmissionIcon
                       style={{
@@ -331,8 +338,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   </Group>
                 </Box>
               </Box>
-            </Box>
-          </Flex>
+            </Grid.Col>
+          </Grid>
         </Box>
         {/* Additional Car Info */}
         <Box className="container-xl" mt="56px">
@@ -513,6 +520,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
           </Box>
         </Box>
       </Box>
+
       {/* Rich Text Overview */}
       <Box component="section" className="detail-overview" py="56px">
         <Box className="container-xl">
@@ -532,6 +540,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
           </Box>
         </Box>
       </Box>
+
       {/* Detail Specification Section */}
       <Box component="section" className="pros-const-section" py="56px" bg="#F3F3F3">
         <Box className="container-xl">

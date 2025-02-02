@@ -7,6 +7,19 @@ $text-muted :#878787;
   --mantine-color-dimmed: $text-muted;
 }
 
+.indicator {
+  width: 12px;
+  height: 4px;
+  background-color: #E90808;
+  transition: width 250ms ease;
+
+  &[data-active] {
+    width: 40px;
+  background-color: #E90808;
+
+  }
+}
+
 
 html,
 body {
