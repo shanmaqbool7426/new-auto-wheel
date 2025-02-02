@@ -15,6 +15,66 @@ const cars = [
     "year": 2025,
     "minPrice": 637000,
     "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981222/b82kwuay3dmmlf3wxax6.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981222/b82kwuay3dmmlf3wxax6.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981024/wm2t5rmyl5fpkt4hvdqb.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981222/b82kwuay3dmmlf3wxax6.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
     "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981024/wm2t5rmyl5fpkt4hvdqb.png",
     "views": 0,
     "slug": "honda-civic-vti-oriel-2025",
@@ -35,8 +95,52 @@ const cars = [
     "slug": "honda-civic-vti-oriel-2025",
     "averageRating": 0,
     "reviewCount": 0
-  }
-
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981024/wm2t5rmyl5fpkt4hvdqb.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981024/wm2t5rmyl5fpkt4hvdqb.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
+  {
+    "_id": "67977c987c0db8dsd7256d94bbb",
+    "make": "Honda",
+    "model": "Civic",
+    "variant": "VTI Oriel",
+    "type": "car",
+    "year": 2025,
+    "minPrice": 637000,
+    "maxPrice": 8110000,
+    "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981222/b82kwuay3dmmlf3wxax6.png",
+    "views": 0,
+    "slug": "honda-civic-vti-oriel-2025",
+    "averageRating": 0,
+    "reviewCount": 0
+  },
 ]
 
 export default function CardsCarousel({ bg = "#fff" }) {
@@ -54,11 +158,12 @@ export default function CardsCarousel({ bg = "#fff" }) {
 
         <Box className={styles.sectionBody}>
           <Carousel
+            align="start"
             slideSize={{ base: '100%', sm: '50%', md: '33.333333%', lg: '25%' }}
             slideGap={{ base: 0, sm: 'md', md: 'md', lg: 'md' }}
             withControls={true}
             controlSize={24}
-            slidesToScroll={3}
+            slidesToScroll={1}
             classNames={{ viewport: styles.viewPort, controls: styles.controls, control: styles.control }}
           >
             {cars.map((vehicle, index) => (
