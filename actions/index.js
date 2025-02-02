@@ -142,3 +142,22 @@ export const fetchUserReviewsByDealerId = async (token,dealerId,page=1,limit=3) 
     throw error;
   }
 };
+
+export const fetchVehicleBySellerByVehicleId = async (token,vehicleId) => {
+  try {
+    const vehicle = await fetchAPI(
+      API_ENDPOINTS.VEHICLE.DETAIL_BY_SELLER(vehicleId),
+      {
+        headers: {
+          'Authorization': token
+        }
+      }
+    );
+    return vehicle;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      vehicle: {},
+    };
+  }
+};
