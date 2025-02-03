@@ -513,8 +513,8 @@ export const RightArrowIcon = ({ width, height }) => {
 export const SearchIcon = () => {
   return (
     <svg
-      width="21"
-      height="21"
+      width="30"
+      height="30"
       viewBox="0 0 21 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -530,8 +530,8 @@ export const SearchIcon = () => {
 export const RanchIcon = () => {
   return (
     <svg
-      width="22"
-      height="22"
+      width="30"
+      height="30"
       viewBox="0 0 22 22"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -548,7 +548,7 @@ export const TrustCar = () => {
   return (
     <svg
       width="30"
-      height="22"
+      height="30"
       viewBox="0 0 30 22"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -583,8 +583,8 @@ export const VerifiedUser = () => {
 export const PhoneIcon = () => {
   return (
     <svg
-      width="13"
-      height="13"
+      width="16"
+      height="16"
       viewBox="0 0 13 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -667,8 +667,8 @@ export const DollarIcon = ({ style }) => {
 export const ReportFlag = () => {
   return (
     <svg
-      width="26"
-      height="26"
+      width="24"
+      height="24"
       viewBox="0 0 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -888,8 +888,8 @@ export const MeterSquareIcon = () => {
 export const FeaturedCrownIcon = () => {
   return (
     <svg
-      width="18"
-      height="18"
+      width="12"
+      height="12"
       viewBox="0 0 15 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
