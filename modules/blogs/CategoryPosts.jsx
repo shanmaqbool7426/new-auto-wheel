@@ -16,7 +16,7 @@ const CategoryPosts = ({ category }) => {
 
   return (
     <Box className="row">
-      <Title order={2} mb="lg">
+      <Title order={2} mb="32px" lh="1">
         {category.category}
       </Title>
 

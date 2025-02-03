@@ -1,0 +1,37 @@
+.videoCard {
+  background-color: #fff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+}
+
+.videoCardThumb {
+  position: relative;
+  height: 255px;
+  overflow: hidden;
+  border-radius: 5px 5px 0 0;
+}
+
+.videoCardThumbOverlay {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.videoCardCaption {
+  height: 59px;
+  display: flex;
+  align-items: center;
+  padding: 6px 32px 6px 12px;
+  min-width: 0;
+}
+
+.videoCardCaptionText {
+  font-size: 16px;
+  color: #000;
+}

@@ -18,6 +18,7 @@ import {
   List,
   CloseIcon,
   Checkbox,
+  Grid,
 } from "@mantine/core";
 import { GetColor } from "@/constants/colors";
 import {
@@ -30,12 +31,19 @@ import {
 } from "@/components/Icons";
 import { IconCheck } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
+
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
 import Link from "next/link";
+import { useState } from "react";
 
-const VehicleDetail = ({ vehicle }) => {
+const VehicleDetail = ({ vehicle, variantsVehicles }) => {
 
+  // selected vehicle for compare
+  const [selectedVehicle, setSelectedVehicle] = useState([]);
+
+
+  console.log("selectedVehicle", selectedVehicle)
   const {
     vehicleDetails: {
       make,
@@ -68,26 +76,28 @@ const VehicleDetail = ({ vehicle }) => {
     },
     variants,
   } = vehicle || {};
+
+  console.log("variantsVehicles", variantsVehicles)
   return (
     <>
       {/* Header Section */}
-      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={60} h={160}>
+      <Box bg="rgba(233, 8, 8, 0.8)" pb="xl" pt={60} h={169}>
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
               <nav className="mt-3">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Anchor href="/" tt="capitalize" component={Link}>Home</Anchor>
+                    <Anchor fz="14px" href="/" tt="capitalize" component={Link}>Home</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
+                    <Anchor fz="14px" href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
+                    <Anchor fz="14px" component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    <Anchor href="#">{`${make} ${model} ${variant}`}</Anchor>
+                    <Anchor fw="700" fz="14px" href="#">{`${make} ${model} ${variant}`}</Anchor>
                   </li>
                 </ol>
               </nav>
@@ -101,104 +111,110 @@ const VehicleDetail = ({ vehicle }) => {
       </Box>
 
       {/* Main Section */}
-      <Box component="section" className="cars-detail" py="xl">
+      <Box component="section" className="cars-detail" pt="24px" pb="56px">
         <Box className="container-xl">
-          <Flex gap="xl" wrap={{ base: "wrap", xl: "nowrap" }}>
+          <Grid gutter="32px">
             {/* Carousel Section */}
-            <Box w={rem(740)} flex="1 1 740">
-              <Box className="gallery-slider">
-                <Box className="large-thumbnail" pos="relative">
-                  <Carousel withIndicators={false} controlSize={40} mb="md">
-                    {(images || [defaultImage]).map((img, index) => (
-                      <Carousel.Slide key={index}>
-                        <Group
-                          gap="xs"
-                          c="white"
-                          pos="absolute"
-                          top={rem(20)}
-                          left={rem(20)}
-                        >
-                          <CameraIcon />
-                          <Text>6</Text>
-                        </Group>
-                        <Image
-                          radius="sm"
-                          alt="car-detail"
-                          src={img || defaultImage}
-                          h="433"
-                          w="100%"
-                          fit="cover"
-                        />
-                      </Carousel.Slide>
-                    ))}
-                  </Carousel>
-                  <Box className="img-gallery-slider">
-                    <SimpleGrid cols={5}>
-                      {(images || [defaultImage]).map((img, index) => (
-                        <UnstyledButton key={index}>
-                          <Image
-                            radius="sm"
-                            alt="car-thumbnail"
-                            src={img || defaultImage}
-                            h="83"
-                            w="100%"
-                            fit="cover"
-                          />
-                        </UnstyledButton>
-                      ))}
-                    </SimpleGrid>
-                  </Box>
-                </Box>
+            <Grid.Col span={{ base: 12, lg: 8 }}>
+              <Carousel withIndicators={false} controlSize={40} mb="md">
+                {(images || [defaultImage]).map((img, index) => (
+                  <Carousel.Slide key={index}>
+                    <Image
+                      radius="5px"
+                      alt="car-detail"
+                      src={img || defaultImage}
+                      h="433"
+                      w="100%"
+                      fit="cover"
+                    />
+                    <Group
+                      gap="xs"
+                      c="white"
+                      pos="absolute"
+                      top={rem(20)}
+                      left={rem(20)}
+                    >
+                      <CameraIcon />
+                      <Text>6</Text>
+                    </Group>
+                  </Carousel.Slide>
+                ))}
+              </Carousel>
+              <Box className="img-gallery-slider">
+                <SimpleGrid cols={5}>
+                  {(images || [defaultImage]).map((img, index) => (
+                    <UnstyledButton key={index}>
+                      <Image
+                        radius="sm"
+                        alt="car-thumbnail"
+                        src={img || defaultImage}
+                        h="83"
+                        w="100%"
+                        fit="cover"
+                      />
+                    </UnstyledButton>
+                  ))}
+                </SimpleGrid>
               </Box>
-            </Box>
+            </Grid.Col>
 
             {/* Car Details Section */}
-            <Box w="auto" flex="1 1 auto">
-              <Box className="row">
-                <Box className="col-12">
-                  <Text c="dimmed" size={rem(16)}>
-                    {make} {model} {variant} {year} Price Range in Pakistan
-                  </Text>
-                  <Group my="lg" wrap="nowrap">
-                    <Text c="#E90808" fw="bold" size={rem(24)}>
-                      <Text span size="lg" c="#E90808" fw={600}>
-                        PKR
-                      </Text>{" "}
-                      <Text span fw={600} size={rem(24)}>
-                        {formatPriceInFactors(minPrice)} -{" "}
-                        {formatPriceInFactors(maxPrice)}
-                      </Text>
-                    </Text>
-                    <Text size={rem(14)} c="dimmed">
+            <Grid.Col span={{ base: 12, lg: 4 }}>
+              <Box>
+                <Text c="dimmed" size={rem(16)}>
+                  {make} {model} {variant} {year} Price Range in Pakistan
+                </Text>
+                <Group mt="20px" wrap="nowrap">
+                  <Text c="#E90808" size="24px" lh="1">
+                    <Text span fw="700" size="16px" c="#E90808">
+                      PKR
+                    </Text>{" "}
+                    <Text span fw="700" size="24px" c="#E90808">
+                      {formatPriceInFactors(minPrice)} -{" "}
+                      {formatPriceInFactors(maxPrice)}
+                    </Text>{" "}
+                    <Text span size={'14px'} c="dimmed">
                       (*Ex-Factory Price)
                     </Text>
-                  </Group>
-                  <Flex gap="md" align="center">
-                    <Flex align="center" gap="3">
-                      <Rating defaultValue={averageRating} count={5} />
-                      <Text span inherit>
-                        ({averageRating || 0})
-                      </Text>
-                    </Flex>
-                    <Text c="dimmed">(Reviews {reviewCount || 0})</Text>
+                  </Text>
+
+                </Group>
+                <Flex gap="md" align="center" mt="20px">
+                  <Flex align="center" gap="3">
+                    <Rating defaultValue={averageRating} count={5} size={'16px'} />
+                    <Text span inherit size="16px" lh="1">
+                      ({averageRating || 0})
+                    </Text>
                   </Flex>
-                </Box>
+                  <Text lh="1" size="16px" c="dimmed">(Reviews {reviewCount || 0})</Text>
+                </Flex>
+                <Button
+                  mt="20px"
+                  size="md"
+                  fw={400}
+                  color="#E90808"
+                  variant="outline"
+                  h="29px"
+                  fz={'14px'}
+                >
+                  Used Toyota Cars for sale
+                </Button>
               </Box>
 
               {/* Car Specifications */}
               <Box className="row border-bottom" mt="xl" pb="md" mb="md">
-                <Box className="col-lg-6 border-end">
+                <Box className="col border-end">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <FuelTank style={{ width: rem(24), height: rem(24) }} />
-                    <Text c="dimmed" size="sm">
+                    <Text c="dimmed" size="10px" lh="1">
                       Engine{" "}
-                      <Text c="#000" fw={600}>
+                      <Text c="#333333" fw={700} mt="4px">
                         {engine.type || "N/A"}
                       </Text>
                     </Text>
                   </Flex>
                 </Box>
-                <Box className="col-lg-6">
+                <Box className="col">
                   {type == "bike" ? (
                     <Flex align="flex-start" gap="sm" c="dimmed">
                       <FuelTank
@@ -208,9 +224,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="10px" lh="1">
                         Fuel Tank{" "}
-                        <Text c="#000" fw={600}>
+                        <Text c="#333333" fw={700} mt="4px">
                           {fuelCapacity || "N/A"}L
                         </Text>
                       </Text>
@@ -224,9 +240,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
-                        Airbags{" "}
-                        <Text c="#000" fw={600}>
+                      <Text c="dimmed" size="10px" lh="1">
+                        No Of Air Bags{" "}
+                        <Text c="#333333" fw={700} mt="4px">
                           {safety?.airbags ? safety.airbags : "No"}
                         </Text>
                       </Text>
@@ -236,7 +252,7 @@ const VehicleDetail = ({ vehicle }) => {
               </Box>
 
               <Box className="row border-bottom" pb="md" mb="lg">
-                <Box className="col-lg-6 border-end">
+                <Box className="col border-end">
                   {type == "bike" ? (
                     <Flex align="flex-start" gap="sm" c="dimmed">
                       <DimensionIcon
@@ -246,9 +262,9 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="10px" lh="1">
                         Fuel Average{" "}
-                        <Text span c="#000" fw={600}>
+                        <Text span c="#333333" fw={700} mt="4px">
                           {fuelAverage || "N/A"}
                         </Text>
                       </Text>
@@ -262,16 +278,16 @@ const VehicleDetail = ({ vehicle }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="sm">
+                      <Text c="dimmed" size="10px" lh="1">
                         Mileage{" "}
-                        <Text c="#000" fw={600}>
+                        <Text c="#333333" fw={700} mt="4px">
                           {mileage?.city || "N/A"}
                         </Text>
                       </Text>
                     </Flex>
                   )}
                 </Box>
-                <Box className="col-lg-6">
+                <Box className="col">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     {/* <TransmissionIcon
                       style={{
@@ -281,9 +297,9 @@ const VehicleDetail = ({ vehicle }) => {
                       }}
                     /> */}
                     <DetailTransmissionIcon />
-                    <Text c="dimmed" size="sm">
+                    <Text c="dimmed" size="10px" lh="1">
                       Transmission{" "}
-                      <Text c="#000" fw={600}>
+                      <Text c="#333333" fw={700} mt="4px">
                         {transmission.type || transmission || "N/A"}
                       </Text>
                     </Text>
@@ -322,14 +338,14 @@ const VehicleDetail = ({ vehicle }) => {
                   </Group>
                 </Box>
               </Box>
-            </Box>
-          </Flex>
+            </Grid.Col>
+          </Grid>
         </Box>
         {/* Additional Car Info */}
-        <Box className="container-xl" mt="xl">
+        <Box className="container-xl" mt="56px">
           <Box className="row">
             <Box className="col-lg-12">
-              <Title order={2}>
+              <Title order={2} fz="20px" lh={'1.25'}>
                 {`${make} ${model} ${variant} ${year}`}{" "}
                 <Text span inherit c="#E90808">
                   Price in Pakistan
@@ -343,69 +359,89 @@ const VehicleDetail = ({ vehicle }) => {
                 View Brochure
               </Anchor> */}
             </Box>
+            {variantsVehicles?.data?.variants && variantsVehicles?.data?.variants.length > 0 && (
+              <Box className="col-lg-12" mt="xl">
+                <Table
+                  verticalSpacing="sm"
+                  horizontalSpacing="sm"
+                  withTableBorder
+                  withColumnBorders
+                >
+                  <Table.Thead>
+                    <Table.Tr bg="#E90808" c="white">
+                      <Table.Th w="50%" fz="16px">Variants</Table.Th>
+                      <Table.Th w="40%" fz="16px">Ex-Factory Price</Table.Th>
+                      <Table.Th w="10%" fz="16px" align="center" ta="center">
+                        Compare
+                      </Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {variantsVehicles?.data?.variants?.map((variant, index) => (
+                      <Table.Tr key={variant._id}>
+                        <Table.Td>
+                          <Flex justify="space-between">
+                            <Box>
+                              <Text fw={400} size="14px" c="#E90808">
+                                {`${variant.make} ${variant.model} ${variant.variant}`}
+                              </Text>
+                              <Text size="12px" c="#878787" mt="6px">
+                                {`${variant.engine?.displacement || 'N/A'} cc, ${variant.transmission?.type || 'N/A'}, ${variant.engine?.type || 'N/A'}`}
+                              </Text>
+                            </Box>
+                          </Flex>
+                          <Text size="12px" mt="12px" c="#878787">
+                            {getKeyFeatures(variant)}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text size="14px" fw="700" c="#333">
+                            PKR {formatPrice(variant.minPrice)} - {formatPrice(variant.maxPrice)}
+                          </Text>
+                          <Text size="12px" c="#E90808" mt="12px">
+                            Get {variant.make} {variant.model} {variant.transmission?.type ? variant.transmission?.type : ''} {variant.variant} On Road Price
+                          </Text>
+                        </Table.Td>
+                        <Table.Td align="center">
+                          <Checkbox labelPosition="left"   color="#E90808" onChange={(e) => setSelectedVehicle(e.target.checked ? [...selectedVehicle, {make: variant?.make, model: variant?.model, variant: variant?.variant, year: variant?.year, _id: variant?._id}] : selectedVehicle.filter(item => item._id !== variant._id))}/>
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+                <Text c="#E90808" mt="xl" size="12px">
+                  {variantsVehicles?.data?.variants?.map((variant, index) => (
+                    <>
+                    <Text c="#E90808" span inherit mx="xs"  key={index}>{variant.make} {variant.model} {variant.variant} {variant.year} Price</Text> {index < variantsVehicles?.data?.variants?.length - 1 && '|'}
+                  </>
+                  ))}
+                </Text>
+                {/* //  href={`/comparison/${pair.vehicle1.type}/${[
+              pair.vehicle1,
+              pair.vehicle2,
+            ]
+              .map(
+                (vehicle) =>
+                  `${vehicle.make}-${vehicle.model}${
+                    vehicle.variant ? "-" + vehicle.variant : ""
+                  }`
+              )
+              .join("_")}`} */}
+              {selectedVehicle?.length> 1 && <Button component={Link} mt="md" size="sm" radius="md" bg="#E90808" c="white" href={`/comparison/${type}/${selectedVehicle.map(vehicle => `${vehicle.make}-${vehicle.model}${vehicle.variant ? "-" + vehicle.variant : ""}`).join("_")}`} >
+               Compare
+                </Button>}
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
-      {/* Variants Comparison */}
-      {variants && variants.length > 0 && (
-        <Box className="container mb-4" mt="xl">
-          <Title order={2}>
-            {make} {model} Variants
-          </Title>
-          <Table
-            verticalSpacing="sm"
-            horizontalSpacing="sm"
-            withTableBorder
-            withColumnBorders
-          >
-            <Table.Thead>
-              <Table.Tr bg="#E90808" c="white">
-                <Table.Th w="50%">Variants</Table.Th>
-                <Table.Th w="40%">Ex-Factory Price</Table.Th>
-                <Table.Th w="10%" align="center" ta="center">
-                  Compare
-                </Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {variants?.map((variant, index) => (
-                <Table.Tr key={index}>
-                  <Table.Td>
-                    <Flex justify="space-between">
-                      {/* Use Flex and multiple Text components instead of nesting */}
-                      <div>
-                        <Text fw={500} size="md" c="#E90808">
-                          {`${variant.make} ${variant.model}`}
-                        </Text>
-                        <Text c="dimmed">
-                          {`${variant.engine.displacement} cc, ${variant.transmission.type}, Petrol`}
-                        </Text>
-                      </div>
-                      <Text>Delivery Time: 1 Month</Text>
-                    </Flex>
-                  </Table.Td>
-                  <Table.Td>
-                    <Text size="xl" fw="bold">
-                      PKR {variant.minPrice} - {variant.maxPrice}
-                    </Text>
-                  </Table.Td>
-                  <Table.Td align="center">
-                    <Checkbox labelPosition="left" />
-                  </Table.Td>
-                </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Box>
-      )}
-
       {/* Pros and Cons Section */}
-      <Box component="section" className="pros-const-section bg-light" py="xl">
-        <Box className="container-xl" py="xl">
+      <Box component="section" className="pros-const-section" py="48px" bg="#F3F3F3">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12">
-              <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
-                <Title mb="lg" order={3}>
+              <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="5px">
+                <Title mb="lg" order={3} fz="20px">
                   {`${make} ${model} ${variant} ${year}`}{" "}
                   <Text span inherit className="text-primary">
                     Pros & Cons
@@ -484,14 +520,15 @@ const VehicleDetail = ({ vehicle }) => {
           </Box>
         </Box>
       </Box>
+
       {/* Rich Text Overview */}
-      <Box component="section" className="detail-overview" py="xl">
-        <Box className="container-xl" py="xl">
+      <Box component="section" className="detail-overview" py="56px">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12">
               <Paper p="xl" shadow="0px 4px 20px 0px #00000014" radius="sm">
-                <Title mb="lg" order={3}>
-                  {`${make} ${model} ${variant} ${year}`} Overview
+                <Title mb="lg" order={2}>
+                  {`${make} ${model} ${variant} ${year}`} <Text span inherit className="text-primary">Overview</Text>
                 </Title>
                 {/* Render Rich Text Description */}
                 <Box
@@ -503,13 +540,14 @@ const VehicleDetail = ({ vehicle }) => {
           </Box>
         </Box>
       </Box>
+
       {/* Detail Specification Section */}
-      <Box component="section" className="pros-const-section bg-light" py="xl">
-        <Box className="container-xl" py="xl">
+      <Box component="section" className="pros-const-section" py="56px" bg="#F3F3F3">
+        <Box className="container-xl">
           <Box className="row">
             <Box className="col-lg-12">
-              <Flex justify="space-between" align="center">
-                <Title mb="lg" order={2}>
+              <Flex justify="space-between" align="center" mb="lg">
+                <Title order={2}>
                   {`${make} ${model} ${variant} ${year}`}{" "}
                   <Text span inherit className="text-primary">
                     Specifications
@@ -625,53 +663,30 @@ const renderSpecifications = (vehicle) => {
                 "N/A"}
             </Table.Td>
             <Table.Td c="dimmed">Ground Clearance</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.groundClearance || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Displacement</Table.Td>
-            <Table.Td>{vehicle?.engine?.displacement || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Transmission</Table.Td>
-            <Table.Td>{vehicle?.transmission?.type || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Horse Power</Table.Td>
-            <Table.Td>{vehicle?.engine?.horsepower || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Torque</Table.Td>
-            <Table.Td>{vehicle?.engine?.torque || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Boot Space</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.bootSpace || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Kerb Weight</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.kerbWeight || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Fuel Type</Table.Td>
-            <Table.Td>{vehicle?.engine?.type || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Mileage</Table.Td>
-            <Table.Td>
-              {`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` ||
-                "N/A"}
-            </Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>
-            <Table.Td>
-              {vehicle?.fuelConsumption?.tankCapacity || "N/A"}
-            </Table.Td>
-            <Table.Td c="dimmed">Seating Capacity</Table.Td>
-            <Table.Td>{vehicle?.dimensions?.seatingCapacity || "N/A"}</Table.Td>
-          </Table.Tr>
-          <Table.Tr>
-            <Table.Td c="dimmed">Top Speed</Table.Td>
-            <Table.Td>{vehicle?.engine?.maxSpeed || "N/A"}</Table.Td>
-            <Table.Td c="dimmed">Tyre Size</Table.Td>
-            <Table.Td>{vehicle?.wheelsAndTyres?.tyreSize || "N/A"}</Table.Td>
-          </Table.Tr>
-        </Table.Tbody>
-      </Table>
-    );
-  } else {
-    return <p>No specifications available for this vehicle type.</p>;
-  }
+            <Table.Td>{vehicle?.dimensions?.groundClearance || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Displacement</Table.Td>            <Table.Td>{vehicle?.engine?.displacement || "N/A"}</Table.Td>            <Table.Td c="dimmed">Transmission</Table.Td>            <Table.Td>{vehicle?.transmission?.type || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Horse Power</Table.Td>            <Table.Td>{vehicle?.engine?.horsepower || "N/A"}</Table.Td>            <Table.Td c="dimmed">Torque</Table.Td>            <Table.Td>{vehicle?.engine?.torque || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Boot Space</Table.Td>            <Table.Td>{vehicle?.dimensions?.bootSpace || "N/A"}</Table.Td>            <Table.Td c="dimmed">Kerb Weight</Table.Td>            <Table.Td>{vehicle?.dimensions?.kerbWeight || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Fuel Type</Table.Td>            <Table.Td>{vehicle?.engine?.type || "N/A"}</Table.Td>            <Table.Td c="dimmed">Mileage</Table.Td>            <Table.Td>              {`${vehicle?.fuelConsumption?.mileageCity} / ${vehicle?.fuelConsumption?.mileageHighway}` || "N/A"}            </Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Fuel Tank Capacity</Table.Td>            <Table.Td>              {vehicle?.fuelConsumption?.tankCapacity || "N/A"}            </Table.Td>            <Table.Td c="dimmed">Seating Capacity</Table.Td>            <Table.Td>{vehicle?.dimensions?.seatingCapacity || "N/A"}</Table.Td>          </Table.Tr>          <Table.Tr>            <Table.Td c="dimmed">Top Speed</Table.Td>            <Table.Td>{vehicle?.engine?.maxSpeed || "N/A"}</Table.Td>            <Table.Td c="dimmed">Tyre Size</Table.Td>            <Table.Td>{vehicle?.wheelsAndTyres?.tyreSize || "N/A"}</Table.Td>          </Table.Tr>        </Table.Tbody>      </Table>);
+  } else { return <p>No specifications available for this vehicle type.</p>; }
+};
+
+const getKeyFeatures = (variant) => {
+  const features = [];
+
+  // Priority features to check (in order of importance)
+  if (variant.safety?.airbags) features.push(`${variant.safety.airbags} Airbags`);
+  if (variant.engine?.type) features.push(variant.engine.type);
+  if (variant.safety?.abs) features.push('ABS');
+  if (variant.engine?.displacement) features.push(`${variant.engine.displacement} cc`);
+  if (variant.engine?.horsepower) features.push(`${variant.engine.horsepower} HP`);
+  if (variant.engine?.torque) features.push(`${variant.engine.torque} Nm`);
+  if (variant.comfort?.navigation) features.push('Navigation');
+  if (variant.comfort?.rearCamera) features.push('Rear Camera');
+  
+  if (variant.exterior?.sunRoof) features.push('Sunroof');
+  if (variant.comfort?.ac) features.push('AC');
+  if (variant.comfort?.keylessEntry) features.push('Keyless Entry');
+  if (variant.comfort?.infotainment) features.push('Infotainment');
+  if (variant.comfort?.steeringSwitches) features.push('Steering Switches');
+  if (variant.comfort?.rearCamera) features.push('Rear Camera');
+  
+  // Only take the first 7 features
+  return features.slice(0, 7).join(', ');
 };

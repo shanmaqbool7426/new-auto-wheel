@@ -1,11 +1,48 @@
 "use client";
-import { ActionIcon, Box, Card, Group, Image, List, rem, Tabs, Text, Title } from '@mantine/core'
-import React from 'react'
-import { BiLogoInstagramAlt } from 'react-icons/bi'
-import { BsTwitterX, BsYoutube } from 'react-icons/bs'
+import { ActionIcon, Box, Card, Group, Image, List, rem, Text, Title } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { BiLogoInstagramAlt } from 'react-icons/bi';
+import { BsTwitterX, BsYoutube } from 'react-icons/bs';
 import parse from "html-react-parser";
+import { Link } from '@mantine/core';
 
 const BlogDetailHtml = ({ content }) => {
+  const [tableOfContents, setTableOfContents] = useState([]);
+
+  useEffect(() => {
+    // Extract headings from strong tags
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    
+    const strongTags = tempDiv.getElementsByTagName('strong');
+    const toc = Array.from(strongTags).map((tag, index) => ({
+      id: `section-${index}`,
+      text: tag.textContent
+    }));
+    
+    setTableOfContents(toc);
+  }, [content]);
+
+  // Function to wrap strong tags with div IDs
+  const parseWithIds = (content) => {
+    let modifiedContent = content;
+    tableOfContents.forEach((item) => {
+      modifiedContent = modifiedContent.replace(
+        `<strong>${item.text}</strong>`,
+        `<div id="${item.id}"><strong>${item.text}</strong></div>`
+      );
+    });
+    return parse(modifiedContent);
+  };
+
+  const scrollToHeading = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.scrollBy(0, -100); // Offset for fixed headers
+    }
+  };
+
   return (
     <>
       <Card
@@ -15,13 +52,34 @@ const BlogDetailHtml = ({ content }) => {
         padding="lg"
         shadow="0px 4px 20px 0px #00000014"
       >
-        <Title order={3} mb="lg">
-          Table of Contents
-        </Title>
+        {tableOfContents.length > 0 && (
+          <>
+            <Title order={3} mb="lg">
+              Table of Contents
+            </Title>
 
-        {parse(content)}  
+            <List spacing="xs" size="sm" mb="xl">
+              {tableOfContents.map((item, index) => (
+                <List.Item
+                  key={item.id}
+                  onClick={() => scrollToHeading(item.id)}
+                  style={{ 
+                    cursor: 'pointer',
+                    color: '#E90808'
+                  }}
+                >
+                  {index + 1}. {item.text}
+                </List.Item>
+              ))}
+            </List>
+          </>
+        )}
 
+        <div className="blog-content">
+          {parseWithIds(content)}
+        </div>
       </Card>
+
       <Card
         mb="lg"
         color="#E90808"
@@ -68,7 +126,7 @@ const BlogDetailHtml = ({ content }) => {
         </Box>
       </Card>
     </>
-  )
-}
+  );
+};
 
-export default BlogDetailHtml
+export default BlogDetailHtml;

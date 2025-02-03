@@ -32,6 +32,7 @@ const BlogModule = async ({ params }) => {
   const isBlogsPage = data?.type === 'blogs';
   const isSingleBlog = data?.type === 'blog';
   const filteredCategories = data?.categories?.filter(category => category.slug !== 'news') || [];
+  const newsCategory = data?.categories?.find(category => category.slug === 'news');
   return (
     <Box component="section" className="blog-page" pt={100}>
       {/* Feature Grid Section */}
@@ -63,8 +64,8 @@ const BlogModule = async ({ params }) => {
                   />
                 )
               }
-              {isBlogsPage && (
-                <TopCategory category={data?.categories?.find(category => category.slug === 'news')} />
+              {isBlogsPage && newsCategory && (
+                <TopCategory category={newsCategory} />
               )}
             </Box>
 
@@ -130,16 +131,21 @@ const BlogModule = async ({ params }) => {
           </section> */}
         </Box>
       </section>
+
       <Box className="container-xl">
         <Box className="border-bottom pt-5"></Box>
       </Box>
-      {/* Additional Categories Section */}
-      {isBlogsPage && filteredCategories.map((category, index) => (
-        <section className="category-section container mt-5" key={index}>
-          <CategoryPosts category={category} />
-        </section>
-      ))}
 
+      {/* Additional Categories Section */}
+      <Box component="section" className="category-section" pt="24px">
+        <Box className="container-xl">
+          {isBlogsPage && filteredCategories.map((category, index) => (
+            <Box key={index} pt="20px">
+              <CategoryPosts category={category} />
+            </Box>
+          ))}
+        </Box>
+      </Box>
 
       {/* Vehicles Section */}
       {isBlogsPage && <Vehicles />}

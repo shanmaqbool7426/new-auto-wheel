@@ -13,6 +13,7 @@ import {
   Paper,
   ScrollArea,
   Title,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
@@ -141,6 +142,14 @@ const LocationSelector = ({
   }
   closeModal();
  }
+
+  // Add NoResultsMessage component
+  const NoResultsMessage = ({ text }) => (
+    <Text c="dimmed" ta="center" py="xl" fz="sm">
+      {text}
+    </Text>
+  );
+
   return (
     <Modal
       opened={isOpen}
@@ -148,6 +157,14 @@ const LocationSelector = ({
       withCloseButton={false}
       size="60%"
       padding={0}
+      styles={{
+        inner: {
+          paddingTop: '80px' // Add top padding
+        },
+        content: {
+          maxHeight: 'calc(100vh - 100px)'
+        }
+      }}
       closeOnClickOutside={false} // Prevent modal from closing on outside click
     >
       <Paper
@@ -290,23 +307,31 @@ const LocationSelector = ({
             scrollHideDelay={500}
             scrollbars="y"
           >
-            <List className="search-dropdown-lists" listStyleType="none">
-              {selection.country &&
-                filteredProvinces.map((province) => (
-                  <List.Item
-                    key={province.isoCode}
-                    className={`search-dropdown-lists__item ${
-                      selection.province.isoCode === province.isoCode ? "selected" : ""
-                    }`}
-                    onClick={() => {
-                      handleSelection("province", province);
-                      setActiveTab("city"); // Set active tab to city
-                    }}
-                  >
-                    {province.name} <BsArrowRight />
-                  </List.Item>
-                ))}
-            </List>
+            {selection.country ? (
+              filteredProvinces.length > 0 ? (
+                <List className="search-dropdown-lists" listStyleType="none">
+                  {selection.country &&
+                    filteredProvinces.map((province) => (
+                      <List.Item
+                        key={province.isoCode}
+                        className={`search-dropdown-lists__item ${
+                          selection.province.isoCode === province.isoCode ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          handleSelection("province", province);
+                          setActiveTab("city"); // Set active tab to city
+                        }}
+                      >
+                        {province.name} <BsArrowRight />
+                      </List.Item>
+                    ))}
+                </List>
+              ) : (
+                <NoResultsMessage text={`No provinces found matching "${provinceSearch}"`} />
+              )
+            ) : (
+              <NoResultsMessage text="Please select a country first" />
+            )}
           </ScrollArea>
         </Grid.Col>
         {!hide && ( // Conditionally render Cities column
@@ -328,23 +353,31 @@ const LocationSelector = ({
               scrollHideDelay={500}
               scrollbars="y"
             >
-              <List className="search-dropdown-lists" listStyleType="none">
-                {selection.province &&
-                  filteredCities.map((city) => (
-                    <List.Item
-                      key={city.name}
-                      className={`search-dropdown-lists__item ${
-                        selection.city === city.name ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        handleSelection("city", city.name);
-                        setActiveTab("city"); // Set active tab to city
-                      }}
-                    >
-                      {city.name} <BsArrowRight />
-                    </List.Item>
-                  ))}
-              </List>
+              {selection.province ? (
+                filteredCities.length > 0 ? (
+                  <List className="search-dropdown-lists" listStyleType="none">
+                    {selection.province &&
+                      filteredCities.map((city) => (
+                        <List.Item
+                          key={city.name}
+                          className={`search-dropdown-lists__item ${
+                            selection.city === city.name ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            handleSelection("city", city.name);
+                            setActiveTab("city"); // Set active tab to city
+                          }}
+                        >
+                          {city.name} <BsArrowRight />
+                        </List.Item>
+                      ))}
+                  </List>
+                ) : (
+                  <NoResultsMessage text={`No cities found matching "${citySearch}"`} />
+                )
+              ) : (
+                <NoResultsMessage text="Please select a province first" />
+              )}
             </ScrollArea>
           </Grid.Col>
           <Grid.Col span={4} p="md" pt="xl" className="border-end">
@@ -364,23 +397,31 @@ const LocationSelector = ({
               scrollHideDelay={500}
               scrollbars="y"
             >
-              <List className="search-dropdown-lists" listStyleType="none">
-                {selection.city&&
-                  filteredSuburbs.map((suburb) => (
-                    <List.Item
-                      key={suburb}
-                      className={`search-dropdown-lists__item ${
-                        selection.suburb?.toLowerCase() === suburb?.toLowerCase() ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        handleSelection("suburb", suburb);
-                        setActiveTab("suburb"); // Set active tab to suburb
-                      }}
-                    >
-                      {suburb} <BsArrowRight />
-                    </List.Item>
-                  ))}
-              </List>
+              {selection.city ? (
+                filteredSuburbs.length > 0 ? (
+                  <List className="search-dropdown-lists" listStyleType="none">
+                    {selection.city&&
+                      filteredSuburbs.map((suburb) => (
+                        <List.Item
+                          key={suburb}
+                          className={`search-dropdown-lists__item ${
+                            selection.suburb?.toLowerCase() === suburb?.toLowerCase() ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            handleSelection("suburb", suburb);
+                            setActiveTab("suburb"); // Set active tab to suburb
+                          }}
+                        >
+                          {suburb} <BsArrowRight />
+                        </List.Item>
+                      ))}
+                  </List>
+                ) : (
+                  <NoResultsMessage text={`No suburbs found matching "${suburbSearch}"`} />
+                )
+              ) : (
+                <NoResultsMessage text="Please select a city first" />
+              )}
             </ScrollArea>
           </Grid.Col>
         </>

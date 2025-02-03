@@ -173,12 +173,13 @@ const NewCarsModule = ({
                   <Button
                     leftSection={getIconByType()}
                     variant="light"
-                    radius="md"
                     size="md"
                     bg="#333"
                     c="white"
                     tt="capitalize"
                     autoContrast
+                    h={39}
+                    radius="16px"
                   >
                     New {type}
                   </Button>
@@ -186,13 +187,14 @@ const NewCarsModule = ({
                     leftSection={getIconByType()}
                     variant="light"
                     size="md"
-                    radius="md"
                     bg="white"
-                    c="#333"
+                    c="#878787"
                     tt="capitalize"
                     component={Link}
                     href={`/listing/${type}s`}
                     autoContrast
+                    h={39}
+                    radius="16px"
                   >
                     Used {type}
                   </Button>
@@ -200,13 +202,14 @@ const NewCarsModule = ({
                     leftSection={getComparisonIconByType()}
                     variant="light"
                     size="md"
-                    radius="md"
                     bg="white"
-                    c="#333"
+                    c="#878787"
                     tt="capitalize"
                     component={Link}
                     href={`/comparison/${type}`}
                     autoContrast
+                    h={39}
+                    radius="16px"
                   >
                     {type} Comparison
                   </Button>
@@ -214,13 +217,14 @@ const NewCarsModule = ({
                     leftSection={<SmallReviewIcon />}
                     variant="light"
                     size="md"
-                    radius="md"
                     bg="white"
-                    c="#333"
+                    c="#878787"
                     tt="capitalize"
-                    component={Link} 
+                    component={Link}
                     href={`/reviews/${type}`}
                     autoContrast
+                    h={39}
+                    radius="16px"
                   >
                     {type} Reviews
                   </Button>
@@ -229,35 +233,36 @@ const NewCarsModule = ({
                     leftSection={<SmallReviewIcon />}
                     variant="light"
                     size="md"
-                    radius="md"
                     bg="white"
-                    c="#333"
+                    c="#878787"
                     tt="capitalize"
-                    component={Link} 
+                    component={Link}
                     href={`/cars-dealership`}
                     autoContrast
+                    h={39}
+                    radius="16px"
                   >
                     {type} Dealer
                   </Button>
                 </Group>
               </div>
               <div className="col-md-12">
-                <SearchBar fetchMakesByTypeData={fetchMakesByTypeData} type={type}/>
+                <SearchBar fetchMakesByTypeData={fetchMakesByTypeData} type={type} />
               </div>
             </div>
           </div>
         </Box>
 
         {/* <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/> */}
-        <BrowseByCategory makes={makes} bodies={bodies} type={type}/>
-        <section className="popular-new-cars py-5">
+        <BrowseByCategory makes={makes} bodies={bodies} type={type} />
+        <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+              <Box className="col-md-12" mb="40px">
+                <Title order={2} lh="1">
                   Popular New{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
-                  {`${type}s`}
+                    {`${type}s`}
                   </Text>
                 </Title>
               </Box>
@@ -270,15 +275,15 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
-        <section className="newly-launched-cars bg-light py-5">
+        </Box>
+        <Box component="section" className="newly-launched-cars bg-light" pt="40px" pb="8px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} lh="1">
                   Newly Launched{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
-                  {`${type}s`}
+                    {`${type}s`}
                   </Text>
                 </Title>
               </Box>
@@ -291,12 +296,12 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
-        <section className="upcoming-cars py-5">
+        </Box>
+        <Box component="section" className="upcoming-cars" pt="56px" pb="24px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2}>
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} lh="1">
                   Upcoming{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
                     {`${type}s`}
@@ -312,12 +317,12 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
-        <section className="cars-by-model bg-light py-5">
+        </Box>
+        <Box component="section" className="cars-by-model bg-light" pt="40px" pb="8px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2} tt="capitalize">
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} tt="capitalize" lh={'1'}>
                   {company_1[type]} New{" "}
                   {type}{" "}
                   <Text span c="#E90808" inherit>
@@ -334,12 +339,12 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
-        <section className="cars-by-model py-5">
+        </Box>
+        <Box component="section" className="cars-by-model" pt="56px">
           <div className="container-xl">
             <div className="row">
-              <Box className="col-md-12" mb="xl">
-                <Title order={2} tt="capitalize">
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} tt="capitalize" lh="1">
                   {company_2[type]} New{" "}
                   {type}{" "}
                   <Text span c="#E90808" inherit>
@@ -356,17 +361,17 @@ const NewCarsModule = ({
               })}
             </div>
           </div>
-        </section>
+        </Box>
 
-        <ComparisonProducts type={type}/>
-        <BrowseVideos type={type}/>
-        <BrowseBlogs/>
-              
+        <ComparisonProducts type={type} />
+        <BrowseVideos type={type} />
+        <BrowseBlogs />
+
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
         <QuickLinks />
       </section>
-      <WriteReviewModal opened={isModalOpen}   close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData}/>
+      <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} />
     </>
   );
 };

@@ -34,7 +34,7 @@
 
 export const BASE_URL = "https://auto-wheel-be.vercel.app";
 // export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
-
+// 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
 const NEW_VEHICLE_BASE = `${BASE_URL}/api/new-vehicles`;
@@ -131,6 +131,7 @@ export const API_ENDPOINTS = {
 
     LISTINGS: `${NEW_VEHICLE_BASE}/vehicles-listing`,
     DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
+    VARIENTS: (slug) => `${NEW_VEHICLE_BASE}/variants/${slug}`,
     TOPCOMPARISON:`${NEW_VEHICLE_BASE}/comparison`,
     COMPARISON:`${NEW_VEHICLE_BASE}/compare`,
     // ADD: `${VEHICLE_BASE}`,

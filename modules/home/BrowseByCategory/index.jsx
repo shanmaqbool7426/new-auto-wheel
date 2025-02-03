@@ -25,11 +25,16 @@ const BrowseByCategory = ({ makes, bodies }) => {
     align: 'start',
     slidesToScroll: 2, // Changed to scroll 2 items at a time
     withControls: true,
+    withIndicators:true,
     loop: true,
     breakpoints: [
       { maxWidth: 'md', slideSize: '50%', slidesToScroll: 2 },
       { maxWidth: 'sm', slideSize: '100%', slidesToScroll: 1 },
     ],
+    classNames: {
+      indicator: styles.indicator,
+      indicators: styles.indicators
+    },
   };
 
   // Helper function to chunk array into groups of 2 (for 2 items per slide)

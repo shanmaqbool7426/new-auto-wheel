@@ -1,6 +1,6 @@
 .controls {
     transition: opacity 150ms ease;
-    opacity   : 0;
+    opacity: 0;
 }
 
 .root {
@@ -9,4 +9,16 @@
             opacity: 1;
         }
     }
+}
+
+.cardMedia {
+    height: 164px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.cardMedia>img {
+    max-height: 144px;
 }

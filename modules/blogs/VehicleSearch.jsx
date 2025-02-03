@@ -57,15 +57,17 @@ const VehicleSearch = () => {
     };
 
     return (
-        <section className="find-section py-5">
+        <Box component='section' className="find-section" py="40px">
             <Box className="container-xl">
                 <Box className="row">
                     <Box className="col-12">
                         <Title
                             order={2}
-                            pb="md"
-                            mb="xl"
+                            pb="24px"
+                            mb="32px"
                             className="title-with-border--lg"
+                            tt="uppercase"
+                            lh="1.153846"
                         >
                             Find whatever you want
                         </Title>
@@ -101,7 +103,7 @@ const VehicleSearch = () => {
                             value={filters.model}
                             onChange={(value) => handleFilterChange('model', value)}
                             placeholder="Choose Model"
-                            data={filters.make 
+                            data={filters.make
                                 ? makes?.data?.find(make => make.name.toLowerCase() === filters.make)?.models.map(model => ({
                                     value: model.name.toLowerCase(),
                                     label: model.name
@@ -123,7 +125,7 @@ const VehicleSearch = () => {
                     </Box>
                 </Box>
             </Box>
-        </section>
+        </Box>
     );
 };
 

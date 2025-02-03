@@ -1,0 +1,40 @@
+.section {
+  padding: 56px 0 36px;
+}
+
+.sectionHeader {
+  display: block;
+}
+
+.sectionBody {
+  margin-top: 20px;
+}
+
+.sectionBody .mantine-Carousel-viewport {
+  padding: 20px 0;
+}
+
+.viewPort {
+  padding: 20px 0;
+}
+
+.controls {
+  position: absolute;
+  left: auto;
+  top: -44px;
+  right: 0;
+  width: 64px;
+  padding: 0;
+}
+
+.control {
+  position: static;
+  background-color: #E90808;
+  border-color: #E90808;
+  color: #ffffff;
+}
+
+.control[data-inactive='true'] {
+  background-color: #CCCCCC;
+  border-color: #CCCCCC;
+}

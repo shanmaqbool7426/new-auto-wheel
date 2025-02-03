@@ -216,7 +216,7 @@ const NewCarsDetail = () => {
                       </Text>
                     </Flex>
                   </Box>
-                  <Box className="col-lg-6">  
+                  <Box className="col-lg-6">
                     <Flex align="flex-start" gap="sm" c="dimmed">
                       <TransmissionIcon
                         customFill={true}
@@ -768,7 +768,7 @@ const NewCarsDetail = () => {
         </Box>
 
         {/* Broswse Videos Section */}
-        <BrowseVideos type="car"/>
+        <BrowseVideos type="car" />
 
         {/* Latest Reviews Section */}
         <Box component="section" className="latest-reviews bg-light py-5">
@@ -943,7 +943,7 @@ const NewCarsDetail = () => {
         </Box>
 
         {/* Comparison Products Section */}
-        <ComparisonProducts type={"car"}/>
+        <ComparisonProducts type={"car"} />
 
         {/* Cars For Sale */}
         <Box component="section" className="upcoming-cars py-5">

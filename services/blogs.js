@@ -7,7 +7,7 @@ export const fetchBlogsPageData = async (params) => {
       Array.isArray(params?.slug) && params.slug.length > 0
         ? params.slug.map((item) => item).join("/")
         : "";
-        console.log(path);
+        console.log('mmmmmmmmmmmm',path);
     const blogs = await fetchAPI(`${API_ENDPOINTS.BLOGS.LIST}${path}`);
     return blogs;
   } catch (error) {

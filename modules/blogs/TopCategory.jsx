@@ -11,13 +11,13 @@ const TopCategory = ({ category }) => {
   let posts = category?.blogs || [];
   let title = category?.category || "Category";
 
-  if (!posts || posts.length === 0) {
-    return (
-      <Text align="center" c="dimmed">
-        No posts available...
-      </Text>
-    );
-  }
+  // if (!posts || posts.length === 0) {
+  //   return (
+  //     <Text align="center" c="dimmed">
+  //       No posts available...
+  //     </Text>
+  //   );
+  // }
 
   const largePost = posts[0];
   const smallPosts = posts.slice(1);
@@ -38,7 +38,7 @@ const TopCategory = ({ category }) => {
       <Box className="article-large" component="article">
         <Card padding="none">
           <Card.Section className="position-relative">
-            <Link href={`/blog/${largePost.categoryDetails?.slug}`}>
+            <Link href={`/blog/${largePost?.categoryDetails?.slug}`}>
               <Badge
                 bg="#E90808"
                 c="white"
@@ -47,13 +47,13 @@ const TopCategory = ({ category }) => {
                 fw={"normal"}
                 className="position-absolute bottom-0"
               >
-                {largePost.categoryDetails?.name || "CATEGORY"}
+                {largePost?.categoryDetails?.name || "CATEGORY"}
               </Badge>
             </Link>
             <Image
-              src={largePost.imageUrl || "/blogs/img-large.png"}
+              src={largePost?.imageUrl || "/blogs/img-large.png"}
               radius="md"
-              alt={largePost.title}
+              alt={largePost?.title}
               className="img-fluid"
               h={394}
               w={"100%"}
@@ -62,20 +62,20 @@ const TopCategory = ({ category }) => {
           <Flex gap="xs" direction="column" mt="md">
             <Title fw={700} order={4} fz="24px" lh='1.25'>
               <Link href={`/blog/${largePost.slug}`} className="text-decoration-none text-dark">
-                {largePost.title}
+                {largePost?.title}
               </Link>
             </Title>
             <Flex direction="row" c="dimmed" wrap={true} justify="space-between" align="center">
               <Box className="left d-flex gap-2">
                 <Text span size="sm" fz="12px" className="d-flex gap-1 align-items-center">
-                  {largePost.author} <span className="dot"></span>
+                  {largePost?.author} <span className="dot"></span>
                 </Text>
                 <Text span size="sm" fz="12px">
-                  {formatDate(largePost.publishDate)}
+                  {formatDate(largePost?.publishDate)}
                 </Text>
                 <Text span className="d-flex gap-1 align-items-center" size="sm" fz="12px">
                   <EyeIcon />
-                  {largePost.viewCount}
+                  {largePost?.viewCount}
                 </Text>
               </Box>
               <Box className="right">
@@ -86,7 +86,7 @@ const TopCategory = ({ category }) => {
               </Box>
             </Flex>
             <Text lineClamp={4} size="sm" fz="14px">
-              {parse(largePost.content)}
+              {parse(largePost?.content)}
             </Text>
           </Flex>
         </Card>
@@ -94,9 +94,9 @@ const TopCategory = ({ category }) => {
       {/* Large Post */}
 
       {/* Two Cols Grid Posts */}
-      {smallPosts.length > 0 && (
+      {smallPosts?.length > 0 && (
         <Grid mt="xl">
-          {smallPosts.map((post) => (
+          {smallPosts?.map((post) => (
             <Grid.Col span={6} key={post._id}>
               <Flex>
                 <Box

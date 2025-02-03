@@ -4,12 +4,11 @@ import BreadCrumb from './BreadCrumb'
 import BrowseVideos from '@/components/videos/browse-videos'
 import YoutubePlayer from '@/components/videos/youtube-player'
 import VideoPagination from '@/components/videos/pagination'
+import { Box } from '@mantine/core'
 
 import { fetchVideosPageData } from "@/services/videos";
 const VideosModule = async ({ params }) => {
   const [videosData] = await Promise.all([fetchVideosPageData(params)]);
-
-  console.log("videosData", videosData);
   const { data } = videosData || {};
   const isMainPage = data?.type === 'videos';
   const isCategoryPage = data?.type === 'category';
@@ -21,15 +20,17 @@ const VideosModule = async ({ params }) => {
       {isMainPage &&
         <>
           <Header isMainPage={isMainPage} />
-          <BrowseVideos hideViewAll={true} title="Today's Feature"/>
+          <BrowseVideos hideViewAll={true} title="Today's Feature" />
           {data?.categories?.map((category, index) => (
-            <section className="category-section container my-5" key={index}>
-              <CategoryVideos category={category} />
-            </section>
+            <Box section="component" className="category-section" key={index} my="56px">
+              <Box className='container-xl'>
+                <CategoryVideos category={category} />
+              </Box>
+            </Box>
           ))}
         </>
       }
-      {isCategoryPage&&
+      {isCategoryPage &&
         <>
           <section className="category-section container my-5">
             <CategoryVideos category={data} breadcrumb={data?.breadcrumb} />
@@ -42,7 +43,7 @@ const VideosModule = async ({ params }) => {
         </>
 
       }
-      {isSearchPage&&
+      {isSearchPage &&
         <>
           <section className="category-section container my-5">
             <CategoryVideos category={data} breadcrumb={data?.breadcrumb} />

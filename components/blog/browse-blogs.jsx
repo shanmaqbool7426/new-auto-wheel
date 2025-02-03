@@ -79,7 +79,7 @@ const BrowseBlogs = ({ type }) => {
         </Flex>
         <Box className="row">
           <Box className="col-lg-6">
-            <Link href={`/blog/${firstBlog?.slug}`}>
+            <Link href={`/blog/${firstBlog?.slug}`} style={{ display: 'block' }}>
               <Box
                 component="figure"
                 className="overflow-hidden position-relative"
@@ -96,9 +96,9 @@ const BrowseBlogs = ({ type }) => {
                   className="position-absolute bottom-0 p-3 text-white"
                   style={{ zIndex: "200" }}
                 >
-                  <Anchor component={Title} order={3} fw={600} c="white" lineClamp={2}>
+                  <Title order={3} fw={600} c="white" lineClamp={2}>
                     {firstBlog?.title}
-                  </Anchor>
+                  </Title>
                 </figcaption>
               </Box>
             </Link>
@@ -137,85 +137,25 @@ const BrowseBlogs = ({ type }) => {
                     </Anchor>
                   </Box>
                   <Box className="col-auto">
-                    <Paper shadow="0px 4px 4px 0px #00000026;" pos="relative">
-                      <Image
-                        w={128}
-                        h={100}
-                        radius={rem(5)}
-                        src={blog.imageUrl}
-                        alt={blog.title}
-                        className="img-fluid object-fit-cover"
-                      />
-                      <Overlay radius={rem(5)} color="#000" opacity={0.2} />
-                    </Paper>
+                    <Link href={`/blog/${blog.slug}`} style={{ display: 'block' }}>
+                      <Paper shadow="0px 4px 4px 0px #00000026;" pos="relative">
+                        <Image
+                          w={128}
+                          h={100}
+                          radius={rem(5)}
+                          src={blog.imageUrl}
+                          alt={blog.title}
+                          className="img-fluid object-fit-cover"
+                        />
+                        <Overlay radius={rem(5)} color="#000" opacity={0.2} />
+                      </Paper>
+                    </Link>
                   </Box>
                 </Box>
               </article>
             ))}
           </Box>
         </Box>
-        {/* <Grid>
-          <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
-            <Box
-              w="100%"
-              h={{ base: 350, lg: "534px" }}
-              className="position-relative"
-              component={Link}
-              href={`/blog/${firstBlog?.slug}`}
-              pos="relative"
-              style={{ overflow: "hidden" }}
-            >
-              <Overlay color="#000" backgroundOpacity={0.3} zIndex={0} />
-              <BackgroundImage src={firstBlog?.imageUrl} radius="sm" h="100%">
-                <Flex p="xl" w="100%" className="position-absolute bottom-0">
-                  <Text fw={600} size={rem(24)} c="white">
-                    {firstBlog?.title}
-                  </Text>
-                </Flex>
-              </BackgroundImage>
-            </Box>
-          </Grid.Col>
-          {remainingBlogs?.length > 0 && (
-            <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
-              {remainingBlogs.map((blog) => (
-                <article className="article-inline mb-2" key={blog._id}>
-                  <Grid justify="space-between" align="stretch">
-                    <Grid.Col span={9}>
-                      <Text c="dimmed" size="xs">
-                        {formatDate(blog.publishDate)}
-                      </Text>
-                      <Title
-                        my={5}
-                        href={`/blog/${blog.slug}`}
-                        component={Anchor}
-                        order={6}
-                        fw={600}
-                        lineClamp={1}
-                        c="#333"
-                        className="text-decoration-none"
-                      >
-                        {blog.title}
-                      </Title>
-                      <Text c="dimmed" size="sm" lineClamp={3} mb="5">
-                        {blog.content.replace(/<[^>]*>/g, '').substring(0, 100)}...
-                      </Text>
-                      <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
-                        Read More <BsArrowRight />
-                      </Anchor>
-                    </Grid.Col>
-                    <Grid.Col span={3}>
-                      <Image
-                        src={blog.imageUrl}
-                        alt={blog.title}
-                        className="img-fluid"
-                      />
-                    </Grid.Col>
-                  </Grid>
-                </article>
-              ))}
-            </Grid.Col>
-          )}
-        </Grid> */}
       </Box>
     </Box>
   );

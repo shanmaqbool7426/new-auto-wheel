@@ -1,10 +1,10 @@
 .dot {
     background-color: #878787;
-    width           : 8px;
-    height          : 8px;
-    border-radius   : 8px;
-    line-height     : inherit;
-    display         : inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    line-height: inherit;
+    display: inline-block;
 }
 
 .card-border-bottom {
@@ -13,31 +13,31 @@
 
 .title-with-border {
     border-bottom: 1px solid #CCCCCC;
-    position     : relative;
+    position: relative;
 
     &:before {
-        content         : "";
-        width           : 14%;
-        height          : 2px;
+        content: "";
+        width: 14%;
+        height: 2px;
         background-color: $primary;
-        position        : absolute;
-        left            : 0;
-        bottom          : -1px;
+        position: absolute;
+        left: 0;
+        bottom: -1px;
     }
 }
 
 .title-with-border--lg {
     border-bottom: 1px solid #CCCCCC;
-    position     : relative;
+    position: relative;
 
     &:before {
-        content         : "";
-        width           : 15%;
-        height          : 3px;
+        content: "";
+        width: 15%;
+        height: 3px;
         background-color: $primary;
-        position        : absolute;
-        left            : 0;
-        bottom          : -1px;
+        position: absolute;
+        left: 0;
+        bottom: -1px;
     }
 }
 
@@ -51,13 +51,13 @@
 
 .blog-products {
     .product-content .product-price {
-        padding  : 0.5rem 0.5rem 0.5rem 2.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 2.5rem;
         font-size: 0.9rem !important;
         font-size: smaller;
     }
 
     .product-meta {
-        font-size  : 1rem !important;
+        font-size: 1rem !important;
         font-weight: 400;
     }
 }

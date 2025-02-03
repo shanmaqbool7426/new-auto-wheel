@@ -17,7 +17,7 @@ import { PlayButton } from "@/components/Icons";
 import Link from "next/link";
 import { fetchVideoDataServer } from "@/actions/index"; // Your action to fetch video data
 
-const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type }) => {
+const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type, bg = '#fff' }) => {
   const [slug, setSlug] = useState(initialSlug || null); // Manage the slug in the state
   const [currentVideo, setCurrentVideo] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
@@ -95,7 +95,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type }) => {
   console.log("currentVideo", currentVideo);
 
   return (
-    <Box component="section" className="browse-videos bg-light py-5">
+    <Box component="section" className="browse-videos py-5" bg={bg}>
       <Box className="container-xl" pos="relative">
         {loading && (
           <LoadingOverlay
@@ -154,7 +154,7 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type }) => {
                 <Box className="col-lg-6 col-sm-6 mb-3" key={video.slug}>
                   <Card
                     padding={0}
-                    // onClick={() => handleVideoSelect(video.slug)}
+                  // onClick={() => handleVideoSelect(video.slug)}
                   >
                     <Card.Section className="position-relative" mb={rem(5)}>
                       <UnstyledButton
@@ -198,3 +198,4 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type }) => {
 };
 
 export default BrowseVideos;
+
