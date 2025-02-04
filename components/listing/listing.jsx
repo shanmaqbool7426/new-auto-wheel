@@ -70,29 +70,29 @@ const FilterBadges = ({ params, searchParams }) => {
       // Existing filter badges
       if (item.startsWith('mk_')) {
         badges.push(
-          <Badge color="#E90808" key={`make-${index}`} rightSection={<CloseButton variant="transparent"  size="xs" style={{ color: 'white' }} onClick={() => removeFilter('make', item.replace('mk_', ''))}/>}>
-            Make: {item.replace('mk_', '')}
+          <Badge variant="light" color="red" key={`make-${index}`} rightSection={<CloseButton variant="transparent"  size="xs" style={{ color: 'white' }} onClick={() => removeFilter('make', item.replace('mk_', ''))}/>}>
+            {item.replace('mk_', '')}
           </Badge>
         );
       }
       if (item.startsWith('md_')) {
         badges.push(
-          <Badge color="#E90808" key={`model-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('model', item.replace('md_', ''))}/>}>
-            Model: {item.replace('md_', '')}
+          <Badge color="#fddfd6" key={`model-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('model', item.replace('md_', ''))}/>}>
+           {item.replace('md_', '')}
           </Badge>
         );
       }
       if (item.startsWith('ct_')) {
         badges.push(
-          <Badge color="#E90808" key={`city-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('city', item.replace('ct_', ''))}/>}>
-            City: {item.replace('ct_', '')}
+          <Badge color="#fddfd6" key={`city-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('city', item.replace('ct_', ''))}/>}>
+            {item.replace('ct_', '')}
           </Badge>
         );
       }
       if (item.startsWith('bt_')) {
         badges.push(
-          <Badge color="#E90808" key={`body-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{color:"white"}} onClick={() => removeFilter('bodyType', item.replace('bt_', ''))}/>}>
-            Body: {item.replace('bt_', '')}
+          <Badge color="#fddfd6" key={`body-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{color:"white"}} onClick={() => removeFilter('bodyType', item.replace('bt_', ''))}/>}>
+           {item.replace('bt_', '')}
           </Badge>
         );
       }
@@ -100,53 +100,53 @@ const FilterBadges = ({ params, searchParams }) => {
       // New filter badges
       if (item.startsWith('tr_')) {
         badges.push(
-          <Badge color="#E90808" key={`transmission-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('transmission', item)}/>}>
-            Transmission: {item.replace('tr_', '')}
+          <Badge color="#fddfd6" key={`transmission-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('transmission', item)}/>}>
+          {item.replace('tr_', '')}
           </Badge>
         );
       }
       if (item.startsWith('dr_')) {
         badges.push(
-          <Badge color="#E90808" key={`drive-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('drive', item)}/>}>
-            Drive: {item.replace('dr_', '')}
+          <Badge color="#fddfd6" key={`drive-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('drive', item)}/>}>
+           {item.replace('dr_', '')}
           </Badge>
-        );
-      }
+        ); 
+      } 
       if (item.startsWith('cl_')) {
         badges.push(
-          <Badge color="#E90808" key={`color-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('exteriorColor', item)}/>}>
-            Color: {item.replace('cl_', '')}
+          <Badge color="#fddfd6" key={`color-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('exteriorColor', item)}/>}>
+            {item.replace('cl_', '')}
           </Badge>
         );
       }
       if (item.startsWith('ft_')) {
         badges.push(
-          <Badge color="#E90808" key={`fuel-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('fuelType', item)}/>}>
-            Fuel: {item.replace('ft_', '')}
+          <Badge color="#fddfd6" key={`fuel-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('fuelType', item)}/>}>
+          {item.replace('ft_', '')}
           </Badge>
         );
       }
       if (item.startsWith('pr_')) {
         const [min, max] = item.replace('pr_', '').split('_');
         badges.push(
-          <Badge color="#E90808" key={`price-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('price', item)}/>}>
-            Price: {min} - {max}
+          <Badge color="#fddfd6" key={`price-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('price', item)}/>}>
+            {min} - {max}
           </Badge>
         );
       }
       if (item.startsWith('yr_')) {
         const [min, max] = item.replace('yr_', '').split('_');
         badges.push(
-          <Badge color="#E90808" key={`year-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('year', item)}/>}>
-            Year: {min} - {max}
+          <Badge color="#fddfd6" key={`year-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('year', item)}/>}>
+           {min} - {max}
           </Badge>
         );
       }
       if (item.startsWith('ml_')) {
         const [min, max] = item.replace('ml_', '').split('_');
         badges.push(
-          <Badge color="#E90808" key={`mileage-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('mileage', item)}/>}>
-            Mileage: {min} - {max}
+          <Badge color="#fddfd6" key={`mileage-${index}`} rightSection={<CloseButton variant="transparent" size="xs" style={{ color: 'white' }} onClick={() => removeFilter('mileage', item)}/>}>
+           {min} - {max}
           </Badge>
         );
       }

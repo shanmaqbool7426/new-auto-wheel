@@ -157,7 +157,7 @@ const NewCarsModule = ({
           mb={{ base: 550, sm: 120 }}
         >
           <div className="container-xl">
-            <div className="row">
+            <div className="row new-cars-search-breadcrumb">
               <div className="col-md-12">
                 <nav>
                   <ol className="breadcrumb mb-3">

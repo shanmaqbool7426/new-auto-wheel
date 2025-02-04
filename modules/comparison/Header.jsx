@@ -107,14 +107,14 @@ const Header = ({type}) => {
       />
       <Box 
               className="background-search-verlay"
-              mb={{ base: 850, sm: 300 }}
+              mb={{ base: 650, sm: 300 }}
               pt={70}
-              h={400}
+              h={250}
       >
         <div className="container-xl">
           <div className="row">
             <div className="col-md-12">
-              <nav className="mt-3">
+              <nav className="mt-2">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <Anchor href="/">Home</Anchor>
