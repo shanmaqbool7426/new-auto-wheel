@@ -12,7 +12,7 @@ import {
   Card,
 } from "@mantine/core";
 import NextImage from "next/image";
-  import { Carousel } from '@mantine/carousel';
+import { Carousel } from '@mantine/carousel';
 import Link from "next/link";
 import React from "react";
 import styles from './BrowseByCategory.module.css'
@@ -25,15 +25,16 @@ const BrowseByCategory = ({ makes, bodies }) => {
     align: 'start',
     slidesToScroll: 2, // Changed to scroll 2 items at a time
     withControls: true,
-    withIndicators:true,
-    loop: true,
+    withIndicators: true,
     breakpoints: [
       { maxWidth: 'md', slideSize: '50%', slidesToScroll: 2 },
       { maxWidth: 'sm', slideSize: '100%', slidesToScroll: 1 },
     ],
     classNames: {
       indicator: styles.indicator,
-      indicators: styles.indicators
+      indicators: styles.indicators,
+      controls: styles.controls,
+      control: styles.control,
     },
   };
 
@@ -49,8 +50,8 @@ const BrowseByCategory = ({ makes, bodies }) => {
 
 
   return (
-    <Box className="browse-cats-section bg-light" pt="55px" pb="55px"> 
-    {/* /*25px*/ }
+    <Box className="browse-cats-section bg-light" pt="55px" pb="55px">
+      {/* /*25px*/}
       <Box className="container-xl">
         <Box className="row">
           <Box className="col-lg-6">
@@ -58,7 +59,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
                 Browse by{" "}
                 <Text span c="#E90808" inherit className="text-decoration-underline">
-                  Make 
+                  Make
                 </Text>
               </Title>
 
@@ -75,15 +76,15 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       <Flex direction="column" gap="md">
                         {group.map((item, index) => (
                           <Box key={index} className="text-center" py="15px">
-                            <Anchor 
-                              href={`/listing/cars/search/-/mk_${item.name}`} 
-                              td="none" 
+                            <Anchor
+                              href={`/listing/cars/search/-/mk_${item.name}`}
+                              td="none"
                               className={styles.browseItem}
                             >
-                              <NextImage 
-                                width={70} 
-                                height={60} 
-                                src={item.companyImage} 
+                              <NextImage
+                                width={70}
+                                height={60}
+                                src={item.companyImage}
                                 alt={item.name}
                               />
                               <Title order={6} lts={-0.4} mt="sm" fw={400}>
@@ -128,11 +129,11 @@ const BrowseByCategory = ({ makes, bodies }) => {
                             td="none"
                             className={styles.browseItem}
                           >
-                            <NextImage 
-                              width={108} 
-                              height={50} 
-                              mx="auto" 
-                              src={body.bodyImage} 
+                            <NextImage
+                              width={108}
+                              height={50}
+                              mx="auto"
+                              src={body.bodyImage}
                             />
                             <Title order={6} lts={-0.4} mt="sm" fw={400}>
                               {body.title}
