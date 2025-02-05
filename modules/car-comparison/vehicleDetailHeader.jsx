@@ -129,10 +129,10 @@ const Header = ({ vehicles, type }) => {
           currentVehicle === 1
             ? vehicle1
             : currentVehicle === 2
-            ? vehicle2
-            : currentVehicle === 3
-            ? vehicle3
-            : {}
+              ? vehicle2
+              : currentVehicle === 3
+                ? vehicle3
+                : {}
         }
         setSelection={getSetVehicleFunction()}
         onClose={closeModal}
@@ -162,8 +162,7 @@ const Header = ({ vehicles, type }) => {
                   {[vehicle1, vehicle2, vehicle3].map((vehicle, index) => (
                     <span key={index}>
                       {(vehicle.make &&
-                        `${vehicle.make} ${vehicle.model} ${vehicle.variant} ${
-                          index == 0 || (index == 1 && vehicle3) ? "VS " : ""
+                        `${vehicle.make} ${vehicle.model} ${vehicle.variant} ${index == 0 || (index == 1 && vehicle3) ? "VS " : ""
                         }`) ||
                         ``}
                     </span>
@@ -231,11 +230,11 @@ const Header = ({ vehicles, type }) => {
         </div>
         <div className="col-md-12">
           <Box className="search-wrapper-card" mt="xl">
-            <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
-              <Title order={3} mb="md" tt="capitalize">
+            <Card shadow="0px 4px 20px 0px #00000014" pt="24px" pl="16px" radius="4px">
+              <Title order={2} mb="24px" tt="capitalize">
                 New {`${type}s`} Comparison
               </Title>
-              <div className="row mb-2">
+              <Box pb={'30px'}>
                 <div className="row">
                   <div className="col-md-3 d-none d-md-block">
                     <Flex
@@ -253,18 +252,18 @@ const Header = ({ vehicles, type }) => {
                               `${vehicle.make} ${vehicle.model} ${vehicle.variant}`) ||
                               ``}
                           </Text>
-                          {(vehicle.make && index <2) && (
-                              <Badge
-                                h={40}
-                                w={40}
-                                radius={40}
-                                size="md"
-                                fw={500}
-                                bg="#E90808"
-                              >
-                                VS
-                              </Badge>
-                            )}
+                          {(vehicle.make && index < 2) && (
+                            <Badge
+                              h={40}
+                              w={40}
+                              radius={40}
+                              size="md"
+                              fw={500}
+                              bg="#E90808"
+                            >
+                              VS
+                            </Badge>
+                          )}
                         </React.Fragment>
                       ))}
                     </Flex>
@@ -293,7 +292,7 @@ const Header = ({ vehicles, type }) => {
                     </Button>
                   </Box>
                 </div>
-              </div>
+              </Box>
             </Card>
           </Box>
         </div>

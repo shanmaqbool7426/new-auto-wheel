@@ -1,5 +1,5 @@
 "use client";
-import { CarComparisonSmall, CarSmall, SmallReviewIcon,MotorBikeSmall,TruckSmall } from '@/components/Icons';
+import { CarComparisonSmall, CarSmall, SmallReviewIcon, MotorBikeSmall, TruckSmall } from '@/components/Icons';
 import { Anchor, Box, Button, Card, Group, Image, Input, Text, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import CustomModel from '@/constants/CustomModel';
@@ -7,7 +7,7 @@ import { fetchMakesByTypeServer } from '@/actions';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const Header = ({type}) => {
+const Header = ({ type }) => {
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +30,7 @@ const Header = ({type}) => {
 
   const fetchMakesByType = async (vehicleType) => {
     try {
-        console.log(vehicleType,"un")
+      console.log(vehicleType, "un")
       const fetchMakes = await fetchMakesByTypeServer(vehicleType);
       setFetchMakesByTypeData(fetchMakes);
     } catch (error) {
@@ -52,7 +52,7 @@ const Header = ({type}) => {
     }
 
     // Create a slug from the selected vehicles (handle optional variants)
-    const slug = selectedVehicles.map(vehicle => 
+    const slug = selectedVehicles.map(vehicle =>
       `${encodeURIComponent(vehicle.make)}-${encodeURIComponent(vehicle.model)}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant)}` : ''}`
     ).join('_');
     router.push(`/comparison/${type}/${slug}`);
@@ -97,19 +97,19 @@ const Header = ({type}) => {
         isOpen={isModalOpen}
         selection={
           currentVehicle === 1 ? vehicle1 :
-          currentVehicle === 2 ? vehicle2 :
-          currentVehicle === 3 ? vehicle3 : {}
-        } 
+            currentVehicle === 2 ? vehicle2 :
+              currentVehicle === 3 ? vehicle3 : {}
+        }
         setSelection={getSetVehicleFunction()}  // Pass the correct setVehicle function
         onClose={closeModal}
         fetchMakesByTypeData={fetchMakesByTypeData}
         hide={false}
       />
-      <Box 
-              className="background-search-verlay"
-              mb={{ base: 850, sm: 300 }}
-              pt={70}
-              h={400}
+      <Box
+        className="background-search-verlay"
+        mb={{ base: 850, sm: 300 }}
+        pt={70}
+        h={400}
       >
         <div className="container-xl">
           <div className="row">
@@ -128,7 +128,7 @@ const Header = ({type}) => {
                 <Button component={Link} href={`/new/${type}`} leftSection={getIconByType()} variant="light" radius="md" size="md" bg="white" c="#333" autoContrast tt='capitalize'>
                   New {type}s
                 </Button>
-                <Button  component={Link} href={`/listing/${type}s`} leftSection={getIconByType()} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button component={Link} href={`/listing/${type}s`} leftSection={getIconByType()} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
                   Used {type}s
                 </Button>
                 <Button leftSection={getComparisonIconByType()} variant="light" size="md" radius="md" bg="#333" c="white" autoContrast tt='capitalize'>
@@ -168,13 +168,13 @@ const Header = ({type}) => {
                           <Text c="dimmed" mb="md">
                             {`Add ${type} ${vehicleNumber}`}
                           </Text>
-                          <Input size="md" radius="md" placeholder="Search by Car Variant" 
-                          value={
-                            vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
-                            vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
-                            vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
-                            ""
-                          }
+                          <Input size="md" radius="md" placeholder="Search by Car Variant"
+                            value={
+                              vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
+                                vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
+                                  vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
+                                    ""
+                            }
                           />
                         </Card>
                       </div>

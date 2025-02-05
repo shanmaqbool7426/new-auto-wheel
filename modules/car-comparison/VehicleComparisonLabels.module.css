@@ -1,0 +1,9 @@
+.slideLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #878787;
+
+  &:hover {
+    color: #E90808;
+  }
+}
