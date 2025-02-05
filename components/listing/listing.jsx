@@ -17,7 +17,8 @@ import { useRouter } from "next/navigation";
 const FilterBadges = ({ params, searchParams }) => {
   const router = useRouter();
   const slug = params.slug;
-  
+  const userData = getLocalStorage('user')
+  console.log("userData>>",userData)
   const removeFilter = (filterType, value) => {
     const slugArray = [...slug];
     // Keep only the first item (cars/bikes/trucks) and 'search' and '-'
@@ -163,7 +164,7 @@ const FilterBadges = ({ params, searchParams }) => {
 };
 
 export default async function Listing({ params, searchParams }) {
-  const token = getLocalStorage('token')
+  const userData = getLocalStorage('user')
   const view = searchParams.view;
   const typeMapping = {
     cars: "car",
@@ -240,9 +241,9 @@ export default async function Listing({ params, searchParams }) {
                     }
                   >
                     {view === "list" ? (
-                      <ListCardView index={index} vehicle={vehicle} token={token} />
+                      <ListCardView index={index} vehicle={vehicle} userData={userData} />
                     ) : (
-                      <CarCard vehicle={vehicle} index={index} token={token} />
+                      <CarCard vehicle={vehicle} index={index} userData={userData} />
                     )}
                   </div>
                 ))}
