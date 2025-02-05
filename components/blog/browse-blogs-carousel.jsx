@@ -3,6 +3,7 @@ import { Box, Flex, Text, Title, Image, Grid } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import { fetchBrowseBlogsServer } from "@/actions/index";
+import styles from "./browse-blogs-carousel.module.css"
 
 const BrowseBlogCarousel = ({ type, title }) => {
   const [news, setNews] = useState([]);
@@ -61,30 +62,30 @@ const BrowseBlogCarousel = ({ type, title }) => {
           align="start"
           controlsOffset="xs"
           withIndicators={false}
-          loop
-          controlSize={40}
+          controlSize={24}
           breakpoints={[
             { maxWidth: "lg", slideSize: "33.3333%" },
             { maxWidth: "sm", slideSize: "50%" },
             { maxWidth: "xs", slideSize: "100%" },
           ]}
+          classNames={{ controls: styles.controls, control: styles.control }}
         >
           {news?.map((item) => (
             <Carousel.Slide key={item._id}>
-                <Image
-                  src={item.imageUrl || "/default-image.jpg"}
-                  alt={item.title}
-                  radius="md"
-                  mb="md"
-                  h={160}
-                  w="100%"
-                />
-                <Title order={5} lineClamp={2} fw={600} mb="xs">
-                  {item.title}
-                </Title>
-                <Text size="sm" lineClamp={3} c="#878787">
-                  {item.content.substring(0, 100)}...
-                </Text>
+              <Image
+                src={item.imageUrl || "/default-image.jpg"}
+                alt={item.title}
+                radius="md"
+                mb="md"
+                h={160}
+                w="100%"
+              />
+              <Title order={5} lineClamp={2} fw={600} mb="xs">
+                {item.title}
+              </Title>
+              <Text size="sm" lineClamp={3} c="#878787">
+                {item.content.substring(0, 100)}...
+              </Text>
             </Carousel.Slide>
           ))}
         </Carousel>

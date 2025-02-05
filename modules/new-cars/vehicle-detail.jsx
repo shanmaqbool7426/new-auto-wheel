@@ -42,8 +42,6 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
   // selected vehicle for compare
   const [selectedVehicle, setSelectedVehicle] = useState([]);
 
-
-  console.log("selectedVehicle", selectedVehicle)
   const {
     vehicleDetails: {
       make,
@@ -403,20 +401,23 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                           </Text>
                         </Table.Td>
                         <Table.Td align="center">
-                          <Checkbox labelPosition="left"   color="#E90808" onChange={(e) => setSelectedVehicle(e.target.checked ? [...selectedVehicle, {make: variant?.make, model: variant?.model, variant: variant?.variant, year: variant?.year, _id: variant?._id}] : selectedVehicle.filter(item => item._id !== variant._id))}/>
+                          <Checkbox labelPosition="left" color="#E90808" onChange={(e) => setSelectedVehicle(e.target.checked ? [...selectedVehicle, { make: variant?.make, model: variant?.model, variant: variant?.variant, year: variant?.year, _id: variant?._id }] : selectedVehicle.filter(item => item._id !== variant._id))} />
                         </Table.Td>
                       </Table.Tr>
                     ))}
                   </Table.Tbody>
                 </Table>
-                <Text c="#E90808" mt="xl" size="12px">
-                  {variantsVehicles?.data?.variants?.map((variant, index) => (
-                    <>
-                    <Text c="#E90808" span inherit mx="xs"  key={index}>{variant.make} {variant.model} {variant.variant} {variant.year} Price</Text> {index < variantsVehicles?.data?.variants?.length - 1 && '|'}
-                  </>
-                  ))}
-                </Text>
-                {/* //  href={`/comparison/${pair.vehicle1.type}/${[
+                <Box style={{ alignItems: 'center' }} display="flex" gap="10px" mt="xl">
+                  <Box flex={"1"}>
+                    <Text c="#E90808" size="12px">
+                      {variantsVehicles?.data?.variants?.map((variant, index) => (
+                        <>
+                          <Text c="#E90808" span inherit mx="xs" key={index}>{variant.make} {variant.model} {variant.variant} {variant.year} Price</Text> {index < variantsVehicles?.data?.variants?.length - 1 && '|'}
+                        </>
+                      ))}
+                    </Text>
+                  </Box>
+                  {/* //  href={`/comparison/${pair.vehicle1.type}/${[
               pair.vehicle1,
               pair.vehicle2,
             ]
@@ -427,9 +428,12 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   }`
               )
               .join("_")}`} */}
-              {selectedVehicle?.length> 1 && <Button component={Link} mt="md" size="sm" radius="md" bg="#E90808" c="white" href={`/comparison/${type}/${selectedVehicle.map(vehicle => `${vehicle.make}-${vehicle.model}${vehicle.variant ? "-" + vehicle.variant : ""}`).join("_")}`} >
-               Compare
-                </Button>}
+                  {selectedVehicle?.length > 1 && (
+                    <Button component={Link} size="sm" radius="md" bg="#E90808" c="white" href={`/comparison/${type}/${selectedVehicle.map(vehicle => `${vehicle.make}-${vehicle.model}${vehicle.variant ? "-" + vehicle.variant : ""}`).join("_")}`} >
+                      Compare
+                    </Button>
+                  )}
+                </Box>
               </Box>
             )}
           </Box>
@@ -679,14 +683,14 @@ const getKeyFeatures = (variant) => {
   if (variant.engine?.torque) features.push(`${variant.engine.torque} Nm`);
   if (variant.comfort?.navigation) features.push('Navigation');
   if (variant.comfort?.rearCamera) features.push('Rear Camera');
-  
+
   if (variant.exterior?.sunRoof) features.push('Sunroof');
   if (variant.comfort?.ac) features.push('AC');
   if (variant.comfort?.keylessEntry) features.push('Keyless Entry');
   if (variant.comfort?.infotainment) features.push('Infotainment');
   if (variant.comfort?.steeringSwitches) features.push('Steering Switches');
   if (variant.comfort?.rearCamera) features.push('Rear Camera');
-  
+
   // Only take the first 7 features
   return features.slice(0, 7).join(', ');
 };
