@@ -125,23 +125,29 @@
         border-bottom : 2px solid #cccccc;
 
         ul li {
-            margin-bottom : .8rem;
-            padding-block : 0.8rem;
-            padding-inline: .5rem;
+            padding-block : 0.9rem;
+            padding-inline: 0;
             border-bottom : 1px solid #CCCCCC;
+            font-size     : 14px;
 
             .icon {
                 display     : inline-block;
                 margin-right: .5rem;
                 width       : 18px;
+                color       : $primary;
             }
 
-            span:last-child {
-                float: right;
+            svg {
+                color: $primary;
             }
+
+            // span:last-child {
+            //     float: right;
+            // }
 
             .summary-info {
-                display: inline-block;
+                display  : inline-block;
+                font-size: 14px;
             }
 
             &:last-child {
@@ -223,7 +229,7 @@
 
 .contact-seller {
     background-color: #F3F3F3;
-    padding-block   : 5rem;
+    // padding-block   : 5rem;
 
     .card {
         overflow: hidden;
@@ -403,4 +409,63 @@
             color: #888888 !important;
         }
     }
+}
+
+.product-image-section {
+    .image-gallery-content .image-gallery-slide .image-gallery-image {
+        max-height   : 430px;
+        max-width    : 100%;
+        height       : auto;
+        object-fit   : cover;
+        border-radius: 5px;
+    }
+
+    .image-gallery-icon {
+        filter: none !important;
+
+        &:hover {
+            @media (hover: hover) and (pointer: fine) {
+                color: white;
+            }
+
+            .image-gallery-svg {
+                transform: none;
+            }
+        }
+    }
+
+    .image-gallery-left-nav,
+    .image-gallery-right-nav {}
+
+    .image-gallery-left-nav .image-gallery-svg,
+    .image-gallery-right-nav .image-gallery-svg {
+        height       : 40px !important;
+        width        : 40px !important;
+        background   : $primary;
+        border-radius: 40px !important;
+    }
+
+    .image-gallery-thumbnails {
+
+        .image-gallery-thumbnails-container {
+            text-align: left;
+            display   : flex;
+        }
+
+        .image-gallery-thumbnail {
+            border: 2px solid transparent;
+        }
+
+        .image-gallery-thumbnail.active,
+        .image-gallery-thumbnail:focus,
+        .image-gallery-thumbnail:hover {
+            border-color: $primary !important;
+            border-width: 2px;
+        }
+
+        .image-gallery-thumbnail-image {
+            overflow: hidden;
+        }
+    }
+
 }

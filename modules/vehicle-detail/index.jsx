@@ -32,6 +32,7 @@ import {
   Flex,
   Group,
   Image,
+  List,
   rem,
   Text,
   ThemeIcon,
@@ -360,7 +361,14 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                     </ul>
                     <Group gap={0} className="text-primary">
                       <FeaturedCrownIcon />
-                      <Text span tt="uppercase" size={rem(14)} fw={600} className="text-primary" ml="xs">
+                      <Text
+                        span
+                        tt="uppercase"
+                        size={rem(14)}
+                        fw={600}
+                        className="text-primary"
+                        ml="xs"
+                      >
                         featured listing
                       </Text>
                     </Group>
@@ -369,13 +377,19 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
               </Box>
 
               {/* Gallery Section */}
-              <section className="product-image-section my-5">
+              <Box
+                component="section"
+                className="product-image-section"
+                my="xl"
+              >
                 <Gellary images={detail?.data?.images} />
-              </section>
+              </Box>
 
               {/* Car Summary Section */}
-              <section className="summary-section">
-                <h4 className="section-title fw-semibold mb-4">Car Summary</h4>
+              <Box component="section" className="summary-section">
+                <Title order={3} mb="lg">
+                  Car Summary
+                </Title>
                 <Box className="row">
                   {carSummaryItems
                     .reduce((acc, item, index) => {
@@ -386,41 +400,47 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                     }, [])
                     .map((columnItems, columnIndex) => (
                       <Box className="col-md-4" key={columnIndex}>
-                        <ul className="list-unstyled">
+                        <List
+                          styles={{
+                            itemWrapper: { width: "100%" },
+                            itemLabel: { display: "block", width: "100%" },
+                          }}
+                        >
                           {columnItems.map((item, index) => (
-                            <li
-                              key={index}
-                              className="mb-4 flex flex-col"
-                              style={{ flexWrap: "wrap", display: "flex" }}
-                            >
-                              <span className="fs-6 text-primary icon">
-                                {item.icon}
-                              </span>
-                              <span className="text-muted summary-info">
-                                {item.label}
-                              </span>
-                              <span
-                                className={`text-dark fw-semibold ${
-                                  item.label == "Drive"
-                                    ? "text-uppercase"
-                                    : "text-capitalize"
-                                }`}
-                                style={{ display: "flex", marginLeft: "auto" }}
-                              >
-                                {item.value}
-                              </span>
-                            </li>
+                            <List.Item icon={item.icon} key={index}>
+                              <Group justify="space-between" align="center">
+                                <Text span size={rem(14)}>
+                                  {item.label}
+                                </Text>
+                                <Text span size={rem(14)} fw={600} ml="auto">
+                                  {item.value}
+                                </Text>
+                              </Group>
+                            </List.Item>
                           ))}
-                        </ul>
+                        </List>
                       </Box>
                     ))}
                 </Box>
-              </section>
+              </Box>
 
               {/* Features List Section */}
-              <section className="featured-section">
-                <h4 className="section-title fw-semibold mb-4">Feature</h4>
-                <ul
+              <Box component="section" className="featured-section">
+                <Title order={3} mb="lg">
+                  Feature
+                </Title>
+                <List size={rem(14)} className="d-flex flex-wrap gap-3">
+                  {vehicleInfo.features.map((feature, index) => (
+                    <List.Item
+                      icon={<FaCheckCircle color="#E90808" />}
+                      key={index}
+                      mb="0"
+                    >
+                      {feature}
+                    </List.Item>
+                  ))}
+                </List>
+                {/* <ul
                   className="list-unstyled list-inline"
                   style={{
                     display: "flex",
@@ -437,17 +457,19 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                       {feature}
                     </li>
                   ))}
-                </ul>
-              </section>
+                </ul> */}
+              </Box>
 
               {/* Seller Notes Section */}
-              <section className="seller-section">
-                <h4 className="section-title fw-semibold mb-4">
+              <Box component="section" className="seller-section">
+                <Title order={3} mb="lg">
                   Sellers Notes
-                </h4>
-                <p>{vehicleInfo.sellerNotes}</p>
+                </Title>
+                <Text size={rem(14)} ff="heading">
+                  {vehicleInfo.sellerNotes}
+                </Text>
                 <Calculator data={detail?.data} />
-              </section>
+              </Box>
             </Box>
 
             {/* Seller Information Sidebar */}
@@ -455,7 +477,37 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
               {SellerCard}
               <SocialCards detail={detail} scrollToMessage={scrollToMessage} />
               <Box className="col-12">
-                <Box className="card address-card mb-3">
+                <Card
+                  mb="lg"
+                  withBorder
+                  p="sm"
+                  radius={rem(5)}
+                  shadow="0px 4px 20px 0px #00000014"
+                  display="flex"
+                  className="flex-row align-items-center"
+                >
+                  <ThemeIcon color="#E90808" variant="white">
+                    <LocationPinIcon />
+                  </ThemeIcon>
+                  <Box className="text-muted address-info">
+                    <Text ff="heading" size={rem(14)}>
+                      {sellerInfo.location}
+                    </Text>
+                    <Text ff="heading" size={rem(14)} c="dimmed">
+                      {sellerInfo.salesHours && (
+                        <ul className="list-unstyled mb-0 mt-2">
+                          <li>
+                            Sales Hours:
+                            <span className="ms-3">
+                              {sellerInfo.salesHours}
+                            </span>
+                          </li>
+                        </ul>
+                      )}
+                    </Text>
+                  </Box>
+                </Card>
+                {/* <Box className="card address-card mb-3">
                   <Box className="card-body gap-2 align-items-center text-primary">
                     <LocationPinIcon />
                     <Box className="text-muted address-info">
@@ -472,7 +524,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                       )}
                     </Box>
                   </Box>
-                </Box>
+                </Box> */}
               </Box>
               <ReportAdd />
             </Box>
@@ -481,7 +533,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
       </Box>
 
       {/* Contact Seller Section */}
-      <section className="contact-seller">
+      <Box component="section" className="contact-seller" py="xl">
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-4">
@@ -492,19 +544,19 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                 </Box>
               </Box>
             </Box>
-            <Box className="col-md-7" ref={messageRef}>
+            <Box className="col-md-8" ref={messageRef}>
               <MessageToDealer sellerId={detail?.data?.seller} />
             </Box>
           </Box>
         </Box>
-      </section>
+      </Box>
 
       {/* Similar Products Section */}
       <section className="similar-product py-5">
         <Box className="container-xl">
           <Box className="row">
             <Box className="col-md-12">
-              <Title order={2} mb="lg">
+              <Title size={rem(26)} mb="lg">
                 Similar Results
               </Title>
               {listOfSimilarVehicles?.data?.length === 0 && (

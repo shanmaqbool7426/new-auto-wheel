@@ -65,7 +65,7 @@ const SocialCards = ({ detail, scrollToMessage }) => {
     <>
       {socialsCards.map((card, index) => (
         <Paper
-          p="md"
+          p="sm"
           radius={rem(5)}
           shadow="0px 4px 20px 0px #00000014"
           key={index}
@@ -73,6 +73,8 @@ const SocialCards = ({ detail, scrollToMessage }) => {
           mb="lg"
           withBorder
           className="align-items-center gap-2"
+          onClick={card.onClick}
+          style={{ cursor: card.onClick ? "pointer" : "auto" }}
         >
           <ThemeIcon
             bg="white"
@@ -85,7 +87,7 @@ const SocialCards = ({ detail, scrollToMessage }) => {
           <Title
             ff="text"
             tt={card.uppercase && "uppercase"}
-            size={card.subtitle ? rem(20) : rem(16)}
+            size={card.subtitle ? rem(14) : rem(14)}
             m={0}
           >
             {card.title}
