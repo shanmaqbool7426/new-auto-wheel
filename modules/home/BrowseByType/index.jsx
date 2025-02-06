@@ -12,7 +12,7 @@ import { getLocalStorage } from "@/utils";
 const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
   const [selectedType, setSelectedType] = useState("All");
   const [vehicles, setVehicles] = useState(initialVehicles || []);
-  const token = getLocalStorage('token')
+  const userData = getLocalStorage('user')
   const handleTypeChange = async (type) => {
     setSelectedType(type);
     const res = await fetchAPI(
@@ -63,7 +63,7 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                 <Box className="row">
                   {vehicles?.data?.results?.map((vehicle, index) => (
                     <Box className="col-lg-3" key={index}>
-                      <CarCard index={index} vehicle={vehicle} token={token} />
+                      <CarCard index={index} vehicle={vehicle} userData={userData} />
                     </Box>
                   ))}
                 </Box>
@@ -75,7 +75,7 @@ const BrowseByType = ({ bg, pagination, vehicles: initialVehicles }) => {
                       {vehicles?.data?.map((vehicle, index) => (
                         <>
                           <Box className="col-lg-3 col-sm-6" key={index}>
-                            <CarCard index={index} vehicle={vehicle} token={token} />
+                            <CarCard index={index} vehicle={vehicle} userData={userData} />
                           </Box>
                         </>
                       ))}
