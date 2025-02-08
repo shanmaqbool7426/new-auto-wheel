@@ -352,7 +352,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
         <Accordion
           variant="contained"
           mb="lg"
-          defaultValue={null}
+          defaultValue="City"
           transitionDuration={500}
         >
           <Accordion.Item
@@ -379,7 +379,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 mb="md"
               />
               <ScrollArea
-                h={350}
+                h={130}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
@@ -407,7 +407,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           pos="absolute"
                           right={0}
                           top={0}
-                          color="#E90808"
+                          color="#706f6f"
                           size="md"
                           fw={600}
                           variant="outline"
@@ -453,6 +453,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 }
                 mb="md"
               />
+               <ScrollArea
+                h={130}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
+                <div className="checkbox-group-filters">
               {filteredmakes?.map((make, index) => (
                 <Box pos="relative" key={index}>
                   <Checkbox
@@ -478,7 +485,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       pos="absolute"
                       right={0}
                       top={0}
-                      color="#E90808"
+                      color="#706f6f"
                       size="md"
                       fw={600}
                       variant="outline"
@@ -488,6 +495,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   )}
                 </Box>
               ))}
+              </div>
+              </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -522,6 +531,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   }
                   mb="md"
                 />
+                 <ScrollArea
+                h={130}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
+                <div className="checkbox-group-filters">
                 {getModelsByMakes()?.map((model, index) => (
                   <Box pos="relative" key={index}>
                     <Checkbox
@@ -547,7 +563,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         pos="absolute"
                         right={0}
                         top={0}
-                        color="#E90808"
+                          color="#706f6f"
                         size="md"
                         fw={600}
                         variant="outline"
@@ -557,6 +573,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     )}
                   </Box>
                 ))}
+                </div>
+                </ScrollArea>
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
@@ -616,7 +634,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         pos="absolute"
                         right={0}
                         top={0}
-                        color="#E90808"
+                        color="#706f6f"
                         size="md"
                         fw={600}
                         variant="outline"
@@ -833,7 +851,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       pos="absolute"
                       right={0}
                       top={0}
-                      color="#E90808"
+                      color="#706f6f"
                       size="md"
                       fw={600}
                       variant="outline"
@@ -879,7 +897,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       pos="absolute"
                       right={0}
                       top={0}
-                      color="#E90808"
+                      color="#706f6f"
                       size="md"
                       fw={600}
                       variant="outline"
@@ -908,6 +926,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
+            <ScrollArea
+                h={150}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
+                <div className="checkbox-group-filters">
               {vehicleExteriorColorOptions?.map((color, index) => (
                 <Box pos="relative" key={index}>
                   <Checkbox
@@ -939,7 +964,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       pos="absolute"
                       right={0}
                       top={0}
-                      color="#E90808"
+                      color="#706f6f"
                       size="md"
                       fw={600}
                       variant="outline"
@@ -949,6 +974,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   )}
                 </Box>
               ))}
+              </div>
+              </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -987,7 +1014,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       pos="absolute"
                       right={0}
                       top={0}
-                      color="#E90808"
+                      color="#706f6f"
                       size="md"
                       fw={600}
                       variant="outline"
@@ -1286,7 +1313,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       {getCountByTypeAndKey("bodyTypeCounts", bodyType.title) && (
                         <Badge
                           ml="xs"
-                          color="#E90808"
+                          color="#706f6f"
                           size="sm"
                           fw={600}
                           variant="outline"
@@ -1378,7 +1405,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                                 pos="absolute"
                                 right={0}
                                 top={0}
-                                color="#E90808"
+                                color="#706f6f"
                                 size="md"
                                 fw={600}
                                 variant="outline"
@@ -1449,7 +1476,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             pos="absolute"
                             right={0}
                             top={0}
-                            color="#E90808"
+                            color="#706f6f"
                             size="md"
                             fw={600}
                             variant="outline"
@@ -1521,7 +1548,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               pos="absolute"
                               right={0}
                               top={0}
-                              color="#E90808"
+                              color="#706f6f"
                               size="md"
                               fw={600}
                               variant="outline"
@@ -1593,7 +1620,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               pos="absolute"
                               right={0}
                               top={0}
-                              color="#E90808"
+                              color="#706f6f"
                               size="md"
                               fw={600}
                               variant="outline"
@@ -1808,7 +1835,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             pos="absolute"
                             right={0}
                             top={0}
-                            color="#E90808"
+                            color="#706f6f"
                             size="md"
                             fw={600}
                             variant="outline"
@@ -1857,7 +1884,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             pos="absolute"
                             right={0}
                             top={0}
-                            color="#E90808"
+                            color="#706f6f"
                             size="md"
                             fw={600}
                             variant="outline"
@@ -1905,7 +1932,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             pos="absolute"
                             right={0}
                             top={0}
-                            color="#E90808"
+                            color="#706f6f"
                             size="md"
                             fw={600}
                             variant="outline"
@@ -1953,7 +1980,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             pos="absolute"
                             right={0}
                             top={0}
-                            color="#E90808"
+                            color="#706f6f"
                             size="md"
                             fw={600}
                             variant="outline"
@@ -2032,7 +2059,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             {getCountByTypeAndKey("bodyTypeCounts", bodyType.title) && (
                               <Badge
                                 ml="xs"
-                                color="#E90808"
+                                color="#706f6f"
                                 size="sm"
                                 fw={600}
                                 variant="outline"

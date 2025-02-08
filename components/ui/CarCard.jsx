@@ -186,16 +186,22 @@ const CarCard = ({ vehicle, userData }) => {
           c="white"
           gap={5}
           pos="absolute"
-          style={{ zIndex: "201" }}
+         
+          right={15}
+          style={{ zIndex: "201" ,justifyContent:"space-between"}}
           left={15}
           top={15}
         >
-          <CameraIcon width={18} height={18} />
+        <Box style={{display:"flex",alignItems:"center",gap:5}}>
+        <CameraIcon width={18} height={18} />
           <Text span fw={500} size="sm">
             {vehicle?.images?.length}
           </Text>
+        </Box>
+          {vehicle?.isFeatured && <Text style={{borderRadius:"5px"}} span fw={400}  size="12px" rounded="md" bg="black" c="white" p={5}  position="absolute" right={15} top={15}>
+            Featured
+          </Text>}
         </Group>
-
         {/* Custom image slider controlled by mouse hover */}
         <div
           onMouseMove={handleMouseMove}
@@ -224,6 +230,7 @@ const CarCard = ({ vehicle, userData }) => {
 
         {/* Progress bar with hover functionality */}
         <Group grow gap={2} my={2}>
+
           {images.map((_, index) => (
             <Progress
               key={index}
@@ -235,6 +242,7 @@ const CarCard = ({ vehicle, userData }) => {
           ))}
       
         </Group>
+      
         <FavoriteButton />
       </Card.Section>
 
