@@ -215,20 +215,18 @@ export default async function Listing({ params, searchParams }) {
                 mb="md"
               >
                 <Title
-                  order={6}
+                  order={5}
                   bg="#E90808"
                   c="white"
                   tt="uppercase"
                   p="10 50 10 12"
+                  fw={500}
                   style={{
                     clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
                   }}
                 >
                   Featured Classified
                 </Title>
-                {/* <Link href={"#"} className="text-primary text-decoration-none">
-                  Show all
-                </Link> */}
               </Group>
               <FilterBadges params={params} searchParams={searchParams} />
               {/* Product View List */}
