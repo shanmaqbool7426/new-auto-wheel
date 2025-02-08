@@ -18,13 +18,16 @@ import {
   Grid,
   Group,
   Image,
+  Overlay,
+  Paper,
   Progress,
   rem,
+  Stack,
   Text,
   Title,
 } from "@mantine/core";
 import { FaRoad } from "react-icons/fa6";
-import { BsCameraFill, BsFuelPumpFill, BsStar } from "react-icons/bs";
+import { BsFuelPumpFill, BsStar } from "react-icons/bs";
 
 const ListCardView = ({ vehicle, index }) => {
   const conditionMap = {
@@ -34,38 +37,35 @@ const ListCardView = ({ vehicle, index }) => {
   };
   return (
     <>
-      <Card
-        radius={0}
-        mb="lg"
-        pb="lg"
-        padding={0}
-        style={{ borderBottom: "2px solid #ddd" }}
-      >
+      <Card radius={0} padding={0}>
         <Grid gutter={0} align="center">
           <Grid.Col span={4}>
-            <Card.Section pos="relative" style={{ overflow: "hidden" }}>
-              <Button
+            <Card.Section>
+              <Stack
+                h="100%"
+                align="flex-start"
+                justify="space-between"
                 pos="absolute"
-                top={8}
-                left={10}
-                p={0}
-                variant="transparent"
-                color="white"
-                leftSection={<CameraIcon width="20px" height="20px" />}
+                left={0}
+                pt="xs"
+                pb="md"
               >
-                6
-              </Button>
-              <Button
-                pos="absolute"
-                bottom={14}
-                left={10}
-                p={0}
-                variant="transparent"
-                color="white"
-                leftSection={
-                  <BsStar style={{ width: rem(20), height: rem(20) }} />
-                }
-              />
+                <Button
+                  variant="transparent"
+                  color="white"
+                  leftSection={<CameraIcon width="20px" height="20px" />}
+                >
+                  6
+                </Button>
+                <Button
+                  variant="transparent"
+                  color="white"
+                  styles={{ section: { margin: 0 } }}
+                  leftSection={
+                    <BsStar style={{ width: rem(20), height: rem(20) }} />
+                  }
+                />
+              </Stack>
               <Image
                 radius="sm"
                 h={190}
@@ -96,7 +96,7 @@ const ListCardView = ({ vehicle, index }) => {
                 >
                   {conditionMap[vehicle?.condition]}
                 </Text>
-                <Title ff="text" mb={rem(3)} lts={-0.3} c="dark" order={4}>
+                <Title  mb={rem(3)} lts={-0.3} c="dark" order={4}>
                   <Anchor
                     inherit
                     underline="hover"
@@ -197,6 +197,7 @@ const ListCardView = ({ vehicle, index }) => {
           </Grid.Col>
         </Grid>
       </Card>
+      <Divider my="xl" size="sm" />
     </>
   );
 };

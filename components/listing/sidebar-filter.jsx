@@ -4,7 +4,7 @@ import { CiSearch } from "react-icons/ci";
 // import classes from "@/app/styles/theme-css/Select.module.css";
 import { ResetFiltersIcon, SearchWithCar } from "@/components/Icons";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
-import { GetColor } from '@/constants/colors';
+import { GetColor } from "@/constants/colors";
 import {
   Accordion,
   Button,
@@ -916,17 +916,22 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     color="#E90808"
 
                     styles={{
-                      body: {
-                        display: 'flex',
-                        alignItems: 'center',
-                      },
+                      body: { alignItems: "center" },
+                      labelWrapper: { width: "100%" },
                     }}
                     label={
-                      <Tooltip label={color.label} position="top" withArrow>
-                        <div>
-                    <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color.label) }} /> {color.label}
-                        </div>
-                    </Tooltip>
+                      <Group justify="space-between" align="center">
+                        {color.label}
+                        <Tooltip label={color.label} position="top" withArrow>
+                          <Button
+                            p={0}
+                            radius={rem(20)}
+                            h={rem(20)}
+                            w={rem(20)}
+                            bg={GetColor(color.label)}
+                          />
+                        </Tooltip>
+                      </Group>
                     }
                     key={color.value}
                     checked={color?.value === filters.exteriorColor}

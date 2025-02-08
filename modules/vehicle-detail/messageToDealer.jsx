@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
+  Box,
   Button,
   Checkbox,
   Group,
+  rem,
   Text,
   Textarea,
   TextInput,
+  Title,
 } from "@mantine/core";
 import AccountTypeModal from "../auth/AccountType";
 import { useSession } from "next-auth/react";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { getLocalStorage } from "@/utils";
 
 const MessageToDealer = ({ sellerId }) => {
-  console.log('sellerId',sellerId)
+  console.log("sellerId", sellerId);
   const [socket, setSocket] = useState(null);
   const { data: session, status } = useSession();
   const [modalOpened, setModalOpened] = useState(false);
@@ -27,8 +30,7 @@ const MessageToDealer = ({ sellerId }) => {
     acceptedPolicy: false,
   });
 
-  const token = getLocalStorage('token');
-
+  const token = getLocalStorage("token");
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {
@@ -37,18 +39,18 @@ const MessageToDealer = ({ sellerId }) => {
       });
       setSocket(newSocket);
 
-      newSocket.on('connect', () => {
-        console.log('Connected to server');
-        newSocket.emit('authenticate', session.user._id);
+      newSocket.on("connect", () => {
+        console.log("Connected to server");
+        newSocket.emit("authenticate", session.user._id);
       });
 
       newSocket.on(`new_message_`, (messageData) => {
-        console.log('Received new message:', messageData);
+        console.log("Received new message:", messageData);
         // Handle incoming message if needed
       });
 
-      newSocket.on('error', (error) => {
-        console.error('Socket error:', error);
+      newSocket.on("error", (error) => {
+        console.error("Socket error:", error);
         // Handle error (e.g., show a notification to the user)
       });
 
@@ -57,7 +59,7 @@ const MessageToDealer = ({ sellerId }) => {
       };
     }
   }, [session, status]);
-  
+
   useEffect(() => {
     if (session) {
       setFormData({
@@ -91,36 +93,35 @@ const MessageToDealer = ({ sellerId }) => {
       const messageData = {
         sender: session.user._id,
         receiver: sellerId,
-        content: formData.message
+        content: formData.message,
       };
-      console.log('Sending message:', messageData);
-      socket.emit('send_message', messageData);
-      setFormData({ ...formData, message: '' });
+      console.log("Sending message:", messageData);
+      socket.emit("send_message", messageData);
+      setFormData({ ...formData, message: "" });
     }
   };
 
   return (
     <>
-      <div className="contact-form">
+      <Box className="contact-form">
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="col-md-12">
-              <Text size="xl" mb="md" fw={600} className="text-uppercase">
+          <Box className="row">
+            <Box className="col-md-12">
+              <Title size={rem(20)} mb="md" fw={600} tt="uppercase">
                 Message to Seller
-              </Text>
+              </Title>
               <Textarea
-                size="md"
                 autosize
-                minRows={10}
-                maxRows={10}
+                minRows={6}
+                maxRows={6}
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
+                styles={{ input: { border: 0 } }}
               />
-            </div>
-            <div className="col-md-4">
+            </Box>
+            <Box className="col-md-4">
               <TextInput
-                size="md"
                 label="Name"
                 my="md"
                 placeholder="John Doe"
@@ -128,54 +129,64 @@ const MessageToDealer = ({ sellerId }) => {
                 value={formData.name}
                 onChange={handleChange}
                 disabled={!!session?.user?.name}
+                styles={{ input: { border: 0 } }}
               />
-            </div>
-            <div className="col-md-4">
+            </Box>
+            <Box className="col-md-4">
               <TextInput
                 my="md"
-                size="md"
                 label="Email"
                 placeholder="your@email.com"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 disabled={!!session?.user?.email}
+                styles={{ input: { border: 0 } }}
               />
-            </div>
-            <div className="col-md-4">
+            </Box>
+            <Box className="col-md-4">
               <TextInput
                 my="md"
-                size="md"
                 label="Phone"
                 placeholder="+91 321 674 9854"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                styles={{ input: { border: 0 } }}
               />
-            </div>
-            <div className="col-md-12">
+            </Box>
+            <Box className="col-md-12">
               <Group gap="md" align="center" mb="md">
                 <Checkbox
+                styles={{ input: { border: 0 } }}
                   name="acceptedPolicy"
+                  size="sm"
                   checked={formData.acceptedPolicy}
                   onChange={handleChange}
                 />
-                <Text>
+                <Text span size="sm">
                   I accept the{" "}
                   <Link href="#" className="text-decoration-none">
                     Privacy Policy
                   </Link>
                 </Text>
               </Group>
-            </div>
-            <div className="col-md-12">
-              <Button type="submit" size="lg" color="#EB2321">
+            </Box>
+            <Box className="col-md-12">
+              <Button
+                type="submit"
+                size="md"
+                fw={500}
+                ff="heading"
+                tt="uppercase"
+                color="#EB2321"
+              >
                 Send Message
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </form>
-      </div>
+      </Box>
 
       <AccountTypeModal
         opened={modalOpened}
