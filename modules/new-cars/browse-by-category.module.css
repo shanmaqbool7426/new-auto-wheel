@@ -9,3 +9,8 @@
     align-items: center;
     justify-content: center;
   }
+
+  .new-cars-search-breadcrumb{
+    margin-bottom: 17px;
+    margin-top: -9px;
+  }

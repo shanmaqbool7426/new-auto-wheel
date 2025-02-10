@@ -2,7 +2,7 @@
 import React from "react";
 import { Table, Flex, Title, Image, Switch } from "@mantine/core";
 
-const DetailSection = ({ section,setHideCommonFeatures,hideCommonFeatures }) => {
+const DetailSection = ({ section, setHideCommonFeatures, hideCommonFeatures }) => {
   return (
     <div className="col-md-12">
       <Flex
@@ -10,11 +10,11 @@ const DetailSection = ({ section,setHideCommonFeatures,hideCommonFeatures }) => 
         align="center"
         mb={section.title ? "lg" : "0"}
       >
-        {section.title ? <Title order={3}>{section.title}</Title> : null}
-        {section.title=="Overview"&&(
-          <Switch labelPosition="left" label="Hide Common Features" 
-          checked={hideCommonFeatures}
-      onChange={(event) => setHideCommonFeatures(event.currentTarget.checked)}
+        {section.title ? <Title lh="1.35" size="20px" c="#333333" order={3}>{section.title}</Title> : null}
+        {section.title == "Overview" && (
+          <Switch labelPosition="left" label="Hide Common Features"
+            checked={hideCommonFeatures}
+            onChange={(event) => setHideCommonFeatures(event.currentTarget.checked)}
           />
         )}
       </Flex>
@@ -52,12 +52,12 @@ const DetailSection = ({ section,setHideCommonFeatures,hideCommonFeatures }) => 
                   fw={600}
                   bg={item.isRowSelected && "hsla(0, 93%, 47%, 0.03)"}
                 >
-                  <Table.Td fw={600} size="md" c="dimmed" w="20%" className="border-end-0">
+                  <Table.Td fw={600} size="md" c="#878787" w="20%" className="border-end-0">
                     {item.type}
                   </Table.Td>
-                  <Table.Td w="25%" className="text-center">{item.first}</Table.Td>
-                  <Table.Td w="25%" className="text-center">{item.second}</Table.Td>
-                  <Table.Td w="25%" className="text-center">{item.third}</Table.Td>
+                  <Table.Td w="25%" className="text-center" fz="16px" fw="700" c="#333">{item.first}</Table.Td>
+                  <Table.Td w="25%" className="text-center" fz="16px" fw="700" c="#333">{item.second}</Table.Td>
+                  <Table.Td w="25%" className="text-center" fz="16px" fw="700" c="#333">{item.third}</Table.Td>
                 </Table.Tr>
               }
             </>

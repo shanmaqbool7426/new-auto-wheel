@@ -21,24 +21,39 @@ import {
 import NextLink from "next/link";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
-import { notifications } from "@mantine/notifications";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
+import { getLocalStorage } from "@/utils";
 
-const CarCard = ({ vehicle, token }) => {
-  const [isFavorite, setIsFavorite] = useState(vehicle?.isFavorite || false);
+const CarCard = ({ vehicle, userData }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [localUserData, setLocalUserData] = useState(userData);
+  const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
 
-  // Preload images to avoid delays on hover
+
+
+  useEffect(() => {
+    if (userData && vehicle) {
+      setIsFavorite(userData.favoriteVehicles?.includes(vehicle._id));
+    }
+  }, [userData, vehicle]);
+
+  useEffect(() => {
+    setLocalUserData(userData);
+  }, [userData]);
+
   useEffect(() => {
     images.forEach((src) => {
       const img = new window.Image(); // Use native Image constructor explicitly
       img.src = src;
     });
   }, [images]);
+
+  console.log("userData",userData)
 
   // Function to change slide based on mouse position
   const handleMouseMove = (e) => {
@@ -62,27 +77,28 @@ const CarCard = ({ vehicle, token }) => {
   };
 
   const handleToggleFavorite = async (e) => {
-    e.preventDefault(); // Prevent link navigation
-    e.stopPropagation(); // Prevent event bubbling
+    e.preventDefault();
+    e.stopPropagation();
 
-    if (!token) {
+    if (!localUserData) {
       notifications.show({
-        title: "Authentication Required",
-        message: "Please login to add vehicles to favorites",
+        title: "Login Required",
+        message: "Please login first to add vehicles to favorites",
         color: "red",
       });
+      router.push('/login');
       return;
     }
 
     try {
       setIsLoading(true);
       const response = await fetch(
-        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${token._id}`,
+        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${localUserData._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token._id}`,
+            Authorization: `Bearer ${localUserData._id}`,
           },
         }
       );
@@ -90,11 +106,21 @@ const CarCard = ({ vehicle, token }) => {
       const data = await response.json();
 
       if (data.success) {
-        setIsFavorite(data.data.isFavorite);
+        // Update local storage with new user data
+        const updatedUserData = {
+          ...localUserData,
+          favoriteVehicles: data.data.favoriteVehicles
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUserData));
+        setLocalUserData(updatedUserData);
+        console.log("updatedUserData",data.data.favoriteVehicles)
+        setIsFavorite(data.data.favoriteVehicles.includes(vehicle._id));
+        
         notifications.show({
           title: "Success",
           message: data.message,
           color: "green",
+            
         });
       } else {
         throw new Error(data.message);
@@ -128,7 +154,7 @@ const CarCard = ({ vehicle, token }) => {
         padding: "5px",
       }}
     >
-      {token?.token?.user?.favoriteVehicles?.includes(vehicle?._id) ? (
+      {isFavorite ? (
         <IconStarFilled
           size={20}
           style={{
@@ -160,16 +186,22 @@ const CarCard = ({ vehicle, token }) => {
           c="white"
           gap={5}
           pos="absolute"
-          style={{ zIndex: "201" }}
+         
+          right={15}
+          style={{ zIndex: "201" ,justifyContent:"space-between"}}
           left={15}
           top={15}
         >
-          <CameraIcon width={18} height={18} />
+        <Box style={{display:"flex",alignItems:"center",gap:5}}>
+        <CameraIcon width={18} height={18} />
           <Text span fw={500} size="sm">
             {vehicle?.images?.length}
           </Text>
+        </Box>
+          {vehicle?.isFeatured && <Text style={{borderRadius:"5px"}} span fw={400}  size="12px" rounded="md" bg="black" c="white" p={5}  position="absolute" right={15} top={15}>
+            Featured
+          </Text>}
         </Group>
-
         {/* Custom image slider controlled by mouse hover */}
         <div
           onMouseMove={handleMouseMove}
@@ -198,6 +230,7 @@ const CarCard = ({ vehicle, token }) => {
 
         {/* Progress bar with hover functionality */}
         <Group grow gap={2} my={2}>
+
           {images.map((_, index) => (
             <Progress
               key={index}
@@ -209,6 +242,7 @@ const CarCard = ({ vehicle, token }) => {
           ))}
       
         </Group>
+      
         <FavoriteButton />
       </Card.Section>
 
@@ -238,11 +272,16 @@ const CarCard = ({ vehicle, token }) => {
             bg="#E90808"
             p="5px 5px 5px 15px"
             ta="right"
+            display="inline-flex"  // Changed to inline-flex
             style={{
               clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+              minWidth: 'fit-content', // Changed to fit-content
+              width: 'auto',
+              alignItems: 'center',    // Added to center content vertically
+              justifyContent: 'flex-end' // Added to align content to the right
             }}
           >
-            <Text fw={600} size="xs">
+            <Text fw={600} size="xs" style={{ whiteSpace: 'nowrap', lineHeight: 1 }}>
               Rs {formatPrice(vehicle?.price)}
             </Text>
           </Box>

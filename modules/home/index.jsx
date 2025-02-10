@@ -19,7 +19,7 @@ export default async function HomeModule() {
       <ComparisonProducts type={"car"}/>
       <SearchByLocations />
       <BrowseVideos type={"car"} />
-      <BrowseBlogs />
+      <BrowseBlogs type={"car"}/>
     </>
   );
 }

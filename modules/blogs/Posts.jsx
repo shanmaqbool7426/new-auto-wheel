@@ -84,6 +84,8 @@ const Posts = ({ title, posts, count, description }) => {
                                     <Text span size="sm" fz="12px">
                                         {formatDate(post.publishDate)}
                                     </Text>
+                                </Box>
+                                <Flex gap="md" align="center">
                                     <Text
                                         span
                                         className="d-flex gap-1 align-items-center"
@@ -93,8 +95,6 @@ const Posts = ({ title, posts, count, description }) => {
                                         <EyeIcon />
                                         {post.viewCount}
                                     </Text>
-                                </Box>
-                                <Box className="right">
                                     <Text
                                         span
                                         className="d-flex gap-1 align-items-center"
@@ -104,7 +104,7 @@ const Posts = ({ title, posts, count, description }) => {
                                         <ViewIcon />
                                         {post?.commentCount}
                                     </Text>
-                                </Box>
+                                </Flex>
                             </Flex>
                             <Text lineClamp={4} size="sm">
                                 {parse(post.content)}

@@ -54,7 +54,9 @@ const Header = () => {
   };
 
   if (session) {
+    console.log(">>>>>> session?.user?.token?.user",session.user)
     localStorage.setItem("token", JSON.stringify(session.user));
+    localStorage.setItem("user", JSON.stringify(session?.user?.token?.user));
   }
   console.log(session, "session");
 

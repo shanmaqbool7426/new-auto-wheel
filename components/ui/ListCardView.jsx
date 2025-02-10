@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   CameraIcon,
   CompareIcon,
@@ -27,11 +27,28 @@ import { FaRoad } from "react-icons/fa6";
 import { BsCameraFill, BsFuelPumpFill, BsStar } from "react-icons/bs";
 
 const ListCardView = ({ vehicle, index }) => {
-  const conditionMap = {
-    new: "New",
-    used: "Used",
-    certified: "Certified Used",
+  const [activeSlide, setActiveSlide] = useState(0);
+  const images = vehicle?.images?.slice(0, 5) || [];
+
+  useEffect(() => {
+    // Preload images
+    images.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, [images]);
+
+  const handleMouseMove = (e) => {
+    const { offsetX, target } = e.nativeEvent;
+    const sectionWidth = target.clientWidth / images.length;
+    const newSlide = Math.floor(offsetX / sectionWidth);
+    setActiveSlide(newSlide);
   };
+
+  const handleMouseLeave = () => {
+    setActiveSlide(0);
+  };
+
   return (
     <>
       <Card
@@ -44,17 +61,20 @@ const ListCardView = ({ vehicle, index }) => {
         <Grid gutter={0} align="center">
           <Grid.Col span={4}>
             <Card.Section pos="relative" style={{ overflow: "hidden" }}>
-              <Button
-                pos="absolute"
-                top={8}
-                left={10}
-                p={0}
-                variant="transparent"
-                color="white"
-                leftSection={<CameraIcon width="20px" height="20px" />}
-              >
-                6
-              </Button>
+              {/* Update camera count button to only show if there are images */}
+              {true && (
+                <Button
+                  pos="absolute"
+                  top={8}
+                  left={10}
+                  p={0}
+                  variant="transparent"
+                  color="white"
+                  leftSection={<CameraIcon width="20px" height="20px" />}
+                >
+                  {vehicle.images.length}
+                </Button>
+              )}
               <Button
                 pos="absolute"
                 bottom={14}
@@ -66,20 +86,32 @@ const ListCardView = ({ vehicle, index }) => {
                   <BsStar style={{ width: rem(20), height: rem(20) }} />
                 }
               />
-              <Image
-                radius="sm"
-                h={190}
-                fit="cover"
-                src={
-                  vehicle?.defaultImage
-                    ? vehicle?.defaultImage
-                    : "/products/product-placeholder.png"
-                }
-              />
+              <div
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{ cursor: "pointer", position: "relative" }}
+              >
+                <Image
+                  radius="sm"
+                  h={190}
+                  fit="cover"
+                  src={
+                    images[activeSlide] ||
+                    vehicle?.defaultImage ||
+                    "/products/product-placeholder.png"
+                  }
+                />
+              </div>
               <Group grow my={3} gap={5}>
-                <Progress radius="0" size={4} value={100} color="#E90808" />
-                <Progress radius="0" size={4} />
-                <Progress radius="0" size={4} />
+                {images.map((_, index) => (
+                  <Progress
+                    key={index}
+                    radius="0"
+                    size={4}
+                    value={index === activeSlide ? 100 : 30}
+                    color={index === activeSlide ? "#E90808" : "#E0E0E0"}
+                  />
+                ))}
               </Group>
             </Card.Section>
           </Grid.Col>
@@ -94,7 +126,7 @@ const ListCardView = ({ vehicle, index }) => {
                   tt="uppercase"
                   c="#E90808"
                 >
-                  {conditionMap[vehicle?.condition]}
+                  {/* {conditionMap[vehicle?.condition]} */}
                 </Text>
                 <Title ff="text" mb={rem(3)} lts={-0.3} c="dark" order={4}>
                   <Anchor

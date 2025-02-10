@@ -19,8 +19,7 @@ const ComparisonProducts = ({ title, type }) => {
       try {
         setState(prev => ({ ...prev, loading: true }));
         const result = await getCompares({ type });
-
-        console.log("result", result);
+        
         setState({ data: result, loading: false, error: null });
       } catch (error) {
         console.error("Error fetching comparisons:", error);

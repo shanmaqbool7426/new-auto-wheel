@@ -1,44 +1,101 @@
 "use client";
-import { fetchMakesByTypeServer } from "@/actions";
 import { Container, Input, Text, Title } from "@mantine/core";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
+const footerSections = [
+  { value: 'by-make', label: 'By Make' },
+  { value: 'by-city', label: 'By City' },
+  { value: 'explore-autowheels', label: 'Explore AutoWheels' },
+  { value: 'autowheels', label: 'Autowheels.com' },
+  { value: 'sell-on-autowheels', label: 'Sell On AutoWheels' },
+  { value: 'by-category', label: 'By Category' },
+  { value: 'by-body-type', label: 'By Body Type' },
+  { value: 'by-color', label: 'By Color' },
+  { value: 'by-province', label: 'By Province' }
+];
+
 const Footer = () => {
-  const params = useParams();
-  const [makesByType, setMakesByType] = useState([]);
-  const type = (params?.slug && params.slug[0]) || "cars";
-  const makes = [
-    "Toyota",
-    "Suzuki",
-    "Honda",
-    "Daihatsu",
-    "Mitsubishi",
-    "Nissan",
-    "Mercedes",
-    "Hyundai",
-    "BMW",
-  ];
+  const pathname = usePathname();
+  const [currentVehicleType, setCurrentVehicleType] = useState('car');
+  const [footerData, setFooterData] = useState({
+    byMake: [],
+    byCity: [],
+    byProvince: [],
+    exploreAutoWheels: [],
+    autoWheels: [],
+    byCategory: [],
+    byBodyType: [],
+    byColor: [],
+    sellOnAutoWheels: []
+  });
 
-  const cities = [
-    "Lahore",
-    "Karachi",
-    "Islamabad",
-    "Rawalpindi",
-    "Peshawar",
-    "Faisalabad",
-    "Multan",
-    "Gujranwala",
-    "Sialkot",
-  ];
-
-  const fetchMakes = async () => {
-    const makes = await fetchMakesByTypeServer(type.slice(0, type?.length - 1));
-    setMakesByType(makes?.data);
-  };
   useEffect(() => {
-    fetchMakes();
-  }, [type]);
+    // Extract vehicle type from pathname
+    const pathParts = pathname?.split('/') || [];
+    const vehicleType = pathParts.find(part => ['car', 'bike', 'truck'].includes(part)) || 'car';
+    setCurrentVehicleType(vehicleType);
+  }, [pathname]);
+
+  useEffect(() => {
+    const getFooterData = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/footer");
+        const data = await res.json();
+
+        // Organize data by sections
+        const organizedData = {
+          byMake: data?.data?.filter(item => item.section === "by-make" && item.status).sort((a, b) => a.order - b.order),
+          byCity: data?.data?.filter(item => item.section === "by-city" && item.status).sort((a, b) => a.order - b.order),
+          byProvince: data?.data?.filter(item => item.section === "by-province" && item.status).sort((a, b) => a.order - b.order),
+          exploreAutoWheels: data?.data?.filter(item => item.section === "explore-autowheels" && item.status).sort((a, b) => a.order - b.order),
+          autoWheels: data?.data?.filter(item => item.section === "autowheels" && item.status).sort((a, b) => a.order - b.order),
+          byCategory: data?.data?.filter(item => item.section === "by-category" && item.status).sort((a, b) => a.order - b.order),
+          byBodyType: data?.data?.filter(item => item.section === "by-body-type" && item.status).sort((a, b) => a.order - b.order),
+          byColor: data?.data?.filter(item => item.section === "by-color" && item.status).sort((a, b) => a.order - b.order),
+          sellOnAutoWheels: data?.data?.filter(item => item.section === "sell-on-autowheels" && item.status).sort((a, b) => a.order - b.order)
+        };
+
+        console.log("Organized Data:", {
+          [`By Make (${currentVehicleType}s)`]: organizedData.byMake.filter(item => item.vehicleType === currentVehicleType),
+          "By City": organizedData.byCity,
+          "By Province": organizedData.byProvince,
+          "Explore AutoWheels": organizedData.exploreAutoWheels,
+          "AutoWheels.com": organizedData.autoWheels,
+          "By Category": organizedData.byCategory,
+          "By Body Type": organizedData.byBodyType,
+          "By Color": organizedData.byColor,
+          "Sell on AutoWheels": organizedData.sellOnAutoWheels
+        });
+
+        setFooterData(organizedData);
+      } catch (error) {
+        console.error("Error fetching footer data:", error);
+      }
+    };
+
+    getFooterData();
+  }, [currentVehicleType]);
+
+  const renderFooterLinks = (section, vehicleType = null) => {
+    let links = footerData[section] || [];
+    if (vehicleType) {
+      links = links.filter(item => item.vehicleType === vehicleType || item.vehicleType === 'all');
+    }
+    
+    if (links.length === 0) return null;
+
+    return links.map((item) => (
+      <li key={item._id}>
+        <Link href={item.url}>
+          {item.title}
+        </Link>
+      </li>
+    ));
+  };
+
+  const capitalizedVehicleType = currentVehicleType.charAt(0).toUpperCase() + currentVehicleType.slice(1);
 
   return (
     <footer className="footer">
@@ -48,36 +105,50 @@ const Footer = () => {
             <div className="row">
               <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Cars By Make
+                  {capitalizedVehicleType}s By Make
                 </Title>
                 <ul className="list-unstyled">
-                  {makesByType?.map((make, index) => (
-                    <li key={index}>
-                      <Link
-                        href={`/listing/${
-                          make?.type
-                        }s/search/-/mk_${make?.name?.toLowerCase()}`}
-                      >
-                        {make?.name} {make?.type} for Sale
-                      </Link>
-                    </li>
-                  ))}
+                  {renderFooterLinks("byMake", currentVehicleType)}
                 </ul>
               </div>
               <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Cars By City
+                  {capitalizedVehicleType}s By Province
                 </Title>
                 <ul className="list-unstyled">
-                  {cities.map((city, index) => (
-                    <li key={index}>
-                      <Link
-                        href={`/listing/cars/search/-/ct_${city.toLowerCase()}`}
-                      >
-                        Cars in {city}
-                      </Link>
-                    </li>
-                  ))}
+                  {renderFooterLinks("byProvince")}
+                </ul>
+              </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  {capitalizedVehicleType}s By City
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byCity")}
+                </ul>
+              </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  {capitalizedVehicleType}s by Category
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byCategory")}
+                </ul>
+              </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  {capitalizedVehicleType}s by Body Type
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byBodyType")}
+                </ul>
+              </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  {capitalizedVehicleType}s by Color
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byColor")}
                 </ul>
               </div>
               <div className="col-lg-3 col-sm-4">
@@ -85,179 +156,7 @@ const Footer = () => {
                   Explore AutoWheels
                 </Title>
                 <ul className="list-unstyled">
-                  <li>
-                    <a href="#">Used Cars</a>
-                  </li>
-                  <li>
-                    <a href="#">Used Bikes</a>
-                  </li>
-                  <li>
-                    <a href="#">New Cars</a>
-                  </li>
-                  <li>
-                    <a href="#">Auto Parts & Accessories</a>
-                  </li>
-                  <li>
-                    <a href="#">Cool Rides</a>
-                  </li>
-                  <li>
-                    <a href="#">Forums</a>
-                  </li>
-                  <li>
-                    <a href="#">Autoshow</a>
-                  </li>
-                  <li>
-                    <a href="#">Sitemap</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Autowheels.com
-                </Title>
-                <ul className="list-unstyled">
-                  <li>
-                    <a>About AutoWheels.com</a>
-                  </li>
-                  <li>
-                    <a>Our Products</a>
-                  </li>
-                  <li>
-                    <a>Advertise With Us</a>
-                  </li>
-                  <li>
-                    <a>How To Pay</a>
-                  </li>
-                  <li>
-                    <a>FAQs</a>
-                  </li>
-                  <li>
-                    <a>Refunds & Returns</a>
-                  </li>
-                  <li>
-                    <a>Careers</a>
-                  </li>
-                  <li>
-                    <a>Contact Us</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Cars by Category
-                </Title>
-                <ul className="list-unstyled">
-                  <li>
-                    <a>Jeep</a>
-                  </li>
-                  <li>
-                    <a>Japanese Cars</a>
-                  </li>
-                  <li>
-                    <a>Imported Cars</a>
-                  </li>
-                  <li>
-                    <a>Low Priced Cars</a>
-                  </li>
-                  <li>
-                    <a>4x4 Cars</a>
-                  </li>
-                  <li>
-                    <a>660cc Cars</a>
-                  </li>
-                  <li>
-                    <a>1000cc Cars</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Cars by Body Type
-                </Title>
-                <ul className="list-unstyled">
-                  <li>
-                    <a>Sedan</a>
-                  </li>
-                  <li>
-                    <a>Hatchback</a>
-                  </li>
-                  <li>
-                    <a>SUV</a>
-                  </li>
-                  <li>
-                    <a>Crossover</a>
-                  </li>
-                  <li>
-                    <a>Mini Van</a>
-                  </li>
-                  <li>
-                    <a>Double Cabin</a>
-                  </li>
-                  <li>
-                    <a>Compact sedan</a>
-                  </li>
-                  <li>
-                    <a>MPV</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Cars by Color
-                </Title>
-                <ul className="list-unstyled">
-                  <li>
-                    <a>White Cars</a>
-                  </li>
-                  <li>
-                    <a>Silver Cars</a>
-                  </li>
-                  <li>
-                    <a>Black Cars</a>
-                  </li>
-                  <li>
-                    <a>Grey Cars</a>
-                  </li>
-                  <li>
-                    <a>Blue Cars</a>
-                  </li>
-                  <li>
-                    <a>Red Cars</a>
-                  </li>
-                  <li>
-                    <a>Green Cars</a>
-                  </li>
-                  <li>
-                    <a>Gold Cars</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Cars by Province
-                </Title>
-                <ul className="list-unstyled">
-                  <li>
-                    <a>Cars in Punjab</a>
-                  </li>
-                  <li>
-                    <a>Cars in Sindh</a>
-                  </li>
-                  <li>
-                    <a>Cars in KPK</a>
-                  </li>
-                  <li>
-                    <a>Cars in Balochistan</a>
-                  </li>
-                  <li>
-                    <a>Cars in Azad Kashmir</a>
-                  </li>
-                  <li>
-                    <a>Cars in Federally Administered</a>
-                  </li>
-                  <li>
-                    <a>Tribal Areas</a>
-                  </li>
+                  {renderFooterLinks("exploreAutoWheels")}
                 </ul>
               </div>
             </div>
@@ -265,18 +164,18 @@ const Footer = () => {
           <div className="col-lg-3 col-sm-6">
             <div>
               <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                AutoWheels.com
+              </Title>
+              <ul className="list-unstyled">
+                {renderFooterLinks("autoWheels")}
+              </ul>
+            </div>
+            <div>
+              <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                 Sell On AutoWheels
               </Title>
               <ul className="list-unstyled">
-                <li>
-                  <a>Sell Your Car</a>
-                </li>
-                <li>
-                  <a>Sell Your Bike</a>
-                </li>
-                <li>
-                  <a>Sell your Truck</a>
-                </li>
+                {renderFooterLinks("sellOnAutoWheels")}
               </ul>
             </div>
             <div className="newsletter-section mt-5">
@@ -316,10 +215,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <hr />
         <div className="text-center">
-          <span>© 2024 . All Rights Reserved.</span>
+          <span> 2024 AutoWheels. All Rights Reserved.</span>
         </div>
       </div>
     </footer>
