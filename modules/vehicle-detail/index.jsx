@@ -25,6 +25,7 @@ import {
   TrustCar,
   VerifiedUser,
 } from "@/components/Icons";
+import CardsCarousel from "@/components/sections/CardsCarousel";
 import { BsStarFill, BsStar } from "react-icons/bs";
 import {
   Box,
@@ -43,7 +44,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import { formatPrice, getTimeAgo } from "@/utils/index";
 import NextImage from "next/image";
-
+import { getLocalStorage, reorderSlug } from "@/utils";
 // Import your components
 import Calculator from "./calculator";
 import SocialCards from "./socialCards";
@@ -58,6 +59,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     messageRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const userData = getLocalStorage('user')
   // Memoized seller information
   const sellerInfo = useMemo(
     () => ({
@@ -553,23 +555,16 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
 
       {/* Similar Products Section */}
       <section className="similar-product py-5">
-        <Box className="container-xl">
-          <Box className="row">
-            <Box className="col-md-12">
-              <Title size={rem(26)} mb="lg">
-                Similar Results
-              </Title>
-              {listOfSimilarVehicles?.data?.length === 0 && (
-                <Text>No Similar Vehicles Found</Text>
-              )}
-            </Box>
-            {listOfSimilarVehicles?.data?.map((vehicle, index) => (
-              <Box className="col-md-3" key={index}>
-                <SimilarVehicleCard vehicle={vehicle} />
-              </Box>
-            ))}
-          </Box>
-        </Box>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4"></h2>
+          <CardsCarousel
+            title={'Similar Vehicles'}
+            primaryTitle={''}
+            userData={userData}
+            data={listOfSimilarVehicles?.data}
+            isRating={false}
+          />
+        </div>
       </section>
     </>
   );

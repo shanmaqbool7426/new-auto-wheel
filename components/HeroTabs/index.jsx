@@ -219,7 +219,7 @@ const HeroTabs = ({ setType }) => {
           <Group justify="end" mt="20px">
             <Button
               component={Link}
-              href={`/listing/${makesByType}s`}
+              href={`/listing/${makesByType}s?view=list`}
               rightSection={<BsArrowRight />}
               variant="transparent"
               px={0}
@@ -275,7 +275,7 @@ const HeroTabs = ({ setType }) => {
           <Group justify="end" mt="20px">
             <Button
               component={Link}
-              href={`/listing/${makesByType}s`}
+              href={`/listing/${makesByType}s?view=list`}
               rightSection={<BsArrowRight />}
               variant="transparent"
               px={0}
@@ -331,7 +331,7 @@ const HeroTabs = ({ setType }) => {
           <Group justify="end" mt="20px">
             <Button
               component={Link}
-              href={`/listing/${makesByType}s`}
+              href={`/listing/${makesByType}s?view=list`}
               rightSection={<BsArrowRight />}
               variant="transparent"
               px={0}

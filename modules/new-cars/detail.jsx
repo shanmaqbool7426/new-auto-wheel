@@ -6,6 +6,9 @@ import CardsCarousel from "@/components/sections/CardsCarousel"
 import SectionTopComparison from "@/components/sections/SectionTopComparison"
 
 import Comments from "@/components/sections/Comments"
+import ComparisonProducts from "../home/ComparisonProducts";
+import { fetchVehiclsData } from "@/services/vehicles";
+import { reorderSlug } from "@/utils";
 
 const mockData = [
   {
@@ -138,14 +141,21 @@ const mockData = [
     "minPrice": 637000,
     "maxPrice": 8110000,
     "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981222/b82kwuay3dmmlf3wxax6.png",
-    "views": 0,
+    "views": 0,  
     "slug": "honda-civic-vti-oriel-2025",
     "averageRating": 0,
     "reviewCount": 0
   },
 ]
 
-const NewVehicleDetailModule = ({ vehicle, variantsVehicles }) => {
+const NewVehicleDetailModule =async ({ vehicle, variantsVehicles }) => {
+    const reorderedSlug = reorderSlug([`cars`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
+  
+    const dataofVehcles = await fetchVehiclsData(reorderedSlug);
+  
+
+
+    console.log('vehicle>>>>>>>>',vehicle)
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />
@@ -156,14 +166,15 @@ const NewVehicleDetailModule = ({ vehicle, variantsVehicles }) => {
         primaryTitle={'Competitors'}
         data={mockData}
       />
-      <SectionTopComparison />
+      {/* <SectionTopComparison /> */}
+        <ComparisonProducts type={"car"}/>
       <CardsCarousel
-        title={'Used Toyota Corolla 2023 for'}
+        title={`Used ${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} for`}
         primaryTitle={'Sale in Pakistan'}
-        data={mockData}
+        data={dataofVehcles?.data?.results}
         isRating={false}
       />
-      <BrowseBlogCarousel type={"car"} title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`} />
+      <BrowseBlogCarousel type={vehicle?.type} title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`} />
       {/* Faq's */}
       {vehicle?.vehicleDetails?.faqs?.length > 0 && <FAQ title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.variant} ${vehicle?.vehicleDetails?.year}`} titleSpan="FAQs" faqs={vehicle?.vehicleDetails?.faqs} />}
     </div>

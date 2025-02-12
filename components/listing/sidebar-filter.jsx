@@ -964,7 +964,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       handleFilterChange("exteriorColor", color?.value)
                     }
                   />
-                  {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
+                  {/* {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
                     <Badge
                       pos="absolute"
                       right={0}
@@ -976,10 +976,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     >
                       {getCountByTypeAndKey("exteriorColorCounts", color.label)}
                     </Badge>
-                  )}
+                  )} */}
                 </Box>
               ))}
-              </div>
+              </div>  
               </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>

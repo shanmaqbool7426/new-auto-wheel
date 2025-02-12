@@ -32,7 +32,7 @@ import SearchBar from "./SearchBar";
 import Comments from "@/components/sections/Comments";
 import NewCarsCard from "@/components/ui/NewCarsCard";
 import { IconSearch } from "@tabler/icons-react";
-import BrowseByCategory from "./browse-by-category";
+import BrowseByCategory from "../home/BrowseByCategory";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
 import BrowseVideos from "@/components/videos/browse-videos";
 import BrowseBlogs from "@/components/blog/browse-blogs";
@@ -254,6 +254,7 @@ const NewCarsModule = ({
         </Box>
 
         {/* <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/> */}
+      
         <BrowseByCategory makes={makes} bodies={bodies} type={type} />
         <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
