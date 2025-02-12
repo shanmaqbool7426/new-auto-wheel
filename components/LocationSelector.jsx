@@ -93,21 +93,21 @@ const LocationSelector = ({
       const updatedSelection = { ...prev, [type]: value };
 
       if (type === "country") {
-        setActiveTab("province"); // Set active tab to province
+        setActiveTab("province");
         return {
           ...updatedSelection,
-          province: "", // Reset province and city
-          city: "",
-          suburb:""
+          province: null,
+          city: null,
+          suburb: null
         };
       }
 
       if (type === "province") {
-        setActiveTab("city"); // Set active tab to city
+        setActiveTab("city");
         return {
           ...updatedSelection,
-          city: "", // Reset city
-          suburb:""
+          city: null,
+          suburb: null
         };
       }
 
@@ -115,7 +115,7 @@ const LocationSelector = ({
         setActiveTab("suburb");
         return {
           ...updatedSelection,
-          suburb:""
+          suburb: null
         };
       }
       
@@ -123,12 +123,23 @@ const LocationSelector = ({
         if (!redirect) {
           closeModal();
         }
-        return {
-          ...updatedSelection,
-        };
+        return updatedSelection;
       }
       return updatedSelection;
     });
+  };
+
+  // Add this function to handle tab clicks
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    // Reset selections based on which tab was clicked
+    if (tab === "province") {
+      setSelection(prev => ({ ...prev, province: null, city: null, suburb: null }));
+    } else if (tab === "city") {
+      setSelection(prev => ({ ...prev, city: null, suburb: null }));
+    } else if (tab === "suburb") {
+      setSelection(prev => ({ ...prev, suburb: null }));
+    }
   };
 
   useEffect(() => {
@@ -197,12 +208,7 @@ const LocationSelector = ({
             size="xs"
             mr="md"
             autoContrast
-            onClick={() => {
-              setActiveTab("province");
-              if (selection.province) {
-                setSelection((prev) => ({ ...prev, province: "" }));
-              }
-            }}
+            onClick={() => handleTabClick("province")}
           >
             Province
           </Button>
@@ -216,12 +222,7 @@ const LocationSelector = ({
               size="xs"
               mr="md"
               autoContrast
-              onClick={() => {
-                setActiveTab("city");
-                if (selection.city) {
-                  setSelection((prev) => ({ ...prev, city: "" }));
-                }
-              }}
+              onClick={() => handleTabClick("city")}
             >
               City
             </Button>
@@ -233,12 +234,7 @@ const LocationSelector = ({
               size="xs"
               mr="md"
               autoContrast
-              onClick={() => {
-                setActiveTab("suburb");
-                if (selection.suburb) {
-                  setSelection((prev) => ({ ...prev, suburb: "" }));
-                }
-              }}
+              onClick={() => handleTabClick("suburb")}
             >
               Suburb
             </Button>

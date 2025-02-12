@@ -34,6 +34,9 @@ const Posts = ({ title, posts, count, description }) => {
                             w={300}
                             radius="md"
                             pos={"relative"}
+                            style={{ cursor: 'pointer' }}
+                            component={Link}
+                            href={`/blog/${post.slug}`}
                         >
                             <Image
                                 src={post.imageUrl || "/blogs/recent-placeholder.png"}
