@@ -21,12 +21,12 @@ const TopComparison = ({ title, type }) => {
   const [comparisons, setComparisons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log(">>>>>>>>>>>>>>>",comparisons)
+  console.log(">>>>>>>>>>>>>>>", comparisons)
   useEffect(() => {
     const fetchComparisons = async () => {
       try {
         const data = await fetchTopComparisonByTypeServer(type);
-       
+
         setComparisons(data); // Adjust based on your API response structure
       } catch (err) {
         console.error("Error fetching comparisons:", err);
@@ -38,36 +38,36 @@ const TopComparison = ({ title, type }) => {
 
     fetchComparisons();
   }, [type]);
-  console.log(">>>>>>>>>>>>>>>comparisons?.comparisons",comparisons)
+  console.log(">>>>>>>>>>>>>>>comparisons?.comparisons", comparisons)
 
   if (loading) {
     return (
-      <section className="comparison-products bg-light py-5">
+      <Box component="section" className="comparison-products py-5" bg="#F3F3F3">
         <div className="container-xl">
           <Flex justify="center" align="center" direction="column" gap="md">
             <Loader />
             <Text>Loading comparisons...</Text>
           </Flex>
         </div>
-      </section>
+      </Box>
     );
   }
 
   if (error) {
     return (
-      <section className="comparison-products bg-light py-5">
+      <Box component="section" className="comparison-products py-5" bg="#F3F3F3">
         <div className="container-xl">
           <Alert title="Error" color="red">
             {error}
           </Alert>
         </div>
-      </section>
+      </Box>
     );
   }
 
   if (comparisons?.data?.length === 0 || !comparisons?.data) {
     return (
-      <section className="comparison-products bg-light py-5">
+      <Box component="section" className="comparison-products py-5" bg="#F3F3F3">
         <div className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             {title ? (
@@ -91,7 +91,7 @@ const TopComparison = ({ title, type }) => {
             No comparisons to show
           </Text>
         </div>
-      </section>
+      </Box>
     );
   }
 
@@ -124,7 +124,7 @@ const TopComparison = ({ title, type }) => {
                       width={143}
                       height={88}
                       className="img-fluid object-fit-cover"
-                      // alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
+                    // alt={`${comparison.vehicle1.make} ${comparison.vehicle1.model}`}
                     />
                   </Box>
                   <span className="compare-txt">VS</span>
@@ -134,7 +134,7 @@ const TopComparison = ({ title, type }) => {
                       width={143}
                       height={88}
                       className="img-fluid object-fit-cover"
-                      // alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
+                    // alt={`${comparison.vehicle2.make} ${comparison.vehicle2.model}`}
                     />
                   </Box>
                 </Box>
@@ -145,7 +145,7 @@ const TopComparison = ({ title, type }) => {
                         {`${comparison.vehicle1.make} ${comparison.vehicle1.model} (${comparison.vehicle1.year})`}
                       </Title>
                       <Flex align="center" justify="center" gap={5}>
-                      <Rating
+                        <Rating
                           value={comparison.vehicle1.averageRating || 0}
                           fractions={2}
                           readOnly
@@ -155,7 +155,7 @@ const TopComparison = ({ title, type }) => {
                     </Flex>
                     <Flex direction="column" gap="5">
                       <Title order={6} fw={600}>
-                      {`${comparison.vehicle2.make} ${comparison.vehicle2.model} (${comparison.vehicle2.year})`}
+                        {`${comparison.vehicle2.make} ${comparison.vehicle2.model} (${comparison.vehicle2.year})`}
                       </Title>
                       <Flex align="center" justify="center" gap={5}>
                         <Rating

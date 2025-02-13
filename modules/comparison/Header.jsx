@@ -107,9 +107,10 @@ const Header = ({ type }) => {
       />
       <Box
         className="background-search-verlay"
-        mb={{ base: 650, sm: 300 }}
+        // mb={{ base: 650, sm: 300 }}
         pt={70}
         h={250}
+        bg={'rgba(233, 8, 8, 0.7)'}
       >
         <div className="container-xl">
           <div className="row">
@@ -125,73 +126,123 @@ const Header = ({ type }) => {
                 </ol>
               </nav>
               <Group>
-                <Button component={Link} href={`/new/${type}`} leftSection={getIconByType()} variant="light" radius="md" size="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button
+                  autoContrast
+                  component={Link}
+                  href={`/new/${type}`}
+                  leftSection={getIconByType()}
+                  variant="light"
+                  size="md"
+                  tt='capitalize'
+                  bg="white"
+                  radius="16px"
+                  c="#878787"
+                  h={39}
+                >
                   New {type}s
                 </Button>
-                <Button component={Link} href={`/listing/${type}s`} leftSection={getIconByType()} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button
+                  autoContrast
+                  component={Link}
+                  href={`/listing/${type}s`}
+                  leftSection={getIconByType()}
+                  variant="light"
+                  size="md"
+                  tt='capitalize'
+                  bg="white"
+                  radius="16px"
+                  c="#878787"
+                  h={39}
+                >
                   Used {type}s
                 </Button>
-                <Button leftSection={getComparisonIconByType()} variant="light" size="md" radius="md" bg="#333" c="white" autoContrast tt='capitalize'>
+                <Button
+                  autoContrast
+                  leftSection={getComparisonIconByType()}
+                  variant="light"
+                  size="md"
+                  tt='capitalize'
+                  bg="#333"
+                  radius="16px"
+                  c="white"
+                  h={39}
+                >
                   {type} Comparison
                 </Button>
-                <Button component={Link} href={`/reviews/${type}`} leftSection={<SmallReviewIcon />} variant="light" size="md" radius="md" bg="white" c="#333" autoContrast tt='capitalize'>
+                <Button
+                  autoContrast
+                  component={Link}
+                  href={`/reviews/${type}`}
+                  leftSection={<SmallReviewIcon />}
+                  variant="light"
+                  size="md"
+                  tt='capitalize'
+                  radius="16px"
+                  bg="white"
+                  c="#878787"
+                  h={39}
+                >
                   {type} Reviews
                 </Button>
               </Group>
             </div>
-            <div className="col-md-12">
-              <Box className="search-wrapper-card" mt="lg">
-                <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
-                  <Title order={3} mb="md" tt="capitalize">
-                    New {`${type}s`} Comparison
-                  </Title>
-                  <div className="row mb-2">
-                    {[1, 2, 3].map((vehicleNumber) => (
-                      <div key={vehicleNumber} className="col-md-4">
-                        <Card
-                          mb={{ base: "md", sm: 0 }}
-                          shadow="none"
-                          withBorder
-                          padding="xl"
-                          radius="md"
-                          className="text-center"
-                          onClick={() => openModal(vehicleNumber)}
-                        >
-                          <Image
-                            src="/compare/compare-car.svg"
-                            h={120}
-                            w={120}
-                            mb="xs"
-                            className="img-fluid mx-auto"
-                            alt={`Car Comparison ${vehicleNumber}`}
-                          />
-                          <Text c="dimmed" mb="md">
-                            {`Add ${type} ${vehicleNumber}`}
-                          </Text>
-                          <Input size="md" radius="md" placeholder="Search by Car Variant"
-                            value={
-                              vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
-                                vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
-                                  vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
-                                    ""
-                            }
-                          />
-                        </Card>
-                      </div>
-                    ))}
-                    <div className="col-md-12">
-                      <Box mt="lg" mx="auto" maw={300}>
-                        <Button bg="#E90808" autoContrast fw={500} size="md" fullWidth onClick={handleCompare}>
-                          Compare
-                        </Button>
-                      </Box>
-                    </div>
-                  </div>
-                </Card>
-              </Box>
-            </div>
+
           </div>
         </div>
+      </Box>
+
+      <Box component='section' className="comparison-cards-section" pb="56px">
+        <Box className="container-xl">
+          <Box className="search-wrapper-card" mt="-70px">
+            <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
+              <Title order={3} mb="md" tt="capitalize">
+                New {`${type}s`} Comparison
+              </Title>
+              <div className="row mb-2">
+                {[1, 2, 3].map((vehicleNumber) => (
+                  <div key={vehicleNumber} className="col-md-4">
+                    <Card
+                      mb={{ base: "md", sm: 0 }}
+                      shadow="none"
+                      withBorder
+                      padding="xl"
+                      radius="md"
+                      className="text-center"
+                      onClick={() => openModal(vehicleNumber)}
+                    >
+                      <Image
+                        src="/compare/compare-car.svg"
+                        h={120}
+                        w={120}
+                        mb="xs"
+                        className="img-fluid mx-auto"
+                        alt={`Car Comparison ${vehicleNumber}`}
+                      />
+                      <Text c="dimmed" mb="md">
+                        {`Add ${type} ${vehicleNumber}`}
+                      </Text>
+                      <Input size="md" radius="md" placeholder="Search by Car Variant"
+                        value={
+                          vehicleNumber === 1 && vehicle1.make ? `${vehicle1.make} ${vehicle1.model} ${vehicle1.variant}` :
+                            vehicleNumber === 2 && vehicle2.make ? `${vehicle2.make} ${vehicle2.model} ${vehicle2.variant}` :
+                              vehicleNumber === 3 && vehicle3.make ? `${vehicle3.make} ${vehicle3.model} ${vehicle3.variant}` :
+                                ""
+                        }
+                      />
+                    </Card>
+                  </div>
+                ))}
+                <div className="col-md-12">
+                  <Box mt="lg" mx="auto" maw={300}>
+                    <Button bg="#E90808" autoContrast fw={500} size="md" fullWidth onClick={handleCompare}>
+                      Compare
+                    </Button>
+                  </Box>
+                </div>
+              </div>
+            </Card>
+          </Box>
+        </Box>
       </Box>
     </>
   );
