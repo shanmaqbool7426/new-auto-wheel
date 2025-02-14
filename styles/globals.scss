@@ -1,6 +1,6 @@
-$primary :#E90808;
+$primary       :#E90808;
 $enable-shadows: true;
-$text-muted :#878787;
+$text-muted    :#878787;
 
 
 :root {
@@ -8,14 +8,14 @@ $text-muted :#878787;
 }
 
 .indicator {
-  width: 12px;
-  height: 4px;
+  width           : 12px;
+  height          : 4px;
   background-color: #E90808;
-  transition: width 250ms ease;
+  transition      : width 250ms ease;
 
   &[data-active] {
-    width: 40px;
-  background-color: #E90808;
+    width           : 40px;
+    background-color: #E90808;
 
   }
 }
@@ -23,7 +23,7 @@ $text-muted :#878787;
 
 html,
 body {
-  overflow: auto !important;
+  overflow  : auto !important;
   max-height: 100% !important;
 }
 
@@ -93,21 +93,21 @@ footer ul>li a {
 .root {
   &[data-variant='danger'] {
     background-color: $primary;
-    color: var(--mantine-color-red-0);
+    color           : var(--mantine-color-red-0);
   }
 
   &[data-variant='primary'] {
-    background: linear-gradient(45deg, #4b6cb7 10%, #253b67 90%);
-    color: var(--mantine-color-white);
+    background  : linear-gradient(45deg, #4b6cb7 10%, #253b67 90%);
+    color       : var(--mantine-color-white);
     border-width: 0;
   }
 }
 
 .socials-btns-inner {
-  display: flex;
+  display        : flex;
   justify-content: space-around;
-  width: 222px !important;
-  align-items: center;
+  width          : 222px !important;
+  align-items    : center;
 }
 
 .primary {
@@ -119,27 +119,45 @@ footer ul>li a {
 }
 
 .mantine-Accordion-label {
-  padding-top: 0.4rem !important;
+  padding-top   : 0.4rem !important;
   padding-bottom: 0.4rem !important;
 }
 
 
 a {
-  color: $primary;
+  color          : $primary;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition     : color 0.3s ease;
 }
 
 
 .tab-button:hover {
   background-color: #E90808;
   /* Change to the desired hover color */
-  color: white;
+  color           : white;
   /* Change text color if needed */
 }
 
 .expandedContent {
-  padding: 12px 16px;
+  padding         : 12px 16px;
   background-color: #f9f9f9;
-  border-top: 1px solid #e0e0e0;
+  border-top      : 1px solid #e0e0e0;
+}
+
+
+.tabs-scroller {
+  @media (hover: hover) {
+    .m_539e827b:hover {
+      --tab-bg: transparent;
+    }
+  }
+
+  .m_89d60db1[data-variant='default'] {
+    --tabs-list-border-width: 0;
+    border-color            : transparent;
+  }
+
+  .m_539e827b:where([data-active]) {
+    border-bottom-width: 2px;
+  }
 }
