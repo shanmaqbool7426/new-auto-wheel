@@ -36,14 +36,17 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { BsArrowDown, BsCaretDown } from "react-icons/bs";
 import { AUTH_VIEWS } from "@/constants/auth-config";
 import AuthModal from "@/modules/auth/AuthModal";
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [hoverTarget, setHoverTarget] = useState("cars");
+  const pathname = usePathname();
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const [authModalOpened, setAuthModalOpened] = useState(false);
+
   const [initialAuthView, setInitialAuthView] = useState(
     AUTH_VIEWS.ACCOUNT_TYPE
   );
@@ -65,6 +68,15 @@ const Header = () => {
     setInitialAuthView(AUTH_VIEWS.ACCOUNT_TYPE);
     setAuthModalOpened(true);
   };
+
+  const isActiveType = (path, type) => {
+    if (type === 'cars' && (path.includes('/car') || path.includes('/cars'))) return true;
+    if (type === 'bikes' && (path.includes('/bike') || path.includes('/bikes'))) return true;
+    if (type === 'trucks' && (path.includes('/truck') || path.includes('/trucks'))) return true;
+    return false;
+  };
+
+  const activeType = isActiveType(pathname, hoverTarget);
 
   const handleSignIn = (e) => {
     e.stopPropagation();
@@ -402,7 +414,11 @@ const Header = () => {
                     className="link"
                   >
                     <Center inline>
-                      <Box component="span" mr={3}>
+                      <Box
+                        component="span"
+                        mr={3}
+                        className={`link ${isActiveType(pathname, 'cars') ? "active" : ""}`}
+                      >
                         Cars
                       </Box>
                     </Center>
@@ -440,7 +456,11 @@ const Header = () => {
                     className="link"
                   >
                     <Center inline>
-                      <Box component="span" mr={3}>
+                      <Box
+                        component="span"
+                        mr={3}
+                        className={`link ${isActiveType(pathname, 'bikes') ? "active" : ""}`}
+                      >
                         Bikes
                       </Box>
                       <IconChevronDown
@@ -475,7 +495,7 @@ const Header = () => {
                 <HoverCard.Target>
                   <Link
                     href="/listing/trucks/search/-/"
-                    className="link"
+                    className={`link ${isActiveType(pathname, 'trucks') ? "active" : ""}`}
                     onMouseEnter={() => setHoverTarget("trucks")}
                   >
                     <Center inline>

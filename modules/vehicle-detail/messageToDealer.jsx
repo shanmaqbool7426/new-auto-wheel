@@ -188,10 +188,10 @@ const MessageToDealer = ({ sellerId }) => {
         </form>
       </Box>
 
-      <AccountTypeModal
+      {/* <AccountTypeModal
         opened={modalOpened}
         onClose={() => setModalOpened(false)}
-      />
+      /> */}
     </>
   );
 };

@@ -2,7 +2,7 @@
 import { Box, Flex, Text, Title, Image, Grid } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { Carousel } from "@mantine/carousel";
-import { fetchBrowseBlogsServer } from "@/actions/index";
+import { fetchBrowseBlogsServer, fetcSearchBlogsServer } from "@/actions/index";
 import styles from "./browse-blogs-carousel.module.css"
 
 const BrowseBlogCarousel = ({ type, title }) => {
@@ -12,8 +12,8 @@ const BrowseBlogCarousel = ({ type, title }) => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const data = await fetchBrowseBlogsServer(type); // Replace this with a real API call
-        setNews(data);
+        const data = await fetcSearchBlogsServer({query:title, categories:'news'}); // Replace this with a real API call
+        setNews(data?.blogs);
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {

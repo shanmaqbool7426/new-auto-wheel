@@ -4,8 +4,10 @@ import { Box, Title, Text } from '@mantine/core';
 import styles from './CardsCarousel.module.css';
 import { Carousel } from '@mantine/carousel';
 import NewCarsCard from '@/components/ui/NewCarsCard';
+import CarCard from '@/components/ui/CarCard';
 
-export default function CardsCarousel({ title, primaryTitle, bg = "#fff", isRating = true, data }) {
+export default function CardsCarousel({ title, primaryTitle, bg = "#fff", isRating = true, data , isUsedVehicle=true,userData}) {
+  console.log("<<<<<<<",data);
   return (
     <Box component="section" className={styles.section} bg={bg}>
       <Box className="container-xl">
@@ -30,7 +32,7 @@ export default function CardsCarousel({ title, primaryTitle, bg = "#fff", isRati
           >
             {data.map((vehicle, index) => (
               <Carousel.Slide key={vehicle?._id}>
-                <NewCarsCard vehicle={vehicle} isRating={isRating} mb="0" />
+                 {isUsedVehicle ? <CarCard vehicle={vehicle} userData={userData}/> : <NewCarsCard vehicle={vehicle} isRating={isRating} mb="0" />}
               </Carousel.Slide>
             ))}
 

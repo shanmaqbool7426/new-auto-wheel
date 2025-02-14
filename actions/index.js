@@ -69,6 +69,21 @@ export const fetchBrowseBlogsServer = async (type) => {
   }
 };
 
+// Fetch Browse Blogs from the Server
+export const fetcSearchBlogsServer = async (params) => {
+  try {
+    const query = new URLSearchParams();
+    if (params?.slug) query.append('query', params.query);
+    if (params?.search) query.append('categories', params.categories);
+    if (params?.type) query.append('type', params.type);
+    const blogs = await fetchAPI(`${API_ENDPOINTS.BLOGS.SEARCH}?${query.toString()}`);
+    return blogs?.data;
+  } catch (error) {
+    return {
+      blogs: [],
+    };
+  }
+};
 // Fetch Video Data from the Server
 export const fetchVideoDataServer = async (params) => {
   try {

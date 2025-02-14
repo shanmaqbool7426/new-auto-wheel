@@ -286,7 +286,7 @@ const CarCard = ({ vehicle, userData }) => {
             </Text>
           </Box>
         </Group>
-        <Divider />
+        <Divider size="md" color={`${vehicle?.isFeatured ? "#E90808" :"#ddd"}`}/>
         <Flex mt="md" gap="sm" justify="space-between" wrap="wrap">
           <Group c="dimmed" gap={rem(5)} align="center">
             <FaCalendarDays />

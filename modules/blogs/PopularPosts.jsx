@@ -42,7 +42,11 @@ const PopularPosts = ({ posts }) => {
           {displayedPosts?.slice(1).map((post) => (
             <Box className="small-post" pb="md" mb="md" key={post._id}>
               <Group gap="12px">
-                <Box>
+                <Box
+                  component={Link}
+                  href={`/blog/${post.slug}`}
+                  style={{ cursor: 'pointer' }}
+                >
                   <Image
                     className="img-fluid"
                     src={post.imageUrl}

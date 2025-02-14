@@ -168,6 +168,7 @@ export const API_ENDPOINTS = {
   BLOGS: {
     LIST: `${BASE_URL}/api/blog/blog-listing/`,
     BROWSE: `${BASE_URL}/api/blog/browse-blogs`,
+    SEARCH: `${BASE_URL}/api/blog/search`,
   },
 
   COMPARISON: {
