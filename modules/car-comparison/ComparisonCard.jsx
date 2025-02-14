@@ -14,7 +14,7 @@ import Link from "next/link";
 import styles from './ComparisonCard.module.css';
 import { IconSmbolAngleDown, IconCloseCompCard } from "@/components/Icons";
 
-const ComparisonCard = ({ vehicle }) => {
+const ComparisonCard = ({ vehicle, onRemove }) => {
     return (
         <Card className={styles.compCard} withBorder shadow="none">
             {/* {vehicle._id && <CloseButton ml="auto" />} */}
@@ -49,7 +49,7 @@ const ComparisonCard = ({ vehicle }) => {
                     </Text>
                 )}
                 {vehicle._id &&
-                    <Anchor component={Link} href="#" size="12px" lh="1" mt="12px" className="text-primary">
+                    <Anchor component={Link} href={`/listing/cars/search/-/mk_${vehicle.make}/md_${vehicle.model}/`} size="12px" lh="1" mt="12px" className="text-primary">
                         <Center inline>
                             <Box mr={5}>Buy Used {`${vehicle.make} ${vehicle.model}`}</Box>
                             <IconArrowUpRight style={{ width: "16px", height: "16px" }} />
@@ -57,7 +57,12 @@ const ComparisonCard = ({ vehicle }) => {
                     </Anchor>
                 }
             </Flex>
-            <Box className={styles.closeButton}>
+            <Box className={styles.closeButton}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onRemove();
+                }}
+                >
                 <IconCloseCompCard />
             </Box>
         </Card>
