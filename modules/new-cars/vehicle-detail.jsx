@@ -330,7 +330,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         size="xs"
                         radius="xl"
                         bd="1px solid #EEE"
-                        bg={GetColor(color)}
+                        bg={color}
                       />
                     ))}
                   </Group>

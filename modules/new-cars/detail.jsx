@@ -1,3 +1,4 @@
+"use client"
 import BrowseVideos from "@/components/videos/browse-videos"
 import BrowseBlogCarousel from "@/components/blog/browse-blogs-carousel"
 import VehicleDetail from "./vehicle-detail"
