@@ -1,12 +1,9 @@
 "use client";
-// import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
-import { City } from "country-state-city";
 import {
   Anchor,
-  Autocomplete,
   Input,
   Card,
   Flex,
@@ -18,77 +15,42 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import LocationSelector from "@/components/LocationSelector.jsx";
+import { fetchNearByLocation } from "@/actions";
 const SearchByLocations = () => {
   const router = useRouter();
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const openLocationModal = () => setIsLocationModalOpen(true);
-  const closeLocationModal = () => setIsLocationModalOpen(false);
+  const [nearByLocation, setNearByLocation] = useState([]);
   const [locationSelection, setLocationSelection] = useState({
     country: "PK",
     province: "",
     city: "",
     suburb: "",
   });
-  const [cityOptions, setCityOptions] = useState([]);
-  const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state for button
+  const [loading, setLoading] = useState(false);
 
-  const [filteredCities, setFilteredCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState(null);
-  const handleInputChange = (input) => {
-    setQuery(input);
+  const openLocationModal = () => setIsLocationModalOpen(true);
+  const closeLocationModal = () => setIsLocationModalOpen(false);
 
-    if (input.length > 0) {
-      const cities = City.getCitiesOfCountry("PK");
-
-      const filtered = cities
-        .filter((city) =>
-          city.name.toLowerCase().startsWith(input.toLowerCase())
-        )
-        .map((city) => city.name);
-
-      if (filtered.length == 1) {
-        const cityQuery = `/ct_${filtered[0].toLowerCase()}`;
-        const searchUrl = `/listing/cars/search/-${cityQuery}`;
-        router.push(searchUrl)?.finally(() => {
-          setLoading(false); // Reset loading state after redirect
-        });
-      }
-
-      setCityOptions(filtered);
-    } else {
-      setCityOptions([]); // Clear the options if input is empty
-    }
-  };
   const handleSubmit = () => {
-    const { city, province,suburb } = locationSelection;
+    const { city, suburb } = locationSelection;
     setLoading(true);
-    // const locationQuery = `/ad_pakistan${
-    //   province ? ` ${province?.name?.toLowerCase()}` : ""
-    // }${city ? ` ${city.toLowerCase()}` : ""}`;
+    
     const cityQuery = city ? `/ct_${encodeURIComponent(city.toLowerCase())}` : "";
     const suburbQuery = suburb ? `/ca_${encodeURIComponent(suburb.toLowerCase())}` : "";
     const searchUrl = `/listing/cars/search/${cityQuery}${suburbQuery}`;
+    
     router.push(searchUrl)?.finally(() => {
       setLoading(false);
     });
   };
 
-  const locations = [
-    { name: "Karachi", slug: "ct_karachi", image: "/locations/karachi.svg" },
-    {
-      name: "Islamabad",
-      slug: "ct_islamabad",
-      image: "/locations/islamabad.svg",
-    },
-    { name: "Lahore", slug: "ct_lahore", image: "/locations/lahore.svg" },
-    {
-      name: "Faisalabad",
-      slug: "ct_faisalabad",
-      image: "/locations/faisalabad.svg",
-    },
-    { name: "Peshawar", slug: "ct_peshawar", image: "/locations/peshawar.svg" },
-  ];
+  useEffect(() => {
+    const fetchNearByLocationData = async () => {
+      const nearByLocation = await fetchNearByLocation();
+      setNearByLocation(nearByLocation);
+    };
+    fetchNearByLocationData();
+  }, []);
   return (
     <Box component="section" className="search-by-location py-5">
       <Box className="container-xl">
@@ -107,7 +69,7 @@ const SearchByLocations = () => {
         <Box className="row">
           <Box className="col-lg-8  order-last order-lg-first">
             <Box className="row">
-              {locations.map((location) => (
+              {nearByLocation.map((location) => (
                 <Box className="col" key={location.slug}>
                   <Card
                     bg="#fff"
@@ -118,7 +80,7 @@ const SearchByLocations = () => {
                     <Anchor
                       underline="none"
                       component={Link}
-                      href={`/listing/cars/search/-/${location.slug}`}
+                      href={`/listing/cars/search/-/ct_${location.slug}`}
                     >
                       <Image
                         src={location.image}
@@ -126,13 +88,13 @@ const SearchByLocations = () => {
                         h={70}
                         mx="auto"
                         mb="md"
-                        alt={location.name}
+                        alt={location.title}
                       />
                       <Text size="sm" c="dimmed">
                         Used cars in
                       </Text>
                       <Text c="dark" fw={600} ff="heading" size="sm">
-                        {location.name}
+                        {location.title}
                       </Text>
                     </Anchor>
                   </Card>
@@ -140,7 +102,7 @@ const SearchByLocations = () => {
               ))}
             </Box>
             <Box className="row">
-              {locations.map((location) => (
+              {nearByLocation.map((location) => (
                 <Box className="col" key={location.slug}>
                   <Card
                     bg="#fff"
@@ -151,21 +113,21 @@ const SearchByLocations = () => {
                     <Anchor
                       underline="none"
                       component={Link}
-                      href={`/listing/cars/search/-/${location.slug}`}
+                      href={`/listing/cars/search/-/ct_${location.slug}`}
                     >
                       <Image
                         src={location.image}
                         w={70}
                         h={70}
                         mx="auto"
-                        alt={location.name}
+                        alt={location.title}
                         mb="md"
                       />
                       <Text size="sm" c="dimmed">
                         Used cars in
                       </Text>
                       <Text c="dark" fw={600} ff="heading" size="sm">
-                        {location.name}
+                        {location.title}
                       </Text>
                     </Anchor>
                   </Card>
