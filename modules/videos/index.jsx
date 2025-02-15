@@ -20,7 +20,7 @@ const VideosModule = async ({ params }) => {
       {isMainPage &&
         <>
           <Header isMainPage={isMainPage} />
-          <BrowseVideos hideViewAll={true} title="Today's Feature" />
+          <BrowseVideos hideViewAll={true} title="Today's Feature" type="car" />
           {data?.categories?.map((category, index) => (
             <Box section="component" className="category-section" key={index} my="56px">
               <Box className='container-xl'>

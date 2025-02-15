@@ -176,3 +176,15 @@ export const fetchVehicleBySellerByVehicleId = async (token,vehicleId) => {
     };
   }
 };
+
+export const fetchNearByLocation = async () => {
+  try {
+    const response = await fetchAPI(API_ENDPOINTS.NEAR_BY_LOCATION.GET);
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error fetching near by location:", error);
+    throw error;
+  }
+  };
+
