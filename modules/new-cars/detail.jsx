@@ -1,4 +1,4 @@
-"use client"
+
 import BrowseVideos from "@/components/videos/browse-videos"
 import BrowseBlogCarousel from "@/components/blog/browse-blogs-carousel"
 import VehicleDetail from "./vehicle-detail"
@@ -156,7 +156,7 @@ const NewVehicleDetailModule =async ({ vehicle, variantsVehicles }) => {
   
 
 
-    console.log('vehicle>>>>>>>>',vehicle)
+    console.log('shan',vehicle)
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />
@@ -177,7 +177,7 @@ const NewVehicleDetailModule =async ({ vehicle, variantsVehicles }) => {
       />
       <BrowseBlogCarousel type={vehicle?.type} title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`} />
       {/* Faq's */}
-      {vehicle?.vehicleDetails?.faqs?.length > 0 && <FAQ title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.variant} ${vehicle?.vehicleDetails?.year}`} titleSpan="FAQs" faqs={vehicle?.vehicleDetails?.faqs} />}
+      {<FAQ title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.variant} ${vehicle?.vehicleDetails?.year}`} titleSpan="FAQs" faqs={vehicle?.vehicleDetails?.faqs} />}
     </div>
   )
 }

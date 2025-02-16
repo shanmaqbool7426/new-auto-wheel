@@ -17,13 +17,26 @@ import Link from "next/link";
 import React from "react";
 import styles from './BrowseByCategory.module.css'
 
-const BrowseByCategory = ({ makes, bodies }) => {
-  // Updated carousel configuration
+const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
+  // Helper function to generate the correct URL
+  const getMakeUrl = (make) => {
+    return isNew 
+      ? `/new/${type}/make/${make}`  // Format: /new/car/make/Honda
+      : `/listing/cars/search/-/mk_${make}`; // Regular format
+  };
+
+  const getBodyUrl = (bodyType) => {
+    return isNew
+      ? `/new/${type}/body/${bodyType.toLowerCase()}`  // Format: /new/car/body/suv
+      : `/listing/cars/search/-/bt_${bodyType.toLowerCase()}`; // Regular format
+  };
+
+  // Carousel configuration
   const carouselProps = {
     slideSize: '25%',
     slideGap: 'md',
     align: 'start',
-    slidesToScroll: 2, // Changed to scroll 2 items at a time
+    slidesToScroll: 2,
     withControls: true,
     withIndicators: true,
     breakpoints: [
@@ -38,7 +51,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
     },
   };
 
-  // Helper function to chunk array into groups of 2 (for 2 items per slide)
+  // Helper function to chunk array
   const chunkArray = (array, size) => {
     if (!array) return [];
     const chunks = [];
@@ -47,7 +60,6 @@ const BrowseByCategory = ({ makes, bodies }) => {
     }
     return chunks;
   };
-
 
   return (
     <Box className="browse-cats-section bg-light" pt="55px" pb="55px">
@@ -67,7 +79,6 @@ const BrowseByCategory = ({ makes, bodies }) => {
                 Show all Makes
               </Anchor> */}
             </Flex>
-
             <Box className="cat-by-brand">
               <Carousel {...carouselProps}>
                 {makes?.data && makes.data.length > 0 ? (
@@ -77,7 +88,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                         {group.map((item, index) => (
                           <Box key={index} className="text-center" py="15px">
                             <Anchor
-                              href={`/listing/cars/search/-/mk_${item.name}`}
+                              href={getMakeUrl(item.name)}
                               td="none"
                               className={styles.browseItem}
                             >
@@ -125,7 +136,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                       {group.map((body, index) => (
                         <Box key={index} className="text-center" py="15px">
                           <Anchor
-                            href={`/listing/cars/search/-/bt_${body?.title?.toLowerCase()}`}
+                            href={getBodyUrl(body.title)}
                             td="none"
                             className={styles.browseItem}
                           >
@@ -134,6 +145,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                               height={50}
                               mx="auto"
                               src={body.bodyImage}
+                              alt={body.title}
                             />
                             <Title order={6} lts={-0.4} mt="sm" fw={400}>
                               {body.title}

@@ -36,7 +36,7 @@ import {
 // } from "@mantine/core";
 import QuickLinks from "@/components/QuickLinks";
 import {
-  IconCheck, IconRosetteDiscountCheckFilled, IconUserFilled
+  IconCheck, IconRosetteDiscountCheckFilled, IconUserFilled, IconX
 } from "@tabler/icons-react";
 import {
   FaClock, FaEnvelope, FaLocationDot, FaMobile, FaPhone, FaThumbsDown,
@@ -50,6 +50,7 @@ import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter, useParams } from 'next/navigation';
 import { useDisclosure } from "@mantine/hooks";
 import { getLocalStorage } from "@/utils";
+import { notifications } from "@mantine/notifications";
 
 const DealerRating = () => {
   const [profile, setProfile] = useState(null);
@@ -194,7 +195,7 @@ const DealerRating = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token?.token?.token // Assuming you store the token in localStorage
+          'Authorization': token?.token?.token
         },
         body: JSON.stringify({
           ...reviewForm,
@@ -205,13 +206,46 @@ const DealerRating = () => {
       if (!response.ok) {
         throw new Error('Failed to submit review');
       }
-      fetchReviews()
+
       const data = await response.json();
-      // Handle successful submission (e.g., close modal, update reviews list)
+      
+      // Calculate new average rating from reviews
+      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0) + 
+        ((reviewForm.buyingProcess + reviewForm.vehicleSelection + reviewForm.levelOfServices) / 3);
+      const newAverageRating = totalRating / (reviews.length + 1);
+
+      // Update profile with calculated rating and increment review count
+      setProfile(prev => ({
+        ...prev,
+        rating: newAverageRating,
+        reviewCount: (prev.reviewCount || 0) + 1
+      }));
+
+      // Fetch updated reviews
+      fetchReviews();
+      
+      // Show success notification
+      notifications.show({
+        title: 'Success',
+        message: 'Review submitted successfully',
+        color: 'green',
+        icon: <IconCheck size={16} />,
+        autoClose: 3000,
+      });
+
+      // Close modal and reset form
       close();
-      // You might want to refresh the reviews list here
+      setReviewForm(initialReviewForm);
+
     } catch (error) {
       setSubmitError(error.message);
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to submit review',
+        color: 'red',
+        icon: <IconX size={16} />,
+        autoClose: 3000,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -424,8 +458,15 @@ const DealerRating = () => {
 
                         <Box className="user-rating" mt="lg">
                           <Group gap="2" mb="xs">
-                            <Rating defaultValue={profile.rating || 0} />
-                            <Text span size="sm">({profile.rating}/5)</Text>
+                            <Rating 
+                              value={profile.rating || 0} 
+                              readOnly
+                              fractions={2}
+                              style={{ pointerEvents: 'none' }}
+                            />
+                            <Text span size="sm">
+                              ({profile.rating?.toFixed(1) || '0.0'}/5)
+                            </Text>
                           </Group>
                           <Text size="sm">Reviews ({profile.reviewCount || 0})</Text>
                         </Box>
@@ -548,7 +589,7 @@ const DealerRating = () => {
           </Box>
         </Box>
 
-        <BrowseByType bg="bg-light" pagination={true} />
+        <BrowseByType bg="bg-light" pagination={false} />
 
         <Box component="section" className="review-reply" my="xl">
           <Box className="container-xl">

@@ -263,7 +263,7 @@ const CarCard = ({ vehicle, userData }) => {
             href={`/detail/${vehicle.slug}`}
             size="sm"
             fw={600}
-            lineClamp={1}
+            lineClamp={2}
           >
             {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
           </Text>
