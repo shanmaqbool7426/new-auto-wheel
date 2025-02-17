@@ -1,195 +1,3 @@
-// "use client";
-// import React, { useState } from "react";
-// import HeroTabs from "@/components/HeroTabs";
-// import {
-//   Card,
-//   Title,
-//   Text,
-//   Box,
-//   rem,
-//   List,
-//   Image,
-//   Button,
-//   BackgroundImage,
-// } from "@mantine/core";
-// import styles from "./Hero.module.css";
-// import { Carousel } from "@mantine/carousel";
-
-// const Hero = ({ banner }) => {
-//   const [currentIndex, setCurrentIndex] = useState(0); // Current image index
-//   const [slideDirection, setSlideDirection] = useState("right"); // Direction of
-//   const [type, setType] = useState("car");
-//   // Array of background images
-//   const images = [
-//     { src: "/hero-banner.png", title: "Hyundai Car Review" },
-//     { src: "https://placehold.co/1920x550", title: "2023 Safari Review" },
-//     {
-//       src: "https://placehold.co/1920x550/green/white",
-//       title: "2023 Tesla Review",
-//     },
-//     {
-//       src: "https://placehold.co/1920x550/orange/white",
-//       title: "2023 Audi Review",
-//     },
-//     {
-//       src: "https://placehold.co/1920x550/purple/white",
-//       title: "2023 BMW Review",
-//     },
-//   ];
-//   // Function to change the background image and set slide direction
-//   const changeSlide = (newIndex) => {
-//     if (newIndex > currentIndex) {
-//       setSlideDirection("right"); // Slide to the right
-//     } else {
-//       setSlideDirection("left"); // Slide to the left
-//     }
-//     setCurrentIndex(newIndex); // Update the current index
-//   };
-
-//   return (
-//     <>
-//       {/* className="hero-banner" */}
-//       <Box className="hero-banner" pos="relative" pt={rem(60)}>
-//         <Box
-//           className="hero-banner__slider"
-//           h={440}
-//           display="flex"
-//           style={{
-//             transition: "transform 0.5s ease-in-out",
-//             transform: `translateX(-${currentIndex * 100}%)`, // Slide effect
-//           }}
-//         >
-//           {banner.map((item, index) => (
-//             <>
-//               {/* Image Background */}
-//               <BackgroundImage
-//                 key={index}
-//                 src={item.image}
-//                 // title={item.title}
-//                 h={440}
-//                 position="center"
-//                 size="cover"
-//                 miw="100%"
-//               >
-//                 <Box className="container-xl" h="100%">
-//                   <Box className="row align-items-center" h="100%">
-//                     <Box className="col-auto">
-//                       <Card
-//                         shadow="xl"
-//                         padding={0}
-//                         radius="md"
-//                         className={styles.card}
-//                       >
-//                         <Box ta="left" className={styles.cardHeader}>
-//                           <Title order={4} className={styles.cardTitle}>
-//                             Find your right{" "}
-//                             <Text
-//                               span
-//                               inherit
-//                               className="text-primary"
-//                               tt="capitalize"
-//                             >
-//                               {type.toLowerCase()}
-//                             </Text>
-//                           </Title>
-//                         </Box>
-//                         <Box className={styles.cardBody}>
-//                           <HeroTabs setType={setType} />
-//                         </Box>
-//                       </Card>
-//                     </Box>
-//                     <Box className="col">
-//                       <Box className="hero-content">
-//                         <Title
-//                           order={1}
-//                           mb={16}
-//                           c="white"
-//                           size={rem(48)}
-//                           lts={-0.5}
-//                           maw="85%"
-//                         >
-//                           {item.title}
-//                         </Title>
-//                         <Text c="white" mb={32}>
-//                           {item.description}
-//                         </Text>
-//                         {item.link && (
-//                           <Button
-//                             variant="filled"
-//                             bg="#E90808"
-//                             ff="heading"
-//                             size="lg"
-//                             fw={500}
-//                             tt="uppercase"
-//                             onClick={(e) => {
-//                               e.stopPropagation();
-//                               window.open(item.link, "_blank");
-//                             }}
-//                           >
-//                             Learn More
-//                           </Button>
-//                         )}
-//                       </Box>
-
-//                       <Box className="banner-slides-list">
-//                         <List
-//                           className="car-lists-slider"
-//                           listStyleType="none"
-//                           size="sm"
-//                           display="flex"
-//                         >
-//                           {banner.map((item, index) => (
-//                             <List.Item
-//                               key={index}
-//                               className={currentIndex === index ? "active" : ""}
-//                               onClick={() => changeSlide(index)} // Switch to corresponding slide
-//                             >
-//                               {item.title}
-//                             </List.Item>
-//                           ))}
-//                         </List>
-//                       </Box>
-//                     </Box>
-//                   </Box>
-//                 </Box>
-//               </BackgroundImage>
-
-//               {/* <Title order={1} mb={16} c="white">
-//                 {item.title}
-//               </Title>
-
-//               {item.description && (
-//                 <Text c="white" mb={32}>
-//                   {item.description}
-//                 </Text>
-//               )}
-
-//               {item.link && (
-//                 <Button
-//                   variant="filled"
-//                   bg="#E90808"
-//                   ff="heading"
-//                   size="lg"
-//                   fw={500}
-//                   tt="uppercase"
-//                   onClick={(e) => {
-//                     e.stopPropagation();
-//                     window.open(item.link, "_blank");
-//                   }}
-//                 >
-//                   Learn More
-//                 </Button>
-//               )} */}
-//             </>
-//           ))}
-//         </Box>
-//       </Box>
-//     </>
-//   );
-// };
-
-// export default Hero;
-
 "use client";
 import React, { useState } from "react";
 import HeroTabs from "@/components/HeroTabs";
@@ -330,18 +138,26 @@ const Hero = ({ banner }) => {
                   listStyleType="none"
                   size="sm"
                   display="flex"
+                  spacing="md"
                 >
                   {banner.map((item, index) => (
                     <List.Item
                       key={index}
-                      className={currentIndex === index ? "active" : ""}
+                      className={`${styles.sliderItem} ${
+                        currentIndex === index ? styles.sliderItemActive : ''
+                      }`}
                       onClick={() => changeSlide(index)}
-                      // style={{
-                      //   cursor: "pointer",
-                      //   marginRight: rem(16),
-                      // }}
                     >
-                      {item.title}
+                      <Text
+                        size="sm"
+                        lh={1.4}
+                        style={{
+                          color: 'white',
+                          transition: 'all 0.3s ease',
+                        }}
+                      >
+                        {item.title}
+                      </Text>
                     </List.Item>
                   ))}
                 </List>

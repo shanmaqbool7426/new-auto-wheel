@@ -203,10 +203,21 @@ const CarCard = ({ vehicle, userData }) => {
           </Text>}
         </Group>
         {/* Custom image slider controlled by mouse hover */}
-        <div
+        <Anchor
+          component={NextLink}
+          href={`/detail/${vehicle?.slug}`}
+          style={{ 
+            display: 'block',
+            position: 'relative',
+            cursor: 'pointer',
+            textDecoration: 'none'
+          }}
+          onClick={(e) => {
+            // Prevent the card's onClick from firing
+            e.stopPropagation();
+          }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          style={{ cursor: "pointer", position: "relative" }}
         >
           {images.length > 0 ? (
             <Image
@@ -226,7 +237,7 @@ const CarCard = ({ vehicle, userData }) => {
             />
           )}
             <Overlay color="#000" backgroundOpacity={0.3} />
-        </div>
+        </Anchor>
 
         {/* Progress bar with hover functionality */}
         <Group grow gap={2} my={2}>
@@ -270,7 +281,7 @@ const CarCard = ({ vehicle, userData }) => {
           <Box
             c="#FFF"
             bg="#E90808"
-            p="5px 5px 5px 15px"
+            p="10px 5px 10px 15px"
             ta="right"
             display="inline-flex"  // Changed to inline-flex
             style={{

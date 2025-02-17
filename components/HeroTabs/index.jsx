@@ -39,7 +39,7 @@ const HeroTabs = ({ setType }) => {
 
   const [cityOptions, setCityOptions] = useState([]);
 
-  const [makesByType, setMakesByType] = useState("car");
+  const [makesByType, setMakesByType] = useState("cars");
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false); // State for LocationSelector modal
@@ -116,7 +116,7 @@ const HeroTabs = ({ setType }) => {
     const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
     const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
     // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
-    const searchUrl = `/listing/cars/search/-${makeQuery}${modelQuery}${cityQuery}${suburbQuery}`;
+    const searchUrl = `/listing/${makesByType}/search/-${makeQuery}${modelQuery}${cityQuery}${suburbQuery}?view=list`;
     router.push(searchUrl)?.finally(() => {
       setLoading(false); // Reset loading state after redirect
     });
@@ -136,9 +136,9 @@ const HeroTabs = ({ setType }) => {
           <Tabs.Tab
             value="cars"
             leftSection={<CarFrontView />}
-            c={makesByType === "car" ? "#E90808" : "#6c757d"}
+            c={makesByType === "cars" ? "#E90808" : "#6c757d"}
             onClick={() => {
-              setMakesByType("car");
+              setMakesByType("cars");
               setType("car");
               clearSelection();
               clearLocatiopnSelection();
@@ -150,9 +150,9 @@ const HeroTabs = ({ setType }) => {
           <Tabs.Tab
             value="bikes"
             leftSection={<MotorBike />}
-            c={makesByType === "bike" ? "#E90808" : "#6c757d"}
+            c={makesByType === "bikes" ? "#E90808" : "#6c757d"}
             onClick={() => {
-              setMakesByType("bike");
+              setMakesByType("bikes");
               setType("bike");
               clearSelection();
               clearLocatiopnSelection();
@@ -164,9 +164,9 @@ const HeroTabs = ({ setType }) => {
           <Tabs.Tab
             value="trucks"
             leftSection={<Truck />}
-            c={makesByType === "truck" ? "#E90808" : "#6c757d"}
+            c={makesByType === "trucks" ? "#E90808" : "#6c757d"}
             onClick={() => {
-              setMakesByType("truck");
+              setMakesByType("trucks");
               setType("truck");
               clearSelection();
               clearLocatiopnSelection();
@@ -219,7 +219,7 @@ const HeroTabs = ({ setType }) => {
           <Group justify="end" mt="20px">
             <Button
               component={Link}
-              href={`/listing/${makesByType}s?view=list`}
+              href={`/listing/${makesByType}?view=list`}
               rightSection={<BsArrowRight />}
               variant="transparent"
               px={0}
@@ -275,7 +275,7 @@ const HeroTabs = ({ setType }) => {
           <Group justify="end" mt="20px">
             <Button
               component={Link}
-              href={`/listing/${makesByType}s?view=list`}
+              href={`/listing/${makesByType}?view=list`}
               rightSection={<BsArrowRight />}
               variant="transparent"
               px={0}
@@ -331,7 +331,7 @@ const HeroTabs = ({ setType }) => {
           <Group justify="end" mt="20px">
             <Button
               component={Link}
-              href={`/listing/${makesByType}s?view=list`}
+              href={`/listing/${makesByType}?view=list`}
               rightSection={<BsArrowRight />}
               variant="transparent"
               px={0}

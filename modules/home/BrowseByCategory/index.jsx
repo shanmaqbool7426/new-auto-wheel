@@ -31,14 +31,17 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
       : `/listing/cars/search/-/bt_${bodyType.toLowerCase()}`; // Regular format
   };
 
-  // Carousel configuration
+  // Updated carousel configuration
   const carouselProps = {
     slideSize: '25%',
     slideGap: 'md',
     align: 'start',
-    slidesToScroll: 2,
+    slidesToScroll: 3,
     withControls: true,
     withIndicators: true,
+    loop: true, // Enable infinite loop
+    dragFree: true, // Enables free-form dragging
+    speed: 0.5, // Smooth transition speed
     breakpoints: [
       { maxWidth: 'md', slideSize: '50%', slidesToScroll: 2 },
       { maxWidth: 'sm', slideSize: '100%', slidesToScroll: 1 },
@@ -61,11 +64,17 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
     return chunks;
   };
 
+  // Helper function to repeat array for infinite scroll effect
+  const repeatArray = (array, count) => {
+    if (!array || array.length === 0) return [];
+    return Array(count).fill([...array]).flat();
+  };
+
   return (
     <Box className="browse-cats-section bg-light" pt="55px" pb="55px">
-      {/* /*25px*/}
       <Box className="container-xl">
         <Box className="row">
+          {/* Makes Section */}
           <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="10px">
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
@@ -74,19 +83,20 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
                   Make
                 </Text>
               </Title>
-
-              {/* <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
-                Show all Makes
-              </Anchor> */}
             </Flex>
             <Box className="cat-by-brand">
               <Carousel {...carouselProps}>
                 {makes?.data && makes.data.length > 0 ? (
-                  chunkArray(makes.data, 2).map((group, groupIndex) => (
+                  // Repeat the makes array 3 times for smooth infinite scroll
+                  chunkArray(repeatArray(makes.data, 3), 2).map((group, groupIndex) => (
                     <Carousel.Slide key={groupIndex}>
                       <Flex direction="column" gap="md">
                         {group.map((item, index) => (
-                          <Box key={index} className="text-center" py="15px">
+                          <Box 
+                            key={`${groupIndex}-${index}`} 
+                            className="text-center" 
+                            py="15px"
+                          >
                             <Anchor
                               href={getMakeUrl(item.name)}
                               td="none"
@@ -114,6 +124,7 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
             </Box>
           </Box>
 
+          {/* Bodies Section */}
           <Box className="col-lg-6 ps-5">
             <Flex justify="space-between" align="center" mb="10px">
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
@@ -122,19 +133,18 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
                   Body
                 </Text>
               </Title>
-
-              {/* <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
-                Show all Bodies
-              </Anchor> */}
             </Flex>
-
             <Box className="cat-by-brand cat-by-body">
               <Carousel {...carouselProps}>
-                {bodies?.data && chunkArray(bodies.data, 2).map((group, groupIndex) => (
+                {bodies?.data && chunkArray(repeatArray(bodies.data, 3), 2).map((group, groupIndex) => (
                   <Carousel.Slide key={groupIndex}>
                     <Flex direction="column" gap="md">
                       {group.map((body, index) => (
-                        <Box key={index} className="text-center" py="15px">
+                        <Box 
+                          key={`${groupIndex}-${index}`} 
+                          className="text-center" 
+                          py="15px"
+                        >
                           <Anchor
                             href={getBodyUrl(body.title)}
                             td="none"
