@@ -233,7 +233,7 @@ const CarCard = ({ vehicle, userData }) => {
               mih={160}
               fit="cover"
               src={vehicle?.defaultImage || "https://placehold.co/270x160"}
-              alt="Placeholder"
+              alt=""
             />
           )}
             <Overlay color="#000" backgroundOpacity={0.3} />
