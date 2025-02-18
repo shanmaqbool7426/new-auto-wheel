@@ -1,46 +1,77 @@
 export const fetchAPI = async (url, options = {}) => {
   try {
-    // Add cache-busting query parameters
+    // Add timestamp for cache busting if needed
     const timestamp = new Date().getTime();
-    const random = Math.random();
     const urlWithParams = new URL(url);
-    urlWithParams.searchParams.append('_t', timestamp);
-    urlWithParams.searchParams.append('_r', random);
+    
+    // Only add cache-busting parameters if cache: 'no-store' is specified
+    if (options.cache === 'no-store') {
+      urlWithParams.searchParams.append('_t', timestamp);
+    }
 
-    // Set default options with comprehensive cache-busting headers
+    // Base fetch options
     const fetchOptions = {
       ...options,
-      cache: 'no-store',
       headers: {
         ...options.headers,
-        'Cache-Control': 'no-cache, no-store, must-revalidate, private',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'If-None-Match': random.toString(), // Prevent If-None-Match header matching
-      },
-      next: {
-        revalidate: 0,
-        tags: [`request-${timestamp}`]
+        'Content-Type': 'application/json',
       }
     };
 
-    // Perform the fetch request with the updated options
+    // Handle caching strategy - either use no-store OR revalidate, not both
+    if (options.cache === 'no-store') {
+      fetchOptions.cache = 'no-store';
+      // Remove any revalidation settings
+      delete fetchOptions.next;
+    } else {
+      // Default to revalidate if no specific cache option is set
+      fetchOptions.next = {
+        revalidate: options.revalidate || 3600 // Default 1 hour cache
+      };
+    }
+
+    // Perform the fetch request
     const response = await fetch(urlWithParams, fetchOptions);
 
-    // Check if the response is ok (status in the range 200-299)
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}, status: ${response.status}`);
     }
 
-    // Parse and return JSON data
-    const data = await response.json();
-    return data;
+    return await response.json();
 
   } catch (error) {
-    console.error("🚀 ~ fetchAPI ~ error:", error);
+    console.error("API call failed:", error);
     throw error;
   }
 };
 
-// Usage example:
-// const data = await fetchAPI('https://api.example.com/data');
+// Helper functions for different caching strategies
+export const fetchWithNoCache = (url, options = {}) => {
+  return fetchAPI(url, {
+    ...options,
+    cache: 'no-store'
+  });
+};
+
+export const fetchWithCache = (url, revalidateTime = 3600, options = {}) => {
+  return fetchAPI(url, {
+    ...options,
+    next: { revalidate: revalidateTime }
+  });
+};
+
+// Usage examples:
+/*
+// For dynamic data that should never be cached:
+const dynamicData = await fetchWithNoCache('/api/dynamic-data');
+
+// For static data that can be cached:
+const staticData = await fetchWithCache('/api/static-data', 3600); // Cache for 1 hour
+
+// For custom fetch options:
+const data = await fetchAPI('/api/data', {
+  cache: 'no-store',  // OR next: { revalidate: 3600 }, but not both
+  method: 'POST',
+  body: JSON.stringify({ ... })
+});
+*/
