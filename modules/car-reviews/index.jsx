@@ -117,52 +117,56 @@ const CarReviewsModule = ({
                 <Group>
                   <Button
                     leftSection={getIconByType()}
+                    component={Link} href={`/new/${type}`}
                     variant="light"
-                    radius="md"
-                    size="sm"
-                    bg="white"
-                    c="#333"
+                    size="md"
                     autoContrast
                     tt="capitalize"
-                    component={Link} href={`/new/${type}`}
+                    bg="white"
+                    radius="16px"
+                    c="#878787"
+                    h={39}
                   >
                     New {type}s
                   </Button>
                   <Button
                     leftSection={getIconByType()}
+                    component={Link} href={`/listing/${type}s`}
                     variant="light"
-                    size="sm"
-                    radius="md"
+                    size="md"
                     bg="white"
-                    c="#333"
                     autoContrast
                     tt="capitalize"
-                    component={Link} href={`/listing/${type}s`}
+                    radius="16px"
+                    c="#878787"
+                    h={39}
                   >
                     Used {type}s
                   </Button>
                   <Button
                     leftSection={getComparisonIconByType()}
                     variant="light"
-                    size="sm"
-                    radius="md"
+                    size="md"
                     bg="white"
-                    c="#333"
                     autoContrast
                     tt="capitalize"
                     component={Link} href={`/comparison/${type}`}
+                    radius="16px"
+                    c="#878787"
+                    h={39}
                   >
                     {type} Comparison
                   </Button>
                   <Button
                     leftSection={<SmallReviewIcon />}
                     variant="light"
-                    size="sm"
-                    radius="md"
+                    size="md"
                     bg="#333"
                     c="white"
                     autoContrast
                     tt="capitalize"
+                    radius="16px"
+                    h={39}
                   >
                     {type} Reviews
                   </Button>
@@ -256,7 +260,7 @@ const CarReviewsModule = ({
             <Title order={3} mt="xl" mb="md">
               Popular New{" "}
               <Text span inherit className="text-primary" tt="capitalize">
-              {`${type}s`}
+                {`${type}s`}
               </Text>
             </Title>
           </Box>
@@ -267,7 +271,7 @@ const CarReviewsModule = ({
               </Box>
             ))}
           </Box>
-        </Box>                          
+        </Box>
       </Box>
 
       <Box
@@ -288,7 +292,7 @@ const CarReviewsModule = ({
             </Box>
             {popularUsedVehicles?.data?.map((vehicle, index) => (
               <Box className="col-lg-3 col-sm-4" key={index}>
-                <CarCard index={index} vehicle={vehicle} token={token}/>
+                <CarCard index={index} vehicle={vehicle} token={token} />
               </Box>
             ))}
           </Box>
@@ -299,7 +303,7 @@ const CarReviewsModule = ({
         opened={isModalOpen}
         close={closeModal}
         fetchMakesByTypeData={fetchMakesByTypeData}
-        fetchReviews={()=>{}}
+        fetchReviews={() => { }}
       />
       <CustomModel
         isOpen={isModalOpenCommon}

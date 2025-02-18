@@ -1713,6 +1713,7 @@ const sections = [
     // Overview Section
     {
         title: "Overview",
+        id: "overview",
         isSwitchable: true,
         fields: [
             {
@@ -1773,10 +1774,12 @@ const sections = [
     // Key Features & Specs Section
     {
         title: "Key Features & Specs",
+        id: "dimension",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Dimensions",
+                id: "dimension",
                 type: "icon",
                 iconURL: "/compare/dimension.svg",
             },
@@ -1821,10 +1824,12 @@ const sections = [
 
     // Engine & Performance Section
     {
+        id: "engine-performance",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Engine & Performance",
+                id: "engine-performance",
                 type: "icon",
                 iconURL: "/compare/engine-performace.svg",
             },
@@ -1897,10 +1902,12 @@ const sections = [
 
     // Transmission
     {
+        id: "transmission",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Transmission",
+                id: "transmission",
                 type: "icon",
                 iconURL: "/compare/transmission.svg",
             },
@@ -1922,10 +1929,12 @@ const sections = [
 
     // Suspension, Steering & Brakes Section
     {
+        id: "suspension-steering-brakes",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Suspension, Steering & Brakes",
+                id: "suspension-steering-brakes",
                 type: "icon",
                 iconURL: "/compare/suspension.svg",
             },
@@ -1954,10 +1963,12 @@ const sections = [
 
     // Wheels & Tyres Section
     {
+        id: "wheels-tyres",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Wheels & Tyres",
+                id: "wheels-tyres",
                 type: "icon",
                 iconURL: "/compare/wheels.svg",
             },
@@ -1993,10 +2004,12 @@ const sections = [
 
     // Fuel Consumptions Section
     {
+        id: "fuel-consumptions",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Fuel Consumptions",
+                id: "fuel-consumptions",
                 type: "icon",
                 iconURL: "/compare/fuel.svg",
             },
@@ -2020,10 +2033,12 @@ const sections = [
 
     // Safety Section
     {
+        id: "safety",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Safety",
+                id: "safety",
                 type: "icon",
                 iconURL: "/compare/safety.svg",
             },
@@ -2082,10 +2097,12 @@ const sections = [
 
     // Exterior Section
     {
+        id: "exterior",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Exterior",
+                id: "exterior",
                 type: "icon",
                 iconURL: "/compare/exterior.svg",
             },
@@ -2139,10 +2156,12 @@ const sections = [
 
     // Entertainment & Communications Section
     {
+        id: "entertainment-communications",
         isSwitchable: false,
         fields: [
             {
-                featureName: "Entertainment & Communications",
+                featureName: "Entertainment & Communications",  
+                id: "entertainment-communications",
                 type: "icon",
                 iconURL: "/compare/communication.svg",
             },
@@ -2186,10 +2205,12 @@ const sections = [
 
     // Comfort & Convenience Section
     {
+        id: "comfort-convenience",
         isSwitchable: false,
         fields: [
-            {
+            {   
                 featureName: "Comfort & Convenience",
+                id: "comfort-convenience",
                 type: "icon",
                 iconURL: "/compare/comfort.svg",
             },
@@ -2366,6 +2387,7 @@ const bikeSections = [
     // Overview Section
     {
         title: "Overview",
+        id: "overview",
         isSwitchable: true,
         fields: [
             {
@@ -2412,10 +2434,12 @@ const bikeSections = [
     // Engine & Performance Section
     {
         title: "Engine & Performance",
+        id: "engine-performance",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Engine & Performance",
+                id: "engine-performance",
                 type: "icon",
                 iconURL: "/compare/engine-performace.svg",
             },
@@ -2464,10 +2488,12 @@ const bikeSections = [
     // Transmission Section
     {
         title: "Transmission",
+        id: "transmission",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Transmission",
+                id: "transmission",
                 type: "icon",
                 iconURL: "/compare/transmission.svg",
             },
@@ -2481,10 +2507,12 @@ const bikeSections = [
     // Wheels & Tyres Section
     {
         title: "Wheels & Tyres",
+        id: "wheels-tyres",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Wheels & Tyres",
+                id: "wheels-tyres",
                 type: "icon",
                 iconURL: "/compare/wheels.svg",
             },
@@ -2506,10 +2534,12 @@ const bikeSections = [
     // Fuel Consumptions Section
     {
         title: "Fuel Consumptions",
+        id: "fuel-consumptions",
         isSwitchable: false,
         fields: [
             {
                 featureName: "Fuel Consumptions",
+                id: "fuel-consumptions",
                 type: "icon",
                 iconURL: "/compare/fuel.svg",
             },
@@ -2550,6 +2580,7 @@ export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type =
                             featureName: field.featureName,
                             type: field.type,
                             iconURL: field.iconURL,
+                            id: field.id,
                         };
                     }
 
@@ -2631,6 +2662,7 @@ export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type =
             if (hasNonIconRows) {
                 return {
                     title: section.title,
+                    id: section.id,
                     isSwitchable: section.isSwitchable,
                     overviewTableData,
                 };

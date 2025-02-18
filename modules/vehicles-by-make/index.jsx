@@ -305,7 +305,7 @@ const VehiclesByMake = ({vehicles}) => {
         </section> */}
 
         {/* <ComparisonProducts /> */}
-        <BrowseVideos />
+        <BrowseVideos type="car" />
         <BrowseBlogs />
 
         <section className="latest-reviews py-5">

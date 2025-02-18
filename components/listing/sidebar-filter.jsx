@@ -703,7 +703,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
           <RangeSlider
             color="#E90808"
             min={0}
-            max={2000000000}
+            max={90000000}
             value={filters.price}
             size="xs"
             my="xs"
@@ -739,7 +739,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 hideControls
                 value={filters.price[1]}
                 min={filters.price[0]}
-                max={2000000000}
+                max={90000000}
                 onChange={(e) =>
                   handleFilterChange("price", [
                     filters.price[0],

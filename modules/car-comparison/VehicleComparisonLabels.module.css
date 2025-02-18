@@ -7,3 +7,7 @@
     color: #E90808;
   }
 }
+.active {
+  color: #E90808;
+  border-bottom: 4px solid #E90808;
+}

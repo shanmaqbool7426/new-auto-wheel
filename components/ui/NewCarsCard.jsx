@@ -14,10 +14,9 @@ const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
           <Image
             component={NextImage}
             src={vehicle?.defaultImage || ""}
-            height={130}
-            width={130}
+            height={137}
+            width={269}
             alt="Mehran"
-            className="img-fluid"
           />
         </Box>
 

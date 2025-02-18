@@ -1,14 +1,14 @@
 import React,{useState} from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-
+import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
 // import { useRouter } from 'next/router';
 export default function useInventory() {
 
-  // const router = useRouter();
+  const router = useRouter();
   const [searchBy, setSearchBy] = React.useState(() => {
     if (typeof window !== 'undefined') {
       return getLocalStorage('inventorySearchBy') || '';
@@ -168,8 +168,9 @@ const handleSubmit = async (values) => {
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
-    console.log('Edit Row', id);
-    alert(`Edit Row ${id}`);
+    router.push(`/sale/car/post-ad?vehicleId=${id}`)
+    // console.log('Edit Row', id);
+    // alert(`Edit Row ${id}`);
   }
 
   const handleClickDeleteRow = async (id) => {

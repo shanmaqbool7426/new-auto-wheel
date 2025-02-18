@@ -9,30 +9,34 @@ import Header from "./vehicleDetailHeader";
 import { mapVehicleData } from "@/utils/comparisonData"
 const VehicleComparisonDetail = ({ vehicles, type }) => {
     const [hideCommonFeatures, setHideCommonFeatures] = React.useState(false);
-    const comparisonData = mapVehicleData(vehicles,hideCommonFeatures,type)?.comparisonData;
+    const [activeVehicles, setActiveVehicles] = React.useState(vehicles || []);
+    const comparisonData = mapVehicleData(activeVehicles,hideCommonFeatures,type)?.comparisonData;
     const carDetailLabel = [
         { name: "Overview", href: "#overview" },
         { name: "Dimensions", href: "#dimension" },
-        { name: "Engine & Performance", href: "#performance" },
+        { name: "Engine & Performance", href: "#engine-performance" },
         { name: "Transmission", href: "#transmission" },
-        { name: "Suspension, Steering & Brakes", href: "#suspension_steering_brakes" },
-        { name: "Wheels & Tyres", href: "#wheels_tyres" },
-        { name: "Fuel Consumptions", href: "#fuel_consumptions" },
+        { name: "Suspension, Steering & Brakes", href: "#suspension-steering-brakes" },
+        { name: "Wheels & Tyres", href: "#wheels-tyres" },
+        { name: "Fuel Consumptions", href: "#fuel-consumptions" },
         { name: "Safety", href: "#safety" },
         { name: "Exterior", href: "#exterior" },
     ];
 
-
+    // Handle vehicle removal
+    const handleVehicleRemove = (vehicleIndex) => {
+        setActiveVehicles(prev => prev.filter((_, index) => index !== vehicleIndex));
+    };
     return (
         <>
             <Box className="comparison-detail">
                 <Box className="background-search-verlay"
-                    mb={{ base: 850, sm: 250 }}
+                    mb={{ base: 1080, sm: 420 }}
                     pt={80}
-                    h={550}
+                    h={250}
                 >
                     <div className="container-xl">
-                        <Header vehicles={vehicles} type={type} />
+                        <Header vehicles={activeVehicles} type={type} onVehicleRemove={handleVehicleRemove} />
                         <VehicleComparisonLabels labels={carDetailLabel} />
                     </div>
                 </Box>

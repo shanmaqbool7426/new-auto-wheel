@@ -27,144 +27,54 @@ import { useRouter } from "next/navigation";
 const FilterBadges = ({ params, searchParams }) => {
   const router = useRouter();
   const slug = params.slug;
-  const userData = getLocalStorage("user");
-  console.log("userData>>", userData);
-  const removeFilter = (filterType, value) => {
-    const slugArray = [...slug];
-    // Keep only the first item (cars/bikes/trucks) and 'search' and '-'
-    const baseSlug = slugArray.slice(0, 3);
 
-    // Filter out the item we want to remove and add to baseSlug
-    const filteredSlug = slugArray.slice(3).filter((item) => {
-      switch (filterType) {
-        case "make":
-          return !item.startsWith("mk_" + value);
-        case "model":
-          return !item.startsWith("md_" + value);
-        case "city":
-          return !item.startsWith("ct_" + value);
-        case "bodyType":
-          return !item.startsWith("bt_" + value);
-        case "transmission":
-          return item !== value;
-        case "drive":
-          return item !== value;
-        case "exteriorColor":
-          return item !== value;
-        case "fuelType":
-          return item !== value;
-        default:
-          return true;
-      }
-    });
+  const filterConfigs = {
+    mk_: { type: "make", label: "make" },
+    md_: { type: "model", label: "model" },
+    ct_: { type: "city", label: "city" },
+    bt_: { type: "bodyType", label: "bodyType" },
+    tr_: { type: "transmission", label: "transmission" },
+    dr_: { type: "drive", label: "drive" },
+    cl_: { type: "exteriorColor", label: "exteriorColor" },
+    ft_: { type: "fuelType", label: "fuelType" },
+    pr_: { type: "price", label: "price", isRange: true },
+    yr_: { type: "year", label: "year", isRange: true },
+    ml_: { type: "mileage", label: "mileage", isRange: true },
+  };
+
+  const removeFilter = (fullValue) => {
+    const baseSlug = slug.slice(0, 3);
+
+    const filteredSlug = slug.slice(3).filter((item) => item !== fullValue);
 
     const newSlug = [...baseSlug, ...filteredSlug];
 
-    // Preserve existing query parameters except view
     const existingParams = new URLSearchParams(searchParams.toString());
     const view = existingParams.get("view");
 
-    // Construct the new path
     let newPath = `/listing/${newSlug.join("/")}`;
     if (view) {
       newPath += `?view=${view}`;
     }
 
-    // Use router.push with the properly formatted URL
     router.push(newPath);
   };
 
   const renderBadges = () => {
-    const badges = [];
+    return slug
+      .map((item, index) => {
+        const prefix = Object.keys(filterConfigs).find((key) =>
+          item.startsWith(key)
+        );
+        if (!prefix) return null;
 
-    slug.forEach((item, index) => {
-      // Existing filter badges
-      if (item.startsWith("mk_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`make-${index}`}
-            rightSection={
-              <MdClose
-                onClick={() => removeFilter("make", item.replace("mk_", ""))}
-              />
-            }
-          >
-            {item.replace("mk_", "")}
-          </Badge>
-        );
-      }
-      if (item.startsWith("md_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`model-${index}`}
-            rightSection={
-              <MdClose
-                onClick={() => removeFilter("model", item.replace("md_", ""))}
-              />
-            }
-          >
-            {item.replace("md_", "")}
-          </Badge>
-        );
-      }
-      if (item.startsWith("ct_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`city-${index}`}
-            rightSection={
-              <MdClose
-                onClick={() => removeFilter("city", item.replace("ct_", ""))}
-              />
-            }
-          >
-            {item.replace("ct_", "")}
-          </Badge>
-        );
-      }
-      if (item.startsWith("bt_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`body-${index}`}
-            rightSection={
-              <MdClose
-                onClick={() =>
-                  removeFilter("bodyType", item.replace("bt_", ""))
-                }
-              />
-            }
-          >
-            {item.replace("bt_", "")}
-          </Badge>
-        );
-      }
+        const config = filterConfigs[prefix];
+        const value = item.replace(prefix, "");
+        const displayValue = config.isRange
+          ? value.split("_").join(" - ")
+          : value;
 
-      // New filter badges
-      if (item.startsWith("tr_")) {
-        badges.push(
+        return (
           <Badge
             py={rem(12)}
             px={rem(12)}
@@ -172,133 +82,42 @@ const FilterBadges = ({ params, searchParams }) => {
             fw={500}
             fz={rem(12)}
             color="#E90808"
-            key={`transmission-${index}`}
+            key={`${config.type}-${index}`}
             rightSection={
-              <MdClose onClick={() => removeFilter("transmission", item)} />
+              <MdClose
+                onClick={() => removeFilter(item)}
+                style={{
+                  cursor: "pointer",
+                  transition: "opacity 0.2s",
+                  ":hover": {
+                    opacity: 0.7,
+                  },
+                }}
+              />
             }
+            styles={{
+              rightSection: {
+                "&:hover": {
+                  opacity: 0.7,
+                },
+              },
+            }}
           >
-            {item.replace("tr_", "")}
+            {displayValue}
           </Badge>
         );
-      }
-      if (item.startsWith("dr_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`drive-${index}`}
-            rightSection={
-              <MdClose onClick={() => removeFilter("drive", item)} />
-            }
-          >
-            {item.replace("dr_", "")}
-          </Badge>
-        );
-      }
-      if (item.startsWith("cl_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`color-${index}`}
-            rightSection={
-              <MdClose onClick={() => removeFilter("exteriorColor", item)} />
-            }
-          >
-            {item.replace("cl_", "")}
-          </Badge>
-        );
-      }
-      if (item.startsWith("ft_")) {
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`fuel-${index}`}
-            rightSection={
-              <MdClose onClick={() => removeFilter("fuelType", item)} />
-            }
-          >
-            {item.replace("ft_", "")}
-          </Badge>
-        );
-      }
-      if (item.startsWith("pr_")) {
-        const [min, max] = item.replace("pr_", "").split("_");
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`price-${index}`}
-            rightSection={
-              <MdClose onClick={() => removeFilter("price", item)} />
-            }
-          >
-            {min} - {max}
-          </Badge>
-        );
-      }
-      if (item.startsWith("yr_")) {
-        const [min, max] = item.replace("yr_", "").split("_");
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`year-${index}`}
-            rightSection={
-              <MdClose onClick={() => removeFilter("year", item)} />
-            }
-          >
-            {min} - {max}
-          </Badge>
-        );
-      }
-      if (item.startsWith("ml_")) {
-        const [min, max] = item.replace("ml_", "").split("_");
-        badges.push(
-          <Badge
-            py={rem(12)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`mileage-${index}`}
-            rightSection={
-              <MdClose onClick={() => removeFilter("mileage", item)} />
-            }
-          >
-            {min} - {max}
-          </Badge>
-        );
-      }
-    });
-
-    return badges;
+      })
+      .filter(Boolean);
   };
 
   return (
-    <Group gap="xs" mb="md" justify="flex-start">
+    <Group
+      gap="xs"
+      mb="md"
+      justify="flex-start"
+      pb={"1rem"}
+      style={{ borderBottom: "1px solid #CCCCCC" }}
+    >
       {renderBadges()}
     </Group>
   );
@@ -347,7 +166,7 @@ export default async function Listing({ params, searchParams }) {
             <div className="col-lg-9">
               {/* Toolbox */}
               <ListingHeader type={params.slug[0]} />
-
+              <FilterBadges params={params} searchParams={searchParams} />
               {/* Product Listing Section */}
               <Group
                 className="title-section"
@@ -374,7 +193,6 @@ export default async function Listing({ params, searchParams }) {
                   Featured Classified
                 </Title>
               </Group>
-              <FilterBadges params={params} searchParams={searchParams} />
               {/* Product View List */}
               <div className="row">
                 {dataofVehcles?.data?.results?.map((vehicle, index) => (

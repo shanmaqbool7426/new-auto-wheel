@@ -147,6 +147,9 @@ const NewCarsModule = ({
     fetchReviews();
   }, [filter]);
 
+  // Add isNew check based on URL
+  const isNew = window.location.pathname.includes('/new/');
+
   return (
     <>
       <section className="find-cars">
@@ -255,7 +258,12 @@ const NewCarsModule = ({
 
         {/* <BrowseByMakeAndBodies makes={makes} bodies={bodies} type={type}/> */}
       
-        <BrowseByCategory makes={makes} bodies={bodies} type={type} />
+        <BrowseByCategory 
+          makes={makes} 
+          bodies={bodies} 
+          type={type} 
+          isNew={isNew}  // Pass isNew prop
+        />
         <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
             <div className="row">

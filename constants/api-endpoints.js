@@ -34,14 +34,14 @@
 
 export const BASE_URL = "https://auto-wheel-be.vercel.app";
 // export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
-// 
+
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
 const NEW_VEHICLE_BASE = `${BASE_URL}/api/new-vehicles`;
 const REVIEW_BASE = `${BASE_URL}/api/reviews`;
 const VIDEO_BASE = `${BASE_URL}/api/video`;
 const USER_REVIEWS_BASE = `${BASE_URL}/api/user-reviews`;
-
+const NEAR_BY_LOCATION_BASE = `${BASE_URL}/api/near-by-location`;
 export const API_ENDPOINTS = {
   AUTH: {
     SIGNUP: `${BASE_URL}/api/user/register`,
@@ -189,6 +189,9 @@ export const API_ENDPOINTS = {
 
   TAGS: {
     BASE: `${BASE_URL}/api/tag`,
+  },
+  NEAR_BY_LOCATION: {
+    GET: `${NEAR_BY_LOCATION_BASE}/active`,
   },
 
   // Image Upload Endpoint

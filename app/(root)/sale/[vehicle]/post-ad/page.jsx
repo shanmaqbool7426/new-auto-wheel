@@ -37,7 +37,7 @@ import { HiDocumentAdd } from "react-icons/hi";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import CustomModel from "@/constants/CustomModel";
 import { fetchBodiesByType, fetchMakesByType } from "@/services/vehicles";
-import { submitFormData } from "@/services/forms";
+import { submitFormData, submitUpdateFormData } from "@/services/forms";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
 import {
@@ -54,12 +54,14 @@ import {
   carTruckDrives,
 } from "@/mock-data/mock-array";
 import { getSuburbs } from "@/constants/suburbs";
-import { uploadImageServer } from "@/actions";
+import { fetchVehicleBySellerByVehicleId, uploadImageServer } from "@/actions";
 import { showNotification } from "@mantine/notifications";
 const PostAnAd = (params) => {
   const { data: session } = useSession();
   const router = useRouter();
   const vehicle = params?.params?.vehicle;
+  const vehicleId = params?.searchParams?.vehicleId;
+  const [isVehicle, setIsVehicle] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [images, setImages] = useState([]);
   const [makes, setMakes] = useState({});
@@ -186,6 +188,71 @@ const PostAnAd = (params) => {
     getBodies();
   }, [vehicle]); // Re-fetch makes when vehicle type changes
 
+  useEffect(() => {
+    const fetchAdData = async () => {
+      if (vehicleId && session?.user?.token?.token) {
+        try {
+          const {data} = await fetchVehicleBySellerByVehicleId(session?.user?.token?.token,vehicleId);
+          console.log(data,"data")
+          
+          // Set form data
+          setFormDataStep1({
+            condition: data.condition || "used",
+            year: data.year.toString() || "",
+            city: data.city || "",
+            suburb: data.cityArea || "",
+            registeredIn: data.registeredIn || "",
+            rego: data.rego || "",
+            exteriorColor: data.specifications?.exteriorColor || "",
+            milage: data.specifications?.mileage || "",
+            price: data.price || "",
+            description: data.description || "",
+            Info: data.Info || {},
+            images: data.images || [],
+          });
+  
+          setFormDataStep2({
+            engineType: data.specifications?.engineType || "",
+            engine: data.specifications?.engine || "",
+            drive: data.specifications?.drive || "",
+            seats: data.specifications?.seats || "",
+            doors: data.specifications?.doors || "",
+            body: data.specifications?.bodyType || "",
+            engineCapacity: data.specifications?.engineCapacity || "",
+            transmission: data.specifications?.transmission || "",
+            assembly: data.specifications?.assembly || "",
+            features: data.features || [],
+          });
+  
+          setFormDataStep3({
+            mobileNumber: data.contactInfo?.mobileNumber || "",
+            secondaryNumber: data.contactInfo?.secondaryNumber || "",
+            allowWhatsAppContact: data.contactInfo?.allowWhatsAppContact || false,
+          });
+  
+          setSelection({
+            make: data.make || "",
+            model: data.model || "",
+            variant: data.variant || "",
+          });
+  
+          // Handle images if they exist
+          if (data.images?.length > 0) {
+            setImages(data.images);
+          }
+          setIsVehicle(data)
+        } catch (error) {
+          setIsVehicle({})
+          console.error('Error fetching ad:', error);
+        }
+      }
+    };
+  
+    if (vehicleId) {
+      fetchAdData();
+    }
+  }, [vehicleId, session]);
+
   const handleInputChangeStep2 = (field, value) => {
     setFormDataStep2((prevState) => ({
       ...prevState,
@@ -254,13 +321,20 @@ const PostAnAd = (params) => {
       seller: session?.user?._id,
     };
     try {
-      const data = await submitFormData(
-        API_ENDPOINTS.VEHICLE.ADD,
-        JSON.stringify(payload),
-        {
-          "Content-Type": "application/json",
-        }
-      );
+      if (vehicleId && isVehicle?._id) {
+        await submitUpdateFormData(
+          API_ENDPOINTS.VEHICLE.Update(isVehicle?._id),
+          JSON.stringify(payload),session?.user?.token?.token
+        );
+      }else{
+        await submitFormData(
+          API_ENDPOINTS.VEHICLE.ADD,
+          JSON.stringify(payload),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+      }
       router.push(`/listing/${vehicle}s`);
     } catch (error) {
       console.error(error);
@@ -308,13 +382,18 @@ const PostAnAd = (params) => {
   };
 
   const previews = images.map((file, index) => {
-    const imageUrl = URL.createObjectURL(file);
+    const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);;
     return (
       <Box className="uploaded-image-wrapper" pos="relative" key={index}>
         <Image
           h={{ base: 140, sm: 140 }}
           src={imageUrl}
-          onLoad={() => URL.revokeObjectURL(imageUrl)}
+        // Only revoke URL if it's a File object
+        onLoad={() => {
+          if (typeof file !== 'string') {
+            URL.revokeObjectURL(imageUrl);
+          }
+        }}
           radius="md"
         />
       </Box>

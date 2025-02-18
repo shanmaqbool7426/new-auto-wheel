@@ -26,8 +26,7 @@ import { useRouter } from "next/navigation";
 import ComparisonCard from "./ComparisonCard";
 import Link from "next/link";
 
-const Header = ({ vehicles, type }) => {
-  console.log(vehicles, "Test");
+const Header = ({ vehicles, type, onVehicleRemove }) => {
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -121,6 +120,20 @@ const Header = ({ vehicles, type }) => {
         return null;
     }
   };
+  const handleRemoveVehicle = (vehicleNumber) => {
+    onVehicleRemove(vehicleNumber);
+    switch (vehicleNumber + 1) {
+      case 1:
+        setVehicle1({ make: "", model: "", variant: "" });
+        break;
+      case 2:
+        setVehicle2({ make: "", model: "", variant: "" });
+        break;
+      case 3:
+        setVehicle3({ make: "", model: "", variant: "" });
+        break;
+    }
+  };
   return (
     <>
       <CustomModel
@@ -159,19 +172,19 @@ const Header = ({ vehicles, type }) => {
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 <Anchor tt="capitalize">
-                  {[vehicle1, vehicle2, vehicle3].map((vehicle, index) => (
-                    <span key={index}>
-                      {(vehicle.make &&
-                        `${vehicle.make} ${vehicle.model} ${vehicle.variant} ${index == 0 || (index == 1 && vehicle3) ? "VS " : ""
-                        }`) ||
-                        ``}
-                    </span>
-                  ))}
+                  {[vehicle1, vehicle2, vehicle3]
+                    .filter(vehicle => vehicle.make && vehicle.model) 
+                    .map((vehicle, index, filteredArray) => (
+                      <span key={index}>
+                        {`${vehicle.make} ${vehicle.model} ${vehicle.variant || ''}`}
+                        {index < filteredArray.length - 1 ? " VS " : ""}
+                      </span>
+                    ))}
                 </Anchor>
               </li>
             </ol>
           </nav>
-          <Group>
+          {/* <Group>
             <Button
               leftSection={getIconByType()}
               variant="light"
@@ -226,10 +239,10 @@ const Header = ({ vehicles, type }) => {
             >
               {type} Reviews
             </Button>
-          </Group>
+          </Group> */}
         </div>
         <div className="col-md-12">
-          <Box className="search-wrapper-card" mt="xl">
+          <Box className="search-wrapper-card">
             <Card shadow="0px 4px 20px 0px #00000014" pt="24px" pl="16px" radius="4px">
               <Title order={2} mb="24px" tt="capitalize">
                 New {`${type}s`} Comparison
@@ -245,14 +258,16 @@ const Header = ({ vehicles, type }) => {
                       align="center"
                       gap="xs"
                     >
-                      {[vehicle1, vehicle2, vehicle3].map((vehicle, index) => (
+                      {[vehicle1, vehicle2, vehicle3]
+                    .filter(vehicle => vehicle.make && vehicle.model) 
+                    .map((vehicle, index, filteredArray) => (
                         <React.Fragment key={index}>
                           <Text fw={600}>
                             {(vehicle.make &&
                               `${vehicle.make} ${vehicle.model} ${vehicle.variant}`) ||
                               ``}
                           </Text>
-                          {(vehicle.make && index < 2) && (
+                          {(index < filteredArray.length - 1) && (
                             <Badge
                               h={40}
                               w={40}
@@ -274,7 +289,7 @@ const Header = ({ vehicles, type }) => {
                       className="col-md-3"
                       onClick={() => openModal(index + 1)}
                     >
-                      <ComparisonCard vehicle={vehicle} />
+                      <ComparisonCard vehicle={vehicle} onRemove={() => handleRemoveVehicle(index)} />
                     </div>
                   ))}
                 </div>

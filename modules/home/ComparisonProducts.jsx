@@ -94,7 +94,7 @@ const ComparisonProducts = ({ title, type }) => {
                   Top <Text span c="#E90808" inherit>Comparison</Text>
                 </Title>
               )}
-              <Anchor component={Link} href="/compare" c="#E90808">
+              <Anchor component={Link} href={`/compare/${type}`} c="#E90808">
                 Show all Comparison
               </Anchor>
             </Flex>
