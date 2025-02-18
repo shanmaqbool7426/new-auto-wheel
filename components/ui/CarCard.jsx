@@ -34,8 +34,6 @@ const CarCard = ({ vehicle, userData }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
 
-
-
   useEffect(() => {
     if (userData && vehicle) {
       setIsFavorite(userData.favoriteVehicles?.includes(vehicle._id));
@@ -53,7 +51,7 @@ const CarCard = ({ vehicle, userData }) => {
     });
   }, [images]);
 
-  console.log("userData",userData)
+  console.log("userData", userData);
 
   // Function to change slide based on mouse position
   const handleMouseMove = (e) => {
@@ -86,7 +84,7 @@ const CarCard = ({ vehicle, userData }) => {
         message: "Please login first to add vehicles to favorites",
         color: "red",
       });
-      router.push('/login');
+      router.push("/login");
       return;
     }
 
@@ -109,18 +107,17 @@ const CarCard = ({ vehicle, userData }) => {
         // Update local storage with new user data
         const updatedUserData = {
           ...localUserData,
-          favoriteVehicles: data.data.favoriteVehicles
+          favoriteVehicles: data.data.favoriteVehicles,
         };
-        localStorage.setItem('user', JSON.stringify(updatedUserData));
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
         setLocalUserData(updatedUserData);
-        console.log("updatedUserData",data.data.favoriteVehicles)
+        console.log("updatedUserData", data.data.favoriteVehicles);
         setIsFavorite(data.data.favoriteVehicles.includes(vehicle._id));
-        
+
         notifications.show({
           title: "Success",
           message: data.message,
           color: "green",
-            
         });
       } else {
         throw new Error(data.message);
@@ -186,21 +183,34 @@ const CarCard = ({ vehicle, userData }) => {
           c="white"
           gap={5}
           pos="absolute"
-         
           right={15}
-          style={{ zIndex: "201" ,justifyContent:"space-between"}}
+          style={{ zIndex: "201", justifyContent: "space-between" }}
           left={15}
           top={15}
         >
-        <Box style={{display:"flex",alignItems:"center",gap:5}}>
-        <CameraIcon width={18} height={18} />
-          <Text span fw={500} size="sm">
-            {vehicle?.images?.length}
-          </Text>
-        </Box>
-          {vehicle?.isFeatured && <Text style={{borderRadius:"5px"}} span fw={400}  size="12px" rounded="md" bg="black" c="white" p={5}  position="absolute" right={15} top={15}>
-            Featured
-          </Text>}
+          <Box style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <CameraIcon width={18} height={18} />
+            <Text span fw={500} size="sm">
+              {vehicle?.images?.length}
+            </Text>
+          </Box>
+          {vehicle?.isFeatured && (
+            <Text
+              style={{ borderRadius: "5px" }}
+              span
+              fw={400}
+              size="12px"
+              rounded="md"
+              bg="black"
+              c="white"
+              p={5}
+              position="absolute"
+              right={15}
+              top={15}
+            >
+              Featured
+            </Text>
+          )}
         </Group>
         {/* Custom image slider controlled by mouse hover */}
         <div
@@ -214,7 +224,9 @@ const CarCard = ({ vehicle, userData }) => {
               mih={160}
               fit="cover"
               src={images[activeSlide] || "https://placehold.co/270x160"}
-              alt={`${vehicle?.make.toLowerCase()}_${vehicle?.model.toLowerCase()}_${activeSlide + 1}`}
+              alt={`${vehicle?.make.toLowerCase()}_${vehicle?.model.toLowerCase()}_${
+                activeSlide + 1
+              }`}
             />
           ) : (
             <Image
@@ -225,12 +237,11 @@ const CarCard = ({ vehicle, userData }) => {
               alt="Placeholder"
             />
           )}
-            <Overlay color="#000" backgroundOpacity={0.3} />
+          <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} />
         </div>
 
         {/* Progress bar with hover functionality */}
         <Group grow gap={2} my={2}>
-
           {images.map((_, index) => (
             <Progress
               key={index}
@@ -240,16 +251,16 @@ const CarCard = ({ vehicle, userData }) => {
               onMouseEnter={() => setActiveSlide(index)}
             />
           ))}
-      
         </Group>
-      
+
         <FavoriteButton />
       </Card.Section>
 
       <Card.Section p="sm">
         {/* Car details */}
         <Group
-          justify="space-between"
+          h="100%"
+          // justify="space-between"
           grow
           mb="md"
           align="center"
@@ -263,7 +274,7 @@ const CarCard = ({ vehicle, userData }) => {
             href={`/detail/${vehicle.slug}`}
             size="sm"
             fw={600}
-            lineClamp={1}
+            lineClamp={2}
           >
             {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
           </Text>
@@ -272,21 +283,29 @@ const CarCard = ({ vehicle, userData }) => {
             bg="#E90808"
             p="5px 5px 5px 15px"
             ta="right"
-            display="inline-flex"  // Changed to inline-flex
+            h={32}
+            display="inline-flex" // Changed to inline-flex
             style={{
               clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
-              minWidth: 'fit-content', // Changed to fit-content
-              width: 'auto',
-              alignItems: 'center',    // Added to center content vertically
-              justifyContent: 'flex-end' // Added to align content to the right
+              minWidth: "fit-content", // Changed to fit-content
+              width: "auto",
+              alignItems: "center", // Added to center content vertically
+              justifyContent: "flex-end", // Added to align content to the right
             }}
           >
-            <Text fw={600} size="xs" style={{ whiteSpace: 'nowrap', lineHeight: 1 }}>
+            <Text
+              fw={600}
+              size="xs"
+              style={{ whiteSpace: "nowrap", lineHeight: 1 }}
+            >
               Rs {formatPrice(vehicle?.price)}
             </Text>
           </Box>
         </Group>
-        <Divider size="md" color={`${vehicle?.isFeatured ? "#E90808" :"#ddd"}`}/>
+        <Divider
+          size="md"
+          color={`${vehicle?.isFeatured ? "#E90808" : "#ddd"}`}
+        />
         <Flex mt="md" gap="sm" justify="space-between" wrap="wrap">
           <Group c="dimmed" gap={rem(5)} align="center">
             <FaCalendarDays />

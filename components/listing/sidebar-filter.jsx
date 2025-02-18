@@ -71,7 +71,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const { slug } = useParams();
   const debounceTimeoutRef = useRef(null);
   const [value, setValue] = useState("");
-
   useEffect(() => {
     if (slug && slug.length > 0) {
       const updatedFilters = { ...filters };
@@ -243,8 +242,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
       make: [],
       model: [],
       variant: [],
-      mileage: [0, 2000000],
-      price: [0, 2000000000],
+      mileage: [1000, 2000000],
+      price: [10000, 2000000000],
       year: [2000, 2024],
       transmission: "",
       drive: "",
@@ -453,49 +452,48 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 }
                 mb="md"
               />
-               <ScrollArea
+              <ScrollArea
                 h={130}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
               >
                 <div className="checkbox-group-filters">
-              {filteredmakes?.map((make, index) => (
-                <Box pos="relative" key={index}>
-                  <Checkbox
-                    mb="xs"
-                    size="xs"
-                    color="#E90808"
-
-                    label={make.name}
-                    key={make.value}
-                    checked={decodedFilterMake.includes(
-                      make?.name?.toLowerCase()
-                    )}
-                    onChange={(e) =>
-                      handleFilterChange(
-                        "make",
-                        make?.name?.toLowerCase(),
-                        e.target.checked
-                      )
-                    }
-                  />
-                  {getCountByTypeAndKey("makeCounts", make.name) && (
-                    <Badge
-                      pos="absolute"
-                      right={0}
-                      top={0}
-                      color="#706f6f"
-                      size="md"
-                      fw={600}
-                      variant="outline"
-                    >
-                      {getCountByTypeAndKey("makeCounts", make.name)}
-                    </Badge>
-                  )}
-                </Box>
-              ))}
-              </div>
+                  {filteredmakes?.map((make, index) => (
+                    <Box pos="relative" key={index}>
+                      <Checkbox
+                        mb="xs"
+                        size="xs"
+                        color="#E90808"
+                        label={make.name}
+                        key={make.value}
+                        checked={decodedFilterMake.includes(
+                          make?.name?.toLowerCase()
+                        )}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            "make",
+                            make?.name?.toLowerCase(),
+                            e.target.checked
+                          )
+                        }
+                      />
+                      {getCountByTypeAndKey("makeCounts", make.name) && (
+                        <Badge
+                          pos="absolute"
+                          right={0}
+                          top={0}
+                          color="#706f6f"
+                          size="md"
+                          fw={600}
+                          variant="outline"
+                        >
+                          {getCountByTypeAndKey("makeCounts", make.name)}
+                        </Badge>
+                      )}
+                    </Box>
+                  ))}
+                </div>
               </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
@@ -531,49 +529,48 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                   }
                   mb="md"
                 />
-                 <ScrollArea
-                h={130}
-                scrollbarSize={6}
-                scrollHideDelay={1000}
-                offsetScrollbars
-              >
-                <div className="checkbox-group-filters">
-                {getModelsByMakes()?.map((model, index) => (
-                  <Box pos="relative" key={index}>
-                    <Checkbox
-                      mb="xs"
-                      size="xs"
-                      label={model.name}
-                      color="#E90808"
-
-                      key={index}
-                      checked={decodedFilterModel.includes(
-                        model.name?.toLowerCase()
-                      )}
-                      onChange={(e) =>
-                        handleFilterChange(
-                          "model",
-                          model.name?.toLowerCase(),
-                          e.target.checked
-                        )
-                      }
-                    />
-                    {getCountByTypeAndKey("modelCounts", model.name) && (
-                      <Badge
-                        pos="absolute"
-                        right={0}
-                        top={0}
-                          color="#706f6f"
-                        size="md"
-                        fw={600}
-                        variant="outline"
-                      >
-                        {getCountByTypeAndKey("modelCounts", model.name)}
-                      </Badge>
-                    )}
-                  </Box>
-                ))}
-                </div>
+                <ScrollArea
+                  h={130}
+                  scrollbarSize={6}
+                  scrollHideDelay={1000}
+                  offsetScrollbars
+                >
+                  <div className="checkbox-group-filters">
+                    {getModelsByMakes()?.map((model, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          label={model.name}
+                          color="#E90808"
+                          key={index}
+                          checked={decodedFilterModel.includes(
+                            model.name?.toLowerCase()
+                          )}
+                          onChange={(e) =>
+                            handleFilterChange(
+                              "model",
+                              model.name?.toLowerCase(),
+                              e.target.checked
+                            )
+                          }
+                        />
+                        {getCountByTypeAndKey("modelCounts", model.name) && (
+                          <Badge
+                            pos="absolute"
+                            right={0}
+                            top={0}
+                            color="#706f6f"
+                            size="md"
+                            fw={600}
+                            variant="outline"
+                          >
+                            {getCountByTypeAndKey("modelCounts", model.name)}
+                          </Badge>
+                        )}
+                      </Box>
+                    ))}
+                  </div>
                 </ScrollArea>
               </Accordion.Panel>
             </Accordion.Item>
@@ -616,7 +613,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       size="xs"
                       label={variant}
                       color="#E90808"
-
                       key={index}
                       checked={decodedFilterVariant.includes(
                         variant?.toLowerCase()
@@ -658,6 +654,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             max={2000000}
             value={filters.mileage}
             size="xs"
+            step={1000}
             my="xs"
             thumbSize={16}
             styles={{
@@ -675,6 +672,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                 hideControls
                 value={filters.mileage[0]}
                 min={0}
+                step={1000}
                 max={filters.mileage[1]}
                 onChange={(e) =>
                   handleFilterChange("mileage", [
@@ -709,6 +707,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             value={filters.price}
             size="xs"
             my="xs"
+            step={10000}
             thumbSize={16}
             styles={{
               thumb: {
@@ -723,6 +722,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
             <Grid.Col span={6}>
               <NumberInput
                 hideControls
+                step={10000}
                 value={filters.price[0]}
                 min={0}
                 max={filters.price[1]}
@@ -838,7 +838,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     mb="xs"
                     size="xs"
                     color="#E90808"
-
                     label={transmission.label}
                     key={transmission.value}
                     checked={transmission?.value === filters.transmission}
@@ -846,7 +845,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       handleFilterChange("transmission", transmission?.value)
                     }
                   />
-                  {getCountByTypeAndKey("transmissionCounts", transmission.value) && (
+                  {getCountByTypeAndKey(
+                    "transmissionCounts",
+                    transmission.value
+                  ) && (
                     <Badge
                       pos="absolute"
                       right={0}
@@ -856,7 +858,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       fw={600}
                       variant="outline"
                     >
-                      {getCountByTypeAndKey("transmissionCounts", transmission.value)}
+                      {getCountByTypeAndKey(
+                        "transmissionCounts",
+                        transmission.value
+                      )}
                     </Badge>
                   )}
                 </Box>
@@ -886,7 +891,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     mb="xs"
                     size="xs"
                     color="#E90808"
-
                     label={drive.label}
                     key={drive.value}
                     checked={drive?.value === filters.drive}
@@ -926,45 +930,48 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
-            <ScrollArea
+              <ScrollArea
                 h={150}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
               >
                 <div className="checkbox-group-filters">
-              {vehicleExteriorColorOptions?.map((color, index) => (
-                <Box pos="relative" key={index}>
-                  <Checkbox
-                    mb="xs"
-                    size="xs"
-                    color="#E90808"
-
-                    styles={{
-                      body: { alignItems: "center" },
-                      labelWrapper: { width: "100%" },
-                    }}
-                    label={
-                      <Group justify="space-between" align="center">
-                        {color.label}
-                        <Tooltip label={color.label} position="top" withArrow>
-                          <Button
-                            p={0}
-                            radius={rem(20)}
-                            h={rem(20)}
-                            w={rem(20)}
-                            bg={GetColor(color.label)}
-                          />
-                        </Tooltip>
-                      </Group>
-                    }
-                    key={color.value}
-                    checked={color?.value === filters.exteriorColor}
-                    onChange={(e) =>
-                      handleFilterChange("exteriorColor", color?.value)
-                    }
-                  />
-                  {/* {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
+                  {vehicleExteriorColorOptions?.map((color, index) => (
+                    <Box pos="relative" key={index}>
+                      <Checkbox
+                        mb="xs"
+                        size="xs"
+                        color="#E90808"
+                        styles={{
+                          body: { alignItems: "center" },
+                          labelWrapper: { width: "100%" },
+                        }}
+                        label={
+                          <Group justify="space-between" align="center">
+                            {color.label}
+                            <Tooltip
+                              label={color.label}
+                              position="top"
+                              withArrow
+                            >
+                              <Button
+                                p={0}
+                                radius={rem(20)}
+                                h={rem(20)}
+                                w={rem(20)}
+                                bg={GetColor(color.label)}
+                              />
+                            </Tooltip>
+                          </Group>
+                        }
+                        key={color.value}
+                        checked={color?.value === filters.exteriorColor}
+                        onChange={(e) =>
+                          handleFilterChange("exteriorColor", color?.value)
+                        }
+                      />
+                      {/* {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
                     <Badge
                       pos="absolute"
                       right={0}
@@ -977,9 +984,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       {getCountByTypeAndKey("exteriorColorCounts", color.label)}
                     </Badge>
                   )} */}
-                </Box>
-              ))}
-              </div>  
+                    </Box>
+                  ))}
+                </div>
               </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
@@ -1006,7 +1013,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                     mb="xs"
                     size="xs"
                     color="#E90808"
-
                     label={fuel.label}
                     key={fuel.value}
                     checked={fuel?.value === filters.fuelType}
@@ -1313,9 +1319,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       className="mx-auto text-center"
                       alt={`${bodyType.title} body type`}
                     />
-                    <h6 style={{fontSize:"14px"}} className="mb-0 text-dark">
+                    <h6 style={{ fontSize: "14px" }} className="mb-0 text-dark">
                       {bodyType.title}
-                      {getCountByTypeAndKey("bodyTypeCounts", bodyType.title) && (
+                      {getCountByTypeAndKey(
+                        "bodyTypeCounts",
+                        bodyType.title
+                      ) && (
                         <Badge
                           ml="xs"
                           color="#706f6f"
@@ -1323,7 +1332,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           fw={600}
                           variant="outline"
                         >
-                          {getCountByTypeAndKey("bodyTypeCounts", bodyType.title)}
+                          {getCountByTypeAndKey(
+                            "bodyTypeCounts",
+                            bodyType.title
+                          )}
                         </Badge>
                       )}
                     </h6>
@@ -1392,8 +1404,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             <Checkbox
                               mb="xs"
                               size="xs"
-                        color="#E90808"
-
+                              color="#E90808"
                               label={city.label}
                               key={city.value}
                               checked={filters.city.includes(city.value)}
@@ -1461,8 +1472,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                         <Checkbox
                           mb="xs"
                           size="xs"
-                        color="#E90808"
-
+                          color="#E90808"
                           label={make.name}
                           key={make.value}
                           checked={decodedFilterMake.includes(
@@ -1530,8 +1540,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           <Checkbox
                             mb="xs"
                             size="xs"
-                        color="#E90808"
-
+                            color="#E90808"
                             label={model.name}
                             key={model.value}
                             checked={decodedFilterModel.includes(
@@ -1545,10 +1554,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               )
                             }
                           />
-                          {getCountByTypeAndKey(
-                            "modelCounts",
-                            model.name
-                          ) && (
+                          {getCountByTypeAndKey("modelCounts", model.name) && (
                             <Badge
                               pos="absolute"
                               right={0}
@@ -1558,10 +1564,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                               fw={600}
                               variant="outline"
                             >
-                              {getCountByTypeAndKey(
-                                "modelCounts",
-                                model.name
-                              )}
+                              {getCountByTypeAndKey("modelCounts", model.name)}
                             </Badge>
                           )}
                         </Box>
@@ -1605,8 +1608,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           <Checkbox
                             mb="xs"
                             size="xs"
-                        color="#E90808"
-
+                            color="#E90808"
                             label={variant}
                             key={index}
                             checked={decodedFilterVariant.includes(
@@ -1822,8 +1824,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
-                        color="#E90808"
-
+                          color="#E90808"
                           size="xs"
                           label={transmission.label}
                           key={transmission.value}
@@ -1835,7 +1836,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             )
                           }
                         />
-                        {getCountByTypeAndKey("transmissionCounts", transmission.value) && (
+                        {getCountByTypeAndKey(
+                          "transmissionCounts",
+                          transmission.value
+                        ) && (
                           <Badge
                             pos="absolute"
                             right={0}
@@ -1845,7 +1849,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             fw={600}
                             variant="outline"
                           >
-                            {getCountByTypeAndKey("transmissionCounts", transmission.value)}
+                            {getCountByTypeAndKey(
+                              "transmissionCounts",
+                              transmission.value
+                            )}
                           </Badge>
                         )}
                       </Box>
@@ -1874,8 +1881,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
-                        color="#E90808"
-
+                          color="#E90808"
                           size="xs"
                           label={drive.label}
                           key={drive.value}
@@ -1922,8 +1928,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
-                        color="#E90808"
-
+                          color="#E90808"
                           size="xs"
                           label={color.label}
                           key={color.value}
@@ -1932,7 +1937,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             handleFilterChange("exteriorColor", color?.value)
                           }
                         />
-                        {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
+                        {getCountByTypeAndKey(
+                          "exteriorColorCounts",
+                          color.label
+                        ) && (
                           <Badge
                             pos="absolute"
                             right={0}
@@ -1942,7 +1950,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                             fw={600}
                             variant="outline"
                           >
-                            {getCountByTypeAndKey("exteriorColorCounts", color.label)}
+                            {getCountByTypeAndKey(
+                              "exteriorColorCounts",
+                              color.label
+                            )}
                           </Badge>
                         )}
                       </Box>
@@ -1970,8 +1981,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                       <Box pos="relative" key={index}>
                         <Checkbox
                           mb="xs"
-                        color="#E90808"
-
+                          color="#E90808"
                           size="xs"
                           label={fuel.label}
                           key={fuel.value}
@@ -2061,7 +2071,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                           />
                           <h6 className="mb-0 text-dark">
                             {bodyType.title}
-                            {getCountByTypeAndKey("bodyTypeCounts", bodyType.title) && (
+                            {getCountByTypeAndKey(
+                              "bodyTypeCounts",
+                              bodyType.title
+                            ) && (
                               <Badge
                                 ml="xs"
                                 color="#706f6f"
@@ -2069,7 +2082,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
                                 fw={600}
                                 variant="outline"
                               >
-                                {getCountByTypeAndKey("bodyTypeCounts", bodyType.title)}
+                                {getCountByTypeAndKey(
+                                  "bodyTypeCounts",
+                                  bodyType.title
+                                )}
                               </Badge>
                             )}
                           </h6>

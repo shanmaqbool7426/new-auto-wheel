@@ -14,6 +14,7 @@ import {
   Title,
   Badge,
   CloseButton,
+  rem,
 } from "@mantine/core";
 import {
   fetchBodiesByType,
@@ -81,7 +82,11 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("mk_")) {
         badges.push(
           <Badge
+            py={rem(12)}
+            px={rem(12)}
             variant="light"
+            fw={500}
+            fz={rem(12)}
             color="#E90808"
             key={`make-${index}`}
             rightSection={
@@ -97,7 +102,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("md_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`model-${index}`}
             rightSection={
               <MdClose
@@ -112,7 +122,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("ct_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`city-${index}`}
             rightSection={
               <MdClose
@@ -127,7 +142,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("bt_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`body-${index}`}
             rightSection={
               <MdClose
@@ -146,7 +166,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("tr_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`transmission-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("transmission", item)} />
@@ -159,7 +184,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("dr_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`drive-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("drive", item)} />
@@ -172,7 +202,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("cl_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`color-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("exteriorColor", item)} />
@@ -185,7 +220,12 @@ const FilterBadges = ({ params, searchParams }) => {
       if (item.startsWith("ft_")) {
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`fuel-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("fuelType", item)} />
@@ -199,7 +239,12 @@ const FilterBadges = ({ params, searchParams }) => {
         const [min, max] = item.replace("pr_", "").split("_");
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`price-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("price", item)} />
@@ -213,7 +258,12 @@ const FilterBadges = ({ params, searchParams }) => {
         const [min, max] = item.replace("yr_", "").split("_");
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`year-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("year", item)} />
@@ -227,7 +277,12 @@ const FilterBadges = ({ params, searchParams }) => {
         const [min, max] = item.replace("ml_", "").split("_");
         badges.push(
           <Badge
-            color="#fddfd6"
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
             key={`mileage-${index}`}
             rightSection={
               <MdClose onClick={() => removeFilter("mileage", item)} />
@@ -305,10 +360,15 @@ export default async function Listing({ params, searchParams }) {
                   bg="#E90808"
                   c="white"
                   tt="uppercase"
-                  p="10 50 10 12"
-                  fw={500}
+                  h={rem(34)}
+                  display="flex"
+                  fw={600}
+                  ps={rem(10)}
+                  pe={rem(40)}
+                  // w={rem(220)}
                   style={{
                     clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
+                    alignItems: "center",
                   }}
                 >
                   Featured Classified

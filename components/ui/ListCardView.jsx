@@ -33,7 +33,6 @@ import { BASE_URL } from "@/constants/api-endpoints";
 import { notifications } from "@mantine/notifications";
 
 const ListCardView = ({ vehicle, userData }) => {
-  console.log('vehicle',vehicle)
   const [activeSlide, setActiveSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [localUserData, setLocalUserData] = useState(userData);
@@ -68,7 +67,6 @@ const ListCardView = ({ vehicle, userData }) => {
   const handleMouseLeave = () => {
     setActiveSlide(0);
   };
-  
 
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
@@ -80,7 +78,7 @@ const ListCardView = ({ vehicle, userData }) => {
         message: "Please login first to add vehicles to favorites",
         color: "red",
       });
-      router.push('/login');
+      router.push("/login");
       return;
     }
 
@@ -102,12 +100,12 @@ const ListCardView = ({ vehicle, userData }) => {
       if (data.success) {
         const updatedUserData = {
           ...localUserData,
-          favoriteVehicles: data.data.favoriteVehicles
+          favoriteVehicles: data.data.favoriteVehicles,
         };
-        localStorage.setItem('user', JSON.stringify(updatedUserData));
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
         setLocalUserData(updatedUserData);
         setIsFavorite(data.data.favoriteVehicles.includes(vehicle._id));
-        
+
         notifications.show({
           title: "Success",
           message: data.message,
@@ -140,7 +138,10 @@ const ListCardView = ({ vehicle, userData }) => {
       style={{ zIndex: 201 }}
     >
       {isFavorite ? (
-        <IconStarFilled size={20} style={{ color: "#E90808", fill: "#E90808" }} />
+        <IconStarFilled
+          size={20}
+          style={{ color: "#E90808", fill: "#E90808" }}
+        />
       ) : (
         <IconStar size={20} style={{ color: "#fff" }} />
       )}
@@ -148,16 +149,24 @@ const ListCardView = ({ vehicle, userData }) => {
   );
 
   return (
-    <Card radius={0} mb="lg" pb="lg" padding={0} style={{ borderBottom: `2px solid ${vehicle?.isFeatured ?"#E90808" : "#ddd"} ` }}>
+    <Card
+      radius={0}
+      mb="lg"
+      pb="lg"
+      padding={0}
+      style={{
+        borderBottom: `2px solid ${vehicle?.isFeatured ? "#E90808" : "#ddd"} `,
+      }}
+    >
       <Grid gutter={0} align="center">
         <Grid.Col span={4}>
-          <Card.Section pos="relative" style={{ overflow: "hidden" }}>
+          <Card.Section pos="relative">
             <Group
               c="white"
               gap={5}
               pos="absolute"
               right={15}
-              style={{ zIndex: "201", justifyContent: "space-between" }}
+              style={{ zIndex: "10", justifyContent: "space-between" }}
               left={15}
               top={15}
             >
@@ -169,33 +178,43 @@ const ListCardView = ({ vehicle, userData }) => {
               </Box>
               {vehicle?.isFeatured && (
                 <Text
-                  style={{ borderRadius: "5px" }}
                   span
                   fw={400}
                   size="12px"
                   bg="black"
                   c="white"
                   p={5}
+                  style={{ borderRadius: rem(5) }}
                 >
                   Featured
                 </Text>
               )}
             </Group>
-            
-            <div
+
+            <Box
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              style={{ cursor: "pointer", position: "relative" }}
+              style={{
+                cursor: "pointer",
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: rem(5),
+              }}
             >
               <Image
-                radius="sm"
-                h={190}
+                radius={rem(5)}
+                h={160}
                 fit="cover"
-                src={images[activeSlide] || vehicle?.defaultImage || "/products/product-placeholder.png"}
+                className="overflow-hidden"
+                src={
+                  images[activeSlide] ||
+                  vehicle?.defaultImage ||
+                  "/products/product-placeholder.png"
+                }
               />
-              <Overlay color="#000" backgroundOpacity={0.3} />
-            </div>
-            
+              <Overlay opacity={0.3} bg="#333" zIndex={1} />
+            </Box>
+
             <Group grow my={3} gap={5}>
               {images.map((_, index) => (
                 <Progress
@@ -207,7 +226,7 @@ const ListCardView = ({ vehicle, userData }) => {
                 />
               ))}
             </Group>
-            
+
             <FavoriteButton />
           </Card.Section>
         </Grid.Col>
@@ -225,7 +244,7 @@ const ListCardView = ({ vehicle, userData }) => {
                   {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
                 </Anchor>
               </Title>
-              <Text mb="xs" size="sm" c="dimmed">
+              <Text size="sm" c="dimmed">
                 {getTimeAgo(vehicle?.createdAt)}
               </Text>
             </Box>
