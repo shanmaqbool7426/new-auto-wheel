@@ -1,6 +1,6 @@
 export const fetchFooterLinks = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/footer`);
+    const response = await fetch(`https://auto-wheel-be.vercel.app/api/footer`);
     const data = await response.json();
     return data;
   } catch (error) {
