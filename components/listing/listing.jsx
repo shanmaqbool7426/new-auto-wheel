@@ -136,7 +136,7 @@ export default async function Listing({ params, searchParams }) {
             visible={true}
             zIndex={1000}
             overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ color: "red", type: "bars" }}
+            loaderProps={{ color: "red", type: "" }}
           />
         )}
         <div className="container-xl">
@@ -165,8 +165,8 @@ export default async function Listing({ params, searchParams }) {
                   bg="#E90808"
                   c="white"
                   tt="uppercase"
-                  p="10 50 10 12"
-                  fw={500}
+                  p="6 50 6 12"
+                  fw={400}
                   style={{
                     clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
                   }}
