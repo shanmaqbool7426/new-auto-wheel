@@ -3,7 +3,7 @@ import { Title, Accordion, Text, TextInput } from "@mantine/core";
 import { IconSearch } from '@tabler/icons-react';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import {BASE_URL} from "@/constants/api-endpoints";
 const FAQ = ({ title, titleSpan, type = "car" }) => {
   const [faqs, setFaqs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -12,7 +12,7 @@ const FAQ = ({ title, titleSpan, type = "car" }) => {
   const fetchFaqs = async (search = '') => {
     setLoading(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/faq`, {
+      const response = await axios.get(`${BASE_URL}/faq`, {
         params: {
           type,
           limit: 10,

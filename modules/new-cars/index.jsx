@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { usePathname } from 'next/navigation';
 import {
   Anchor,
   Box,
@@ -56,6 +57,7 @@ const NewCarsModule = ({
   type,
   fetchNewlyLaunchedVehicles,
 }) => {
+  const pathname = usePathname();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -147,8 +149,8 @@ const NewCarsModule = ({
     fetchReviews();
   }, [filter]);
 
-  // Add isNew check based on URL
-  const isNew = window.location.pathname.includes('/new/');
+  // Replace router.pathname check with pathname
+  const isNew = pathname?.includes('/new/');
 
   return (
     <>
