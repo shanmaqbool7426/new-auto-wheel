@@ -216,11 +216,11 @@ const CarCard = ({ vehicle, userData }) => {
         <Anchor
           component={NextLink}
           href={`/detail/${vehicle?.slug}`}
-          style={{ 
-            display: 'block',
-            position: 'relative',
-            cursor: 'pointer',
-            textDecoration: 'none'
+          style={{
+            display: "block",
+            position: "relative",
+            cursor: "pointer",
+            textDecoration: "none",
           }}
           onClick={(e) => {
             // Prevent the card's onClick from firing
@@ -249,7 +249,7 @@ const CarCard = ({ vehicle, userData }) => {
             />
           )}
           <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} />
-        </div>
+        </Anchor>
 
         {/* Progress bar with hover functionality */}
         <Group grow gap={2} my={2}>

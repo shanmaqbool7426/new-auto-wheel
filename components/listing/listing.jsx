@@ -62,6 +62,7 @@ const FilterBadges = ({ params, searchParams }) => {
 
   const renderBadges = () => {
     return slug
+
       .map((item, index) => {
         const prefix = Object.keys(filterConfigs).find((key) =>
           item.startsWith(key)
@@ -115,7 +116,7 @@ const FilterBadges = ({ params, searchParams }) => {
       gap="xs"
       mb="md"
       justify="flex-start"
-      pb={"1rem"}
+      pb="1rem"
       style={{ borderBottom: "1px solid #CCCCCC" }}
     >
       {renderBadges()}
@@ -166,7 +167,10 @@ export default async function Listing({ params, searchParams }) {
             <div className="col-lg-9">
               {/* Toolbox */}
               <ListingHeader type={params.slug[0]} />
+
+              {/* Product Badges */}
               <FilterBadges params={params} searchParams={searchParams} />
+
               {/* Product Listing Section */}
               <Group
                 className="title-section"
@@ -193,6 +197,7 @@ export default async function Listing({ params, searchParams }) {
                   Featured Classified
                 </Title>
               </Group>
+
               {/* Product View List */}
               <div className="row">
                 {dataofVehcles?.data?.results?.map((vehicle, index) => (
