@@ -23,14 +23,25 @@ import {
   Title,
   ActionIcon,
   Overlay,
+  Menu,
 } from "@mantine/core";
 import { FaRoad } from "react-icons/fa6";
 import { BsCameraFill, BsFuelPumpFill, BsStar } from "react-icons/bs";
 
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { IconStar, IconStarFilled, IconCopy } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { notifications } from "@mantine/notifications";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  EmailIcon,
+} from "react-share";
 
 const ListCardView = ({ vehicle, userData }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -125,6 +136,17 @@ const ListCardView = ({ vehicle, userData }) => {
     }
   };
 
+  const handleCopyLink = () => {
+    const url = `${typeof window !== "undefined" ? window.location.origin : ""}/detail/${vehicle?.slug}`;
+    navigator.clipboard.writeText(url).then(() => {
+      notifications.show({
+        title: 'Success',
+        message: 'Link copied to clipboard',
+        color: 'green',
+      });
+    });
+  };
+
   const FavoriteButton = () => (
     <ActionIcon
       className="favorite-button"
@@ -148,16 +170,82 @@ const ListCardView = ({ vehicle, userData }) => {
     </ActionIcon>
   );
 
+  const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/detail/${vehicle?.slug}`;
+  const shareTitle = `Check out this ${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`;
+  const shareMessage = `${shareTitle} on AutoWheel`;
+
+  const ShareMenu = () => (
+    <Menu shadow="md" width={200}>
+      <Menu.Target>
+        <Button
+          size="sm"
+          radius="md"
+          variant="outline"
+          color="#CCCCCC"
+          fw={400}
+          leftSection={
+            <Box c="dark">
+              <ShareIcon />
+            </Box>
+          }
+        >
+          Share this
+        </Button>
+      </Menu.Target>
+
+      <Menu.Dropdown>
+        <Menu.Label>Share via</Menu.Label>
+
+        <Menu.Item
+          onClick={handleCopyLink}
+          leftSection={<IconCopy size={24} style={{ color: '#666' }} />}
+        >
+          <Text size="sm">Copy Link</Text>
+        </Menu.Item>
+
+        <Menu.Divider />
+
+        <Menu.Item>
+          <FacebookShareButton url={shareUrl} quote={shareMessage} style={{ width: "100%" }}>
+            <Group>
+              <FacebookIcon size={24} round />
+              <Text size="sm">Facebook</Text>
+            </Group>
+          </FacebookShareButton>
+        </Menu.Item>
+
+        <Menu.Item>
+          <TwitterShareButton url={shareUrl} title={shareMessage} style={{ width: "100%" }}>
+            <Group>
+              <TwitterIcon size={24} round />
+              <Text size="sm">Twitter</Text>
+            </Group>
+          </TwitterShareButton>
+        </Menu.Item>
+
+        <Menu.Item>
+          <WhatsappShareButton url={shareUrl} title={shareMessage} style={{ width: "100%" }}>
+            <Group>
+              <WhatsappIcon size={24} round />
+              <Text size="sm">WhatsApp</Text>
+            </Group>
+          </WhatsappShareButton>
+        </Menu.Item>
+
+        <Menu.Item>
+          <EmailShareButton url={shareUrl} subject={shareTitle} body={shareMessage} style={{ width: "100%" }}>
+            <Group>
+              <EmailIcon size={24} round />
+              <Text size="sm">Email</Text>
+            </Group>
+          </EmailShareButton>
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
+  );
+
   return (
-    <Card
-      radius={0}
-      mb="lg"
-      pb="lg"
-      padding={0}
-      style={{
-        borderBottom: `2px solid ${vehicle?.isFeatured ? "#E90808" : "#ddd"} `,
-      }}
-    >
+    <Card radius={0} mb="lg" pb="lg" padding={0} style={{ borderBottom: `2px solid ${vehicle?.isFeatured ? "#E90808" : "#ddd"}` }}>
       <Grid gutter={0} align="center">
         <Grid.Col span={4}>
           <Card.Section pos="relative">
@@ -298,7 +386,7 @@ const ListCardView = ({ vehicle, userData }) => {
               <Text size="xs" c="dimmed" fw={500}>
                 STOCK#{" "}
                 <Text span size="xs" c="dark" fw={500}>
-                  {vehicle?.specifications?.stockId?.slice(0, 4)}
+                  {vehicle?._id?.slice(0, 4)}
                 </Text>
               </Text>
             </Button>
@@ -316,20 +404,7 @@ const ListCardView = ({ vehicle, userData }) => {
             >
               Add to compare
             </Button>
-            <Button
-              size="sm"
-              radius="md"
-              variant="outline"
-              color="#CCCCCC"
-              fw={400}
-              leftSection={
-                <Box c="dark">
-                  <ShareIcon />
-                </Box>
-              }
-            >
-              Share this
-            </Button>
+            <ShareMenu />
           </Group>
         </Grid.Col>
       </Grid>

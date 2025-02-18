@@ -151,7 +151,7 @@ export default async function Listing({ params, searchParams }) {
             visible={true}
             zIndex={1000}
             overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ color: "red", type: "bars" }}
+            loaderProps={{ color: "red", type: "" }}
           />
         )}
         <div className="container-xl">

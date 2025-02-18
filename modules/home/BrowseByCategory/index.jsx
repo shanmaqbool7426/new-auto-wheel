@@ -22,13 +22,13 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
   const getMakeUrl = (make) => {
     return isNew 
       ? `/new/${type}/make/${make}`  // Format: /new/car/make/Honda
-      : `/listing/cars/search/-/mk_${make}`; // Regular format
+      : `/listing/cars/search/-/mk_${make}?view=list`; // Regular format
   };
 
   const getBodyUrl = (bodyType) => {
     return isNew
       ? `/new/${type}/body/${bodyType.toLowerCase()}`  // Format: /new/car/body/suv
-      : `/listing/cars/search/-/bt_${bodyType.toLowerCase()}`; // Regular format
+      : `/listing/cars/search/-/bt_${bodyType.toLowerCase()}?view=list`; // Regular format
   };
 
   // Updated carousel configuration
