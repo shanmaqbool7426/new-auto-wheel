@@ -163,3 +163,56 @@ export const getAllReviews = async (filterType = "all") => {
     };
   }
 };
+
+export const fetchVehicleDrives = async (type) => {
+  try {
+    const drives = await fetchAPI(API_ENDPOINTS.DRIVE.GET(type));
+    return drives;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      drives: [],
+    };
+  }
+};
+
+export const fetchVehicleTransmissions = async (type) => {
+  try {
+    const transmissions = await fetchAPI(API_ENDPOINTS.TRANSMISSION.GET(type));
+    return transmissions;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      transmissions: [],
+    };
+  }
+};
+
+export const fetchVehicleFuelTypes = async (type) => {
+  try {
+    const fuelTypes = await fetchAPI(API_ENDPOINTS.FUEL_TYPE.GET(type));
+    return fuelTypes;
+  } catch (error) { 
+    console.error("Error fetching dashboard data:", error);
+    return {
+      fuelTypes: [],
+    };
+  }
+};
+
+export const fetchVehicleColors = async (type) => {
+  try {
+    const colors = await fetchAPI(API_ENDPOINTS.COLOR.GET(type));
+    return colors;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      colors: [],
+    };
+  }
+};
+
+
+
+
+
