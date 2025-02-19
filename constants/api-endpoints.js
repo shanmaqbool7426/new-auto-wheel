@@ -42,6 +42,10 @@ const REVIEW_BASE = `${BASE_URL}/api/reviews`;
 const VIDEO_BASE = `${BASE_URL}/api/video`;
 const USER_REVIEWS_BASE = `${BASE_URL}/api/user-reviews`;
 const NEAR_BY_LOCATION_BASE = `${BASE_URL}/api/near-by-location`;
+const DRIVE_BASE = `${BASE_URL}/api/drive`;
+const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
+const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
+const COLOR_BASE = `${BASE_URL}/api/color`;
 export const API_ENDPOINTS = {
   AUTH: {
     SIGNUP: `${BASE_URL}/api/user/register`,
@@ -192,6 +196,18 @@ export const API_ENDPOINTS = {
   },
   NEAR_BY_LOCATION: {
     GET: `${NEAR_BY_LOCATION_BASE}/active`,
+  },
+  DRIVE: {
+    GET: (type) => `${DRIVE_BASE}/type?type=${type}`,
+  },
+  TRANSMISSION: {
+    GET: (type) => `${TRANSMISSION_BASE}/type?type=${type}`,
+  },
+  FUEL_TYPE: {
+    GET: (type) => `${FUEL_TYPE_BASE}/type?type=${type}`,
+  },
+  COLOR: {
+    GET: (type) => `${COLOR_BASE}/type?type=${type}`,
   },
 
   // Image Upload Endpoint

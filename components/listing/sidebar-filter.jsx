@@ -32,15 +32,11 @@ import {
   cities,
   getVehiclePartsIconByVehicleType,
   vehicleConditionOptions,
-  vehicleDriveOptions,
-  vehicleExteriorColorOptions,
-  vehicleFuelTypeOptions,
-  vehicleTransmissionOptions,
 } from "@/constants/vehicle-constants";
 import Image from "next/image";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAdjustments, IconSettings } from "@tabler/icons-react";
-const ListingFilter = ({ type, makes, bodies, vehicles }) => {
+const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, fuelTypes, colors }) => {
   const searchParams = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
   const [search, setSearch] = useState({
@@ -313,6 +309,24 @@ const ListingFilter = ({ type, makes, bodies, vehicles }) => {
   const filteredmakes = makes?.data?.filter((make) =>
     make.name.toLowerCase().includes(search.make.toLowerCase())
   );
+  const DataTransform = (data,prefix) => {
+    if(prefix === "cl"){
+      return data?.map((item) => ({
+        value: `cl_${encodeURIComponent(item?.title).toLowerCase()}`,
+        label: item?.title,
+        color: item?.color,
+      }));
+    }else{
+      return data?.map((item) => ({
+        value: `${prefix}_${encodeURIComponent(item?.title).toLowerCase()}`,
+        label: item?.title,
+      }));
+    }
+  };
+  const vehicleExteriorColorOptions = DataTransform(colors?.data,"cl");
+  const vehicleDriveOptions = DataTransform(drives?.data,"dr");
+  const vehicleTransmissionOptions = DataTransform(transmissions?.data,"tr");
+  const vehicleFuelTypeOptions = DataTransform(fuelTypes?.data,"ft");
   return (
     <Fragment>
       <ActionIcon

@@ -20,6 +20,10 @@ import {
   fetchBodiesByType,
   fetchMakesByType,
   fetchVehiclsData,
+  fetchVehicleDrives,
+  fetchVehicleTransmissions,
+  fetchVehicleFuelTypes,
+  fetchVehicleColors,
 } from "@/services/vehicles";
 import { getLocalStorage, reorderSlug } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -141,6 +145,10 @@ export default async function Listing({ params, searchParams }) {
   const dataofVehcles = await fetchVehiclsData(reorderedSlug);
   const vehicleMakes = await fetchMakesByType(typeMapping[params.slug[0]]);
   const vehicleBodies = await fetchBodiesByType(typeMapping[params.slug[0]]);
+  const vehicleDrives = await fetchVehicleDrives(typeMapping[params.slug[0]]);
+  const vehicleTransmissions = await fetchVehicleTransmissions(typeMapping[params.slug[0]]);
+  const vehicleFuelTypes = await fetchVehicleFuelTypes(typeMapping[params.slug[0]]);
+  const vehicleColors = await fetchVehicleColors(typeMapping[params.slug[0]]);
 
   loading = false;
   return (
@@ -162,6 +170,10 @@ export default async function Listing({ params, searchParams }) {
                 makes={vehicleMakes}
                 bodies={vehicleBodies}
                 vehicles={dataofVehcles?.data}
+                drives={vehicleDrives}
+                transmissions={vehicleTransmissions}
+                fuelTypes={vehicleFuelTypes}
+                colors={vehicleColors}
               />
             </div>
             <div className="col-lg-9">
