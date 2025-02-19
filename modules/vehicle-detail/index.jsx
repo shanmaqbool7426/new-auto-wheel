@@ -75,7 +75,8 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
       reviewCount: detail?.data?.seller?.reviewCount || 0,
       location:
         detail?.data?.seller?.locationAddress || "Location not available",
-      salesHours: detail?.data?.seller?.salesHours,
+      salesHours: detail?.data?.seller?.workingHours,
+      workingHours: detail?.data?.seller?.workingHours || {},
     }),
     [detail?.data?.seller]
   );
@@ -85,6 +86,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     () => ({
       title: `${detail?.data?.year} ${detail?.data?.make} ${detail?.data?.model}`,
       engine: detail?.data?.specifications?.engine,
+      isFeatured: detail?.data?.isFeatured,
       price: formatPrice(detail?.data?.price),
       updatedAt: getTimeAgo(detail?.data?.updatedAt),
       features: detail?.data?.features || [],
@@ -155,6 +157,8 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     [detail?.data]
   );
 
+  console.log("Detail Data:", detail);
+
   // Memoized service cards
   const serviceCards = useMemo(
     () => [
@@ -210,8 +214,36 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
         </Text>
         <Box className="row mt-3 mb-4">
           <Box className="col">
-            <Card padding={rem(8)} radius="sm" withBorder>
-              <Image src={sellerInfo.image} alt={sellerInfo.dealerName} />
+            <Card 
+              padding={rem(8)} 
+              radius="sm" 
+              withBorder
+              style={{ 
+                width: '150px', 
+                height: '70.7px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Link 
+                href={`/dealer-profile/${detail?.data?.seller?._id}`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Image 
+                  src={sellerInfo.image} 
+                  alt={sellerInfo.dealerName}
+                  width={150}
+                  height={70.7}
+                  fit="contain"
+                />
+              </Link>
             </Card>
           </Box>
           <Box className="col">
@@ -225,7 +257,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
         </Box>
       </Box>
     ),
-    [sellerInfo]
+    [sellerInfo, detail?.data?.seller?._id]
   );
 
   const SimilarVehicleCard = ({ vehicle }) => (
@@ -280,6 +312,44 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
       </Box>
     </Box>
   );
+
+  const WorkingHours = ({ hours }) => {
+    const [expanded, setExpanded] = React.useState(false);
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    
+    const openDays = days.filter(day => hours[day]?.isOpen);
+    const displayDays = expanded ? openDays : openDays.slice(0, 1);
+    
+    if (openDays.length === 0) return null;
+    
+    return (
+      <Box className="working-hours">
+        {displayDays.map(day => (
+          <Group key={day} justify="space-between" mb={4} pl={5}>
+            <Text size="xs" tt="capitalize" w={100}>
+              {day}:
+            </Text>
+            <Text size="xs">
+              {hours[day].start} - {hours[day].end}
+            </Text>
+          </Group>
+        ))}
+        {openDays.length > 1 && (
+          <Group justify="flex-end" mt={8}>
+            <Text
+              size="xs"
+              c="#E90808"
+              td="underline"
+              style={{ cursor: 'pointer' }}
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? 'Show less' : `See ${openDays.length - 1} more`}
+            </Text>
+          </Group>
+        )}
+      </Box>
+    );
+  };
 
   return (
     <>
@@ -361,7 +431,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                         <MeterSquareIcon />
                       </li>
                     </ul>
-                    <Group gap={0} className="text-primary">
+                    {vehicleInfo?.isFeatured && <Group gap={0} className="text-primary">
                       <FeaturedCrownIcon />
                       <Text
                         span
@@ -373,7 +443,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                       >
                         featured listing
                       </Text>
-                    </Group>
+                    </Group>}
                   </Box>
                 </Box>
               </Box>
@@ -486,47 +556,23 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                   radius={rem(5)}
                   shadow="0px 4px 20px 0px #00000014"
                   display="flex"
-                  className="flex-row align-items-center"
+                  className="flex-column"
                 >
-                  <ThemeIcon color="#E90808" variant="white">
-                    <LocationPinIcon />
-                  </ThemeIcon>
-                  <Box className="text-muted address-info">
+                  <Group mb="xs">
+                    <ThemeIcon color="#E90808" variant="white">
+                      <LocationPinIcon />
+                    </ThemeIcon>
                     <Text ff="heading" size={rem(14)}>
                       {sellerInfo.location}
                     </Text>
-                    <Text ff="heading" size={rem(14)} c="dimmed">
-                      {sellerInfo.salesHours && (
-                        <ul className="list-unstyled mb-0 mt-2">
-                          <li>
-                            Sales Hours:
-                            <span className="ms-3">
-                              {sellerInfo.salesHours}
-                            </span>
-                          </li>
-                        </ul>
+                  </Group>
+                      {Object.keys(sellerInfo.workingHours).length > 0 && (
+                        <>
+                          <Text fw={500} pl={5} size={rem(14)} mb="xs">Working Hours:</Text>
+                          <WorkingHours hours={sellerInfo.workingHours} />
+                        </>
                       )}
-                    </Text>
-                  </Box>
                 </Card>
-                {/* <Box className="card address-card mb-3">
-                  <Box className="card-body gap-2 align-items-center text-primary">
-                    <LocationPinIcon />
-                    <Box className="text-muted address-info">
-                      {sellerInfo.location}
-                      {sellerInfo.salesHours && (
-                        <ul className="list-unstyled mb-0 text-muted mt-2">
-                          <li>
-                            Sales Hours:
-                            <span className="ms-3">
-                              {sellerInfo.salesHours}
-                            </span>
-                          </li>
-                        </ul>
-                      )}
-                    </Box>
-                  </Box>
-                </Box> */}
               </Box>
               <ReportAdd />
             </Box>
