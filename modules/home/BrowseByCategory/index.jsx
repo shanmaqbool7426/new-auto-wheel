@@ -17,15 +17,31 @@ import Link from "next/link";
 import React from "react";
 import styles from './BrowseByCategory.module.css'
 
-const BrowseByCategory = ({ makes, bodies }) => {
+const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
+  // Helper function to generate the correct URL
+  const getMakeUrl = (make) => {
+    return isNew 
+      ? `/new/${type}/make/${make}`  // Format: /new/car/make/Honda
+      : `/listing/cars/search/-/mk_${make}?view=list`; // Regular format
+  };
+
+  const getBodyUrl = (bodyType) => {
+    return isNew
+      ? `/new/${type}/body/${bodyType.toLowerCase()}`  // Format: /new/car/body/suv
+      : `/listing/cars/search/-/bt_${bodyType.toLowerCase()}?view=list`; // Regular format
+  };
+
   // Updated carousel configuration
   const carouselProps = {
     slideSize: '25%',
     slideGap: 'md',
     align: 'start',
-    slidesToScroll: 2, // Changed to scroll 2 items at a time
+    slidesToScroll: 3,
     withControls: true,
     withIndicators: true,
+    loop: true, // Enable infinite loop
+    dragFree: true, // Enables free-form dragging
+    speed: 0.5, // Smooth transition speed
     breakpoints: [
       { maxWidth: 'md', slideSize: '50%', slidesToScroll: 2 },
       { maxWidth: 'sm', slideSize: '100%', slidesToScroll: 1 },
@@ -38,7 +54,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
     },
   };
 
-  // Helper function to chunk array into groups of 2 (for 2 items per slide)
+  // Helper function to chunk array
   const chunkArray = (array, size) => {
     if (!array) return [];
     const chunks = [];
@@ -48,12 +64,17 @@ const BrowseByCategory = ({ makes, bodies }) => {
     return chunks;
   };
 
+  // Helper function to repeat array for infinite scroll effect
+  const repeatArray = (array, count) => {
+    if (!array || array.length === 0) return [];
+    return Array(count).fill([...array]).flat();
+  };
 
   return (
     <Box className="browse-cats-section bg-light" pt="55px" pb="55px">
-      {/* /*25px*/}
       <Box className="container-xl">
         <Box className="row">
+          {/* Makes Section */}
           <Box className="col-lg-6">
             <Flex justify="space-between" align="center" mb="10px">
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
@@ -62,22 +83,22 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Make
                 </Text>
               </Title>
-
-              {/* <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
-                Show all Makes
-              </Anchor> */}
             </Flex>
-
             <Box className="cat-by-brand">
               <Carousel {...carouselProps}>
                 {makes?.data && makes.data.length > 0 ? (
-                  chunkArray(makes.data, 2).map((group, groupIndex) => (
+                  // Repeat the makes array 3 times for smooth infinite scroll
+                  chunkArray(repeatArray(makes.data, 3), 2).map((group, groupIndex) => (
                     <Carousel.Slide key={groupIndex}>
                       <Flex direction="column" gap="md">
                         {group.map((item, index) => (
-                          <Box key={index} className="text-center" py="15px">
+                          <Box 
+                            key={`${groupIndex}-${index}`} 
+                            className="text-center" 
+                            py="15px"
+                          >
                             <Anchor
-                              href={`/listing/cars/search/-/mk_${item.name}`}
+                              href={getMakeUrl(item.name)}
                               td="none"
                               className={styles.browseItem}
                             >
@@ -103,6 +124,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
             </Box>
           </Box>
 
+          {/* Bodies Section */}
           <Box className="col-lg-6 ps-5">
             <Flex justify="space-between" align="center" mb="10px">
               <Title order={2} lts={-0.5} className={styles.browseByHeading}>
@@ -111,21 +133,20 @@ const BrowseByCategory = ({ makes, bodies }) => {
                   Body
                 </Text>
               </Title>
-
-              {/* <Anchor component={Link} href="#" c="#E90808" size="xs" lts={-0.4}>
-                Show all Bodies
-              </Anchor> */}
             </Flex>
-
             <Box className="cat-by-brand cat-by-body">
               <Carousel {...carouselProps}>
-                {bodies?.data && chunkArray(bodies.data, 2).map((group, groupIndex) => (
+                {bodies?.data && chunkArray(repeatArray(bodies.data, 3), 2).map((group, groupIndex) => (
                   <Carousel.Slide key={groupIndex}>
                     <Flex direction="column" gap="md">
                       {group.map((body, index) => (
-                        <Box key={index} className="text-center" py="15px">
+                        <Box 
+                          key={`${groupIndex}-${index}`} 
+                          className="text-center" 
+                          py="15px"
+                        >
                           <Anchor
-                            href={`/listing/cars/search/-/bt_${body?.title?.toLowerCase()}`}
+                            href={getBodyUrl(body.title)}
                             td="none"
                             className={styles.browseItem}
                           >
@@ -134,6 +155,7 @@ const BrowseByCategory = ({ makes, bodies }) => {
                               height={50}
                               mx="auto"
                               src={body.bodyImage}
+                              alt={body.title}
                             />
                             <Title order={6} lts={-0.4} mt="sm" fw={400}>
                               {body.title}

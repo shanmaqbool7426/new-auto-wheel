@@ -15,6 +15,7 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import ViewLoanBreakup from "@/components/ui/ViewLoanBreakup";
+import { formatPrice } from "@/utils";
 
 function EMICalculator({ data }) {
   const [loanAmount, setLoanAmount] = useState(100000); // Setting a default loan amount for example
@@ -29,7 +30,6 @@ function EMICalculator({ data }) {
   const [yearWiseEMI, setYearWiseEMI] = useState([]);
 
   // Utility function to format price
-  const formatPrice = (price) => price.toLocaleString("en-IN");
 
   // EMI calculation function
   const calculateEMI = () => {
@@ -230,7 +230,7 @@ function EMICalculator({ data }) {
                     <Box className="left-area">
                       <Text size={rem(14)}>Your Monthly EMI</Text>
                       <Text fz={rem(20)} fw={600} order={2}>
-                        Rs {formatPrice(emi.toFixed(2))}
+                        Rs {formatPrice(emi)}
                       </Text>
                     </Box>
                     <Box className="right">

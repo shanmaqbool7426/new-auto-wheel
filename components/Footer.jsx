@@ -3,6 +3,7 @@ import { Container, Input, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { BASE_URL } from "@/constants/api-endpoints";
 
 const footerSections = [
   { value: 'by-make', label: 'By Make' },
@@ -41,7 +42,7 @@ const Footer = () => {
   useEffect(() => {
     const getFooterData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/footer");
+        const res = await fetch(`${BASE_URL}/api/footer`);
         const data = await res.json();
 
         // Organize data by sections

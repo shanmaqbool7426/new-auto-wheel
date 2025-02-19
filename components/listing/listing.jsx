@@ -14,6 +14,7 @@ import {
   Title,
   Badge,
   CloseButton,
+  rem,
 } from "@mantine/core";
 import {
   fetchBodiesByType,
@@ -32,23 +33,23 @@ const FilterBadges = ({ params, searchParams }) => {
   const slug = params.slug;
 
   const filterConfigs = {
-    mk_: { type: 'make', label: 'make' },
-    md_: { type: 'model', label: 'model' },
-    ct_: { type: 'city', label: 'city' },
-    bt_: { type: 'bodyType', label: 'bodyType' },
-    tr_: { type: 'transmission', label: 'transmission' },
-    dr_: { type: 'drive', label: 'drive' },
-    cl_: { type: 'exteriorColor', label: 'exteriorColor' },
-    ft_: { type: 'fuelType', label: 'fuelType' },
-    pr_: { type: 'price', label: 'price', isRange: true },
-    yr_: { type: 'year', label: 'year', isRange: true },
-    ml_: { type: 'mileage', label: 'mileage', isRange: true }
+    mk_: { type: "make", label: "make" },
+    md_: { type: "model", label: "model" },
+    ct_: { type: "city", label: "city" },
+    bt_: { type: "bodyType", label: "bodyType" },
+    tr_: { type: "transmission", label: "transmission" },
+    dr_: { type: "drive", label: "drive" },
+    cl_: { type: "exteriorColor", label: "exteriorColor" },
+    ft_: { type: "fuelType", label: "fuelType" },
+    pr_: { type: "price", label: "price", isRange: true },
+    yr_: { type: "year", label: "year", isRange: true },
+    ml_: { type: "mileage", label: "mileage", isRange: true },
   };
 
   const removeFilter = (fullValue) => {
     const baseSlug = slug.slice(0, 3);
-    
-    const filteredSlug = slug.slice(3).filter(item => item !== fullValue);
+
+    const filteredSlug = slug.slice(3).filter((item) => item !== fullValue);
 
     const newSlug = [...baseSlug, ...filteredSlug];
 
@@ -63,51 +64,65 @@ const FilterBadges = ({ params, searchParams }) => {
     router.push(newPath);
   };
 
-
   const renderBadges = () => {
-    return slug.map((item, index) => {
-      const prefix = Object.keys(filterConfigs).find(key => item.startsWith(key));
-      if (!prefix) return null;
+    return slug
 
-      const config = filterConfigs[prefix];
-      const value = item.replace(prefix, '');
-      const displayValue = config.isRange
-        ? value.split('_').join(' - ')
-        : value;
+      .map((item, index) => {
+        const prefix = Object.keys(filterConfigs).find((key) =>
+          item.startsWith(key)
+        );
+        if (!prefix) return null;
 
-      return (
-        <Badge
-          variant="light"
-          color="#E90808"
-          key={`${config.type}-${index}`}
-          rightSection={
-            <MdClose
-              onClick={() => removeFilter(item)}
-              style={{
-                cursor: 'pointer',
-                transition: 'opacity 0.2s',
-                ':hover': {
-                  opacity: 0.7
-                }
-              }}
-            />
-          }
-          styles={{
-            rightSection: {
-              '&:hover': {
-                opacity: 0.7
-              }
+        const config = filterConfigs[prefix];
+        const value = item.replace(prefix, "");
+        const displayValue = config.isRange
+          ? value.split("_").join(" - ")
+          : value;
+
+        return (
+          <Badge
+            py={rem(12)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
+            key={`${config.type}-${index}`}
+            rightSection={
+              <MdClose
+                onClick={() => removeFilter(item)}
+                style={{
+                  cursor: "pointer",
+                  transition: "opacity 0.2s",
+                  ":hover": {
+                    opacity: 0.7,
+                  },
+                }}
+              />
             }
-          }}
-        >
-          {displayValue}
-        </Badge>
-      );
-    }).filter(Boolean);
+            styles={{
+              rightSection: {
+                "&:hover": {
+                  opacity: 0.7,
+                },
+              },
+            }}
+          >
+            {displayValue}
+          </Badge>
+        );
+      })
+      .filter(Boolean);
   };
 
   return (
-    <Group gap="xs" mb="md" justify="flex-start" pb={"1rem"} style={{ borderBottom: '1px solid #CCCCCC' }}>
+    <Group
+      gap="xs"
+      mb="md"
+      justify="flex-start"
+      pb="1rem"
+      style={{ borderBottom: "1px solid #CCCCCC" }}
+    >
       {renderBadges()}
     </Group>
   );
@@ -144,7 +159,7 @@ export default async function Listing({ params, searchParams }) {
             visible={true}
             zIndex={1000}
             overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ color: "red", type: "bars" }}
+            loaderProps={{ color: "red", type: "" }}
           />
         )}
         <div className="container-xl">
@@ -163,8 +178,11 @@ export default async function Listing({ params, searchParams }) {
             </div>
             <div className="col-lg-9">
               {/* Toolbox */}
-              <ListingHeader type={params.slug[0]} />              
-            <FilterBadges params={params} searchParams={searchParams} />
+              <ListingHeader type={params.slug[0]} />
+
+              {/* Product Badges */}
+              <FilterBadges params={params} searchParams={searchParams} />
+
               {/* Product Listing Section */}
               <Group
                 className="title-section"
@@ -177,15 +195,21 @@ export default async function Listing({ params, searchParams }) {
                   bg="#E90808"
                   c="white"
                   tt="uppercase"
-                  p="10 50 10 12"
-                  fw={500}
+                  h={rem(34)}
+                  display="flex"
+                  fw={600}
+                  ps={rem(10)}
+                  pe={rem(40)}
+                  // w={rem(220)}
                   style={{
                     clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
+                    alignItems: "center",
                   }}
                 >
                   Featured Classified
                 </Title>
               </Group>
+
               {/* Product View List */}
               <div className="row">
                 {dataofVehcles?.data?.results?.map((vehicle, index) => (

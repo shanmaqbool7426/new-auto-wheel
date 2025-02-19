@@ -41,6 +41,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
 
   // selected vehicle for compare
   const [selectedVehicle, setSelectedVehicle] = useState([]);
+  // Add state for active slide
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const {
     vehicleDetails: {
@@ -75,7 +77,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
     variants,
   } = vehicle || {};
 
-  console.log("variantsVehicles", variantsVehicles)
+  console.log(">>>>>>images", images)
   return (
     <>
       {/* Header Section */}
@@ -114,8 +116,32 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
           <Grid gutter="32px">
             {/* Carousel Section */}
             <Grid.Col span={{ base: 12, lg: 8 }}>
-              <Carousel withIndicators={false} controlSize={40} mb="md">
-                {(images || [defaultImage]).map((img, index) => (
+              <Carousel 
+                withIndicators={false} 
+                controlSize={40} 
+                mb="md"
+                slideSize="100%"
+                align="start"
+                slidesToScroll={1}
+                initialSlide={activeSlide}
+                onSlideChange={setActiveSlide}
+                styles={{
+                  control: {
+                    '&[data-inactive]': {
+                      opacity: 0,
+                      cursor: 'default',
+                    },
+                    color: 'white', // Red color for arrows
+                    backgroundColor: '#E90808',
+                    border: '1px solid #E90808',
+                    '&:hover': {
+                      backgroundColor: '#E90808',
+                      color: 'white',
+                    },
+                  },
+                }}
+              >
+                {(images).map((img, index) => (
                   <Carousel.Slide key={index}>
                     <Image
                       radius="5px"
@@ -141,7 +167,14 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               <Box className="img-gallery-slider">
                 <SimpleGrid cols={5}>
                   {(images || [defaultImage]).map((img, index) => (
-                    <UnstyledButton key={index}>
+                    <UnstyledButton 
+                      key={index}
+                      onClick={() => setActiveSlide(index)}
+                      style={{
+                        opacity: activeSlide === index ? 1 : 0.6,
+                        transition: 'opacity 0.2s ease'
+                      }}
+                    >
                       <Image
                         radius="sm"
                         alt="car-thumbnail"
@@ -277,9 +310,12 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         }}
                       />
                       <Text c="dimmed" size="10px" lh="1">
-                        Mileage{" "}
+                        Size{" "}
                         <Text c="#333333" fw={700} mt="4px">
-                          {mileage?.city || "N/A"}
+                          {dimensions ? 
+                            `${dimensions.overallLength}' ${dimensions.wheelBase}"L x ${dimensions.overallWidth}' ${dimensions.groundClearance}"W x ${dimensions.overallHeight}' ${dimensions.kerbWeight}"H` 
+                            : "N/A"
+                          }
                         </Text>
                       </Text>
                     </Flex>
@@ -330,7 +366,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         size="xs"
                         radius="xl"
                         bd="1px solid #EEE"
-                        bg={GetColor(color)}
+                        bg={color}
                       />
                     ))}
                   </Group>
@@ -558,7 +594,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   </Text>
                 </Title>
                 <Anchor component={Link} href={`/specification-detail/${slug}`} underline="hover" className="text-primary">
-                  Full Specifications
+                  {`${make} ${model}`} Specifications
                 </Anchor>
               </Flex>
             </Box>
