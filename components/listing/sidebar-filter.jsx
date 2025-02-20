@@ -314,7 +314,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
       return data?.map((item) => ({
         value: `cl_${encodeURIComponent(item?.title).toLowerCase()}`,
         label: item?.title,
-        color: item?.color,
+        color: item?.code,
       }));
     }else{
       return data?.map((item) => ({
@@ -830,7 +830,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             transitionProps: { transition: "fade-down", duration: 200 },
           }}
         /> */}
-        <Accordion
+        {/* Accordion for Transmission */
+        vehicleTransmissionOptions?.length > 0 && (
+          <Accordion
           variant="contained"
           mb="lg"
           defaultValue="Transmission"
@@ -883,7 +885,11 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-        <Accordion
+        )
+        }
+        {/* Accordion for Drive */
+        vehicleDriveOptions?.length > 0 && (
+          <Accordion
           variant="contained"
           mb="lg"
           defaultValue="Drive"
@@ -928,6 +934,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
+        )}
+        {/* Accordion for Color */
+        vehicleExteriorColorOptions?.length > 0 && (
         <Accordion
           variant="contained"
           mb="lg"
@@ -974,7 +983,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                                 radius={rem(20)}
                                 h={rem(20)}
                                 w={rem(20)}
-                                bg={GetColor(color.label)}
+                                bg={color.color}
                               />
                             </Tooltip>
                           </Group>
@@ -1005,6 +1014,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
+        )}
+        {/* Accordion for Fuel */
+        vehicleFuelTypeOptions?.length > 0 && (
         <Accordion
           variant="contained"
           mb="lg"
@@ -1052,6 +1064,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
+        )}
 
         {/* <div className="range-inputs">
             <div className="form-group">
@@ -1818,6 +1831,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   transitionProps: { transition: "fade-down", duration: 200 },
                 }}
               /> */}
+              {/* Accordion for Transmission */
+              vehicleTransmissionOptions?.length > 0 && (
               <Accordion
                 variant="contained"
                 mb="lg"
@@ -1874,7 +1889,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   </Accordion.Panel>
                 </Accordion.Item>
               </Accordion>
+              )}
 
+              {/* Accordion for Drive */
+              vehicleDriveOptions?.length > 0 && (
               <Accordion
                 variant="contained"
                 mb="lg"
@@ -1922,6 +1940,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   </Accordion.Panel>
                 </Accordion.Item>
               </Accordion>
+              )}
+              {/* Accordion for Color */
+              vehicleExteriorColorOptions?.length > 0 && (
               <Accordion
                 variant="contained"
                 mb="lg"
@@ -1975,6 +1996,9 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   </Accordion.Panel>
                 </Accordion.Item>
               </Accordion>
+              )}
+              {/* Accordion for Fuel */
+              vehicleFuelTypeOptions?.length > 0 && (
               <Accordion
                 variant="contained"
                 mb="lg"
@@ -2022,6 +2046,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   </Accordion.Panel>
                 </Accordion.Item>
               </Accordion>
+              )}
               <Button
                 color="#E90808"
                 mt="md"

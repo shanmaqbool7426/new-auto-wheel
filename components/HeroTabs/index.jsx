@@ -28,6 +28,7 @@ import LocationSelector from "@/components/LocationSelector.jsx"; // Import Loca
 import { fetchMakesByTypeServer } from "@/actions";
 import { useRouter } from "next/navigation";
 import styles from "./HeroTabs.module.css";
+import { typeMapping } from "@/constants/vehicle-constants";
 
 const HeroTabs = ({ setType }) => {
   const router = useRouter();
@@ -66,7 +67,7 @@ const HeroTabs = ({ setType }) => {
   }
   const fetchMakesByType = async (vehicleType) => {
     try {
-      const fetchMakes = await fetchMakesByTypeServer(vehicleType);
+      const fetchMakes = await fetchMakesByTypeServer(typeMapping[vehicleType]);
       setFetchMakesByTypeData(fetchMakes);
     } catch (error) { }
   };
