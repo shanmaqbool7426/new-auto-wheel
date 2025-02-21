@@ -1,6 +1,6 @@
 import { BikeParts, CarParts, TruckParts } from "@/components/Icons";
 
-const typeMapping = {
+export const typeMapping = {
     cars: 'car',
     bikes: 'bike',
     trucks: 'truck',

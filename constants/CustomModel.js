@@ -146,7 +146,7 @@ const CustomModel = ({
       >
         <Center>
           <Button
-            className={`tab-button ${activeTab === "make" ? "active" : ""}`}
+            className={`tab-button`}
             variant="subtle"
             bg={activeTab === "make" ? "#E90808" : "#F3F3F3"}
             color={activeTab === "make" ? "white" : "#878787"}
@@ -163,7 +163,7 @@ const CustomModel = ({
             Make
           </Button>
           <Button
-            className={`tab-button ${activeTab === "model" ? "active" : ""}`}
+            className={`tab-button`}
             variant="subtle"
             bg={activeTab === "model" ? "#E90808" : "#F3F3F3"}
             color={activeTab === "model" ? "white" : "#878787"}
@@ -181,9 +181,7 @@ const CustomModel = ({
           </Button>
           {!hide && ( // Conditionally render Variants tab button
             <Button
-              className={`tab-button ${
-                activeTab === "variant" ? "active" : ""
-              }`}
+              className={`tab-button`}
               variant="subtle"
               bg={activeTab === "variant" ? "#E90808" : "#F3F3F3"}
               color={activeTab === "variant" ? "white" : "#878787"}

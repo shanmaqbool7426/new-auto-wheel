@@ -1,4 +1,3 @@
-"use client";
 import ListingFilter from "@/components/listing/sidebar-filter";
 import ListingPagination from "@/components/listing/pagination";
 import { ListingHeader } from "@/components/listing/header";
@@ -6,14 +5,12 @@ import ListCardView from "@/components/ui/ListCardView";
 import CarCard from "@/components/ui/CarCard";
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
+import LoadingWrapper from "@/components/listing/loading-wrapper";
 import {
   Box,
-  Container,
   Group,
-  LoadingOverlay,
   Title,
   Badge,
-  CloseButton,
   rem,
 } from "@mantine/core";
 import {
@@ -26,10 +23,8 @@ import {
   fetchVehicleColors,
 } from "@/services/vehicles";
 import { getLocalStorage, reorderSlug } from "@/utils";
-import { useRouter } from "next/navigation";
 
 const FilterBadges = ({ params, searchParams }) => {
-  const router = useRouter();
   const slug = params.slug;
 
   const filterConfigs = {
@@ -61,7 +56,7 @@ const FilterBadges = ({ params, searchParams }) => {
       newPath += `?view=${view}`;
     }
 
-    router.push(newPath);
+    return newPath;
   };
 
   const renderBadges = () => {
@@ -89,16 +84,17 @@ const FilterBadges = ({ params, searchParams }) => {
             color="#E90808"
             key={`${config.type}-${index}`}
             rightSection={
-              <MdClose
-                onClick={() => removeFilter(item)}
-                style={{
-                  cursor: "pointer",
-                  transition: "opacity 0.2s",
-                  ":hover": {
-                    opacity: 0.7,
-                  },
-                }}
-              />
+              <Link href={removeFilter(item)}>
+                <MdClose
+                  style={{
+                    cursor: "pointer",
+                    transition: "opacity 0.2s",
+                    ":hover": {
+                      opacity: 0.7,
+                    },
+                  }}
+                />
+              </Link>
             }
             styles={{
               rightSection: {
@@ -141,27 +137,27 @@ export default async function Listing({ params, searchParams }) {
     ? `sb_${searchParams.sortBy}`
     : searchParams.sortBy;
   const reorderedSlug = reorderSlug(params.slug, view, sortBy);
-  let loading = true;
-  const dataofVehcles = await fetchVehiclsData(reorderedSlug);
-  const vehicleMakes = await fetchMakesByType(typeMapping[params.slug[0]]);
-  const vehicleBodies = await fetchBodiesByType(typeMapping[params.slug[0]]);
-  const vehicleDrives = await fetchVehicleDrives(typeMapping[params.slug[0]]);
-  const vehicleTransmissions = await fetchVehicleTransmissions(typeMapping[params.slug[0]]);
-  const vehicleFuelTypes = await fetchVehicleFuelTypes(typeMapping[params.slug[0]]);
-  const vehicleColors = await fetchVehicleColors(typeMapping[params.slug[0]]);
-
-  loading = false;
+  const [
+    dataofVehcles,
+    vehicleMakes,
+    vehicleBodies,
+    vehicleDrives,
+    vehicleTransmissions,
+    vehicleFuelTypes,
+    vehicleColors
+  ] = await Promise.all([
+    fetchVehiclsData(reorderedSlug),
+    fetchMakesByType(typeMapping[params.slug[0]]),
+    fetchBodiesByType(typeMapping[params.slug[0]]),
+    fetchVehicleDrives(typeMapping[params.slug[0]]),
+    fetchVehicleTransmissions(typeMapping[params.slug[0]]),
+    fetchVehicleFuelTypes(typeMapping[params.slug[0]]),
+    fetchVehicleColors(typeMapping[params.slug[0]])
+  ]);
   return (
     <>
       <Box pt={100} pb={80} className="product-listing position-relative">
-        {!dataofVehcles && (
-          <LoadingOverlay
-            visible={true}
-            zIndex={1000}
-            overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ color: "red", type: "" }}
-          />
-        )}
+        <LoadingWrapper>
         <div className="container-xl">
           <div className="row">
             <div className="col-lg-3">
@@ -242,6 +238,7 @@ export default async function Listing({ params, searchParams }) {
             </div>
           </div>
         </div>
+        </LoadingWrapper>
       </Box>
     </>
   );
