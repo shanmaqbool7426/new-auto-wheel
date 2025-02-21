@@ -1,29 +1,46 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ScrollArea, Box, Group, Avatar, Text } from '@mantine/core';
 import styles from './ChatSidebar.module.css';
 import Search from '@/components/user-dashboard/Search';
+import useChatSidebar from './useChatSidebar';
 
 export default function ChatSidebar({ conversations, onSelectUser, selectedUserId }) {
-  const setSearchBy = (value) => {
-    // Implement search functionality if needed
-    console.log('Search value:', value);
+  const {
+    searchBy,
+    setSearchBy,
+    handleUserSelect,
+    filteredConversations
+  } = useChatSidebar(conversations, onSelectUser);
+
+  const formatTime = (timestamp) => {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    const now = new Date();
+    
+    if (date.toDateString() === now.toDateString()) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    return date.toLocaleDateString();
   };
 
-  console.log('selectedUserId',selectedUserId)
   return (
     <Box className={styles.sidebar}>
       <Box className={styles.sidebarHeader}>
-        <Search setSearchBy={setSearchBy} />
+        <Search 
+          value={searchBy}
+          onChange={(e) => setSearchBy(e.target.value)}
+          placeholder="Search conversations..."
+        />
       </Box>
       <ScrollArea className={styles.scrollArea}>
         <ul className={styles.sidebarList}>
-          {conversations.map((conversation) => {
+          {filteredConversations.map((conversation) => {
             const isSelected = conversation.otherUser._id === selectedUserId;
             return (
               <li
-                key={conversation.id}
+                key={conversation.otherUser._id}
                 className={`${styles.sidebarListItem} ${isSelected ? styles.selected : ''}`}
-                onClick={() => onSelectUser(conversation.otherUser._id)}
+                onClick={() => handleUserSelect(conversation.otherUser._id)}
               >
                 <Group gap={16}>
                   <Avatar
@@ -36,13 +53,13 @@ export default function ChatSidebar({ conversations, onSelectUser, selectedUserI
                       {conversation.otherUser.fullName}
                     </Box>
                     <Box className={styles.userMsg}>
-                      {conversation.lastMessage.content}
+                      {conversation.lastMessage?.content || 'No messages yet'}
                     </Box>
                   </div>
                 </Group>
                 <Box className={styles.userTime}>
                   <Text size="xs" color="dimmed">
-                    {new Date(conversation.lastMessage.createdAt).toLocaleTimeString()}
+                    {formatTime(conversation.lastMessage?.createdAt)}
                   </Text>
                 </Box>
               </li>

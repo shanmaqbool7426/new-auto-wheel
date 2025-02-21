@@ -1,121 +1,101 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import { useSession } from "next-auth/react";
 import { BASE_URL } from '@/constants/api-endpoints';
+import axios from 'axios';
 import { getLocalStorage } from '@/utils';
 
 export default function useChat() {
-  const [value, setValue] = useState('');
   const [messages, setMessages] = useState([]);
   const [conversations, setConversations] = useState([]);
   const [socket, setSocket] = useState(null);
-  const { data: session, status } = useSession();
-  const [selectedUserId, setSelectedUserId] = React.useState(null);
-const [selectedUser,setSelectedUser]=useState({})
-
-const token = getLocalStorage('token');
-
-  const updateConversations = useCallback((messageData) => {
-    setConversations((prevConversations) => {
-      const updatedConversations = prevConversations.map(conv => {
-        if (conv.otherUser.id === messageData.sender || conv.otherUser.id === messageData.receiver) {
-          return {
-            ...conv,
-            lastMessage: {
-              id: messageData.id,
-              content: messageData.content,
-              sender: messageData.sender,
-              receiver: messageData.receiver,
-              createdAt: messageData.createdAt
-            }
-          };
+  const [messageInput, setMessageInput] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const { data: session } = useSession();
+  const token = getLocalStorage('token');
+  const handleMessageChange = (value) => {
+    setMessageInput(value);
+  };
+  // Fetch conversations list
+  const fetchConversations = useCallback(async () => {
+    try {
+      console.log('token',token?.token?.token)
+      const response = await axios.get(`${BASE_URL}/api/chat/conversations`, {
+        headers: {
+          'Authorization': token?.token?.token
         }
-        return conv;
       });
-      return updatedConversations;
-    });
+      setConversations(response.data.data);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
   }, []);
 
-  const handleUserSelect = useCallback((userId) => {
-
-    setSelectedUserId(userId);
-    if (socket && session?.user?._id) {
-
-      socket.emit('get_messages', { userId: session.user._id, otherUserId: userId });
-    }
-  }, [socket, session]);
-
-  useEffect(() => {
-    if (status === "authenticated" && session?.user?._id) {
-      const newSocket = io(BASE_URL, {
-        withCredentials: true,
+  // Fetch messages for selected conversation
+  const fetchMessages = useCallback(async (otherUserId) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/chat/messages/${otherUserId}`,{
+        headers: {
+          'Authorization': token?.token?.token
+        }
       });
-      setSocket(newSocket);
+      setMessages(response.data.data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  }, []);
 
+  // Socket connection
+  useEffect(() => {
+    if (session?.user?._id) {
+      const newSocket = io(BASE_URL, { withCredentials: true });
+      
       newSocket.on('connect', () => {
-        console.log('Connected to server');
         newSocket.emit('authenticate', session.user._id);
       });
 
-      newSocket.on('conversations_list', (conversationsList) => {
-        console.log('Received conversations list:', conversationsList);
-        setConversations(conversationsList);
+      newSocket.on('new_message', (message) => {
+        setMessages(prev => [...prev, message]);
+        fetchConversations(); // Update conversations list
       });
 
-      newSocket.on('conversation_messages', (messagesList) => {
-        console.log('Received messages for conversation:', messagesList);
-        setMessages(messagesList);
-      });
-
-
-      newSocket.on('new_message', (messageData) => {
-        console.log('Received new message:', messageData);
-        setMessages((prevMessages) => [...prevMessages, messageData]);
-        updateConversations(messageData);
-      });
-
-      newSocket.on('error', (error) => {
-        console.error('Socket error:', error);
-      });
-
-      return () => {
-        newSocket.disconnect();
-      };
+      setSocket(newSocket);
+      return () => newSocket.disconnect();
     }
-  }, [session, status, updateConversations]);
+  }, [session, fetchConversations]);
+
+  // Select user and fetch messages
+  const handleUserSelect = useCallback((userId) => {
+    setSelectedUserId(userId);
+    fetchMessages(userId);
+  }, [fetchMessages]);
 
   useEffect(() => {
-    if (socket && session?.user?._id) {
-      console.log('get_conversations', token._id);
-      socket.emit('get_conversations', token._id);
-    }
-  }, [socket, session]);
+    fetchConversations()
+  }, [])
+  
 
-  const handleChangeSendMessage = (event) => {
-    setValue(event.currentTarget.value);
-  };
-console.log('messsages',messages)
-  const sendMessage = (receiverId) => {
-    // if (value.trim() && socket && session?.user?._id) {
-      const messageData = {
+  // Send message
+  const sendMessage = useCallback((receiver) => {
+    if (true) {
+      socket.emit('send_message', {
         sender: session.user._id,
-        receiver: receiverId,
-        content: value
-      };
-      console.log('Sending message:', messageData);
-      socket.emit('send_message', messageData);
-      setValue('');
+        receiver,
+        content: messageInput
+      });
+      setMessageInput('');
     }
-  // };
+  }, [messageInput, socket, session]);
 
   return {
-    value,
     messages,
     conversations,
-    handleChangeSendMessage,
+    messageInput,
+    setMessageInput,
     sendMessage,
-    sendMessage,
+    handleUserSelect,
+    handleMessageChange,
     selectedUserId,
-    handleUserSelect
+    fetchConversations
   };
 }
