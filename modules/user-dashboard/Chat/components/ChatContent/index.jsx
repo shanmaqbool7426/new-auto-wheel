@@ -14,119 +14,106 @@ export default function ChatContent({
   isLoadingMessages 
 }) {
   const scrollAreaRef = useRef(null);
-
+console.log('selectedUser',selectedUser)
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      const viewport = scrollAreaRef.current.viewport;
-      // viewport.scrollTo({
-      //   top: viewport.scrollHeight,
-      //   behavior: messages.length > 0 ? 'smooth' : 'auto'
-      // });
-    }
+    const scrollToBottom = () => {
+      if (scrollAreaRef.current?.viewport) {
+        const viewport = scrollAreaRef.current.viewport;
+        viewport.scrollTo({
+          top: viewport.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    };
+    const timeoutId = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timeoutId);
   }, [messages]);
 
-  // Show placeholder when no user is selected
-  if (!selectedUserId) {
-    return (
-      <Box className={styles.emptyState}>
-        <Text size="lg" c="dimmed">Select a conversation to start chatting</Text>
-      </Box>
-    );
-  }
-
   return (
-    <Box className={styles.wrapper}>
+    <Box className={styles.chatContainer}>
       <Box className={styles.chatHeader}>
-        <Group gap={16}>
+        <Group>
           <Avatar
-            src={selectedUser?.otherUser?.profileImage || 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png'}
+            src={selectedUser?.otherUser?.profileImage}
             radius="xl"
-            size={48}
+            size={40}
           />
-          <div style={{ flex: 1 }}>
-            <Box className={styles.userName}>
-              {selectedUser?.otherUser?.fullName || 'User'}
-            </Box>
-            <Box className={styles.userStatus}>
-              {selectedUser?.otherUser?.isOnline ? 'Online' : 'Offline'}
-            </Box>
-          </div>
+          <Box>
+            <Text fw={600}>{selectedUser?.otherUser?.fullName || 'User'}</Text>
+            <Text size="xs" c="dimmed">
+              {`${selectedUser?.otherUser?.accountType} Account` }
+            </Text>
+          </Box>
         </Group>
       </Box>
 
-      <Box className={styles.messageSection}>
-        <ScrollArea 
-          h="100%" 
-          viewportRef={scrollAreaRef}
-          offsetScrollbars
-          scrollbarSize={6}
-        >
-          {isLoadingMessages ? (
-            <Box className={styles.loadingState}>
-              <Loader size="sm" />
-            </Box>
-          ) : messages.length === 0 ? (
-            <Box className={styles.emptyMessages}>
-              <Text c="dimmed">No messages yet. Start the conversation!</Text>
-            </Box>
-          ) : (
-            <ul className={styles.messagesList}>
-              {messages.map((message, index) => (
-                <li 
-                  key={message._id || index}
-                  className={`${styles.messageItem} ${
-                    message.sender === currentUserId ? styles.itemSend : styles.itemReceived
+      <ScrollArea 
+        className={styles.messagesArea}
+        viewportRef={scrollAreaRef}
+        offsetScrollbars
+        scrollbarSize={6}
+      >
+        {messages.map((message, index) => {
+          const isSentByMe = message.sender?._id === currentUserId;
+          return (
+            <Box 
+              key={message._id || index}
+              className={styles.messageRow}
+              data-sent={isSentByMe}
+            >
+              {!isSentByMe && (
+                <Avatar
+                  src={selectedUser?.otherUser?.profileImage}
+                  size="sm"
+                  radius="xl"
+                  className={styles.messageAvatar}
+                />
+              )}
+              <Box className={styles.messageContent}>
+                <Box 
+                  className={`${styles.messageBubble} ${
+                    isSentByMe ? styles.sentBubble : styles.receivedBubble
                   }`}
                 >
-                  <Box 
-                    className={`${styles.message} ${
-                      message.sender === currentUserId ? styles.msgSend : styles.msgReceived
-                    }`}
-                  >
-                    {message.content}
-                    <Text size="xs" c="dimmed" className={styles.messageTime}>
-                      {new Date(message.createdAt).toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                      })}
-                    </Text>
-                  </Box>
-                </li>
-              ))}
-            </ul>
-          )}
-        </ScrollArea>
-      </Box>
+                  {message.content}
+                </Box>
+                <Text size="xs" c="dimmed" className={styles.messageTime}>
+                  {new Date(message.createdAt).toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}
+                </Text>
+              </Box>
+            </Box>
+          );
+        })}
+      </ScrollArea>
 
-      <Box className={styles.chatFooter}>
+      <Box className={styles.inputContainer}>
         <Input
           value={value}
-          onChange={(e) => onChangeMessage(e.target.value)} // Fixed: properly handle onChange event
+          onChange={(e) => onChangeMessage(e.target.value)}
           onKeyPress={(e) => {
             if (e.key === 'Enter' && !e.shiftKey && value.trim()) {
               e.preventDefault();
-              onSendMessage(selectedUserId);
+              onSendMessage();
             }
           }}
+          placeholder="Type a message..."
           radius="xl"
-          placeholder="Type your message..."
-          disabled={!selectedUserId}
+          size="md"
           rightSection={
-            <ActionIcon 
-              onClick={() => value.trim() && onSendMessage(selectedUserId)}
-              variant="filled" 
-              size={35} 
-              radius="xl" 
-              color='#F3F3F3'
+            <ActionIcon
               disabled={!value.trim()}
+              onClick={() => value.trim() && onSendMessage()}
+              radius="xl"
+              variant="subtle"
+              color="blue"
+              size="lg"
             >
-              <IconSend style={{ color: '#1B84FF', width: '16px', height: '16px' }} stroke={1.5} />
+              <IconSend size={18} />
             </ActionIcon>
           }
-          classNames={{
-            input: styles.input,
-            section: styles.section
-          }}
         />
       </Box>
     </Box>

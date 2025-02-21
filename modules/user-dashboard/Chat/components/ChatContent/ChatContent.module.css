@@ -1,18 +1,27 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #D1E6FF;
 }
 
 .chatHeader {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
-  flex-shrink: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: #D1E6FF;
+  z-index: 1;
 }
 
 .userName {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 1;
   color: #000000;
 }
@@ -30,6 +39,12 @@
   overflow: hidden;
   position: relative;
   min-height: 0;
+}
+
+.messagesArea {
+  flex: 1;
+  padding: 20px;
+  background: #f8f9fa;
 }
 
 .messagesList {
@@ -58,13 +73,42 @@
   justify-content: flex-start;
 }
 
-.message {
+.messageRow {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 8px;
+}
 
+.messageRow[data-sent="true"] {
+  flex-direction: row-reverse;
+}
+
+.messageAvatar {
+  margin-top: 4px;
+}
+
+.messageContent {
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message {
   padding: 12px 16px;
   border-radius: 4px;
   font-size: 13px;
   line-height: 1.7;
   max-width: 412px;
+}
+
+.messageBubble {
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .msgSend {
@@ -77,16 +121,79 @@
   color: #919191;
 }
 
+.sentBubble {
+  background: #228be6;
+  color: white;
+  border-bottom-right-radius: 4px;
+  align-self: flex-end;
+}
+
+.receivedBubble {
+  background: #F3F3F3;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .chatFooter {
   padding: 1rem;
   border-top: 1px solid #eee;
   flex-shrink: 0;
+  background: white;
+  z-index: 1;
 }
 
 .input {
   height: 50px;
+  padding: 0.75rem 1rem;
+}
+
+.inputContainer {
+  padding: 16px;
+  background: white;
+  border-top: 1px solid #e9ecef;
 }
 
 .section {
   margin-right: 12px;
+  padding-right: 0.5rem;
+}
+
+.messagesContainer {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.messageWrapper {
+  display: flex;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.sent {
+  justify-content: flex-end;
+}
+
+.received {
+  justify-content: flex-start;
+}
+
+.messageTime {
+  font-size: 11px;
+  margin: 0 8px;
+}
+
+.emptyState, .loadingState, .emptyMessages {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.userStatus {
+  font-size: 0.875rem;
+  color: #666;
 }
