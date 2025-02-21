@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BASE_URL } from "@/constants/api-endpoints";
+import { fetchAPI } from "@/services/fetchAPI";
 
 const footerSections = [
   { value: 'by-make', label: 'By Make' },
@@ -42,9 +43,9 @@ const Footer = () => {
   useEffect(() => {
     const getFooterData = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/footer`);
-        const data = await res.json();
-
+        const res = await fetchAPI(`${BASE_URL}/api/footer`);
+        console.log("Footer Data:", res);
+        const data =res
         // Organize data by sections
         const organizedData = {
           byMake: data?.data?.filter(item => item.section === "by-make" && item.status).sort((a, b) => a.order - b.order),
