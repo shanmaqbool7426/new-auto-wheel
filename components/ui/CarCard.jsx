@@ -28,25 +28,39 @@ import { getLocalStorage } from "@/utils";
 
 const CarCard = ({ vehicle, userData }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [localUserData, setLocalUserData] = useState(userData);
   const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
 
+  // Check favorite status on mount and when userData changes
   useEffect(() => {
-    if (userData && vehicle) {
-      setIsFavorite(userData.favoriteVehicles?.includes(vehicle._id));
-    }
-  }, [userData, vehicle]);
+    const checkFavoriteStatus = async () => {
+      if (!userData?._id) return;
+      
+      try {
+        const response = await fetch(`${BASE_URL}/api/user/${userData._id}/favorites`, {
+          headers: {
+            Authorization: `Bearer ${userData._id}`,
+          },
+        });
+        const data = await response.json();
+        if (data.success) {
+          const favoriteVehicles = data.data || [];
+          setIsFavorite(favoriteVehicles.some(fav => fav._id === vehicle._id));
+        }
+      } catch (error) {
+        console.error('Error fetching favorites:', error);
+      }
+    };
 
-  useEffect(() => {
-    setLocalUserData(userData);
-  }, [userData]);
+    checkFavoriteStatus();
+  }, [userData, vehicle._id]);
 
+  // Preload images
   useEffect(() => {
     images.forEach((src) => {
-      const img = new window.Image(); // Use native Image constructor explicitly
+      const img = new window.Image();
       img.src = src;
     });
   }, [images]);
@@ -78,7 +92,7 @@ const CarCard = ({ vehicle, userData }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!localUserData) {
+    if (!userData) {
       notifications.show({
         title: "Login Required",
         message: "Please login first to add vehicles to favorites",
@@ -91,12 +105,12 @@ const CarCard = ({ vehicle, userData }) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${localUserData._id}`,
+        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${userData._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localUserData._id}`,
+            Authorization: `Bearer ${userData._id}`,
           },
         }
       );
@@ -104,16 +118,7 @@ const CarCard = ({ vehicle, userData }) => {
       const data = await response.json();
 
       if (data.success) {
-        // Update local storage with new user data
-        const updatedUserData = {
-          ...localUserData,
-          favoriteVehicles: data.data.favoriteVehicles,
-        };
-        localStorage.setItem("user", JSON.stringify(updatedUserData));
-        setLocalUserData(updatedUserData);
-        console.log("updatedUserData", data.data.favoriteVehicles);
-        setIsFavorite(data.data.favoriteVehicles.includes(vehicle._id));
-
+        setIsFavorite(!isFavorite);
         notifications.show({
           title: "Success",
           message: data.message,
