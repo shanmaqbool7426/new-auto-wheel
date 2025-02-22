@@ -289,18 +289,21 @@ const ListCardView = ({ vehicle, userData }) => {
                 borderRadius: rem(5),
               }}
             >
-              <Image
-                radius={rem(5)}
-                h={160}
-                fit="cover"
-                className="overflow-hidden"
-                src={
-                  images[activeSlide] ||
-                  vehicle?.defaultImage ||
-                  "/products/product-placeholder.png"
-                }
-              />
-              <Overlay opacity={0.3} bg="#333" zIndex={1} />
+              <Anchor href={`/detail/${vehicle?.slug}`} style={{ textDecoration: 'none' }}>
+                <Image
+                  radius={rem(5)}
+                  h={160}
+                  fit="cover"
+                  className="overflow-hidden"
+                  src={
+                    images[activeSlide] ||
+                    vehicle?.defaultImage ||
+                    "/products/product-placeholder.png"
+                  }
+                  alt={`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
+                />
+                <Overlay opacity={0.3} bg="#333" zIndex={1} />
+              </Anchor>
             </Box>
 
             <Group grow my={3} gap={5}>
@@ -384,7 +387,7 @@ const ListCardView = ({ vehicle, userData }) => {
           <Group>
             <Button size="sm" radius="md" color="#F1EFEF" disabled>
               <Text size="xs" c="dimmed" fw={500}>
-                STOCK#{" "}
+                ID#{" "}
                 <Text span size="xs" c="dark" fw={500}>
                   {vehicle?._id?.slice(0, 4)}
                 </Text>

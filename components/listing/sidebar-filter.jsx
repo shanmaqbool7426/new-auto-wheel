@@ -972,20 +972,26 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                         }}
                         label={
                           <Group justify="space-between" align="center">
-                            {color.label}
-                            <Tooltip
-                              label={color.label}
-                              position="top"
-                              withArrow
-                            >
-                              <Button
-                                p={0}
-                                radius={rem(20)}
-                                h={rem(20)}
-                                w={rem(20)}
-                                bg={color.color}
-                              />
-                            </Tooltip>
+                            <Group gap="sm">
+                              <Tooltip
+                                label={color.label}
+                                position="top"
+                                withArrow
+                              >
+                                <Button
+                                  p={0}
+                                  radius={rem(20)}
+                                  h={rem(20)}
+                                  w={rem(20)}
+                                  bg={color.color}
+                                  style={{
+                                    border: '1px solid #E3E3E3',
+                                    boxShadow: color.color.toLowerCase() === '#ffffff' ? '0 0 0 1px #ddd' : 'none'
+                                  }}
+                                />
+                              </Tooltip>
+                              {color.label}
+                            </Group>
                           </Group>
                         }
                         key={color.value}
@@ -994,7 +1000,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                           handleFilterChange("exteriorColor", color?.value)
                         }
                       />
-                      {/* {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
+                      {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
                     <Badge
                       pos="absolute"
                       right={0}
@@ -1006,7 +1012,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                     >
                       {getCountByTypeAndKey("exteriorColorCounts", color.label)}
                     </Badge>
-                  )} */}
+                  )}
                     </Box>
                   ))}
                 </div>
@@ -1932,7 +1938,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                             fw={600}
                             variant="outline"
                           >
-                            {getCountByTypeAndKey("driveCounts", drive.value)}
+                              
                           </Badge>
                         )}
                       </Box>
@@ -1959,23 +1965,54 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                     </Text>
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
-                    {vehicleExteriorColorOptions?.map((color, index) => (
-                      <Box pos="relative" key={index}>
-                        <Checkbox
-                          mb="xs"
-                          color="#E90808"
-                          size="xs"
-                          label={color.label}
-                          key={color.value}
-                          checked={color?.value === filters.exteriorColor}
-                          onChange={(e) =>
-                            handleFilterChange("exteriorColor", color?.value)
-                          }
-                        />
-                        {getCountByTypeAndKey(
-                          "exteriorColorCounts",
-                          color.label
-                        ) && (
+                    <ScrollArea
+                      h={150}
+                      scrollbarSize={6}
+                      scrollHideDelay={1000}
+                      offsetScrollbars
+                    >
+                      <div className="checkbox-group-filters">
+                        {vehicleExteriorColorOptions?.map((color, index) => (
+                          <Box pos="relative" key={index}>
+                            <Checkbox
+                              mb="xs"
+                              size="xs"
+                              color="#E90808"
+                              styles={{
+                                body: { alignItems: "center" },
+                                labelWrapper: { width: "100%" },
+                              }}
+                              label={
+                                <Group justify="space-between" align="center">
+                                  <Group gap="sm">
+                                    <Tooltip
+                                      label={color.label}
+                                      position="top"
+                                      withArrow
+                                    >
+                                      <Button
+                                        p={0}
+                                        radius={rem(20)}
+                                        h={rem(20)}
+                                        w={rem(20)}
+                                        bg={color.color}
+                                        style={{
+                                          border: '1px solid #E3E3E3',
+                                          boxShadow: color.color.toLowerCase() === '#ffffff' ? '0 0 0 1px #ddd' : 'none'
+                                        }}
+                                      />
+                                    </Tooltip>
+                                    {color.label}
+                                  </Group>
+                                </Group>
+                              }
+                              key={color.value}
+                              checked={color?.value === filters.exteriorColor}
+                              onChange={(e) =>
+                                handleFilterChange("exteriorColor", color?.value)
+                              }
+                            />
+                            {/* {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
                           <Badge
                             pos="absolute"
                             right={0}
@@ -1985,14 +2022,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                             fw={600}
                             variant="outline"
                           >
-                            {getCountByTypeAndKey(
-                              "exteriorColorCounts",
-                              color.label
-                            )}
+                            {getCountByTypeAndKey("exteriorColorCounts", color.label)}
                           </Badge>
-                        )}
-                      </Box>
-                    ))}
+                        )} */}
+                          </Box>
+                        ))}
+                      </div>
+                    </ScrollArea>
                   </Accordion.Panel>
                 </Accordion.Item>
               </Accordion>
@@ -2038,7 +2074,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                             fw={600}
                             variant="outline"
                           >
-                            {getCountByTypeAndKey("fuelTypeCounts", fuel.label)}
+                            
                           </Badge>
                         )}
                       </Box>
