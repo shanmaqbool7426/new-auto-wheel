@@ -80,8 +80,10 @@ const MakesVehicles = ({
     ${slugMake} Corolla to PKR 145,000,000 for a used ${slugMake} Land Cruiser. 
     There are a total of 26648 ${slugMake} Cars available for sale in Pakistan on PakWheels`;
 
-  const shortText = text.slice(0, 430); // Shortened text with a limit of 150 characters.
+  const shortText = matchedMake?.description?.slice(0, 430); // Shortened text with a limit of 150 characters.
 
+
+  console.log("matchedMake",matchedMake)
   return (
     <>
       {/* style={{ marginTop: "50px" }} */}
@@ -122,8 +124,7 @@ const MakesVehicles = ({
                   radius="sm"
                 >
                   <Title order={3} mb="md">
-                    {slugMake} {new Date().getFullYear()} Car Models, Prices &
-                    Pictures in Pakistan
+                    {slugMake} Car Models, Prices
                   </Title>
                   <div className="row mb-2">
                     <div className="col-md-3">
@@ -158,7 +159,7 @@ const MakesVehicles = ({
                     <div className="col-md-9">
                       <Text mb="md">{shortText}</Text>
                       <Collapse in={isExpanded} transitionDuration={500}>
-                        <Text mb="md">{text.slice(150)}</Text>
+                        <Text mb="md">{matchedMake?.description?.slice(150)}</Text>
                       </Collapse>
                       <Button color="red" fw={500} onClick={toggleReadMore}>
                         {isExpanded ? "Show Less" : "Read More"}

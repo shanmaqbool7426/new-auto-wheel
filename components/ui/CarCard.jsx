@@ -25,6 +25,8 @@ import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 import { getLocalStorage } from "@/utils";
+import AuthModal from "@/modules/auth/AuthModal";
+import { AUTH_VIEWS } from "@/constants/auth-config";
 
 const CarCard = ({ vehicle, userData }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +34,7 @@ const CarCard = ({ vehicle, userData }) => {
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
+  const [openAuthModal, setOpenAuthModal] = useState(false);
 
   // Check favorite status on mount and when userData changes
   useEffect(() => {
@@ -93,12 +96,7 @@ const CarCard = ({ vehicle, userData }) => {
     e.stopPropagation();
 
     if (!userData) {
-      notifications.show({
-        title: "Login Required",
-        message: "Please login first to add vehicles to favorites",
-        color: "red",
-      });
-      router.push("/login");
+      setOpenAuthModal(true);
       return;
     }
 
@@ -176,198 +174,201 @@ const CarCard = ({ vehicle, userData }) => {
   );
 
   return (
-    <Card
-      shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
-      radius="sm"
-      mb="lg"
-      onClick={handleCardClick}
-    >
-      <Card.Section pos="relative">
-        {/* Display total images */}
-        <Group
-          c="white"
-          gap={5}
-          pos="absolute"
-          right={15}
-          style={{ zIndex: "100", justifyContent: "space-between" }}
-          left={15}
-          top={15}
-        >
-          <Box style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <CameraIcon width={18} height={18} />
-            <Text span fw={500} size="sm">
-              {vehicle?.images?.length}
-            </Text>
-          </Box>
-          {vehicle?.isFeatured && (
-            <Text
-              style={{ borderRadius: "5px" }}
-              span
-              fw={400}
-              size="12px"
-              rounded="md"
-              bg="black"
-              c="white"
-              p={5}
-              position="absolute"
-              right={15}
-              top={15}
-            >
-              Featured
-            </Text>
-          )}
-        </Group>
-        {/* Custom image slider controlled by mouse hover */}
-        <Anchor
-          component={NextLink}
-          href={`/detail/${vehicle?.slug}`}
-          style={{
-            display: "block",
-            position: "relative",
-            cursor: "pointer",
-            textDecoration: "none",
-          }}
-          onClick={(e) => {
-            // Prevent the card's onClick from firing
-            e.stopPropagation();
-          }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
-          {images.length > 0 ? (
-            <Image
-              mah={160}
-              mih={160}
-              fit="cover"
-              src={images[activeSlide] || "https://placehold.co/270x160"}
-              alt={`${vehicle?.make.toLowerCase()}_${vehicle?.model.toLowerCase()}_${
-                activeSlide + 1
-              }`}
-            />
-          ) : (
-            <Image
-              mah={160}
-              mih={160}
-              fit="cover"
-              src={vehicle?.defaultImage || "https://placehold.co/270x160"}
-              alt=""
-            />
-          )}
-          <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} />
-        </Anchor>
-
-        {/* Progress bar with hover functionality */}
-        <Group grow gap={2} my={2}>
-          {images.map((_, index) => (
-            <Progress
-              key={index}
-              size="xs"
-              value={index === activeSlide ? 100 : 30}
-              color={index === activeSlide ? "#E90808" : "#E0E0E0"}
-              onMouseEnter={() => setActiveSlide(index)}
-            />
-          ))}
-        </Group>
-
-        <FavoriteButton />
-      </Card.Section>
-
-      <Card.Section p="sm">
-        {/* Car details */}
-        <Group
-          h="100%"
-          // justify="space-between"
-          grow
-          mb="md"
-          align="center"
-          wrap="nowrap"
-        >
-          <Text
-            lts={-0.3}
-            c="dark"
-            component={Anchor}
-            underline="hover"
-            href={`/detail/${vehicle.slug}`}
-            size="sm"
-            fw={600}
-            lineClamp={2}
+    <>
+      <Card
+        shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
+        radius="sm"
+        mb="lg"
+        onClick={handleCardClick}
+      >
+        <Card.Section pos="relative">
+          {/* Display total images */}
+          <Group
+            c="white"
+            gap={5}
+            pos="absolute"
+            right={15}
+            style={{ zIndex: "100", justifyContent: "space-between" }}
+            left={15}
+            top={15}
           >
-            {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
-          </Text>
-          <Box
-            c="#FFF"
-            bg="#E90808"
-            p="10px 5px 10px 15px"
-            ta="right"
-            h={32}
-            display="inline-flex" // Changed to inline-flex
+            <Box style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <CameraIcon width={18} height={18} />
+              <Text span fw={500} size="sm">
+                {vehicle?.images?.length}
+              </Text>
+            </Box>
+            {vehicle?.isFeatured && (
+              <Text
+                style={{ borderRadius: "5px" }}
+                span
+                fw={400}
+                size="12px"
+                rounded="md"
+                bg="black"
+                c="white"
+                p={5}
+                position="absolute"
+                right={15}
+                top={15}
+              >
+                Featured
+              </Text>
+            )}
+          </Group>
+          {/* Custom image slider controlled by mouse hover */}
+          <Anchor
+            component={NextLink}
+            href={`/detail/${vehicle?.slug}`}
             style={{
-              clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
-              minWidth: "fit-content", // Changed to fit-content
-              width: "auto",
-              alignItems: "center", // Added to center content vertically
-              justifyContent: "flex-end", // Added to align content to the right
+              display: "block",
+              position: "relative",
+              cursor: "pointer",
+              textDecoration: "none",
             }}
+            onClick={(e) => {
+              // Prevent the card's onClick from firing
+              e.stopPropagation();
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
+            {images.length > 0 ? (
+              <Image
+                mah={160}
+                mih={160}
+                fit="cover"
+                src={images[activeSlide] || "https://placehold.co/270x160"}
+                alt={`${vehicle?.make.toLowerCase()}_${vehicle?.model.toLowerCase()}_${
+                  activeSlide + 1
+                }`}
+              />
+            ) : (
+              <Image
+                mah={160}
+                mih={160}
+                fit="cover"
+                src={vehicle?.defaultImage || "https://placehold.co/270x160"}
+                alt=""
+              />
+            )}
+            <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} />
+          </Anchor>
+
+          {/* Progress bar with hover functionality */}
+          <Group grow gap={2} my={2}>
+            {images.map((_, index) => (
+              <Progress
+                key={index}
+                size="xs"
+                value={index === activeSlide ? 100 : 30}
+                color={index === activeSlide ? "#E90808" : "#E0E0E0"}
+                onMouseEnter={() => setActiveSlide(index)}
+              />
+            ))}
+          </Group>
+
+          <FavoriteButton />
+        </Card.Section>
+
+        <Card.Section p="sm">
+          {/* Car details */}
+          <Group
+            h="100%"
+            // justify="space-between"
+            grow
+            mb="md"
+            align="center"
+            wrap="nowrap"
           >
             <Text
+              lts={-0.3}
+              c="dark"
+              component={Anchor}
+              underline="hover"
+              href={`/detail/${vehicle.slug}`}
+              size="sm"
               fw={600}
-              size="xs"
-              style={{ whiteSpace: "nowrap", lineHeight: 1 }}
+              lineClamp={2}
             >
-              Rs {formatPrice(vehicle?.price)}
+              {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
             </Text>
-          </Box>
-        </Group>
-        <Divider
-          size="md"
-          color={`${vehicle?.isFeatured ? "#E90808" : "#ddd"}`}
-        />
-        <Flex mt="md" gap="sm" justify="space-between" wrap="wrap">
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaCalendarDays />
-            <Text style={{ fontSize: "12px" }}>{vehicle?.year}</Text>
+            <Box
+              c="#FFF"
+              bg="#E90808"
+              p="10px 5px 10px 15px"
+              ta="right"
+              h={32}
+              display="inline-flex" // Changed to inline-flex
+              style={{
+                clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+                minWidth: "fit-content", // Changed to fit-content
+                width: "auto",
+                alignItems: "center", // Added to center content vertically
+                justifyContent: "flex-end", // Added to align content to the right
+              }}
+            >
+              <Text
+                fw={600}
+                size="xs"
+                style={{ whiteSpace: "nowrap", lineHeight: 1 }}
+              >
+                Rs {formatPrice(vehicle?.price)}
+              </Text>
+            </Box>
           </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <GearsHandle />
-            <Text style={{ fontSize: "12px" }}>
-              {vehicle?.specifications?.transmission}
-            </Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaLocationDot />
-            <Text style={{ fontSize: "12px" }}>{vehicle?.city}</Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <Text span c="dimmed" style={{ fontSize: "12px" }}>
-              ID#
-            </Text>
-            <Text c="dark" style={{ fontSize: "12px" }}>
-              {vehicle?.specifications?.stockId?.slice(0, 4)}
-            </Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaClock />
-            <Text style={{ fontSize: "12px" }}>
-              {getTimeAgo(vehicle?.createdAt)}
-            </Text>
-          </Group>
-        </Flex>
-        {/* <Flex mt="md" gap="md" wrap="nowrap">
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <Text span c="dimmed" size="xs">
-              ID#
-            </Text>
-            <Text c="dark" size="xs">
-              {vehicle?.specifications?.stockId?.slice(0,4)}
-            </Text>
-          </Group>
-          <Group c="dimmed" gap={rem(5)} align="center">
-            <FaClock />
-            <Text size="xs">{getTimeAgo(vehicle?.createdAt)}</Text>
-          </Group>
-        </Flex> */}
-      </Card.Section>
-    </Card>
+          <Divider
+            size="md"
+            color={`${vehicle?.isFeatured ? "#E90808" : "#ddd"}`}
+          />
+          <Flex mt="md" gap="sm" justify="space-between" wrap="wrap">
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaCalendarDays />
+              <Text style={{ fontSize: "12px" }}>{vehicle?.year}</Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <GearsHandle />
+              <Text style={{ fontSize: "12px" }}>
+                {vehicle?.specifications?.transmission}
+              </Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaLocationDot />
+              <Text style={{ fontSize: "12px" }}>{vehicle?.city}</Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <Text span c="dimmed" style={{ fontSize: "12px" }}>
+                ID#
+              </Text>
+              <Text c="dark" style={{ fontSize: "12px" }}>
+                {vehicle?.specifications?.stockId?.slice(0, 4)}
+              </Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaClock />
+              <Text style={{ fontSize: "12px" }}>
+                {getTimeAgo(vehicle?.createdAt)}
+              </Text>
+            </Group>
+          </Flex>
+          {/* <Flex mt="md" gap="md" wrap="nowrap">
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <Text span c="dimmed" size="xs">
+                ID#
+              </Text>
+              <Text c="dark" size="xs">
+                {vehicle?.specifications?.stockId?.slice(0,4)}
+              </Text>
+            </Group>
+            <Group c="dimmed" gap={rem(5)} align="center">
+              <FaClock />
+              <Text size="xs">{getTimeAgo(vehicle?.createdAt)}</Text>
+            </Group>
+          </Flex> */}
+        </Card.Section>
+      </Card>
+      <AuthModal opened={openAuthModal} onClose={() => setOpenAuthModal(false)} initialView={AUTH_VIEWS.SIGN_IN} />
+    </>
   );
 };
 

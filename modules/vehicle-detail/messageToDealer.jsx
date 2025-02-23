@@ -11,7 +11,8 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import AccountTypeModal from "../auth/AccountType";
+import AuthModal from "@/modules/auth/AuthModal";
+import { AUTH_VIEWS } from "@/constants/auth-config";
 import { useSession } from "next-auth/react";
 import io from "socket.io-client";
 import { BASE_URL } from "@/constants/api-endpoints";
@@ -21,7 +22,7 @@ const MessageToDealer = ({ sellerId }) => {
   console.log("sellerId", sellerId);
   const [socket, setSocket] = useState(null);
   const { data: session, status } = useSession();
-  const [modalOpened, setModalOpened] = useState(false);
+  const [openAuthModal, setOpenAuthModal] = useState(false);
   const [formData, setFormData] = useState({
     message: "",
     name: "",
@@ -82,10 +83,11 @@ const MessageToDealer = ({ sellerId }) => {
     e.preventDefault();
 
     if (!session) {
-      setModalOpened(true);
-    } else {
-      sendMessage();
+      setOpenAuthModal(true);
+      return;
     }
+
+    sendMessage();
   };
 
   const sendMessage = () => {
@@ -188,10 +190,11 @@ const MessageToDealer = ({ sellerId }) => {
         </form>
       </Box>
 
-      {/* <AccountTypeModal
-        opened={modalOpened}
-        onClose={() => setModalOpened(false)}
-      /> */}
+      <AuthModal 
+        opened={openAuthModal} 
+        onClose={() => setOpenAuthModal(false)} 
+        initialView={AUTH_VIEWS.SIGN_IN}
+      />
     </>
   );
 };
