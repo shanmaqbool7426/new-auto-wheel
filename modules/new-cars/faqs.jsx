@@ -9,10 +9,10 @@ const FAQ = ({ title, titleSpan, type = "car" }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const fetchFaqs = async (search = '') => {
+  const fetchFaqs = async (search) => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/faq`, {
+      const response = await axios.get(`${BASE_URL}/api/faq`, {
         params: {
           type,
           limit: 10,
@@ -33,16 +33,9 @@ const FAQ = ({ title, titleSpan, type = "car" }) => {
 
   useEffect(() => {
     fetchFaqs(title);
-  }, [type]);
+  }, []);
 
-  // Debounce search
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      fetchFaqs(searchQuery);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+ 
 
   if (faqs.length === 0 && !loading && !searchQuery) return null;
 

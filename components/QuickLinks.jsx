@@ -1,9 +1,44 @@
 "use client";
+import { BASE_URL } from "@/constants/api-endpoints";
+import { fetchAPI } from "@/services/fetchAPI";
 import { Box, Title, SimpleGrid, Anchor } from "@mantine/core";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+// import { fetchAPI, BASE_URL } from "../utils/api";
 
-const QuickLinks = ({ titlePopular, titleUsed }) => {
+const QuickLinks = ({ titlePopular, titleUsed, vehicleType }) => {
+  const [popularLinkData, setPopularLinkData] = useState([]);
+  const [usedLinkData, setUsedLinkData] = useState([]);
+
+  useEffect(() => {
+    const getFooterData = async () => {
+      try {
+        const res = await fetchAPI(`${BASE_URL}/api/footer?vehicleType=${vehicleType}`);
+        console.log("res?.data", res?.data);
+        setPopularLinkData(res?.data.filter((linksData) => linksData.section === "popular-used"));
+        setUsedLinkData(res?.data.filter((linksData) => linksData.section === "used-by-city"));
+      } catch (error) {
+        console.error("Error fetching footer data:", error);
+      }
+    };
+
+    getFooterData();
+  }, []);
+
+  // Helper function to chunk array into groups
+  const chunkArray = (arr, size) => {
+    const chunks = [];
+    for (let i = 0; i < arr?.length; i += size) {
+      chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+  };
+
+  // Create chunks for both popular and used links
+  const popularLinksChunks = popularLinkData ? chunkArray(popularLinkData, 2) : [];
+  const usedLinksChunks = usedLinkData ? chunkArray(usedLinkData, 2) : [];
+
+  console.log("popularLinkData", popularLinkData);
   return (
     <Box component="section" className="quick-links" py="56px">
       <Box className="container-xl">
@@ -13,93 +48,17 @@ const QuickLinks = ({ titlePopular, titleUsed }) => {
           </Title>
         </SimpleGrid>
         <SimpleGrid cols={{ base: 3, sm: 3, md: 6, lg: 6, xl: 6 }} spacing="md">
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Isuzu a for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                JS forland Wagon R for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Hino for Sale
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Honda City for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Toyota Land Cruiser for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Toyota Aqua for Sale
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Toyota Prado for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Daihatsu Move for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Suzuki Swift for Sale
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Honda Civic for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Suzuki Alto for Sale
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Suzuki Mehran for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Daihatsu Cuore for Sale
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Suzuki Cultus for Sale
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Toyota Prius for Sale
-              </Anchor>
-            </li>
-          </ul>
+          {popularLinksChunks.map((chunk, index) => (
+            <ul key={index} className="list-unstyled">
+              {chunk.map((link) => (
+                <li key={link._id}>
+                  <Anchor component={Link} href={link.url} underline="never">
+                    {link.title} for Sale
+                  </Anchor>
+                </li>
+              ))}
+            </ul>
+          ))}
         </SimpleGrid>
 
         {/* Used Car Links */}
@@ -108,98 +67,17 @@ const QuickLinks = ({ titlePopular, titleUsed }) => {
         </SimpleGrid>
 
         <SimpleGrid cols={{ base: 3, sm: 3, md: 6, lg: 6, xl: 6 }} spacing="md">
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Lahore
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Mardan
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Abbottabad
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Karachi
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Peshawar
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Swabi
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Rawalpindi
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Multan
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Sargodha
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Islamabad
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Sialkot
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Faisalabad
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Bahawalpur
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Sukkur
-              </Anchor>
-            </li>
-          </ul>
-          <ul className="list-unstyled">
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Gujranwala
-              </Anchor>
-            </li>
-            <li>
-              <Anchor component={Link} href="#" underline="never">
-                Used Trucks Gujrat
-              </Anchor>
-            </li>
-          </ul>
+          {usedLinksChunks.map((chunk, index) => (
+            <ul key={index} className="list-unstyled">
+              {chunk.map((link) => (
+                <li key={link._id}>
+                  <Anchor component={Link} href={link.url} underline="never">
+                    Used {vehicleType}s {link.title}
+                  </Anchor>
+                </li>
+              ))}
+            </ul>
+          ))}
         </SimpleGrid>
       </Box>
     </Box>

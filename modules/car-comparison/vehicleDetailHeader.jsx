@@ -69,6 +69,7 @@ const Header = ({ vehicles, type, onVehicleRemove }) => {
 
   const handleCompare = () => {
     // Ensure at least 2 vehicles are selected
+    console.log("vehicle>>>>>>>>");
     const selectedVehicles = [vehicle1, vehicle2, vehicle3].filter(
       (vehicle) => vehicle.make && vehicle.model
     );
@@ -77,6 +78,8 @@ const Header = ({ vehicles, type, onVehicleRemove }) => {
       alert("You must select at least 2 vehicles for comparison");
       return;
     }
+
+  
 
     // Create slug from selected vehicles
     const slug = selectedVehicles
@@ -134,6 +137,13 @@ const Header = ({ vehicles, type, onVehicleRemove }) => {
         break;
     }
   };
+
+  console.log("setVehicle1setVehicle1", vehicle3);
+  useEffect(() => {
+    handleCompare()
+  }, [vehicle3.variant, vehicle2.variant, vehicle1.variant])
+  
+
   return (
     <>
       <CustomModel
