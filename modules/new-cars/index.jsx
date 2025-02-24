@@ -65,6 +65,12 @@ const NewCarsModule = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all"); // Initialize filter state
+  const [showAllLaunched, setShowAllLaunched] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showAllPopular, setShowAllPopular] = useState(false);
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
+  const [showAllMake1, setShowAllMake1] = useState(false);
+  const [showAllMake2, setShowAllMake2] = useState(false);
 
   const [reviews, setReviews] = useState([]);
   const [counts, setCounts] = useState({
@@ -151,6 +157,12 @@ const NewCarsModule = ({
 
   // Replace router.pathname check with pathname
   const isNew = pathname?.includes('/new/');
+
+  const transitionStyles = {
+    transition: 'all 0.3s ease-in-out',
+    opacity: isTransitioning ? 0 : 1,
+    transform: isTransitioning ? 'translateY(20px)' : 'translateY(0)'
+  };
 
   return (
     <>
@@ -268,7 +280,7 @@ const NewCarsModule = ({
         />
         <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
-            <div className="row">
+            <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="40px">
                 <Title order={2} lh="1">
                   Popular New{" "}
@@ -277,19 +289,51 @@ const NewCarsModule = ({
                   </Text>
                 </Title>
               </Box>
-              {popularVehicles?.data?.map((vehicle, index) => {
+              {(showAllPopular 
+                ? popularVehicles?.data 
+                : popularVehicles?.data?.slice(0, 8)
+              )?.map((vehicle, index) => {
                 return (
-                  <Box className="col-md-3">
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                    style={transitionStyles}
+                  >
                     <NewCarsCard vehicle={vehicle} isRating={true} />
                   </Box>
                 );
               })}
+              {popularVehicles?.data?.length > 8 && (
+                <Box className="col-12" mb="20px">
+                  <Text 
+                    component="span" 
+                    c="#E90808" 
+                    style={{ 
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      float: 'right',
+                      marginRight: '15px'
+                    }}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setShowAllPopular(!showAllPopular);
+                        setTimeout(() => {
+                          setIsTransitioning(false);
+                        }, 50);
+                      }, 300);
+                    }}
+                  >
+                    {showAllPopular ? "Show Less" : "Show More"}
+                  </Text>
+                </Box>
+              )}
             </div>
           </div>
         </Box>
         <Box component="section" className="newly-launched-cars bg-light" pt="40px" pb="8px">
           <div className="container-xl">
-            <div className="row">
+            <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="32px">
                 <Title order={2} lh="1">
                   Newly Launched{" "}
@@ -298,19 +342,51 @@ const NewCarsModule = ({
                   </Text>
                 </Title>
               </Box>
-              {fetchNewlyLaunchedVehicles?.data?.map((vehicle, index) => {
+              {(showAllLaunched 
+                ? fetchNewlyLaunchedVehicles?.data 
+                : fetchNewlyLaunchedVehicles?.data?.slice(0, 8)
+              )?.map((vehicle, index) => {
                 return (
-                  <Box className="col-md-3" key={index}>
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                    style={transitionStyles}
+                  >
                     <NewCarsCard vehicle={vehicle} isRating={false} />
                   </Box>
                 );
               })}
+              {fetchNewlyLaunchedVehicles?.data?.length > 8 && (
+                <Box className="col-12" mb="20px">
+                  <Text 
+                    component="span" 
+                    c="#E90808" 
+                    style={{ 
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      float: 'right',
+                      marginRight: '15px'
+                    }}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setShowAllLaunched(!showAllLaunched);
+                        setTimeout(() => {
+                          setIsTransitioning(false);
+                        }, 50);
+                      }, 300);
+                    }}
+                  >
+                    {showAllLaunched ? "Show Less" : "Show More"}
+                  </Text>
+                </Box>
+              )}
             </div>
           </div>
         </Box>
         <Box component="section" className="upcoming-cars" pt="56px" pb="24px">
           <div className="container-xl">
-            <div className="row">
+            <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="32px">
                 <Title order={2} lh="1">
                   Upcoming{" "}
@@ -319,19 +395,51 @@ const NewCarsModule = ({
                   </Text>
                 </Title>
               </Box>
-              {fetchUpComingVehicles?.data?.map((vehicle, index) => {
+              {(showAllUpcoming 
+                ? fetchUpComingVehicles?.data 
+                : fetchUpComingVehicles?.data?.slice(0, 8)
+              )?.map((vehicle, index) => {
                 return (
-                  <Box className="col-md-3" key={index}>
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                    style={transitionStyles}
+                  >
                     <NewCarsCard vehicle={vehicle} isRating={false} />
                   </Box>
                 );
               })}
+              {fetchUpComingVehicles?.data?.length > 8 && (
+                <Box className="col-12" mb="20px">
+                  <Text 
+                    component="span" 
+                    c="#E90808" 
+                    style={{ 
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      float: 'right',
+                      marginRight: '15px'
+                    }}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setShowAllUpcoming(!showAllUpcoming);
+                        setTimeout(() => {
+                          setIsTransitioning(false);
+                        }, 50);
+                      }, 300);
+                    }}
+                  >
+                    {showAllUpcoming ? "Show Less" : "Show More"}
+                  </Text>
+                </Box>
+              )}
             </div>
           </div>
         </Box>
         <Box component="section" className="cars-by-model bg-light" pt="40px" pb="8px">
           <div className="container-xl">
-            <div className="row">
+            <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="32px">
                 <Title order={2} tt="capitalize" lh={'1'}>
                   {company_1[type]} New{" "}
@@ -341,19 +449,51 @@ const NewCarsModule = ({
                   </Text>
                 </Title>
               </Box>
-              {fetchMakebyVehicles?.data?.map((vehicle, index) => {
+              {(showAllMake1 
+                ? fetchMakebyVehicles?.data 
+                : fetchMakebyVehicles?.data?.slice(0, 8)
+              )?.map((vehicle, index) => {
                 return (
-                  <Box className="col-md-3" key={index}>
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                    style={transitionStyles}
+                  >
                     <NewCarsCard vehicle={vehicle} isRating={false} />
                   </Box>
                 );
               })}
+              {fetchMakebyVehicles?.data?.length > 8 && (
+                <Box className="col-12" mb="20px">
+                  <Text 
+                    component="span" 
+                    c="#E90808" 
+                    style={{ 
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      float: 'right',
+                      marginRight: '15px'
+                    }}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setShowAllMake1(!showAllMake1);
+                        setTimeout(() => {
+                          setIsTransitioning(false);
+                        }, 50);
+                      }, 300);
+                    }}
+                  >
+                    {showAllMake1 ? "Show Less" : "Show More"}
+                  </Text>
+                </Box>
+              )}
             </div>
           </div>
         </Box>
         <Box component="section" className="cars-by-model" pt="56px">
           <div className="container-xl">
-            <div className="row">
+            <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="32px">
                 <Title order={2} tt="capitalize" lh="1">
                   {company_2[type]} New{" "}
@@ -363,13 +503,45 @@ const NewCarsModule = ({
                   </Text>
                 </Title>
               </Box>
-              {fetchHondaVehicles?.data?.map((vehicle, index) => {
+              {(showAllMake2 
+                ? fetchHondaVehicles?.data 
+                : fetchHondaVehicles?.data?.slice(0, 8)
+              )?.map((vehicle, index) => {
                 return (
-                  <Box className="col-md-3" key={index}>
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                    style={transitionStyles}
+                  >
                     <NewCarsCard vehicle={vehicle} isRating={false} />
                   </Box>
                 );
               })}
+              {fetchHondaVehicles?.data?.length > 8 && (
+                <Box className="col-12" mb="20px">
+                  <Text 
+                    component="span" 
+                    c="#E90808" 
+                    style={{ 
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      float: 'right',
+                      marginRight: '15px'
+                    }}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setShowAllMake2(!showAllMake2);
+                        setTimeout(() => {
+                          setIsTransitioning(false);
+                        }, 50);
+                      }, 300);
+                    }}
+                  >
+                    {showAllMake2 ? "Show Less" : "Show More"}
+                  </Text>
+                </Box>
+              )}
             </div>
           </div>
         </Box>
@@ -380,7 +552,7 @@ const NewCarsModule = ({
 
         <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
 
-        <QuickLinks />
+        <QuickLinks vehicleType={type}/>
       </section>
       <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} />
     </>

@@ -37,7 +37,7 @@ const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
 
           {isRating && (
             <Flex align="center" justify="center" gap="xs">
-              <Rating defaultValue={vehicle.averageRating ?? 0} size={'xs'} />
+              <Rating defaultValue={vehicle.averageRating ?? 0} size={'xs'} readOnly />
               <Text span inherit fz="12px">
                 {vehicle?.averageRating
                   ? `(${Math.round(parseFloat(vehicle.averageRating) * 10) / 10
