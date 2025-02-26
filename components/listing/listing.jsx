@@ -5,7 +5,7 @@ import ListCardView from "@/components/ui/ListCardView";
 import CarCard from "@/components/ui/CarCard";
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
-import LoadingWrapper from "@/components/listing/loading-wrapper";
+import LoadingWrapper from "@/components/loading-wrapper";
 import {
   Box,
   Group,
