@@ -55,7 +55,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     model: [],
     variant: [],
     mileage: [0, 2000000],
-    price: [0, 2000000000],
+    price: [0, 90000000],
     year: [2000, 2024],
     transmission: "",
     drive: "",
@@ -665,7 +665,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           <RangeSlider
             color="#E90808"
             min={0}
-            max={2000000}
+            max={90000}
             value={filters.mileage}
             size="xs"
             step={1000}
@@ -753,7 +753,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                 hideControls
                 value={filters.price[1]}
                 min={filters.price[0]}
-                max={90000000}
+                max={99000000}
                 onChange={(e) =>
                   handleFilterChange("price", [
                     filters.price[0],
@@ -1728,7 +1728,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                 <RangeSlider
                   color="#E90808"
                   min={0}
-                  max={2000000000}
+                  max={90000000}
                   value={filters.price}
                   size="xs"
                   my="xs"
@@ -1761,7 +1761,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                       hideControls
                       value={filters.price[1]}
                       min={filters.price[0]}
-                      max={2000000000}
+                      max={90000000}
                       onChange={(e) =>
                         handleFilterChange("price", [
                           filters.price[0],

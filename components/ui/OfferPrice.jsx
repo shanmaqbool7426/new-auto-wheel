@@ -16,10 +16,13 @@ import { useSession } from "next-auth/react";
 import io from 'socket.io-client';
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useForm } from "@mantine/form";
+import AuthModal from "@/modules/auth/AuthModal";
+import { AUTH_VIEWS } from "@/constants/auth-config";
 
 const OfferPriceModal = ({ opened, close, detail }) => {
   const { data: session, status } = useSession();
   const [socket, setSocket] = useState(null);
+  const [openAuthModal, setOpenAuthModal] = useState(false);
   
   const form = useForm({
     initialValues: {
@@ -63,6 +66,14 @@ const OfferPriceModal = ({ opened, close, detail }) => {
     }
   }, [session]);
 
+  useEffect(() => {
+    // If modal is opened but user is not logged in, show auth modal instead
+    if (opened && !session) {
+      setOpenAuthModal(true);
+      close(); // Close the price modal
+    }
+  }, [opened, session]);
+
   const handleSubmit = (values) => {
     if (!session) return;
 
@@ -81,36 +92,16 @@ const OfferPriceModal = ({ opened, close, detail }) => {
     }
   };
 
-  if (!opened) return null;
-
-  // Render sign in message if no user
-  if (!session?.user?.email) {
+  if (!session) {
     return (
-      <Modal
-        opened={opened}
-        size="lg"
-        padding={0}
-        onClose={close}
-        withCloseButton={false}
-      >
-        <Box className="modal-header" p="xl" bg="#333" c="white">
-          <Flex gap="sm" align="center">
-            <DollarIcon style={{ width: rem(40), height: rem(40) }} />
-            <Title order={4} fw={500}>
-              OFFER PRICE
-              <Text size="sm" ff="text">
-                {detail?.data?.year} {detail?.data?.make} {detail?.data?.model}
-              </Text>
-            </Title>
-          </Flex>
-          <CloseButton c="#878787" bg="transparent" ml="auto" onClick={close} />
-        </Box>
-        <Box className="modal-body" p="xl">
-          <Text size="sm" ff="text">
-            Please Sign In First to send an offer
-          </Text>
-        </Box>
-      </Modal>
+      <AuthModal 
+        opened={openAuthModal} 
+        onClose={() => {
+          setOpenAuthModal(false);
+          close();
+        }}
+        initialView={AUTH_VIEWS.SIGN_IN}
+      />
     );
   }
 

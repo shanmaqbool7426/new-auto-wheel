@@ -19,7 +19,7 @@ function AuthModal({ opened, onClose, initialView = AUTH_VIEWS.ACCOUNT_TYPE }) {
   };
 
   const handleClose = () => {
-    setCurrentView(AUTH_VIEWS.ACCOUNT_TYPE);
+    // setCurrentView(AUTH_VIEWS.ACCOUNT_TYPE);
     setAuthData({});
     onClose();
   };
