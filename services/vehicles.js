@@ -212,7 +212,14 @@ export const fetchVehicleColors = async (type) => {
   }
 };
 
-
-
+export const fetchVehicleCompetitors = async (vehicleId) => {
+  try {
+    const competitors = await fetchAPI(API_ENDPOINTS.COMPETITOR.GET(vehicleId));
+    return competitors?.data || [];
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return [];
+  }
+};
 
 

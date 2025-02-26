@@ -8,7 +8,7 @@ import SectionTopComparison from "@/components/sections/SectionTopComparison"
 
 import Comments from "@/components/sections/Comments"
 import ComparisonProducts from "../home/ComparisonProducts";
-import { fetchVehiclsData } from "@/services/vehicles";
+import { fetchVehicleCompetitors, fetchVehiclsData } from "@/services/vehicles";
 import { reorderSlug } from "@/utils";
 
 const mockData = [
@@ -142,33 +142,32 @@ const mockData = [
     "minPrice": 637000,
     "maxPrice": 8110000,
     "defaultImage": "https://res.cloudinary.com/dcfpazr4b/image/upload/v1737981222/b82kwuay3dmmlf3wxax6.png",
-    "views": 0,  
+    "views": 0,
     "slug": "honda-civic-vti-oriel-2025",
     "averageRating": 0,
     "reviewCount": 0
   },
 ]
 
-const NewVehicleDetailModule =async ({ vehicle, variantsVehicles }) => {
-    const reorderedSlug = reorderSlug([`cars`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
-  
-    const dataofVehcles = await fetchVehiclsData(reorderedSlug);
-  
+const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
+  const reorderedSlug = reorderSlug([`cars`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
 
-
-    console.log('shan',vehicle)
+  const dataofVehcles = await fetchVehiclsData(reorderedSlug);
+  const competitors = await fetchVehicleCompetitors(vehicle?._id);
+  console.log(competitors, 'abdullah')
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />
       <BrowseVideos type="car" />
       <Comments bg="#F3F3F3" />
       <CardsCarousel
-        title={'Toyota Corolla 2023'}
+        title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`}
         primaryTitle={'Competitors'}
-        data={mockData}
+        data={competitors}
+        isUsedVehicle={false}
       />
       {/* <SectionTopComparison /> */}
-        <ComparisonProducts type={"car"}/>
+      <ComparisonProducts type={"car"} />
       <CardsCarousel
         title={`Used ${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} for`}
         primaryTitle={'Sale in Pakistan'}

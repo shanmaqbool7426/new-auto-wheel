@@ -47,6 +47,8 @@ const DRIVE_BASE = `${BASE_URL}/api/drive`;
 const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
 const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
 const COLOR_BASE = `${BASE_URL}/api/color`;
+const Competitor_BASE = `${BASE_URL}/api/competitor`;
+
 export const API_ENDPOINTS = {
   AUTH: {
     SIGNUP: `${BASE_URL}/api/user/register`,
@@ -209,6 +211,9 @@ export const API_ENDPOINTS = {
   },
   COLOR: {
     GET: (type) => `${COLOR_BASE}/type?type=${type}`,
+  },
+  COMPETITOR: {
+    GET: (vehicleId) => `${Competitor_BASE}/vehicle/${vehicleId}`,
   },
 
   // Image Upload Endpoint
