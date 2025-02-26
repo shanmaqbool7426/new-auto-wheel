@@ -7,7 +7,7 @@ import {
   LocationPinIcon,
   ShareIcon,
 } from "@/components/Icons";
-import { useRouter } from "next/navigation";
+import { useUser } from '@/contexts/user';
 import {
   Anchor,
   Box,
@@ -26,11 +26,10 @@ import {
   Menu,
 } from "@mantine/core";
 import { FaRoad } from "react-icons/fa6";
-import { BsCameraFill, BsFuelPumpFill, BsStar } from "react-icons/bs";
+import { BsFuelPumpFill } from "react-icons/bs";
 
 import { IconStar, IconStarFilled, IconCopy } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
-import { BASE_URL } from "@/constants/api-endpoints";
 import { notifications } from "@mantine/notifications";
 import {
   FacebookShareButton,
@@ -43,23 +42,10 @@ import {
   EmailIcon,
 } from "react-share";
 
-const ListCardView = ({ vehicle, userData }) => {
+const ListCardView = ({ vehicle }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [localUserData, setLocalUserData] = useState(userData);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const router = useRouter();
+  const { isFavorite, toggleFavorite, isFavoriteLoading } = useUser();
   const images = vehicle?.images?.slice(0, 5) || [];
-
-  useEffect(() => {
-    if (userData && vehicle) {
-      setIsFavorite(userData.favoriteVehicles?.includes(vehicle._id));
-    }
-  }, [userData, vehicle]);
-
-  useEffect(() => {
-    setLocalUserData(userData);
-  }, [userData]);
 
   useEffect(() => {
     images.forEach((src) => {
@@ -82,58 +68,7 @@ const ListCardView = ({ vehicle, userData }) => {
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (!localUserData) {
-      notifications.show({
-        title: "Login Required",
-        message: "Please login first to add vehicles to favorites",
-        color: "red",
-      });
-      router.push("/login");
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${localUserData._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localUserData._id}`,
-          },
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.success) {
-        const updatedUserData = {
-          ...localUserData,
-          favoriteVehicles: data.data.favoriteVehicles,
-        };
-        localStorage.setItem("user", JSON.stringify(updatedUserData));
-        setLocalUserData(updatedUserData);
-        setIsFavorite(data.data.favoriteVehicles.includes(vehicle._id));
-
-        notifications.show({
-          title: "Success",
-          message: data.message,
-          color: "green",
-        });
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      notifications.show({
-        title: "Error",
-        message: error.message || "Failed to update favorite status",
-        color: "red",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await toggleFavorite(vehicle._id);
   };
 
   const handleCopyLink = () => {
@@ -155,11 +90,11 @@ const ListCardView = ({ vehicle, userData }) => {
       size="lg"
       bottom={14}
       left={10}
-      loading={isLoading}
+      loading={isFavoriteLoading(vehicle._id)}
       onClick={handleToggleFavorite}
       style={{ zIndex: 201 }}
     >
-      {isFavorite ? (
+      {isFavorite(vehicle._id) ? (
         <IconStarFilled
           size={20}
           style={{ color: "#E90808", fill: "#E90808" }}

@@ -54,6 +54,8 @@ const Header = () => {
 
   const handleLogout = () => {
     signOut();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   if (session) {
