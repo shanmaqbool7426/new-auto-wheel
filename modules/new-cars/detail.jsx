@@ -154,18 +154,20 @@ const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
 
   const dataofVehcles = await fetchVehiclsData(reorderedSlug);
   const competitors = await fetchVehicleCompetitors(vehicle?._id);
-  console.log(competitors, 'abdullah')
+  
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />
       <BrowseVideos type="car" />
       <Comments bg="#F3F3F3" />
-      <CardsCarousel
-        title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`}
-        primaryTitle={'Competitors'}
-        data={competitors}
-        isUsedVehicle={false}
-      />
+      {competitors?.length > 0 && (
+        <CardsCarousel
+          title={`${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} ${vehicle?.vehicleDetails?.year}`}
+          primaryTitle={'Competitors'}
+          data={competitors}
+          isUsedVehicle={false}
+        />
+      )}
       {/* <SectionTopComparison /> */}
       <ComparisonProducts type={"car"} />
       <CardsCarousel
