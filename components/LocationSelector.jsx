@@ -201,7 +201,7 @@ const LocationSelector = ({
             Country
           </Button> */}
           <Button
-            className={`tab-button ${activeTab === "province" ? "active" : ""}`}
+            className={`tab-button}`}
             variant="subtle"
             bg={activeTab === "province" ? "#E90808" : "#F3F3F3"}
             color={activeTab === "province" ? "white" : "#878787"}
@@ -215,7 +215,7 @@ const LocationSelector = ({
           {!hide && ( // Conditionally render Cities tab button
             <>            
             <Button
-              className={`tab-button ${activeTab === "city" ? "active" : ""}`}
+              className={`tab-button`}
               variant="subtle"
               bg={activeTab === "city" ? "#E90808" : "#F3F3F3"}
               color={activeTab === "city" ? "white" : "#878787"}
@@ -227,7 +227,7 @@ const LocationSelector = ({
               City
             </Button>
           <Button
-              className={`tab-button ${activeTab === "suburb" ? "active" : ""}`}
+              className={`tab-button`}
               variant="subtle"
               bg={activeTab === "suburb" ? "#E90808" : "#F3F3F3"}
               color={activeTab === "suburb" ? "white" : "#878787"}
@@ -311,7 +311,7 @@ const LocationSelector = ({
                       <List.Item
                         key={province.isoCode}
                         className={`search-dropdown-lists__item ${
-                          selection.province.isoCode === province.isoCode ? "selected" : ""
+                          selection.province && selection.province.isoCode === province.isoCode ? "selected" : ""
                         }`}
                         onClick={() => {
                           handleSelection("province", province);

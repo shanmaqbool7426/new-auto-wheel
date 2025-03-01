@@ -4,6 +4,8 @@ import { BASE_URL } from "@/constants/api-endpoints";
 import { getLocalStorage } from "@/utils";
 import { notifications } from '@mantine/notifications';
 import { useSession } from "next-auth/react";
+import { useAuthModalContext } from './auth-modal';
+import { AUTH_VIEWS } from '@/constants/auth-config';
 
 const UserContext = createContext();
 
@@ -13,7 +15,7 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [loadingFavorites, setLoadingFavorites] = useState(new Set());
   const { data: session } = useSession();
-
+  const { openAuthModal } = useAuthModalContext();
   // Initialize user from localStorage
   useEffect(() => {
     const storedUser = getLocalStorage('user');
@@ -44,6 +46,7 @@ export function UserProvider({ children }) {
 
   const toggleFavorite = async (vehicleId) => {
     if (!userData?._id) {
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
       notifications.show({
         title: "Login Required",
         message: "Please login first to add vehicles to favorites",

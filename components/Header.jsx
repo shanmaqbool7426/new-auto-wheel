@@ -4,7 +4,6 @@ import {
   useMantineTheme,
   UnstyledButton,
   Group,
-  ThemeIcon,
   Loader,
   rem,
   HoverCard,
@@ -22,21 +21,15 @@ import {
   List,
   Title,
   Image,
-  Accordion,
-  NavLink,
   Menu,
-  Avatar,
-  Container,
-  AppShell,
 } from "@mantine/core";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
-import { BsArrowDown, BsCaretDown } from "react-icons/bs";
 import { AUTH_VIEWS } from "@/constants/auth-config";
-import AuthModal from "@/modules/auth/AuthModal";
 import { usePathname } from 'next/navigation';
+import { useAuthModalContext } from '@/contexts/auth-modal';
 
 const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -45,11 +38,8 @@ const Header = () => {
   const pathname = usePathname();
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
-  const [authModalOpened, setAuthModalOpened] = useState(false);
+  const { openAuthModal } = useAuthModalContext();
 
-  const [initialAuthView, setInitialAuthView] = useState(
-    AUTH_VIEWS.ACCOUNT_TYPE
-  );
   const { data: session, status } = useSession();
 
   const handleLogout = () => {
@@ -67,8 +57,7 @@ const Header = () => {
 
   const handleSignUp = (e) => {
     e.stopPropagation();
-    setInitialAuthView(AUTH_VIEWS.ACCOUNT_TYPE);
-    setAuthModalOpened(true);
+    openAuthModal(AUTH_VIEWS.ACCOUNT_TYPE);
   };
 
   const isActiveType = (path, type) => {
@@ -82,8 +71,7 @@ const Header = () => {
 
   const handleSignIn = (e) => {
     e.stopPropagation();
-    setInitialAuthView(AUTH_VIEWS.SOCIAL_LOGIN);
-    setAuthModalOpened(true);
+    openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
   };
 
   // Data for cars, bikes, and trucks
@@ -728,13 +716,7 @@ const Header = () => {
           </Group>
         </ScrollArea>
       </Drawer>
-      {authModalOpened && (
-        <AuthModal
-          opened={authModalOpened}
-          onClose={() => setAuthModalOpened(false)}
-          initialView={initialAuthView}
-        />
-      )}
+
     </>
   );
 };

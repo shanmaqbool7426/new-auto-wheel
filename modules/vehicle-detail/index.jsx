@@ -182,11 +182,11 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
   );
 
   // Reusable components
-  const RatingStars = ({ rating }) => (
-    <Box className="fs-5 text-warning d-flex align-items-center">
+  const RatingStars = ({ rating, size }) => (
+    <Box className="fs-6 text-warning d-flex align-items-center">
       {[...Array(5)].map((_, index) => (
         <span key={index}>
-          {index < Math.floor(rating) ? <BsStarFill /> : <BsStar />}
+          {index < Math.floor(rating) ? <BsStarFill size={size} /> : <BsStar size={size} />}
         </span>
       ))}
       <span className="text-dark ms-2 fs-6">({rating.toFixed(1)}/5)</span>
@@ -212,15 +212,15 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
         <Text span className="text-muted">
           {sellerInfo.type}
         </Text>
-        <Box className="row mt-3 mb-4">
+        <Box className="row mt-3 mb-4" align="center">
           <Box className="col">
             <Card 
               padding={rem(8)} 
               radius="sm" 
               withBorder
               style={{ 
-                width: '150px', 
-                height: '70.7px',
+                width: '130px', 
+                height: '41.7px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -239,17 +239,14 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                 <Image 
                   src={sellerInfo.image} 
                   alt={sellerInfo.dealerName}
-                  width={150}
-                  height={70.7}
-                  fit="contain"
                 />
               </Link>
             </Card>
           </Box>
           <Box className="col">
             <Box className="rating">
-              <RatingStars rating={sellerInfo.rating} />
-              <Text className="text-muted">
+              <RatingStars rating={sellerInfo.rating} size={15} />
+              <Text className="text-muted" size={12} lh={1.2} >
                 (Reviews {sellerInfo.reviewCount})
               </Text>
             </Box>

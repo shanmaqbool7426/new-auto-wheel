@@ -212,21 +212,21 @@ export default async function Listing({ params, searchParams }) {
                   <div
                     key={index}
                     className={
-                      view === "list" ? "col-12" : "col-12 col-sm-6 col-lg-4"
+                      view === "grid" ? "col-12 col-sm-6 col-lg-4":"col-12"
                     }
                   >
-                    {view === "list" ? (
-                      <ListCardView
-                        index={index}
-                        vehicle={vehicle}
-                        userData={userData}
-                      />
-                    ) : (
+                    {view === "grid" ? (
                       <CarCard
-                        vehicle={vehicle}
-                        index={index}
-                        userData={userData}
-                      />
+                      vehicle={vehicle}
+                      index={index}
+                      userData={userData}
+                    />
+                    ) : (
+                      <ListCardView
+                      index={index}
+                      vehicle={vehicle}
+                      userData={userData}
+                    />
                     )}
                   </div>
                 ))}
