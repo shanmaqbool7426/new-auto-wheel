@@ -21,13 +21,17 @@ export const fetchAPI = async (url, options = {}) => {
     // Handle caching strategy - either use no-store OR revalidate, not both
     if (options.cache === 'no-store') {
       fetchOptions.cache = 'no-store';
-      // Remove any revalidation settings
-      delete fetchOptions.next;
-    } else {
-      // Default to revalidate if no specific cache option is set
+      fetchOptions.next = { revalidate: 0 }; // Force revalidation
+    } else if (options.next?.revalidate) {
+      // Only set revalidation if explicitly specified
       fetchOptions.next = {
-        revalidate: options.revalidate || 3600 // Default 1 hour cache
+        revalidate: options.next.revalidate
       };
+      delete fetchOptions.cache; // Remove cache option when using revalidate
+    } else {
+      // Default to no-store if no specific cache option is set
+      fetchOptions.cache = 'no-store';
+      fetchOptions.next = { revalidate: 0 };
     }
 
     // Perform the fetch request

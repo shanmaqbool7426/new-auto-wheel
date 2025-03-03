@@ -849,7 +849,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Control>
             <Accordion.Panel pt="sm">
             <ScrollArea
-                h={150}
+                h={vehicleTransmissionOptions.length > 5 ? 150 : 'auto'}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
@@ -913,7 +913,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Control>
             <Accordion.Panel pt="sm">
             <ScrollArea
-                h={150}
+                h={vehicleDriveOptions.length > 5 ? 150 : 'auto'}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
@@ -968,7 +968,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Control>
             <Accordion.Panel pt="sm">
               <ScrollArea
-                h={150}
+                h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
@@ -1054,7 +1054,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Control>
             <Accordion.Panel pt="sm">
             <ScrollArea
-                h={150}
+                h={vehicleFuelTypeOptions.length > 5 ? 150 : 'auto'}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
@@ -1994,7 +1994,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
                     <ScrollArea
-                      h={150}
+                      h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
                       scrollbarSize={6}
                       scrollHideDelay={1000}
                       offsetScrollbars
