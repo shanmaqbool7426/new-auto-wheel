@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com','auto-wheels.s3.eu-north-1.amazonaws.com'],
     remotePatterns: [
       {
         protocol: 'http',
@@ -49,11 +49,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: "auto-wheels.s3.eu-north-1.amazonaws.com"  // Add your S3 bucket
-      },
-      {
-        protocol: 'https',
-        hostname: "auto-wheels.s3.amazonaws.com"
+        hostname: 'auto-wheels.s3.amazonaws.com'  // Add your S3 bucket path
       }
     ],
   },

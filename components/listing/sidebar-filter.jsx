@@ -55,7 +55,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     model: [],
     variant: [],
     mileage: [0, 2000000],
-    price: [0, 2000000000],
+    price: [0, 90000000],
     year: [2000, 2024],
     transmission: "",
     drive: "",
@@ -159,7 +159,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           [...new Set(value)].forEach(
             (bodyType) => (customUrl += `bt_${bodyType.toLowerCase()}/`)
           );
-        if (key === "price" && (value[0] !== 0 || value[1] !== 2000000000)) {
+        if (key === "price" && (value[0] !== 0 || value[1] !== 90000000)) {
           customUrl += `pr_${value[0]}_${value[1]}/`;
         }
         if (key === "year" && (value[0] !== 2000 || value[1] !== 2024)) {
@@ -665,7 +665,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           <RangeSlider
             color="#E90808"
             min={0}
-            max={2000000}
+            max={90000}
             value={filters.mileage}
             size="xs"
             step={1000}
@@ -753,7 +753,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                 hideControls
                 value={filters.price[1]}
                 min={filters.price[0]}
-                max={90000000}
+                max={99000000}
                 onChange={(e) =>
                   handleFilterChange("price", [
                     filters.price[0],
@@ -848,6 +848,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
+            <ScrollArea
+                h={vehicleTransmissionOptions.length > 5 ? 150 : 'auto'}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
               {vehicleTransmissionOptions?.map((transmission, index) => (
                 <Box pos="relative" key={index}>
                   <Checkbox
@@ -882,6 +888,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   )}
                 </Box>
               ))}
+            </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -905,6 +912,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
+            <ScrollArea
+                h={vehicleDriveOptions.length > 5 ? 150 : 'auto'}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
               {vehicleDriveOptions?.map((drive, index) => (
                 <Box pos="relative" key={index}>
                   <Checkbox
@@ -931,6 +944,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   )}
                 </Box>
               ))}
+            </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -954,7 +968,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Accordion.Control>
             <Accordion.Panel pt="sm">
               <ScrollArea
-                h={150}
+                h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
                 scrollbarSize={6}
                 scrollHideDelay={1000}
                 offsetScrollbars
@@ -1039,6 +1053,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
               </Text>
             </Accordion.Control>
             <Accordion.Panel pt="sm">
+            <ScrollArea
+                h={vehicleFuelTypeOptions.length > 5 ? 150 : 'auto'}
+                scrollbarSize={6}
+                scrollHideDelay={1000}
+                offsetScrollbars
+              >
               {vehicleFuelTypeOptions?.map((fuel, index) => (
                 <Box pos="relative" key={index}>
                   <Checkbox
@@ -1067,6 +1087,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   )}
                 </Box>
               ))}
+            </ScrollArea>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -1317,6 +1338,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           </Center>
         </Card.Section>
         <div className="filter-card">
+          <ScrollArea
+            h={250}
+            scrollbarSize={6}
+            scrollHideDelay={1000}
+            scrollbars="y"
+          >
           <Grid mb="lg">
             {bodies?.data?.map((bodyType, index) => (
               <Grid.Col span={6} ta="center" key={index}>
@@ -1377,6 +1404,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
               </Grid.Col>
             ))}
           </Grid>
+          </ScrollArea>
         </div>
       </Card>
       <Drawer.Root size="xs" opened={opened} onClose={close}>
@@ -1728,7 +1756,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                 <RangeSlider
                   color="#E90808"
                   min={0}
-                  max={2000000000}
+                  max={90000000}
                   value={filters.price}
                   size="xs"
                   my="xs"
@@ -1761,7 +1789,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                       hideControls
                       value={filters.price[1]}
                       min={filters.price[0]}
-                      max={2000000000}
+                      max={90000000}
                       onChange={(e) =>
                         handleFilterChange("price", [
                           filters.price[0],
@@ -1966,7 +1994,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   </Accordion.Control>
                   <Accordion.Panel pt="sm">
                     <ScrollArea
-                      h={150}
+                      h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
                       scrollbarSize={6}
                       scrollHideDelay={1000}
                       offsetScrollbars

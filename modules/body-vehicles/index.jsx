@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { BASE_URL } from "@/constants/api-endpoints";
 import {
   Anchor,
   Box,
@@ -30,6 +31,31 @@ const BodiesVehicles = ({
   vehicleType,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [bodyData, setBodyData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBodyData = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/api/browes-by-body/${vehicleType}?page=1&limit=10&search=${slugBody}&type=${vehicleType}`
+        );
+        const data = await response.json();
+        console.log(">>>>>data", data);
+       
+          setBodyData(data?.data[0]);
+      } catch (error) {
+        console.error('Error fetching body data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (slugBody && vehicleType) {
+      fetchBodyData();
+    }
+  }, [slugBody, vehicleType]);
+
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
@@ -60,9 +86,13 @@ const BodiesVehicles = ({
     const normalizedBodyType = bodyType.toLowerCase();
     return descriptions[normalizedBodyType] || `${bodyType} vehicles offer unique characteristics and features designed to meet specific driving needs and preferences. These vehicles come in various configurations to suit different lifestyle requirements.`;
   };
+  
 
-  const bodyTypeInfo = getBodyTypeDescription(slugBody);
-  const text = bodyTypeInfo;
+  console.log(">>>>>bodyData", bodyData); 
+  const bodyImageUrl = bodyData?.bodyImage || matchedBody?.bodyImage;
+  const bodyTitle = bodyData?.title || slugBody;
+  const bodyDescription = bodyData?.description || getBodyTypeDescription(slugBody);
+  const text = bodyDescription;
   const shortText = text.slice(0, 250);
 
   return (
@@ -105,8 +135,8 @@ const BodiesVehicles = ({
                   radius="sm"
                 >
                   <Title order={3} mb="md" tt="capitalize">
-                    {slugBody} {new Date().getFullYear()} Car Models, Prices &
-                    Pictures in Pakistan
+                    {slugBody} Car Models, Prices &
+                    Picture
                   </Title>
                   <div className="row mb-2">
                     <div className="col-md-3">
@@ -118,13 +148,13 @@ const BodiesVehicles = ({
                           align="center"
                         >
                           <Image
-                            src={matchedBody?.bodyImage}
+                            src={bodyImageUrl}
                             alt="Body Logo"
                             h={100}
                             w={100}
                           />
                           <Title order={5} fw={600} c="#E90808" tt="capitalize">
-                            {slugBody}
+                            {bodyTitle}
                           </Title>
                           <Button
                             href={`/listing/${vehicleType}s/search/-/bt_${slugBody.toLowerCase()}`}

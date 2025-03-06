@@ -215,7 +215,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     {console.log("averageRating",averageRating)}
                     <Rating defaultValue={averageRating} count={5} size={'16px'} readOnly/>
                     <Text span inherit size="16px" lh="1">
-                      ({averageRating.toFixed(2) || 0})
+                      ({averageRating?.toFixed(2) || 0})
                     </Text>
                   </Flex>
                   <Text lh="1" size="16px" c="dimmed">(Reviews {reviewCount || 0})</Text>

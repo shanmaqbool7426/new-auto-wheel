@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 import ComparisonCard from "./ComparisonCard";
 import Link from "next/link";
 
-const Header = ({ vehicles, type, onVehicleRemove }) => {
+const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) => {
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -303,20 +303,22 @@ const Header = ({ vehicles, type, onVehicleRemove }) => {
                     </div>
                   ))}
                 </div>
-                <div className="col-md-12">
-                  <Box mt="lg" mx="auto" maw={300}>
-                    <Button
-                      bg="#E90808"
-                      autoContrast
-                      fw={500}
-                      size="md"
+                {!hideCompareButton && (
+                  <div className="col-md-12">
+                    <Box mt="lg" mx="auto" maw={300}>
+                      <Button
+                        bg="#E90808"
+                        autoContrast
+                        fw={500}
+                        size="md"
                       fullWidth
                       onClick={handleCompare}
                     >
                       Compare
                     </Button>
                   </Box>
-                </div>
+                  </div>
+                )}
               </Box>
             </Card>
           </Box>

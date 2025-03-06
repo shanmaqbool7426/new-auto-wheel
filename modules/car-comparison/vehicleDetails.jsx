@@ -36,7 +36,7 @@ const VehicleComparisonDetail = ({ vehicles, type }) => {
                     h={250}
                 >
                     <div className="container-xl">
-                        <Header vehicles={activeVehicles} type={type} onVehicleRemove={handleVehicleRemove} />
+                        <Header vehicles={activeVehicles} type={type} onVehicleRemove={handleVehicleRemove} hideCompareButton={true}/>
                         <VehicleComparisonLabels labels={carDetailLabel} />
                     </div>
                 </Box>

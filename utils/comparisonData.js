@@ -2160,7 +2160,7 @@ const sections = [
         isSwitchable: false,
         fields: [
             {
-                featureName: "Entertainment & Communications",  
+                featureName: "Entertainment & Communications",
                 id: "entertainment-communications",
                 type: "icon",
                 iconURL: "/compare/communication.svg",
@@ -2208,7 +2208,7 @@ const sections = [
         id: "comfort-convenience",
         isSwitchable: false,
         fields: [
-            {   
+            {
                 featureName: "Comfort & Convenience",
                 id: "comfort-convenience",
                 type: "icon",
@@ -2562,14 +2562,14 @@ const bikeSections = [
 
 
 // Function to map vehicle data and optionally hide common features
-export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type ="car") => {
+export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type = "car") => {
     if (!vehicles.length) {
         return { comparisonData: [] };
     }
 
     // Destructure vehicles without default values to determine existence
     const [vehicle1, vehicle2, vehicle3] = vehicles;
-    const mapSection= type === "bike" ? bikeSections : sections;
+    const mapSection = type === "bike" ? bikeSections : sections;
     const comparisonData = mapSection
         .map((section) => {
             const overviewTableData = section.fields
@@ -2616,12 +2616,28 @@ export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type =
                     const second = renderSingleField(vehicle2);
                     const third = renderSingleField(vehicle3);
 
+                    // Check if values are common based on number of vehicles
+                    const isCommon = (() => {
+                        // For 2 vehicles comparison
+                        if (!vehicle3) {
+                            return first && second &&
+                                first === second &&
+                                first !== "-";
+                        }
+                        // For 3 vehicles comparison
+                        return first && second && third &&
+                            first === second &&
+                            second === third &&
+                            first !== "-";
+                    })();
+
                     return {
                         type: field.type,
                         featureName: field.type,
                         first,
                         second,
                         third,
+                        isCommon,
                     };
                 })
                 .filter((row) => {

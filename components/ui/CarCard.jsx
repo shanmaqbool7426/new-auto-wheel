@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { CameraIcon, GearsHandle } from "@/components/Icons";
+import { useUser } from '@/contexts/user'; 
 import React from "react";
 import { FaLocationDot, FaCalendarDays, FaClock } from "react-icons/fa6";
 import {
@@ -8,7 +9,6 @@ import {
   Card,
   Group,
   Image,
-  Title,
   Flex,
   Text,
   rem,
@@ -21,41 +21,13 @@ import {
 import NextLink from "next/link";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
-import { BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
-import { notifications } from "@mantine/notifications";
-import { getLocalStorage } from "@/utils";
 
-const CarCard = ({ vehicle, userData }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+const CarCard = ({ vehicle }) => {
   const router = useRouter();
+  const { isFavorite, toggleFavorite, isFavoriteLoading } = useUser();
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
-
-  // Check favorite status on mount and when userData changes
-  useEffect(() => {
-    const checkFavoriteStatus = async () => {
-      if (!userData?._id) return;
-      
-      try {
-        const response = await fetch(`${BASE_URL}/api/user/${userData._id}/favorites`, {
-          headers: {
-            Authorization: `Bearer ${userData._id}`,
-          },
-        });
-        const data = await response.json();
-        if (data.success) {
-          const favoriteVehicles = data.data || [];
-          setIsFavorite(favoriteVehicles.some(fav => fav._id === vehicle._id));
-        }
-      } catch (error) {
-        console.error('Error fetching favorites:', error);
-      }
-    };
-
-    checkFavoriteStatus();
-  }, [userData, vehicle._id]);
 
   // Preload images
   useEffect(() => {
@@ -64,8 +36,6 @@ const CarCard = ({ vehicle, userData }) => {
       img.src = src;
     });
   }, [images]);
-
-  console.log("userData", userData);
 
   // Function to change slide based on mouse position
   const handleMouseMove = (e) => {
@@ -91,51 +61,7 @@ const CarCard = ({ vehicle, userData }) => {
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (!userData) {
-      notifications.show({
-        title: "Login Required",
-        message: "Please login first to add vehicles to favorites",
-        color: "red",
-      });
-      router.push("/login");
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${BASE_URL}/api/user/${vehicle._id}/toggle-favorite/${userData._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userData._id}`,
-          },
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.success) {
-        setIsFavorite(!isFavorite);
-        notifications.show({
-          title: "Success",
-          message: data.message,
-          color: "green",
-        });
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      notifications.show({
-        title: "Error",
-        message: error.message || "Failed to update favorite status",
-        color: "red",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await toggleFavorite(vehicle._id);
   };
 
   // Simplified favorite button component
@@ -147,16 +73,14 @@ const CarCard = ({ vehicle, userData }) => {
       size="lg"
       bottom={15}
       left={10}
-      loading={isLoading}
+      loading={isFavoriteLoading(vehicle._id)}
       onClick={handleToggleFavorite}
       style={{
         zIndex: 201,
-        // backgroundColor: "rgba(0, 0, 0, 0.3)",
-        // borderRadius: "50%",
         padding: "5px",
       }}
     >
-      {isFavorite ? (
+      {isFavorite(vehicle._id) ? (
         <IconStarFilled
           size={20}
           style={{

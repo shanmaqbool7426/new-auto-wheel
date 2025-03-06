@@ -50,7 +50,7 @@ const DetailSection = ({ section, setHideCommonFeatures, hideCommonFeatures }) =
                 <Table.Tr
                   key={index}
                   fw={600}
-                  bg={item.isRowSelected && "hsla(0, 93%, 47%, 0.03)"}
+                  bg={item.isCommon ? "hsla(0, 93%, 47%, 0.03)" : item.isRowSelected && "hsla(0, 93%, 47%, 0.03)"}
                 >
                   <Table.Td fw={600} size="md" c="#878787" w="20%" className="border-end-0">
                     {item.type}

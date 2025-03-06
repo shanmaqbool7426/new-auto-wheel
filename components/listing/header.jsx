@@ -23,7 +23,7 @@ export const ListingHeader = ({ type }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [view, setView] = useState("grid");
+  const [view, setView] = useState("list");
   const [sortBy, setSortBy] = useState("");
   const sortOptions = [
     { value: "latest", label: "Date: Newest First" },

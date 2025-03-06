@@ -33,8 +33,11 @@
 //   };
 
 // export const BASE_URL = "http://143.110.253.131:5000";
-export const BASE_URL = "https://auto-wheel-be.vercel.app";
-// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// export const BASE_URL = "https://auto-wheel-be.vercel.app";
+export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+
+
+
 
 // Define base paths for commonly used API routes
 const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
@@ -47,6 +50,8 @@ const DRIVE_BASE = `${BASE_URL}/api/drive`;
 const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
 const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
 const COLOR_BASE = `${BASE_URL}/api/color`;
+const Competitor_BASE = `${BASE_URL}/api/competitor`;
+
 export const API_ENDPOINTS = {
   AUTH: {
     SIGNUP: `${BASE_URL}/api/user/register`,
@@ -209,6 +214,9 @@ export const API_ENDPOINTS = {
   },
   COLOR: {
     GET: (type) => `${COLOR_BASE}/type?type=${type}`,
+  },
+  COMPETITOR: {
+    GET: (vehicleId) => `${Competitor_BASE}/vehicle/${vehicleId}`,
   },
 
   // Image Upload Endpoint
