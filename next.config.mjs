@@ -47,6 +47,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: "via.placeholder.com"
       },
+      {
+        protocol: 'https',
+        hostname: "auto-wheels.s3.eu-north-1.amazonaws.com"  // Add your S3 bucket
+      },
+      {
+        protocol: 'https',
+        hostname: "auto-wheels.s3.amazonaws.com"
+      }
     ],
   },
   async headers() {
