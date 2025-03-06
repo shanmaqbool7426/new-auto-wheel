@@ -16,7 +16,7 @@
 
 .carouselContainer :global(.mantine-Carousel-control) {
   position: absolute;
-  top: 50%;
+  top: 30%;
   transform: translateY(-50%);
   background-color: red;
   border: 1px solid #e9e9e9;

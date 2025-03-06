@@ -531,6 +531,19 @@ const PostAnAd = (params) => {
         return carTruckDrives; // Default to car features
     }
   };
+
+   const generateYearList = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    
+    for (let year = currentYear; year >= 1970; year--) {
+      years.push({ value: year.toString(), label: year.toString() });
+    }
+    
+    return years;
+  };
+  const yearList = generateYearList();
+
   // Usage example:
   const driveList = getDriveListByVehicle(vehicle);
 
@@ -621,28 +634,27 @@ const PostAnAd = (params) => {
                           </Input.Label>
                         </Box>
                         <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="2024"
-                            data={yearList}
-                            value={formDataStep1.year}
-                            onChange={(value) =>
-                              handleChangeStep1(value, "year")
-                            }
-                          />
+                        <Select
+                          size="md"
+                          placeholder={new Date().getFullYear().toString()}
+                          data={yearList}
+                          value={formDataStep1.year}
+                          onChange={(value) => handleChangeStep1(value, "year")}
+                          searchable
+                          nothingFoundMessage="No year found"/>
                         </Box>
                       </Box>
 
                       <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
-                            City
+                            Location
                           </Input.Label>
                         </Box>
                         <Box className="col-md-7">
                           <Select
                             size="md"
-                            placeholder="City"
+                            placeholder="Location"
                             data={cities}
                             value={formDataStep1.city}
                             searchable
@@ -662,7 +674,7 @@ const PostAnAd = (params) => {
                         </Box>
                       </Box>
 
-                      <Box className="row align-items-center" mb="xl">
+                      {/* <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
                             Suburb
@@ -681,7 +693,7 @@ const PostAnAd = (params) => {
                             }
                           />
                         </Box>
-                      </Box>
+                      </Box> */}
                       <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md" tt="capitalize">
