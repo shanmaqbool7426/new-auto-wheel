@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -17,8 +18,6 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
-import { Country, State, City } from "country-state-city";
-import {getSuburbs} from "@/constants/suburbs";
 const LocationSelector = ({
   isOpen,
   onClose: closeModal,
@@ -33,24 +32,43 @@ const LocationSelector = ({
   const [suburbs, setSuburbs] = useState([]);
   const [activeTab, setActiveTab] = useState("province"); // State to track active tab
 
+  const getProvinces = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/location/provinces');
+      setProvinces(response.data.data);
+    } catch (error) {
+      console.error("Error fetching provinces:", error);
+      setProvinces([]);
+    }
+  };
+
+  const getCities = async (provinceId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/location/children/${provinceId}`);
+      setCities(response.data.data);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+      setCities([]);
+    }
+  };
+
+  const getSuburbs = async (cityId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/location/children/${cityId}`);
+      setSuburbs(response.data.data);
+    } catch (error) {
+      console.error("Error fetching suburbs:", error);
+      setSuburbs([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchedCountries = Country.getAllCountries();
-    setCountries(fetchedCountries);
+    getProvinces();
   }, []);
 
   useEffect(() => {
-    if (selection.country) {
-      const fetchedProvinces = State.getStatesOfCountry(selection.country);
-      setProvinces(fetchedProvinces);
-    } else {
-      setProvinces([]);
-    }
-  }, [selection.country]);
-
-  useEffect(() => {
-    if (selection.province) {
-      const fetchedCities = City.getCitiesOfState(selection.country, selection.province?.isoCode);
-      setCities(fetchedCities);
+    if (selection.province?._id) {
+      getCities(selection.province._id);
     } else {
       setCities([]);
       setSuburbs([]);
@@ -58,9 +76,8 @@ const LocationSelector = ({
   }, [selection.province]);
 
   useEffect(() => {
-    if (selection.city) {
-      const fetchedSuburbs = getSuburbs(selection.city);
-      setSuburbs(fetchedSuburbs);
+    if (selection.city?._id) {
+      getSuburbs(selection.city._id);
     } else {
       setSuburbs([]);
     }
@@ -75,24 +92,25 @@ const LocationSelector = ({
     country.name.toLowerCase().includes(countrySearch.toLowerCase()) && country.isoCode === "PK"
   );
 
+
   const filteredProvinces = provinces.filter((province) =>
     province.name.toLowerCase().includes(provinceSearch.toLowerCase())
-  );
+);
 
-  const filteredCities = cities.filter((city) =>
-    city.name.toLowerCase().includes(citySearch.toLowerCase())
-  );
+const filteredCities = cities.filter((city) =>
+  city.name.toLowerCase().includes(citySearch.toLowerCase())
+);
 
-  const filteredSuburbs = suburbs.filter((suburb) =>
-    suburb.toLowerCase().includes(suburbSearch.toLowerCase())
-  );
+const filteredSuburbs = suburbs.filter((suburb) =>
+  suburb.name.toLowerCase().includes(suburbSearch.toLowerCase())
+);
 
-  const [opened, { open, close }] = useDisclosure(isOpen);
-  const handleSelection = (type, value) => {
-    setSelection((prev) => {
-      const updatedSelection = { ...prev, [type]: value };
-
-      if (type === "country") {
+const [opened, { open, close }] = useDisclosure(isOpen);
+const handleSelection = (type, value) => {
+  setSelection((prev) => {
+    const updatedSelection = { ...prev, [type]: value };
+    
+    if (type === "country") {
         setActiveTab("province");
         return {
           ...updatedSelection,
@@ -101,7 +119,7 @@ const LocationSelector = ({
           suburb: null
         };
       }
-
+      
       if (type === "province") {
         setActiveTab("city");
         return {
@@ -110,7 +128,7 @@ const LocationSelector = ({
           suburb: null
         };
       }
-
+      
       if (type === "city") {
         setActiveTab("suburb");
         return {
@@ -128,11 +146,9 @@ const LocationSelector = ({
       return updatedSelection;
     });
   };
-
-  // Add this function to handle tab clicks
+  
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-    // Reset selections based on which tab was clicked
     if (tab === "province") {
       setSelection(prev => ({ ...prev, province: null, city: null, suburb: null }));
     } else if (tab === "city") {
@@ -141,7 +157,8 @@ const LocationSelector = ({
       setSelection(prev => ({ ...prev, suburb: null }));
     }
   };
-
+  console.log("filteredProvinces",filteredProvinces)
+  
   useEffect(() => {
     if (isOpen) open();
     else close();
@@ -154,7 +171,6 @@ const LocationSelector = ({
   closeModal();
  }
 
-  // Add NoResultsMessage component
   const NoResultsMessage = ({ text }) => (
     <Text c="dimmed" ta="center" py="xl" fz="sm">
       {text}
@@ -170,13 +186,13 @@ const LocationSelector = ({
       padding={0}
       styles={{
         inner: {
-          paddingTop: '80px' // Add top padding
+          paddingTop: '80px'
         },
         content: {
           maxHeight: 'calc(100vh - 100px)'
         }
       }}
-      closeOnClickOutside={false} // Prevent modal from closing on outside click
+      closeOnClickOutside={false}
     >
       <Paper
         className="search-modal-header"
@@ -184,22 +200,7 @@ const LocationSelector = ({
         shadow="0px 2px 5px 0px #00000014"
       >
         <Center>
-          {/* <Button
-            className={`tab-button ${activeTab === "country" ? "active" : ""}`}
-            variant="subtle"
-            bg={activeTab === "country" ? "#E90808" : "#F3F3F3"}
-            color={activeTab === "country" ? "white" : "#878787"}
-            size="xs"
-            mr="md"
-            onClick={() => {
-              setActiveTab("country");
-              if (selection.country) {
-                setSelection((prev) => ({ ...prev, country: "PK" }));
-              }
-            }}
-          >
-            Country
-          </Button> */}
+
           <Button
             className={`tab-button}`}
             variant="subtle"
@@ -212,7 +213,7 @@ const LocationSelector = ({
           >
             Province
           </Button>
-          {!hide && ( // Conditionally render Cities tab button
+          {!hide && (
             <>            
             <Button
               className={`tab-button`}
@@ -244,49 +245,8 @@ const LocationSelector = ({
         </Center>
       </Paper>
       <Grid gutter={0}>
-          {/* Country Section */}
-        {/* <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
-          <Input
-            placeholder="Search by Country"
-            leftSection={<BsSearch />}
-            value={countrySearch}
-            onChange={(e) => setCountrySearch(e.target.value)}
-          />
-          <Title order={5} my="sm" fw={600}>
-            Country
-          </Title>
-          <ScrollArea
-            h={250}
-            offsetScrollbars
-            scrollbarSize={5}
-            scrollHideDelay={500}
-            scrollbars="y"
-          >
-            <List className="search-dropdown-lists" listStyleType="none">
-              {filteredCountries.map((country) => (
-                <List.Item
-                  key={country.isoCode}
-                  className={`search-dropdown-lists__item ${
-                    selection.country === country.isoCode ? "selected" : ""
-                  }`}
-                  icon={
-                    <Image
-                      src={`/megamenu/search-menu/${country.isoCode.toLowerCase()}-sm.svg`}
-                    />
-                  }
-                  onClick={() => {
-                    handleSelection("country", country.isoCode);
-                    setActiveTab("province"); // Set active tab to province
-                  }}
-                >
-                  {country.name} <BsArrowRight />
-                </List.Item>
-              ))}
-            </List>
-          </ScrollArea>
-        </Grid.Col> */}
+
         <Grid.Col span={4} p="md" pt="xl" className="border-end">
-          {/* Province Section */}
           <Input
             placeholder="Search by Province"
             leftSection={<BsSearch />}
@@ -303,34 +263,32 @@ const LocationSelector = ({
             scrollHideDelay={500}
             scrollbars="y"
           >
-            {selection.country ? (
-              filteredProvinces.length > 0 ? (
+         
+              {filteredProvinces.length > 0 ? (
                 <List className="search-dropdown-lists" listStyleType="none">
-                  {selection.country &&
-                    filteredProvinces.map((province) => (
-                      <List.Item
-                        key={province.isoCode}
-                        className={`search-dropdown-lists__item ${
-                          selection.province && selection.province.isoCode === province.isoCode ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          handleSelection("province", province);
-                          setActiveTab("city"); // Set active tab to city
-                        }}
-                      >
-                        {province.name} <BsArrowRight />
-                      </List.Item>
-                    ))}
+                  {filteredProvinces.map((province) => (
+                    <List.Item
+                      key={province._id}
+                      className={`search-dropdown-lists__item ${
+                        selection.province && selection.province._id === province._id ? "selected" : ""
+                      }`}
+                      onClick={() => {
+                        handleSelection("province", province);
+                        setActiveTab("city");
+                      }}
+                    >
+                      {province.name} <BsArrowRight />
+                    </List.Item>
+                  ))}
+                  {console.log("filteredProvinces...",filteredProvinces)}
                 </List>
               ) : (
                 <NoResultsMessage text={`No provinces found matching "${provinceSearch}"`} />
-              )
-            ) : (
-              <NoResultsMessage text="Please select a country first" />
-            )}
+              )}
+           
           </ScrollArea>
         </Grid.Col>
-        {!hide && ( // Conditionally render Cities column
+        {!hide && (
         <>        
           <Grid.Col span={4} p="md" pt="xl" className="border-end">
             <Input
@@ -352,21 +310,20 @@ const LocationSelector = ({
               {selection.province ? (
                 filteredCities.length > 0 ? (
                   <List className="search-dropdown-lists" listStyleType="none">
-                    {selection.province &&
-                      filteredCities.map((city) => (
-                        <List.Item
-                          key={city.name}
-                          className={`search-dropdown-lists__item ${
-                            selection.city === city.name ? "selected" : ""
-                          }`}
-                          onClick={() => {
-                            handleSelection("city", city.name);
-                            setActiveTab("city"); // Set active tab to city
-                          }}
-                        >
-                          {city.name} <BsArrowRight />
-                        </List.Item>
-                      ))}
+                    {filteredCities.map((city) => (
+                      <List.Item
+                        key={city._id}
+                        className={`search-dropdown-lists__item ${
+                          selection.city?._id === city._id ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          handleSelection("city", city);
+                          setActiveTab("suburb");
+                        }}
+                      >
+                        {city.name} <BsArrowRight />
+                      </List.Item>
+                    ))}
                   </List>
                 ) : (
                   <NoResultsMessage text={`No cities found matching "${citySearch}"`} />
@@ -396,21 +353,20 @@ const LocationSelector = ({
               {selection.city ? (
                 filteredSuburbs.length > 0 ? (
                   <List className="search-dropdown-lists" listStyleType="none">
-                    {selection.city&&
-                      filteredSuburbs.map((suburb) => (
-                        <List.Item
-                          key={suburb}
-                          className={`search-dropdown-lists__item ${
-                            selection.suburb?.toLowerCase() === suburb?.toLowerCase() ? "selected" : ""
-                          }`}
-                          onClick={() => {
-                            handleSelection("suburb", suburb);
-                            setActiveTab("suburb"); // Set active tab to suburb
-                          }}
-                        >
-                          {suburb} <BsArrowRight />
-                        </List.Item>
-                      ))}
+                    {filteredSuburbs.map((suburb) => (
+                      <List.Item
+                        key={suburb._id}
+                        className={`search-dropdown-lists__item ${
+                          selection.suburb?._id === suburb._id ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          handleSelection("suburb", suburb);
+                          setActiveTab("suburb");
+                        }}
+                      >
+                        {suburb.name} <BsArrowRight />
+                      </List.Item>
+                    ))}
                   </List>
                 ) : (
                   <NoResultsMessage text={`No suburbs found matching "${suburbSearch}"`} />

@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from '@/constants/api-endpoints';
 export const locationApi = {
   // Get provinces
   getProvinces: async () => {
-    const { data } = await apiClient.get(API_ENDPOINTS.LOCATION_PROVINCES);
+    const { data } = await apiClient.get("http://localhost:5000/api/location/provinces");
     return data;
   },
 

@@ -123,6 +123,8 @@ const HeroTabs = ({ setType }) => {
     });
   };
 
+  console.log("locationSelection......", locationSelection?.city?.name);
+
   return (
     <>
       <Tabs
@@ -196,8 +198,8 @@ const HeroTabs = ({ setType }) => {
             mt="20px"
             value={
               locationSelection?.province
-                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
-                  } ${locationSelection?.suburb || ""
+                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""
+                  } ${locationSelection?.suburb?.name || ""
                   }`.trim()
                 : ""
             }
@@ -253,9 +255,10 @@ const HeroTabs = ({ setType }) => {
             mt="20px"
             value={
               locationSelection?.province
-                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
-                  }`.trim()
-                : ""
+              ? `${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""
+                } ${locationSelection?.suburb?.name || ""
+                }`.trim()
+              : ""
             }
             onClick={openLocationModal} // Open LocationSelector modal on click
             classNames={{ wrapper: styles.wrapper, input: styles.input }}
@@ -309,9 +312,10 @@ const HeroTabs = ({ setType }) => {
             mt="20px"
             value={
               locationSelection?.province
-                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city || ""
-                  }`.trim()
-                : ""
+              ? `${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""
+                } ${locationSelection?.suburb?.name || ""
+                }`.trim()
+              : ""
             }
             onClick={openLocationModal} // Open LocationSelector modal on click
             classNames={{ wrapper: styles.wrapper, input: styles.input }}

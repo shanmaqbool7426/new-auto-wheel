@@ -36,8 +36,15 @@ const CustomModel = ({
     const fetchedModels = {};
     const fetchedVariants = {};
 
+
+    console.log("fetchMakesByTypeData", fetchMakesByTypeData);
     fetchMakesByTypeData?.data?.forEach((make) => {
-      fetchedMakes.push(make.name);
+      // Store full make object instead of just the name
+      fetchedMakes.push({
+        name: make.name,
+        image: make.companyImage || null, // Add image from API
+        _id: make._id
+      });
       fetchedModels[make.name] = [];
       make.models.forEach((model) => {
         fetchedModels[make.name].push(model.name);
@@ -50,13 +57,15 @@ const CustomModel = ({
     setVariants(fetchedVariants);
   }, [fetchMakesByTypeData]);
 
+  
   const [makeSearch, setMakeSearch] = useState("");
   const [modelSearch, setModelSearch] = useState("");
   const [variantSearch, setVariantSearch] = useState("");
-
+  
   const filteredMakes = makes.filter((make) =>
-    make.toLowerCase().includes(makeSearch.toLowerCase())
-  );
+    make.name.toLowerCase().includes(makeSearch.toLowerCase())
+);
+console.log("filteredMakes...", filteredMakes);
 
   const filteredModels =
     selection.make && models[selection.make]
@@ -116,11 +125,15 @@ const CustomModel = ({
     };
   }, [selection]);
 
+
+  console.log("selection.....", filteredMakes);
   const NoResultsMessage = ({ text }) => (
     <Text c="dimmed" ta="center" py="xl" fz="sm">
       {text}
     </Text>
   );
+
+
 
   return (
     <Modal
@@ -224,21 +237,25 @@ const CustomModel = ({
               <List className="search-dropdown-lists" listStyleType="none">
                 {filteredMakes.map((make) => (
                   <List.Item
-                    key={make}
+                    key={make._id}
                     className={`search-dropdown-lists__item ${
-                      selection.make === make ? "selected" : ""
+                      selection.make === make.name ? "selected" : ""
                     }`}
                     icon={
                       <Image
-                        src={`/megamenu/search-menu/${make.toLowerCase()}-sm.svg`}
+                        src={make.image}
+                        // alt={make.name}
+                        fallbackSrc="/megamenu/search-menu/default-make.svg" // Add a default image
+                        width={24}
+                        height={24}
                       />
                     }
                     onClick={() => {
-                      handleSelection("make", make);
+                      handleSelection("make", make.name);
                       setActiveTab("model"); // Set active tab to model
                     }}
                   >
-                    {make} <BsArrowRight />
+                    {make.name} <BsArrowRight />
                   </List.Item>
                 ))}
               </List>
