@@ -36,9 +36,9 @@ import { IconCircleCheck } from "@tabler/icons-react";
 import { HiDocumentAdd } from "react-icons/hi";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import CustomModel from "@/constants/CustomModel";
-import { fetchBodiesByType, fetchMakesByType } from "@/services/vehicles";
+import { fetchBodiesByType, fetchMakesByType, fetchNewVehicleDetail, fetchProvincesData, fetchVehicleColors, fetchVehicleDrives, fetchVehicleFuelTypes, fetchVehicleTransmissions, fetchVehiclsData } from "@/services/vehicles";
 import { submitFormData, submitUpdateFormData } from "@/services/forms";
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
 import {
   cities,
@@ -56,6 +56,23 @@ import {
 import { getSuburbs } from "@/constants/suburbs";
 import { fetchVehicleBySellerByVehicleId, uploadImageServer } from "@/actions";
 import { showNotification } from "@mantine/notifications";
+import LocationSelector from "@/components/LocationSelector";
+
+const ColorSwatch = ({ color, title }) => (
+  <Flex align="center" gap="sm">
+    <Box
+      style={{
+        width: 20,
+        height: 20,
+        borderRadius: '50%',
+        backgroundColor: color,
+        border: '1px solid #ddd'
+      }}
+    />
+    <Text>{title}</Text>
+  </Flex>
+);
+
 const PostAnAd = (params) => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -66,17 +83,41 @@ const PostAnAd = (params) => {
   const [images, setImages] = useState([]);
   const [makes, setMakes] = useState({});
   const [bodies, setBodies] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [drives, setDrives] = useState([]);
+  const [fuelTypes, setFuelTypes] = useState([]);
+  const [transmissions, setTransmissions] = useState([]);
+  const [vehicleData, setVehicleData] = useState({});
+  const [province, setProvinces] = useState([])
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [selection, setSelection] = useState({
     make: "",
     model: "",
     variant: "",
+  });
+  const vehicleTypes = ["car", "bike", "truck"];
+
+  //  wantt to get car,bike,truck from url http://localhost:3000/sale/car/post-ad
+
+  const typeMapping = {
+    cars: "car",
+    bikes: "bike",
+    trucks: "truck",
+  };
+
+  const [locationSelection, setLocationSelection] = useState({
+    city: "",
+    province: "",
+    suburb: "",
   });
   const [formDataStep1, setFormDataStep1] = useState({
     condition: "used",
     year: "",
     city: "",
     suburb: "",
+    province: "",
     registeredIn: "",
     rego: "",
     exteriorColor: "",
@@ -103,6 +144,17 @@ const PostAnAd = (params) => {
     secondaryNumber: "",
     allowWhatsAppContact: false,
   });
+
+useEffect(() => {
+  setFormDataStep1(prev => ({
+    ...prev,
+    province: locationSelection?.province?.name || "",
+    city: locationSelection?.city?.name || "",
+    suburb: locationSelection?.suburb?.name || "",
+  }));
+}, [locationSelection]);
+
+  console.log("formDataStep1",formDataStep1)
 
   const validateStep = (step) => {
     const formData = {
@@ -141,6 +193,54 @@ const PostAnAd = (params) => {
     return validators[step] ? validators[step](formData) : false;
   };
 
+  const url = new URL(window.location.href);
+  const pathSegments = url.pathname.split("/"); // Split the URL path into segments
+  // Find if any vehicle type exists in the path
+  const vehicleType = vehicleTypes.find(type => pathSegments.includes(type));
+
+  console.log("drives....", drives);
+  const fetchData = async () => {
+    const [
+      vehicleBodies,
+      vehicleDrives,
+      vehicleTransmissions,
+      vehicleFuelTypes,
+      vehicleColors,
+      provinceData
+    ] = await Promise.allSettled([
+      fetchBodiesByType(vehicleType),
+      fetchVehicleDrives(vehicleType),
+      fetchVehicleTransmissions(vehicleType),
+      fetchVehicleFuelTypes(vehicleType),
+      fetchVehicleColors(vehicleType),
+      fetchProvincesData("provinces")
+    ]);
+    setBodies(vehicleBodies?.value?.data)
+    setDrives(vehicleDrives?.value?.data)
+    setTransmissions(vehicleTransmissions?.value?.data)
+    setFuelTypes(vehicleFuelTypes?.value?.data)
+    setColors(vehicleColors?.value?.data)
+    setProvinces(provinceData?.value?.data)
+
+
+
+    console.log(">>>>>>>>>>", vehicleBodies,
+      provinceData,
+      // vehicleDrives,
+      // vehicleTransmissions,
+      // vehicleFuelTypes,
+      // vehicleColors
+    )
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+
+
+
+
   useEffect(() => {
     setFormDataStep1((prev) => ({
       ...prev,
@@ -151,13 +251,12 @@ const PostAnAd = (params) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const openLocationModal = () => setIsLocationOpen(true);
+  const closeLocationModal = () => setIsLocationOpen(false);
+
   const handleChangeStep1 = (value, field) => {
-    if (field === "city") {
-      setFormDataStep1((prevData) => ({
-        ...prevData,
-        ["suburb"]: "",
-        [field]: value,
-      }));
+    if (field === "location") {
+      openLocationModal()
     } else {
       setFormDataStep1((prevData) => ({
         ...prevData,
@@ -170,31 +269,20 @@ const PostAnAd = (params) => {
     const getMakes = async () => {
       if (vehicle) {
         const response = await fetchMakesByType(vehicle); // Fetch based on vehicle type
-        setMakes(response);  
+        setMakes(response);
       }
     };
-
     getMakes();
   }, [vehicle]); // Re-fetch makes when vehicle type changes
 
-  useEffect(() => {
-    const getBodies = async () => {
-      if (vehicle) {
-        const response = await fetchBodiesByType(vehicle); // Fetch based on vehicle type
-        setBodies(response);
-      }
-    };
-
-    getBodies();
-  }, [vehicle]); // Re-fetch makes when vehicle type changes
 
   useEffect(() => {
     const fetchAdData = async () => {
       if (vehicleId && session?.user?.token?.token) {
         try {
-          const {data} = await fetchVehicleBySellerByVehicleId(session?.user?.token?.token,vehicleId);
-          console.log(data,"data")
-          
+          const { data } = await fetchVehicleBySellerByVehicleId(session?.user?.token?.token, vehicleId);
+          console.log(data, "data")
+
           // Set form data
           setFormDataStep1({
             condition: data.condition || "used",
@@ -210,7 +298,7 @@ const PostAnAd = (params) => {
             Info: data.Info || {},
             images: data.images || [],
           });
-  
+
           setFormDataStep2({
             engineType: data.specifications?.engineType || "",
             engine: data.specifications?.engine || "",
@@ -223,19 +311,19 @@ const PostAnAd = (params) => {
             assembly: data.specifications?.assembly || "",
             features: data.features || [],
           });
-  
+
           setFormDataStep3({
             mobileNumber: data.contactInfo?.mobileNumber || "",
             secondaryNumber: data.contactInfo?.secondaryNumber || "",
             allowWhatsAppContact: data.contactInfo?.allowWhatsAppContact || false,
           });
-  
+
           setSelection({
             make: data.make || "",
             model: data.model || "",
             variant: data.variant || "",
           });
-  
+
           // Handle images if they exist
           if (data.images?.length > 0) {
             setImages(data.images);
@@ -247,7 +335,7 @@ const PostAnAd = (params) => {
         }
       }
     };
-  
+
     if (vehicleId) {
       fetchAdData();
     }
@@ -324,9 +412,9 @@ const PostAnAd = (params) => {
       if (vehicleId && isVehicle?._id) {
         await submitUpdateFormData(
           API_ENDPOINTS.VEHICLE.Update(isVehicle?._id),
-          JSON.stringify(payload),session?.user?.token?.token
+          JSON.stringify(payload), session?.user?.token?.token
         );
-      }else{
+      } else {
         await submitFormData(
           API_ENDPOINTS.VEHICLE.ADD,
           JSON.stringify(payload),
@@ -381,6 +469,8 @@ const PostAnAd = (params) => {
     }
   };
 
+
+  console.log("vehicleData...",vehicleData)
   const previews = images.map((file, index) => {
     const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);;
     return (
@@ -388,18 +478,20 @@ const PostAnAd = (params) => {
         <Image
           h={{ base: 140, sm: 140 }}
           src={imageUrl}
-        // Only revoke URL if it's a File object
-        onLoad={() => {
-          if (typeof file !== 'string') {
-            URL.revokeObjectURL(imageUrl);
-          }
-        }}
+          // Only revoke URL if it's a File object
+          onLoad={() => {
+            if (typeof file !== 'string') {
+              URL.revokeObjectURL(imageUrl);
+            }
+          }}
           radius="md"
         />
       </Box>
     );
   });
 
+
+  console.log("colors...",colors)
   const getFeaturesByVehicle = (vehicleType) => {
     // Common features shared by both cars and trucks
     const commonCarTruckFeatures = {
@@ -531,6 +623,39 @@ const PostAnAd = (params) => {
         return carTruckDrives; // Default to car features
     }
   };
+
+console.log("================================",selection)
+useEffect(() => {
+  if (selection.make && selection.model && selection.variant) {
+    const queryParams = new URLSearchParams({
+      make: selection.make,
+      model: selection.model,
+      variant: selection.variant
+    }).toString();
+
+    fetchNewVehicleDetail(BASE_URL + `/api/new-vehicles/get-newVehicle-details?${queryParams}`).then((response) => {
+      console.log("response.........", response.data);
+      setVehicleData(response.data);
+
+    }).catch((error) => {
+      console.error("Error fetching vehicle details:", error);
+    });
+  }
+}, [selection.variant]);
+
+
+  const generateYearList = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+
+    for (let year = currentYear; year >= 1970; year--) {
+      years.push({ value: year.toString(), label: year.toString() });
+    }
+
+    return years;
+  };
+  const yearList = generateYearList();
+
   // Usage example:
   const driveList = getDriveListByVehicle(vehicle);
 
@@ -622,39 +747,40 @@ const PostAnAd = (params) => {
                         </Box>
                         <Box className="col-md-7">
                           <Select
+                            required
                             size="md"
-                            placeholder="2024"
+                            placeholder={new Date().getFullYear().toString()}
                             data={yearList}
                             value={formDataStep1.year}
-                            onChange={(value) =>
-                              handleChangeStep1(value, "year")
-                            }
-                          />
+                            onChange={(value) => handleChangeStep1(value, "year")}
+                            searchable
+                            nothingFoundMessage="No year found" />
                         </Box>
                       </Box>
 
                       <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
-                            City
+                            Location
                           </Input.Label>
                         </Box>
-                        <Box className="col-md-7">
-                          <Select
+                        <Box className="col-md-7" onClick={openLocationModal}>
+                          <Input
+                            placeholder={`Select Location`}
                             size="md"
-                            placeholder="City"
-                            data={cities}
-                            value={formDataStep1.city}
-                            searchable
-                            nothingFoundMessage="Nothing found..."
-                            onChange={(value) =>
-                              handleChangeStep1(value, "city")
+                            value={
+                              locationSelection.province.name ||
+                                locationSelection.city.name ||
+                                locationSelection.suburb.name
+                                ? ` ${locationSelection?.province?.name} ${locationSelection?.city?.name} ${locationSelection?.suburb?.name}`
+                                : ""
                             }
+                            readOnly
                           />
                         </Box>
                         <Box className="col-md-3 text-start">
                           <Group gap="xs" align="center" wrap="nowrap">
-                            <LightBulb styles={{marginTop:"-8px"}}/>
+                            <LightBulb styles={{ marginTop: "-8px" }} />
                             <Text size="sm">
                               We don't allow duplicates of same ad.
                             </Text>
@@ -662,7 +788,7 @@ const PostAnAd = (params) => {
                         </Box>
                       </Box>
 
-                      <Box className="row align-items-center" mb="xl">
+                      {/* <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md">
                             Suburb
@@ -681,7 +807,7 @@ const PostAnAd = (params) => {
                             }
                           />
                         </Box>
-                      </Box>
+                      </Box> */}
                       <Box className="row align-items-center" mb="xl">
                         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                           <Input.Label required size="md" tt="capitalize">
@@ -694,8 +820,8 @@ const PostAnAd = (params) => {
                             size="md"
                             value={
                               selection.make ||
-                              selection.model ||
-                              selection.variant
+                                selection.model ||
+                                selection.variant
                                 ? `${selection.make} ${selection.model} ${selection.variant}`
                                 : ""
                             }
@@ -713,7 +839,9 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Registered In"
-                            data={registrationOptions}
+                            data={province.map((item)=>{
+                              return {label:item.name, value:item.name}
+                            })}
                             value={formDataStep1.registeredIn}
                             searchable
                             nothingFoundMessage="Nothing found..."
@@ -751,11 +879,22 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Exterior Color"
-                            data={colorOptions}
+                            data={colors.map(color => ({
+                              value: color.title,
+                              label: color.title,
+                              color: color.code,
+                            }))}
                             value={formDataStep1.exteriorColor}
-                            onChange={(value) =>
-                              handleChangeStep1(value, "exteriorColor")
-                            }
+                            onChange={(value) => handleChangeStep1(value, "exteriorColor")}
+                            itemComponent={({ color, label }) => (
+                              <ColorSwatch color={color} title={label} />
+                            )}
+                            styles={{
+                              item: {
+                                // Add some padding for better appearance
+                                padding: '8px 12px',
+                              }
+                            }}
                           />
                         </Box>
                       </Box>
@@ -880,7 +1019,7 @@ const PostAnAd = (params) => {
                                   size="sm"
                                   key={`-${index}`}
                                   onClick={() =>
-                                    handleDescriptionClick(tag + " ")
+                                    handleDescriptionClick(tag + ". ")
                                   }
                                 >
                                   <Text size="sm">{tag}</Text>
@@ -943,7 +1082,9 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Petrol"
-                            data={["Petrol", "Diesel", "Electric", "Hybrid"]}
+                            data={fuelTypes?.map((item)=>{
+                              return {value:item.slug, label:item?.title}
+                            })}
                             value={formDataStep2.engineType}
                             onChange={(value) =>
                               handleInputChangeStep2("engineType", value)
@@ -1034,12 +1175,9 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Transmission"
-                            data={[
-                              "Automatic",
-                              "Manual",
-                              "CVT",
-                              "Semi-Automatic",
-                            ]}
+                            data={transmissions?.map((item)=>{
+                              return {value:item.slug, label:item?.title}
+                            })}
                             value={formDataStep2.transmission}
                             onChange={(value) =>
                               handleInputChangeStep2("transmission", value)
@@ -1057,7 +1195,9 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Drive"
-                            data={driveList}
+                            data={drives.map((item)=>{
+                              return {value:item.slug, label:item?.title}
+                            })}
                             value={formDataStep2.drive}
                             onChange={(value) =>
                               handleInputChangeStep2("drive", value)
@@ -1075,7 +1215,9 @@ const PostAnAd = (params) => {
                           <Select
                             size="md"
                             placeholder="Local"
-                            data={["Local", "Imported"]}
+                            data={transmissions?.map((item)=>{
+                              return {value:item.slug, label:item?.title}
+                            })}
                             value={formDataStep2.assembly}
                             onChange={(value) =>
                               handleInputChangeStep2("assembly", value)
@@ -1091,20 +1233,19 @@ const PostAnAd = (params) => {
                         </Box>
                         <Box className="col-md-7">
                           <Grid mb="lg">
-                            {bodies?.data?.map((bodyType) => (
+                            {bodies?.map((bodyType) => (
                               <Grid.Col
-                                span={6}
+                                span={4}
                                 ta="center"
-                                key={bodyType.name}
+                                key={bodyType.title}
                               >
                                 <div className="single-brand-item selected-brand-item text-center">
                                   <label
-                                    className={`text-decoration-none ${
-                                      formDataStep2.body ===
+                                    className={`text-decoration-none ${formDataStep2.body ===
                                       bodyType.title.toLowerCase()
-                                        ? "checked"
-                                        : ""
-                                    }`}
+                                      ? "checked"
+                                      : ""
+                                      }`}
                                   >
                                     <input
                                       type="radio"
@@ -1129,7 +1270,7 @@ const PostAnAd = (params) => {
                                       alt={`${bodyType.name} body type`}
                                     />
                                     <h6 className="mb-0 text-dark">
-                                      {bodyType.name}
+                                      {bodyType.title}
                                     </h6>
                                   </label>
                                 </div>
@@ -1338,6 +1479,12 @@ const PostAnAd = (params) => {
         setSelection={setSelection}
         onClose={closeModal}
         fetchMakesByTypeData={makes}
+      />
+      <LocationSelector
+        isOpen={isLocationOpen}
+        onClose={closeLocationModal}
+        selection={locationSelection}
+        setSelection={setLocationSelection}
       />
     </Box>
   );

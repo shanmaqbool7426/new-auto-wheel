@@ -1,5 +1,5 @@
 import { fetchAPI } from "./fetchAPI";
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { API_ENDPOINTS, LOCATION_PROVINCES } from "@/constants/api-endpoints";
 
 export const fetchVehiclsData = async (params) => {
   try {
@@ -63,6 +63,8 @@ export const fetchBodiesByType = async (type) => {
   }
 };
 
+
+
 export const fetchVehiclesByType = async (type) => {
   try {
     const vehicles = await fetchAPI(
@@ -73,6 +75,19 @@ export const fetchVehiclesByType = async (type) => {
     console.error("Error fetching dashboard data:", error);
     return {
       vehicles: [],
+    };
+  }
+};
+
+
+export const fetchProvincesData = async (type) => {
+  try {
+    const provinces = await fetchAPI(LOCATION_PROVINCES);
+    return provinces;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      provinces: [],
     };
   }
 };
@@ -88,6 +103,15 @@ export const fetchVehiclDetail = async (url) => {
     };
   }
 };
+// new vehicle detail get
+export const fetchNewVehicleDetail = async (url) => {
+  try {
+    const vehicl = await fetchAPI(url);
+    return vehicl;
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+  }
+};
 
 export const fetchSimilarVehicles = async (url) => {
   try {
@@ -100,6 +124,7 @@ export const fetchSimilarVehicles = async (url) => {
     };
   }
 };
+
 
 
 

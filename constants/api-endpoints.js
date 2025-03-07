@@ -46,6 +46,7 @@ const REVIEW_BASE = `${BASE_URL}/api/reviews`;
 const VIDEO_BASE = `${BASE_URL}/api/video`;
 const USER_REVIEWS_BASE = `${BASE_URL}/api/user-reviews`;
 const NEAR_BY_LOCATION_BASE = `${BASE_URL}/api/near-by-location`;
+export const LOCATION_PROVINCES  = `${BASE_URL}/api/location/provinces`;
 const DRIVE_BASE = `${BASE_URL}/api/drive`;
 const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
 const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
