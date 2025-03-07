@@ -18,6 +18,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
+import { BASE_URL } from "@/constants/api-endpoints";
 const LocationSelector = ({
   isOpen,
   onClose: closeModal,
@@ -34,7 +35,7 @@ const LocationSelector = ({
 
   const getProvinces = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/location/provinces');
+      const response = await axios.get(`${BASE_URL}/api/location/provinces`);
       setProvinces(response.data.data);
     } catch (error) {
       console.error("Error fetching provinces:", error);
@@ -44,7 +45,7 @@ const LocationSelector = ({
 
   const getCities = async (provinceId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/location/children/${provinceId}`);
+      const response = await axios.get(`${BASE_URL}/api/location/children/${provinceId}`);
       setCities(response.data.data);
     } catch (error) {
       console.error("Error fetching cities:", error);
@@ -54,7 +55,7 @@ const LocationSelector = ({
 
   const getSuburbs = async (cityId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/location/children/${cityId}`);
+      const response = await axios.get(`${BASE_URL}/api/location/children/${cityId}`);
       setSuburbs(response.data.data);
     } catch (error) {
       console.error("Error fetching suburbs:", error);
