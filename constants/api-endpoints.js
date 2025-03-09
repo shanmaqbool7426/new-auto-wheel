@@ -223,7 +223,7 @@ export const API_ENDPOINTS = {
   },
 
   // Image Upload Endpoint
-  IMAGE_UPLOAD: `${BASE_URL}/upload-image`,
+  IMAGE_UPLOAD: `${BASE_URL}/api/upload-image`,
 
   // External APIs (For Example Purposes)
   EXTERNAL: {
