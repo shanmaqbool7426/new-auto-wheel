@@ -10,6 +10,7 @@ import {
   Image,
   Input,
   List,
+  Loader,
   Modal,
   Paper,
   ScrollArea,
@@ -32,6 +33,8 @@ const LocationSelector = ({
   const [cities, setCities] = useState([]);
   const [suburbs, setSuburbs] = useState([]);
   const [activeTab, setActiveTab] = useState("province"); // State to track active tab
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
+  const [isLoadingSuburbs, setIsLoadingSuburbs] = useState(false);
 
   const getProvinces = async () => {
     try {
@@ -44,22 +47,28 @@ const LocationSelector = ({
   };
 
   const getCities = async (provinceId) => {
+    setIsLoadingCities(true);
     try {
       const response = await axios.get(`${BASE_URL}/api/location/children/${provinceId}`);
       setCities(response.data.data);
     } catch (error) {
       console.error("Error fetching cities:", error);
       setCities([]);
+    } finally {
+      setIsLoadingCities(false);
     }
   };
 
   const getSuburbs = async (cityId) => {
+    setIsLoadingSuburbs(true);
     try {
       const response = await axios.get(`${BASE_URL}/api/location/children/${cityId}`);
       setSuburbs(response.data.data);
     } catch (error) {
       console.error("Error fetching suburbs:", error);
       setSuburbs([]);
+    } finally {
+      setIsLoadingSuburbs(false);
     }
   };
 
@@ -307,25 +316,31 @@ const handleSelection = (type, value) => {
               scrollbars="y"
             >
               {selection.province ? (
-                filteredCities.length > 0 ? (
-                  <List className="search-dropdown-lists" listStyleType="none">
-                    {filteredCities.map((city) => (
-                      <List.Item
-                        key={city._id}
-                        className={`search-dropdown-lists__item ${
-                          selection.city?._id === city._id ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          handleSelection("city", city);
-                          setActiveTab("suburb");
-                        }}
-                      >
-                        {city.name} <BsArrowRight />
-                      </List.Item>
-                    ))}
-                  </List>
+                isLoadingCities ? (
+                  <Center h={200}>
+                    <Loader color="#E90808" />
+                  </Center>
                 ) : (
-                  <NoResultsMessage text={`No cities found matching "${citySearch}"`} />
+                  filteredCities.length > 0 ? (
+                    <List className="search-dropdown-lists" listStyleType="none">
+                      {filteredCities.map((city) => (
+                        <List.Item
+                          key={city._id}
+                          className={`search-dropdown-lists__item ${
+                            selection.city?._id === city._id ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            handleSelection("city", city);
+                            setActiveTab("suburb");
+                          }}
+                        >
+                          {city.name} <BsArrowRight />
+                        </List.Item>
+                      ))}
+                    </List>
+                  ) : (
+                    <NoResultsMessage text={`No cities found matching "${citySearch}"`} />
+                  )
                 )
               ) : (
                 <NoResultsMessage text="Please select a province first" />
@@ -350,25 +365,31 @@ const handleSelection = (type, value) => {
               scrollbars="y"
             >
               {selection.city ? (
-                filteredSuburbs.length > 0 ? (
-                  <List className="search-dropdown-lists" listStyleType="none">
-                    {filteredSuburbs.map((suburb) => (
-                      <List.Item
-                        key={suburb._id}
-                        className={`search-dropdown-lists__item ${
-                          selection.suburb?._id === suburb._id ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          handleSelection("suburb", suburb);
-                          setActiveTab("suburb");
-                        }}
-                      >
-                        {suburb.name} <BsArrowRight />
-                      </List.Item>
-                    ))}
-                  </List>
+                isLoadingSuburbs ? (
+                  <Center h={200}>
+                    <Loader color="#E90808" />
+                  </Center>
                 ) : (
-                  <NoResultsMessage text={`No suburbs found matching "${suburbSearch}"`} />
+                  filteredSuburbs.length > 0 ? (
+                    <List className="search-dropdown-lists" listStyleType="none">
+                      {filteredSuburbs.map((suburb) => (
+                        <List.Item
+                          key={suburb._id}
+                          className={`search-dropdown-lists__item ${
+                            selection.suburb?._id === suburb._id ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            handleSelection("suburb", suburb);
+                            setActiveTab("suburb");
+                          }}
+                        >
+                          {suburb.name} <BsArrowRight />
+                        </List.Item>
+                      ))}
+                    </List>
+                  ) : (
+                    <NoResultsMessage text={`No suburbs found matching "${suburbSearch}"`} />
+                  )
                 )
               ) : (
                 <NoResultsMessage text="Please select a city first" />
