@@ -1,7 +1,9 @@
-import { Box, Button, Checkbox, Grid, Group, Image, Input, NumberInput, Select, SimpleGrid, Text, Textarea, TextInput, Title } from "@mantine/core"
+import { ActionIcon, Box, Button, Checkbox, Grid, Group, Image, Input, NumberInput, Select, SimpleGrid, Text, Textarea, TextInput, Title } from "@mantine/core"
 import { getFeaturesByVehicle } from "@/app/(root)/sale/[vehicle]/post-ad/components/useFeatureData";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { uploadImageServer } from "@/actions";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { useState } from "react";
+import { showNotification } from "@mantine/notifications";
 
 /**
  * FormFieldSelect Component
@@ -107,79 +109,116 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
  * FormFieldImageUpload Component
  * Renders an image upload field with label and placeholder
  */
-export const FormFieldImageUpload = ({ label, images,setImages, form }) => {
+export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
+    const [isUploading, setIsUploading] = useState(false);
 
-  const previews = images.map((file, index) => {
-    const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);
-    return (
-      <Box className="uploaded-image-wrapper" pos="relative" key={index}>
-        <Image
-          h={{ base: 140, sm: 140 }}
-          src={imageUrl}
-          // Only revoke URL if it's a File object
-          onLoad={() => {
-            if (typeof file !== 'string') {
-              URL.revokeObjectURL(imageUrl);
-            }
-          }}
-          radius="md"
-        />
-      </Box>
-    );
-  });
+    const previews = images.map((file, index) => {
+        const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);
+        return (
+            <Box className="uploaded-image-wrapper" pos="relative" key={index}>
+                <ActionIcon
+                    variant="filled"
+                    color="red"
+                    pos="absolute"
+                    top={5}
+                    right={5}
+                    radius="xl"
+                    size="sm"
+                    disabled={isUploading}
+                    onClick={() => {
+                        const updatedImages = [...images];
+                        updatedImages.splice(index, 1);
+                        setImages(updatedImages);
+                        form.setFieldValue('images', updatedImages);
+                    }}
+                >
+                    ×
+                </ActionIcon>
+                <Image
+                    h={{ base: 140, sm: 140 }}
+                    src={imageUrl}
+                    // Only revoke URL if it's a File object
+                    onLoad={() => {
+                        if (typeof file !== 'string') {
+                            URL.revokeObjectURL(imageUrl);
+                        }
+                    }}
+                    radius="md"
+                />
+            </Box>
+        );
+    });
 
 
-    const handleFileDrop = async (images) => {
-        setImages(images);
-    
+    const handleFileDrop = async (files) => {
+        setIsUploading(true);
+        setImages(prevImages => [...prevImages, ...files]);
         try {
-          const formData = new FormData();
-          images.forEach((image) => {
-            formData.append("images", image);
-          });
-    
-          const response = await uploadImageServer(formData);
-    
-          const uploadedImageUrls = response;
-          form.setFieldValue('images', uploadedImageUrls);
+            const formData = new FormData();
+            files.forEach((file) => {
+                formData.append("images", file, file.name);
+            });
+
+            const response = await fetch(API_ENDPOINTS.IMAGE_UPLOAD, {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            const uploadedImageUrls = data.data;
+            form.setFieldValue('images', [...form.values.images, ...uploadedImageUrls]);
+            showNotification({
+                title: "Images uploaded successfully",
+                message: "The images have been successfully uploaded.",
+                color: "green",
+              });
         } catch (error) {
-          console.error(error);
+            console.error(error);
+            showNotification({
+                title: "Images upload failed",
+                message: "The images could not be uploaded.",
+                color: "red",
+              });
+        } finally {
+            setIsUploading(false);
         }
-      };
+    };
 
     return (
         <>
             <Box className="col-md-12">
                 <Title order={4} mb="lg">
-                {label}
-            </Title>
-            <Dropzone
-                accept={IMAGE_MIME_TYPE}
-                onDrop={handleFileDrop}
-                p={0}
-                error={form.errors.images}
-            >
-                <Image
-                    src="/upload.png"
-                    className="img-fluid w-100 h-100"
-                    alt="Upload Image"
-                />
-            </Dropzone>
-            {form.errors.images && (
-                <Text size="sm" c="red">
-                    {form.errors.images}*
-                </Text>
-            )}
+                    {label}
+                </Title>
+                <Dropzone
+                    accept={IMAGE_MIME_TYPE}
+                    onDrop={handleFileDrop}
+                    disabled={isUploading}
+                    loading={isUploading}
+                    p={0}
+                    error={form.errors.images}
+                >
+                    <Image
+                        src="/upload.png"
+                        className="img-fluid w-100 h-100"
+                        alt="Upload Image"
+                    />
+                </Dropzone>
+                {form.errors.images && (
+                    <Text size="sm" c="red">
+                        {form.errors.images}*
+                    </Text>
+                )}
 
-            <SimpleGrid
-                cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-                mt={previews.length > 0 ? "md" : 0}
-            >
-                {previews}
-            </SimpleGrid>
-        </Box>
-    </>
-)}
+                <SimpleGrid
+                    cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+                    mt={previews.length > 0 ? "md" : 0}
+                >
+                    {previews}
+                </SimpleGrid>
+            </Box>
+        </>
+    )
+}
 
 /**
  * FormFieldBodyType Component

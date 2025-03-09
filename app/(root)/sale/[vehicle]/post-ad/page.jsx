@@ -388,9 +388,19 @@ const PostAnAd = (params) => {
           headers
         );
       }
+      showNotification({
+        title: "Post an ad",
+        message: "Your ad has been posted successfully.",
+        color: "green",
+      });
       router.push(`/listing/${vehicle}s`);
     } catch (error) {
       console.error(error);
+      showNotification({
+        title: "Post an ad",
+        message: error.message || "Something went wrong",
+        color: "red",
+      });
     }
   };
 
