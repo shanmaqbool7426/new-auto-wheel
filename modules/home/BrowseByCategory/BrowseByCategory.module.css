@@ -53,27 +53,27 @@
 }
 
 .indicator[data-active] {
-  width: 40px;
-  background-color: #E90808;
+  width: 40px !important;
+  background-color: #E90808 !important;
 }
 
 .controls {
-  position: absolute;
-  left: auto;
-  top: -38px;
-  right: 0;
-  width: 64px;
-  padding: 0;
+  position: absolute !important;
+  left: auto !important;
+  top: -38px !important;
+  right: 0 !important;
+  width: 64px !important;
+  padding: 0 !important;
 }
 
 .control {
   position: static;
-  background-color: #E90808;
-  border-color: #E90808;
-  color: #ffffff;
+  background-color: #E90808 !important;
+  border-color: #E90808 !important;
+  color: #ffffff !important;
 
   &[data-inactive='true'] {
-    background-color: #CCCCCC;
-    border-color: #CCCCCC;
+    background-color: #CCCCCC !important;
+    border-color: #CCCCCC !important;
   }
 }
