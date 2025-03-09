@@ -158,7 +158,6 @@ const handleSelection = (type, value) => {
       setSelection(prev => ({ ...prev, suburb: null }));
     }
   };
-  console.log("filteredProvinces",filteredProvinces)
   
   useEffect(() => {
     if (isOpen) open();
@@ -281,7 +280,6 @@ const handleSelection = (type, value) => {
                       {province.name} <BsArrowRight />
                     </List.Item>
                   ))}
-                  {console.log("filteredProvinces...",filteredProvinces)}
                 </List>
               ) : (
                 <NoResultsMessage text={`No provinces found matching "${provinceSearch}"`} />

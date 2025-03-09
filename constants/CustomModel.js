@@ -37,7 +37,6 @@ const CustomModel = ({
     const fetchedVariants = {};
 
 
-    console.log("fetchMakesByTypeData", fetchMakesByTypeData);
     fetchMakesByTypeData?.data?.forEach((make) => {
       // Store full make object instead of just the name
       fetchedMakes.push({
@@ -65,7 +64,6 @@ const CustomModel = ({
   const filteredMakes = makes.filter((make) =>
     make.name.toLowerCase().includes(makeSearch.toLowerCase())
 );
-console.log("filteredMakes...", filteredMakes);
 
   const filteredModels =
     selection.make && models[selection.make]
@@ -126,7 +124,6 @@ console.log("filteredMakes...", filteredMakes);
   }, [selection]);
 
 
-  console.log("selection.....", filteredMakes);
   const NoResultsMessage = ({ text }) => (
     <Text c="dimmed" ta="center" py="xl" fz="sm">
       {text}

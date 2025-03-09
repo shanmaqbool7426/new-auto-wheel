@@ -76,6 +76,7 @@ export const API_ENDPOINTS = {
     LISTINGS: `${VEHICLE_BASE}/vehicles-listing`,
     DETAIL: (id) => `${VEHICLE_BASE}/${id}`,
     ADD: `${VEHICLE_BASE}`,
+    Update: (vehicleId) => `${VEHICLE_BASE}/update/${vehicleId}`,
     SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`,
 
     MAKES_WITH_POPULAR: (make, type) => {
@@ -87,7 +88,8 @@ export const API_ENDPOINTS = {
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
     },
-    TOP_PERFORMING_POSTS:`${VEHICLE_BASE}/get-user-top-performing-posts`
+    TOP_PERFORMING_POSTS:`${VEHICLE_BASE}/get-user-top-performing-posts`,
+    DETAIL_BY_SELLER: (vehicleId) => `${VEHICLE_BASE}/vehicle-by-seller/${vehicleId}`,
   },
   NEW_VEHICLE: {
     BASE: NEW_VEHICLE_BASE,

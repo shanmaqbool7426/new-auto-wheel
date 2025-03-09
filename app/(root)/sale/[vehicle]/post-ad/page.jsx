@@ -8,21 +8,15 @@ import {
   Title,
   Text,
   Flex,
-  Select,
   Stepper,
   Group,
   Input,
-  Textarea,
-  SimpleGrid,
-  Image,
-  NumberInput,
-  Checkbox,
   Switch,
   ThemeIcon,
-  Grid,
-  rem,
+  TextInput,
 } from "@mantine/core";
-
+import { z } from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
 import { BiSolidUserRectangle } from "react-icons/bi";
 import {
   FaCar,
@@ -34,294 +28,207 @@ import {
 import { LightBulb } from "@/components/Icons";
 import { IconCircleCheck } from "@tabler/icons-react";
 import { HiDocumentAdd } from "react-icons/hi";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import CustomModel from "@/constants/CustomModel";
-import { fetchBodiesByType, fetchMakesByType, fetchNewVehicleDetail, fetchProvincesData, fetchVehicleColors, fetchVehicleDrives, fetchVehicleFuelTypes, fetchVehicleTransmissions, fetchVehiclsData } from "@/services/vehicles";
+import { fetchMakesByType, fetchNewVehicleDetail } from "@/services/vehicles";
 import { submitFormData, submitUpdateFormData } from "@/services/forms";
 import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
-import {
-  cities,
-  colorOptions,
-  registrationOptions,
-  suburbs,
-  carTags,
-  yearList,
-  carEngines,
-  truckEngines,
-  bikeEngines,
-  bikeDrives,
-  carTruckDrives,
-} from "@/mock-data/mock-array";
-import { getSuburbs } from "@/constants/suburbs";
-import { fetchVehicleBySellerByVehicleId, uploadImageServer } from "@/actions";
+import {carTags} from "@/mock-data/mock-array";
+import { fetchVehicleBySellerByVehicleId } from "@/actions";
 import { showNotification } from "@mantine/notifications";
 import LocationSelector from "@/components/LocationSelector";
-
-const ColorSwatch = ({ color, title }) => (
-  <Flex align="center" gap="sm">
-    <Box
-      style={{
-        width: 20,
-        height: 20,
-        borderRadius: '50%',
-        backgroundColor: color,
-        border: '1px solid #ddd'
-      }}
-    />
-    <Text>{title}</Text>
-  </Flex>
-);
+import { useVehicleData } from '@/app/(root)/sale/[vehicle]/post-ad/components/useVehicleData';
+import { capitalize } from "@/utils";
+import { FormFieldInput, FormFieldSelect, FormFieldNumberInput, FormFieldTextarea, FormFieldBodyType, FormFieldFeature, FormFieldImageUpload } from "@/app/(root)/sale/[vehicle]/post-ad/components/FormFields";
+import ColorSwatch from "@/app/(root)/sale/[vehicle]/post-ad/components/ColorSwatch";
+import { getFeaturesByVehicle } from "@/app/(root)/sale/[vehicle]/post-ad/components/useFeatureData";
+import { createPayload, generateYearList, getEngineListByVehicle } from "@/app/(root)/sale/[vehicle]/post-ad/components/helpers";
 
 const PostAnAd = (params) => {
+  // State Management
   const { data: session } = useSession();
   const router = useRouter();
-  const vehicle = params?.params?.vehicle;
-  const vehicleId = params?.searchParams?.vehicleId;
-  const [isVehicle, setIsVehicle] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [images, setImages] = useState([]);
   const [makes, setMakes] = useState({});
-  const [bodies, setBodies] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [drives, setDrives] = useState([]);
-  const [fuelTypes, setFuelTypes] = useState([]);
-  const [transmissions, setTransmissions] = useState([]);
-  const [vehicleData, setVehicleData] = useState({});
-  const [province, setProvinces] = useState([])
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isVehicle, setIsVehicle] = useState({});
+  
+  // URL and Vehicle Type Processing
+  const vehicle = params?.params?.vehicle;
+  const vehicleId = params?.searchParams?.vehicleId;
+  const vehicleTypes = ["car", "bike", "truck"];
+  const url = new URL(window.location.href);
+  const pathSegments = url.pathname.split("/");
+  const vehicleType = vehicleTypes.find(type => pathSegments.includes(type));
+
+  // Form Schema and Initialization
+  const formSchema = z.object({
+    condition: z.enum(['used', 'new']),
+    year: z.string().min(1, 'Year is required'),
+    city: z.string().min(1, 'City is required'),
+    suburb: z.string().min(1, 'Suburb is required'),
+    province: z.string().optional(),
+    registeredIn: z.string().min(1, 'Registration location is required'),
+    rego: z.string().min(1, 'Registration date is required'),
+    exteriorColor: z.string().min(1, 'Color is required'),
+    milage: z.coerce.string().min(1, 'Mileage is required'),
+    price: z.coerce.string().min(1, 'Price is required'),
+    description: z.string().min(10, 'Description must be at least 10 characters'),
+    images: z.array(z.any()).min(1, 'At least one image is required'),
+    make: z.string().min(1, 'Make is required'),
+    model: z.string().min(1, 'Model is required'),
+    variant: z.string().min(1, 'Variant is required'),
+    engineType: z.string().min(1, 'Engine type is required'),
+    engine: z.string().min(1, 'Engine is required'),
+    engineCapacity: z.number().min(1, 'Engine capacity is required'),
+    drive: z.string().min(1, 'Drive type is required'),
+    transmission: z.string().min(1, 'Transmission is required'),
+    assembly: z.string().min(1, 'Assembly is required'),
+    seats: z.number().min(1, 'Number of seats is required'),
+    doors: z.number().min(1, 'Number of doors is required'),
+    body: z.string().min(1, 'Body type is required'),
+    features: z.array(z.string()).min(1, 'Select at least one feature'),
+    mobileNumber: z.string()
+      .regex(/^[\d]{10,15}$/, 'Invalid mobile number format').min(10, 'Mobile number must be at least 10 digits'),
+    secondaryNumber: z.string().optional(),
+    allowWhatsAppContact: z.boolean(),
+  });
+  const form = useForm({
+    validate: zodResolver(formSchema),
+    initialValues: {
+      condition: "used",
+      year: "",
+      city: "",
+      suburb: "",
+      province: "",
+      registeredIn: "",
+      rego: "",
+      exteriorColor: "",
+      milage: "",
+      price: "",
+      make: "",
+      model: "",
+      variant: "",
+      description: "",
+      images: [],
+      engineType: "",
+      engine: "",
+      drive: "",
+      seats: "",
+      doors: "",
+      body: "",
+      engineCapacity: "",
+      transmission: "",
+      assembly: "",
+      features: [],
+      mobileNumber: "",
+      secondaryNumber: "",
+      allowWhatsAppContact: false,
+    },
+  });
+
+  // Form Steps Configuration
+  const steps = [
+    {
+      label: 'Basic Information',
+      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'milage', 'price', 'description', 'images'],
+    },
+    {
+      label: 'Vehicle Details',
+      fields: ['engineType', 'engine', 'drive', 'seats', 'doors', 'body', 'engineCapacity', 'transmission', 'assembly', 'features'],
+    },
+    {
+      label: 'Contact Information',
+      fields: ['mobileNumber', 'secondaryNumber', 'allowWhatsAppContact'],
+    },
+  ];
+
+
+  // Custom Hooks and Data
+  const {
+    bodies,
+    drives,
+    transmissions,
+    fuelTypes,
+    colors,
+    province
+  } = useVehicleData(vehicleType);
+
+  // Selection State Management
   const [selection, setSelection] = useState({
     make: "",
     model: "",
     variant: "",
   });
-  const vehicleTypes = ["car", "bike", "truck"];
-
-  //  wantt to get car,bike,truck from url http://localhost:3000/sale/car/post-ad
-
-  const typeMapping = {
-    cars: "car",
-    bikes: "bike",
-    trucks: "truck",
-  };
 
   const [locationSelection, setLocationSelection] = useState({
     city: "",
     province: "",
     suburb: "",
   });
-  const [formDataStep1, setFormDataStep1] = useState({
-    condition: "used",
-    year: "",
-    city: "",
-    suburb: "",
-    province: "",
-    registeredIn: "",
-    rego: "",
-    exteriorColor: "",
-    milage: "",
-    price: "",
-    description: "",
-    Info: {},
-    images: [],
-  });
-  const [formDataStep2, setFormDataStep2] = useState({
-    engineType: "",
-    engine: "",
-    drive: "",
-    seats: "",
-    doors: "",
-    body: "",
-    engineCapacity: "",
-    transmission: "",
-    assembly: "",
-    features: [],
-  });
-  const [formDataStep3, setFormDataStep3] = useState({
-    mobileNumber: "",
-    secondaryNumber: "",
-    allowWhatsAppContact: false,
-  });
 
-useEffect(() => {
-  setFormDataStep1(prev => ({
-    ...prev,
-    province: locationSelection?.province?.name || "",
-    city: locationSelection?.city?.name || "",
-    suburb: locationSelection?.suburb?.name || "",
-  }));
-}, [locationSelection]);
-
-  console.log("formDataStep1",formDataStep1)
-
-  const validateStep = (step) => {
-    const formData = {
-      0: formDataStep1,
-      1: formDataStep2,
-      2: formDataStep3,
-    }[step];
-
-    const validators = {
-      0: (data) =>
-        data.city &&
-        data.suburb &&
-        data.registeredIn &&
-        data.rego &&
-        data.exteriorColor &&
-        data.milage &&
-        data.price &&
-        data.description &&
-        images.length > 0,
-      1: (data) =>
-        data.engineType &&
-        data.engine &&
-        data.drive &&
-        data.engineCapacity &&
-        data.body &&
-        data.transmission &&
-        data.assembly &&
-        data.features.length > 0,
-      2: (data) =>
-        data.mobileNumber &&
-        /^[\d]{10,15}$/.test(data.mobileNumber) &&
-        data.secondaryNumber &&
-        /^[\d]{10,15}$/.test(data.secondaryNumber),
-    };
-
-    return validators[step] ? validators[step](formData) : false;
-  };
-
-  const url = new URL(window.location.href);
-  const pathSegments = url.pathname.split("/"); // Split the URL path into segments
-  // Find if any vehicle type exists in the path
-  const vehicleType = vehicleTypes.find(type => pathSegments.includes(type));
-
-  console.log("drives....", drives);
-  const fetchData = async () => {
-    const [
-      vehicleBodies,
-      vehicleDrives,
-      vehicleTransmissions,
-      vehicleFuelTypes,
-      vehicleColors,
-      provinceData
-    ] = await Promise.allSettled([
-      fetchBodiesByType(vehicleType),
-      fetchVehicleDrives(vehicleType),
-      fetchVehicleTransmissions(vehicleType),
-      fetchVehicleFuelTypes(vehicleType),
-      fetchVehicleColors(vehicleType),
-      fetchProvincesData("provinces")
-    ]);
-    setBodies(vehicleBodies?.value?.data)
-    setDrives(vehicleDrives?.value?.data)
-    setTransmissions(vehicleTransmissions?.value?.data)
-    setFuelTypes(vehicleFuelTypes?.value?.data)
-    setColors(vehicleColors?.value?.data)
-    setProvinces(provinceData?.value?.data)
-
-
-
-    console.log(">>>>>>>>>>", vehicleBodies,
-      provinceData,
-      // vehicleDrives,
-      // vehicleTransmissions,
-      // vehicleFuelTypes,
-      // vehicleColors
-    )
-  }
+  /**
+ * Effect Hooks
+ */
+  useEffect(() => {
+    form.setFieldValue('province', locationSelection?.province?.name || "");
+    form.setFieldValue('city', locationSelection?.city?.name || "");
+    form.setFieldValue('suburb', locationSelection?.suburb?.name || "");
+  }, [locationSelection]);
 
   useEffect(() => {
-    fetchData()
-  }, [])
-
-
-
-
-
-  useEffect(() => {
-    setFormDataStep1((prev) => ({
-      ...prev,
-      Info: selection,
-    }));
+    form.setFieldValue('make', selection.make);
+    form.setFieldValue('model', selection.model);
+    form.setFieldValue('variant', selection.variant);
   }, [selection]);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const openLocationModal = () => setIsLocationOpen(true);
-  const closeLocationModal = () => setIsLocationOpen(false);
-
-  const handleChangeStep1 = (value, field) => {
-    if (field === "location") {
-      openLocationModal()
-    } else {
-      setFormDataStep1((prevData) => ({
-        ...prevData,
-        [field]: value,
-      }));
-    }
-  };
 
   useEffect(() => {
     const getMakes = async () => {
       if (vehicle) {
-        const response = await fetchMakesByType(vehicle); // Fetch based on vehicle type
+        const response = await fetchMakesByType(vehicle);
         setMakes(response);
       }
     };
     getMakes();
-  }, [vehicle]); // Re-fetch makes when vehicle type changes
-
+  }, [vehicle]);
 
   useEffect(() => {
     const fetchAdData = async () => {
       if (vehicleId && session?.user?.token?.token) {
         try {
           const { data } = await fetchVehicleBySellerByVehicleId(session?.user?.token?.token, vehicleId);
-          console.log(data, "data")
-
-          // Set form data
-          setFormDataStep1({
-            condition: data.condition || "used",
-            year: data.year.toString() || "",
-            city: data.city || "",
-            suburb: data.cityArea || "",
-            registeredIn: data.registeredIn || "",
-            rego: data.rego || "",
-            exteriorColor: data.specifications?.exteriorColor || "",
-            milage: data.specifications?.mileage || "",
-            price: data.price || "",
-            description: data.description || "",
-            Info: data.Info || {},
-            images: data.images || [],
-          });
-
-          setFormDataStep2({
-            engineType: data.specifications?.engineType || "",
-            engine: data.specifications?.engine || "",
-            drive: data.specifications?.drive || "",
-            seats: data.specifications?.seats || "",
-            doors: data.specifications?.doors || "",
-            body: data.specifications?.bodyType || "",
-            engineCapacity: data.specifications?.engineCapacity || "",
-            transmission: data.specifications?.transmission || "",
-            assembly: data.specifications?.assembly || "",
-            features: data.features || [],
-          });
-
-          setFormDataStep3({
-            mobileNumber: data.contactInfo?.mobileNumber || "",
-            secondaryNumber: data.contactInfo?.secondaryNumber || "",
-            allowWhatsAppContact: data.contactInfo?.allowWhatsAppContact || false,
-          });
+          const regoDate = data.rego ? new Date(data.rego).toISOString().split('T')[0] : '';
+          form.setFieldValue('year', data.year.toString() || "");
+          form.setFieldValue('province', data.province || "");
+          form.setFieldValue('city', data.city || "");
+          form.setFieldValue('suburb', data.cityArea || "");
+          form.setFieldValue('registeredIn', capitalize(data.registeredIn) || "");
+          form.setFieldValue('rego', regoDate || "");
+          form.setFieldValue('exteriorColor', data.specifications?.exteriorColor || "");
+          form.setFieldValue('milage', data.specifications?.mileage || "");
+          form.setFieldValue('price', data.price || "");
+          form.setFieldValue('description', data.description || "");
+          form.setFieldValue('images', data.images || []);
+          form.setFieldValue('engineType', data.specifications?.engineType || "");
+          form.setFieldValue('engine', data.specifications?.engine || "");
+          form.setFieldValue('drive', data.specifications?.drive || "");
+          form.setFieldValue('seats', data.specifications?.seats || "");
+          form.setFieldValue('doors', data.specifications?.doors || "");
+          form.setFieldValue('body', data.specifications?.bodyType || "");
+          form.setFieldValue('engineCapacity', data.specifications?.engineCapacity || "");
+          form.setFieldValue('transmission', data.specifications?.transmission || "");
+          form.setFieldValue('assembly', data.specifications?.assembly || "");
+          form.setFieldValue('features', data.features || []);
+          form.setFieldValue('mobileNumber', data.contactInfo?.mobileNumber || "");
+          form.setFieldValue('secondaryNumber', data.contactInfo?.secondaryNumber || "");
+          form.setFieldValue('allowWhatsAppContact', data.contactInfo?.allowWhatsAppContact || false);
 
           setSelection({
-            make: data.make || "",
-            model: data.model || "",
-            variant: data.variant || "",
+            make: data.Info?.make || "",
+            model: data.Info?.model || "",
+            variant: data.Info?.variant || "",
           });
 
           // Handle images if they exist
@@ -338,76 +245,136 @@ useEffect(() => {
 
     if (vehicleId) {
       fetchAdData();
+    } else {
+      form.reset()
     }
   }, [vehicleId, session]);
 
-  const handleInputChangeStep2 = (field, value) => {
-    setFormDataStep2((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }));
-  };
+  useEffect(() => {
+    if (selection.make && selection.model && selection.variant) {
+      const queryParams = new URLSearchParams({
+        make: selection.make,
+        model: selection.model,
+        variant: selection.variant
+      }).toString();
+  
+      fetchNewVehicleDetail(BASE_URL + `/api/new-vehicles/get-newVehicle-details?${queryParams}`)
+        .then((response) => {
+          if (!vehicleId || form.values.features.length === 0) {
+            const vehicleData = response.data;
+            const features = [];
+  
+            // Get predefined features based on vehicle type
+            const predefinedFeatures = getFeaturesByVehicle(vehicle);
+            const allPredefinedFeatures = [
+              ...predefinedFeatures.featuredListsOne,
+              ...predefinedFeatures.featuredListsTwo,
+              ...predefinedFeatures.featuredListsThree
+            ].map(f => f.name);
+  
+            if (vehicle === 'car') {
+              // Safety features
+              if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS')) 
+                features.push('ABS');
+              if (vehicleData.safety?.airbags > 0 && allPredefinedFeatures.includes('Air Bags')) 
+                features.push('Air Bags');
+              
+              // Comfort features
+              if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning')) 
+                features.push('Air Conditioning');
+              if (vehicleData.comfort?.climateControl && allPredefinedFeatures.includes('Climate Control')) 
+                features.push('Climate Control');
+              if (vehicleData.comfort?.rearAcVents && allPredefinedFeatures.includes('Rear AC Vents')) 
+                features.push('Rear AC Vents');
+              if (vehicleData.comfort?.powerWindows && allPredefinedFeatures.includes('Power Windows')) 
+                features.push('Power Windows');
+              if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering')) 
+                features.push('Power Steering');
+              if (vehicleData.comfort?.powerMirrors && allPredefinedFeatures.includes('Power Mirrors')) 
+                features.push('Power Mirrors');
+              if (vehicleData.comfort?.powerDoorLocks && allPredefinedFeatures.includes('Power Locks')) 
+                features.push('Power Locks');
+              if (vehicleData.comfort?.cruiseControl && allPredefinedFeatures.includes('Cruise Control')) 
+                features.push('Cruise Control');
+              if (vehicleData.comfort?.keylessEntry && allPredefinedFeatures.includes('Keyless Entry')) 
+                features.push('Keyless Entry');
+              if (vehicleData.comfort?.steeringSwitches && allPredefinedFeatures.includes('Steering Switches')) 
+                features.push('Steering Switches');
+              
+              // Entertainment features
+              if (vehicleData.entertainment?.cdDvdPlayer && allPredefinedFeatures.includes('CD Player')) 
+                features.push('CD Player');
+              if (vehicleData.entertainment?.frontSpeakers && allPredefinedFeatures.includes('Front Speakers')) 
+                features.push('Front Speakers');
+              if (vehicleData.entertainment?.rearSeatEntertainment && allPredefinedFeatures.includes('Rear Seat Entertainment')) 
+                features.push('Rear Seat Entertainment');
+              if (vehicleData.entertainment?.usbAndAux && allPredefinedFeatures.includes('USB and Auxillary Cable')) 
+                features.push('USB and Auxillary Cable');
+  
+              // Exterior features
+              if (vehicleData.exterior?.alloyWheels && allPredefinedFeatures.includes('Alloy Rims')) 
+                features.push('Alloy Rims');
+              if (vehicleData.exterior?.sunRoof && allPredefinedFeatures.includes('Sun Roof')) 
+                features.push('Sun Roof');
+  
+            } else if (vehicle === 'bike') {
+              if (vehicleData.engine?.type?.includes('ABS') && allPredefinedFeatures.includes('ABS')) 
+                features.push('ABS');
+              if (vehicleData.starting?.toLowerCase().includes('electric') && allPredefinedFeatures.includes('Electric Start')) 
+                features.push('Electric Start');
+              if (vehicleData.wheelSize && allPredefinedFeatures.includes('Alloy Wheels')) 
+                features.push('Alloy Wheels');
+              
+            } else if (vehicle === 'truck') {
+              if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS')) 
+                features.push('ABS');
+              if (vehicleData.safety?.hillAssist && allPredefinedFeatures.includes('Hill Assist')) 
+                features.push('Hill Assist');
+              if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning')) 
+                features.push('Air Conditioning');
+              if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering')) 
+                features.push('Power Steering');
+              if (vehicleData.chassis?.airBrakeSystem && allPredefinedFeatures.includes('Air Brakes')) 
+                features.push('Air Brakes');
+            }
+  
+            // Only set features if we found some
+            if (features.length > 0) {
+              form.setFieldValue('features', features);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching vehicle details:", error);
+        });
+    }
+  }, [selection.variant, vehicleId]);
 
-  const handleChangeStep3 = (e) => {
-    const { name, value } = e.target;
-    setFormDataStep3((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
-  const handleFeatureChange = (feature) => {
-    setFormDataStep2((prevState) => ({
-      ...prevState,
-      features: prevState.features.includes(feature)
-        ? prevState.features.filter((f) => f !== feature)
-        : [...prevState.features, feature],
-    }));
-  };
+  /**
+   * Modal Open and Close Functions
+   */
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const openLocationModal = () => setIsLocationOpen(true);
+  const closeLocationModal = () => setIsLocationOpen(false);
+
 
   const handleDescriptionClick = (template) => {
-    setFormDataStep1((prevData) => ({
-      ...prevData,
-      description: prevData.description + template,
-    }));
-  };
-  const handleSubmit = async () => {
-    const specifications = {
-      suburb: formDataStep1.suburb,
-      exteriorColor: formDataStep1.exteriorColor,
-      mileage: formDataStep1.milage,
-      engine: formDataStep2.engine,
-      drive: formDataStep2.drive,
-      engineType: formDataStep2.engineType,
-      fuelType: formDataStep2.engineType,
-      bodyType: formDataStep2.body,
-      engineCapacity: formDataStep2.engineCapacity,
-      transmission: formDataStep2.transmission,
-      assembly: formDataStep2.assembly,
-    };
-    if (vehicle !== "bike") {
-      specifications.seats = formDataStep2.seats;
-      specifications.doors = formDataStep2.doors;
+    if (form.getValues().description.length + template.length <= 980) {
+      form.setFieldValue('description', form.getValues().description + template);
     }
-    const payload = {
-      ...formDataStep1,
-      ...formDataStep2,
-      specifications,
-      rego: formDataStep1.rego,
-      price: formDataStep1.price || 0,
-      startPrice: formDataStep1.price || 0,
-      endPrice: formDataStep1.price || 0,
-      cityArea: formDataStep1.suburb,
-      type: vehicle,
-      year: formDataStep1.year,
-      make: selection.make,
-      model: selection.model,
-      variant: selection.variant,
-      contactInfo: formDataStep3,
-      images: formDataStep1.images,
-      defaultImage: formDataStep1.images[0],
-      seller: session?.user?._id,
-    };
+  };
+
+  /**
+   * Form Submission
+   */
+  const handleSubmit = async (values) => {
+    await formSchema.parseAsync(values);
+    // Create payload
+    const payload = createPayload(values, vehicle, session);
+    const headers = { "Content-Type": "application/json" };
     try {
       if (vehicleId && isVehicle?._id) {
         await submitUpdateFormData(
@@ -418,9 +385,7 @@ useEffect(() => {
         await submitFormData(
           API_ENDPOINTS.VEHICLE.ADD,
           JSON.stringify(payload),
-          {
-            "Content-Type": "application/json",
-          }
+          headers
         );
       }
       router.push(`/listing/${vehicle}s`);
@@ -429,7 +394,23 @@ useEffect(() => {
     }
   };
 
-  const nextStep = () => {
+  /**
+* Form Validation and Navigation
+*/
+  const validateStep = (stepIndex) => {
+    const currentStepFields = steps[stepIndex].fields;
+    const validationResult = currentStepFields.reduce((acc, field) => {
+      const fieldError = form.validateField(field);
+      return acc && !fieldError.hasError;
+    }, true);
+    return validationResult;
+  };
+
+  /**
+   * Step Navigation
+   */
+  const nextStep = (e) => {
+    e.preventDefault();
     if (!validateStep(activeStep)) {
       showNotification({
         title: "Post an ad",
@@ -447,217 +428,17 @@ useEffect(() => {
     setActiveStep((prev) => prev - 1);
   };
 
-  const handleFileDrop = async (images) => {
-    setImages(images);
 
-    try {
-      const formData = new FormData();
-      images.forEach((image) => {
-        formData.append("images", image);
-      });
-
-      const response = await uploadImageServer(formData);
-
-      const uploadedImageUrls = response;
-
-      setFormDataStep1((prev) => ({
-        ...prev,
-        images: uploadedImageUrls,
-      }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-
-  console.log("vehicleData...",vehicleData)
-  const previews = images.map((file, index) => {
-    const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);;
-    return (
-      <Box className="uploaded-image-wrapper" pos="relative" key={index}>
-        <Image
-          h={{ base: 140, sm: 140 }}
-          src={imageUrl}
-          // Only revoke URL if it's a File object
-          onLoad={() => {
-            if (typeof file !== 'string') {
-              URL.revokeObjectURL(imageUrl);
-            }
-          }}
-          radius="md"
-        />
-      </Box>
-    );
-  });
-
-
-  console.log("colors...",colors)
-  const getFeaturesByVehicle = (vehicleType) => {
-    // Common features shared by both cars and trucks
-    const commonCarTruckFeatures = {
-      featuredListsOne: [
-        { name: "ABS" },
-        { name: "Air Conditioning" }, // Shared between car and truck
-      ],
-      featuredListsTwo: [
-        { name: "Power Steering" }, // Shared between car and truck
-      ],
-      featuredListsThree: [
-        { name: "Cruise Control" }, // Shared between car and truck
-      ],
-    };
-
-    // Car-specific features
-    const carFeatures = {
-      featuredListsOne: [
-        ...commonCarTruckFeatures.featuredListsOne, // Include common features
-        { name: "Alloy Rims" },
-        { name: "Cassette Player" },
-        { name: "Climate Control" },
-        { name: "Front Camera" },
-        { name: "Keyless Entry" },
-        { name: "Power Mirrors" },
-        { name: "Rear Seat Entertainment" },
-        { name: "Rear Camera" },
-        { name: "USB and Auxillary Cable" },
-      ],
-      featuredListsTwo: [
-        ...commonCarTruckFeatures.featuredListsTwo, // Include common features
-        { name: "Air Bags" },
-        { name: "AM/FM Radio" },
-        { name: "Cool Box" },
-        { name: "DVD Player" },
-        { name: "Navigation System" },
-        { name: "Rear AC Vents" },
-        { name: "Sun Roof" },
-      ],
-      featuredListsThree: [
-        ...commonCarTruckFeatures.featuredListsThree, // Include common features
-        { name: "CD Player" },
-        { name: "Front Speakers" },
-        { name: "Immobilizer Key" },
-        { name: "Power Locks" },
-        { name: "Power Windows" },
-        { name: "Rear Speakers" },
-        { name: "Steering Switches" },
-      ],
-    };
-
-    // Bike-specific features
-    const bikeFeatures = {
-      featuredListsOne: [
-        { name: "ABS" },
-        { name: "LED Headlights" },
-        { name: "Disc Brakes" },
-        { name: "Alloy Wheels" },
-      ],
-      featuredListsTwo: [
-        { name: "Digital Speedometer" },
-        { name: "Fuel Injection" },
-        { name: "Handlebar Controls" },
-      ],
-      featuredListsThree: [
-        { name: "Mobile Charging Port" },
-        { name: "Side Stand Indicator" },
-      ],
-    };
-
-    // Truck-specific features
-    const truckFeatures = {
-      featuredListsOne: [
-        ...commonCarTruckFeatures.featuredListsOne, // Include common features
-        { name: "Cargo Bed" },
-        { name: "Trailer Hitch" },
-        { name: "Heavy-duty Suspension" },
-      ],
-      featuredListsTwo: [
-        ...commonCarTruckFeatures.featuredListsTwo, // Include common features
-        { name: "Air Brakes" },
-        { name: "Reinforced Chassis" },
-        { name: "Towing Package" },
-      ],
-      featuredListsThree: [
-        ...commonCarTruckFeatures.featuredListsThree, // Include common features
-        { name: "Off-road Tires" },
-        { name: "Powerful Engine" },
-        { name: "GPS Navigation" },
-      ],
-    };
-
-    // Return features based on the vehicle type
-    switch (vehicleType) {
-      case "bike":
-        return bikeFeatures;
-      case "truck":
-        return truckFeatures;
-      default:
-        return carFeatures; // Default to car features
-    }
-  };
-
-  // Usage example:
-  const features = getFeaturesByVehicle(vehicle);
-
-  const { featuredListsOne, featuredListsTwo, featuredListsThree } = features;
-  const getEngineListByVehicle = (vehicleType) => {
-    // Return features based on the vehicle type
-    switch (vehicleType) {
-      case "bike":
-        return bikeEngines;
-      case "truck":
-        return truckEngines;
-      default:
-        return carEngines; // Default to car features
-    }
-  };
-  // Usage example:
+  /**
+   * Engine List
+   */
   const engineList = getEngineListByVehicle(vehicle);
-  const getDriveListByVehicle = (vehicleType) => {
-    // Return features based on the vehicle type
-    switch (vehicleType) {
-      case "bike":
-        return bikeDrives;
-      case "truck":
-        return carTruckDrives;
-      default:
-        return carTruckDrives; // Default to car features
-    }
-  };
 
-console.log("================================",selection)
-useEffect(() => {
-  if (selection.make && selection.model && selection.variant) {
-    const queryParams = new URLSearchParams({
-      make: selection.make,
-      model: selection.model,
-      variant: selection.variant
-    }).toString();
-
-    fetchNewVehicleDetail(BASE_URL + `/api/new-vehicles/get-newVehicle-details?${queryParams}`).then((response) => {
-      console.log("response.........", response.data);
-      setVehicleData(response.data);
-
-    }).catch((error) => {
-      console.error("Error fetching vehicle details:", error);
-    });
-  }
-}, [selection.variant]);
-
-
-  const generateYearList = () => {
-    const currentYear = new Date().getFullYear();
-    const years = [];
-
-    for (let year = currentYear; year >= 1970; year--) {
-      years.push({ value: year.toString(), label: year.toString() });
-    }
-
-    return years;
-  };
+  /**
+   * Year List
+   */
   const yearList = generateYearList();
 
-  // Usage example:
-  const driveList = getDriveListByVehicle(vehicle);
 
   if (!session) {
     return (
@@ -686,789 +467,387 @@ useEffect(() => {
       <Box className="stepper-forms" py="xl">
         <Box className="container-xl">
           <Box className="row">
-            <Box className="col-lg-12 text-center">
-              <Stepper
-                active={activeStep}
-                onStepClick={setActiveStep}
-                color="#E90808"
-                completedIcon={<IconCircleCheck />}
-              >
-                <Stepper.Step
-                  icon={
-                    vehicle == "bike" ? (
-                      <FaMotorcycle />
-                    ) : vehicle == "truck" ? (
-                      <FaTruck />
-                    ) : (
-                      <FaCar />
-                    )
-                  }
-                  label="Step 1"
-                  py="lg"
-                  description={`Enter Your ${vehicle} Information`}
+            <form onSubmit={form.onSubmit(handleSubmit)}>
+              <Box className="col-lg-12 text-center">
+                <Stepper
+                  active={activeStep}
+                  color="#E90808"
+                  completedIcon={<IconCircleCheck />}
                 >
-                  <Card
-                    shadow="0px 4px 20px 0px #00000014"
-                    p={{ base: "md", md: "xl" }}
-                    className="text-start border-top border-primary border-5"
+                  {/*--------------- STEP 1 ---------------*/}
+                  <Stepper.Step
+                    icon={
+                      vehicle == "bike" ? (
+                        <FaMotorcycle />
+                      ) : vehicle == "truck" ? (
+                        <FaTruck />
+                      ) : (
+                        <FaCar />
+                      )
+                    }
+                    label="Step 1"
+                    py="lg"
+                    description={`Enter Your ${vehicle} Information`}
                   >
-                    <Title order={3}>Vehicle Information</Title>
-                    <Text size="sm">
-                      (All fields marked with * are mandatory)
-                    </Text>
-                    {/* Step 1 content goes here */}
-                    {/* step 1 start*/}
-
-                    <Box className="stepper-form" mt="xl">
-                      <Box className="row align-items-center" mb="xl">
-                        {/* <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Condition
-                          </Input.Label>
-                        </Box> */}
-                        {/* <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="New"
-                            data={yearList}
-                            value={formDataStep1.year}
-                            onChange={(value) =>
-                              handleChangeStep1(value, "year")
-                            }
-                          />
-                        </Box> */}
-                      </Box>
-
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Year
-                          </Input.Label>
+                    <Card
+                      shadow="0px 4px 20px 0px #00000014"
+                      p={{ base: "md", md: "xl" }}
+                      className="text-start border-top border-primary border-5"
+                    >
+                      <Title order={3}>Vehicle Information</Title>
+                      <Text size="sm">
+                        (All fields marked with * are mandatory)
+                      </Text>
+                      <Box className="stepper-form" mt="xl">
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Year"
+                            placeholder={new Date().getFullYear().toString()} data={yearList}
+                            {...form.getInputProps('year')} nothingFoundMessage="No year found" />
                         </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            required
-                            size="md"
-                            placeholder={new Date().getFullYear().toString()}
-                            data={yearList}
-                            value={formDataStep1.year}
-                            onChange={(value) => handleChangeStep1(value, "year")}
-                            searchable
-                            nothingFoundMessage="No year found" />
-                        </Box>
-                      </Box>
 
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Location
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7" onClick={openLocationModal}>
-                          <Input
-                            placeholder={`Select Location`}
-                            size="md"
-                            value={
-                              locationSelection.province.name ||
-                                locationSelection.city.name ||
-                                locationSelection.suburb.name
-                                ? ` ${locationSelection?.province?.name} ${locationSelection?.city?.name} ${locationSelection?.suburb?.name}`
-                                : ""
-                            }
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label="Location" placeholder="Select Location"
+                            value={`${form.values.city || ""} ${form.values.suburb || ""}`}
+                            error={form.errors.city || form.errors.suburb}
                             readOnly
+                            onClick={openLocationModal}
                           />
+                          <Box className="col-md-3 text-start">
+                            <Group gap="xs" align="center" wrap="nowrap">
+                              <LightBulb styles={{ marginTop: "-8px" }} />
+                              <Text size="sm">
+                                We don't allow duplicates of same ad.
+                              </Text>
+                            </Group>
+                          </Box>
                         </Box>
-                        <Box className="col-md-3 text-start">
-                          <Group gap="xs" align="center" wrap="nowrap">
-                            <LightBulb styles={{ marginTop: "-8px" }} />
-                            <Text size="sm">
-                              We don't allow duplicates of same ad.
-                            </Text>
-                          </Group>
-                        </Box>
-                      </Box>
-
-                      {/* <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Suburb
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="Suburb"
-                            data={getSuburbs(formDataStep1.city)}
-                            value={formDataStep1.suburb}
-                            searchable
-                            nothingFoundMessage="Nothing found..."
-                            onChange={(value) =>
-                              handleChangeStep1(value, "suburb")
-                            }
-                          />
-                        </Box>
-                      </Box> */}
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md" tt="capitalize">
-                            {vehicle} Info
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7" onClick={openModal}>
-                          <Input
-                            placeholder={`Select ${vehicle} Info`}
-                            size="md"
-                            value={
-                              selection.make ||
-                                selection.model ||
-                                selection.variant
-                                ? `${selection.make} ${selection.model} ${selection.variant}`
-                                : ""
-                            }
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label={`${vehicle} Info`} placeholder={`Select ${vehicle} Info`}
+                            value={`${form.values.make || ""} ${form.values.model || ""} ${form.values.variant || ""}`}
+                            error={form.errors.make || form.errors.model || form.errors.variant}
                             readOnly
+                            onClick={openModal}
                           />
                         </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Registered In
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Registered In"
                             placeholder="Registered In"
-                            data={province.map((item)=>{
-                              return {label:item.name, value:item.name}
+                            data={province?.map((item) => {
+                              return { label: item.name, value: item.name }
                             })}
-                            value={formDataStep1.registeredIn}
-                            searchable
-                            nothingFoundMessage="Nothing found..."
-                            onChange={(value) =>
-                              handleChangeStep1(value, "registeredIn")
-                            }
+                            {...form.getInputProps('registeredIn')}
                           />
                         </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Rego
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Input
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label="Rego" placeholder="Rego"
                             type="date"
-                            size="md"
-                            placeholder="Date"
-                            value={formDataStep1.rego}
-                            onChange={(value) =>
-                              handleChangeStep1(value.target.value, "rego")
-                            }
+                            value={form.values.rego}
+                            {...form.getInputProps('rego')}
                           />
                         </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Exterior Color
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Exterior Color"
                             placeholder="Exterior Color"
-                            data={colors.map(color => ({
+                            data={colors?.map(color => ({
                               value: color.title,
                               label: color.title,
                               color: color.code,
                             }))}
-                            value={formDataStep1.exteriorColor}
-                            onChange={(value) => handleChangeStep1(value, "exteriorColor")}
+                            {...form.getInputProps('exteriorColor')}
                             itemComponent={({ color, label }) => (
                               <ColorSwatch color={color} title={label} />
                             )}
                             styles={{
                               item: {
-                                // Add some padding for better appearance
                                 padding: '8px 12px',
                               }
                             }}
                           />
                         </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Mileage
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Input
-                            placeholder="0.10"
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label="Mileage" placeholder="Mileage"
+                            type="number"
+                            value={form.values.milage}
+                            {...form.getInputProps('milage')}
                             rightSection={
                               <Text span inherit size="xs">
                                 KM
                               </Text>
                             }
-                            size="md"
-                            value={formDataStep1.milage}
-                            type="number"
-                            onChange={(value) =>
-                              handleChangeStep1(value.target.value, "milage")
-                            }
                           />
-                        </Box>
-                        <Box className="col-md-3 text-start">
-                          <Flex align="center" gap="xs">
-                            <LightBulb styles={{ flex: "1 1 2.5rem" }} />
-                            <Text size="sm">
-                              We don't allow promotional messages that are not
-                              relevant to the ad
-                            </Text>
-                          </Flex>
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Price
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Input
-                            placeholder="54,683,506"
-                            rightSection={
-                              <Text span inherit size="xs">
-                                PKR
+                          <Box className="col-md-3 text-start">
+                            <Flex align="center" gap="xs">
+                              <LightBulb styles={{ flex: "1 1 2.5rem" }} />
+                              <Text size="sm">
+                                We don't allow promotional messages that are not
+                                relevant to the ad
                               </Text>
-                            }
-                            size="md"
-                            value={formDataStep1.price}
-                            type="number"
-                            onChange={(value) =>
-                              handleChangeStep1(value.target.value, "price")
-                            }
-                          />
+                            </Flex>
+                          </Box>
                         </Box>
-                        <Box className="col-md-3 text-start">
-                          <Flex align="center" gap="xs">
-                            <LightBulb styles={{ flex: "1 1 2.5rem" }} />
-                            <Text size="sm">
-                              Please enter a realistic price to get more genuine
-                              responses.
-                            </Text>
-                          </Flex>
+                        <Box className="row align-items-center" mb="xl">
+                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                            <Input.Label required size="md">
+                              Price
+                            </Input.Label>
+                          </Box>
+                          <Box className="col-md-7">
+                            <TextInput
+                              placeholder="54,683,506"
+                              rightSection={
+                                <Text span inherit size="xs">
+                                  PKR
+                                </Text>
+                              }
+                              size="md"
+                              type="number"
+                              {...form.getInputProps('price')}
+                            />
+                          </Box>
+                          <Box className="col-md-3 text-start">
+                            <Flex align="center" gap="xs">
+                              <LightBulb styles={{ flex: "1 1 2.5rem" }} />
+                              <Text size="sm">
+                                Please enter a realistic price to get more genuine
+                                responses.
+                              </Text>
+                            </Flex>
+                          </Box>
                         </Box>
-                      </Box>
-                      <Box className="row align-items-start" mb="md">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Ad Description
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Textarea
+                        <Box className="row align-items-start" mb="md">
+                          <FormFieldTextarea
+                            label="Ad Description"
                             placeholder="Describe Your car: Example: Alloy rim, first owner, genuine parts, maintained by authorized workshop, excellent mileage, original paint etc."
-                            size="md"
-                            autosize
-                            minRows={6}
-                            maxRows={6}
-                            fs={8}
-                            value={formDataStep1.description}
-                            onChange={(e) =>
-                              handleChangeStep1(e.target.value, "description")
-                            }
+                            reset={() => form.setFieldValue('description', '')}
+                            maxLength={1000}
+                            remainingCharacters={1000 - form.values.description.length}
+                            {...form.getInputProps('description')}
                           />
-                          <Group gap={0}>
-                            <Text size="sm" c="dimmed" ml="auto">
-                              Remaining Characters 995
-                            </Text>
-
-                            <Button
-                              variant="transparent"
-                              pr="0"
+                        </Box>
+                        <Box className="row align-items-start  " mb="xl">
+                          <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+                            <Input.Label
+                              required
                               size="md"
                               className="text-primary"
                             >
-                              Reset
-                            </Button>
-                          </Group>
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-start  " mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label
-                            required
-                            size="md"
-                            className="text-primary"
-                          >
-                            Predefined Template
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7 rounded border p-3 cursor-pointer">
-                          <Text size="sm">
-                            You can also use these suggestions
-                          </Text>
-                          <Group gap="sm" mt="md">
-                            {carTags.map((tag, index) => (
-                              <>
-                                <Button
-                                  variant="default"
-                                  size="sm"
-                                  key={`-${index}`}
-                                  onClick={() =>
-                                    handleDescriptionClick(tag + ". ")
-                                  }
-                                >
-                                  <Text size="sm">{tag}</Text>
-                                </Button>
-                              </>
-                            ))}
-                          </Group>
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-start" mb="xl">
-                        <Box className="col-md-12">
-                          <Title order={4} mb="lg">
-                            Upload Photos
-                          </Title>
-                          {/* <ImageUploader /> */}
-                          <Dropzone
-                            accept={IMAGE_MIME_TYPE}
-                            onDrop={handleFileDrop}
-                            p={0}
-                          >
-                            <Image
-                              src="/upload.png"
-                              className="img-fluid w-100 h-100"
-                              alt="Upload Image"
-                            />
-                          </Dropzone>
-
-                          <SimpleGrid
-                            cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-                            mt={previews.length > 0 ? "md" : 0}
-                          >
-                            {previews}
-                          </SimpleGrid>
-                        </Box>
-                      </Box>
-                    </Box>
-                    {/* Step 1 ended */}
-                  </Card>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  icon={<HiDocumentAdd />}
-                  label="Step 2"
-                  description={`Additional ${vehicle} Information`}
-                >
-                  <Card
-                    shadow="0px 4px 20px 0px #00000014"
-                    p={{ base: "md", md: "lg" }}
-                    className="text-start border-top border-primary border-5"
-                  >
-                    <Title order={3}>Additional Information</Title>
-                    <Box className="stepper-form" mt="xl">
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Engine Type
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="Petrol"
-                            data={fuelTypes?.map((item)=>{
-                              return {value:item.slug, label:item?.title}
-                            })}
-                            value={formDataStep2.engineType}
-                            onChange={(value) =>
-                              handleInputChangeStep2("engineType", value)
-                            }
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Engine
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="3.0L V6"
-                            data={engineList}
-                            value={formDataStep2.engine}
-                            onChange={(value) =>
-                              handleInputChangeStep2("engine", value)
-                            }
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Engine Capacity
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <NumberInput
-                            size="md"
-                            placeholder="1300"
-                            value={formDataStep2.engineCapacity}
-                            onChange={(value) =>
-                              handleInputChangeStep2("engineCapacity", value)
-                            }
-                          />
-                        </Box>
-                      </Box>
-                      {vehicle !== "bike" && (
-                        <>
-                          <Box className="row align-items-center" mb="xl">
-                            <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                              <Input.Label required size="md">
-                                Doors
-                              </Input.Label>
-                            </Box>
-                            <Box className="col-md-7">
-                              <NumberInput
-                                size="md"
-                                placeholder="4"
-                                value={formDataStep2.doors}
-                                onChange={(value) =>
-                                  handleInputChangeStep2("doors", value)
-                                }
-                              />
-                            </Box>
+                              Predefined Template
+                            </Input.Label>
                           </Box>
-                          <Box className="row align-items-center" mb="xl">
-                            <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                              <Input.Label required size="md">
-                                Seats
-                              </Input.Label>
-                            </Box>
-                            <Box className="col-md-7">
-                              <NumberInput
-                                size="md"
-                                placeholder="4"
-                                value={formDataStep2.seats}
-                                onChange={(value) =>
-                                  handleInputChangeStep2("seats", value)
-                                }
-                              />
-                            </Box>
-                          </Box>
-                        </>
-                      )}
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Transmission
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="Transmission"
-                            data={transmissions?.map((item)=>{
-                              return {value:item.slug, label:item?.title}
-                            })}
-                            value={formDataStep2.transmission}
-                            onChange={(value) =>
-                              handleInputChangeStep2("transmission", value)
-                            }
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Drive
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="Drive"
-                            data={drives.map((item)=>{
-                              return {value:item.slug, label:item?.title}
-                            })}
-                            value={formDataStep2.drive}
-                            onChange={(value) =>
-                              handleInputChangeStep2("drive", value)
-                            }
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Assembly
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Select
-                            size="md"
-                            placeholder="Local"
-                            data={transmissions?.map((item)=>{
-                              return {value:item.slug, label:item?.title}
-                            })}
-                            value={formDataStep2.assembly}
-                            onChange={(value) =>
-                              handleInputChangeStep2("assembly", value)
-                            }
-                          />
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-start" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Body Type
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Grid mb="lg">
-                            {bodies?.map((bodyType) => (
-                              <Grid.Col
-                                span={4}
-                                ta="center"
-                                key={bodyType.title}
-                              >
-                                <div className="single-brand-item selected-brand-item text-center">
-                                  <label
-                                    className={`text-decoration-none ${formDataStep2.body ===
-                                      bodyType.title.toLowerCase()
-                                      ? "checked"
-                                      : ""
-                                      }`}
+                          <Box className="col-md-7 rounded border p-3 cursor-pointer">
+                            <Text size="sm">
+                              You can also use these suggestions
+                            </Text>
+                            <Group gap="sm" mt="md">
+                              {carTags.map((tag, index) => (
+                                <>
+                                  <Button
+                                    variant="default"
+                                    size="sm"
+                                    key={`${tag}-${index}`}
+                                    onClick={() =>
+                                      handleDescriptionClick(tag + ". ")
+                                    }
                                   >
-                                    <input
-                                      type="radio"
-                                      name="bodyType"
-                                      value={bodyType.title.toLowerCase()}
-                                      checked={
-                                        formDataStep2.body ===
-                                        bodyType.title.toLowerCase()
-                                      }
-                                      onChange={() =>
-                                        handleInputChangeStep2(
-                                          "body",
-                                          bodyType.title.toLowerCase()
-                                        )
-                                      }
-                                    />
-                                    <Image
-                                      width={80}
-                                      height={60}
-                                      src={bodyType.bodyImage}
-                                      className="mx-auto text-center"
-                                      alt={`${bodyType.name} body type`}
-                                    />
-                                    <h6 className="mb-0 text-dark">
-                                      {bodyType.title}
-                                    </h6>
-                                  </label>
-                                </div>
-                              </Grid.Col>
-                            ))}
-                          </Grid>
-                        </Box>
-                      </Box>
-                      <Box className="row align-items-start" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label size="md">Feature</Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Box className="row">
-                            <Box className="col-md-4">
-                              {featuredListsOne.map((item, index) => (
-                                <>
-                                  <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={formDataStep2.features.includes(
-                                      item.name
-                                    )}
-                                    onChange={() =>
-                                      handleFeatureChange(item.name)
-                                    }
-                                  />
+                                    <Text size="sm">{tag}</Text>
+                                  </Button>
                                 </>
                               ))}
-                            </Box>
-                            <Box className="col-md-4">
-                              {featuredListsTwo.map((item, index) => (
-                                <>
-                                  <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={formDataStep2.features.includes(
-                                      item.name
-                                    )}
-                                    onChange={() =>
-                                      handleFeatureChange(item.name)
-                                    }
-                                  />
-                                </>
-                              ))}
-                            </Box>
-                            <Box className="col-md-4">
-                              {featuredListsThree.map((item, index) => (
-                                <>
-                                  <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={formDataStep2.features.includes(
-                                      item.name
-                                    )}
-                                    onChange={() =>
-                                      handleFeatureChange(item.name)
-                                    }
-                                  />
-                                </>
-                              ))}
-                            </Box>
+                            </Group>
                           </Box>
                         </Box>
-                      </Box>
-                    </Box>
-                    {/* Step 2 ended */}
-                  </Card>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  icon={<BiSolidUserRectangle />}
-                  label="Step 3"
-                  description="Contact Information"
-                >
-                  <Card
-                    shadow="0px 4px 20px 0px #00000014"
-                    p={{ base: "md", md: "lg" }}
-                    className="text-start border-top border-primary border-5"
-                  >
-                    <Title order={3}>Contact Information</Title>
-                    {/* Step 3 content goes here */}
-                    <Box className="stepper-form" mt="xl">
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Mobile Number
-                          </Input.Label>
+                        <Box className="row align-items-start" mb="xl">
+                          <FormFieldImageUpload label="Upload Photos" images={images} setImages={setImages} form={form} />
                         </Box>
-                        <Box className="col-md-7">
-                          <Input
+                      </Box>
+                    </Card>
+                  </Stepper.Step>
+                  {/*--------------- STEP 2---------------*/}
+                  <Stepper.Step
+                    icon={<HiDocumentAdd />}
+                    label="Step 2"
+                    description={`Additional ${vehicle} Information`}
+                  >
+                    <Card
+                      shadow="0px 4px 20px 0px #00000014"
+                      p={{ base: "md", md: "lg" }}
+                      className="text-start border-top border-primary border-5"
+                    >
+                      <Title order={3}>Additional Information</Title>
+                      <Box className="stepper-form" mt="xl">
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Engine Type"
+                            placeholder="Engine Type"
+                            data={fuelTypes?.map((item) => {
+                              return { value: item.slug, label: item?.title }
+                            })}
+                            {...form.getInputProps('engineType')}
+                          />
+                        </Box>
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Engine"
+                            placeholder="Engine"
+                            data={engineList}
+                            {...form.getInputProps('engine')}
+                          />
+                        </Box>
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldNumberInput label="Engine Capacity"
+                            placeholder="Engine Capacity"
+                            {...form.getInputProps('engineCapacity')}
+                          />
+                        </Box>
+                        {vehicle !== "bike" && (
+                          <>
+                            <Box className="row align-items-center" mb="xl">
+                              <FormFieldNumberInput label="Doors"
+                                placeholder="Doors"
+                                {...form.getInputProps('doors')}
+                                maxLength={1}
+                              />
+                            </Box>
+                            <Box className="row align-items-center" mb="xl">
+                              <FormFieldNumberInput label="Seats"
+                                placeholder="Seats"
+                                {...form.getInputProps('seats')}
+                                maxLength={1}
+                              />
+                            </Box>
+                          </>
+                        )}
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Transmission"
+                            placeholder="Transmission"
+                            data={transmissions?.map((item) => {
+                              return { value: item.slug, label: item?.title }
+                            })}
+                            {...form.getInputProps('transmission')}
+                          />
+                        </Box>
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Drive"
+                            placeholder="Drive"
+                            data={drives?.map((item) => {
+                              return { value: item.slug, label: item?.title }
+                            })}
+                            {...form.getInputProps('drive')}
+                          />
+                        </Box>
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Assembly"
+                            placeholder="Assembly"
+                            data={transmissions?.map((item) => {
+                              return { value: item.slug, label: item?.title }
+                            })}
+                            {...form.getInputProps('assembly')}
+                          />
+                        </Box>
+                        <Box className="row align-items-start" mb="xl">
+                          <FormFieldBodyType label="Body Type" bodies={bodies} form={form} />
+                        </Box>
+                        <Box className="row align-items-start" mb="xl">
+                          <FormFieldFeature label="Feature" form={form} vehicleType={vehicle} />
+                        </Box>
+                      </Box>
+                    </Card>
+                  </Stepper.Step>
+                  {/*--------------- STEP 3---------------*/}
+                  <Stepper.Step
+                    icon={<BiSolidUserRectangle />}
+                    label="Step 3"
+                    description="Contact Information"
+                  >
+                    <Card
+                      shadow="0px 4px 20px 0px #00000014"
+                      p={{ base: "md", md: "lg" }}
+                      className="text-start border-top border-primary border-5"
+                    >
+                      <Title order={3}>Contact Information</Title>
+                      {/* Step 3 content goes here */}
+                      <Box className="stepper-form" mt="xl">
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label="Mobile Number" placeholder="Mobile Number"
                             type="number"
-                            size="md"
-                            name="mobileNumber"
-                            placeholder="Mobile Number"
-                            value={formDataStep3.mobileNumber}
-                            onChange={handleChangeStep3}
+                            value={form.values.mobileNumber}
+                            {...form.getInputProps('mobileNumber')}
                             rightSection={<FaMobile color="#222" />}
                           />
                         </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                          <Input.Label required size="md">
-                            Secondary Number (Optional)
-                          </Input.Label>
-                        </Box>
-                        <Box className="col-md-7">
-                          <Input
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label="Secondary Number (Optional)" placeholder="Secondary Number (Optional)"
                             type="number"
-                            size="md"
-                            name="secondaryNumber"
-                            placeholder="Secondary Number (Optional)"
-                            value={formDataStep3.secondaryNumber}
-                            onChange={handleChangeStep3}
+                            value={form.values.secondaryNumber}
+                            {...form.getInputProps('secondaryNumber')}
+                            required={false}
+                            rightSection={<FaMobile color="#222" />}
                           />
                         </Box>
-                      </Box>
-                      <Box className="row align-items-center" mb="xl">
-                        <Box className="col-md-6 offset-2 mb-2 mb-lg-0">
-                          <Flex align="center" gap="xl">
-                            <Flex align="center" gap="sm">
-                              <ThemeIcon
-                                variant="filled"
-                                radius="lg"
-                                size="lg"
-                                color="green"
-                                sx={{ boxShadow: "0px 4px 20px 0px #00000014" }}
-                              >
-                                <FaWhatsapp
-                                  style={{ width: "60%", height: "60%" }}
-                                />
-                              </ThemeIcon>
-                              Allow WhatsApp Contact
+                        <Box className="row align-items-center" mb="xl">
+                          <Box className="col-md-6 offset-2 mb-2 mb-lg-0">
+                            <Flex align="center" gap="xl">
+                              <Flex align="center" gap="sm">
+                                <ThemeIcon
+                                  variant="filled"
+                                  radius="lg"
+                                  size="lg"
+                                  color="green"
+                                  sx={{ boxShadow: "0px 4px 20px 0px #00000014" }}
+                                >
+                                  <FaWhatsapp
+                                    style={{ width: "60%", height: "60%" }}
+                                  />
+                                </ThemeIcon>
+                                Allow WhatsApp Contact
+                              </Flex>
+                              <Switch size="xl" color="#E90808" {...form.getInputProps('allowWhatsapp')} />
                             </Flex>
-                            <Switch size="xl" color="#E90808" />
-                          </Flex>
+                          </Box>
                         </Box>
                       </Box>
-                    </Box>
-                    {/* Step 3 ended */}
-                  </Card>
-                </Stepper.Step>
+                    </Card>
+                  </Stepper.Step>
+                </Stepper>
 
-                <Stepper.Completed>
-                  <Title py="xl" order={2} fw={600}>
-                    Your {vehicle} Ad Has Been Published Successfully!
-                  </Title>
-                </Stepper.Completed>
-              </Stepper>
-
-              <Flex gap="sm" justify="flex-end" mt="md">
-                {activeStep > 0 && (
-                  <Button
-                    variant="light"
-                    bg="#ddd"
-                    fw={500}
-                    color="#333"
-                    size="lg"
-                    w="130px"
-                    onClick={prevStep}
-                  >
-                    Back
-                  </Button>
-                )}
-                {activeStep < 2 ? (
-                  <Button
-                    fw={500}
-                    color="#E90808"
-                    size="lg"
-                    w="130px"
-                    onClick={nextStep}
-                  >
-                    Next
-                  </Button>
-                ) : (
-                  <Button
-                    fw={500}
-                    color="#E90808"
-                    size="lg"
-                    onClick={handleSubmit}
-                    variant="filled"
-                    w="130px"
-                  >
-                    Submit
-                  </Button>
-                )}
-              </Flex>
-            </Box>
+                <Flex gap="sm" justify="flex-end" mt="md">
+                  {activeStep > 0 && (
+                    <Button
+                      variant="light"
+                      bg="#ddd"
+                      fw={500}
+                      color="#333"
+                      size="lg"
+                      w="130px"
+                      onClick={() => prevStep()}
+                    >
+                      Back
+                    </Button>
+                  )}
+                  {activeStep < 2 ? (
+                    <Button
+                      fw={500}
+                      color="#E90808"
+                      size="lg"
+                      w="130px"
+                      onClick={(e) => nextStep(e)}
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      fw={500}
+                      color="#E90808"
+                      size="lg"
+                      variant="filled"
+                      w="130px"
+                      type="submit"
+                      loading={form.submitting}
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </Flex>
+              </Box>
+            </form>
           </Box>
         </Box>
       </Box>
