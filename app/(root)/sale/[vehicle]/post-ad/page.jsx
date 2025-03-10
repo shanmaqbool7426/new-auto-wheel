@@ -81,13 +81,10 @@ const PostAnAd = (params) => {
     model: z.string().min(1, 'Model is required'),
     variant: z.string().min(1, 'Variant is required'),
     engineType: z.string().min(1, 'Engine type is required'),
-    engine: z.string().min(1, 'Engine is required'),
     engineCapacity: z.number().min(1, 'Engine capacity is required'),
     drive: z.string().min(1, 'Drive type is required'),
     transmission: z.string().min(1, 'Transmission is required'),
     assembly: z.string().min(1, 'Assembly is required'),
-    seats: z.number().min(1, 'Number of seats is required'),
-    doors: z.number().min(1, 'Number of doors is required'),
     body: z.string().min(1, 'Body type is required'),
     features: z.array(z.string()).min(1, 'Select at least one feature'),
     mobileNumber: z.string()
@@ -116,8 +113,6 @@ const PostAnAd = (params) => {
       engineType: "",
       engine: "",
       drive: "",
-      seats: "",
-      doors: "",
       body: "",
       engineCapacity: "",
       transmission: "",
@@ -137,14 +132,15 @@ const PostAnAd = (params) => {
     },
     {
       label: 'Vehicle Details',
-      fields: ['engineType', 'engine', 'drive', 'seats', 'doors', 'body', 'engineCapacity', 'transmission', 'assembly', 'features'],
+      fields: ['engineType', 'drive', 'body', 'engineCapacity', 'transmission', 'assembly', 'features'],
     },
     {
       label: 'Contact Information',
       fields: ['mobileNumber', 'secondaryNumber', 'allowWhatsAppContact'],
     },
   ];
-
+  // Assembly data set
+  const assemblyData = ["local", "imported"];
 
   // Custom Hooks and Data
   const {
@@ -156,6 +152,7 @@ const PostAnAd = (params) => {
     province
   } = useVehicleData(vehicleType);
 
+  console.log("....transmissions",transmissions)
   // Selection State Management
   const [selection, setSelection] = useState({
     make: "",
@@ -194,6 +191,10 @@ const PostAnAd = (params) => {
     getMakes();
   }, [vehicle]);
 
+  // need Fuel Type Data Set [Petrol, Diesel, Electric, Hybrid]
+
+  
+
   useEffect(() => {
     const fetchAdData = async () => {
       if (vehicleId && session?.user?.token?.token) {
@@ -217,7 +218,7 @@ const PostAnAd = (params) => {
           form.setFieldValue('seats', data.specifications?.seats || "");
           form.setFieldValue('doors', data.specifications?.doors || "");
           form.setFieldValue('body', data.specifications?.bodyType || "");
-          form.setFieldValue('engineCapacity', data.specifications?.engineCapacity || "");
+          form.setFieldValue('engineCapacity', data.specifications?.displacement || "");
           form.setFieldValue('transmission', data.specifications?.transmission || "");
           form.setFieldValue('assembly', data.specifications?.assembly || "");
           form.setFieldValue('features', data.features || []);
@@ -260,11 +261,42 @@ const PostAnAd = (params) => {
   
       fetchNewVehicleDetail(BASE_URL + `/api/new-vehicles/get-newVehicle-details?${queryParams}`)
         .then((response) => {
-          if (!vehicleId || form.values.features.length === 0) {
+          if (!vehicleId) {
             const vehicleData = response.data;
+
+            // Prefill vehicle specifications
+            if (vehicleData.engine) {
+              form.setFieldValue('engineType', vehicleData.engine.type?.toLowerCase() || "");
+              form.setFieldValue('engineCapacity', vehicleData.engine.displacement || "");
+            }
+
+            if (vehicleData.transmission) {
+              const transmission = transmissions.find(item => item._id === vehicleData.transmission.type);
+              form.setFieldValue('transmission', transmission?.title || "");
+            }
+
+            if(vehicleData.drive){
+              form.setFieldValue('drive', vehicleData.drive || "");
+            }
+            // Set drive type if available
+            if (vehicleData.suspensionSteeringBrakes?.steeringType) {
+              
+              // form.setFieldValue('drive', vehicleData.suspensionSteeringBrakes.steeringType.toLowerCase() || "");
+            }
+
+            // Set assembly (you might need to map this from your data)
+            if (vehicleData.Info?.make) {
+              // You can set a default assembly based on make or other criteria
+              form.setFieldValue('assembly', 'local'); // or 'imported' based on your logic
+            }
+
+            // Set body type
+            if (vehicleData.bodyType) {
+              form.setFieldValue('body', vehicleData.bodyType || "");
+            }
+
+            // Get predefined features and set them
             const features = [];
-  
-            // Get predefined features based on vehicle type
             const predefinedFeatures = getFeaturesByVehicle(vehicle);
             const allPredefinedFeatures = [
               ...predefinedFeatures.featuredListsOne,
@@ -272,74 +304,73 @@ const PostAnAd = (params) => {
               ...predefinedFeatures.featuredListsThree
             ].map(f => f.name);
   
-            if (vehicle === 'car') {
-              // Safety features
-              if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS')) 
-                features.push('ABS');
-              if (vehicleData.safety?.airbags > 0 && allPredefinedFeatures.includes('Air Bags')) 
-                features.push('Air Bags');
-              
-              // Comfort features
-              if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning')) 
-                features.push('Air Conditioning');
-              if (vehicleData.comfort?.climateControl && allPredefinedFeatures.includes('Climate Control')) 
-                features.push('Climate Control');
-              if (vehicleData.comfort?.rearAcVents && allPredefinedFeatures.includes('Rear AC Vents')) 
-                features.push('Rear AC Vents');
-              if (vehicleData.comfort?.powerWindows && allPredefinedFeatures.includes('Power Windows')) 
-                features.push('Power Windows');
-              if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering')) 
-                features.push('Power Steering');
-              if (vehicleData.comfort?.powerMirrors && allPredefinedFeatures.includes('Power Mirrors')) 
-                features.push('Power Mirrors');
-              if (vehicleData.comfort?.powerDoorLocks && allPredefinedFeatures.includes('Power Locks')) 
-                features.push('Power Locks');
-              if (vehicleData.comfort?.cruiseControl && allPredefinedFeatures.includes('Cruise Control')) 
-                features.push('Cruise Control');
-              if (vehicleData.comfort?.keylessEntry && allPredefinedFeatures.includes('Keyless Entry')) 
-                features.push('Keyless Entry');
-              if (vehicleData.comfort?.steeringSwitches && allPredefinedFeatures.includes('Steering Switches')) 
-                features.push('Steering Switches');
-              
-              // Entertainment features
-              if (vehicleData.entertainment?.cdDvdPlayer && allPredefinedFeatures.includes('CD Player')) 
-                features.push('CD Player');
-              if (vehicleData.entertainment?.frontSpeakers && allPredefinedFeatures.includes('Front Speakers')) 
-                features.push('Front Speakers');
-              if (vehicleData.entertainment?.rearSeatEntertainment && allPredefinedFeatures.includes('Rear Seat Entertainment')) 
-                features.push('Rear Seat Entertainment');
-              if (vehicleData.entertainment?.usbAndAux && allPredefinedFeatures.includes('USB and Auxillary Cable')) 
-                features.push('USB and Auxillary Cable');
-  
-              // Exterior features
-              if (vehicleData.exterior?.alloyWheels && allPredefinedFeatures.includes('Alloy Rims')) 
-                features.push('Alloy Rims');
-              if (vehicleData.exterior?.sunRoof && allPredefinedFeatures.includes('Sun Roof')) 
-                features.push('Sun Roof');
-  
-            } else if (vehicle === 'bike') {
-              if (vehicleData.engine?.type?.includes('ABS') && allPredefinedFeatures.includes('ABS')) 
-                features.push('ABS');
-              if (vehicleData.starting?.toLowerCase().includes('electric') && allPredefinedFeatures.includes('Electric Start')) 
-                features.push('Electric Start');
-              if (vehicleData.wheelSize && allPredefinedFeatures.includes('Alloy Wheels')) 
-                features.push('Alloy Wheels');
-              
-            } else if (vehicle === 'truck') {
-              if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS')) 
-                features.push('ABS');
-              if (vehicleData.safety?.hillAssist && allPredefinedFeatures.includes('Hill Assist')) 
-                features.push('Hill Assist');
-              if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning')) 
-                features.push('Air Conditioning');
-              if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering')) 
-                features.push('Power Steering');
-              if (vehicleData.chassis?.airBrakeSystem && allPredefinedFeatures.includes('Air Brakes')) 
-                features.push('Air Brakes');
-            }
-  
-            // Only set features if we found some
-            if (features.length > 0) {
+            // Safety features
+            if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS')) 
+              features.push('ABS');
+            // immobilizer
+            if (vehicleData.safety?.immobilizer && allPredefinedFeatures.includes('Immobilizer Key')) 
+              features.push('Immobilizer Key');
+            if (vehicleData.safety?.airbags > 0 && allPredefinedFeatures.includes('Air Bags')) 
+              features.push('Air Bags');
+            
+            // Comfort features
+            if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning')) 
+              features.push('Air Conditioning');
+            // coolBox
+            if (vehicleData.comfort?.coolBox && allPredefinedFeatures.includes('Cool Box')) 
+              features.push('Cool Box');
+            // navigation
+            if (vehicleData.comfort?.navigation && allPredefinedFeatures.includes('Navigation System')) 
+              features.push('Navigation System');
+            // Rear Camera
+            if (vehicleData.comfort?.rearCamera && allPredefinedFeatures.includes('Rear Camera')) 
+              features.push('Rear Camera');
+            // Front Camera
+            if (vehicleData.comfort?.frontCamera && allPredefinedFeatures.includes('Front Camera')) 
+              features.push('Front Camera');
+            if (vehicleData.comfort?.climateControl && allPredefinedFeatures.includes('Climate Control')) 
+              features.push('Climate Control');
+            if (vehicleData.comfort?.rearAcVents && allPredefinedFeatures.includes('Rear AC Vents')) 
+              features.push('Rear AC Vents');
+            if (vehicleData.comfort?.powerWindows && allPredefinedFeatures.includes('Power Windows')) 
+              features.push('Power Windows');
+            if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering')) 
+              features.push('Power Steering');
+            if (vehicleData.comfort?.powerMirrors && allPredefinedFeatures.includes('Power Mirrors')) 
+              features.push('Power Mirrors');
+            if (vehicleData.comfort?.powerDoorLocks && allPredefinedFeatures.includes('Power Locks')) 
+              features.push('Power Locks');
+            if (vehicleData.comfort?.cruiseControl && allPredefinedFeatures.includes('Cruise Control')) 
+              features.push('Cruise Control');
+            if (vehicleData.comfort?.keylessEntry && allPredefinedFeatures.includes('Keyless Entry')) 
+              features.push('Keyless Entry');
+            if (vehicleData.comfort?.steeringSwitches && allPredefinedFeatures.includes('Steering Switches')) 
+              features.push('Steering Switches');
+
+            // Entertainment features
+            if (vehicleData.entertainment?.cdDvdPlayer && allPredefinedFeatures.includes('CD/DVD Player')) 
+              features.push('CD/DVD Player');
+            if (vehicleData.entertainment?.frontSpeakers && allPredefinedFeatures.includes('Front Speakers')) 
+              features.push('Front Speakers');
+            if (vehicleData.entertainment?.rearSpeakers && allPredefinedFeatures.includes('Rear Speakers')) 
+              features.push('Rear Speakers');
+            if (vehicleData.entertainment?.rearSeatEntertainment && allPredefinedFeatures.includes('Rear Seat Entertainment')) 
+              features.push('Rear Seat Entertainment');
+            if (vehicleData.entertainment?.usbAndAux && allPredefinedFeatures.includes('USB and Auxillary Cable')) 
+              features.push('USB and Auxillary Cable');
+            if (vehicleData.entertainment?.amfmRadio && allPredefinedFeatures.includes('AM/FM Radio')) 
+              features.push('AM/FM Radio');
+            if (vehicleData.entertainment?.cassettePlayer && allPredefinedFeatures.includes('Cassette Player')) 
+              features.push('Cassette Player');
+
+            // Exterior features
+            if (vehicleData.exterior?.alloyWheels && allPredefinedFeatures.includes('Alloy Rims')) 
+              features.push('Alloy Rims');
+            if (vehicleData.exterior?.sunRoof && allPredefinedFeatures.includes('Sun Roof')) 
+              features.push('Sun Roof');
+
+            // Only set features if we found some and there are no existing features
+            if (features.length > 0 && form.values.features.length === 0) {
               form.setFieldValue('features', features);
             }
           }
@@ -349,6 +380,8 @@ const PostAnAd = (params) => {
         });
     }
   }, [selection.variant, vehicleId]);
+
+  console.log("....form.values",form.values)
 
 
   /**
@@ -421,14 +454,14 @@ const PostAnAd = (params) => {
    */
   const nextStep = (e) => {
     e.preventDefault();
-    if (!validateStep(activeStep)) {
-      showNotification({
-        title: "Post an ad",
-        message: "Please fill in all required fields.",
-        color: "red",
-      });
-      return;
-    }
+    // if (!validateStep(activeStep)) {
+    //   showNotification({
+    //     title: "Post an ad",
+    //     message: "Please fill in all required fields.",
+    //     color: "red",
+    //   });
+    //   return;
+    // }
 
     setActiveStep((prev) => prev + 1);
     window.scroll({ top: 0, behavior: "smooth" });
@@ -509,6 +542,16 @@ const PostAnAd = (params) => {
                         (All fields marked with * are mandatory)
                       </Text>
                       <Box className="stepper-form" mt="xl">
+
+                      <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label={`${vehicle} Info`} placeholder={`Select ${vehicle} Info`}
+                            value={`${form.values.make || ""} ${form.values.model || ""} ${form.values.variant || ""}`}
+                            error={form.errors.make || form.errors.model || form.errors.variant}
+                            readOnly
+                            onClick={openModal}
+                          />
+                        </Box>
+
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Year"
                             placeholder={new Date().getFullYear().toString()} data={yearList}
@@ -531,14 +574,7 @@ const PostAnAd = (params) => {
                             </Group>
                           </Box>
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
-                          <FormFieldInput label={`${vehicle} Info`} placeholder={`Select ${vehicle} Info`}
-                            value={`${form.values.make || ""} ${form.values.model || ""} ${form.values.variant || ""}`}
-                            error={form.errors.make || form.errors.model || form.errors.variant}
-                            readOnly
-                            onClick={openModal}
-                          />
-                        </Box>
+                       
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Registered In"
                             placeholder="Registered In"
@@ -685,70 +721,51 @@ const PostAnAd = (params) => {
                     >
                       <Title order={3}>Additional Information</Title>
                       <Box className="stepper-form" mt="xl">
+                      
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Engine Type"
                             placeholder="Engine Type"
-                            data={fuelTypes?.map((item) => {
-                              return { value: item.slug, label: item?.title }
-                            })}
+                            valueData={form.values.engineType.charAt(0).toUpperCase() + form.values.engineType.slice(1)}
+                            data={fuelTypes?.map((item)=> item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('engineType')}
                           />
                         </Box>
-                        <Box className="row align-items-center" mb="xl">
+                        {/* <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Engine"
                             placeholder="Engine"
                             data={engineList}
                             {...form.getInputProps('engine')}
                           />
-                        </Box>
+                        </Box> */}
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldNumberInput label="Engine Capacity"
                             placeholder="Engine Capacity"
                             {...form.getInputProps('engineCapacity')}
                           />
                         </Box>
-                        {vehicle !== "bike" && (
-                          <>
-                            <Box className="row align-items-center" mb="xl">
-                              <FormFieldNumberInput label="Doors"
-                                placeholder="Doors"
-                                {...form.getInputProps('doors')}
-                                maxLength={1}
-                              />
-                            </Box>
-                            <Box className="row align-items-center" mb="xl">
-                              <FormFieldNumberInput label="Seats"
-                                placeholder="Seats"
-                                {...form.getInputProps('seats')}
-                                maxLength={1}
-                              />
-                            </Box>
-                          </>
-                        )}
+                     
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Transmission"
                             placeholder="Transmission"
-                            data={transmissions?.map((item) => {
-                              return { value: item.slug, label: item?.title }
-                            })}
+                            valueData={form.values.transmission.charAt(0).toUpperCase() + form.values.transmission.slice(1)}
+                            data={transmissions?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('transmission')}
                           />
                         </Box>
+                        {console.log("drives...",drives)}
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Drive"
                             placeholder="Drive"
-                            data={drives?.map((item) => {
-                              return { value: item.slug, label: item?.title }
-                            })}
+                            valueData={form.values.drive.charAt(0).toUpperCase() + form.values.drive.slice(1)}
+                            data={drives?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('drive')}
                           />
                         </Box>
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Assembly"
                             placeholder="Assembly"
-                            data={transmissions?.map((item) => {
-                              return { value: item.slug, label: item?.title }
-                            })}
+                            valueData={form.values.assembly.charAt(0).toUpperCase() + form.values.assembly.slice(1)}
+                            data={["Local", "Imported"]}
                             {...form.getInputProps('assembly')}
                           />
                         </Box>

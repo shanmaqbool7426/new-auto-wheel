@@ -4,27 +4,34 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
+import { MdArrowDropDown } from "react-icons/md";
 
 /**
  * FormFieldSelect Component
  * Renders a select input with label and placeholder
  */
-export const FormFieldSelect = ({ label, placeholder, data, nothingFoundMessage, ...props }) => (
+export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value, valueData, nothingFoundMessage, ...props }) => (
     <>
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
             <Input.Label required size="md">
                 {label}
             </Input.Label>
         </Box>
+        {console.log("............,,..",valueData)}
         <Box className="col-md-7">
             <Select
                 required
                 size="md"
+                {...props} 
                 searchable
+                rightSection={<MdArrowDropDown size={24} />}
+                rightSectionWidth={40}
+                value={valueData}
+                // defaultValue='Petrol'
                 nothingFoundMessage={nothingFoundMessage || "Nothing found..."}
                 placeholder={placeholder}
-                data={data}
-                {...props} />
+                data={data || []}
+            />
         </Box>
     </>
 )
@@ -227,6 +234,7 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
 export const FormFieldBodyType = ({ label, bodies, form }) => (
     <>
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
+            {console.log("form.values.body",form.values.body)}
             <Input.Label required size="md" tt="capitalize">{label}</Input.Label>
         </Box>
         <Box className="col-md-7">
@@ -239,23 +247,24 @@ export const FormFieldBodyType = ({ label, bodies, form }) => (
                     >
                         <div className="single-brand-item selected-brand-item text-center">
                             <label
-                                className={`text-decoration-none ${form.values.body ===
-                                    bodyType.title.toLowerCase()
-                                    ? "checked"
-                                    : ""
-                                    }`}
+                                className={`text-decoration-none ${
+                                    form.values.body === bodyType._id ||
+                                    form.values.body === bodyType.title.toLowerCase()
+                                        ? "checked"
+                                        : ""
+                                }`}
                             >
                                 <input
                                     type="radio"
                                     name="bodyType"
-                                    value={bodyType.title.toLowerCase()}
+                                    value={bodyType._id}
                                     checked={
-                                        form.values.body ===
-                                        bodyType.title.toLowerCase()
+                                        form.values.body === bodyType._id ||
+                                        form.values.body === bodyType.title.toLowerCase()
                                     }
-                                    onChange={() =>
-                                        form.setFieldValue('body', bodyType.title.toLowerCase())
-                                    }
+                                    onChange={() => {
+                                        form.setFieldValue('body', bodyType._id);
+                                    }}
                                 />
                                 <Image
                                     width={80}

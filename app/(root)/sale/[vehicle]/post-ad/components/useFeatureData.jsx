@@ -35,14 +35,13 @@
         { name: "Air Bags" },
         { name: "AM/FM Radio" },
         { name: "Cool Box" },
-        { name: "DVD Player" },
+        { name: "CD/DVD Player" },
         { name: "Navigation System" },
         { name: "Rear AC Vents" },
         { name: "Sun Roof" },
       ],
       featuredListsThree: [
         ...commonCarTruckFeatures.featuredListsThree, // Include common features
-        { name: "CD Player" },
         { name: "Front Speakers" },
         { name: "Immobilizer Key" },
         { name: "Power Locks" },
