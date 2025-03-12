@@ -162,7 +162,17 @@ const ComparisonCard = ({ pair }) => (
           <>
             <Grid.Col span={6} ta={"center"}>
               <Group gap={"xs"} align="center" justify="center">
-                <Text fw={600} size="sm">
+                <Text 
+                  fw={600} 
+                  size="sm"
+                  style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '150px'
+                  }}
+                  title={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+                >
                   {vehicle.year} {vehicle.make} {vehicle.model}
                 </Text>
                 <Rating

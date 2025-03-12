@@ -307,7 +307,7 @@ const ListCardView = ({ vehicle }) => {
             <Box className="list-inline-item" c="dimmed">
               <FuelTank />{" "}
               <Text c="dark" fw={500} span size="sm">
-                {vehicle?.specifications?.engine}
+                {vehicle?.specifications?.engineCapacity} L
               </Text>
             </Box>
             <Divider orientation="vertical" size="sm" />

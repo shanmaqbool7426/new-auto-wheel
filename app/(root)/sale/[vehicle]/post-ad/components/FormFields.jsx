@@ -24,7 +24,7 @@ export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value,
                 size="md"
                 {...props} 
                 searchable
-                rightSection={<MdArrowDropDown size={24} />}
+                rightSection={<MdArrowDropDown size={24}  color="#E90808" />}
                 rightSectionWidth={40}
                 value={valueData}
                 // defaultValue='Petrol'
@@ -47,10 +47,13 @@ export const FormFieldInput = ({ label, placeholder, ...props }) => (
         </Box>
         <Box className="col-md-7">
             <TextInput
+                {...props} // Move spread props first
                 required
                 size="md"
-                placeholder={placeholder}
-                {...props} />
+                rightSection={<MdArrowDropDown size={24} color="#E90808"  />}
+                rightSectionWidth={40}
+                placeholder={placeholder} // Place specific props after spread
+            />
         </Box>
     </>
 )
@@ -83,12 +86,12 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
             <Input.Label required size="md" tt="capitalize">{label}</Input.Label>
         </Box>
-        <Box className="col-md-7">
+        <Box className="col-md-10">
             <Textarea
                 required
                 size="md"
                 autosize
-                minRows={6}
+                minRows={5}
                 maxRows={6}
                 fs={8}
                 placeholder={placeholder}
@@ -101,7 +104,7 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
                 <Button
                     variant="transparent"
                     pr="0"
-                    size="md"
+                    size="sm"
                     className="text-primary"
                     onClick={reset}
                 >
@@ -122,7 +125,9 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
     const previews = images.map((file, index) => {
         const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);
         return (
-            <Box className="uploaded-image-wrapper" pos="relative" key={index}>
+            <Box className="uploaded-image-wrapper" pos="relative" key={index} style={{
+               border: "3px solid #E90808",
+            }}>
                 <ActionIcon
                     variant="filled"
                     color="red"
@@ -130,6 +135,11 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
                     top={5}
                     right={5}
                     radius="xl"
+                    style={{
+                        backgroundColor: "#E90808",
+                        color: "white",
+                        border: "3px solid #E90808",
+                    }}
                     size="sm"
                     disabled={isUploading}
                     onClick={() => {
@@ -142,6 +152,9 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
                     ×
                 </ActionIcon>
                 <Image
+                    style={{
+                        border: "3px solid #E90808"
+                    }}
                     h={{ base: 140, sm: 140 }}
                     src={imageUrl}
                     // Only revoke URL if it's a File object
@@ -192,7 +205,7 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
 
     return (
         <>
-            <Box className="col-md-12">
+            <Box className="col-md-12" >
                 <Title order={4} mb="lg">
                     {label}
                 </Title>
@@ -205,6 +218,10 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
                     error={form.errors.images}
                 >
                     <Image
+                        style={{
+                            border: "1px dashed #E90808",
+                            borderRadius: "5px",
+                        }}
                         src="/upload.png"
                         className="img-fluid w-100 h-100"
                         alt="Upload Image"

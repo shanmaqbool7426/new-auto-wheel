@@ -33,7 +33,7 @@ import { fetchMakesByType, fetchNewVehicleDetail } from "@/services/vehicles";
 import { submitFormData, submitUpdateFormData } from "@/services/forms";
 import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
-import {carTags} from "@/mock-data/mock-array";
+import { carTags } from "@/mock-data/mock-array";
 import { fetchVehicleBySellerByVehicleId } from "@/actions";
 import { showNotification } from "@mantine/notifications";
 import LocationSelector from "@/components/LocationSelector";
@@ -54,7 +54,7 @@ const PostAnAd = (params) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isVehicle, setIsVehicle] = useState({});
-  
+
   // URL and Vehicle Type Processing
   const vehicle = params?.params?.vehicle;
   const vehicleId = params?.searchParams?.vehicleId;
@@ -152,7 +152,7 @@ const PostAnAd = (params) => {
     province
   } = useVehicleData(vehicleType);
 
-  console.log("....transmissions",transmissions)
+  console.log("....transmissions", transmissions)
   // Selection State Management
   const [selection, setSelection] = useState({
     make: "",
@@ -193,7 +193,7 @@ const PostAnAd = (params) => {
 
   // need Fuel Type Data Set [Petrol, Diesel, Electric, Hybrid]
 
-  
+
 
   useEffect(() => {
     const fetchAdData = async () => {
@@ -258,7 +258,7 @@ const PostAnAd = (params) => {
         model: selection.model,
         variant: selection.variant
       }).toString();
-  
+
       fetchNewVehicleDetail(BASE_URL + `/api/new-vehicles/get-newVehicle-details?${queryParams}`)
         .then((response) => {
           if (!vehicleId) {
@@ -275,12 +275,12 @@ const PostAnAd = (params) => {
               form.setFieldValue('transmission', transmission?.title || "");
             }
 
-            if(vehicleData.drive){
+            if (vehicleData.drive) {
               form.setFieldValue('drive', vehicleData.drive || "");
             }
             // Set drive type if available
             if (vehicleData.suspensionSteeringBrakes?.steeringType) {
-              
+
               // form.setFieldValue('drive', vehicleData.suspensionSteeringBrakes.steeringType.toLowerCase() || "");
             }
 
@@ -303,70 +303,70 @@ const PostAnAd = (params) => {
               ...predefinedFeatures.featuredListsTwo,
               ...predefinedFeatures.featuredListsThree
             ].map(f => f.name);
-  
+
             // Safety features
-            if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS')) 
+            if (vehicleData.safety?.abs && allPredefinedFeatures.includes('ABS'))
               features.push('ABS');
             // immobilizer
-            if (vehicleData.safety?.immobilizer && allPredefinedFeatures.includes('Immobilizer Key')) 
+            if (vehicleData.safety?.immobilizer && allPredefinedFeatures.includes('Immobilizer Key'))
               features.push('Immobilizer Key');
-            if (vehicleData.safety?.airbags > 0 && allPredefinedFeatures.includes('Air Bags')) 
+            if (vehicleData.safety?.airbags > 0 && allPredefinedFeatures.includes('Air Bags'))
               features.push('Air Bags');
-            
+
             // Comfort features
-            if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning')) 
+            if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning'))
               features.push('Air Conditioning');
             // coolBox
-            if (vehicleData.comfort?.coolBox && allPredefinedFeatures.includes('Cool Box')) 
+            if (vehicleData.comfort?.coolBox && allPredefinedFeatures.includes('Cool Box'))
               features.push('Cool Box');
             // navigation
-            if (vehicleData.comfort?.navigation && allPredefinedFeatures.includes('Navigation System')) 
+            if (vehicleData.comfort?.navigation && allPredefinedFeatures.includes('Navigation System'))
               features.push('Navigation System');
             // Rear Camera
-            if (vehicleData.comfort?.rearCamera && allPredefinedFeatures.includes('Rear Camera')) 
+            if (vehicleData.comfort?.rearCamera && allPredefinedFeatures.includes('Rear Camera'))
               features.push('Rear Camera');
             // Front Camera
-            if (vehicleData.comfort?.frontCamera && allPredefinedFeatures.includes('Front Camera')) 
+            if (vehicleData.comfort?.frontCamera && allPredefinedFeatures.includes('Front Camera'))
               features.push('Front Camera');
-            if (vehicleData.comfort?.climateControl && allPredefinedFeatures.includes('Climate Control')) 
+            if (vehicleData.comfort?.climateControl && allPredefinedFeatures.includes('Climate Control'))
               features.push('Climate Control');
-            if (vehicleData.comfort?.rearAcVents && allPredefinedFeatures.includes('Rear AC Vents')) 
+            if (vehicleData.comfort?.rearAcVents && allPredefinedFeatures.includes('Rear AC Vents'))
               features.push('Rear AC Vents');
-            if (vehicleData.comfort?.powerWindows && allPredefinedFeatures.includes('Power Windows')) 
+            if (vehicleData.comfort?.powerWindows && allPredefinedFeatures.includes('Power Windows'))
               features.push('Power Windows');
-            if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering')) 
+            if (vehicleData.comfort?.powerSteering && allPredefinedFeatures.includes('Power Steering'))
               features.push('Power Steering');
-            if (vehicleData.comfort?.powerMirrors && allPredefinedFeatures.includes('Power Mirrors')) 
+            if (vehicleData.comfort?.powerMirrors && allPredefinedFeatures.includes('Power Mirrors'))
               features.push('Power Mirrors');
-            if (vehicleData.comfort?.powerDoorLocks && allPredefinedFeatures.includes('Power Locks')) 
+            if (vehicleData.comfort?.powerDoorLocks && allPredefinedFeatures.includes('Power Locks'))
               features.push('Power Locks');
-            if (vehicleData.comfort?.cruiseControl && allPredefinedFeatures.includes('Cruise Control')) 
+            if (vehicleData.comfort?.cruiseControl && allPredefinedFeatures.includes('Cruise Control'))
               features.push('Cruise Control');
-            if (vehicleData.comfort?.keylessEntry && allPredefinedFeatures.includes('Keyless Entry')) 
+            if (vehicleData.comfort?.keylessEntry && allPredefinedFeatures.includes('Keyless Entry'))
               features.push('Keyless Entry');
-            if (vehicleData.comfort?.steeringSwitches && allPredefinedFeatures.includes('Steering Switches')) 
+            if (vehicleData.comfort?.steeringSwitches && allPredefinedFeatures.includes('Steering Switches'))
               features.push('Steering Switches');
 
             // Entertainment features
-            if (vehicleData.entertainment?.cdDvdPlayer && allPredefinedFeatures.includes('CD/DVD Player')) 
+            if (vehicleData.entertainment?.cdDvdPlayer && allPredefinedFeatures.includes('CD/DVD Player'))
               features.push('CD/DVD Player');
-            if (vehicleData.entertainment?.frontSpeakers && allPredefinedFeatures.includes('Front Speakers')) 
+            if (vehicleData.entertainment?.frontSpeakers && allPredefinedFeatures.includes('Front Speakers'))
               features.push('Front Speakers');
-            if (vehicleData.entertainment?.rearSpeakers && allPredefinedFeatures.includes('Rear Speakers')) 
+            if (vehicleData.entertainment?.rearSpeakers && allPredefinedFeatures.includes('Rear Speakers'))
               features.push('Rear Speakers');
-            if (vehicleData.entertainment?.rearSeatEntertainment && allPredefinedFeatures.includes('Rear Seat Entertainment')) 
+            if (vehicleData.entertainment?.rearSeatEntertainment && allPredefinedFeatures.includes('Rear Seat Entertainment'))
               features.push('Rear Seat Entertainment');
-            if (vehicleData.entertainment?.usbAndAux && allPredefinedFeatures.includes('USB and Auxillary Cable')) 
+            if (vehicleData.entertainment?.usbAndAux && allPredefinedFeatures.includes('USB and Auxillary Cable'))
               features.push('USB and Auxillary Cable');
-            if (vehicleData.entertainment?.amfmRadio && allPredefinedFeatures.includes('AM/FM Radio')) 
+            if (vehicleData.entertainment?.amfmRadio && allPredefinedFeatures.includes('AM/FM Radio'))
               features.push('AM/FM Radio');
-            if (vehicleData.entertainment?.cassettePlayer && allPredefinedFeatures.includes('Cassette Player')) 
+            if (vehicleData.entertainment?.cassettePlayer && allPredefinedFeatures.includes('Cassette Player'))
               features.push('Cassette Player');
 
             // Exterior features
-            if (vehicleData.exterior?.alloyWheels && allPredefinedFeatures.includes('Alloy Rims')) 
+            if (vehicleData.exterior?.alloyWheels && allPredefinedFeatures.includes('Alloy Rims'))
               features.push('Alloy Rims');
-            if (vehicleData.exterior?.sunRoof && allPredefinedFeatures.includes('Sun Roof')) 
+            if (vehicleData.exterior?.sunRoof && allPredefinedFeatures.includes('Sun Roof'))
               features.push('Sun Roof');
 
             // Only set features if we found some and there are no existing features
@@ -381,7 +381,7 @@ const PostAnAd = (params) => {
     }
   }, [selection.variant, vehicleId]);
 
-  console.log("....form.values",form.values)
+  console.log("....form.values", form.values)
 
 
   /**
@@ -515,7 +515,16 @@ const PostAnAd = (params) => {
                 <Stepper
                   active={activeStep}
                   color="#E90808"
-                  completedIcon={<IconCircleCheck />}
+                  completedIcon={
+                    vehicle == "bike" ? (
+                      <FaMotorcycle />
+                    ) : vehicle == "truck" ? (
+                      <FaTruck />
+                    ) : (
+                      <FaCar />
+                    )
+                  }
+
                 >
                   {/*--------------- STEP 1 ---------------*/}
                   <Stepper.Step
@@ -543,7 +552,7 @@ const PostAnAd = (params) => {
                       </Text>
                       <Box className="stepper-form" mt="xl">
 
-                      <Box className="row align-items-center" mb="xl">
+                        <Box className="row align-items-center" mb="xl">
                           <FormFieldInput label={`${vehicle} Info`} placeholder={`Select ${vehicle} Info`}
                             value={`${form.values.make || ""} ${form.values.model || ""} ${form.values.variant || ""}`}
                             error={form.errors.make || form.errors.model || form.errors.variant}
@@ -574,7 +583,7 @@ const PostAnAd = (params) => {
                             </Group>
                           </Box>
                         </Box>
-                       
+
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Registered In"
                             placeholder="Registered In"
@@ -670,7 +679,7 @@ const PostAnAd = (params) => {
                             {...form.getInputProps('description')}
                           />
                         </Box>
-                        <Box className="row align-items-start  " mb="xl">
+                        {vehicleType == "car" && <Box className="row align-items-start  " mb="xl">
                           <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
                             <Input.Label
                               required
@@ -680,7 +689,7 @@ const PostAnAd = (params) => {
                               Predefined Template
                             </Input.Label>
                           </Box>
-                          <Box className="col-md-7 rounded border p-3 cursor-pointer">
+                          <Box className="col-md-10 rounded border p-3 cursor-pointer">
                             <Text size="sm">
                               You can also use these suggestions
                             </Text>
@@ -690,6 +699,13 @@ const PostAnAd = (params) => {
                                   <Button
                                     variant="default"
                                     size="sm"
+                                    style={
+                                      {
+                                        color: "#E90808",
+                                        borderRadius: "20px",
+                                        borderColor: "#E90808",
+                                      }
+                                    }
                                     key={`${tag}-${index}`}
                                     onClick={() =>
                                       handleDescriptionClick(tag + ". ")
@@ -701,7 +717,7 @@ const PostAnAd = (params) => {
                               ))}
                             </Group>
                           </Box>
-                        </Box>
+                        </Box>}
                         <Box className="row align-items-start" mb="xl">
                           <FormFieldImageUpload label="Upload Photos" images={images} setImages={setImages} form={form} />
                         </Box>
@@ -721,12 +737,12 @@ const PostAnAd = (params) => {
                     >
                       <Title order={3}>Additional Information</Title>
                       <Box className="stepper-form" mt="xl">
-                      
+
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Engine Type"
                             placeholder="Engine Type"
                             valueData={form.values.engineType.charAt(0).toUpperCase() + form.values.engineType.slice(1)}
-                            data={fuelTypes?.map((item)=> item.title.charAt(0).toUpperCase() + item.title.slice(1))}
+                            data={fuelTypes?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('engineType')}
                           />
                         </Box>
@@ -743,7 +759,7 @@ const PostAnAd = (params) => {
                             {...form.getInputProps('engineCapacity')}
                           />
                         </Box>
-                     
+
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Transmission"
                             placeholder="Transmission"
@@ -752,7 +768,7 @@ const PostAnAd = (params) => {
                             {...form.getInputProps('transmission')}
                           />
                         </Box>
-                        {console.log("drives...",drives)}
+                        {console.log("drives...", drives)}
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Drive"
                             placeholder="Drive"

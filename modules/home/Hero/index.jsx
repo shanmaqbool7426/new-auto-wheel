@@ -139,6 +139,9 @@ const Hero = ({ banner }) => {
                   size="sm"
                   display="flex"
                   spacing="md"
+                  style={{
+                    gap: '30px'
+                  }}
                 >
                   {banner.map((item, index) => (
                     <List.Item
@@ -147,6 +150,12 @@ const Hero = ({ banner }) => {
                         currentIndex === index ? styles.sliderItemActive : ''
                       }`}
                       onClick={() => changeSlide(index)}
+                      style={{
+                        padding: '0 0 8px 0',
+                        margin: 0,
+                        borderBottom: `2px solid ${currentIndex === index ? 'white' : 'white'}`,
+                        minWidth: index === 0 || index === banner.length - 1 ? 'auto' : '120px',
+                      }}
                     >
                       <Text
                         size="sm"
@@ -154,6 +163,10 @@ const Hero = ({ banner }) => {
                         style={{
                           color: 'white',
                           transition: 'all 0.3s ease',
+                          whiteSpace: index === 0 || index === banner.length - 1 ? 'nowrap' : 'normal',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          textAlign: 'center'
                         }}
                       >
                         {item.title}

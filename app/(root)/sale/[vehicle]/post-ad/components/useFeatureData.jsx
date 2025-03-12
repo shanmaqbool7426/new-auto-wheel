@@ -54,19 +54,16 @@
     // Bike-specific features
     const bikeFeatures = {
       featuredListsOne: [
-        { name: "ABS" },
-        { name: "LED Headlights" },
+        { name: "Anti Theft Lock" },
+        // { name: "LED Headlights" },
         { name: "Disc Brakes" },
-        { name: "Alloy Wheels" },
       ],
       featuredListsTwo: [
-        { name: "Digital Speedometer" },
-        { name: "Fuel Injection" },
-        { name: "Handlebar Controls" },
+        { name: "Led Light" },
+        { name: "Wind Shield" },
       ],
       featuredListsThree: [
-        { name: "Mobile Charging Port" },
-        { name: "Side Stand Indicator" },
+
       ],
     };
 

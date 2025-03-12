@@ -117,12 +117,14 @@ const CarCard = ({ vehicle }) => {
           left={15}
           top={15}
         >
-          <Box style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <CameraIcon width={18} height={18} />
-            <Text span fw={500} size="sm">
-              {vehicle?.images?.length}
-            </Text>
-          </Box>
+          <Box style={{ display: "flex", alignItems: "center", gap: 5, color: "white" }}>
+      <CameraIcon width={18} height={18}    style={{
+            color: "#fff",
+          }}/> {/* Add color prop if CameraIcon accepts it */}
+      <Text span fw={500} size="sm" c="white">
+        {vehicle?.images?.length}
+      </Text>
+    </Box>
           {vehicle?.isFeatured && (
             <Text
               style={{ borderRadius: "5px" }}
@@ -266,7 +268,7 @@ const CarCard = ({ vehicle }) => {
               ID#
             </Text>
             <Text c="dark" style={{ fontSize: "12px" }}>
-              {vehicle?.specifications?.stockId?.slice(0, 4)}
+              {vehicle?._id.slice(0, 4)}
             </Text>
           </Group>
           <Group c="dimmed" gap={rem(5)} align="center">

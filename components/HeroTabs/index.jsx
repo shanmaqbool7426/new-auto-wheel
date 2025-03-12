@@ -72,6 +72,8 @@ const HeroTabs = ({ setType }) => {
     } catch (error) { }
   };
 
+  console.log("locationSelection", locationSelection);
+
   // useEffect hook to fetch data when makesByType changes
   useEffect(() => {
     fetchMakesByType(makesByType);

@@ -90,10 +90,21 @@ const Footer = () => {
 
     return links.map((item) => (
       <li key={item._id}>
-        <Link href={item.url}>
-          {item.title}
-        </Link>
-      </li>
+      <Link 
+        href={item.url}
+        className="footer-link" // Add this class
+        style={{
+          fontSize: '15px',
+          color: '#EBEBEB',
+          textDecoration: 'none',
+          transition: 'color 0.2s ease',
+          display: 'block',
+          marginBottom: '8px'
+        }}
+      >
+        {item.title}
+      </Link>
+    </li>
     ));
   };
 
@@ -115,42 +126,10 @@ const Footer = () => {
               </div>
               <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  {capitalizedVehicleType}s By Province
-                </Title>
-                <ul className="list-unstyled">
-                  {renderFooterLinks("byProvince")}
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  {capitalizedVehicleType}s By City
+                  Cars By City
                 </Title>
                 <ul className="list-unstyled">
                   {renderFooterLinks("byCity")}
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  {capitalizedVehicleType}s by Category
-                </Title>
-                <ul className="list-unstyled">
-                  {renderFooterLinks("byCategory")}
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  {capitalizedVehicleType}s by Body Type
-                </Title>
-                <ul className="list-unstyled">
-                  {renderFooterLinks("byBodyType")}
-                </ul>
-              </div>
-              <div className="col-lg-3 col-sm-4">
-                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  {capitalizedVehicleType}s by Color
-                </Title>
-                <ul className="list-unstyled">
-                  {renderFooterLinks("byColor")}
                 </ul>
               </div>
               <div className="col-lg-3 col-sm-4">
@@ -161,17 +140,54 @@ const Footer = () => {
                   {renderFooterLinks("exploreAutoWheels")}
                 </ul>
               </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                AutoWheels.com
+                </Title>
+                <ul className="list-unstyled">
+                {renderFooterLinks("autoWheels")}
+                  {/* {renderFooterLinks("byCategory")} */}
+                  
+                </ul>
+              </div>
+
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  {capitalizedVehicleType}s by Category
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byCategory")}
+                </ul>
+              </div>
+
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Body Type
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byBodyType")}
+                </ul>
+              </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Color
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byColor")}
+                </ul>
+              </div>
+              <div className="col-lg-3 col-sm-4">
+                <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
+                  Cars by Province
+                </Title>
+                <ul className="list-unstyled">
+                  {renderFooterLinks("byProvince")}
+                </ul>
+              </div>
             </div>
           </div>
           <div className="col-lg-3 col-sm-6">
-            <div>
-              <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                AutoWheels.com
-              </Title>
-              <ul className="list-unstyled">
-                {renderFooterLinks("autoWheels")}
-              </ul>
-            </div>
+   
             <div>
               <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
                 Sell On AutoWheels

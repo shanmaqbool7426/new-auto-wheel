@@ -69,7 +69,7 @@ const SearchByLocations = () => {
         <Box className="row">
           <Box className="col-lg-8  order-last order-lg-first">
             <Box className="row">
-              {nearByLocation?.slice(0, 4)?.map((location) => (
+              {nearByLocation?.slice(0, 5)?.map((location) => (
                 <Box className="col" key={location.slug}>
                   <Card
                     bg="#fff"
@@ -102,7 +102,7 @@ const SearchByLocations = () => {
               ))}
             </Box>
             <Box className="row">
-            {nearByLocation?.slice(4, 8)?.map((location) => (
+            {nearByLocation?.slice(5, 10)?.map((location) => (
                 <Box className="col" key={location.slug}>
                   <Card
                     bg="#fff"
