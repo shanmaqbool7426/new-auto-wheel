@@ -246,8 +246,6 @@ const PostAnAd = (params) => {
 
     if (vehicleId) {
       fetchAdData();
-    } else {
-      form.reset()
     }
   }, [vehicleId, session]);
 

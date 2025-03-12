@@ -4,7 +4,10 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { MdArrowDropDown } from "react-icons/md";
+import { MdArrowDropDown, MdCheckCircle } from "react-icons/md";
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 /**
  * FormFieldSelect Component
@@ -17,14 +20,14 @@ export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value,
                 {label}
             </Input.Label>
         </Box>
-        {console.log("............,,..",valueData)}
+        {console.log("............,,..", valueData)}
         <Box className="col-md-7">
             <Select
                 required
                 size="md"
-                {...props} 
+                {...props}
                 searchable
-                rightSection={<MdArrowDropDown size={24}  color="#E90808" />}
+                rightSection={<MdArrowDropDown size={24} color="#E90808" />}
                 rightSectionWidth={40}
                 value={valueData}
                 // defaultValue='Petrol'
@@ -50,7 +53,7 @@ export const FormFieldInput = ({ label, placeholder, ...props }) => (
                 {...props} // Move spread props first
                 required
                 size="md"
-                rightSection={<MdArrowDropDown size={24} color="#E90808"  />}
+                rightSection={<MdArrowDropDown size={24} color="#E90808" />}
                 rightSectionWidth={40}
                 placeholder={placeholder} // Place specific props after spread
             />
@@ -119,57 +122,312 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
  * FormFieldImageUpload Component
  * Renders an image upload field with label and placeholder
  */
+// export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
+//     const [isUploading, setIsUploading] = useState(false);
+
+//     const previews = images.map((file, index) => {
+//         const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);
+//         return (
+//             <Box className="uploaded-image-wrapper" pos="relative" key={index}>
+//                 <ActionIcon
+//                     variant="filled"
+//                     color="red"
+//                     pos="absolute"
+//                     top={5}
+//                     right={5}
+//                     radius="xl"
+//                     style={{
+//                         backgroundColor: "#E90808",
+//                         color: "white",
+//                         border: "3px solid #E90808",
+//                     }}
+//                     size="sm"
+//                     disabled={isUploading}
+//                     onClick={(e) => {
+//                         e.stopPropagation();
+//                         const updatedImages = [...images];
+//                         updatedImages.splice(index, 1);
+//                         setImages(updatedImages);
+//                         form.setFieldValue('images', updatedImages);
+//                     }}
+//                 >
+//                     ×
+//                 </ActionIcon>
+//                 <Image
+//                     style={{
+//                         border: "none"
+//                     }}
+//                     h={{ base: 140, sm: 140 }}
+//                     src={imageUrl}
+//                     // Only revoke URL if it's a File object
+//                     onLoad={() => {
+//                         if (typeof file !== 'string') {
+//                             URL.revokeObjectURL(imageUrl);
+//                         }
+//                     }}
+//                     radius="md"
+//                 />
+//             </Box>
+//         );
+//     });
+
+
+//     const handleFileDrop = async (files) => {
+//         setIsUploading(true);
+//         setImages(prevImages => [...prevImages, ...files]);
+//         try {
+//             const formData = new FormData();
+//             files.forEach((file) => {
+//                 formData.append("images", file, file.name);
+//             });
+
+//             const response = await fetch(API_ENDPOINTS.IMAGE_UPLOAD, {
+//                 method: 'POST',
+//                 body: formData,
+//             });
+//             const data = await response.json();
+//             const uploadedImageUrls = data.data;
+//             form.setFieldValue('images', [...form.values.images, ...uploadedImageUrls]);
+//             showNotification({
+//                 title: "Images uploaded successfully",
+//                 message: "The images have been successfully uploaded.",
+//                 color: "green",
+//             });
+//         } catch (error) {
+//             console.error(error);
+//             showNotification({
+//                 title: "Images upload failed",
+//                 message: "The images could not be uploaded.",
+//                 color: "red",
+//             });
+//         } finally {
+//             setIsUploading(false);
+//         }
+//     };
+
+//     return (
+//         <>
+//             <Box className="col-md-12" >
+//                 <Title order={4} mb="lg">
+//                     {label}
+//                 </Title>
+//                 <Dropzone
+//                     accept={IMAGE_MIME_TYPE}
+//                     onDrop={handleFileDrop}
+//                     disabled={isUploading}
+//                     loading={isUploading}
+//                     p={0}
+//                     error={form.errors.images}
+//                 >
+//                     <Box
+//                         style={{
+//                             cursor: "pointer",
+//                             border: '1px dashed #E90808',
+//                             borderRadius: '10px',
+//                             textAlign: 'center',
+//                         }}
+//                         px={'40px'}
+//                         py={'40px'}
+//                     >
+//                         <div className="upload-placeholder">
+//                             <div className="d-flex align-items-center gap-4 justify-content-center">
+//                                 <Image src="/dropzone_placeholder.png" alt="upload-image" h={'59px'} w={'59px'} quality={100} />
+//                                 <div>
+//                                     <Button
+//                                         variant="filled"
+//                                         size="md"
+//                                         fullWidth
+//                                         bg="#E90808"
+//                                         autoContrast
+//                                         mb={'10px'}
+//                                         fw="normal"
+//                                     >
+//                                         + Add Photos
+//                                     </Button>
+//                                     <Text size="sm" c="dimmed">
+//                                         (Max limit 5 MB per image)
+//                                     </Text>
+//                                 </div>
+//                             </div>
+//                             <Group align="flex-start" gap="xl" justify="center" my={'10px'}>
+//                                 <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
+//                                     <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
+//                                     Adding at least 8 pictures improves the chances for a quick sale.
+//                                 </Text>
+//                                 <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
+//                                     <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
+//                                     Adding clear Front, Back and Interior pictures of your car increases the quality of your Ad and gets you noticed more.
+//                                 </Text>
+//                             </Group>
+//                             <Text size="sm" mt="md" style={{ display: 'flex', margin: 'auto', alignItems: 'center', gap: '8px', justifyContent: 'center', maxWidth: '500px', textAlign: 'left' }}>
+//                                 <MdCheckCircle size={20} color="#4CAF50" />
+//                                 Photos should be in 'jpeg, jpg, png, gif' format only.
+//                             </Text>
+//                         </div>
+//                         <SimpleGrid
+//                             cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+//                             mt={previews.length > 0 ? "md" : 0}
+//                         >
+//                             {previews}
+//                         </SimpleGrid>
+//                     </Box>
+//                 </Dropzone>
+//                 {form.errors.images && (
+//                     <Text size="sm" c="red">
+//                         {form.errors.images}*
+//                     </Text>
+//                 )}
+//             </Box>
+//         </>
+//     )
+// }
+/**
+ * FormFieldImageUpload Component
+ * Renders an image upload field with drag-and-drop, rotation, and reordering capabilities
+ */
 export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
     const [isUploading, setIsUploading] = useState(false);
+    const [rotations, setRotations] = useState({});
 
-    const previews = images.map((file, index) => {
+    // Configure DND sensors
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 5, // 5px movement required before drag starts
+            },
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    // Handle image reordering
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+        
+        if (active.id !== over.id) {
+            const oldIndex = parseInt(active.id);
+            const newIndex = parseInt(over.id);
+            
+            const newImages = arrayMove(images, oldIndex, newIndex);
+            setImages(newImages);
+            form.setFieldValue('images', newImages);
+        }
+    };
+
+    // Handle image rotation
+    const handleRotate = (index) => {
+        setRotations(prev => ({
+            ...prev,
+            [index]: ((prev[index] || 0) + 90) % 360
+        }));
+    };
+
+    // Sortable image component
+    const SortableImage = ({ file, index }) => {
+        const {
+            attributes,
+            listeners,
+            setNodeRef,
+            transform,
+            transition,
+        } = useSortable({ id: index.toString() });
+
+        const style = {
+            transform: CSS.Transform.toString(transform),
+            transition,
+        };
+
         const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);
+
         return (
-            <Box className="uploaded-image-wrapper" pos="relative" key={index} style={{
-               border: "3px solid #E90808",
-            }}>
-                <ActionIcon
-                    variant="filled"
-                    color="red"
-                    pos="absolute"
-                    top={5}
-                    right={5}
-                    radius="xl"
-                    style={{
-                        backgroundColor: "#E90808",
-                        color: "white",
-                        border: "3px solid #E90808",
-                    }}
-                    size="sm"
-                    disabled={isUploading}
-                    onClick={() => {
-                        const updatedImages = [...images];
-                        updatedImages.splice(index, 1);
-                        setImages(updatedImages);
-                        form.setFieldValue('images', updatedImages);
-                    }}
-                >
-                    ×
-                </ActionIcon>
-                <Image
-                    style={{
-                        border: "3px solid #E90808"
-                    }}
-                    h={{ base: 140, sm: 140 }}
-                    src={imageUrl}
-                    // Only revoke URL if it's a File object
-                    onLoad={() => {
-                        if (typeof file !== 'string') {
-                            URL.revokeObjectURL(imageUrl);
-                        }
-                    }}
-                    radius="md"
-                />
+            <Box
+                ref={setNodeRef}
+                style={style}
+                className="uploaded-image-wrapper"
+                pos="relative"
+            >
+                <Group spacing={5} pos="absolute" top={5} right={5} style={{ zIndex: 2 }}>
+                    {/* <ActionIcon
+                        variant="filled"
+                        color="blue"
+                        radius="xl"
+                        size="sm"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleRotate(index);
+                        }}
+                        style={{
+                            backgroundColor: "#2196F3",
+                            color: "white",
+                        }}
+                    >
+                        ↻
+                    </ActionIcon> */}
+                    <ActionIcon
+                        variant="filled"
+                        color="red"
+                        radius="xl"
+                        size="sm"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            const updatedImages = [...images];
+                            updatedImages.splice(index, 1);
+                            setImages(updatedImages);
+                            form.setFieldValue('images', updatedImages);
+                            // Clean up rotations
+                            const newRotations = { ...rotations };
+                            delete newRotations[index];
+                            setRotations(newRotations);
+                        }}
+                        style={{
+                            backgroundColor: "#E90808",
+                            color: "white",
+                        }}
+                    >
+                        ×
+                    </ActionIcon>
+                </Group>
+                <div {...attributes} {...listeners} style={{ cursor: 'move' }}>
+                    <Image
+                        style={{
+                            transform: `rotate(${rotations[index] || 0}deg)`,
+                            transition: 'transform 0.3s ease',
+                            border: index === 0 ? "3px solid #4CAF50" : "3px solid #E90808",
+                        }}
+                        h={{ base: 140, sm: 140 }}
+                        src={imageUrl}
+                        onLoad={() => {
+                            if (typeof file !== 'string') {
+                                URL.revokeObjectURL(imageUrl);
+                            }
+                        }}
+                        radius="md"
+                    />
+                </div>
+                {index === 0 && (
+                    <Text 
+                        size="xs"
+                        ta="center"
+                        fw={500}
+                        style={{
+                            position: 'absolute',
+                            bottom: 5,
+                            left: 0,
+                            right: 0,
+                            backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                            color: 'white',
+                            padding: '2px',
+                        }}
+                    >
+                        Main Photo
+                    </Text>
+                )}
             </Box>
         );
-    });
+    };
 
-
+    // Handle file drop
     const handleFileDrop = async (files) => {
         setIsUploading(true);
         setImages(prevImages => [...prevImages, ...files]);
@@ -190,59 +448,119 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
                 title: "Images uploaded successfully",
                 message: "The images have been successfully uploaded.",
                 color: "green",
-              });
+            });
         } catch (error) {
             console.error(error);
             showNotification({
                 title: "Images upload failed",
                 message: "The images could not be uploaded.",
                 color: "red",
-              });
+            });
         } finally {
             setIsUploading(false);
         }
     };
 
     return (
-        <>
-            <Box className="col-md-12" >
-                <Title order={4} mb="lg">
-                    {label}
-                </Title>
-                <Dropzone
-                    accept={IMAGE_MIME_TYPE}
-                    onDrop={handleFileDrop}
-                    disabled={isUploading}
-                    loading={isUploading}
-                    p={0}
-                    error={form.errors.images}
+        <Box className="col-md-12">
+            <Title order={4} mb="lg">{label}</Title>
+            <Dropzone
+                accept={IMAGE_MIME_TYPE}
+                onDrop={handleFileDrop}
+                disabled={isUploading}
+                loading={isUploading}
+                p={0}
+                error={form.errors.images}
+                onDragOver={(e) => {
+                    if (e.target.closest('.uploaded-image-wrapper')) {
+                        e.preventDefault();
+                    }
+                }}
+            >
+                <Box
+                    style={{
+                        cursor: "pointer",
+                        border: '1px dashed #E90808',
+                        borderRadius: '10px',
+                        textAlign: 'center',
+                    }}
+                    px={'40px'}
+                    py={'40px'}
                 >
-                    <Image
-                        style={{
-                            border: "1px dashed #E90808",
-                            borderRadius: "5px",
-                        }}
-                        src="/upload.png"
-                        className="img-fluid w-100 h-100"
-                        alt="Upload Image"
-                    />
-                </Dropzone>
-                {form.errors.images && (
-                    <Text size="sm" c="red">
-                        {form.errors.images}*
-                    </Text>
-                )}
-
-                <SimpleGrid
-                    cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-                    mt={previews.length > 0 ? "md" : 0}
-                >
-                    {previews}
-                </SimpleGrid>
-            </Box>
-        </>
-    )
-}
+                    <div className="upload-placeholder">
+                        <div className="d-flex align-items-center gap-4 justify-content-center">
+                            <Image src="/dropzone_placeholder.png" alt="upload-image" h={'59px'} w={'59px'} quality={100} />
+                            <div>
+                                <Button
+                                    variant="filled"
+                                    size="md"
+                                    fullWidth
+                                    bg="#E90808"
+                                    autoContrast
+                                    mb={'10px'}
+                                    fw="normal"
+                                >
+                                    + Add Photos
+                                </Button>
+                                <Text size="sm" c="dimmed">
+                                    (Max limit 5 MB per image)
+                                </Text>
+                            </div>
+                        </div>
+                        {images.length > 0 && (
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                        >
+                            <SortableContext items={images.map((_, index) => index.toString())}>
+                                <SimpleGrid
+                                    cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+                                    mt="md"
+                                    style={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        justifyContent: 'center',
+                                        gap: '16px',
+                                        padding: '16px',
+                                    }}
+                                >
+                                    {images.map((file, index) => (
+                                        <SortableImage 
+                                            key={index} 
+                                            file={file} 
+                                            index={index}
+                                        />
+                                    ))}
+                                </SimpleGrid>
+                            </SortableContext>
+                        </DndContext>
+                    )}
+                        <Group align="flex-start" gap="xl" justify="center" my={'10px'}>
+                            <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
+                                <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                Adding at least 8 pictures improves the chances for a quick sale.
+                            </Text>
+                            <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
+                                <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                Adding clear Front, Back and Interior pictures of your car increases the quality of your Ad and gets you noticed more.
+                            </Text>
+                        </Group>
+                        <Text size="sm" mt="md" style={{ display: 'flex', margin: 'auto', alignItems: 'center', gap: '8px', justifyContent: 'center', maxWidth: '500px', textAlign: 'left' }}>
+                            <MdCheckCircle size={20} color="#4CAF50" />
+                            Photos should be in 'jpeg, jpg, png, gif' format only.
+                        </Text>
+                    </div>
+                </Box>
+            </Dropzone>
+            {form.errors.images && (
+                <Text size="sm" c="red">
+                    {form.errors.images}*
+                </Text>
+            )}
+        </Box>
+    );
+};
 
 /**
  * FormFieldBodyType Component
@@ -251,7 +569,7 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
 export const FormFieldBodyType = ({ label, bodies, form }) => (
     <>
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-            {console.log("form.values.body",form.values.body)}
+            {console.log("form.values.body", form.values.body)}
             <Input.Label required size="md" tt="capitalize">{label}</Input.Label>
         </Box>
         <Box className="col-md-7">
@@ -264,12 +582,11 @@ export const FormFieldBodyType = ({ label, bodies, form }) => (
                     >
                         <div className="single-brand-item selected-brand-item text-center">
                             <label
-                                className={`text-decoration-none ${
-                                    form.values.body === bodyType._id ||
+                                className={`text-decoration-none ${form.values.body === bodyType._id ||
                                     form.values.body === bodyType.title.toLowerCase()
-                                        ? "checked"
-                                        : ""
-                                }`}
+                                    ? "checked"
+                                    : ""
+                                    }`}
                             >
                                 <input
                                     type="radio"
@@ -315,7 +632,7 @@ export const FormFieldFeature = ({ label, form, vehicleType }) => {
     const { featuredListsOne, featuredListsTwo, featuredListsThree } = getFeaturesByVehicle(vehicleType);
     const handleFeatureChange = (feature) => {
         const features = form.getValues().features;
-        console.log("features",features)
+        console.log("features", features)
         form.setFieldValue('features', features.includes(feature) ? features.filter(f => f !== feature) : [...features, feature]);
     };
     return (
