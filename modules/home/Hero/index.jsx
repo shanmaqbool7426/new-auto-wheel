@@ -108,7 +108,7 @@ const Hero = ({ banner }) => {
           >
             <Box className="content-area" pos="relative h-100">
               <Box className="hero-content" maw="90%">
-                <Title order={1} mb={16} c="white" size={rem(48)} lts={-0.5}>
+                {/* <Title order={1} mb={16} c="white" size={rem(48)} lts={-0.5}>
                   {banner[currentIndex]?.title}
                 </Title>
                 <Text c="white" mb={32}>
@@ -129,7 +129,7 @@ const Hero = ({ banner }) => {
                   >
                     Read More
                   </Button>
-                )}
+                )} */}
               </Box>
 
               <Box className="banner-slides-list" pos="absolute" bottom="40px">

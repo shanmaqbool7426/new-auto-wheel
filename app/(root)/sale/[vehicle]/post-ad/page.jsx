@@ -114,7 +114,7 @@ const PostAnAd = (params) => {
       engine: "",
       drive: "",
       body: "",
-      engineCapacity: "",
+      engineCapacity: 0,
       transmission: "",
       assembly: "",
       features: [],
@@ -264,6 +264,8 @@ const PostAnAd = (params) => {
           if (!vehicleId) {
             const vehicleData = response.data;
 
+            console.log("vehicleData...")
+
             // Prefill vehicle specifications
             if (vehicleData.engine) {
               form.setFieldValue('engineType', vehicleData.engine.type?.toLowerCase() || "");
@@ -313,6 +315,20 @@ const PostAnAd = (params) => {
             if (vehicleData.safety?.airbags > 0 && allPredefinedFeatures.includes('Air Bags'))
               features.push('Air Bags');
 
+            if (vehicleData.safety.antiTheftLock) {
+              features.push('Anti Theft Lock');
+            }
+            if (vehicleData.safety.windShield) {
+              features.push('Wind Shield');
+            }
+            if (vehicleData.safety.ledLight) {
+              features.push('Led Light');
+            }
+
+            // Disc Brakes
+            if (vehicleData.safety.discBrake){
+              features.push('Disc Brakes');
+            }
             // Comfort features
             if (vehicleData.comfort?.ac && allPredefinedFeatures.includes('Air Conditioning'))
               features.push('Air Conditioning');
@@ -404,34 +420,45 @@ const PostAnAd = (params) => {
    * Form Submission
    */
   const handleSubmit = async (values) => {
-    await formSchema.parseAsync(values);
-    // Create payload
-    const payload = createPayload(values, vehicle, session);
-    const headers = { "Content-Type": "application/json" };
     try {
+      // Validate entire form
+      await formSchema.parseAsync(values);
+
+      // Create payload with proper type conversion
+      const payload = createPayload({
+        ...values,
+        engineCapacity: Number(values.engineCapacity),
+        price: Number(values.price),
+        milage: Number(values.milage)
+      }, vehicle, session);
+
+      // Submit data
       if (vehicleId && isVehicle?._id) {
         await submitUpdateFormData(
           API_ENDPOINTS.VEHICLE.Update(isVehicle?._id),
-          JSON.stringify(payload), session?.user?.token?.token
+          payload,
+          session?.user?.token?.token
         );
       } else {
         await submitFormData(
           API_ENDPOINTS.VEHICLE.ADD,
-          JSON.stringify(payload),
-          headers
+          payload,
+          { "Content-Type": "application/json" }
         );
       }
+
       showNotification({
-        title: "Post an ad",
+        title: "Success",
         message: "Your ad has been posted successfully.",
         color: "green",
       });
       router.push(`/listing/${vehicle}s`);
+
     } catch (error) {
-      console.error(error);
+      console.error('Form submission error:', error);
       showNotification({
-        title: "Post an ad",
-        message: error.message || "Something went wrong",
+        title: "Error",
+        message: error.errors?.[0]?.message || "Please check all required fields",
         color: "red",
       });
     }
@@ -440,28 +467,33 @@ const PostAnAd = (params) => {
   /**
 * Form Validation and Navigation
 */
-  const validateStep = (stepIndex) => {
+  const validateStep = async (stepIndex) => {
     const currentStepFields = steps[stepIndex].fields;
-    const validationResult = currentStepFields.reduce((acc, field) => {
-      const fieldError = form.validateField(field);
-      return acc && !fieldError.hasError;
-    }, true);
-    return validationResult;
+    let isValid = true;
+
+    for (const field of currentStepFields) {
+      const validation = await form.validateField(field);
+      if (validation.hasError) {
+        isValid = false;
+        // Show error notification for first error
+        showNotification({
+          title: "Validation Error",
+          message: validation.error,
+          color: "red"
+        });
+        break;
+      }
+    }
+    return isValid;
   };
 
   /**
    * Step Navigation
    */
-  const nextStep = (e) => {
+  const nextStep = async (e) => {
     e.preventDefault();
-    // if (!validateStep(activeStep)) {
-    //   showNotification({
-    //     title: "Post an ad",
-    //     message: "Please fill in all required fields.",
-    //     color: "red",
-    //   });
-    //   return;
-    // }
+    const isValid = await validateStep(activeStep);
+    // if (!isValid) return;
 
     setActiveStep((prev) => prev + 1);
     window.scroll({ top: 0, behavior: "smooth" });
@@ -753,38 +785,38 @@ const PostAnAd = (params) => {
                             {...form.getInputProps('engine')}
                           />
                         </Box> */}
-                        <Box className="row align-items-center" mb="xl">
+                        {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldNumberInput label="Engine Capacity"
                             placeholder="Engine Capacity"
                             {...form.getInputProps('engineCapacity')}
                           />
-                        </Box>
+                        </Box>}
 
-                        <Box className="row align-items-center" mb="xl">
+                        {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Transmission"
                             placeholder="Transmission"
                             valueData={form.values.transmission.charAt(0).toUpperCase() + form.values.transmission.slice(1)}
                             data={transmissions?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('transmission')}
                           />
-                        </Box>
+                        </Box>}
                         {console.log("drives...", drives)}
-                        <Box className="row align-items-center" mb="xl">
+                        {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Drive"
                             placeholder="Drive"
                             valueData={form.values.drive.charAt(0).toUpperCase() + form.values.drive.slice(1)}
                             data={drives?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('drive')}
                           />
-                        </Box>
-                        <Box className="row align-items-center" mb="xl">
+                        </Box>}
+                        {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Assembly"
                             placeholder="Assembly"
                             valueData={form.values.assembly.charAt(0).toUpperCase() + form.values.assembly.slice(1)}
                             data={["Local", "Imported"]}
                             {...form.getInputProps('assembly')}
                           />
-                        </Box>
+                        </Box>}
                         <Box className="row align-items-start" mb="xl">
                           <FormFieldBodyType label="Body Type" bodies={bodies} form={form} />
                         </Box>
@@ -842,7 +874,7 @@ const PostAnAd = (params) => {
                                 </ThemeIcon>
                                 Allow WhatsApp Contact
                               </Flex>
-                              <Switch size="xl" color="#E90808" {...form.getInputProps('allowWhatsapp')} />
+                              <Switch size="xl" color="#E90808" {...form.getInputProps('allowWhatsAppContact')} />
                             </Flex>
                           </Box>
                         </Box>

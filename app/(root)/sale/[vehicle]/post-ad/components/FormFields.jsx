@@ -315,6 +315,7 @@ export const FormFieldFeature = ({ label, form, vehicleType }) => {
     const { featuredListsOne, featuredListsTwo, featuredListsThree } = getFeaturesByVehicle(vehicleType);
     const handleFeatureChange = (feature) => {
         const features = form.getValues().features;
+        console.log("features",features)
         form.setFieldValue('features', features.includes(feature) ? features.filter(f => f !== feature) : [...features, feature]);
     };
     return (

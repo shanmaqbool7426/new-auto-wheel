@@ -30,7 +30,7 @@ const CustomModel = ({
   const [models, setModels] = useState({});
   const [variants, setVariants] = useState({});
   const [activeTab, setActiveTab] = useState("make"); // State to track active tab
- 
+
   useEffect(() => {
     const fetchedMakes = [];
     const fetchedModels = {};
@@ -56,27 +56,27 @@ const CustomModel = ({
     setVariants(fetchedVariants);
   }, [fetchMakesByTypeData]);
 
-  
+
   const [makeSearch, setMakeSearch] = useState("");
   const [modelSearch, setModelSearch] = useState("");
   const [variantSearch, setVariantSearch] = useState("");
-  
+
   const filteredMakes = makes.filter((make) =>
     make.name.toLowerCase().includes(makeSearch.toLowerCase())
-);
+  );
 
   const filteredModels =
     selection.make && models[selection.make]
       ? models[selection.make].filter((model) =>
-          model.toLowerCase().includes(modelSearch.toLowerCase())
-        )
+        model.toLowerCase().includes(modelSearch.toLowerCase())
+      )
       : [];
 
   const filteredVariants =
     selection.model && variants[selection.model]
       ? variants[selection.model].filter((variant) =>
-          variant.toLowerCase().includes(variantSearch.toLowerCase())
-        )
+        variant.toLowerCase().includes(variantSearch.toLowerCase())
+      )
       : [];
 
   const [opened, { open, close }] = useDisclosure(isOpen);
@@ -224,7 +224,7 @@ const CustomModel = ({
             Popular
           </Title>
           <ScrollArea
-            h={250}
+            h={230}
             offsetScrollbars
             scrollbarSize={5}
             scrollHideDelay={500}
@@ -235,9 +235,8 @@ const CustomModel = ({
                 {filteredMakes.map((make) => (
                   <List.Item
                     key={make._id}
-                    className={`search-dropdown-lists__item ${
-                      selection.make === make.name ? "selected" : ""
-                    }`}
+                    className={`search-dropdown-lists__item ${selection.make === make.name ? "selected" : ""
+                      }`}
                     icon={
                       <Image
                         src={make.image}
@@ -273,7 +272,7 @@ const CustomModel = ({
             All Models
           </Title>
           <ScrollArea
-            h={250}
+            h={220}
             offsetScrollbars
             scrollbarSize={5}
             scrollHideDelay={500}
@@ -286,9 +285,8 @@ const CustomModel = ({
                     filteredModels.map((model) => (
                       <List.Item
                         key={model}
-                        className={`search-dropdown-lists__item ${
-                          selection.model === model ? "selected" : ""
-                        }`}
+                        className={`search-dropdown-lists__item ${selection.model === model ? "selected" : ""
+                          }`}
                         onClick={() => {
                           handleSelection("model", model);
                           setActiveTab("variant"); // Set active tab to variant
@@ -318,6 +316,7 @@ const CustomModel = ({
               Variants
             </Title>
             <ScrollArea
+              h={230}
               offsetScrollbars
               scrollbarSize={5}
               scrollHideDelay={500}
@@ -330,9 +329,8 @@ const CustomModel = ({
                       filteredVariants.map((variant) => (
                         <List.Item
                           key={variant}
-                          className={`search-dropdown-lists__item ${
-                            selection.variant === variant ? "selected" : ""
-                          }`}
+                          className={`search-dropdown-lists__item ${selection.variant === variant ? "selected" : ""
+                            }`}
                           onClick={() => {
                             handleSelection("variant", variant);
                             setActiveTab("variant"); // Set active tab to variant
