@@ -36,6 +36,13 @@ import {
 import Image from "next/image";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAdjustments, IconSettings } from "@tabler/icons-react";
+
+const VEHICLE_CONDITIONS = [
+  { value: 'cn_used', label: 'Used' },
+  { value: 'cn_pre_owned', label: 'Pre Owned' },
+  { value: 'cn_certified', label: 'Certified Pre-owned' }
+];
+
 const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, fuelTypes, colors }) => {
   const searchParams = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
@@ -278,6 +285,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
 
     return selectedVarients;
   };
+
   const getCountByTypeAndKey = (countType, key) => {
     if (!vehicles?.counts[countType]) {
       return null;
@@ -309,24 +317,24 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
   const filteredmakes = makes?.data?.filter((make) =>
     make.name.toLowerCase().includes(search.make.toLowerCase())
   );
-  const DataTransform = (data,prefix) => {
-    if(prefix === "cl"){
+  const DataTransform = (data, prefix) => {
+    if (prefix === "cl") {
       return data?.map((item) => ({
         value: `cl_${encodeURIComponent(item?.title).toLowerCase()}`,
         label: item?.title,
         color: item?.code,
       }));
-    }else{
+    } else {
       return data?.map((item) => ({
         value: `${prefix}_${encodeURIComponent(item?.title).toLowerCase()}`,
         label: item?.title,
       }));
     }
   };
-  const vehicleExteriorColorOptions = DataTransform(colors?.data,"cl");
-  const vehicleDriveOptions = DataTransform(drives?.data,"dr");
-  const vehicleTransmissionOptions = DataTransform(transmissions?.data,"tr");
-  const vehicleFuelTypeOptions = DataTransform(fuelTypes?.data,"ft");
+  const vehicleExteriorColorOptions = DataTransform(colors?.data?.colors, "cl");
+  const vehicleDriveOptions = DataTransform(drives?.data, "dr");
+  const vehicleTransmissionOptions = DataTransform(transmissions?.data, "tr");
+  const vehicleFuelTypeOptions = DataTransform(fuelTypes?.data, "ft");
   return (
     <Fragment>
       <ActionIcon
@@ -432,6 +440,61 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   ))}
                 </div>
               </ScrollArea>
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+
+        {/* Add this after the city filter and before the make filter */}
+        <Accordion
+          variant="contained"
+          mb="lg"
+          defaultValue="Condition"
+          transitionDuration={500}
+        >
+          <Accordion.Item
+            value="Condition"
+            style={{ background: "white", borderColor: "#E3E3E3" }}
+          >
+            <Accordion.Control>
+              <Text size="sm" fw={500}>
+                Condition
+              </Text>
+            </Accordion.Control>
+            <Accordion.Panel pt="sm">
+
+              {VEHICLE_CONDITIONS.map((condition, index) => (
+                <Box pos="relative" key={index}>
+                  <Checkbox
+                    mb="xs"
+                    size="xs"
+                    color="#E90808"
+                    label={condition.label}
+                    key={condition.value}
+                    checked={condition.value === filters.condition}
+                    onChange={(e) =>
+                      handleFilterChange(
+                        "condition",
+                        condition.value,
+                        e.target.checked
+                      )
+                    }
+                  />
+
+                  {getCountByTypeAndKey("conditionCounts", condition.value.replace('cn_', '')) && (
+                    <Badge
+                      pos="absolute"
+                      right={0}
+                      top={0}
+                      color="#706f6f"
+                      size="md"
+                      fw={600}
+                      variant="outline"
+                    >
+                      {getCountByTypeAndKey("conditionCounts", condition.value.replace('cn_', ''))}
+                    </Badge>
+                  )}
+                </Box>
+              ))}
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -831,267 +894,267 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           }}
         /> */}
         {/* Accordion for Transmission */
-        vehicleTransmissionOptions?.length > 0 && (
-          <Accordion
-          variant="contained"
-          mb="lg"
-          defaultValue="Transmission"
-          transitionDuration={500}
-        >
-          <Accordion.Item
-            value="Transmission"
-            style={{ background: "white", borderColor: "#E3E3E3" }}
-          >
-            <Accordion.Control>
-              <Text size="sm" fw={500}>
-                Transmission
-              </Text>
-            </Accordion.Control>
-            <Accordion.Panel pt="sm">
-            <ScrollArea
-                h={vehicleTransmissionOptions.length > 5 ? 150 : 'auto'}
-                scrollbarSize={6}
-                scrollHideDelay={1000}
-                offsetScrollbars
+          vehicleTransmissionOptions?.length > 0 && (
+            <Accordion
+              variant="contained"
+              mb="lg"
+              defaultValue="Transmission"
+              transitionDuration={500}
+            >
+              <Accordion.Item
+                value="Transmission"
+                style={{ background: "white", borderColor: "#E3E3E3" }}
               >
-              {vehicleTransmissionOptions?.map((transmission, index) => (
-                <Box pos="relative" key={index}>
-                  <Checkbox
-                    mb="xs"
-                    size="xs"
-                    color="#E90808"
-                    label={transmission.label}
-                    key={transmission.value}
-                    checked={transmission?.value === filters.transmission}
-                    onChange={(e) =>
-                      handleFilterChange("transmission", transmission?.value)
-                    }
-                  />
-                  {getCountByTypeAndKey(
-                    "transmissionCounts",
-                    transmission.value
-                  ) && (
-                    <Badge
-                      pos="absolute"
-                      right={0}
-                      top={0}
-                      color="#706f6f"
-                      size="md"
-                      fw={600}
-                      variant="outline"
-                    >
-                      {getCountByTypeAndKey(
-                        "transmissionCounts",
-                        transmission.value
-                      )}
-                    </Badge>
-                  )}
-                </Box>
-              ))}
-            </ScrollArea>
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
-        )
+                <Accordion.Control>
+                  <Text size="sm" fw={500}>
+                    Transmission
+                  </Text>
+                </Accordion.Control>
+                <Accordion.Panel pt="sm">
+                  <ScrollArea
+                    h={vehicleTransmissionOptions.length > 5 ? 150 : 'auto'}
+                    scrollbarSize={6}
+                    scrollHideDelay={1000}
+                    offsetScrollbars
+                  >
+                    {vehicleTransmissionOptions?.map((transmission, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          color="#E90808"
+                          label={transmission.label}
+                          key={transmission.value}
+                          checked={transmission?.value === filters.transmission}
+                          onChange={(e) =>
+                            handleFilterChange("transmission", transmission?.value)
+                          }
+                        />
+                        {getCountByTypeAndKey(
+                          "transmissionCounts",
+                          transmission.value
+                        ) && (
+                            <Badge
+                              pos="absolute"
+                              right={0}
+                              top={0}
+                              color="#706f6f"
+                              size="md"
+                              fw={600}
+                              variant="outline"
+                            >
+                              {getCountByTypeAndKey(
+                                "transmissionCounts",
+                                transmission.value
+                              )}
+                            </Badge>
+                          )}
+                      </Box>
+                    ))}
+                  </ScrollArea>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          )
         }
         {/* Accordion for Drive */
-        vehicleDriveOptions?.length > 0 && (
-          <Accordion
-          variant="contained"
-          mb="lg"
-          defaultValue="Drive"
-          transitionDuration={500}
-        >
-          <Accordion.Item
-            value="Drive"
-            style={{ background: "white", borderColor: "#E3E3E3" }}
-          >
-            <Accordion.Control>
-              <Text size="sm" fw={500}>
-                Drive
-              </Text>
-            </Accordion.Control>
-            <Accordion.Panel pt="sm">
-            <ScrollArea
-                h={vehicleDriveOptions.length > 5 ? 150 : 'auto'}
-                scrollbarSize={6}
-                scrollHideDelay={1000}
-                offsetScrollbars
+          vehicleDriveOptions?.length > 0 && (
+            <Accordion
+              variant="contained"
+              mb="lg"
+              defaultValue="Drive"
+              transitionDuration={500}
+            >
+              <Accordion.Item
+                value="Drive"
+                style={{ background: "white", borderColor: "#E3E3E3" }}
               >
-              {vehicleDriveOptions?.map((drive, index) => (
-                <Box pos="relative" key={index}>
-                  <Checkbox
-                    mb="xs"
-                    size="xs"
-                    color="#E90808"
-                    label={drive.label}
-                    key={drive.value}
-                    checked={drive?.value === filters.drive}
-                    onChange={(e) => handleFilterChange("drive", drive?.value)}
-                  />
-                  {getCountByTypeAndKey("driveCounts", drive.value) && (
-                    <Badge
-                      pos="absolute"
-                      right={0}
-                      top={0}
-                      color="#706f6f"
-                      size="md"
-                      fw={600}
-                      variant="outline"
-                    >
-                      {getCountByTypeAndKey("driveCounts", drive.value)}
-                    </Badge>
-                  )}
-                </Box>
-              ))}
-            </ScrollArea>
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
-        )}
+                <Accordion.Control>
+                  <Text size="sm" fw={500}>
+                    Drive
+                  </Text>
+                </Accordion.Control>
+                <Accordion.Panel pt="sm">
+                  <ScrollArea
+                    h={vehicleDriveOptions.length > 5 ? 150 : 'auto'}
+                    scrollbarSize={6}
+                    scrollHideDelay={1000}
+                    offsetScrollbars
+                  >
+                    {vehicleDriveOptions?.map((drive, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          color="#E90808"
+                          label={drive.label}
+                          key={drive.value}
+                          checked={drive?.value === filters.drive}
+                          onChange={(e) => handleFilterChange("drive", drive?.value)}
+                        />
+                        {getCountByTypeAndKey("driveCounts", drive.value) && (
+                          <Badge
+                            pos="absolute"
+                            right={0}
+                            top={0}
+                            color="#706f6f"
+                            size="md"
+                            fw={600}
+                            variant="outline"
+                          >
+                            {getCountByTypeAndKey("driveCounts", drive.value)}
+                          </Badge>
+                        )}
+                      </Box>
+                    ))}
+                  </ScrollArea>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          )}
         {/* Accordion for Color */
-        vehicleExteriorColorOptions?.length > 0 && (
-        <Accordion
-          variant="contained"
-          mb="lg"
-          defaultValue="Color"
-          transitionDuration={500}
-        >
-          <Accordion.Item
-            value="Color"
-            style={{ background: "white", borderColor: "#E3E3E3" }}
-          >
-            <Accordion.Control>
-              <Text size="sm" fw={500}>
-                Exterior Color
-              </Text>
-            </Accordion.Control>
-            <Accordion.Panel pt="sm">
-              <ScrollArea
-                h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
-                scrollbarSize={6}
-                scrollHideDelay={1000}
-                offsetScrollbars
+          vehicleExteriorColorOptions?.length > 0 && (
+            <Accordion
+              variant="contained"
+              mb="lg"
+              defaultValue="Color"
+              transitionDuration={500}
+            >
+              <Accordion.Item
+                value="Color"
+                style={{ background: "white", borderColor: "#E3E3E3" }}
               >
-                <div className="checkbox-group-filters">
-                  {vehicleExteriorColorOptions?.map((color, index) => (
-                    <Box pos="relative" key={index}>
-                      <Checkbox
-                        mb="xs"
-                        size="xs"
-                        color="#E90808"
-                        styles={{
-                          body: { alignItems: "center" },
-                          labelWrapper: { width: "100%" },
-                        }}
-                        label={
-                          <Group justify="space-between" align="center">
-                            <Group gap="sm">
-                              <Tooltip
-                                label={color.label}
-                                position="top"
-                                withArrow
-                              >
-                                <Button
-                                  p={0}
-                                  radius={rem(20)}
-                                  h={rem(20)}
-                                  w={rem(20)}
-                                  bg={color.color}
-                                  style={{
-                                    border: '1px solid #E3E3E3',
-                                    boxShadow: color.color.toLowerCase() === '#ffffff' ? '0 0 0 1px #ddd' : 'none'
-                                  }}
-                                />
-                              </Tooltip>
-                              {color.label}
-                            </Group>
-                          </Group>
-                        }
-                        key={color.value}
-                        checked={color?.value === filters.exteriorColor}
-                        onChange={(e) =>
-                          handleFilterChange("exteriorColor", color?.value)
-                        }
-                      />
-                      {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
-                    <Badge
-                      pos="absolute"
-                      right={0}
-                      top={0}
-                      color="#706f6f"
-                      size="md"
-                      fw={600}
-                      variant="outline"
-                    >
-                      {getCountByTypeAndKey("exteriorColorCounts", color.label)}
-                    </Badge>
-                  )}
-                    </Box>
-                  ))}
-                </div>
-              </ScrollArea>
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
-        )}
+                <Accordion.Control>
+                  <Text size="sm" fw={500}>
+                    Exterior Color
+                  </Text>
+                </Accordion.Control>
+                <Accordion.Panel pt="sm">
+                  <ScrollArea
+                    h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
+                    scrollbarSize={6}
+                    scrollHideDelay={1000}
+                    offsetScrollbars
+                  >
+                    <div className="checkbox-group-filters">
+                      {vehicleExteriorColorOptions?.map((color, index) => (
+                        <Box pos="relative" key={index}>
+                          <Checkbox
+                            mb="xs"
+                            size="xs"
+                            color="#E90808"
+                            styles={{
+                              body: { alignItems: "center" },
+                              labelWrapper: { width: "100%" },
+                            }}
+                            label={
+                              <Group justify="space-between" align="center">
+                                <Group gap="sm">
+                                  <Tooltip
+                                    label={color.label}
+                                    position="top"
+                                    withArrow
+                                  >
+                                    <Button
+                                      p={0}
+                                      radius={rem(20)}
+                                      h={rem(20)}
+                                      w={rem(20)}
+                                      bg={color.color}
+                                      style={{
+                                        border: '1px solid #E3E3E3',
+                                        boxShadow: color.color.toLowerCase() === '#ffffff' ? '0 0 0 1px #ddd' : 'none'
+                                      }}
+                                    />
+                                  </Tooltip>
+                                  {color.label}
+                                </Group>
+                              </Group>
+                            }
+                            key={color.value}
+                            checked={color?.value === filters.exteriorColor}
+                            onChange={(e) =>
+                              handleFilterChange("exteriorColor", color?.value)
+                            }
+                          />
+                          {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
+                            <Badge
+                              pos="absolute"
+                              right={0}
+                              top={0}
+                              color="#706f6f"
+                              size="md"
+                              fw={600}
+                              variant="outline"
+                            >
+                              {getCountByTypeAndKey("exteriorColorCounts", color.label)}
+                            </Badge>
+                          )}
+                        </Box>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          )}
         {/* Accordion for Fuel */
-        vehicleFuelTypeOptions?.length > 0 && (
-        <Accordion
-          variant="contained"
-          mb="lg"
-          defaultValue="Fuel"
-          transitionDuration={500}
-        >
-          <Accordion.Item
-            value="Fuel"
-            style={{ background: "white", borderColor: "#E3E3E3" }}
-          >
-            <Accordion.Control>
-              <Text size="sm" fw={500}>
-                Fuel Type
-              </Text>
-            </Accordion.Control>
-            <Accordion.Panel pt="sm">
-            <ScrollArea
-                h={vehicleFuelTypeOptions.length > 5 ? 150 : 'auto'}
-                scrollbarSize={6}
-                scrollHideDelay={1000}
-                offsetScrollbars
+          vehicleFuelTypeOptions?.length > 0 && (
+            <Accordion
+              variant="contained"
+              mb="lg"
+              defaultValue="Fuel"
+              transitionDuration={500}
+            >
+              <Accordion.Item
+                value="Fuel"
+                style={{ background: "white", borderColor: "#E3E3E3" }}
               >
-              {vehicleFuelTypeOptions?.map((fuel, index) => (
-                <Box pos="relative" key={index}>
-                  <Checkbox
-                    mb="xs"
-                    size="xs"
-                    color="#E90808"
-                    label={fuel.label}
-                    key={fuel.value}
-                    checked={fuel?.value === filters.fuelType}
-                    onChange={(e) =>
-                      handleFilterChange("fuelType", fuel?.value)
-                    }
-                  />
-                  {getCountByTypeAndKey("fuelTypeCounts", fuel.label) && (
-                    <Badge
-                      pos="absolute"
-                      right={0}
-                      top={0}
-                      color="#706f6f"
-                      size="md"
-                      fw={600}
-                      variant="outline"
-                    >
-                      {getCountByTypeAndKey("fuelTypeCounts", fuel.label)}
-                    </Badge>
-                  )}
-                </Box>
-              ))}
-            </ScrollArea>
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
-        )}
+                <Accordion.Control>
+                  <Text size="sm" fw={500}>
+                    Fuel Type
+                  </Text>
+                </Accordion.Control>
+                <Accordion.Panel pt="sm">
+                  <ScrollArea
+                    h={vehicleFuelTypeOptions.length > 5 ? 150 : 'auto'}
+                    scrollbarSize={6}
+                    scrollHideDelay={1000}
+                    offsetScrollbars
+                  >
+                    {vehicleFuelTypeOptions?.map((fuel, index) => (
+                      <Box pos="relative" key={index}>
+                        <Checkbox
+                          mb="xs"
+                          size="xs"
+                          color="#E90808"
+                          label={fuel.label}
+                          key={fuel.value}
+                          checked={fuel?.value === filters.fuelType}
+                          onChange={(e) =>
+                            handleFilterChange("fuelType", fuel?.value)
+                          }
+                        />
+                        {getCountByTypeAndKey("fuelTypeCounts", fuel.label) && (
+                          <Badge
+                            pos="absolute"
+                            right={0}
+                            top={0}
+                            color="#706f6f"
+                            size="md"
+                            fw={600}
+                            variant="outline"
+                          >
+                            {getCountByTypeAndKey("fuelTypeCounts", fuel.label)}
+                          </Badge>
+                        )}
+                      </Box>
+                    ))}
+                  </ScrollArea>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          )}
 
         {/* <div className="range-inputs">
             <div className="form-group">
@@ -1344,66 +1407,65 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             scrollHideDelay={1000}
             scrollbars="y"
           >
-          <Grid mb="lg">
-            {bodies?.data?.map((bodyType, index) => (
-              <Grid.Col span={6} ta="center" key={index}>
-                <div className="single-brand-item selected-brand-item text-center">
-                  <label
-                    className={`text-decoration-none ${
-                      decodedFilterBodies.includes(
+            <Grid mb="lg">
+              {bodies?.data?.map((bodyType, index) => (
+                <Grid.Col span={6} ta="center" key={index}>
+                  <div className="single-brand-item selected-brand-item text-center">
+                    <label
+                      className={`text-decoration-none ${decodedFilterBodies.includes(
                         bodyType?.title?.toLowerCase()
                       )
-                        ? "checked"
-                        : ""
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      name="bodyType"
-                      value={bodyType.title?.toLowerCase()}
-                      checked={decodedFilterBodies.includes(
-                        bodyType?.title?.toLowerCase()
-                      )}
-                      onChange={(e) =>
-                        handleFilterChange(
-                          "bodyType",
-                          bodyType.title?.toLowerCase(),
-                          e.target.checked
-                        )
-                      }
-                    />
-                    <Image
-                      width={80}
-                      height={60}
-                      src={bodyType.bodyImage}
-                      className="mx-auto text-center"
-                      alt={`${bodyType.title} body type`}
-                    />
-                    <h6 style={{ fontSize: "14px" }} className="mb-0 text-dark">
-                      {bodyType.title}
-                      {getCountByTypeAndKey(
-                        "bodyTypeCounts",
-                        bodyType.title
-                      ) && (
-                        <Badge
-                          ml="xs"
-                          color="#706f6f"
-                          size="sm"
-                          fw={600}
-                          variant="outline"
-                        >
-                          {getCountByTypeAndKey(
-                            "bodyTypeCounts",
-                            bodyType.title
+                          ? "checked"
+                          : ""
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="bodyType"
+                        value={bodyType.title?.toLowerCase()}
+                        checked={decodedFilterBodies.includes(
+                          bodyType?.title?.toLowerCase()
+                        )}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            "bodyType",
+                            bodyType.title?.toLowerCase(),
+                            e.target.checked
+                          )
+                        }
+                      />
+                      <Image
+                        width={80}
+                        height={40}
+                        src={bodyType.bodyImage}
+                        className="mx-auto text-center"
+                        alt={`${bodyType.title} body type`}
+                      />
+                      <h6 style={{ fontSize: "14px" }} className="mb-0 text-dark">
+                        {bodyType.title}
+                        {getCountByTypeAndKey(
+                          "bodyTypeCounts",
+                          bodyType.title
+                        ) && (
+                            <Badge
+                              ml="xs"
+                              color="#706f6f"
+                              size="sm"
+                              fw={600}
+                              variant="outline"
+                            >
+                              {getCountByTypeAndKey(
+                                "bodyTypeCounts",
+                                bodyType.title
+                              )}
+                            </Badge>
                           )}
-                        </Badge>
-                      )}
-                    </h6>
-                  </label>
-                </div>
-              </Grid.Col>
-            ))}
-          </Grid>
+                      </h6>
+                    </label>
+                  </div>
+                </Grid.Col>
+              ))}
+            </Grid>
           </ScrollArea>
         </div>
       </Card>
@@ -1760,6 +1822,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                   value={filters.price}
                   size="xs"
                   my="xs"
+                  step={10000}
                   thumbSize={16}
                   styles={{
                     thumb: {
@@ -1789,7 +1852,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                       hideControls
                       value={filters.price[1]}
                       min={filters.price[0]}
-                      max={90000000}
+                      max={99000000}
                       onChange={(e) =>
                         handleFilterChange("price", [
                           filters.price[0],
@@ -1866,251 +1929,238 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
                 }}
               /> */}
               {/* Accordion for Transmission */
-              vehicleTransmissionOptions?.length > 0 && (
-              <Accordion
-                variant="contained"
-                mb="lg"
-                defaultValue="Transmission"
-                transitionDuration={500}
-              >
-                <Accordion.Item
-                  value="Transmission"
-                  style={{ background: "white", borderColor: "#E3E3E3" }}
-                >
-                  <Accordion.Control>
-                    <Text size="sm" fw={500}>
-                      Transmission
-                    </Text>
-                  </Accordion.Control>
-                  <Accordion.Panel pt="sm">
-                    {vehicleTransmissionOptions?.map((transmission, index) => (
-                      <Box pos="relative" key={index}>
-                        <Checkbox
-                          mb="xs"
-                          color="#E90808"
-                          size="xs"
-                          label={transmission.label}
-                          key={transmission.value}
-                          checked={transmission?.value === filters.transmission}
-                          onChange={(e) =>
-                            handleFilterChange(
-                              "transmission",
-                              transmission?.value
-                            )
-                          }
-                        />
-                        {getCountByTypeAndKey(
-                          "transmissionCounts",
-                          transmission.value
-                        ) && (
-                          <Badge
-                            pos="absolute"
-                            right={0}
-                            top={0}
-                            color="#706f6f"
-                            size="md"
-                            fw={600}
-                            variant="outline"
-                          >
-                            {getCountByTypeAndKey(
-                              "transmissionCounts",
-                              transmission.value
-                            )}
-                          </Badge>
-                        )}
-                      </Box>
-                    ))}
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-              )}
-
-              {/* Accordion for Drive */
-              vehicleDriveOptions?.length > 0 && (
-              <Accordion
-                variant="contained"
-                mb="lg"
-                defaultValue="Drive"
-                transitionDuration={500}
-              >
-                <Accordion.Item
-                  value="Drive"
-                  style={{ background: "white", borderColor: "#E3E3E3" }}
-                >
-                  <Accordion.Control>
-                    <Text size="sm" fw={500}>
-                      Drive
-                    </Text>
-                  </Accordion.Control>
-                  <Accordion.Panel pt="sm">
-                    {vehicleDriveOptions?.map((drive, index) => (
-                      <Box pos="relative" key={index}>
-                        <Checkbox
-                          mb="xs"
-                          color="#E90808"
-                          size="xs"
-                          label={drive.label}
-                          key={drive.value}
-                          checked={drive?.value === filters.drive}
-                          onChange={(e) =>
-                            handleFilterChange("drive", drive?.value)
-                          }
-                        />
-                        {getCountByTypeAndKey("driveCounts", drive.value) && (
-                          <Badge
-                            pos="absolute"
-                            right={0}
-                            top={0}
-                            color="#706f6f"
-                            size="md"
-                            fw={600}
-                            variant="outline"
-                          >
-                              
-                          </Badge>
-                        )}
-                      </Box>
-                    ))}
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-              )}
-              {/* Accordion for Color */
-              vehicleExteriorColorOptions?.length > 0 && (
-              <Accordion
-                variant="contained"
-                mb="lg"
-                defaultValue="Color"
-                transitionDuration={500}
-              >
-                <Accordion.Item
-                  value="Color"
-                  style={{ background: "white", borderColor: "#E3E3E3" }}
-                >
-                  <Accordion.Control>
-                    <Text size="sm" fw={500}>
-                      Exterior Color
-                    </Text>
-                  </Accordion.Control>
-                  <Accordion.Panel pt="sm">
-                    <ScrollArea
-                      h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
-                      scrollbarSize={6}
-                      scrollHideDelay={1000}
-                      offsetScrollbars
+                vehicleTransmissionOptions?.length > 0 && (
+                  <Accordion
+                    variant="contained"
+                    mb="lg"
+                    defaultValue="Transmission"
+                    transitionDuration={500}
+                  >
+                    <Accordion.Item
+                      value="Transmission"
+                      style={{ background: "white", borderColor: "#E3E3E3" }}
                     >
-                      <div className="checkbox-group-filters">
-                        {vehicleExteriorColorOptions?.map((color, index) => (
+                      <Accordion.Control>
+                        <Text size="sm" fw={500}>
+                          Transmission
+                        </Text>
+                      </Accordion.Control>
+                      <Accordion.Panel pt="sm">
+                        {vehicleTransmissionOptions?.map((transmission, index) => (
                           <Box pos="relative" key={index}>
                             <Checkbox
                               mb="xs"
-                              size="xs"
                               color="#E90808"
-                              styles={{
-                                body: { alignItems: "center" },
-                                labelWrapper: { width: "100%" },
-                              }}
-                              label={
-                                <Group justify="space-between" align="center">
-                                  <Group gap="sm">
-                                    <Tooltip
-                                      label={color.label}
-                                      position="top"
-                                      withArrow
-                                    >
-                                      <Button
-                                        p={0}
-                                        radius={rem(20)}
-                                        h={rem(20)}
-                                        w={rem(20)}
-                                        bg={color.color}
-                                        style={{
-                                          border: '1px solid #E3E3E3',
-                                          boxShadow: color.color.toLowerCase() === '#ffffff' ? '0 0 0 1px #ddd' : 'none'
-                                        }}
-                                      />
-                                    </Tooltip>
-                                    {color.label}
-                                  </Group>
-                                </Group>
-                              }
-                              key={color.value}
-                              checked={color?.value === filters.exteriorColor}
+                              size="xs"
+                              label={transmission.label}
+                              key={transmission.value}
+                              checked={transmission?.value === filters.transmission}
                               onChange={(e) =>
-                                handleFilterChange("exteriorColor", color?.value)
+                                handleFilterChange(
+                                  "transmission",
+                                  transmission?.value
+                                )
                               }
                             />
-                            {/* {getCountByTypeAndKey("exteriorColorCounts", color.label) && (
-                          <Badge
-                            pos="absolute"
-                            right={0}
-                            top={0}
-                            color="#706f6f"
-                            size="md"
-                            fw={600}
-                            variant="outline"
-                          >
-                            {getCountByTypeAndKey("exteriorColorCounts", color.label)}
-                          </Badge>
-                        )} */}
+                            {getCountByTypeAndKey(
+                              "transmissionCounts",
+                              transmission.value
+                            ) && (
+                                <Badge
+                                  pos="absolute"
+                                  right={0}
+                                  top={0}
+                                  color="#706f6f"
+                                  size="md"
+                                  fw={600}
+                                  variant="outline"
+                                >
+                                  {getCountByTypeAndKey(
+                                    "transmissionCounts",
+                                    transmission.value
+                                  )}
+                                </Badge>
+                              )}
                           </Box>
                         ))}
-                      </div>
-                    </ScrollArea>
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-              )}
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  </Accordion>
+                )}
+
+              {/* Accordion for Drive */
+                vehicleDriveOptions?.length > 0 && (
+                  <Accordion
+                    variant="contained"
+                    mb="lg"
+                    defaultValue="Drive"
+                    transitionDuration={500}
+                  >
+                    <Accordion.Item
+                      value="Drive"
+                      style={{ background: "white", borderColor: "#E3E3E3" }}
+                    >
+                      <Accordion.Control>
+                        <Text size="sm" fw={500}>
+                          Drive
+                        </Text>
+                      </Accordion.Control>
+                      <Accordion.Panel pt="sm">
+                        {vehicleDriveOptions?.map((drive, index) => (
+                          <Box pos="relative" key={index}>
+                            <Checkbox
+                              mb="xs"
+                              color="#E90808"
+                              size="xs"
+                              label={drive.label}
+                              key={drive.value}
+                              checked={drive?.value === filters.drive}
+                              onChange={(e) =>
+                                handleFilterChange("drive", drive?.value)
+                              }
+                            />
+                            {getCountByTypeAndKey("driveCounts", drive.value) && (
+                              <Badge
+                                pos="absolute"
+                                right={0}
+                                top={0}
+                                color="#706f6f"
+                                size="md"
+                                fw={600}
+                                variant="outline"
+                              >
+                                {getCountByTypeAndKey("driveCounts", drive.value)}
+                              </Badge>
+                            )}
+                          </Box>
+                        ))}
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  </Accordion>
+                )}
+              {/* Accordion for Color */
+                vehicleExteriorColorOptions?.length > 0 && (
+                  <Accordion
+                    variant="contained"
+                    mb="lg"
+                    defaultValue="Color"
+                    transitionDuration={500}
+                  >
+                    <Accordion.Item
+                      value="Color"
+                      style={{ background: "white", borderColor: "#E3E3E3" }}
+                    >
+                      <Accordion.Control>
+                        <Text size="sm" fw={500}>
+                          Exterior Color
+                        </Text>
+                      </Accordion.Control>
+                      <Accordion.Panel pt="sm">
+                        <ScrollArea
+                          h={vehicleExteriorColorOptions.length > 5 ? 150 : 'auto'}
+                          scrollbarSize={6}
+                          scrollHideDelay={1000}
+                          offsetScrollbars
+                        >
+                          <div className="checkbox-group-filters">
+                            {vehicleExteriorColorOptions?.map((color, index) => (
+                              <Box pos="relative" key={index}>
+                                <Checkbox
+                                  mb="xs"
+                                  size="xs"
+                                  color="#E90808"
+                                  styles={{
+                                    body: { alignItems: "center" },
+                                    labelWrapper: { width: "100%" },
+                                  }}
+                                  label={
+                                    <Group justify="space-between" align="center">
+                                      <Group gap="sm">
+                                        <Tooltip
+                                          label={color.label}
+                                          position="top"
+                                          withArrow
+                                        >
+                                          <Button
+                                            p={0}
+                                            radius={rem(20)}
+                                            h={rem(20)}
+                                            w={rem(20)}
+                                            bg={color.color}
+                                            style={{
+                                              border: '1px solid #E3E3E3',
+                                              boxShadow: color.color.toLowerCase() === '#ffffff' ? '0 0 0 1px #ddd' : 'none'
+                                            }}
+                                          />
+                                        </Tooltip>
+                                        {color.label}
+                                      </Group>
+                                    </Group>
+                                  }
+                                  key={color.value}
+                                  checked={color?.value === filters.exteriorColor}
+                                  onChange={(e) =>
+                                    handleFilterChange("exteriorColor", color?.value)
+                                  }
+                                />
+                              </Box>
+                            ))}
+                          </div>
+                        </ScrollArea>
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  </Accordion>
+                )}
               {/* Accordion for Fuel */
-              vehicleFuelTypeOptions?.length > 0 && (
-              <Accordion
-                variant="contained"
-                mb="lg"
-                defaultValue="Fuel"
-                transitionDuration={500}
-              >
-                <Accordion.Item
-                  value="Fuel"
-                  style={{ background: "white", borderColor: "#E3E3E3" }}
-                >
-                  <Accordion.Control>
-                    <Text size="sm" fw={500}>
-                      Fuel Type
-                    </Text>
-                  </Accordion.Control>
-                  <Accordion.Panel pt="sm">
-                    {vehicleFuelTypeOptions?.map((fuel, index) => (
-                      <Box pos="relative" key={index}>
-                        <Checkbox
-                          mb="xs"
-                          color="#E90808"
-                          size="xs"
-                          label={fuel.label}
-                          key={fuel.value}
-                          checked={fuel?.value === filters.fuelType}
-                          onChange={(e) =>
-                            handleFilterChange("fuelType", fuel?.value)
-                          }
-                        />
-                        {getCountByTypeAndKey("fuelTypeCounts", fuel.label) && (
-                          <Badge
-                            pos="absolute"
-                            right={0}
-                            top={0}
-                            color="#706f6f"
-                            size="md"
-                            fw={600}
-                            variant="outline"
-                          >
-                            
-                          </Badge>
-                        )}
-                      </Box>
-                    ))}
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-              )}
+                vehicleFuelTypeOptions?.length > 0 && (
+                  <Accordion
+                    variant="contained"
+                    mb="lg"
+                    defaultValue="Fuel"
+                    transitionDuration={500}
+                  >
+                    <Accordion.Item
+                      value="Fuel"
+                      style={{ background: "white", borderColor: "#E3E3E3" }}
+                    >
+                      <Accordion.Control>
+                        <Text size="sm" fw={500}>
+                          Fuel Type
+                        </Text>
+                      </Accordion.Control>
+                      <Accordion.Panel pt="sm">
+                        {vehicleFuelTypeOptions?.map((fuel, index) => (
+                          <Box pos="relative" key={index}>
+                            <Checkbox
+                              mb="xs"
+                              color="#E90808"
+                              size="xs"
+                              label={fuel.label}
+                              key={fuel.value}
+                              checked={fuel?.value === filters.fuelType}
+                              onChange={(e) =>
+                                handleFilterChange("fuelType", fuel?.value)
+                              }
+                            />
+                            {getCountByTypeAndKey("fuelTypeCounts", fuel.label) && (
+                              <Badge
+                                pos="absolute"
+                                right={0}
+                                top={0}
+                                color="#706f6f"
+                                size="md"
+                                fw={600}
+                                variant="outline"
+                              >
+                                {getCountByTypeAndKey("fuelTypeCounts", fuel.label)}
+                              </Badge>
+                            )}
+                          </Box>
+                        ))}
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  </Accordion>
+                )}
               <Button
                 color="#E90808"
                 mt="md"
@@ -2137,66 +2187,72 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             </Drawer.Header>
             <Card>
               <div className="filter-card">
-                <Grid mb="lg">
-                  {bodies?.data?.map((bodyType, index) => (
-                    <Grid.Col span={6} ta="center" key={index}>
-                      <div className="single-brand-item selected-brand-item text-center">
-                        <label
-                          className={`text-decoration-none ${
-                            decodedFilterBodies.includes(
-                              bodyType?.title?.toLowerCase()
-                            )
-                              ? "checked"
-                              : ""
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            name="bodyType"
-                            value={bodyType.title?.toLowerCase()}
-                            checked={decodedFilterBodies.includes(
-                              bodyType?.title?.toLowerCase()
-                            )}
-                            onChange={(e) =>
-                              handleFilterChange(
-                                "bodyType",
-                                bodyType.title?.toLowerCase(),
-                                e.target.checked
-                              )
-                            }
-                          />
-                          <Image
-                            width={80}
-                            height={60}
-                            src={bodyType.bodyImage}
-                            className="mx-auto text-center"
-                            alt={`${bodyType.title} body type`}
-                          />
-                          <h6 className="mb-0 text-dark">
-                            {bodyType.title}
-                            {getCountByTypeAndKey(
-                              "bodyTypeCounts",
-                              bodyType.title
-                            ) && (
-                              <Badge
-                                ml="xs"
-                                color="#706f6f"
-                                size="sm"
-                                fw={600}
-                                variant="outline"
-                              >
-                                {getCountByTypeAndKey(
-                                  "bodyTypeCounts",
-                                  bodyType.title
-                                )}
-                              </Badge>
-                            )}
-                          </h6>
-                        </label>
-                      </div>
-                    </Grid.Col>
-                  ))}
-                </Grid>
+              <Grid mb="lg">
+  {bodies?.data?.map((bodyType, index) => (
+    <Grid.Col span={6} ta="center" key={index}>
+      <div className="single-brand-item selected-brand-item text-center">
+        <label
+          className={`text-decoration-none ${
+            decodedFilterBodies.includes(bodyType?.title?.toLowerCase())
+              ? "checked"
+              : ""
+          }`}
+        >
+          <input
+            type="checkbox"
+            name="bodyType"
+            value={bodyType.title?.toLowerCase()}
+            checked={decodedFilterBodies.includes(
+              bodyType?.title?.toLowerCase()
+            )}
+            onChange={(e) =>
+              handleFilterChange(
+                "bodyType",
+                bodyType.title?.toLowerCase(),
+                e.target.checked
+              )
+            }
+          />
+          <div style={{ 
+            height: '45px', // Reduced from 60px
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center' 
+          }}>
+            <Image
+              width={50} // Reduced from 80
+              height={25} // Reduced from 60
+              src={bodyType.bodyImage}
+              className="mx-auto"
+              alt={`${bodyType.title} body type`}
+              style={{ 
+                objectFit: 'contain',
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '50px', // Reduced from 80px
+                maxHeight: '35px' // Reduced from 60px
+              }}
+            />
+          </div>
+          <h6 className="mb-0 text-dark">
+            {bodyType.title}
+            {getCountByTypeAndKey("bodyTypeCounts", bodyType.title) && (
+              <Badge
+                ml="xs"
+                color="#706f6f"
+                size="sm"
+                fw={600}
+                variant="outline"
+              >
+                {getCountByTypeAndKey("bodyTypeCounts", bodyType.title)}
+              </Badge>
+            )}
+          </h6>
+        </label>
+      </div>
+    </Grid.Col>
+  ))}
+</Grid>
               </div>
             </Card>
           </Drawer.Body>

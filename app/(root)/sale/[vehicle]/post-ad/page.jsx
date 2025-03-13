@@ -73,6 +73,7 @@ const PostAnAd = (params) => {
     registeredIn: z.string().min(1, 'Registration location is required'),
     rego: z.string().min(1, 'Registration date is required'),
     exteriorColor: z.string().min(1, 'Color is required'),
+    condition: z.string().min(1, 'Condition is required'),
     milage: z.coerce.string().min(1, 'Mileage is required'),
     price: z.coerce.string().min(1, 'Price is required'),
     description: z.string().min(10, 'Description must be at least 10 characters'),
@@ -128,7 +129,7 @@ const PostAnAd = (params) => {
   const steps = [
     {
       label: 'Basic Information',
-      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'milage', 'price', 'description', 'images'],
+      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'condition', 'milage', 'price', 'description', 'images'],
     },
     {
       label: 'Vehicle Details',
@@ -152,7 +153,7 @@ const PostAnAd = (params) => {
     province
   } = useVehicleData(vehicleType);
 
-  console.log("....transmissions", transmissions)
+  console.log("....colors", colors)
   // Selection State Management
   const [selection, setSelection] = useState({
     make: "",
@@ -203,6 +204,7 @@ const PostAnAd = (params) => {
           const regoDate = data.rego ? new Date(data.rego).toISOString().split('T')[0] : '';
           form.setFieldValue('year', data.year.toString() || "");
           form.setFieldValue('province', data.province || "");
+          form.setFieldValue('condition', data.condition || "");
           form.setFieldValue('city', data.city || "");
           form.setFieldValue('suburb', data.cityArea || "");
           form.setFieldValue('registeredIn', capitalize(data.registeredIn) || "");
@@ -246,7 +248,7 @@ const PostAnAd = (params) => {
 
     if (vehicleId) {
       fetchAdData();
-    } 
+    }
   }, [vehicleId, session]);
 
   useEffect(() => {
@@ -285,9 +287,9 @@ const PostAnAd = (params) => {
             }
 
             // Set assembly (you might need to map this from your data)
-            if (vehicleData.Info?.make) {
+            if (vehicleData.assembly) {
               // You can set a default assembly based on make or other criteria
-              form.setFieldValue('assembly', 'local'); // or 'imported' based on your logic
+              form.setFieldValue('assembly', vehicleData.assembly); // or 'imported' based on your logic
             }
 
             // Set body type
@@ -324,7 +326,7 @@ const PostAnAd = (params) => {
             }
 
             // Disc Brakes
-            if (vehicleData.safety.discBrake){
+            if (vehicleData.safety.discBrake) {
               features.push('Disc Brakes');
             }
             // Comfort features
@@ -598,6 +600,14 @@ const PostAnAd = (params) => {
                         </Box>
 
                         <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Condition"
+                            placeholder="Condition"
+                            data={["Used","Pre Owned","Certified Pre-owned"]}
+                            {...form.getInputProps('condition')}
+                          />
+                        </Box>
+
+                        <Box className="row align-items-center" mb="xl">
                           <FormFieldInput label="Location" placeholder="Select Location"
                             value={`${form.values.city || ""} ${form.values.suburb || ""}`}
                             error={form.errors.city || form.errors.suburb}
@@ -633,7 +643,7 @@ const PostAnAd = (params) => {
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Exterior Color"
                             placeholder="Exterior Color"
-                            data={colors?.map(color => ({
+                            data={colors?.colors?.map(color => ({
                               value: color.title,
                               label: color.title,
                               color: color.code,
