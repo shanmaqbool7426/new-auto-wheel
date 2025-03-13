@@ -246,7 +246,7 @@ const PostAnAd = (params) => {
 
     if (vehicleId) {
       fetchAdData();
-    }
+    } 
   }, [vehicleId, session]);
 
   useEffect(() => {

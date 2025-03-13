@@ -586,16 +586,17 @@ const Header = () => {
 
               <Menu shadow="lg" radius="sm">
                 <Menu.Target>
-                  <Button
+                {   <Button
+                    onClick={() => !session ? openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN) : null}
                     color="#E90808"
                     autoContrast
                     ff="heading"
                     tt="uppercase"
                   >
                     Post an Ad
-                  </Button>
+                  </Button>}
                 </Menu.Target>
-                <Menu.Dropdown>
+                {session && <Menu.Dropdown>
                   <Menu.Item>
                     <Anchor
                       component={Link}
@@ -635,7 +636,7 @@ const Header = () => {
                       Sell Your Truck
                     </Anchor>
                   </Menu.Item>
-                </Menu.Dropdown>
+                </Menu.Dropdown>}
               </Menu>
             </Group>
             <Burger

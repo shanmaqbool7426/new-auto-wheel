@@ -536,17 +536,17 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
                             </SortableContext>
                         </DndContext>
                     )}
-                        <Group align="flex-start" gap="xl" justify="center" my={'10px'}>
-                            <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
+                        <Group align="flex-start" gap="xl" justify="center" mt={'50px' }>
+                            <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '450px', textAlign: 'left' }}>
                                 <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
                                 Adding at least 8 pictures improves the chances for a quick sale.
                             </Text>
-                            <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
+                            <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '450px', textAlign: 'left' }}>
                                 <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
                                 Adding clear Front, Back and Interior pictures of your car increases the quality of your Ad and gets you noticed more.
                             </Text>
                         </Group>
-                        <Text size="sm" mt="md" style={{ display: 'flex', margin: 'auto', alignItems: 'center', gap: '8px', justifyContent: 'center', maxWidth: '500px', textAlign: 'left' }}>
+                        <Text size="sm" mt={"20px"} style={{ display: 'flex', margin: 'auto', alignItems: 'center', gap: '8px', justifyContent: 'center', maxWidth: '450px', textAlign: 'left' }}>
                             <MdCheckCircle size={20} color="#4CAF50" />
                             Photos should be in 'jpeg, jpg, png, gif' format only.
                         </Text>
