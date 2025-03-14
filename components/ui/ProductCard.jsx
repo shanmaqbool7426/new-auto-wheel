@@ -62,7 +62,7 @@ const ProductCard = ({ bg }) => {
             USED 2.0 L 2016 Toyota Yaris..
           </Anchor>
         </Title>
-        <Box className="product-price">Rs 7,400,000</Box>
+        <Box className="product-price">$ 7,400,000</Box>
       </Box>
       <Box className="product-meta">
         <Box className="meta-info d-flex justify-content-between align-items-center">

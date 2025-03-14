@@ -42,7 +42,7 @@ const UpcomingCars = ({ reviewsText, reviewRating, fetchUpComingVehicles,type })
                       reviewRating
                     ) : (
                       <Text fw={600} fs="xl">
-                        Rs {formatToLacOrCrore(vehicle?.minPrice)} - {formatToLacOrCrore(vehicle?.maxPrice)}
+                        $ {formatToLacOrCrore(vehicle?.minPrice)} - {formatToLacOrCrore(vehicle?.maxPrice)}
                       </Text>
                     )}
 

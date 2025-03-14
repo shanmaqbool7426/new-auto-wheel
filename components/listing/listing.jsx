@@ -23,6 +23,7 @@ import {
   fetchVehicleColors,
 } from "@/services/vehicles";
 import { getLocalStorage, reorderSlug } from "@/utils";
+import VehicleComparison from "@/components/ComparisonCard";
 
 const FilterBadges = ({ params, searchParams }) => {
   const slug = params.slug;
@@ -239,6 +240,7 @@ export default async function Listing({ params, searchParams }) {
           </div>
         </div>
         </LoadingWrapper>
+        <VehicleComparison />
       </Box>
     </>
   );

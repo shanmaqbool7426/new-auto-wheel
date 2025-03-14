@@ -160,7 +160,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                       handleFilterChange("price", value.split("-").map(Number))
                     }
                   >
-                    Rs {convertToLac(filters.price[0])} lac - Rs {convertToLac(filters.price[1])} lac
+                    $ {convertToLac(filters.price[0])} lac - $ {convertToLac(filters.price[1])} lac
                   </Input>
                 </Popover.Target>
                 <Popover.Dropdown p="lg">
@@ -178,7 +178,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                         ])
                         }
                       />
-                      <Input.Label c="muted">Rs {convertToLac(filters.price[0])} lac</Input.Label>
+                      <Input.Label c="muted">${convertToLac(filters.price[0])} lac</Input.Label>
                     </Box>
                     <Box className="col-md-6 text-end">
                       <NumberInput
@@ -194,7 +194,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                           ])
                         }
                       />
-                      <Input.Label c="muted">Rs {convertToLac(filters.price[1])} lac</Input.Label>
+                      <Input.Label c="muted">${convertToLac(filters.price[1])} lac</Input.Label>
                     </Box>
                     <Box className="col-md-12 mt-3">
                       <RangeSlider

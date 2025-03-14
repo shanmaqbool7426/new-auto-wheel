@@ -25,7 +25,7 @@ const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
             {vehicle?.make} {vehicle?.model}
           </Title>
           <Text fw={700} fz="12px">
-            Rs {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
+            $ {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
             {formatToLacOrCrore(vehicle?.maxPrice)}
           </Text>
 

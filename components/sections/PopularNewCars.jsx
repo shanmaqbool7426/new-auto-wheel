@@ -42,7 +42,7 @@ const PopularNewCars = ({ bg = true, popularVehicles ,type}) => {
                       {vehicle?.make} {vehicle?.model}
                     </Title>
                     <Text fw={600} fs="xl">
-                      Rs {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
+                      $ {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
                       {formatToLacOrCrore(vehicle?.maxPrice)}
                     </Text>
                     <Flex align="center" justify="center" gap="xs">

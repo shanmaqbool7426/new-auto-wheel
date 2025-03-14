@@ -29,7 +29,7 @@ export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value,
                 searchable
                 rightSection={<MdArrowDropDown size={24} color="#E90808" />}
                 rightSectionWidth={40}
-                value={valueData}
+                value={value}
                 // defaultValue='Petrol'
                 nothingFoundMessage={nothingFoundMessage || "Nothing found..."}
                 placeholder={placeholder}
@@ -51,7 +51,7 @@ export const FormFieldInput = ({ label, placeholder, ...props }) => (
         <Box className="col-md-7">
             <TextInput
                 {...props} // Move spread props first
-                required
+                
                 size="md"
                 rightSection={<MdArrowDropDown size={24} color="#E90808" />}
                 rightSectionWidth={40}
@@ -288,7 +288,7 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
 export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
     const [isUploading, setIsUploading] = useState(false);
     const [rotations, setRotations] = useState({});
-
+console.log(">>>>>>....",images)
     // Configure DND sensors
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -426,7 +426,7 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
             </Box>
         );
     };
-
+console.log("images.......",images)
     // Handle file drop
     const handleFileDrop = async (files) => {
         setIsUploading(true);
@@ -443,6 +443,8 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
             });
             const data = await response.json();
             const uploadedImageUrls = data.data;
+        setImages([...form.values.images, ...uploadedImageUrls]);
+
             form.setFieldValue('images', [...form.values.images, ...uploadedImageUrls]);
             showNotification({
                 title: "Images uploaded successfully",
@@ -583,7 +585,7 @@ export const FormFieldBodyType = ({ label, bodies, form }) => (
                         <div className="single-brand-item selected-brand-item text-center">
                             <label
                                 className={`text-decoration-none ${form.values.body === bodyType._id ||
-                                    form.values.body === bodyType.title.toLowerCase()
+                                    form.values.body.toLowerCase() === bodyType.title.toLowerCase()
                                     ? "checked"
                                     : ""
                                     }`}
@@ -594,7 +596,7 @@ export const FormFieldBodyType = ({ label, bodies, form }) => (
                                     value={bodyType._id}
                                     checked={
                                         form.values.body === bodyType._id ||
-                                        form.values.body === bodyType.title.toLowerCase()
+                                        form.values.body.toLowerCase() == bodyType.title.toLowerCase()
                                     }
                                     onChange={() => {
                                         form.setFieldValue('body', bodyType._id);

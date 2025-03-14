@@ -41,11 +41,13 @@ import {
   WhatsappIcon,
   EmailIcon,
 } from "react-share";
+import { useComparison } from '@/contexts/comparison';
 
 const ListCardView = ({ vehicle }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const { isFavorite, toggleFavorite, isFavoriteLoading } = useUser();
   const images = vehicle?.images?.slice(0, 5) || [];
+  const { addToComparison } = useComparison();
 
   useEffect(() => {
     images.forEach((src) => {
@@ -283,7 +285,7 @@ const ListCardView = ({ vehicle }) => {
                 clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
               }}
             >
-              Rs {formatPrice(vehicle?.price)}
+              $ {formatPrice(vehicle?.price)}
             </Text>
           </Group>
 
@@ -339,6 +341,7 @@ const ListCardView = ({ vehicle }) => {
                   <CompareIcon />
                 </Box>
               }
+              onClick={() => addToComparison(vehicle)}
             >
               Add to compare
             </Button>

@@ -81,12 +81,15 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     [detail?.data?.seller]
   );
 
+  console.log("detail?.data",detail?.data)
+
   // Memoized vehicle information
   const vehicleInfo = useMemo(
     () => ({
       title: `${detail?.data?.year} ${detail?.data?.make} ${detail?.data?.model}`,
       engine: detail?.data?.specifications?.engine,
       isFeatured: detail?.data?.isFeatured,
+      condition: detail?.data?.condition,
       price: formatPrice(detail?.data?.price),
       updatedAt: getTimeAgo(detail?.data?.updatedAt),
       features: detail?.data?.features || [],
@@ -395,14 +398,14 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                   <Box className="title-section">
                     {/* className="title-sm fs-5 fw-semibold lh-sm" */}
                     <Text fw={600} mb={rem(3)} className="text-primary">
-                      {vehicleInfo.engine}
+                      {vehicleInfo.condition }
                     </Text>
                     <Title size={rem(36)} className="text-primary">
                       {vehicleInfo.title}
                     </Title>
                   </Box>
                   <Text size={rem(16)} className="price-field">
-                    Rs {vehicleInfo.price}
+                    $ {vehicleInfo.price}
                   </Text>
                 </Flex>
                 {/* Features Section */}

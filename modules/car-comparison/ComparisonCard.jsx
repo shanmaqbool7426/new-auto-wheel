@@ -45,7 +45,7 @@ const ComparisonCard = ({ vehicle, onRemove }) => {
                 )}
                 {vehicle.minPrice && (
                     <Text lh="1" fw={700} size="20px" mt="12px">
-                        {`Rs ${vehicle.minPrice / 100000} - ${vehicle.maxPrice / 100000} Lacs`}
+                        {`$ ${vehicle.minPrice / 100000} - ${vehicle.maxPrice / 100000} Lacs`}
                     </Text>
                 )}
                 {vehicle._id &&

@@ -162,7 +162,7 @@ const ListCardView = ({ vehicle, index }) => {
                   clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
                 }}
               >
-                Rs {vehicle?.price}
+                ${vehicle?.price}
               </Text>
             </Group>
 

@@ -78,7 +78,7 @@ const OfferPriceModal = ({ opened, close, detail }) => {
     if (!session) return;
 
     if (socket && session?.user?._id) {
-      const messageContent = `Offer Price Request for ${detail?.data?.year} ${detail?.data?.make} ${detail?.data?.model}:\nPrice Offered: Rs ${values.offerPrice}\nContact: ${values.phone}`;
+      const messageContent = `Offer Price Request for ${detail?.data?.year} ${detail?.data?.make} ${detail?.data?.model}:\nPrice Offered: $ ${values.offerPrice}\nContact: ${values.phone}`;
 
       const messageData = {
         sender: session.user._id,
@@ -160,7 +160,7 @@ const OfferPriceModal = ({ opened, close, detail }) => {
               <TextInput
                 withAsterisk
                 label="Trade Price"
-                placeholder="Rs 9,750,000"
+                placeholder="$9,750,000"
                 {...form.getInputProps("offerPrice")}
               />
             </Box>

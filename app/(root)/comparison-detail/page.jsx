@@ -152,7 +152,7 @@ const CarComparionDetail = () => {
                               1197 cc | 12 - 15 Km/l | Automatic
                             </Text>
                             <Text fw={700} size="xl">
-                              Rs 47.25 Lacs
+                              $ 47.25 Lacs
                             </Text>
                             <Anchor
                               component={Link}
@@ -204,7 +204,7 @@ const CarComparionDetail = () => {
                               1197 cc | 12 - 15 Km/l | Automatic
                             </Text>
                             <Text fw={700} size="xl">
-                              Rs 47.25 Lacs
+                              $ 47.25 Lacs
                             </Text>
                             <Anchor
                               component={Link}
@@ -256,7 +256,7 @@ const CarComparionDetail = () => {
                               1197 cc | 12 - 15 Km/l | Automatic
                             </Text>
                             <Text fw={700} size="xl">
-                              Rs 47.25 Lacs
+                              $ 47.25 Lacs
                             </Text>
                             <Anchor
                               component={Link}

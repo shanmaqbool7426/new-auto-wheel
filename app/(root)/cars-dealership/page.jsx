@@ -257,7 +257,7 @@ const CarsDealerShip = () => {
                               : `(${dealer.phone.slice(0, 2)}****)`}
                           </Text>
                           <Anchor
-                            style={{ alignSelf: "flex-start" }}
+                            style={{ alignSelf: "flex-start" ,  marginBottom:"15px" }}
                             component="button"
                             onClick={() => handleShowNumber(index)}
                             underline="always"

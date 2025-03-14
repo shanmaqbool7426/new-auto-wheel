@@ -240,7 +240,7 @@ const CarCard = ({ vehicle }) => {
               size="xs"
               style={{ whiteSpace: "nowrap", lineHeight: 1 }}
             >
-              Rs {formatPrice(vehicle?.price)}
+              $ {formatPrice(vehicle?.price)}
             </Text>
           </Box>
         </Group>

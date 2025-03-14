@@ -117,7 +117,7 @@ function EMICalculator({ data }) {
                     Loan Amount
                   </Title>
                   <Badge color="#EB2321" size="lg" radius="sm" lts={-0.5}>
-                    Rs {formatPrice(loanAmount)}
+                    $ {formatPrice(loanAmount)}
                   </Badge>
                 </Group>
 
@@ -144,10 +144,10 @@ function EMICalculator({ data }) {
                 />
                 <Group justify="space-between" align="center">
                   <Text mt="xs" size={rem(14)} fw={600}>
-                    Rs 0
+                    $0
                   </Text>
                   <Text mt="xs" size={rem(14)} fw={600}>
-                    Rs {formatPrice(data?.price || 1000000)}
+                    ${formatPrice(data?.price || 1000000)}
                   </Text>
                 </Group>
               </Box>
@@ -230,7 +230,7 @@ function EMICalculator({ data }) {
                     <Box className="left-area">
                       <Text size={rem(14)}>Your Monthly EMI</Text>
                       <Text fz={rem(20)} fw={600} order={2}>
-                        Rs {formatPrice(emi)}
+                        $ {formatPrice(emi)}
                       </Text>
                     </Box>
                     <Box className="right">
