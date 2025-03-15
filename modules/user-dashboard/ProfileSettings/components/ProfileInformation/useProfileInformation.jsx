@@ -36,7 +36,7 @@ const [profileFile, setProfileFile] = useState('')
     if (file) {
       const formData = new FormData();
       formData.append('images', file);
-      const uploadUrl = `${BASE_URL}/upload-image`;
+      const uploadUrl = `${BASE_URL}/api/upload-image`;
       
       try {
         // First upload the image

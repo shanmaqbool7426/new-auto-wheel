@@ -263,7 +263,7 @@ const NewsModule = () => {
                 className="border-light"
               >
                 <Title order={5} className="title-with-border" pb="xs" mb="xs">
-                  Follow Us
+                  Follow Uss
                 </Title>
                 <Grid mt="md">
                   <Grid.Col span={4}>

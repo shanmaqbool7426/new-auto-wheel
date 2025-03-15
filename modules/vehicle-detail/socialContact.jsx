@@ -1,19 +1,63 @@
 'use client'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import {
-LocationPinIcon,
- PhoneIcon,
- WhatsappIcon,
+    LocationPinIcon,
+    PhoneIcon,
+    WhatsappIcon,
 } from "@/components/Icons";
-const SocialContact = ({detail}) => {
-    const [showPhone, setShowPhone] = useState(false)
-    
-    const sellerAddress = detail?.data?.seller?.address || detail?.data?.seller?.locationAddress || 'Address not available'
-    const phoneNumber = detail?.data?.seller?.phoneNumber || detail?.data?.contactInfo?.mobileNumber
-    const whatsappNumber = detail?.data?.seller?.whatsappNumber || detail?.data?.seller?.phoneNumber || detail?.data?.contactInfo?.mobileNumber
-    const maskedNumber = phoneNumber 
-        ? `(${phoneNumber.slice(0, 2)}${'*'.repeat(7)})` 
-        : '(**********)'
+import { Box, Text, Group, BackgroundImage, ThemeIcon } from '@mantine/core';
+
+// Separate WorkingHours component
+const WorkingHours = ({ hours }) => {
+    const [expanded, setExpanded] = useState(false);
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    const openDays = days.filter(day => hours[day]?.isOpen);
+    const displayDays = expanded ? openDays : openDays.slice(0, 1);
+
+    if (openDays.length === 0) return null;
+
+    return (
+        <Box className="working-hours">
+            {displayDays.map(day => (
+                <Group key={day} justify="space-between" mb={4}>
+                    <Text size="xs" tt="capitalize" w={100}>
+                        {day}:
+                    </Text>
+                    <Text size="xs">
+                        {hours[day].start} - {hours[day].end}
+                    </Text>
+                </Group>
+            ))}
+            {openDays.length > 1 && (
+                <Group justify="flex-end" mt={8}>
+                    <Text
+                        size="xs"
+                        c="#E90808"
+                        td="underline"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => setExpanded(!expanded)}
+                    >
+                        {expanded ? 'Show less' : `See ${openDays.length - 1} more`}
+                    </Text>
+                </Group>
+            )}
+        </Box>
+    );
+};
+
+const SocialContact = ({ detail }) => {
+    const [showPhone, setShowPhone] = useState(false);
+
+    const sellerAddress = detail?.data?.seller?.address || detail?.data?.seller?.locationAddress || 'Address not available';
+    const phoneNumber = detail?.data?.seller?.phoneNumber || detail?.data?.contactInfo?.mobileNumber;
+    const whatsappNumber = detail?.data?.seller?.whatsappNumber || detail?.data?.seller?.phoneNumber || detail?.data?.contactInfo?.mobileNumber;
+    const workingHours = detail?.data?.seller?.workingHours || {};
+
+    const maskedNumber = phoneNumber
+        ? `(${phoneNumber.slice(0, 2)}${'*'.repeat(7)})`
+        : '(**********)';
+
     return (
         <>
             <div className="col-12">
@@ -24,8 +68,8 @@ const SocialContact = ({detail}) => {
                             {showPhone ? phoneNumber : maskedNumber}
                         </h5>
                         {!showPhone && (
-                            <span 
-                                className="text-decoration-underline text-muted" 
+                            <span
+                                className="text-decoration-underline text-muted"
                                 onClick={() => setShowPhone(!showPhone)}
                             >
                                 Show Number
@@ -34,10 +78,11 @@ const SocialContact = ({detail}) => {
                     </div>
                 </div>
             </div>
+
             <div className="col-12">
                 <div className="card whatsapp-icon mb-3">
-                    <div 
-                        className="card-body gap-2 align-items-center" 
+                    <div
+                        className="card-body gap-2 align-items-center"
                         onClick={() => window.open(`https://api.whatsapp.com/send/?phone=${whatsappNumber}&text&app_absent=0&lang=en`, '_blank')}
                         style={{ cursor: 'pointer' }}
                     >
@@ -46,37 +91,30 @@ const SocialContact = ({detail}) => {
                     </div>
                 </div>
             </div>
+
             <div className="col-12">
                 <div className="card address-card mb-3">
-                    <div className="card-body gap-2 align-items-center text-primary">
-                        <LocationPinIcon />
-                        <div className="text-muted address-info">
-                            {sellerAddress}
-                            {detail?.data?.seller?.salesHours && (
-                                <div>
-                                    Timings: {detail.data.seller.salesHours || '9AM to 9PM'}
-                                </div>
-                                // <ul className="list-unstyled mb-0 text-muted mt-2">
-                                //     <li>
-                                //         Mon to Fri
-                                //         <span className="ms-5">
-                                //             Timings: {detail.data.seller.salesHours || '9AM to 9PM'}
-                                //         </span>
-                                //     </li>
-                                //     <li>
-                                //         Sat & Sun
-                                //         <span className="ms-5">
-                                //             Timings: {detail.data.seller.salesHours || '11AM to 6PM'}
-                                //         </span>
-                                //     </li>
-                                // </ul>
+                    <div className="card-body gap-2 align-items-top ">
+                        <ThemeIcon color="#E90808" variant="white">
+                            <LocationPinIcon />
+                        </ThemeIcon>                    <Box>
+                            <Text size="sm" mb={8}>
+                                {sellerAddress}
+                            </Text>
+                            {Object.keys(workingHours).length > 0 && (
+                                <>
+                                    <Text fw={500} size="sm" mb={8}>
+                                        Working Hours:
+                                    </Text>
+                                    <WorkingHours hours={workingHours} />
+                                </>
                             )}
-                        </div>
+                        </Box>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default SocialContact
+export default SocialContact;

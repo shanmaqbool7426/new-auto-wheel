@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { BsTwitterX, BsYoutube } from 'react-icons/bs';
 import parse from "html-react-parser";
+import Blocks from 'editorjs-blocks-react-renderer';
+
 import { Link } from '@mantine/core';
 
-const BlogDetailHtml = ({ content }) => {
+const BlogDetailHtml = ({ content, blog }) => {
   const [tableOfContents, setTableOfContents] = useState([]);
 
   useEffect(() => {
@@ -34,6 +36,8 @@ const BlogDetailHtml = ({ content }) => {
     });
     return parse(modifiedContent);
   };
+
+  console.log("blog",blog)
 
   const scrollToHeading = (id) => {
     const element = document.getElementById(id);
@@ -76,7 +80,9 @@ const BlogDetailHtml = ({ content }) => {
         )}
 
         <div className="blog-content">
-          {parseWithIds(content)}
+          {/* {parseWithIds(content)} */}
+          <Blocks data={JSON.parse(content)}/>
+
         </div>
       </Card>
 
@@ -98,7 +104,7 @@ const BlogDetailHtml = ({ content }) => {
             />
             <Box>
               <Title order={4} fw={600}>
-                Sadia Malik
+                {blog?.author}
               </Title>
               <Text size="md">
                 I am content writer at AutoWheels Pakistan. I love

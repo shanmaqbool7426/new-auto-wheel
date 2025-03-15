@@ -3,9 +3,9 @@ import { Box, Text, Title, Image, Flex } from "@mantine/core";
 import ReplyBlog from "@/components/blog/reply-blog"
 import BlogDetailHtml from "@/components/blog/blog-detail-html";
 import BlogComments from "./BlogComments";
-import parse from "html-react-parser";
 import { EyeIcon, ViewIcon } from "@/components/Icons";
 import { formatDate } from "@/utils";
+import Blocks from 'editorjs-blocks-react-renderer';
 
 const Detail = ({ blog, comments, onCommentSubmit }) => {
     {console.log("blog", blog)}
@@ -67,11 +67,14 @@ const Detail = ({ blog, comments, onCommentSubmit }) => {
                     height={381}
                 />
                 <Text lineClamp={4} size="md">
-                    {parse(blog?.content)}
+                    {console.log("blog?.content",JSON.parse(blog?.content))}
+
+                    {/* {parse(blog?.content)} */}
+                    <Blocks data={JSON.parse(blog?.content)}/>
                 </Text>
             </Box>
             {/* Blog Detail Html */}
-            <BlogDetailHtml content={blog?.content} />
+            <BlogDetailHtml content={blog?.content}  blog={blog}/>
             {/* Comments */}
             <BlogComments blog={blog} comments={comments} />
 

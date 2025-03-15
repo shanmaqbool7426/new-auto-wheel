@@ -1,8 +1,37 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, Stack, Text, Title } from '@mantine/core';
 import { FacebookCircle, YoutubeCircle, InstagramCircle } from "@/components/Icons";
+import { fetchAPI } from '@/services/fetchAPI';
 
+
+const YOUTUBE_API_KEY = "AIzaSyA6wG9RIgXNTN9Xs5_GxtFJUFW12pXmPYE";
+const CHANNEL_ID = "UCgtwk5-YCUZfhQEdbfwdLYA";
+
+
+
+
+const FollowUs = () => {
+  const [subscribers,setSubscribers] =useState()
+
+   const getYouTubeStats = async () => {
+    try {
+      const response = await fetchAPI(
+        `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${YOUTUBE_API_KEY}`
+      );
+      setSubscribers(response.items[0]?.statistics?.subscriberCount)
+    } catch (error) {
+      console.error('Error fetching YouTube stats:', error);
+      return 0;
+    }
+  };
+  
+  useEffect(() => {
+    getYouTubeStats()
+  }, [])
+
+
+  
 const socialMediaStats = [
   {
     icon: FacebookCircle,
@@ -11,7 +40,7 @@ const socialMediaStats = [
   },
   {
     icon: YoutubeCircle,
-    count: "20,100",
+    count: subscribers,
     label: "Subscribers",
   },
   {
@@ -20,8 +49,7 @@ const socialMediaStats = [
     label: "Followers",
   },
 ];
-
-const FollowUs = () => {
+  
   return (
     <Card
       shadow="0px 4px 20px 0px #00000014"

@@ -1,17 +1,20 @@
 import { Suspense } from "react";
-import { LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay, Center, Loader } from "@mantine/core";
 import BlogModule from "@/modules/blogs";
+import LoadingWrapper from "@/components/loading-wrapper";
 
 export default function Blog({ params, searchParams }) {
   return (
-    <Suspense fallback={<LoadingOverlay
-      visible={true}
-      zIndex={1000}
-      overlayProps={{ radius: "sm", blur: 2 }}
-      loaderProps={{ color: "red", type: "bars" }}
-      className="h-[100%]"
-    />}>
-      <BlogModule params={params} searchParams={searchParams} />
-    </Suspense>
+    <LoadingWrapper>
+      <Suspense 
+        fallback={
+          <Center h="100vh">
+            <Loader color="red" size="lg" />
+          </Center>
+        }
+      >
+        <BlogModule params={params} searchParams={searchParams} />
+      </Suspense>
+    </LoadingWrapper>
   );
 }

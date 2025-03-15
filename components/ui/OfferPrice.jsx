@@ -62,6 +62,7 @@ const OfferPriceModal = ({ opened, close, detail }) => {
       form.setValues({
         name: session.user.fullName || "",
         email: session.user.email || "",
+        phone: session.user.phone || ""
       });
     }
   }, [session]);
