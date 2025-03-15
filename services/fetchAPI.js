@@ -35,8 +35,9 @@ export const fetchAPI = async (url, options = {}) => {
     }
 
     // Perform the fetch request
-    const response = await fetch(urlWithParams, fetchOptions);
-
+    const response = await fetch(url, {
+      next: { revalidate: 60 } // revalidate every 60 seconds
+    });
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}, status: ${response.status}`);
     }
