@@ -241,7 +241,7 @@ const CarCard = ({ vehicle }) => {
               fw={600}
               size="sm"
             >
-              $ {formatPrice(vehicle?.price)}
+              ${formatPrice(vehicle?.price)}
             </Text>
           </Box>
         </Group>

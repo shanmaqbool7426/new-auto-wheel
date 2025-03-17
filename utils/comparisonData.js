@@ -1670,11 +1670,21 @@ const getNested = (obj, path, defaultValue = "") => {
 const renderTick = (condition) => condition ? <GreenTick /> : "-";
 
 // Helper function to render buttons for brochure
+// Helper function to render buttons for brochure
 const renderButton = (condition, href, label, color) => condition ? (
-    <Button variant="outline" fw={500} color={color} component="a" href={href}>
+    <Button 
+        variant="outline" 
+        fw={500} 
+        color={color} 
+        component="a" 
+        href={href}
+        target="_blank"  // This opens the link in a new tab
+        rel="noopener noreferrer"  // Security best practice for target="_blank"
+    >
         {label}
     </Button>
 ) : "-";
+
 
 // Helper function to render color buttons
 const renderColors = (colors) => colors?.length
@@ -1764,7 +1774,7 @@ const sections = [
                 render: (vehicle) => renderButton(
                     getNested(vehicle, "brochureLink"),
                     vehicle.brochureLink,
-                    "Download Brochure",
+                    "Download Brochure",  // Changed from "" to "View"
                     "#E90808"
                 ),
             },

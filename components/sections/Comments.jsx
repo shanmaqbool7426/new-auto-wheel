@@ -33,12 +33,13 @@ import { useSession, signOut } from "next-auth/react";
 const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 	const { data: session, status } = useSession();
 
+	console.log("vehicleType",vehicleType)
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
 	// const [opened, { open, close }] = useDisclosure(false);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 	const [filter, setFilter] = useState('all'); // Initialize filter state
 
 	const [reviews, setReviews] = useState([]);
@@ -59,10 +60,12 @@ const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 		{ type: 'maintenance', label: 'Maintenance', countKey: 'maintenance' },
 	];
 
+	const [expandedReviews, setExpandedReviews] = useState({});
+
 	const fetchReviews = async () => {
 		try {
 			setLoading(true);
-			const response = await getAllReviews(filter);
+			const response = await getAllReviews(filter,vehicleType);
 			console.log('response', response);
 			setReviews(response?.reviews || []);
 			setCounts(response?.stats || {});
@@ -81,8 +84,8 @@ const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 			<Box component="section" className="latest-reviews" py="56px" bg={bg}>
 				<div className="container-xl">
 					<Card shadow="0px 4px 20px 0px #00000014" className={styles.commentCard}>
-						<Title order={2} mb="20px" lh="1">
-							Latest Reviews of Toyota Corolla 2024
+						<Title order={2}  lh="1">
+							Latest Reviews
 						</Title>
 						<Box className="give-review" my="xl">
 							<Box className={styles.ratingBar}>
@@ -186,40 +189,87 @@ const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 										classNames={{ controls: styles.controls, control: styles.control }}
 									>
 										{reviews?.map((review, index) => {
-
 											return (
-												<>
-													<Carousel.Slide key={index}>
-														<Card
-															shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.08)"
-															padding="lg"
-															m="md"
-														>
-															<Group mb="md">
-																<Rating value={review?.overAllRating} count={5} />
-																<Text span inherit c="dimmed" size="sm">
-																	{review?.vehicle}
+												<Carousel.Slide key={index}>
+													<Card
+														shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.08)"
+														padding="lg"
+														m="md"
+														sx={{
+															height: '280px',
+															width: '100%',
+															display: 'flex',
+															flexDirection: 'column',
+															justifyContent: 'space-between'
+														}}
+													>
+														<Box>
+															<Group mb="md" position="apart" noWrap sx={{ width: '100%' }}>
+																<Rating value={review?.overAllRating} count={5} readOnly size="sm" />
+																<Text 
+																	span 
+																	c="dimmed" 
+																	size="xs" 
+																	fw={400} 
+																	sx={{ 
+																		opacity: 0.7, 
+																		fontSize: "12px",
+																		whiteSpace: "nowrap",
+																		overflow: "hidden",
+																		textOverflow: "ellipsis",
+																		maxWidth: "40%"
+																	}}
+																>
+																	For {review?.vehicle}
 																</Text>
 															</Group>
-															<Group gap={5}>
-																<Title order={4} lineClamp={1}>
-																	{review?.title}
-																</Title>
-																<Text c="dimmed" lineClamp={3}>
-																	{review?.comment}
-																</Text>
-																<Anchor href="#" c="#EB2321">
-																	Read More
-																</Anchor>
-															</Group>
+															
+															<Title order={4} lineClamp={1} mb="xs">
+																{review?.title || "Cool Car For A Small Family"}
+															</Title>
+															
+															<Text 
+																c="dimmed" 
+																size="sm" 
+																mb="md"
+																lineClamp={expandedReviews[review?._id] ? undefined : 3}
+																sx={{
+																	transition: 'all 0.3s ease',
+																	maxHeight: expandedReviews[review?._id] ? '500px' : '4.5em',
+																	overflow: 'hidden'
+																}}
+															>
+																{review?.comment}
+															</Text>
+															
+															<Anchor 
+																component="button"
+																c="#EB2321" 
+																size="sm"
+																onClick={() => {
+																	setExpandedReviews(prev => ({
+																		...prev,
+																		[review?._id]: !prev[review?._id]
+																	}));
+																}}
+																sx={{ 
+																	background: 'none',
+																	border: 'none',
+																	padding: 0,
+																	cursor: 'pointer',
+																	fontWeight: 500
+																}}
+															>
+																{expandedReviews[review?._id] ? "Show Less" : "Read More"}
+															</Anchor>
+														</Box>
 
-															<Box className="review-card-footer" mt="md">
-																<Text>By {review?.reviewBy}</Text>
-																<Text c="dimmed">{formatToMonthYear(review?.createdAt)} | 62 Views</Text>
-															</Box>
-														</Card>
-													</Carousel.Slide>
-												</>
+														<Box className="review-card-footer" mt="auto" pt="md" sx={{ borderTop: '1px solid #f0f0f0' }}>
+															<Text size="sm">By {review?.reviewBy}</Text>
+															<Text c="dimmed" size="sm">{formatToMonthYear(review?.createdAt)} | 62 VIEWS</Text>
+														</Box>
+													</Card>
+												</Carousel.Slide>
 											);
 										})}
 									</Carousel>

@@ -15,13 +15,13 @@ const BlogDetailHtml = ({ content, blog }) => {
     // Extract headings from strong tags
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
-    
+
     const strongTags = tempDiv.getElementsByTagName('strong');
     const toc = Array.from(strongTags).map((tag, index) => ({
       id: `section-${index}`,
       text: tag.textContent
     }));
-    
+
     setTableOfContents(toc);
   }, [content]);
 
@@ -37,7 +37,7 @@ const BlogDetailHtml = ({ content, blog }) => {
     return parse(modifiedContent);
   };
 
-  console.log("blog",blog)
+  console.log("blog", blog)
 
   const scrollToHeading = (id) => {
     const element = document.getElementById(id);
@@ -67,7 +67,7 @@ const BlogDetailHtml = ({ content, blog }) => {
                 <List.Item
                   key={item.id}
                   onClick={() => scrollToHeading(item.id)}
-                  style={{ 
+                  style={{
                     cursor: 'pointer',
                     color: '#E90808'
                   }}
@@ -81,7 +81,43 @@ const BlogDetailHtml = ({ content, blog }) => {
 
         <div className="blog-content">
           {/* {parseWithIds(content)} */}
-          <Blocks data={JSON.parse(content)}/>
+          <Blocks data={JSON.parse(content)} config={{
+            code: {
+              className: "language-js"
+            },
+            delimiter: {
+              className: "border border-2 w-16 mx-auto"
+            },
+            embed: {
+              className: "border-0"
+            },
+            header: {
+              className: "font-bold"
+            },
+            image: {
+              className: "w-full max-w-screen-md",
+              actionsClassNames: {
+                stretched: "w-full h-80 object-cover",
+                withBorder: "border border-2",
+                withBackground: "p-2",
+              }
+            },
+            list: {
+              className: "list-inside"
+            },
+            paragraph: {
+              className: "text-base text-opacity-75",
+              actionsClassNames: {
+                alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
+              }
+            },
+            quote: {
+              className: "py-3 px-5 italic font-serif"
+            },
+            table: {
+              className: "table-auto"
+            }
+          }} />
 
         </div>
       </Card>

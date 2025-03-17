@@ -297,9 +297,8 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
                     <div
                       key={index}
                       className="col-md-3"
-                      onClick={() => openModal(index + 1)}
                     >
-                      <ComparisonCard vehicle={vehicle} onRemove={() => handleRemoveVehicle(index)} />
+                      <ComparisonCard vehicle={vehicle} onRemove={() => handleRemoveVehicle(index)} onClick={() => openModal(index + 1)} />
                     </div>
                   ))}
                 </div>

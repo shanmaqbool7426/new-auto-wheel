@@ -32,18 +32,11 @@ import QuickLinks from "@/components/QuickLinks";
 import SearchBar from "./SearchBar";
 import Comments from "@/components/sections/Comments";
 import NewCarsCard from "@/components/ui/NewCarsCard";
-import { IconSearch } from "@tabler/icons-react";
 import BrowseByCategory from "../home/BrowseByCategory";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
 import BrowseVideos from "@/components/videos/browse-videos";
 import BrowseBlogs from "@/components/blog/browse-blogs";
-import { Carousel } from "@mantine/carousel";
-import { useDisclosure } from "@mantine/hooks";
-
-import BrowseByMakeAndBodies from "@/components/sections/BrowseByMakeAndBodies";
-import ListingFilter from "@/components/listing/sidebar-filter";
 import { getAllReviews } from "@/services/vehicles";
-import { formatToMonthYear } from "@/utils";
 import Link from "next/link";
 
 const NewCarsModule = ({
@@ -140,8 +133,7 @@ const NewCarsModule = ({
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const response = await getAllReviews(filter);
-        setReviews(response);
+        const response = await getAllReviews(filter, type);
         setReviews(response?.reviews);
         setCounts(response?.counts);
       } catch (err) {
@@ -153,7 +145,7 @@ const NewCarsModule = ({
     };
 
     fetchReviews();
-  }, [filter]);
+  }, [filter, type]);
 
   // Replace router.pathname check with pathname
   const isNew = pathname?.includes('/new/');
@@ -281,7 +273,7 @@ const NewCarsModule = ({
         <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
-              <Box className="col-md-12" mb="40px">
+              <Box className="col-md-12" mb="13px">
                 <Title order={2} lh="1">
                   Popular New{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
@@ -304,8 +296,8 @@ const NewCarsModule = ({
                 );
               })}
               {popularVehicles?.data?.length > 8 && (
-                <Box className="col-12" mb="20px">
-                  <Text 
+                <Box className="col-12" mb="">
+                  {/* <Text 
                     component="span" 
                     c="#E90808" 
                     style={{ 
@@ -325,16 +317,16 @@ const NewCarsModule = ({
                     }}
                   >
                     {showAllPopular ? "Show Less" : "Show More"}
-                  </Text>
+                  </Text> */}
                 </Box>
               )}
             </div>
           </div>
         </Box>
-        <Box component="section" className="newly-launched-cars bg-light" pt="40px" pb="8px">
+        <Box component="section" className="newly-launched-cars bg-light" pt="40px" pb="45px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
-              <Box className="col-md-12" mb="32px">
+              <Box className="col-md-12" mb="13px">
                 <Title order={2} lh="1">
                   Newly Launched{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
@@ -357,7 +349,7 @@ const NewCarsModule = ({
                 );
               })}
               {fetchNewlyLaunchedVehicles?.data?.length > 8 && (
-                <Box className="col-12" mb="20px">
+                <Box className="col-12" mb="13px">
                   <Text 
                     component="span" 
                     c="#E90808" 
@@ -384,10 +376,10 @@ const NewCarsModule = ({
             </div>
           </div>
         </Box>
-        <Box component="section" className="upcoming-cars" pt="56px" pb="24px">
+        <Box component="section" className="upcoming-cars" pt="56px" pb="45px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
-              <Box className="col-md-12" mb="32px">
+              <Box className="col-md-12" mb="13px">
                 <Title order={2} lh="1">
                   Upcoming{" "}
                   <Text span c="#E90808" inherit tt="capitalize">
@@ -410,7 +402,7 @@ const NewCarsModule = ({
                 );
               })}
               {fetchUpComingVehicles?.data?.length > 8 && (
-                <Box className="col-12" mb="20px">
+                <Box className="col-12" mb="13px">
                   <Text 
                     component="span" 
                     c="#E90808" 
@@ -437,7 +429,7 @@ const NewCarsModule = ({
             </div>
           </div>
         </Box>
-        <Box component="section" className="cars-by-model bg-light" pt="40px" pb="8px">
+        <Box component="section" className="cars-by-model bg-light" pt="40px" pb="45px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="32px">
@@ -491,7 +483,7 @@ const NewCarsModule = ({
             </div>
           </div>
         </Box>
-        <Box component="section" className="cars-by-model" pt="56px">
+        <Box component="section" className="cars-by-model" pt="45px" pb="45px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
               <Box className="col-md-12" mb="32px">
@@ -502,6 +494,7 @@ const NewCarsModule = ({
                     Models
                   </Text>
                 </Title>
+                {console.log(">>>>>",fetchHondaVehicles?.data)}
               </Box>
               {(showAllMake2 
                 ? fetchHondaVehicles?.data 

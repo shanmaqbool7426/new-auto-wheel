@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import { fetchBrowseBlogsServer, fetcSearchBlogsServer } from "@/actions/index";
 import styles from "./browse-blogs-carousel.module.css"
+import Blocks from "editorjs-blocks-react-renderer";
 
 const BrowseBlogCarousel = ({ type, title }) => {
   const [news, setNews] = useState([]);
@@ -69,9 +70,10 @@ const BrowseBlogCarousel = ({ type, title }) => {
             { maxWidth: "xs", slideSize: "100%" },
           ]}
           classNames={{ controls: styles.controls, control: styles.control }}
-        >
+          >
           {news?.map((item) => (
             <Carousel.Slide key={item._id}>
+              <div style={{width:'100%'}}>
               <Image
                 src={item.imageUrl || "/default-image.jpg"}
                 alt={item.title}
@@ -84,8 +86,11 @@ const BrowseBlogCarousel = ({ type, title }) => {
                 {item.title}
               </Title>
               <Text size="sm" lineClamp={3} c="#878787">
-                {item.content.substring(0, 100)}...
+                {/* {item.content.substring(0, 100)}... */}
+                <Blocks data={JSON.parse(item.content)} />
+
               </Text>
+              </div>
             </Carousel.Slide>
           ))}
         </Carousel>

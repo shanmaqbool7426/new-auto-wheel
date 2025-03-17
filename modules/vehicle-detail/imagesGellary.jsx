@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 const Gallery = ({ images }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
   // Use the provided images if available; otherwise, use a set of dummy images
   const imagesList =
     images.length > 0
@@ -96,7 +98,7 @@ const Gallery = ({ images }) => {
         
         /* Set fixed height for main image container */
         .image-gallery-slide-wrapper {
-          // height: 435px !important;  
+          height: 433px !important;  
         }
         
         .image-gallery-swipe {
@@ -112,7 +114,7 @@ const Gallery = ({ images }) => {
         }
         
         .image-gallery-image {
-          height: 435px !important;
+          height: 433px !important;
           object-fit: cover !important;
           object-position: center !important;
         }
@@ -123,7 +125,11 @@ const Gallery = ({ images }) => {
           max-height: 100vh !important;
         }
         
-        /* Thumbnail styling */
+        .fullscreen .image-gallery-slide-wrapper {
+          height: auto !important;
+        }
+        
+        /* Thumbnail styling - UPDATED for second row style without borders */
         .image-gallery-thumbnail {
           border-radius: 5px;
           overflow: hidden;
@@ -131,21 +137,45 @@ const Gallery = ({ images }) => {
           transition: all 0.3s ease;
           width: 132px;
           height: 83px;
+          position: relative;
+          border: none !important; /* Remove default border */
         }
         
         .image-gallery-thumbnail img {
           width: 132px;
           height: 83px;
-           border-radius: 5px;
+          border-radius: 5px;
           object-fit: cover;
+          transition: all 0.3s ease;
         }
         
+        /* Add overlay to create faded effect for non-active thumbnails */
+        .image-gallery-thumbnail::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(255, 255, 255, 0.5);
+          transition: all 0.3s ease;
+          pointer-events: none;
+        }
+        
+        /* Remove overlay for active thumbnail */
+        .image-gallery-thumbnail.active::after {
+          background-color: rgba(255, 255, 255, 0);
+        }
+        
+        /* Remove hover border and just change opacity */
         .image-gallery-thumbnail:hover {
-          border: 2px solid #ff0000 !important;
+          border: none !important;
+          opacity: 0.9;
         }
         
+        /* Active thumbnail styling without border */
         .image-gallery-thumbnail.active {
-          border: 2px solid #ff0000 !important;
+          border: none !important;
           transform: scale(1.05);
         }
         
@@ -202,7 +232,7 @@ const Gallery = ({ images }) => {
         
         /* Fullscreen button styling */
         .image-gallery-fullscreen-button {
-          // background-color: rgba(255, 0, 0, 0.7) !important;
+          background-color: rgba(255, 0, 0, 0.7) !important;
           border-radius: 50%;
           width: 30px !important;
           height: 30px !important;
@@ -217,11 +247,12 @@ const Gallery = ({ images }) => {
         showBullets={false}
         showNav={true}
         showPlayButton={false}
-        // showFullscreenButton={true}
+        showFullscreenButton={true}
         slideDuration={450}
-        // thumbnailPosition="bottom"
+        thumbnailPosition="bottom"
         lazyLoad={true}
         useBrowserFullscreen={true}
+        onSlide={(index) => setActiveIndex(index)}
       />
     </>
   );

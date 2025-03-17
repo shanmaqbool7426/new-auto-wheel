@@ -28,7 +28,7 @@ import {
 import { FaRoad } from "react-icons/fa6";
 import { BsFuelPumpFill } from "react-icons/bs";
 
-import { IconStar, IconStarFilled, IconCopy } from "@tabler/icons-react";
+import { IconStar,IconHeart, IconStarFilled, IconCopy, IconHeartFilled } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
 import { notifications } from "@mantine/notifications";
 import {
@@ -97,12 +97,12 @@ const ListCardView = ({ vehicle }) => {
       style={{ zIndex: 201 }}
     >
       {isFavorite(vehicle._id) ? (
-        <IconStarFilled
+        <IconHeartFilled
           size={20}
           style={{ color: "#E90808", fill: "#E90808" }}
         />
       ) : (
-        <IconStar size={20} style={{ color: "#fff" }} />
+        <IconHeart size={20} style={{ color: "#fff" }} />
       )}
     </ActionIcon>
   );
@@ -285,7 +285,7 @@ const ListCardView = ({ vehicle }) => {
                 clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
               }}
             >
-              $ {formatPrice(vehicle?.price)}
+              ${formatPrice(vehicle?.price)}
             </Text>
           </Group>
 

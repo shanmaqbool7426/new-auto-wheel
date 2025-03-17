@@ -53,7 +53,7 @@ const ComparisonCard = ({ onClose, vehicle, onVariantChange, variants, setIsModa
             {vehicle.name}
           </Text>
           <Text size="sm" fw={500} c="dimmed" mb={8}>
-            $ {vehicle.price}
+            ${vehicle.price}
           </Text>
           <Select
             data={variants}

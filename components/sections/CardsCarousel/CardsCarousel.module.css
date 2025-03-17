@@ -3,7 +3,10 @@
 }
 
 .sectionHeader {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 
 .sectionBody {
@@ -18,13 +21,29 @@
   padding: 20px 0;
 }
 
+/* This class will be used to target the parent element */
+.carouselWrapper :global(.mantine-Carousel-controls) {
+  justify-content: flex-end !important;
+  position: absolute !important;
+  top: -40px !important;
+  right: 0 !important;
+  width: auto !important;
+}
+
+.carouselWrapper :global(.mantine-Carousel-control) {
+  position: static !important;
+  margin: 0 4px !important;
+}
+
 .controls {
   position: absolute;
-  left: auto;
-  top: -44px;
+  top: 0;
   right: 0;
-  width: 64px;
+  display: flex;
+  gap: 8px;
+  width: auto;
   padding: 0;
+  justify-content: flex-end;
 }
 
 .control {
@@ -32,6 +51,7 @@
   background-color: #E90808;
   border-color: #E90808;
   color: #ffffff;
+  margin: 0;
 }
 
 .control[data-inactive='true'] {

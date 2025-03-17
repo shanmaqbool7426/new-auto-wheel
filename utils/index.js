@@ -157,7 +157,7 @@ export const formatToLacOrCrore = (value) => {
   if (value >= 10000000) {
     return (value / 10000000).toFixed(1) + " crore";
   } else if (value >= 100000) {
-    return (value / 100000).toFixed(1) + " lac";
+    return (value / 100000).toFixed(1) + " ";
   }
   return value?.toString() ?? 0;
 };

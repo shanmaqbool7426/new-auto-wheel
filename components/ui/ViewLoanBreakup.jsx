@@ -56,7 +56,7 @@ const ViewLoanBreakup = ({
                 <Box component="left-section">
                   <Text size="sm">Your monthly EMI</Text>
                   <Text fw="bolder" size="xl">
-                    $ {emiAmount}
+                    ${emiAmount}
                   </Text>
                   <Text size="sm" c="dimmed">
                     Rate of interest @ {interestRate}% for {tenureYears} years
@@ -84,7 +84,7 @@ const ViewLoanBreakup = ({
                   >
                     <Text c="dimmed">Down Payment</Text>
                   </List.Item>
-                  <Text c="dimmed">$ {formatPrice(downPayment) }</Text>
+                  <Text c="dimmed">${formatPrice(downPayment) }</Text>
                 </Flex>
                 <Flex justify="space-between" mb="md">
                   <List.Item
@@ -122,11 +122,11 @@ const ViewLoanBreakup = ({
                   >
                     <Text c="dimmed">Interest Payment</Text>
                   </List.Item>
-                  <Text c="dimmed">$ {formatPrice(interestPayment)}</Text>
+                  <Text c="dimmed">${formatPrice(interestPayment)}</Text>
                 </Flex>
                 <Flex justify="space-between">
                   <Text fw={600}>Payable Payment</Text>
-                  <Text fw={600}>$ {formatPrice(loanPayment+interestPayment+downPayment)}</Text>
+                  <Text fw={600}>${formatPrice(loanPayment+interestPayment+downPayment)}</Text>
                 </Flex>
               </List>
             </Card>
@@ -156,8 +156,8 @@ const ViewLoanBreakup = ({
                   {yearWiseEMI.map((item, index) => (
                     <Table.Tr key={index}>
                       <Table.Td>{formatPrice(item.tenure)} Years</Table.Td>
-                      <Table.Td>$ {formatPrice(item.interestAmount)}</Table.Td>
-                      <Table.Td>$ {formatPrice(item.emi)}</Table.Td>
+                      <Table.Td>${formatPrice(item.interestAmount)}</Table.Td>
+                      <Table.Td>${formatPrice(item.emi)}</Table.Td>
                     </Table.Tr>
                   ))}
                 </Table.Tbody>

@@ -103,7 +103,7 @@ import {
                     </Text>
                     <Text c="#E90808" fw="bold" my="lg" size={rem(26)}>
                       <Text span c="#E90808" size="md" fw={600} mr="xs">
-                        PKR
+                        $
                       </Text>
                       {`${minPrice} - ${maxPrice}`}
                       <Text span size="md" c="dimmed" ml="xs">
@@ -221,7 +221,7 @@ import {
                   </Table.Td>
                   <Table.Td>
                     <Text size="xl" fw="bold">
-                      PKR {variant.minPrice} - {variant.maxPrice}
+                      ${variant.minPrice} - {variant.maxPrice}
                     </Text>
                   </Table.Td>
                   <Table.Td align="center">

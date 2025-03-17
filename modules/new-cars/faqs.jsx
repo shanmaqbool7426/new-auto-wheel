@@ -40,7 +40,7 @@ const FAQ = ({ title, titleSpan, type = "car" }) => {
   if (faqs.length === 0 && !loading && !searchQuery) return null;
 
   return (
-    <section className="brands-faq-section py-5">
+    <section className="brands-faq-section pb-5">
       <div className="container-xl">
         <div className="row">
           <div className="col-md-12">

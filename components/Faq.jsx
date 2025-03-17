@@ -8,7 +8,7 @@ const FAQ = ({ title, titleSpan }) => {
       title: "Which is the lowest priced model of Toyota in Pakistan?",
       value: "faq-1",
       description:
-        "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.",
+        "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.aaaa",
     },
     {
       title: "Which is the highest-priced model of Toyota in Pakistan?",

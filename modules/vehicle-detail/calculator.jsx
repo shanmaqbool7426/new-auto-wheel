@@ -117,7 +117,7 @@ function EMICalculator({ data }) {
                     Loan Amount
                   </Title>
                   <Badge color="#EB2321" size="lg" radius="sm" lts={-0.5}>
-                    $ {formatPrice(loanAmount)}
+                    ${formatPrice(loanAmount)}
                   </Badge>
                 </Group>
 
@@ -230,7 +230,7 @@ function EMICalculator({ data }) {
                     <Box className="left-area">
                       <Text size={rem(14)}>Your Monthly EMI</Text>
                       <Text fz={rem(20)} fw={600} order={2}>
-                        $ {formatPrice(emi)}
+                        ${formatPrice(emi)}
                       </Text>
                     </Box>
                     <Box className="right">

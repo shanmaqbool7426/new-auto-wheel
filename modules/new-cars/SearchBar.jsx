@@ -52,12 +52,12 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
   const debounceTimeoutRef = useRef(null);
 
   const rangeData = [
-    { value: "0-500000", label: "0-5 lac" },
-    { value: "500000-1000000", label: "5-10 lac" },
-    { value: "1000000-1500000", label: "10-15 lac" },
-    { value: "1500000-2000000", label: "15-20 lac" },
-    { value: "2000000-2500000", label: "20-25 lac" },
-    { value: "2500000-2000000000", label: "25 lac and above" },
+    { value: "0-500000", label: "0-5 " },
+    { value: "500000-1000000", label: "5-10 " },
+    { value: "1000000-1500000", label: "10-15 " },
+    { value: "1500000-2000000", label: "15-20 " },
+    { value: "2000000-2500000", label: "20-25 " },
+    { value: "2500000-2000000000", label: "25  and above" },
   ];
 
   const handleFilterChange = (filterName, value) => {
@@ -122,16 +122,16 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
       <Box className="search-wrapper-card" mt="md">
         <Card shadow="0px 4px 20px 0px #00000014" padding="lg" radius="sm">
           <Title order={3} mb="md">
-            Find New Cars in Pakistan
+            Find New Cars
           </Title>
           <div className="row mb-2">
             <div className="col-md-6">
               <Input
+                placeholder="Search by Car Make or Model"
                 onClick={openModal}
                 size="md"
                 radius="sm"
-                value={`${selection.make} ${selection.model} ${selection.variant}`}
-                placeholder="Search by Car Make or Model"
+                value={[selection.make, selection.model, selection.variant].filter(Boolean).join(' ') || ''}
                 leftSection={<IconSearch size={16} />}
               />
             </div>
@@ -160,7 +160,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                       handleFilterChange("price", value.split("-").map(Number))
                     }
                   >
-                    $ {convertToLac(filters.price[0])} lac - $ {convertToLac(filters.price[1])} lac
+                    ${convertToLac(filters.price[0])}  - ${convertToLac(filters.price[1])} 
                   </Input>
                 </Popover.Target>
                 <Popover.Dropdown p="lg">
@@ -178,7 +178,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                         ])
                         }
                       />
-                      <Input.Label c="muted">${convertToLac(filters.price[0])} lac</Input.Label>
+                      <Input.Label c="muted">${convertToLac(filters.price[0])} </Input.Label>
                     </Box>
                     <Box className="col-md-6 text-end">
                       <NumberInput
@@ -194,14 +194,14 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                           ])
                         }
                       />
-                      <Input.Label c="muted">${convertToLac(filters.price[1])} lac</Input.Label>
+                      <Input.Label c="muted">${convertToLac(filters.price[1])} </Input.Label>
                     </Box>
                     <Box className="col-md-12 mt-3">
                       <RangeSlider
                         color="#E90808"
                         min={0}
                         max={100000000} // 10 crores
-                        step={100000} // 1 lac steps
+                        step={100000} // 1  steps
                         size="xs"
                         label={null}
                         labelAlwaysOn={false}  // Disable always-on labels

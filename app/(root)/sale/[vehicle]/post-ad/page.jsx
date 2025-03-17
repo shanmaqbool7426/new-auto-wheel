@@ -712,7 +712,7 @@ const PostAnAd = (params) => {
                               placeholder="54,683,506"
                               rightSection={
                                 <Text span inherit size="xs">
-                                  PKR
+                                  $
                                 </Text>
                               }
                               size="md"

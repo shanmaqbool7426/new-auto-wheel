@@ -136,7 +136,7 @@ const FullSpecifications = ({ vehicle }) => {
         {
           label: "Price Range",
           value:
-            `PKR ${vehicleDetails?.minPrice?.toLocaleString()} - ${vehicleDetails?.maxPrice?.toLocaleString()}` ||
+            `$${vehicleDetails?.minPrice?.toLocaleString()} - ${vehicleDetails?.maxPrice?.toLocaleString()}` ||
             "-",
         },
         {

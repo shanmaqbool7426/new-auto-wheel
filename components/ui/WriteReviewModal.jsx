@@ -1,5 +1,3 @@
-
-
 "use client";
 import {
   ActionIcon,
@@ -33,6 +31,7 @@ import CustomModel from "@/constants/CustomModel";
 import { showNotification } from "@mantine/notifications";
 import { useSession } from "next-auth/react";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { type } from "os";
 
 const WriteReviewModal = ({
   opened,
@@ -109,11 +108,14 @@ const WriteReviewModal = ({
     }
   };
 
+  console.log("fetchMakesByTypeData",fetchMakesByTypeData)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const reviewData = {
       vehicle: `${selection?.make} ${selection?.model} ${selection?.variant}`,
       ratings,
+      type: fetchMakesByTypeData?.data[0]?.type,
       reviewText,
       reviewTitle,
       reviewBy: session?.user?.name || session?.user?.fullName,
@@ -187,75 +189,6 @@ const WriteReviewModal = ({
           </Box>
         </Box> */}
         <form onSubmit={handleSubmit}>
-          {wantRatings && (
-            <Box className="row">
-              <Box className="col-md-12">
-                <Title size={rem(20)}>
-                  Rate & Review {selection.make} {selection.model}{" "}
-                  {selection.variant} and Win
-                </Title>
-              </Box>
-              <Box className="col-md-7">
-                <Title order={4} fw={600} mt="md" mb="md">
-                  Rate your Experience
-                </Title>
-                {Object.keys(ratings).map((category) => (
-                  <Group key={category} mb="sm">
-                    <Text w="20ch">
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </Text>
-                    <Rating
-                      emptySymbol={(value) => getIcon(value, "#B1B1B1")}
-                      fullSymbol={(value) => getIcon(value, "#FFC513")}
-                      highlightSelectedOnly
-                      value={ratings[category]}
-                      onChange={(value) => handleRatingChange(category, value)}
-                    />
-                  </Group>
-                ))}
-              </Box>
-              <Box className="col-md-5">
-                <Paper
-                  p="lg"
-                  style={{ textWrap: "balance", borderColor: "#F3F3F3" }}
-                  shadow="0px 4px 20px 0px #00000014"
-                  withBorder={false}
-                >
-                  <Group mb="md">
-                    <Image src="/bulb-icon.svg" alt="Bulb Icon" />
-                    <Text fw={600}>Tips for a Good Review</Text>
-                  </Group>
-                  <List
-                    c="dimmed"
-                    spacing="md"
-                    listStyleType="disc"
-                    size="sm"
-                    style={{ textWrap: "balance" }}
-                  >
-                    <List.Item>
-                      Tell us about your buying experience and why you
-                      shortlisted this car
-                    </List.Item>
-                    <List.Item>
-                      List out the pros and cons of your car
-                    </List.Item>
-                    <List.Item>
-                      Talk about the overall performance of your car, mileage,
-                      pickup, comfort level, etc
-                    </List.Item>
-                    <List.Item>
-                      How's the after-sales service and what are the costs
-                      involved
-                    </List.Item>
-                    <List.Item>Give a suitable title to your review</List.Item>
-                    <List.Item>
-                      Don't use all caps and avoid sharing personal details here
-                    </List.Item>
-                  </List>
-                </Paper>
-              </Box>
-            </Box>
-          )}
           <Box className="row">
             <Box className="col-md-12">
               <Title size={rem(20)} mb="lg">
@@ -280,40 +213,92 @@ const WriteReviewModal = ({
                       h="100%"
                     />
                   </Card.Section>
-                  <Text fw={600} size="lg">
-                    <Text size="md" c="dimmed" fw={400}>
-                      Rate and Review
+                  <Box p="md" style={{ width: '100%' }}>
+                    <Text size="sm" c="dimmed" fw={400}>
+                      Rate And Review
                     </Text>
-                    {selection.make} {selection.model} {selection.variant}
-                    <ActionIcon
-                      ml="sm"
-                      variant="transparent"
-                      color="#E90808"
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setWantRatings(true);
-                      }}
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                    <Flex align="center" justify="space-between">
+                      <Text fw={700} size="lg" style={{ textTransform: 'uppercase' }}>
+                        {selection.make && selection.model 
+                          ? `${selection.make} ${selection.model} ${selection.variant || ''}`.trim() 
+                          : "Select Vehicle"}
+                      </Text>
+                      <ActionIcon 
+                        color="#E90808" 
+                        variant="subtle"
+                        onClick={() => {
+                          setIsModalOpen(true);
+                        }}
                       >
-                        <path
-                          d="M1.5 8.62492V10.4999H3.375L8.905 4.96992L7.03 3.09492L1.5 8.62492ZM10.705 3.16992L8.83 1.29492L7.565 2.56492L9.44 4.43992L10.705 3.16992Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </ActionIcon>
-                  </Text>
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.5 8.62492V10.4999H3.375L8.905 4.96992L7.03 3.09492L1.5 8.62492ZM10.705 3.16992L8.83 1.29492L7.565 2.56492L9.44 4.43992L10.705 3.16992Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </ActionIcon>
+                    </Flex>
+                  </Box>
                 </Flex>
               </Card>
+              
+              {/* Rate your Experience section */}
+              {wantRatings && (
+                <>
+                  <Box>
+                    <Title order={4} fw={600} mt="md" mb="md">
+                      Rate your Experience
+                    </Title>
+                    {Object.keys(ratings).map((category) => (
+                      <Group key={category} mb="sm">
+                        <Text w="20ch">
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </Text>
+                        <Rating
+                          emptySymbol={(value) => getIcon(value, "#B1B1B1")}
+                          fullSymbol={(value) => getIcon(value, "#FFC513")}
+                          highlightSelectedOnly
+                          value={ratings[category]}
+                          onChange={(value) => handleRatingChange(category, value)}
+                        />
+                      </Group>
+                    ))}
+                  </Box>
+                </>
+              )}
+              
               <Paper bg="#F3F3F3" ta="center" p="lg" mb="md">
-                <Title order={5} fw={600} mb="sm">
-                  Your Overall Rating:
-                </Title>
+                <Flex justify="center" align="center" gap="md">
+                  <Title order={5} fw={600} mb="sm">
+                    Your Overall Rating:
+                  </Title>
+                  <ActionIcon 
+                    color="#E90808" 
+                    variant="subtle"
+                    onClick={() => {
+                      setWantRatings(true);
+                    }}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.5 8.62492V10.4999H3.375L8.905 4.96992L7.03 3.09492L1.5 8.62492ZM10.705 3.16992L8.83 1.29492L7.565 2.56492L9.44 4.43992L10.705 3.16992Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </ActionIcon>
+                </Flex>
                 <Flex justify="center" align="center" gap="5">
                   <FaStar fontSize={rem(24)} color="#FFA236" />
                   <Text fw={600} size={rem(24)}>
@@ -321,6 +306,7 @@ const WriteReviewModal = ({
                   </Text>
                 </Flex>
               </Paper>
+              
               <Box mb="md">
                 <Textarea
                   placeholder="Share the details of your experience"
@@ -347,7 +333,6 @@ const WriteReviewModal = ({
                 fullWidth
                 size="md"
                 type="submit"
-                // disabled={loading}
                 loading={loading}
               >
                 Submit Review

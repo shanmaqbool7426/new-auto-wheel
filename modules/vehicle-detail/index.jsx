@@ -441,7 +441,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    $ {vehicleInfo.price}
+                    ${vehicleInfo.price}
                   </Text>
                 </Flex>
                 {/* Features Section */}
