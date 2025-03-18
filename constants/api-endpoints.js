@@ -221,7 +221,11 @@ export const API_ENDPOINTS = {
   COMPETITOR: {
     GET: (vehicleId) => `${Competitor_BASE}/vehicle/${vehicleId}`,
   },
-
+  LOCATION: {
+    GET_PROVINCES: `${BASE_URL}/api/location/provinces`,
+    GET_CITIES: (stateId) => `${BASE_URL}/api/location/children/${stateId}`,
+    GET_SUBURBS: (cityId) => `${BASE_URL}/api/location/children/${cityId}`,
+  },
   // Image Upload Endpoint
   IMAGE_UPLOAD: `${BASE_URL}/api/upload-image`,
 

@@ -6,6 +6,7 @@ import "@mantine/notifications/styles.css";
 import NextTopLoader from "nextjs-toploader";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
+import StoreProvider from "@/store/StoreProvider";
 
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
@@ -61,12 +62,14 @@ export default function Layout({ children }) {
           speed={200}
           shadow="0 0 10px #E90808,0 0 5px #E90808"
         />
+        <StoreProvider>
         <SessionProvider>
           <MantineProvider theme={theme}>
             <Notifications />
             {children}
           </MantineProvider>
         </SessionProvider>
+        </StoreProvider>
       </body>
       <GoogleAnalytics gaId="G-1SXSFH77HW" />
     </html>
