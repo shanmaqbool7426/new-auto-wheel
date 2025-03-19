@@ -6,7 +6,7 @@ import { EyeIcon, ViewIcon } from '@/components/Icons';
 import Link from 'next/link';
 import { formatDate } from '@/utils/index';
 import parse from "html-react-parser";
-import Blocks from 'editorjs-blocks-react-renderer';
+// import Blocks from 'editorjs-blocks-react-renderer';
 
 const TopCategory = ({ category }) => {
   let posts = category?.blogs || [];
@@ -88,7 +88,7 @@ const TopCategory = ({ category }) => {
             </Flex>
             <Text lineClamp={4} size="sm" fz="14px">
               {/* {parse(largePost?.content)} */}
-              <Blocks data={JSON.parse(largePost?.content)} config={{
+              {/* <Blocks data={JSON.parse(largePost?.content)} config={{
                 code: {
                   className: "language-js"
                 },
@@ -124,7 +124,7 @@ const TopCategory = ({ category }) => {
                 table: {
                   className: "table-auto"
                 }
-              }} />
+              }} /> */}
 
             </Text>
           </Flex>

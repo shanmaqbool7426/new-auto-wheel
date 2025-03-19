@@ -17,7 +17,7 @@ import { fetchBrowseBlogsServer } from "@/actions/index";
 import { formatDate } from "@/utils/index";
 import { useRouter } from "next/navigation";
 import { convert } from "html-to-text";
-import Blocks from "editorjs-blocks-react-renderer";
+// import Blocks from "editorjs-blocks-react-renderer";
 
 const BrowseBlogs = ({ type }) => {
   const router = useRouter();
@@ -123,7 +123,7 @@ const BrowseBlogs = ({ type }) => {
                       {blog.title}
                     </Title>
                     <Text c="dimmed" size="sm" lineClamp={2} mb="0">
-                      {blog.content && (
+                      {/* {blog.content && (
                         <Blocks 
                           data={JSON.parse(blog.content)} 
                           config={{
@@ -141,7 +141,7 @@ const BrowseBlogs = ({ type }) => {
                             delimiter: { className: "hidden" },
                           }}
                         />
-                      )}
+                      )} */}
                     </Text>
                     <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
                       Read More <BsArrowRight />

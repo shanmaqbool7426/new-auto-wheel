@@ -7,7 +7,7 @@ import BlogPagination from "@/components/blog/pagination"
 import { EyeIcon, ViewIcon } from '@/components/Icons';
 import { formatDate } from '@/utils/index';
 import parse from "html-react-parser";
-import Blocks from 'editorjs-blocks-react-renderer';
+// import Blocks from 'editorjs-blocks-react-renderer';
 
 
 const Posts = ({ title, posts, count, description }) => {
@@ -114,7 +114,7 @@ const Posts = ({ title, posts, count, description }) => {
                             </Flex>
                             <Text lineClamp={4} size="sm">
                                 {/* {parse(post.content)} */}
-                                <Blocks data={JSON.parse(post?.content)} config={{
+                                {/* <Blocks data={JSON.parse(post?.content)} config={{
                                     code: {
                                         className: "language-js"
                                     },
@@ -150,7 +150,7 @@ const Posts = ({ title, posts, count, description }) => {
                                     table: {
                                         className: "table-auto"
                                     }
-                                }} />
+                                }} /> */}
 
                             </Text>
                         </Flex>
