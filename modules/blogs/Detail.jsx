@@ -9,10 +9,6 @@ import { formatDate } from "@/utils";
 import dynamic from "next/dynamic";
 import EditorRenderer from "@/components/EditorRenderer";
 
-// Dynamically import EditorJsRenderer with SSR disabled
-const EditorJsRenderer = dynamic(() => import("editorjs-react-renderer"), {
-  ssr: false,
-});
 
 const Detail = ({ blog, comments, onCommentSubmit }) => {
 
@@ -72,8 +68,7 @@ const Detail = ({ blog, comments, onCommentSubmit }) => {
           alt="Norway"
           height={381}
         />
-        {console.log("blog?.content:", )
-        }
+        
         <Text lineClamp={4} size="md">
           <EditorRenderer data={JSON.parse(blog?.content)} />
         </Text>

@@ -16,8 +16,8 @@ import { BsArrowRight } from "react-icons/bs";
 import { fetchBrowseBlogsServer } from "@/actions/index";
 import { formatDate } from "@/utils/index";
 import { useRouter } from "next/navigation";
+import EditorRenderer from "@/components/EditorRenderer";
 import { convert } from "html-to-text";
-import EditorJsRenderer from 'editorjs-react-renderer';
 
 const BrowseBlogs = ({ type }) => {
   const router = useRouter();
@@ -124,7 +124,7 @@ const BrowseBlogs = ({ type }) => {
                     </Title>
                     <Text c="dimmed" size="sm" lineClamp={2} mb="0">
                       {blog.content && (
-                        <EditorJsRenderer 
+                        <EditorRenderer 
                           data={JSON.parse(blog.content)} 
                          
                         />

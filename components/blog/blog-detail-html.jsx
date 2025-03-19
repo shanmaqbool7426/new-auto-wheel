@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { BsTwitterX, BsYoutube } from 'react-icons/bs';
 import parse from "html-react-parser";
-// import EditorJsRenderer from 'editorjs-react-renderer';
+
 
 import { Link } from '@mantine/core';
+import EditorRenderer from '../EditorRenderer';
 
 const BlogDetailHtml = ({ content, blog }) => {
   const [tableOfContents, setTableOfContents] = useState([]);
@@ -78,10 +79,8 @@ const BlogDetailHtml = ({ content, blog }) => {
             </List>
           </>
         )}
-{console.log("JSON.parse(content)",JSON.parse(content))}
         <div className="blog-content">
-          {/* {parseWithIds(content)} */}
-          {/* <EditorJsRenderer data={JSON.parse(content)}  /> */}
+          <EditorRenderer data={JSON.parse(content)} />
 
         </div>
       </Card>
