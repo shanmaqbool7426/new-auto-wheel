@@ -5,7 +5,7 @@ import BlogDetailHtml from "@/components/blog/blog-detail-html";
 import BlogComments from "./BlogComments";
 import { EyeIcon, ViewIcon } from "@/components/Icons";
 import { formatDate } from "@/utils";
-// import Blocks from 'editorjs-blocks-react-renderer';
+import Blocks from 'editorjs-blocks-react-renderer';
 
 const Detail = ({ blog, comments, onCommentSubmit }) => {
     { console.log("blog", blog) }
@@ -70,7 +70,7 @@ const Detail = ({ blog, comments, onCommentSubmit }) => {
                     {console.log("blog?.content", JSON.parse(blog?.content))}
 
                     {/* {parse(blog?.content)} */}
-                    {/* <Blocks data={JSON.parse(blog?.content)} config={{
+                    <Blocks data={JSON.parse(blog?.content)} config={{
                         code: {
                             className: "language-js"
                         },
@@ -106,7 +106,7 @@ const Detail = ({ blog, comments, onCommentSubmit }) => {
                         table: {
                             className: "table-auto"
                         }
-                    }} /> */}
+                    }} />
                 </Text>
             </Box>
             {/* Blog Detail Html */}

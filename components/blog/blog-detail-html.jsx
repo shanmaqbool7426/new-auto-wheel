@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { BsTwitterX, BsYoutube } from 'react-icons/bs';
 import parse from "html-react-parser";
-// import Blocks from 'editorjs-blocks-react-renderer';
+import Blocks from 'editorjs-blocks-react-renderer';
 
 import { Link } from '@mantine/core';
 
@@ -81,7 +81,7 @@ const BlogDetailHtml = ({ content, blog }) => {
 
         <div className="blog-content">
           {/* {parseWithIds(content)} */}
-          {/* <Blocks data={JSON.parse(content)} config={{
+          <Blocks data={JSON.parse(content)} config={{
             code: {
               className: "language-js"
             },
@@ -117,7 +117,7 @@ const BlogDetailHtml = ({ content, blog }) => {
             table: {
               className: "table-auto"
             }
-          }} /> */}
+          }} />
 
         </div>
       </Card>
