@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { Grid } from '@mantine/core';
 import OverView from './components/Overview';
-import OverallAnalytics from './components/OverallAnalytics';
+// import OverallAnalytics from './components/OverallAnalytics';
 import TopPerformingPost from './components/TopPerformingPost';
-import LocationBaseUser from './components/LocationBaseUser';
+// import LocationBaseUser from './components/LocationBaseUser';
 import UserReviews from './components/UserReviews';
 import LatestNotificationPost from './components/LatestNotificationPost';
 import TotalFollowers from './components/TotalFollowers';
@@ -34,13 +34,13 @@ export default function Dashboard() {
           <OverView data={overview}/>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-          <OverallAnalytics data={overview}/>
+          {/* <OverallAnalytics data={overview}/> */}
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
           <TopPerformingPost />
         </Grid.Col>
         <Grid.Col span={12}>
-          <LocationBaseUser />
+          {/* <LocationBaseUser /> */}
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
           <UserReviews />
