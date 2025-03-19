@@ -17,7 +17,7 @@ import { fetchBrowseBlogsServer } from "@/actions/index";
 import { formatDate } from "@/utils/index";
 import { useRouter } from "next/navigation";
 import { convert } from "html-to-text";
-// import Blocks from "editorjs-blocks-react-renderer";
+import EditorJsRenderer from 'editorjs-react-renderer';
 
 const BrowseBlogs = ({ type }) => {
   const router = useRouter();
@@ -123,25 +123,12 @@ const BrowseBlogs = ({ type }) => {
                       {blog.title}
                     </Title>
                     <Text c="dimmed" size="sm" lineClamp={2} mb="0">
-                      {/* {blog.content && (
-                        <Blocks 
+                      {blog.content && (
+                        <EditorJsRenderer 
                           data={JSON.parse(blog.content)} 
-                          config={{
-                            paragraph: {
-                              className: "text-sm text-opacity-75 line-clamp-3",
-                            },
-                            // Hide other block types in the preview
-                            image: { className: "hidden" },
-                            header: { className: "hidden" },
-                            list: { className: "hidden" },
-                            quote: { className: "hidden" },
-                            code: { className: "hidden" },
-                            table: { className: "hidden" },
-                            embed: { className: "hidden" },
-                            delimiter: { className: "hidden" },
-                          }}
+                         
                         />
-                      )} */}
+                      )}
                     </Text>
                     <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
                       Read More <BsArrowRight />

@@ -7,7 +7,7 @@ import BlogPagination from "@/components/blog/pagination"
 import { EyeIcon, ViewIcon } from '@/components/Icons';
 import { formatDate } from '@/utils/index';
 import parse from "html-react-parser";
-// import Blocks from 'editorjs-blocks-react-renderer';
+import EditorJsRenderer from 'editorjs-react-renderer';
 
 
 const Posts = ({ title, posts, count, description }) => {
@@ -114,43 +114,7 @@ const Posts = ({ title, posts, count, description }) => {
                             </Flex>
                             <Text lineClamp={4} size="sm">
                                 {/* {parse(post.content)} */}
-                                {/* <Blocks data={JSON.parse(post?.content)} config={{
-                                    code: {
-                                        className: "language-js"
-                                    },
-                                    delimiter: {
-                                        className: "border border-2 w-16 mx-auto"
-                                    },
-                                    embed: {
-                                        className: "border-0"
-                                    },
-                                    header: {
-                                        className: "font-bold"
-                                    },
-                                    image: {
-                                        className: "w-full max-w-screen-md",
-                                        actionsClassNames: {
-                                            stretched: "w-full h-80 object-cover",
-                                            withBorder: "border border-2",
-                                            withBackground: "p-2",
-                                        }
-                                    },
-                                    list: {
-                                        className: "list-inside"
-                                    },
-                                    paragraph: {
-                                        className: "text-base text-opacity-75",
-                                        actionsClassNames: {
-                                            alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-                                        }
-                                    },
-                                    quote: {
-                                        className: "py-3 px-5 italic font-serif"
-                                    },
-                                    table: {
-                                        className: "table-auto"
-                                    }
-                                }} /> */}
+                                <EditorJsRenderer data={JSON.parse(post?.content)}  />
 
                             </Text>
                         </Flex>

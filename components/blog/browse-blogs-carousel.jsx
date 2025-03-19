@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import { fetchBrowseBlogsServer, fetcSearchBlogsServer } from "@/actions/index";
 import styles from "./browse-blogs-carousel.module.css"
-// import Blocks from "editorjs-blocks-react-renderer";
+import EditorJsRenderer from 'editorjs-react-renderer';
+
 
 const BrowseBlogCarousel = ({ type, title }) => {
   const [news, setNews] = useState([]);
@@ -87,7 +88,7 @@ const BrowseBlogCarousel = ({ type, title }) => {
               </Title>
               <Text size="sm" lineClamp={3} c="#878787">
                 {/* {item.content.substring(0, 100)}... */}
-                {/* <Blocks data={JSON.parse(item.content)} /> */}
+                <EditorJsRenderer data={JSON.parse(item.content)} />
 
               </Text>
               </div>
