@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { BsTwitterX, BsYoutube } from 'react-icons/bs';
 import parse from "html-react-parser";
-import Blocks from 'editorjs-blocks-react-renderer';
+// import EditorJsRenderer from 'editorjs-react-renderer';
 
 import { Link } from '@mantine/core';
 
@@ -78,46 +78,10 @@ const BlogDetailHtml = ({ content, blog }) => {
             </List>
           </>
         )}
-
+{console.log("JSON.parse(content)",JSON.parse(content))}
         <div className="blog-content">
           {/* {parseWithIds(content)} */}
-          <Blocks data={JSON.parse(content)} config={{
-            code: {
-              className: "language-js"
-            },
-            delimiter: {
-              className: "border border-2 w-16 mx-auto"
-            },
-            embed: {
-              className: "border-0"
-            },
-            header: {
-              className: "font-bold"
-            },
-            image: {
-              className: "w-full max-w-screen-md",
-              actionsClassNames: {
-                stretched: "w-full h-80 object-cover",
-                withBorder: "border border-2",
-                withBackground: "p-2",
-              }
-            },
-            list: {
-              className: "list-inside"
-            },
-            paragraph: {
-              className: "text-base text-opacity-75",
-              actionsClassNames: {
-                alignment: "text-{alignment}", // This is a substitution placeholder: left or center.
-              }
-            },
-            quote: {
-              className: "py-3 px-5 italic font-serif"
-            },
-            table: {
-              className: "table-auto"
-            }
-          }} />
+          {/* <EditorJsRenderer data={JSON.parse(content)}  /> */}
 
         </div>
       </Card>
