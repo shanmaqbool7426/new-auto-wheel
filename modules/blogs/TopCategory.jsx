@@ -6,6 +6,7 @@ import { EyeIcon, ViewIcon } from '@/components/Icons';
 import Link from 'next/link';
 import { formatDate } from '@/utils/index';
 import parse from "html-react-parser";
+import EditorRenderer from '@/components/EditorRenderer';
 
 const TopCategory = ({ category }) => {
   let posts = category?.blogs || [];
@@ -86,7 +87,9 @@ const TopCategory = ({ category }) => {
               </Box>
             </Flex>
             <Text lineClamp={4} size="sm" fz="14px">
-              {parse(largePost?.content)}
+              {/* {parse(largePost?.content)} */}
+              <EditorRenderer data={JSON.parse(largePost?.content)}  />
+
             </Text>
           </Flex>
         </Card>

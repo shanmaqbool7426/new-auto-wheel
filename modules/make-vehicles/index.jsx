@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Anchor,
   Box,
@@ -16,6 +16,7 @@ import {
   Tabs,
   Center,
   Collapse,
+  ActionIcon,
 } from "@mantine/core";
 import NextImage from "next/image";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
@@ -23,10 +24,12 @@ import BrowseBlogs from "@/components/blog/browse-blogs";
 import BrowseVideos from "@/components/videos/browse-videos";
 import { Carousel } from "@mantine/carousel";
 import Link from "next/link";
-import FAQ from "@/components/Faq";
+import FAQ from "@/modules/new-cars/faqs";
 import PopularNewCars from "../../components/sections/PopularNewCars";
 import UpcomingCars from "../../components/sections/UpcomingCars";
 import Comments from "@/components/sections/Comments";
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import styles from '@/components/sections/Comments.module.css'; // Import the existing styles
 
 const MakesVehicles = ({
   slugMake,
@@ -37,53 +40,14 @@ const MakesVehicles = ({
   vehicleType,
   fetchMakesByTypeData,
 }) => {
-  const tagsArray = [
-    { name: "All (601)", isSelected: true },
-    { name: "Service (39)" },
-    { name: "Mileage (217)" },
-    { name: "Looks (96)", isSelected: true },
-    { name: "Comfort (155)" },
-    { name: "Space (53)" },
-    { name: "Power (53)" },
-    { name: "More ..." },
-  ];
-  const brandsURLs = [
-    { url: "/brands/acura.svg", name: "Acura" },
-    { url: "/brands/hyundai.svg", name: "Hyundai", isHeightLarger: false },
-    { url: "/brands/ford.svg", name: "Ford" },
-    { url: "/brands/kia.svg", name: "KIA" },
-    { url: "/brands/nissan.svg", name: "Nissan" },
-    { url: "/brands/bmw.svg", name: "BMW" },
-    { url: "/brands/bentley.svg", name: "Bentley" },
-    { url: "/brands/toyota.svg", name: "Toyota" },
-    { url: "/brands/chevrolet.svg", name: "Chevrolet" },
-  ];
 
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const text = `The prices of a ${slugMake} Car in Pakistan start from PKR 4,399,000.0 
-    for a new ${slugMake} Yaris to PKR 156,829,000.0 for a new ${slugMake} Land Cruiser. 
-    There are currently 12 new car models available at ${slugMake} dealerships across Pakistan. 
-    ${slugMake} Cars are also widely available in used conditions starting from PKR 180,000 for a used 
-    ${slugMake} Corolla to PKR 145,000,000 for a used ${slugMake} Land Cruiser. 
-    There are a total of 26648 ${slugMake} Cars available for sale in Pakistan on PakWheels.  There are currently 12 new car models available at ${slugMake} dealerships across Pakistan. 
-    ${slugMake} Cars are also widely available in used conditions starting from PKR 180,000 for a used 
-    ${slugMake} Corolla to PKR 145,000,000 for a used ${slugMake} Land Cruiser. 
-    There are a total of 26648 ${slugMake} Cars available for sale in Pakistan on PakWheels.  There are currently 12 new car models available at ${slugMake} dealerships across Pakistan. 
-    ${slugMake} Cars are also widely available in used conditions starting from PKR 180,000 for a used 
-    ${slugMake} Corolla to PKR 145,000,000 for a used ${slugMake} Land Cruiser. 
-    There are a total of 26648 ${slugMake} Cars available for sale in Pakistan on PakWheels  There are currently 12 new car models available at ${slugMake} dealerships across Pakistan. 
-    ${slugMake} Cars are also widely available in used conditions starting from PKR 180,000 for a used 
-    ${slugMake} Corolla to PKR 145,000,000 for a used ${slugMake} Land Cruiser. 
-    There are a total of 26648 ${slugMake} Cars available for sale in Pakistan on PakWheels`;
-
   const shortText = matchedMake?.description?.slice(0, 430); // Shortened text with a limit of 150 characters.
-
-
-  console.log("matchedMake",matchedMake)
+ 
   return (
     <>
       {/* style={{ marginTop: "50px" }} */}
@@ -126,29 +90,31 @@ const MakesVehicles = ({
                   <Title order={3} mb="md">
                     {slugMake} Car Models, Prices
                   </Title>
-                  <div className="row mb-2">
+                  <div className="row">
                     <div className="col-md-3">
-                      <Card shadow="none" h="100%" withBorder py="lg">
+                      <Card shadow="none" h="100%" withBorder py="lg" >
                         <Flex
                           direction="column"
-                          gap="xs"
+                          gap="sm"
                           justify="center"
                           align="center"
                         >
                           <Image
                             src={matchedMake?.companyImage}
+                            style={{ marginTop: "-20px" }}
                             alt="Toyota Logo"
-                            h={100}
-                            w={100}
+                            h={50}
+                            w={80}
                           />
                           <Title order={5} fw={600} c="#E90808">
                             {slugMake} Pricelist
                           </Title>
                           <Button
+                            style={{ marginBottom: "-12px" }}
                             href={`/listing/${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`}
                             variant="outline"
                             color="#E90808"
-                            mt="sm"
+                            // mt="sm"
                             component={Link}
                           >
                             Used {slugMake} Cars for sale
@@ -187,7 +153,7 @@ const MakesVehicles = ({
           fetchMakesByTypeData={fetchMakesByTypeData}
         />
 
-        <section className="brands-faq-section pb-5">
+        <section className="brands-faq-section pb-3">
           <div className="container-xl">
             <div className="row">
               <div className="col-md-12">
@@ -199,48 +165,89 @@ const MakesVehicles = ({
                 </Title>
               </div>
 
-              <div className="brands-carousel my-3">
+              <Box className="brands-carousel " sx={{ position: 'relative', paddingRight: '100px' }}>
                 <Carousel
                   loop
                   withControls={true}
+                  controlsOffset="xl"
+                  controlSize={24}
                   slideSize="14.28571%"
-                  slideGap=""
+                  slideGap="md"
                   align="start"
                   slidesToScroll={7}
+                  classNames={{ controls: styles.controls, control: styles.control }}
                 >
                   {altraNativesMake.map((item, index) => {
                     return (
                       <Carousel.Slide key={index}>
-                        <Flex
-                          direction="column"
-                          justify="center"
-                          align="center"
-                          className="single-brand-item"
+                        <Box
+                          sx={{
+                            '& a, & a:hover, & a:focus, & a:active': {
+                              textDecoration: 'none !important',
+                            }
+                          }}
                         >
-                          <NextImage
-                            width={100}
-                            height={100}
-                            src={item.companyImage}
-                            className="mx-auto text-center"
-                          />
                           <Anchor
                             component={Link}
                             href={`/new/car/make/${item.name}`}
-                            c="#333"
+                            sx={{
+                              textDecoration: 'none !important',
+                              color: 'inherit',
+                              display: 'block',
+                              '&:hover, &:focus, &:active': {
+                                textDecoration: 'none !important',
+                              }
+                            }}
+                            underline={false}
                           >
-                            {item.name}
+                            <Flex
+                              direction="column"
+                              justify="center"
+                              align="center"
+                              className="single-brand-item"
+                              p="md"
+                              sx={{
+                                transition: 'all 0.2s ease',
+                                borderRadius: '8px',
+                                '&:hover': {
+                                  transform: 'translateY(-5px)',
+                                  backgroundColor: '#F3F3F3'
+                                }
+                              }}
+                            >
+                              <NextImage
+                                width={100}
+                                height={100}
+                                src={item.companyImage}
+                                className="mx-auto text-center"
+                              />
+                              <Text 
+                                c="#333" 
+                                mt="xs" 
+                                fw={500}
+                                sx={{ 
+                                  textAlign: 'center',
+                                  '&:hover': { 
+                                    color: '#EB2321'
+                                  }
+                                }}
+                              >
+                                {item.name}
+                              </Text>
+                            </Flex>
                           </Anchor>
-                        </Flex>
+                        </Box>
                       </Carousel.Slide>
                     );
                   })}
                 </Carousel>
-              </div>
+              </Box>
             </div>
           </div>
         </section>
 
-        <FAQ />
+        {/* <FAQ /> */}
+        {<FAQ title={`${slugMake}`} titleSpan="FAQs" type={vehicleType} />}
       </section>
     </>
   );

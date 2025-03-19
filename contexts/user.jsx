@@ -47,11 +47,11 @@ export function UserProvider({ children }) {
   const toggleFavorite = async (vehicleId) => {
     if (!userData?._id) {
       openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
-      notifications.show({
-        title: "Login Required",
-        message: "Please login first to add vehicles to favorites",
-        color: "red",
-      });
+      // notifications.show({
+      //   title: "Login Required",
+      //   message: "Please login first to add vehicles to favorites",
+      //   color: "red",
+      // });
       return false;
     }
     

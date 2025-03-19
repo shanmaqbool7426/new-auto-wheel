@@ -8,11 +8,17 @@
             svg {
                 width : 1.4rem !important;
                 height: 1.4rem !important;
-            }
+            };
+            top: calc(0% - var(--carousel-control-size) / 2) !important;
+            inset-inline-end:0 !important
         }
-    }
-}
+    };
 
+}
+.mantine-Carousel-control{
+    top: calc(0% - var(--carousel-control-size) / 2) !important;
+    inset-inline-end:0 !important
+}
 table {
     .mantine-Checkbox-body {
         align-items    : center;

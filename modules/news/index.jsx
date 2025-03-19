@@ -137,7 +137,7 @@ const NewsModule = () => {
                     </Text>
                     <Text size="sm" mb="md">
                       The primary reason behind these price reductions is the
-                      appreciation of the Pakistani Rupee (PKR) against the US
+                      appreciation of the Pakistani Rupee ($) against the US
                       Dollar (USD). Local car companies are passing on these
                       benefits to the customers. Other prominent automakers such
                       as Kia, MG, Toyota, Honda, and Hyundai Pakistan have also
@@ -263,7 +263,7 @@ const NewsModule = () => {
                 className="border-light"
               >
                 <Title order={5} className="title-with-border" pb="xs" mb="xs">
-                  Follow Us
+                  Follow Uss
                 </Title>
                 <Grid mt="md">
                   <Grid.Col span={4}>

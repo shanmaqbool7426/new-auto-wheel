@@ -24,6 +24,8 @@ import {
   rem,
 } from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
+import { MdArrowDropDown, MdCheckCircle } from "react-icons/md";
+
 import { FaLocationDot } from "react-icons/fa6";
 import { PhoneIcon } from "@/components/Icons";
 import QuickLinks from "@/components/QuickLinks";
@@ -33,6 +35,10 @@ import { useDisclosure } from "@mantine/hooks";
 import LocationSelector from '@/components/LocationSelector';
 
 import { Form } from "@mantine/form";
+import { useUser } from "@/contexts/user";
+import { useAuthModalContext } from "@/contexts/auth-modal";
+import { AUTH_VIEWS } from '@/constants/auth-config';
+
 const CarsDealerShip = () => {
   const [dealers, setDealers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,6 +56,8 @@ const CarsDealerShip = () => {
     suburb: ""
   });
 
+  const [sortOption, setSortOption] = useState("Date: newest First");
+
   // Format the display value for the Select
   const displayValue = selection.suburb
     ? `${selection.suburb}, ${selection.city}`
@@ -61,6 +69,8 @@ const CarsDealerShip = () => {
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
 
+  const { userData } = useUser();
+  const { openAuthModal } = useAuthModalContext();
 
   const fetchDealers = async () => {
     try {
@@ -69,7 +79,7 @@ const CarsDealerShip = () => {
       );
       const data = await response.json();
       setDealers(data.data.dealers);
-      setTotalPages(data.totalPages);
+      setTotalPages(data.data.totalPages);
     } catch (error) {
       console.error("Error fetching dealers:", error);
     } finally {
@@ -81,7 +91,16 @@ const CarsDealerShip = () => {
     fetchDealers();
   }, [page, limit, selectedType]);
 
-  const handleShowNumber = (index) => {
+  const handleShowNumber = (index, e) => {
+    if (e) e.stopPropagation(); // Prevent row click when clicking show number
+    
+    // Check if user is logged in
+    if (!userData?._id) {
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
+      return;
+    }
+    
+    // If user is logged in, show/hide the number
     setShowNumbers((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
@@ -92,6 +111,9 @@ const CarsDealerShip = () => {
   const profileHnadler = (slug) => {
     router.push(`/dealer-profile/${slug}`);
   };
+
+
+  console.log("totalPages..",totalPages)
   return (
     <>
       <Box component="section" className="car-specification">
@@ -114,7 +136,7 @@ const CarsDealerShip = () => {
                   </ol>
                 </nav>
               </Box>
-              <Box className="col-md-12">
+              <Box className="col-md-12" style={{marginTop:"4px"}}>
                 <Box className="search-wrapper-card">
                   <Card
                     shadow="0px 4px 20px 0px #00000014"
@@ -129,6 +151,8 @@ const CarsDealerShip = () => {
                         <Select
                           size="md"
                           placeholder="Choose Type"
+                      rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+
                           data={["All","Car", "Bike", "Truck"]}
                           value={selectedType}
                           onChange={setSelectedType}
@@ -140,6 +164,8 @@ const CarsDealerShip = () => {
                           size="md"
                           placeholder="Choose Location"
                           value={displayValue || null}
+                          rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+
                           data={displayValue ? [{ value: displayValue, label: displayValue }] : []}
                           onClick={() => setIsLocationModalOpen(true)}
                           searchable={false}
@@ -177,30 +203,34 @@ const CarsDealerShip = () => {
 
         <Box className="container-xl">
           {/* <Button onClick={open}>Open centered Modal</Button> */}
-          <Box
-            className="row g-0 border-bottom border-primary border-2 align-items-center"
-            pb="md"
-          >
-            <Box className="col-md-6">
-              <Title order={3}>
-                Local Car{" "}
-                <Text span inherit className="text-primary">
-                  Dealerships
-                </Text>
-              </Title>
-            </Box>
-            <Box className="col-md-6 text-end">
-              <Flex align="center" justify="flex-end">
-                <Text c="dimmed" mr="md" size="sm">
-                  SORT BY:
-                </Text>
-                <Select
-                  size="sm"
-                  placeholder="Date: newest First"
-                  data={["React", "Angular", "Vue", "Svelte"]}
-                  comboboxProps={{ shadow: "xl" }}  
-                />
-              </Flex>
+          <Box style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+            <Box
+              className="row g-0 border-bottom border-primary border-2 align-items-center"
+              pb="md"
+            >
+              <Box className="col-md-6">
+                <Title order={3}>
+                  Local Car{" "}
+                  <Text span inherit className="text-primary">
+                    Dealerships
+                  </Text>
+                </Title>
+              </Box>
+              <Box className="col-md-6 text-end">
+                <Flex align="center" justify="flex-end">
+                  <Text c="dimmed" mr="md" size="sm">
+                    Sorted by:
+                  </Text>
+                  <Select
+                    size="sm"
+                    placeholder="Date: newest First"
+                    data={["newest First", "oldest First", "highest First", "lowest First"]}
+                    value={sortOption}
+                    onChange={setSortOption}
+                    comboboxProps={{ shadow: "xl" }}
+                  />
+                </Flex>
+              </Box>
             </Box>
           </Box>
           <Box className="row">
@@ -211,6 +241,7 @@ const CarsDealerShip = () => {
                 withRowBorders={false}
                 verticalSpacing="sm"
               >
+                {console.log("cars-dealership",dealers)}
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
                     <Table.Tr
@@ -221,7 +252,7 @@ const CarsDealerShip = () => {
                       <Table.Td w="35%">
                         <Flex gap="xs">
                           <Image
-                            src="/user-profile.png"
+                            src={`${dealer.profileImage || '/user-profile.png'}`}
                             h={50}
                             w={50}
                             radius="sm"
@@ -257,9 +288,9 @@ const CarsDealerShip = () => {
                               : `(${dealer.phone.slice(0, 2)}****)`}
                           </Text>
                           <Anchor
-                            style={{ alignSelf: "flex-start" }}
+                            style={{ alignSelf: "flex-start", marginBottom: "15px" }}
                             component="button"
-                            onClick={() => handleShowNumber(index)}
+                            onClick={(e) => handleShowNumber(index, e)}
                             underline="always"
                             c="dimmed"
                             size="sm"
@@ -278,19 +309,23 @@ const CarsDealerShip = () => {
                   ))}
                 </Table.Tbody>
               </Table>
+              {console.log("totalPages",totalPages)}
               <Pagination
                 mt="sm"
-                color="#E90808"
                 total={totalPages}
                 onChange={setPage}
                 value={page}
+                classNames={{
+                  root: 'custom-pagination',
+                }}
+                siblings={0}
+                boundaries={0}
               />
             </Box>
           </Box>
 
           <Box className="row">
             <Box className="col-md-12">
-              <QuickLinks />
             </Box>
           </Box>
         </Box>

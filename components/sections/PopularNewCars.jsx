@@ -1,8 +1,16 @@
 import { formatToLacOrCrore } from "@/utils";
 import { Box, Card, Flex, Image, Rating, Text, Title } from "@mantine/core";
 import React from "react";
+import NewCarsCard from "../ui/NewCarsCard";
 
-const PopularNewCars = ({ bg = true, popularVehicles ,type}) => {
+const PopularNewCars = ({ bg = true, popularVehicles, type }) => {
+
+  const transitionStyles = {
+    transition: 'all 0.3s ease-in-out',
+    opacity: false ? 0 : 1,
+    transform: false ? 'translateY(20px)' : 'translateY(0)'
+  };
+
   return (
     <Box
       component="section"
@@ -20,39 +28,12 @@ const PopularNewCars = ({ bg = true, popularVehicles ,type}) => {
           </Box>
           {popularVehicles?.data?.map((vehicle, index) => {
             return (
-              <Box className="col-md-3" key={index}>
-                <Card
-                  shadow="0px 4px 20px 0px #00000014"
-                  pb="xl"
-                  pt="0"
-                  px="0"
-                  mb="xl"
-                >
-                  <Image
-                    p="lg"
-                    pt="xl"
-                    src={vehicle?.defaultImage}
-                    height={130}
-                    alt="Mehran"
-                    className="img-fluid"
-                  />
-
-                  <Flex direction="column" align="center" gap="xs">
-                    <Title order={5} fw={500} c="#E90808">
-                      {vehicle?.make} {vehicle?.model}
-                    </Title>
-                    <Text fw={600} fs="xl">
-                      Rs {formatToLacOrCrore(vehicle?.minPrice)} -{" "}
-                      {formatToLacOrCrore(vehicle?.maxPrice)}
-                    </Text>
-                    <Flex align="center" justify="center" gap="xs">
-                      <Rating defaultValue={2} />
-                      <Text span inherit>
-                        (3/5)
-                      </Text>
-                    </Flex>
-                  </Flex>
-                </Card>
+              <Box
+                className="col-md-3"
+                key={index}
+                style={transitionStyles}
+              >
+                <NewCarsCard vehicle={vehicle} isRating={true} />
               </Box>
             );
           })}

@@ -1,14 +1,22 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Button, Box, Switch, Select, Group, Text } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import FormField from '@/components/user-dashboard/FormField';
+import LocationSelector from '@/components/LocationSelector';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './DealerInformation.module.css';
 import useDealerInformation from './useDealerInformation';
 import { useEffect } from 'react';
 
 export default function DealerInformation({ profileData }) {
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [locationSelection, setLocationSelection] = useState({
+    province: null,
+    city: null,
+    suburb: null
+  });
+
   const {
     form,
     handleSubmit,
@@ -18,8 +26,31 @@ export default function DealerInformation({ profileData }) {
   useEffect(() => {
     if (profileData) {
       initializeForm(profileData);
+      // Initialize location selection if available in profile data
+      if (profileData.location) {
+        setLocationSelection({
+          province: profileData.province || null,
+          city: profileData.city || null,
+          suburb: profileData.suburb || null
+        });
+      }
     }
   }, [profileData]);
+
+  // Update form location value when selection changes
+  useEffect(() => {
+    const locationString = [
+      locationSelection.province?.name,
+      locationSelection.city?.name,
+      locationSelection.suburb?.name
+    ]
+      .filter(Boolean)
+      .join(', ');
+
+    if (locationString) {
+      form.setFieldValue('location', locationString);
+    }
+  }, [locationSelection]);
 
   const timeOptions = [
     '12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM', '2:30 AM',
@@ -63,8 +94,11 @@ export default function DealerInformation({ profileData }) {
           <Grid.Col span={12}>
             <FormField
               label="Location"
-              placeholder="Enter location"
-              {...form.getInputProps('location')}
+              placeholder="Select location"
+              value={form.values.location}
+              onClick={() => setIsLocationModalOpen(true)}
+              readOnly
+              style={{ cursor: 'pointer' }}
             />
           </Grid.Col>
 
@@ -82,9 +116,21 @@ export default function DealerInformation({ profileData }) {
                         onChange={(event) => {
                           form.setFieldValue(`${day.key}Enabled`, event.currentTarget.checked);
                         }}
-                        className={styles.dayToggle}
+                        // className={styles.dayToggle}
                         size="md"
-                        color="blue"
+                        color="#EB2321"
+                        styles={{
+                          track: {
+                            '&[data-checked]': {
+                              backgroundColor: 'red',
+                            },
+                          },
+                          thumb: {
+                            '&[data-checked]': {
+                              borderColor: '#EB2321',
+                            },
+                          },
+                        }}
                       />
                     </Box>
                     
@@ -117,6 +163,14 @@ export default function DealerInformation({ profileData }) {
             </Box>
           </Grid.Col>
         </Grid>
+
+        {/* Location Selector Modal */}
+        <LocationSelector
+          isOpen={isLocationModalOpen}
+          onClose={() => setIsLocationModalOpen(false)}
+          selection={locationSelection}
+          setSelection={setLocationSelection}
+        />
 
         <Box className={styles.buttonHolder}>
           <Button

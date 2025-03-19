@@ -12,8 +12,11 @@ import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { signIn } from "next-auth/react";
 import { FaChevronLeft } from "react-icons/fa6";
+import { useState } from "react";
+import { notifications } from '@mantine/notifications';
 
 function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
@@ -27,13 +30,16 @@ function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
     },
   });
 
-  const { isLoading, error, handleSubmit } = useFormSubmission(
+  const { error, handleSubmit } = useFormSubmission(
     API_ENDPOINTS.AUTH.LOGIN,
     form.values,
     form.validate
   );
 
+  console.log("isLoading", isLoading);
+
   const handleSubmitSignIn = async () => {
+    setIsLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
       password: form.values.password,
@@ -41,9 +47,17 @@ function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
       type: "signIn",
       action: "Credentials",
     });
-    
+    console.log("result..", result);
+    setIsLoading(false);
     if (result.ok) {
       onSuccess?.();
+    } else {
+      notifications.show({
+        title: 'Login Failed',
+        message: 'Invalid email or password. Please try again.',
+        color: 'red',
+        autoClose: 5000,
+      });
     }
   };
 
@@ -92,6 +106,7 @@ function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
           mt="xl"
           ff="heading"
           loading={isLoading}
+          loaderProps={{ type: 'dots' }}
           onClick={handleSubmitSignIn}
         >
           Sign In

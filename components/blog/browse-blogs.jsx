@@ -16,6 +16,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { fetchBrowseBlogsServer } from "@/actions/index";
 import { formatDate } from "@/utils/index";
 import { useRouter } from "next/navigation";
+import EditorRenderer from "@/components/EditorRenderer";
 import { convert } from "html-to-text";
 
 const BrowseBlogs = ({ type }) => {
@@ -39,8 +40,7 @@ const BrowseBlogs = ({ type }) => {
 
   if (blogs.length === 0) {
     return (
-      <Box component="section" className="blogs py-5">
-        <Box className="container-xl">
+<Box component="section" className="blogs py-5">        <Box className="container-xl">
           <Flex justify="space-between" align="center" mb="xl">
             <Title order={2} lts={-0.5}>
               Our Latest{" "}
@@ -64,7 +64,7 @@ const BrowseBlogs = ({ type }) => {
   const remainingBlogs = blogs?.slice(1);
 
   return (
-    <Box component="section" className="blogs py-5">
+    <Box component="section" className="blogs py-4" style={{ backgroundColor: '#F3F3F3' }}>
       <Box className="container-xl">
         <Flex justify="space-between" align="center" mb="xl">
           <Title order={2} lts={-0.5}>
@@ -122,15 +122,13 @@ const BrowseBlogs = ({ type }) => {
                     >
                       {blog.title}
                     </Title>
-                    <Text c="dimmed" size="sm" lineClamp={3} mb="0">
-                      {convert(blog.content, {
-                        wordwrap: 130,
-                        selectors: [
-                          { selector: "img", format: "skip" },
-                          { selector: "a", options: { ignoreHref: true } },
-                        ],
-                      }).substring(0, 100)}
-                      ...
+                    <Text c="dimmed" size="sm" lineClamp={2} mb="0">
+                      {blog.content && (
+                        <EditorRenderer 
+                          data={JSON.parse(blog.content)} 
+                         
+                        />
+                      )}
                     </Text>
                     <Anchor c="#E90808" href={`/blog/${blog.slug}`} size="sm">
                       Read More <BsArrowRight />

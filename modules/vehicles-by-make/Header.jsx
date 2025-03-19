@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Card, Image, Text, Title } from '@mantine/core'
+  import { Anchor, Box, Button, Card, Image, Text, Title } from '@mantine/core'
 import Link from 'next/link'
 import React from 'react'
 
@@ -40,13 +40,13 @@ const Header = () => {
                       alt="Mehran"
                       className="img-fluid"
                     />
-                    <Link href="#">Toyota PriceList</Link>
+                    <Link href="#">Toyota PriceListss</Link>
                   </Card>
                 </div>
                 <div className="col-md-9">
                   <Text inherit>
-                    The prices of a Toyota Car in Pakistan start from PKR 4,399,000.0 for a new Toyota Yaris to PKR 156,829,000.0 for a new Toyota Land Cruiser. There are currently 12 new car models available at Toyota dealerships across Pakistan.
-                    Toyota Cars are also widely available in used conditions starting from PKR 180,000 for a used Toyota Corolla to PKR 145,000,000 for a used Toyota Land Cruiser. There are a total of 26648 Toyota Cars available for sale in Pakistan on PakWheels.
+                    The prices of a Toyota Car in Pakistan start from $4,399,000.0 for a new Toyota Yaris to $156,829,000.0 for a new Toyota Land Cruiser. There are currently 12 new car models available at Toyota dealerships across Pakistan.
+                    Toyota Cars are also widely available in used conditions starting from $180,000 for a used Toyota Corolla to $145,000,000 for a used Toyota Land Cruiser. There are a total of 26648 Toyota Cars available for sale in Pakistan on PakWheels.
                   </Text>
                   <Button
                     size="md"

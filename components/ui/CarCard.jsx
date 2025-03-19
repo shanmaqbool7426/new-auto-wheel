@@ -19,7 +19,7 @@ import {
   Overlay,
 } from "@mantine/core";
 import NextLink from "next/link";
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import { formatPrice, getTimeAgo } from "@/utils";
 import { useRouter } from "next/navigation";
 
@@ -81,7 +81,7 @@ const CarCard = ({ vehicle }) => {
       }}
     >
       {isFavorite(vehicle._id) ? (
-        <IconStarFilled
+        <IconHeartFilled
           size={20}
           style={{
             color: "#E90808", // Your primary red color
@@ -89,7 +89,7 @@ const CarCard = ({ vehicle }) => {
           }}
         />
       ) : (
-        <IconStar
+        <IconHeart
           size={20}
           style={{
             color: "#fff",
@@ -202,7 +202,6 @@ const CarCard = ({ vehicle }) => {
         {/* Car details */}
         <Group
           h="100%"
-          // justify="space-between"
           grow
           mb="md"
           align="center"
@@ -217,30 +216,32 @@ const CarCard = ({ vehicle }) => {
             size="sm"
             fw={600}
             lineClamp={2}
+            style={{ flex: 1 }}
           >
             {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
           </Text>
           <Box
             c="#FFF"
             bg="#E90808"
-            p="10px 5px 10px 15px"
             ta="right"
             h={32}
-            display="inline-flex" // Changed to inline-flex
             style={{
-              clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
-              minWidth: "fit-content", // Changed to fit-content
-              width: "auto",
-              alignItems: "center", // Added to center content vertically
-              justifyContent: "flex-end", // Added to align content to the right
+              clipPath: "polygon(20px 0, 100% 0, 100% 100%, 0% 100%)",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              padding: '0 8px 0 23px',
+              minWidth: 'auto',
+              width: 'fit-content',
+              flex: '0 0 auto',
+              whiteSpace: 'nowrap',
             }}
           >
             <Text
               fw={600}
-              size="xs"
-              style={{ whiteSpace: "nowrap", lineHeight: 1 }}
+              size="sm"
             >
-              Rs {formatPrice(vehicle?.price)}
+              ${formatPrice(vehicle?.price)}
             </Text>
           </Box>
         </Group>

@@ -111,7 +111,7 @@ const Footer = () => {
   const capitalizedVehicleType = currentVehicleType.charAt(0).toUpperCase() + currentVehicleType.slice(1);
 
   return (
-    <footer className="footer">
+    <footer className="footer mt-4">
       <div className="container-xl">
         <div className="row">
           <div className="col-lg-9">

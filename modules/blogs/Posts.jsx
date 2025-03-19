@@ -7,8 +7,11 @@ import BlogPagination from "@/components/blog/pagination"
 import { EyeIcon, ViewIcon } from '@/components/Icons';
 import { formatDate } from '@/utils/index';
 import parse from "html-react-parser";
+import EditorRenderer from '@/components/EditorRenderer';
+
 
 const Posts = ({ title, posts, count, description }) => {
+    console.log("description", description)
     return (
         <>
             <Title order={2} mb="lg">
@@ -110,7 +113,9 @@ const Posts = ({ title, posts, count, description }) => {
                                 </Flex>
                             </Flex>
                             <Text lineClamp={4} size="sm">
-                                {parse(post.content)}
+                                {/* {parse(post.content)} */}
+                                <EditorRenderer data={JSON.parse(post?.content)}  />
+
                             </Text>
                         </Flex>
                     </Flex>

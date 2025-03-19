@@ -31,6 +31,7 @@ import {
 } from "@/components/Icons";
 import { IconCheck } from "@tabler/icons-react";
 import { Carousel } from "@mantine/carousel";
+import Gallery from "@/modules/vehicle-detail/imagesGellary";
 
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
@@ -116,77 +117,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
           <Grid gutter="32px">
             {/* Carousel Section */}
             <Grid.Col span={{ base: 12, lg: 8 }}>
-              <Carousel 
-                withIndicators={false} 
-                controlSize={40} 
-                mb="md"
-                slideSize="100%"
-                align="start"
-                slidesToScroll={1}
-                initialSlide={activeSlide}
-                onSlideChange={setActiveSlide}
-                styles={{
-                  control: {
-                    '&[data-inactive]': {
-                      opacity: 0,
-                      cursor: 'default',
-                    },
-                    color: 'white', // Red color for arrows
-                    backgroundColor: '#E90808',
-                    border: '1px solid #E90808',
-                    '&:hover': {
-                      backgroundColor: '#E90808',
-                      color: 'white',
-                    },
-                  },
-                }}
-              >
-                {(images).map((img, index) => (
-                  <Carousel.Slide key={index}>
-                    <Image
-                      radius="5px"
-                      alt="car-detail"
-                      src={img || defaultImage}
-                      h="433"
-                      w="100%"
-                      fit="cover"
-                    />
-                    <Group
-                      gap="xs"
-                      c="white"
-                      pos="absolute"
-                      top={rem(20)}
-                      left={rem(20)}
-                    >
-                      <CameraIcon />
-                      <Text>6</Text>
-                    </Group>
-                  </Carousel.Slide>
-                ))}
-              </Carousel>
-              <Box className="img-gallery-slider">
-                <SimpleGrid cols={5}>
-                  {(images || [defaultImage]).map((img, index) => (
-                    <UnstyledButton 
-                      key={index}
-                      onClick={() => setActiveSlide(index)}
-                      style={{
-                        opacity: activeSlide === index ? 1 : 0.6,
-                        transition: 'opacity 0.2s ease'
-                      }}
-                    >
-                      <Image
-                        radius="sm"
-                        alt="car-thumbnail"
-                        src={img || defaultImage}
-                        h="83"
-                        w="100%"
-                        fit="cover"
-                      />
-                    </UnstyledButton>
-                  ))}
-                </SimpleGrid>
-              </Box>
+                      <Gallery images={images} />
+
             </Grid.Col>
 
             {/* Car Details Section */}
@@ -197,11 +129,11 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                 </Text>
                 <Group mt="20px" wrap="nowrap">
                   <Text c="#E90808" size="24px" lh="1">
-                    <Text span fw="700" size="16px" c="#E90808">
-                      PKR
-                    </Text>{" "}
+                    {/* <Text span fw="700" size="16px" c="#E90808">
+                      
+                    </Text> */}
                     <Text span fw="700" size="24px" c="#E90808">
-                      {formatPriceInFactors(minPrice)} -{" "}
+                    ${formatPriceInFactors(minPrice)} -{" "}
                       {formatPriceInFactors(maxPrice)}
                     </Text>{" "}
                     <Text span size={'14px'} c="dimmed">
@@ -234,7 +166,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               </Box>
 
               {/* Car Specifications */}
-              <Box className="row border-bottom" mt="xl" pb="md" mb="md">
+              <Box className="row border-bottom" mt="md" pb="md" mb="md">
                 <Box className="col border-end">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <FuelTank style={{ width: rem(24), height: rem(24) }} />
@@ -264,7 +196,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                       </Text>
                     </Flex>
                   ) : (
-                    <Flex align="flex-start" gap="sm" c="dimmed">
+                    <Flex align="flex-start" gap="sm" c="dimmed"  ms="8px">
                       <AirBags
                         style={{
                           width: rem(24),
@@ -283,7 +215,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                 </Box>
               </Box>
 
-              <Box className="row border-bottom" pb="md" mb="lg">
+              <Box className="row border-bottom border-top" pb="md" mb="lg">
                 <Box className="col border-end">
                   {type == "bike" ? (
                     <Flex align="flex-start" gap="sm" c="dimmed">
@@ -323,7 +255,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   )}
                 </Box>
                 <Box className="col">
-                  <Flex align="flex-start" gap="sm" c="dimmed">
+                  <Flex align="flex-start" gap="sm" c="dimmed" ms="8px"> 
                     {/* <TransmissionIcon
                       style={{
                         width: rem(24),
@@ -346,9 +278,9 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               <Box className="row">
                 <Box className="col-lg-12">
                   <Title order={5} fw={600} mb="md">
-                    Available Colors
+                    {make} {model} Available Colors
                   </Title>
-                  <Group>
+                  <Group spacing="md" align="center" style={{ flexWrap: 'wrap' }}>
                     {type === "bike" &&
                       vehicle?.vehicleDetails?.colorsAvailable?.map(
                         (color, index) => (
@@ -358,16 +290,30 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                             radius="xl"
                             bd="1px solid #EEE"
                             bg={GetColor(color)}
+                            style={{ 
+                              width: '30px', 
+                              height: '30px',
+                              padding: 0,
+                              margin: '0 8px 8px 0',
+                              flexShrink: 0
+                            }}
                           />
                         )
                       )}
-                    {exterior?.colorsAvailable?.map((color, index) => (
+                    {vehicle?.vehicleDetails?.colorsAvailable?.map((color, index) => (
                       <Button
                         key={index}
                         size="xs"
                         radius="xl"
                         bd="1px solid #EEE"
                         bg={color}
+                        style={{ 
+                          width: '30px', 
+                          height: '30px',
+                          padding: 0,
+                          margin: '0 6px 6px 0',
+                          flexShrink: 0
+                        }}
                       />
                     ))}
                   </Group>
@@ -388,7 +334,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               </Title>
               <Text mt="md">
                 The price of {`${make} ${model} ${variant} ${year}`} in Pakistan
-                starts from PKR {minPrice}.
+                starts from ${minPrice}.
               </Text>
               {/* <Anchor href={brochureLink} underline="hover" className="text-primary" target="_blank">
                 View Brochure
@@ -431,7 +377,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         </Table.Td>
                         <Table.Td>
                           <Text size="14px" fw="700" c="#333">
-                            PKR {formatPrice(variant.minPrice)} - {formatPrice(variant.maxPrice)}
+                            ${formatPrice(variant.price)}
                           </Text>
                           <Text size="12px" c="#E90808" mt="12px">
                             Get {variant.make} {variant.model} {variant.transmission?.type ? variant.transmission?.type : ''} {variant.variant} On Road Price
@@ -515,11 +461,13 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         </ThemeIcon>
                       }
                     >
-                      {pros &&
-                        pros.length &&
-                        pros.map((pros, index) => (
-                          <List.Item key={index}>{pros}</List.Item>
-                        ))}
+                      {pros && pros.length > 0 && 
+                        pros.flatMap(prosItem => 
+                          prosItem.split('\n').filter(item => item.trim() !== '')
+                        ).map((item, index) => (
+                          <List.Item key={index}>{item}</List.Item>
+                        ))
+                      }
                     </List>
                   </Box>
                   <Box className="col-lg-6">
@@ -548,11 +496,13 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         </ThemeIcon>
                       }
                     >
-                      {cons &&
-                        cons.length &&
-                        cons.map((cons, index) => (
-                          <List.Item key={index}>{cons}</List.Item>
-                        ))}
+                      {cons && cons.length > 0 && 
+                        cons.flatMap(consItem => 
+                          consItem.split('\n').filter(item => item.trim() !== '')
+                        ).map((item, index) => (
+                          <List.Item key={index}>{item}</List.Item>
+                        ))
+                      }
                     </List>
                   </Box>
                 </Box>
@@ -624,7 +574,7 @@ const renderSpecifications = (vehicle) => {
         <Table.Tbody>
           <Table.Tr>
             <Table.Td>Price</Table.Td>
-            <Table.Td>{`PKR ${vehicle.minPrice} - PKR ${vehicle.maxPrice}`}</Table.Td>
+            <Table.Td>{`$${vehicle.minPrice} - $${vehicle.maxPrice}`}</Table.Td>
             <Table.Td>Dimension (LxWxH)</Table.Td>
             <Table.Td>{`${vehicle.dimensions.length} x ${vehicle.dimensions.width} x ${vehicle.dimensions.height} mm`}</Table.Td>
           </Table.Tr>
@@ -692,7 +642,7 @@ const renderSpecifications = (vehicle) => {
           <Table.Tr>
             <Table.Td c="dimmed">Price</Table.Td>
             <Table.Td>
-              {`PKR ${vehicle?.minPrice} - ${vehicle?.maxPrice}` || "N/A"}
+              {`$${vehicle?.minPrice} - ${vehicle?.maxPrice}` || "N/A"}
             </Table.Td>
             <Table.Td c="dimmed">Body Type</Table.Td>
             <Table.Td>{vehicle?.bodyType || "N/A"}</Table.Td>

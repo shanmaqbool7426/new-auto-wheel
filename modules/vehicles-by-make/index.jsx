@@ -88,7 +88,7 @@ const VehiclesByMake = ({vehicles}) => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $ 54.79 - 75.49 Lacs
                         </Text>
                         <Flex align="center" justify="center" gap="xs">
                           <Rating defaultValue={2} />
@@ -139,7 +139,7 @@ const VehiclesByMake = ({vehicles}) => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $54.79 - 75.49 Lacs
                         </Text>
                         <Text span inherit>
                         {reviewsText ? reviewsText : `(Launched Expected ${new Date(vehicle.releaseDate).getFullYear()}*)`}
@@ -188,7 +188,7 @@ const VehiclesByMake = ({vehicles}) => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $54.79 - 75.49 Lacs
                         </Text>
                         <Text span inherit>
                           (Launched Expected 2024*)
@@ -236,7 +236,7 @@ const VehiclesByMake = ({vehicles}) => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $54.79 - 75.49 Lacs
                         </Text>
                         <Flex align="center" justify="center" gap="xs">
                           <Rating defaultValue={2} />
@@ -287,7 +287,7 @@ const VehiclesByMake = ({vehicles}) => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $54.79 - 75.49 Lacs
                         </Text>
                         <Flex align="center" justify="center" gap="xs">
                           <Rating defaultValue={2} />

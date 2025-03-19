@@ -44,7 +44,7 @@ export const getColumns = (onClickDelete) => [
   {
     accessor: 'price',
     title: 'Price',
-    render: ({ price }) => <Text>{price.toLocaleString()} PKR</Text>,
+    render: ({ price }) => <Text>{price.toLocaleString()} $</Text>,
   },
   {
     accessor: 'city',

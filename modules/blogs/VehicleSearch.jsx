@@ -3,6 +3,7 @@ import { Box, Button, Select, Title } from '@mantine/core';
 import React, { useEffect, useState, useCallback } from 'react';
 import { fetchMakesByTypeServer } from "@/actions/index";
 import { useRouter } from 'next/navigation';
+import { MdArrowDropDown, MdCheckCircle } from "react-icons/md";
 
 const VehicleSearch = () => {
     const router = useRouter();
@@ -76,6 +77,8 @@ const VehicleSearch = () => {
                         <Select
                             size="md"
                             value={filters.type}
+                            rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+
                             onChange={(value) => handleFilterChange('type', value)}
                             placeholder="Select vehicle type"
                             data={[
@@ -89,6 +92,8 @@ const VehicleSearch = () => {
                         <Select
                             size="md"
                             value={filters.make}
+                            rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+                                
                             onChange={(value) => handleFilterChange('make', value)}
                             placeholder="Choose Make"
                             data={makes?.data?.map(make => ({
@@ -101,6 +106,8 @@ const VehicleSearch = () => {
                         <Select
                             size="md"
                             value={filters.model}
+                            rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+
                             onChange={(value) => handleFilterChange('model', value)}
                             placeholder="Choose Model"
                             data={filters.make

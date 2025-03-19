@@ -34,7 +34,8 @@
 
 // export const BASE_URL = "http://143.110.253.131:5000";
 // export const BASE_URL = "https://auto-wheel-be.vercel.app";
-export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
+// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 
 
@@ -216,7 +217,7 @@ export const API_ENDPOINTS = {
     GET: (type) => `${FUEL_TYPE_BASE}/type?type=${type}`,
   },
   COLOR: {
-    GET: (type) => `${COLOR_BASE}/type?type=${type}`,
+    GET: (type) => `${COLOR_BASE}`,
   },
   COMPETITOR: {
     GET: (vehicleId) => `${Competitor_BASE}/vehicle/${vehicleId}`,

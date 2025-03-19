@@ -7,7 +7,7 @@ import styles from './FeatureGrid.module.css';
 const FeatureGrid = ({ items }) => {
   const ImageCard = ({ imageUrl, title, publishDate, order, slug }) => {
     return (
-      <Box h={order === 1 ? 366 : 173} mb="20px" style={{ position: "relative" }}>
+      <Box h={order === 1 ? 366 : 173} mb="" style={{ position: "relative" }}>
         <BackgroundImage h="100%" src={imageUrl} radius="5px">
           <Overlay
             color="#000"

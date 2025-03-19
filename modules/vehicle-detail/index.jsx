@@ -81,12 +81,14 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     [detail?.data?.seller]
   );
 
+
   // Memoized vehicle information
   const vehicleInfo = useMemo(
     () => ({
       title: `${detail?.data?.year} ${detail?.data?.make} ${detail?.data?.model}`,
       engine: detail?.data?.specifications?.engine,
       isFeatured: detail?.data?.isFeatured,
+      condition: detail?.data?.condition,
       price: formatPrice(detail?.data?.price),
       updatedAt: getTimeAgo(detail?.data?.updatedAt),
       features: detail?.data?.features || [],
@@ -95,13 +97,15 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     [detail?.data]
   );
 
+  { console.log("detail?.data?.specifications", detail?.data?.specifications) }
+
   // Memoized car summary items
   const carSummaryItems = useMemo(
     () => [
       {
         icon: <FuelTank />,
         label: "Engine",
-        value: detail?.data?.specifications?.engine,
+        value: detail?.data?.specifications?.engineCapacity,
       },
       {
         icon: <GearIcon />,
@@ -214,19 +218,19 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
         </Text>
         <Box className="row mt-3 mb-4" align="center">
           <Box className="col">
-            <Card 
-              padding={rem(8)} 
-              radius="sm" 
+            <Card
+              padding={rem(8)}
+              radius="sm"
               withBorder
-              style={{ 
-                width: '130px', 
+              style={{
+                width: '130px',
                 height: '41.7px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
             >
-              <Link 
+              <Link
                 href={`/dealer-profile/${detail?.data?.seller?._id}`}
                 style={{
                   width: '100%',
@@ -236,8 +240,8 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                   justifyContent: 'center'
                 }}
               >
-                <Image 
-                  src={sellerInfo.image} 
+                <Image
+                  src={sellerInfo.image}
                   alt={sellerInfo.dealerName}
                 />
               </Link>
@@ -313,12 +317,12 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
   const WorkingHours = ({ hours }) => {
     const [expanded, setExpanded] = React.useState(false);
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    
+
     const openDays = days.filter(day => hours[day]?.isOpen);
     const displayDays = expanded ? openDays : openDays.slice(0, 1);
-    
+
     if (openDays.length === 0) return null;
-    
+
     return (
       <Box className="working-hours">
         {displayDays.map(day => (
@@ -357,26 +361,52 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
       >
         <Box className="container-xl">
           {/* Service Cards */}
-          <Box className="row">
+          <Box className="row g-4">
             {serviceCards.map((card, index) => (
               <Box className="col-md-4" key={index}>
                 <Card
-                  shadow="0px 4px 20px 0px #00000014"
+                  shadow="sm"
                   padding="md"
-                  radius={rem(5)}
+                  radius="sm"
+                  withBorder={false}
+                  style={{
+                    backgroundColor: 'white',
+                    height: '66px',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
                 >
-                  <Group gap="xs" wrap="nowrap" flex={1} align="self-start">
-                    <ThemeIcon size={rem(40)} bg="white">
+                  <Group gap="md" wrap="nowrap" align="flex-start">
+                    <ThemeIcon 
+                      size={24}
+                      radius="sm"
+                      style={{ 
+                        backgroundColor: 'transparent',
+                        color: '#E90808',
+                        minWidth: '24px',
+                        height: '24px'
+                      }}
+                    >
                       {card.icon}
                     </ThemeIcon>
                     <Box>
-                      <Title order={5} fw={600}>
+                      <Text 
+                        size="16px"
+                        fw={400}
+                        lh="20px"
+                        mb={4}
+                        style={{
+                          color: '#242424'
+                        }}
+                      >
                         {card.title}
-                      </Title>
+                      </Text>
                       <Text
-                        c="#878787"
-                        size="sm"
-                        className="mb-0 text-muted content"
+                        size="12px"
+                        lh="16px"
+                        style={{
+                          color: '#6B6B6B'
+                        }}
                       >
                         {card.content}
                       </Text>
@@ -387,7 +417,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
             ))}
           </Box>
 
-          <Box className="row mt-5">
+          <Box className="row mt-4 ms-2 social-section">
             <Box className="col-md-8">
               {/* Car Pricing Section */}
               <Box component="section" className="car-price-section">
@@ -395,14 +425,23 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                   <Box className="title-section">
                     {/* className="title-sm fs-5 fw-semibold lh-sm" */}
                     <Text fw={600} mb={rem(3)} className="text-primary">
-                      {vehicleInfo.engine}
+                      {vehicleInfo.condition}
                     </Text>
                     <Title size={rem(36)} className="text-primary">
                       {vehicleInfo.title}
                     </Title>
                   </Box>
-                  <Text size={rem(16)} className="price-field">
-                    Rs {vehicleInfo.price}
+                  <Text
+                    size={rem(16)}
+                    className="price-field"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    ${vehicleInfo.price}
                   </Text>
                 </Flex>
                 {/* Features Section */}
@@ -446,13 +485,13 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
               </Box>
 
               {/* Gallery Section */}
-              <Box
+              {/* <Box
                 component="section"
                 className="product-image-section"
                 my="xl"
-              >
-                <Gellary images={detail?.data?.images} />
-              </Box>
+              > */}
+              <Gellary images={detail?.data?.images} />
+              {/* </Box> */}
 
               {/* Car Summary Section */}
               <Box component="section" className="summary-section">
@@ -534,8 +573,9 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                 <Title order={3} mb="lg">
                   Sellers Notes
                 </Title>
-                <Text size={rem(14)} ff="heading">
-                  {vehicleInfo.sellerNotes}
+                <Text ff="heading" c="dimmed" size="sm" mb="lg">
+                  Fusce viverra, ligula quis pellentesque interdum, leo felis congue dui, ac accumsan sem nulla id lorem. Praesent ut tristique dui, nec condimentum lacus. Maecenas lobortis ante id egestas placerat. Nullam at ultricies lacus. Nam in nulla consectetur, suscipit mauris eu, fringilla augue. Phasellus gravida, dui quis dignissim tempus, tortor orci tristique leo, ut congue diam ipsum at massa. Pellentesque ut vestibulum erat. Donec a felis eget tellus laoreet ultrices.
+                  {/* {vehicleInfo.sellerNotes} */}
                 </Text>
                 <Calculator data={detail?.data} />
               </Box>
@@ -563,12 +603,12 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                       {sellerInfo.location}
                     </Text>
                   </Group>
-                      {Object.keys(sellerInfo.workingHours).length > 0 && (
-                        <>
-                          <Text fw={500} pl={5} size={rem(14)} mb="xs">Working Hours:</Text>
-                          <WorkingHours hours={sellerInfo.workingHours} />
-                        </>
-                      )}
+                  {Object.keys(sellerInfo.workingHours).length > 0 && (
+                    <>
+                      <Text fw={500} pl={5} size={rem(14)} mb="xs">Working Hours:</Text>
+                      <WorkingHours hours={sellerInfo.workingHours} />
+                    </>
+                  )}
                 </Card>
               </Box>
               <ReportAdd />

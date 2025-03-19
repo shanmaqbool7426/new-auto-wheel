@@ -1,20 +1,25 @@
 .controls {
-  position: absolute;
-  left: auto;
-  top: -44px;
-  right: 0;
-  width: 64px;
-  padding: 0;
+  position: absolute !important;
+  top: -44px !important;
+  right: 0 !important;
+  left: auto !important;
+  width: auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  gap: 8px !important;
+  justify-content: flex-end !important;
 }
 
 .control {
-  position: static;
+  position: static !important;
   background-color: #E90808;
   border-color: #E90808;
   color: #ffffff;
+  margin: 0 4px !important;
+  transform: none !important;
+}
 
-  &[data-inactive='true'] {
-    background-color: #CCCCCC;
-    border-color: #CCCCCC;
-  }
+.control[data-inactive='true'] {
+  background-color: #CCCCCC;
+  border-color: #CCCCCC;
 }

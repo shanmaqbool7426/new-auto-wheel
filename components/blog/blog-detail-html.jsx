@@ -4,22 +4,25 @@ import React, { useEffect, useState } from 'react';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { BsTwitterX, BsYoutube } from 'react-icons/bs';
 import parse from "html-react-parser";
-import { Link } from '@mantine/core';
 
-const BlogDetailHtml = ({ content }) => {
+
+import { Link } from '@mantine/core';
+import EditorRenderer from '../EditorRenderer';
+
+const BlogDetailHtml = ({ content, blog }) => {
   const [tableOfContents, setTableOfContents] = useState([]);
 
   useEffect(() => {
     // Extract headings from strong tags
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
-    
+
     const strongTags = tempDiv.getElementsByTagName('strong');
     const toc = Array.from(strongTags).map((tag, index) => ({
       id: `section-${index}`,
       text: tag.textContent
     }));
-    
+
     setTableOfContents(toc);
   }, [content]);
 
@@ -34,6 +37,8 @@ const BlogDetailHtml = ({ content }) => {
     });
     return parse(modifiedContent);
   };
+
+  console.log("blog", blog)
 
   const scrollToHeading = (id) => {
     const element = document.getElementById(id);
@@ -63,7 +68,7 @@ const BlogDetailHtml = ({ content }) => {
                 <List.Item
                   key={item.id}
                   onClick={() => scrollToHeading(item.id)}
-                  style={{ 
+                  style={{
                     cursor: 'pointer',
                     color: '#E90808'
                   }}
@@ -74,9 +79,9 @@ const BlogDetailHtml = ({ content }) => {
             </List>
           </>
         )}
-
         <div className="blog-content">
-          {parseWithIds(content)}
+          <EditorRenderer data={JSON.parse(content)} />
+
         </div>
       </Card>
 
@@ -98,7 +103,7 @@ const BlogDetailHtml = ({ content }) => {
             />
             <Box>
               <Title order={4} fw={600}>
-                Sadia Malik
+                {blog?.author}
               </Title>
               <Text size="md">
                 I am content writer at AutoWheels Pakistan. I love

@@ -86,7 +86,7 @@ export default function ProfileInformation({ profileData }) {
   console.log('profileFile', profileData);
 
   return (
-    <Card noContentPadding>
+    <Card noContentPadding radius="md">
       <Box className={styles.profileBanner}>
         <img src={bannerImage ? bannerImage : profileData.bannerImage} alt="Profile Banner" width={354} height={140} />
         <Button 
@@ -107,6 +107,7 @@ export default function ProfileInformation({ profileData }) {
 
         <Box className={styles.profilePicture}>
           <Image
+          
             src={profileFile ? profileFile : profileData.profileImage}
             alt="Profile"
             width={144}

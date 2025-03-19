@@ -14,7 +14,7 @@ import Link from "next/link";
 import styles from './ComparisonCard.module.css';
 import { IconSmbolAngleDown, IconCloseCompCard } from "@/components/Icons";
 
-const ComparisonCard = ({ vehicle, onRemove }) => {
+const ComparisonCard = ({ vehicle, onRemove, onClick }) => {
     return (
         <Card className={styles.compCard} withBorder shadow="none">
             {/* {vehicle._id && <CloseButton ml="auto" />} */}
@@ -33,8 +33,8 @@ const ComparisonCard = ({ vehicle, onRemove }) => {
                         `Add Vehicle`
                     }
                 </Text> */}
-                <Box className={styles.compButton}>
-                    {vehicle.make && `${vehicle.make} ${vehicle.model} ${vehicle.variant}` || ""}
+                <Box className={styles.compButton} onClick={onClick}>
+                    {vehicle.make && `${vehicle.variant}` || ""}
                     <IconSmbolAngleDown />
                 </Box>
                 {/* <Input value={vehicle.make && `${vehicle.make} ${vehicle.model} ${vehicle.variant}` || ""} placeholder="Please Select Vehicle" /> */}
@@ -45,7 +45,7 @@ const ComparisonCard = ({ vehicle, onRemove }) => {
                 )}
                 {vehicle.minPrice && (
                     <Text lh="1" fw={700} size="20px" mt="12px">
-                        {`Rs ${vehicle.minPrice / 100000} - ${vehicle.maxPrice / 100000} Lacs`}
+                        {`$${vehicle.minPrice} - $${vehicle.maxPrice}`}
                     </Text>
                 )}
                 {vehicle._id &&

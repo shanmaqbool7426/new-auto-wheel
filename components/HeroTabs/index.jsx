@@ -67,12 +67,13 @@ const HeroTabs = ({ setType }) => {
   }
   const fetchMakesByType = async (vehicleType) => {
     try {
-      const fetchMakes = await fetchMakesByTypeServer(typeMapping[vehicleType]);
+      const fetchMakes = await fetchMakesByTypeServer(vehicleType);
+
+      console.log("fetchMakes",fetchMakes)
       setFetchMakesByTypeData(fetchMakes);
     } catch (error) { }
   };
 
-  console.log("locationSelection", locationSelection);
 
   // useEffect hook to fetch data when makesByType changes
   useEffect(() => {

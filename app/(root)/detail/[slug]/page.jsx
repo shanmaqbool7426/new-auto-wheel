@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
 import VehicleDetailModule from "@/modules/vehicle-detail";
+import LoadingWrapper from "@/components/loading-wrapper";
+import { Center, Loader } from '@mantine/core';
 import { fetchSimilarVehicles, fetchVehiclDetail } from "@/services/vehicles";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 
@@ -12,13 +14,23 @@ const VehicleDetailPage = async ({ params }) => {
   );
   const similar = await fetchSimilarVehicles(
     `${API_ENDPOINTS.VEHICLE.SIMILAR}/${detail?.data?._id}`
-
   );
   
   return (
-    <Suspense fallback={<div>Loading vehicle details...</div>}>
-      <VehicleDetailModule detail={detail} listOfSimilarVehicles={similar} />
-    </Suspense>
+    <LoadingWrapper>
+      <Suspense 
+        fallback={
+          <Center h="100vh">
+            <Loader color="red" size="lg" />
+          </Center>
+        }
+      >
+        <VehicleDetailModule 
+          detail={detail} 
+          listOfSimilarVehicles={similar} 
+        />
+      </Suspense>
+    </LoadingWrapper>
   );
 };
 

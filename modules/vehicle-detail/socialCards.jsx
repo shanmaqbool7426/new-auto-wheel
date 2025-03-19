@@ -9,9 +9,15 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import OfferPriceModal from "@/components/ui/OfferPrice";
 import { Paper, rem, Title, Text, ThemeIcon } from "@mantine/core";
+import { useUser } from "@/contexts/user";
+import { useAuthModalContext } from "@/contexts/auth-modal";
+import { AUTH_VIEWS } from '@/constants/auth-config';
+
 const SocialCards = ({ detail, scrollToMessage }) => {
   const [showPhone, setShowPhone] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const { userData } = useUser();
+  const { openAuthModal } = useAuthModalContext();
 
   const phoneNumber =
     detail?.data?.seller?.phoneNumber ||
@@ -24,13 +30,23 @@ const SocialCards = ({ detail, scrollToMessage }) => {
     ? `(${phoneNumber.slice(0, 2)}${"*".repeat(7)})`
     : "(**********)";
 
+  const handleAction = (action) => {
+    if (!userData?._id) {
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
+      return;
+    }
+    action();
+  };
+
   const socialsCards = [
     {
       icon: <PhoneIcon />,
       title: showPhone ? phoneNumber : maskedNumber,
       subtitle: !showPhone && phoneNumber ? "Show Number" : "",
       underline: !showPhone,
-      onClick: phoneNumber ? () => setShowPhone(true) : undefined,
+      onClick: phoneNumber 
+        ? () => handleAction(() => setShowPhone(true)) 
+        : undefined,
     },
     {
       icon: (
@@ -40,24 +56,25 @@ const SocialCards = ({ detail, scrollToMessage }) => {
       ),
       title: "CHAT VIA WHATSAPP",
       onClick: whatsappNumber
-        ? () =>
+        ? () => handleAction(() => 
             window.open(
               `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text&app_absent=0&lang=en`,
               "_blank"
             )
+          )
         : undefined,
     },
     {
       icon: <MessageIcon />,
       title: "Message To Dealer",
       uppercase: true,
-      onClick: scrollToMessage,
+      onClick: () => handleAction(scrollToMessage),
     },
     {
       icon: <DollarIcon />,
       title: "Make an offer price",
       uppercase: true,
-      onClick: open,
+      onClick: () => handleAction(open),
     },
   ];
 

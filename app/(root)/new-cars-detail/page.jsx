@@ -141,7 +141,7 @@ const NewCarsDetail = () => {
                     </Text>
                     <Text c="#E90808" fw="bold" my="lg" size={rem(26)}>
                       <Text span c="#E90808" size="md" fw={600} mr="xs">
-                        PKR
+                        $
                       </Text>
                       59.7 - 75.5 lacs
                       <Text span size="md" c="dimmed" ml="xs">
@@ -269,8 +269,8 @@ const NewCarsDetail = () => {
                   </Text>
                 </Title>
                 <Text mt="md">
-                  The price of Toyota Corolla 2023 in Pakistan ranges from PKR
-                  5,969,000 for the base variant Altis X Manual 1.6 to PKR
+                  The price of Toyota Corolla 2023 in Pakistan ranges from $
+                  5,969,000 for the base variant Altis X Manual 1.6 to $
                   7,549,000 for the top of the line Altis Grande X CVT-i 1.8
                   Black Interior variant. These prices of Toyota Corolla in
                   Pakistan are ex-factory.
@@ -311,7 +311,7 @@ const NewCarsDetail = () => {
                       </Table.Td>
                       <Table.Td>
                         <Text size="xl" fw="bold">
-                          PKR 5,969,000
+                          $5,969,000
                         </Text>
                         <Text c="#E90808">
                           Get Corolla Altis X Manual 1.6 On Road Price
@@ -337,7 +337,7 @@ const NewCarsDetail = () => {
                       </Table.Td>
                       <Table.Td>
                         <Text size="xl" fw="bold">
-                          PKR 5,969,000
+                          $5,969,000
                         </Text>
                         <Text c="#E90808">
                           Get Corolla Altis X Manual 1.6 On Road Price
@@ -363,7 +363,7 @@ const NewCarsDetail = () => {
                       </Table.Td>
                       <Table.Td>
                         <Text size="xl" fw="bold">
-                          PKR 5,969,000
+                          $5,969,000
                         </Text>
                         <Text c="#E90808">
                           Get Corolla Altis X Manual 1.6 On Road Price
@@ -557,8 +557,8 @@ const NewCarsDetail = () => {
                     <Title order={4}>Price:</Title>
                     <Text>
                       The price of Toyota Corolla 2023 in Pakistan ranges from
-                      PKR 6,169,000 for the base variant Altis X Manual 1.6 to
-                      PKR 7,799,000 for the top of the line Altis Grande X CVT-i
+                      $6,169,000 for the base variant Altis X Manual 1.6 to
+                      $7,799,000 for the top of the line Altis Grande X CVT-i
                       1.8 Black Interior variant. These prices of Toyota Corolla
                       in Pakistan are ex-factory.
                     </Text>
@@ -925,7 +925,7 @@ const NewCarsDetail = () => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $ 54.79 - 75.49 Lacs
                         </Text>
                         <Flex align="center" justify="center" gap="xs">
                           <Rating defaultValue={2} />
@@ -981,7 +981,7 @@ const NewCarsDetail = () => {
                           Toyota Corolla
                         </Title>
                         <Text fw={600} fs="xl">
-                          Rs 54.79 - 75.49 Lacs
+                          $ 54.79 - 75.49 Lacs
                         </Text>
                         <Text span inherit>
                           Lahore

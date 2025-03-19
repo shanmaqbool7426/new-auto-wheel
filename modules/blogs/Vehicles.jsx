@@ -15,7 +15,7 @@ const Vehicles = async () => {
                     <Box className="row">
                         {vehicles?.data?.map((vehicle, index) => {
                             return (
-                                <Box className="col-md-4" key={index}>
+                                <Box className="col-md-3" key={index}>
                                     <CarCard bg="transparent" vehicle={vehicle} token={token} />
                                 </Box>
                             );

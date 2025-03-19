@@ -3,10 +3,16 @@ import { API_ENDPOINTS, LOCATION_PROVINCES } from "@/constants/api-endpoints";
 
 export const fetchVehiclsData = async (params) => {
   try {
-    console.log(">>>>>>>>>>.",API_ENDPOINTS.VEHICLE.LISTINGS + `/${params}`)
-    const vehicles = await fetchAPI(API_ENDPOINTS.VEHICLE.LISTINGS + `${params}`);
-    return vehicles
+    // Add caching strategy
+    const vehicles = await fetchAPI(
+      API_ENDPOINTS.VEHICLE.LISTINGS + `${params}`,
+      {
+        next: { revalidate: 60 } // Cache for 1 minute
+      }
+    );
+    return vehicles;
   } catch (error) {
+    console.error("Error fetching vehicles data:", error);
     return {
       vehicls: [],
     };
@@ -175,10 +181,10 @@ export const fetchVehiclesNew = async (url) => {
   }
 };
 
-export const getAllReviews = async (filterType = "all") => {
+export const getAllReviews = async (filterType = "all", type) => {
   try {
     const getAllReviews = await fetchAPI(
-      `${API_ENDPOINTS.REVIEWS.GET_ALL}?filterType=${filterType}`
+      `${API_ENDPOINTS.REVIEWS.GET_ALL}?filterType=${filterType}&type=${type}`
     );
     return getAllReviews?.data;
   } catch (error) {

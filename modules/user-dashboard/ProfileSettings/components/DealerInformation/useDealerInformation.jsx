@@ -106,7 +106,7 @@ export default function useDealerInformation() {
     const formData = {
       dealerName: existingData.dealerName || '',
       licenseNumber: existingData.licenseNumber || '',
-      location: existingData.location || '',
+      location: existingData.locationAddress || '',
     };
 
     if (existingData.workingHours) {

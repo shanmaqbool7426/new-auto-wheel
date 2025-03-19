@@ -73,6 +73,7 @@ const PostAnAd = (params) => {
     registeredIn: z.string().min(1, 'Registration location is required'),
     rego: z.string().min(1, 'Registration date is required'),
     exteriorColor: z.string().min(1, 'Color is required'),
+    condition: z.string().min(1, 'Condition is required'),
     milage: z.coerce.string().min(1, 'Mileage is required'),
     price: z.coerce.string().min(1, 'Price is required'),
     description: z.string().min(10, 'Description must be at least 10 characters'),
@@ -81,16 +82,25 @@ const PostAnAd = (params) => {
     model: z.string().min(1, 'Model is required'),
     variant: z.string().min(1, 'Variant is required'),
     engineType: z.string().min(1, 'Engine type is required'),
-    engineCapacity: z.number().min(1, 'Engine capacity is required'),
-    drive: z.string().min(1, 'Drive type is required'),
-    transmission: z.string().min(1, 'Transmission is required'),
-    assembly: z.string().min(1, 'Assembly is required'),
+    engineCapacity: z.number().optional(),
+    drive: z.string().optional(),
+    transmission:z.string().optional(),
+    assembly: z.string().optional(),
     body: z.string().min(1, 'Body type is required'),
     features: z.array(z.string()).min(1, 'Select at least one feature'),
     mobileNumber: z.string()
-      .regex(/^[\d]{10,15}$/, 'Invalid mobile number format').min(10, 'Mobile number must be at least 10 digits'),
+      .regex(/^[\d]{10,15}$/, 'Invalid mobile number format')
+      .min(10, 'Mobile number must be at least 10 digits'),
     secondaryNumber: z.string().optional(),
     allowWhatsAppContact: z.boolean(),
+  }).refine((data) => {
+    // Add conditional validation based on vehicle type
+    if (data.type === 'car' || data.type === 'truck') {
+      return !!data.engineCapacity && !!data.drive && !!data.assembly && !!data.transmission;
+    }
+    return true;
+  }, {
+    message: "Engine capacity, drive, and assembly are required."
   });
   const form = useForm({
     validate: zodResolver(formSchema),
@@ -128,7 +138,7 @@ const PostAnAd = (params) => {
   const steps = [
     {
       label: 'Basic Information',
-      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'milage', 'price', 'description', 'images'],
+      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'condition', 'milage', 'price', 'description', 'images'],
     },
     {
       label: 'Vehicle Details',
@@ -152,7 +162,7 @@ const PostAnAd = (params) => {
     province
   } = useVehicleData(vehicleType);
 
-  console.log("....transmissions", transmissions)
+  console.log("....colors", colors)
   // Selection State Management
   const [selection, setSelection] = useState({
     make: "",
@@ -203,6 +213,7 @@ const PostAnAd = (params) => {
           const regoDate = data.rego ? new Date(data.rego).toISOString().split('T')[0] : '';
           form.setFieldValue('year', data.year.toString() || "");
           form.setFieldValue('province', data.province || "");
+          form.setFieldValue('condition', data.condition || "");
           form.setFieldValue('city', data.city || "");
           form.setFieldValue('suburb', data.cityArea || "");
           form.setFieldValue('registeredIn', capitalize(data.registeredIn) || "");
@@ -218,7 +229,7 @@ const PostAnAd = (params) => {
           form.setFieldValue('seats', data.specifications?.seats || "");
           form.setFieldValue('doors', data.specifications?.doors || "");
           form.setFieldValue('body', data.specifications?.bodyType || "");
-          form.setFieldValue('engineCapacity', data.specifications?.displacement || "");
+          form.setFieldValue('engineCapacity', data.specifications?.engineCapacity || "");
           form.setFieldValue('transmission', data.specifications?.transmission || "");
           form.setFieldValue('assembly', data.specifications?.assembly || "");
           form.setFieldValue('features', data.features || []);
@@ -271,8 +282,7 @@ const PostAnAd = (params) => {
             }
 
             if (vehicleData.transmission) {
-              const transmission = transmissions.find(item => item._id === vehicleData.transmission.type);
-              form.setFieldValue('transmission', transmission?.title || "");
+              form.setFieldValue('transmission', vehicleData.transmission?.type || "");
             }
 
             if (vehicleData.drive) {
@@ -285,9 +295,9 @@ const PostAnAd = (params) => {
             }
 
             // Set assembly (you might need to map this from your data)
-            if (vehicleData.Info?.make) {
+            if (vehicleData?.engine?.assembly) {
               // You can set a default assembly based on make or other criteria
-              form.setFieldValue('assembly', 'local'); // or 'imported' based on your logic
+              form.setFieldValue('assembly', vehicleData?.engine.assembly); // or 'imported' based on your logic
             }
 
             // Set body type
@@ -324,7 +334,7 @@ const PostAnAd = (params) => {
             }
 
             // Disc Brakes
-            if (vehicleData.safety.discBrake){
+            if (vehicleData.safety.discBrake) {
               features.push('Disc Brakes');
             }
             // Comfort features
@@ -420,6 +430,7 @@ const PostAnAd = (params) => {
   const handleSubmit = async (values) => {
     try {
       // Validate entire form
+      console.log("values",values)
       await formSchema.parseAsync(values);
 
       // Create payload with proper type conversion
@@ -434,22 +445,29 @@ const PostAnAd = (params) => {
       if (vehicleId && isVehicle?._id) {
         await submitUpdateFormData(
           API_ENDPOINTS.VEHICLE.Update(isVehicle?._id),
-          payload,
+          JSON.stringify(payload),
           session?.user?.token?.token
         );
+        showNotification({
+          title: "Success",
+          message: "Your ad has been updated successfully.",
+          color: "green",
+        });
       } else {
+        console.log("payload",payload)
         await submitFormData(
           API_ENDPOINTS.VEHICLE.ADD,
-          payload,
+          JSON.stringify(payload),
           { "Content-Type": "application/json" }
         );
+        showNotification({
+          title: "Success",
+          message: "Your ad has been posted successfully.",
+          color: "green",
+        });
       }
 
-      showNotification({
-        title: "Success",
-        message: "Your ad has been posted successfully.",
-        color: "green",
-      });
+     
       router.push(`/listing/${vehicle}s`);
 
     } catch (error) {
@@ -491,7 +509,7 @@ const PostAnAd = (params) => {
   const nextStep = async (e) => {
     e.preventDefault();
     const isValid = await validateStep(activeStep);
-    // if (!isValid) return;
+    if (!isValid) return;
 
     setActiveStep((prev) => prev + 1);
     window.scroll({ top: 0, behavior: "smooth" });
@@ -590,11 +608,22 @@ const PostAnAd = (params) => {
                             onClick={openModal}
                           />
                         </Box>
+                        {console.log(">>>>>>> FORM",form.values)}
 
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Year"
+                          value={form.values.year || ""}
                             placeholder={new Date().getFullYear().toString()} data={yearList}
                             {...form.getInputProps('year')} nothingFoundMessage="No year found" />
+                        </Box>
+
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldSelect label="Condition"
+                            {...form.getInputProps('condition')}
+                            placeholder="Condition"
+                            value={form?.values?.condition}
+                            data={["Used","Pre Owned","Certified Pre-owned"]}
+                          />
                         </Box>
 
                         <Box className="row align-items-center" mb="xl">
@@ -621,6 +650,7 @@ const PostAnAd = (params) => {
                               return { label: item.name, value: item.name }
                             })}
                             {...form.getInputProps('registeredIn')}
+                            value={form.values.registeredIn || ""}
                           />
                         </Box>
                         <Box className="row align-items-center" mb="xl">
@@ -633,7 +663,7 @@ const PostAnAd = (params) => {
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Exterior Color"
                             placeholder="Exterior Color"
-                            data={colors?.map(color => ({
+                            data={colors?.colors?.map(color => ({
                               value: color.title,
                               label: color.title,
                               color: color.code,
@@ -647,6 +677,7 @@ const PostAnAd = (params) => {
                                 padding: '8px 12px',
                               }
                             }}
+                            value={form.values.exteriorColor || ""}
                           />
                         </Box>
                         <Box className="row align-items-center" mb="xl">
@@ -681,7 +712,7 @@ const PostAnAd = (params) => {
                               placeholder="54,683,506"
                               rightSection={
                                 <Text span inherit size="xs">
-                                  PKR
+                                  $
                                 </Text>
                               }
                               size="md"
@@ -774,6 +805,7 @@ const PostAnAd = (params) => {
                             valueData={form.values.engineType.charAt(0).toUpperCase() + form.values.engineType.slice(1)}
                             data={fuelTypes?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('engineType')}
+                            value={form.values.engineType.charAt(0).toUpperCase() + form.values.engineType.slice(1)}
                           />
                         </Box>
                         {/* <Box className="row align-items-center" mb="xl">
@@ -796,23 +828,27 @@ const PostAnAd = (params) => {
                             valueData={form.values.transmission.charAt(0).toUpperCase() + form.values.transmission.slice(1)}
                             data={transmissions?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('transmission')}
+                            value={form.values?.transmission}
+
                           />
                         </Box>}
                         {console.log("drives...", drives)}
                         {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Drive"
                             placeholder="Drive"
-                            valueData={form.values.drive.charAt(0).toUpperCase() + form.values.drive.slice(1)}
+                            valueData={form.values.drive?.charAt(0).toUpperCase() + form.values.drive?.slice(1)}
                             data={drives?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('drive')}
+                            value={form.values.drive}
                           />
                         </Box>}
                         {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Assembly"
                             placeholder="Assembly"
-                            valueData={form.values.assembly.charAt(0).toUpperCase() + form.values.assembly.slice(1)}
+                            value={form.values.assembly?.charAt(0).toUpperCase() + form.values.assembly?.slice(1)}
                             data={["Local", "Imported"]}
                             {...form.getInputProps('assembly')}
+
                           />
                         </Box>}
                         <Box className="row align-items-start" mb="xl">

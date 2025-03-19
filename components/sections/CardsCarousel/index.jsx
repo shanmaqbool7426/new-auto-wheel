@@ -20,7 +20,7 @@ export default function CardsCarousel({ title, primaryTitle, bg = "#fff", isRati
           </Title>
         </Box>
 
-        <Box className={styles.sectionBody}>
+        <Box className={styles.carouselWrapper}>
           <Carousel
             align="start"
             slideSize={{ base: '100%', sm: '50%', md: '33.333333%', lg: '25%' }}
