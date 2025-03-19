@@ -14,4 +14,31 @@
     .mantine-Group-root {
         justify-content: center !important;
     }
+    
+    .mantine-Pagination-control {
+        border-radius: 0;
+        min-width: 36px;
+        height: 36px;
+        background-color: #ff9999; /* Light pink/red color */
+        color: white;
+        border: none;
+        
+        &[data-active="true"] {
+            background-color: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+    }
+}
+
+.custom-pagination {
+    .mantine-Pagination-control {
+        margin: 0 2px;
+        
+        &:first-of-type, &:last-of-type {
+            border-radius: 0;
+            background-color: #ff9999; /* Light pink/red color */
+            color: white;
+        }
+    }
 }
