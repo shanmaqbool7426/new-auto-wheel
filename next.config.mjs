@@ -53,6 +53,10 @@ const nextConfig = {
       }
     ],
   },
+  experimental: {
+    turbo: true, // Enables faster build with Turbo
+  },
+  swcMinify: true, // Faster minification
   async headers() {
     return [
       {
