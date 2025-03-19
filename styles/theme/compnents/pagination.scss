@@ -19,14 +19,14 @@
         border-radius: 0;
         min-width: 36px;
         height: 36px;
-        background-color: #ff9999; /* Light pink/red color */
-        color: white;
-        border: none;
+        // background-color: #ff9999; /* Light pink/red color */
+        // color: white;
+        // border: none;
         
         &[data-active="true"] {
-            background-color: white;
-            color: #333;
-            border: 1px solid #ddd;
+            background-color: #E90808;
+            color: white;
+            border-color: #E90808;
         }
     }
 }
@@ -37,8 +37,8 @@
         
         &:first-of-type, &:last-of-type {
             border-radius: 0;
-            background-color: #ff9999; /* Light pink/red color */
-            color: white;
+            // background-color: #ff9999; /* Light pink/red color */
+            // color: white;
         }
     }
 }

@@ -326,7 +326,6 @@ const CarsDealerShip = () => {
 
           <Box className="row">
             <Box className="col-md-12">
-              <QuickLinks />
             </Box>
           </Box>
         </Box>
