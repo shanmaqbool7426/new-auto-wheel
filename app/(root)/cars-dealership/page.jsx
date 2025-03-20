@@ -74,8 +74,40 @@ const CarsDealerShip = () => {
 
   const fetchDealers = async () => {
     try {
+      let sortQuery = '';
+      switch (sortOption) {
+        case 'rating_high':
+          sortQuery = 'rating_desc';
+          break;
+        case 'rating_low':
+          sortQuery = 'rating_asc';
+          break;
+        case 'ads_high':
+          sortQuery = 'ads_desc';
+          break;
+        case 'ads_low':
+          sortQuery = 'ads_asc';
+          break;
+        case 'oldest':
+          sortQuery = 'date_asc';
+          break;
+        default:
+          sortQuery = 'date_desc'; // newest first
+      }
+
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        type: selectedType,
+        sort: sortQuery
+      });
+
+      if (selection.city) {
+        queryParams.append('location', selection.city.name);
+      }
+
       const response = await fetch(
-        `${BASE_URL}/api/user/get-dealers?page=${page}&limit=${limit}&type=${selectedType}`
+        `${BASE_URL}/api/user/get-dealers?${queryParams}`
       );
       const data = await response.json();
       setDealers(data.data.dealers);
@@ -89,17 +121,17 @@ const CarsDealerShip = () => {
 
   useEffect(() => {
     fetchDealers();
-  }, [page, limit, selectedType]);
+  }, [page, limit, selectedType, sortOption]);
 
   const handleShowNumber = (index, e) => {
     if (e) e.stopPropagation(); // Prevent row click when clicking show number
-    
+
     // Check if user is logged in
     if (!userData?._id) {
       openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
       return;
     }
-    
+
     // If user is logged in, show/hide the number
     setShowNumbers((prev) => ({ ...prev, [index]: !prev[index] }));
   };
@@ -113,8 +145,14 @@ const CarsDealerShip = () => {
   };
 
 
-  console.log("totalPages..",totalPages)
-  return (
+  const sortOptions = [
+    { value: 'newest', label: 'Date: Newest First' },
+    { value: 'oldest', label: 'Date: Oldest First' },
+    { value: 'rating_high', label: 'Rating: Highest First' },
+    { value: 'rating_low', label: 'Rating: Lowest First' },
+    { value: 'ads_high', label: 'Ads: Most First' },
+    { value: 'ads_low', label: 'Ads: Least First' }
+  ];  return (
     <>
       <Box component="section" className="car-specification">
         <Box
@@ -136,7 +174,7 @@ const CarsDealerShip = () => {
                   </ol>
                 </nav>
               </Box>
-              <Box className="col-md-12" style={{marginTop:"4px"}}>
+              <Box className="col-md-12" style={{ marginTop: "4px" }}>
                 <Box className="search-wrapper-card">
                   <Card
                     shadow="0px 4px 20px 0px #00000014"
@@ -151,9 +189,9 @@ const CarsDealerShip = () => {
                         <Select
                           size="md"
                           placeholder="Choose Type"
-                      rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+                          rightSection={<MdArrowDropDown size={24} color="#E90808" />}
 
-                          data={["All","Car", "Bike", "Truck"]}
+                          data={["All", "Car", "Bike", "Truck"]}
                           value={selectedType}
                           onChange={setSelectedType}
                           comboboxProps={{ shadow: "xl" }}
@@ -223,11 +261,26 @@ const CarsDealerShip = () => {
                   </Text>
                   <Select
                     size="sm"
-                    placeholder="Date: newest First"
-                    data={["newest First", "oldest First", "highest First", "lowest First"]}
+                    placeholder="Sort By"
+                    data={sortOptions}
                     value={sortOption}
                     onChange={setSortOption}
                     comboboxProps={{ shadow: "xl" }}
+                    styles={(theme) => ({
+                      input: {
+                        '&:focus': {
+                          borderColor: '#E90808',
+                        },
+                      },
+                      item: {
+                        '&[data-selected]': {
+                          '&, &:hover': {
+                            backgroundColor: '#E90808',
+                            color: 'white',
+                          },
+                        },
+                      },
+                    })}
                   />
                 </Flex>
               </Box>
@@ -241,7 +294,7 @@ const CarsDealerShip = () => {
                 withRowBorders={false}
                 verticalSpacing="sm"
               >
-                {console.log("cars-dealership",dealers)}
+                {console.log("cars-dealership", dealers)}
                 <Table.Tbody>
                   {dealers?.map((dealer, index) => (
                     <Table.Tr
@@ -282,11 +335,11 @@ const CarsDealerShip = () => {
                       <Table.Td align="center" w="30%">
                         <Flex justify="center" align="center" gap={5}>
                           <PhoneIcon />
-                          <Text size="lg" component="strong" fw="bold">
-                            {showNumbers[index]
-                              ? dealer.phone
-                              : `(${dealer.phone.slice(0, 2)}****)`}
-                          </Text>
+                            <Text size="lg" component="strong" fw="bold">
+                              {showNumbers[index]
+                                ? dealer.phone
+                                : `(${dealer.phone.slice(0, 2)}****)`}
+                            </Text>
                           <Anchor
                             style={{ alignSelf: "flex-start", marginBottom: "15px" }}
                             component="button"
@@ -309,7 +362,7 @@ const CarsDealerShip = () => {
                   ))}
                 </Table.Tbody>
               </Table>
-              {console.log("totalPages",totalPages)}
+              {console.log("totalPages", totalPages)}
               <Pagination
                 mt="sm"
                 total={totalPages}

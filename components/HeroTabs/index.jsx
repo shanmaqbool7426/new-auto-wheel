@@ -65,15 +65,37 @@ const HeroTabs = ({ setType }) => {
   const clearLocatiopnSelection = () => {
     setLocationSelection({ country: "PK", province: "", city: "",suburb:"" });
   }
-  const fetchMakesByType = async (vehicleType) => {
-    try {
-      const fetchMakes = await fetchMakesByTypeServer(vehicleType);
 
-      console.log("fetchMakes",fetchMakes)
-      setFetchMakesByTypeData(fetchMakes);
-    } catch (error) { }
+  const normalizeVehicleType = (type) => {
+    if (!type) return 'car';
+    
+    // Convert to lowercase for consistent comparison
+    const normalizedType = type.toLowerCase();
+    
+    // Handle plural forms
+    switch (normalizedType) {
+      case 'cars':
+        return 'car';
+      case 'bikes':
+        return 'bike';
+      case 'trucks':
+        return 'truck';
+      default:
+        return normalizedType;
+    }
   };
 
+  const fetchMakesByType = async (vehicleType) => {
+    try {
+      const normalizedType = normalizeVehicleType(vehicleType);
+      const fetchMakes = await fetchMakesByTypeServer(normalizedType);
+      
+      console.log("fetchMakes", fetchMakes);
+      setFetchMakesByTypeData(fetchMakes);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   // useEffect hook to fetch data when makesByType changes
   useEffect(() => {
