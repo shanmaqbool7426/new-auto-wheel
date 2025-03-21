@@ -246,7 +246,7 @@ const NewCarsModule = ({
                     c="#878787"
                     tt="capitalize"
                     component={Link}
-                    href={`/cars-dealership`}
+                    href={`/dealers`}
                     autoContrast
                     h={39}
                     radius="16px"
