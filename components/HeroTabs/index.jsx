@@ -22,6 +22,7 @@ import { BsArrowRight, BsSearch } from "react-icons/bs";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { City } from "country-state-city";
+import { useGetProvincesQuery, useGetCitiesQuery, useGetSuburbsQuery } from "@/services/location/index";
 
 import CustomModel from "@/constants/CustomModel";
 import LocationSelector from "@/components/LocationSelector.jsx"; // Import LocationSelector
@@ -85,6 +86,7 @@ const HeroTabs = ({ setType }) => {
     }
   };
 
+<<<<<<< Updated upstream
   const fetchMakesByType = async (vehicleType) => {
     try {
       const normalizedType = normalizeVehicleType(vehicleType);
@@ -96,6 +98,44 @@ const HeroTabs = ({ setType }) => {
       console.log("error", error);
     }
   };
+=======
+  // Add new states for location data
+  const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [suburbs, setSuburbs] = useState([]);
+
+  // Query hooks with skip option for cities and suburbs
+  const { data: provincesData, isLoading: isLoadingProvinces } = useGetProvincesQuery();
+  const { data: citiesData, isLoading: isLoadingCities } = useGetCitiesQuery(
+    locationSelection.province?._id,
+    { skip: !locationSelection.province?._id }
+  );
+  const { data: suburbsData, isLoading: isLoadingSuburbs } = useGetSuburbsQuery(
+    locationSelection.city?._id,
+    { skip: !locationSelection.city?._id }
+  );
+
+  // Effect to update provinces when data is loaded
+  useEffect(() => {
+    if (provincesData) {
+      setProvinces(provincesData);
+    }
+  }, [provincesData]);
+
+  // Effect to update cities when province is selected
+  useEffect(() => {
+    if (citiesData) {
+      setCities(citiesData);
+    }
+  }, [citiesData]);
+
+  // Effect to update suburbs when city is selected
+  useEffect(() => {
+    if (suburbsData) {
+      setSuburbs(suburbsData);
+    }
+  }, [suburbsData]);
+>>>>>>> Stashed changes
 
   // useEffect hook to fetch data when makesByType changes
   useEffect(() => {
@@ -392,6 +432,12 @@ const HeroTabs = ({ setType }) => {
         setSelection={setLocationSelection}
         onClose={closeLocationModal}
         hide={false}
+        provinces={provinces}
+        cities={cities}
+        suburbs={suburbs}
+        isLoadingProvinces={isLoadingProvinces}
+        isLoadingCities={isLoadingCities}
+        isLoadingSuburbs={isLoadingSuburbs}
       />
     </>
   );
