@@ -17,11 +17,8 @@ export default function PersonalInformation({ profileData }) {
   useEffect(() => {
     if (profileData) {
       // Only set values if they are not already set
-      if (!form.values.firstName) {
-        form.setFieldValue('firstName', profileData.firstName || '');
-      }
-      if (!form.values.lastName) {
-        form.setFieldValue('lastName', profileData.lastName || '');
+      if (!form.values.fullName) {
+        form.setFieldValue('fullName', profileData.firstName || '');
       }
       if (!form.values.phoneNumber) {
         form.setFieldValue('phoneNumber', profileData.phone || '');
@@ -45,28 +42,21 @@ export default function PersonalInformation({ profileData }) {
         onSubmit={form.onSubmit((values) => handleSubmit(values))}
       >
         <Grid gutter="20px">
-          <Grid.Col span={6}>
+          <Grid.Col span={4}>
             <FormField
-              label="First Name"
+              label="Full Name"
               type="text"
-              {...form.getInputProps('firstName')}
+              {...form.getInputProps('fullName')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
-            <FormField
-              label="Last Name"
-              type="text"
-              {...form.getInputProps('lastName')}
-            />
-          </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={4}>
             <FormField
               label="Phone Number"
               type="text"
               {...form.getInputProps('phoneNumber')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={4}>
             <FormField
               label="Email"
               type="text"

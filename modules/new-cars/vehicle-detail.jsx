@@ -37,8 +37,12 @@ import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
 import Link from "next/link";
 import { useState } from "react";
+import VehicleComparison from "@/components/ComparisonCard";
+import { useComparison } from "@/contexts/comparison";
 
 const VehicleDetail = ({ vehicle, variantsVehicles }) => {
+  const { addToComparison, handleRemoveComparison } = useComparison();
+
 
   // selected vehicle for compare
   const [selectedVehicle, setSelectedVehicle] = useState([]);
@@ -384,7 +388,29 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                           </Text>
                         </Table.Td>
                         <Table.Td align="center">
-                          <Checkbox labelPosition="left" color="#E90808" onChange={(e) => setSelectedVehicle(e.target.checked ? [...selectedVehicle, { make: variant?.make, model: variant?.model, variant: variant?.variant, year: variant?.year, _id: variant?._id }] : selectedVehicle.filter(item => item._id !== variant._id))} />
+                          <Checkbox 
+                            labelPosition="left" 
+                            color="#E90808" 
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                // Create a properly formatted vehicle object for comparison
+                                const vehicleForComparison = {
+                                  Info: {
+                                    make: variant?.make,
+                                    model: variant?.model,
+                                    variant: variant?.variant,
+                                  }
+
+                                };
+                                
+                                // Add to comparison using the context function
+                                addToComparison(vehicleForComparison);
+                              }
+                              else{
+                                handleRemoveComparison(variant._id);
+                              }
+                            }} 
+                          />
                         </Table.Td>
                       </Table.Tr>
                     ))}
@@ -411,11 +437,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   }`
               )
               .join("_")}`} */}
-                  {selectedVehicle?.length > 1 && (
-                    <Button component={Link} size="sm" radius="md" bg="#E90808" c="white" href={`/comparison/${type}/${selectedVehicle.map(vehicle => `${vehicle.make}-${vehicle.model}${vehicle.variant ? "-" + vehicle.variant : ""}`).join("_")}`} >
-                      Compare
-                    </Button>
-                  )}
+                  
                 </Box>
               </Box>
             )}
@@ -560,6 +582,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
             </Box>
           </Box>
         </Box>
+        <VehicleComparison />
+
       </Box>
     </>
   );

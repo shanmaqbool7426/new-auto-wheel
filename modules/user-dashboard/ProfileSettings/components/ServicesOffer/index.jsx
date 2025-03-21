@@ -1,10 +1,33 @@
 'use client';
 import React, { useEffect } from 'react';
-import { Grid, Button, Box, Checkbox } from '@mantine/core';
+import { Grid, Button, Box, Checkbox, SimpleGrid } from '@mantine/core';
 import Card from '@/components/user-dashboard/Card';
 import useServicesOffer from './useServicesOffer';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './ServicesOffer.module.css';
+
+// Define all available services
+const availableServices = [
+  'New & Used Vehicle',
+  'Trade-In Services',
+  'Pre-Order & Custom Orders',
+  'Pre-Purchase Inspection',
+  'Certified Used Vehicles',
+  'Roadworthy Certificates (RWC)',
+  'Auto Loan Assistance',
+  'Car Leasing Options',
+  'Vehicle Insurance',
+  'Scheduled Maintenance',
+  'Mechanical Repairs',
+  'Body & Paint Services',
+  'Title Transfer Assistance',
+  'Vehicle Registration Services',
+  'Number Plate Customization',
+  'On-Site & Home Test Drives',
+  'Nationwide Delivery',
+  'Concierge Services',
+  'Guaranteed Title'
+];
 
 export default function ServicesOffer({ profileData }) {
   const {
@@ -14,57 +37,38 @@ export default function ServicesOffer({ profileData }) {
 
   // Set initial values for the form based on profileData
   useEffect(() => {
-    if (profileData) {
-      form.setValues({
-        offer1: profileData.servicesOffered.includes('offer1'),
-        offer2: profileData.servicesOffered.includes('offer2'),
-        offer3: profileData.servicesOffered.includes('offer3'),
-        offer4: profileData.servicesOffered.includes('offer4'),
+    if (profileData && profileData.servicesOffered) {
+      // Create an object with all services set to false initially
+      const initialValues = {};
+      availableServices.forEach(service => {
+        // Check if this service is in the user's profile
+        initialValues[service] = profileData.servicesOffered.includes(service);
       });
+      
+      form.setValues(initialValues);
     }
-  }, [profileData]); // Ensure to include profileData and form in the dependency array
+  }, [profileData]); // Ensure to include profileData in the dependency array
 
-
-  console.log('dataaaa',form.getValues())
   return (
     <Card title="Services Offer">
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <Grid gutter="20px">
-          <Grid.Col span={12}>
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+          {availableServices.map((service) => (
             <Checkbox
-              label="Offer 1"
-              checked={form.values.offer1} // Bind to form state
-              onChange={(event) => form.setFieldValue('offer1', event.currentTarget.checked)} // Update form state
-              size="14px"
+              key={service}
+              color="#E90808"
+              label={service}
+              checked={form.values[service] || false}
+              onChange={(event) => form.setFieldValue(service, event.currentTarget.checked)}
+              size="md"
+              styles={{
+                label: { fontSize: '14px' }
+              }}
             />
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <Checkbox
-              label="Offer 2"
-              checked={form.values.offer2} // Bind to form state
-              onChange={(event) => form.setFieldValue('offer2', event.currentTarget.checked)} // Update form state
-              size="14px"
-            />
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <Checkbox
-              label="Offer 3"
-              checked={form.values.offer3} // Bind to form state
-              onChange={(event) => form.setFieldValue('offer3', event.currentTarget.checked)} // Update form state
-              size="14px"
-            />
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <Checkbox
-              label="Offer 4"
-              checked={form.values.offer4} // Bind to form state
-              onChange={(event) => form.setFieldValue('offer4', event.currentTarget.checked)} // Update form state
-              size="14px"
-            />
-          </Grid.Col>
-        </Grid>
+          ))}
+        </SimpleGrid>
 
-        <Box className={styles.buttonHolder}>
+        <Box className={styles.buttonHolder} mt="xl">
           <Button
             radius="20px"
             color='#1B84FF'

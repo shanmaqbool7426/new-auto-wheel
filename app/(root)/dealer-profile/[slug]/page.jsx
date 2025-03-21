@@ -10,6 +10,7 @@ import {
   Checkbox,
   Radio,
   ActionIcon,
+  Popover,
 } from "@mantine/core";
 // import {
 //   Anchor,
@@ -34,7 +35,6 @@ import {
 //   Radio,
 //   rem,
 // } from "@mantine/core";
-import QuickLinks from "@/components/QuickLinks";
 import {
   IconCheck, IconRosetteDiscountCheckFilled, IconUserFilled, IconX
 } from "@tabler/icons-react";
@@ -51,6 +51,14 @@ import { useRouter, useParams } from 'next/navigation';
 import { useDisclosure } from "@mantine/hooks";
 import { getLocalStorage } from "@/utils";
 import { notifications } from "@mantine/notifications";
+import axios from "axios";
+import dynamic from "next/dynamic";
+
+// Dynamically import the map component to avoid SSR issues
+const MapComponent = dynamic(() => import("@/components/MapComponent"), {
+  ssr: false,
+  loading: () => <div style={{ height: "100%", background: "#f0f0f0", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading map...</div>
+});
 
 const DealerRating = () => {
   const [profile, setProfile] = useState(null);
@@ -62,8 +70,9 @@ const DealerRating = () => {
   const router = useRouter();
   const [isFollowing, setIsFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
+  const [showAllHours, setShowAllHours] = useState(false);
+  const [mapCoordinates, setMapCoordinates] = useState(null);
 
-  // ... existing useEffect hooks and other functions ...
   const [opened, { open, close }] = useDisclosure(false);
   const initialReviewForm = {
     title: '',
@@ -98,6 +107,35 @@ const DealerRating = () => {
     }
   };
 
+  // Function to get coordinates from address
+  const getLatLng = async (address) => {
+    if (!address) return null;
+    
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search`,
+        {
+          params: {
+            q: 'Punjab, Lahore, Johar Town',
+            format: "json",
+            limit: 1,
+          },
+        }
+      );
+
+      console.log("response",response)
+      if (response.data.length > 0) {
+        const location = response.data[0];
+        return { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
+      } else {
+        console.log("Location not found for address:", address);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching location:", error);
+      return null;
+    }
+  };
 
   const fetchReviews = async () => {
     // if (!profile) return;
@@ -170,9 +208,23 @@ const DealerRating = () => {
     }
   }, [slug]);
 
-  const isDealer =()=>{
+  // Get map coordinates when profile is loaded
+  useEffect(() => {
+    if (profile && profile.locationAddress) {
+      const fetchCoordinates = async () => {
+        const coordinates = await getLatLng(profile.locationAddress);
+        if (coordinates) {
+          setMapCoordinates(coordinates);
+        }
+      };
+      
+      fetchCoordinates();
+    }
+  }, [profile]);
+
+  const isDealer = () => {
     return token?.token?.user?._id === slug
-  }   
+  }
   useEffect(() => {
     if (profile) {
 
@@ -208,9 +260,9 @@ const DealerRating = () => {
       }
 
       const data = await response.json();
-      
+
       // Calculate new average rating from reviews
-      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0) + 
+      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0) +
         ((reviewForm.buyingProcess + reviewForm.vehicleSelection + reviewForm.levelOfServices) / 3);
       const newAverageRating = totalRating / (reviews.length + 1);
 
@@ -223,7 +275,7 @@ const DealerRating = () => {
 
       // Fetch updated reviews
       fetchReviews();
-      
+
       // Show success notification
       notifications.show({
         title: 'Success',
@@ -262,25 +314,25 @@ const DealerRating = () => {
         },
         body: JSON.stringify({ action })
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update like/dislike');
       }
-  
+
       const data = await response.json();
-      
+
       // Update the reviews state with the new like/dislike counts
       setReviews(reviews.map(review =>
         review?._id === reviewId
           ? {
-              ...review,
-              likes: data.hasLiked ? 
-                [...(review.likes || []), token?.token?.user?._id] : 
-                (review.likes || []).filter(id => id !== token?.token?.user?._id),
-              dislikes: data.hasDisliked ? 
-                [...(review.dislikes || []), token?.token?.user?._id] : 
-                (review.dislikes || []).filter(id => id !== token?.token?.user?._id)
-            }
+            ...review,
+            likes: data.hasLiked ?
+              [...(review.likes || []), token?.token?.user?._id] :
+              (review.likes || []).filter(id => id !== token?.token?.user?._id),
+            dislikes: data.hasDisliked ?
+              [...(review.dislikes || []), token?.token?.user?._id] :
+              (review.dislikes || []).filter(id => id !== token?.token?.user?._id)
+          }
           : review
       ));
     } catch (error) {
@@ -401,7 +453,7 @@ const DealerRating = () => {
                     <Title order={3} mb="xl">
                       {profile.fullName} Profile
                       <Text c="dimmed" size="md" span ml="sm" ff="text">
-                        Member Since ({new Date(profile.createdAt).toLocaleDateString()})
+                        Member Since ({new Date(profile.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })})
                       </Text>
                     </Title>
                     <Box className="row mb-2">
@@ -425,7 +477,7 @@ const DealerRating = () => {
                         <Group mt="xs" mb="0" pl="0" align="flex-start" justify="flex-start" gap="md" c="dimmed">
                           <Text size="sm">
                             <FaUserLarge style={{ verticalAlign: "baseline" }} size="0.8rem" />
-                            <Text span ml={5}>{profile.accountType}</Text>
+                            <Text span ml={5}>{profile.accountType == 'Dealer' ? 'Private Dealer' : 'Personal Account'}</Text>
                           </Text>
                           {profile.locationAddress && (
                             <Text size="sm">
@@ -433,7 +485,7 @@ const DealerRating = () => {
                               <Text span ml={5}>{profile.locationAddress}</Text>
                             </Text>
                           )}
-                          {profile.showEmail && (
+                          {true && (
                             <Text size="sm">
                               <FaEnvelope size="0.8rem" />
                               <Text span ml={5}>{profile.email}</Text>
@@ -448,18 +500,114 @@ const DealerRating = () => {
                               <Text span ml={5}>{profile.phone}</Text>
                             </Text>
                           )}
-                          {profile.salesHours && (
+                          {profile.workingHours && (
                             <Text size="sm">
                               <FaClock size="0.9rem" />
-                              <Text span ml={5}>{profile.salesHours}</Text>
+                              <Text span ml={5}>
+                                {(() => {
+                                  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                                  const currentDay = days[new Date().getDay()];
+                                  const currentDayHours = profile.workingHours[currentDay];
+                                  
+                                  if (!currentDayHours) return "Hours not available";
+                                  
+                                  if (currentDayHours.isOpen) {
+                                    return (
+                                      <>
+                                        Today: {currentDayHours.start} - {currentDayHours.end}
+                                        <Popover 
+                                          width={260} 
+                                          position="bottom" 
+                                          withArrow 
+                                          shadow="md"
+                                          opened={showAllHours}
+                                          onChange={setShowAllHours}
+                                        >
+                                          <Popover.Target>
+                                            <Text 
+                                              span 
+                                              c="#e90808" 
+                                              ml={10} 
+                                              style={{ cursor: 'pointer', display: 'inline-block', color: '#e90808', verticalAlign: 'bottom', textDecoration: 'underline'  }} 
+                                              onClick={() => setShowAllHours(!showAllHours)}
+                                            >
+                                              See Timings
+                                            </Text>
+                                          </Popover.Target>
+                                          <Popover.Dropdown>
+                                            <Stack spacing="xs">
+                                              <Text fw={600} size="sm">Working Hours</Text>
+                                              {days.map((day) => (
+                                                profile.workingHours[day] && (
+                                                  <Group key={day} position="apart" spacing="xs" noWrap>
+                                                    <Text size="sm" tt="capitalize" fw={500}>{day}:</Text>
+                                                    <Text size="sm">
+                                                      {profile.workingHours[day].isOpen 
+                                                        ? `${profile.workingHours[day].start} - ${profile.workingHours[day].end}` 
+                                                        : "Closed"}
+                                                    </Text>
+                                                  </Group>
+                                                )
+                                              ))}
+                                            </Stack>
+                                          </Popover.Dropdown>
+                                        </Popover>
+                                      </>
+                                    );
+                                  } else {
+                                    return (
+                                      <>
+                                        Today: Closed
+                                        <Popover 
+                                          width={250} 
+                                          position="bottom" 
+                                          withArrow 
+                                          shadow="md"
+                                          opened={showAllHours}
+                                          onChange={setShowAllHours}
+                                        >
+                                          <Popover.Target>
+                                            <Text 
+                                              span 
+                                              c="#e90808" 
+                                              ml={10} 
+                                              style={{ cursor: 'pointer', display: 'inline-block', color: '#e90808', verticalAlign: 'bottom' }} 
+                                              onClick={() => setShowAllHours(!showAllHours)}
+                                            >
+                                              See Timings
+                                            </Text>
+                                          </Popover.Target>
+                                          <Popover.Dropdown>
+                                            <Stack spacing="xs">
+                                              <Text fw={600} size="sm">Working Hours</Text>
+                                              {days.map((day) => (
+                                                profile.workingHours[day] && (
+                                                  <Group key={day} position="apart" spacing="xs" noWrap>
+                                                    <Text size="sm" tt="capitalize" fw={500}>{day}:</Text>
+                                                    <Text size="sm">
+                                                      {profile.workingHours[day].isOpen 
+                                                        ? `${profile.workingHours[day].start} - ${profile.workingHours[day].end}` 
+                                                        : "Closed"}
+                                                    </Text>
+                                                  </Group>
+                                                )
+                                              ))}
+                                            </Stack>
+                                          </Popover.Dropdown>
+                                        </Popover>
+                                      </>
+                                    );
+                                  }
+                                })()}
+                              </Text>
                             </Text>
                           )}
                         </Group>
 
                         <Box className="user-rating" mt="lg">
                           <Group gap="2" mb="xs">
-                            <Rating 
-                              value={profile.rating || 0} 
+                            <Rating
+                              value={profile.rating || 0}
                               readOnly
                               fractions={2}
                               style={{ pointerEvents: 'none' }}
@@ -529,11 +677,11 @@ const DealerRating = () => {
         </Box>
 
         <Box className="container-xl" mb="xl">
-          <Box className="row">
-            <Box className="col-md-8">
-              <Card shadow="0px 4px 20px 0px #00000014" padding="xl">
+          <Box className="row" style={{ display: 'flex' }}>
+            <Box className="col-md-8" style={{ display: 'flex', flexDirection: 'column' }}>
+              <Card shadow="0px 4px 20px 0px #00000014" padding="xl" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <Title order={3} mb="lg">Service Offerings</Title>
-                <Group gap="xl">
+                <Group gap="xl" style={{ flex: 1 }}>
                   <List
                     spacing="xs"
                     size="sm"
@@ -553,37 +701,24 @@ const DealerRating = () => {
                     ))}
                   </List>
                 </Group>
-
-                <Title order={4} my="lg" fw={600}>Explore remote services</Title>
-                <Box className="row">
-                  <Box className="col-md-6">
-                    <Paper bg="#F3F3F3" radius="md" shadow="none" p="md">
-                      <Flex gap="md">
-                        <Image src="/user-profile/trader-in.svg" h={70} alt="Trade-in available" />
-                        <Box>
-                          <Title order={5} mb="5" fw={600}>Trade-in available</Title>
-                          <Text size="sm">Buy a vehicle from this dealership and trade-in your old one.</Text>
-                        </Box>
-                      </Flex>
-                    </Paper>
-                  </Box>
-                  <Box className="col-md-6">
-                    <Paper bg="#F3F3F3" radius="md" shadow="none" p="md">
-                      <Flex gap="md">
-                        <Image src="/user-profile/buy-online.svg" h={70} alt="Buy Online" />
-                        <Box>
-                          <Title order={5} mb="5" fw={600}>Buy Online</Title>
-                          <Text size="sm">Buy a vehicle from this dealership from the comfort of your home.</Text>
-                        </Box>
-                      </Flex>
-                    </Paper>
-                  </Box>
-                </Box>
               </Card>
             </Box>
-            <Box className="col-md-4">
-              <Box h="100%">
-                <BackgroundImage src="/google-map.png" h="100%" radius="md" />
+            <Box className="col-md-4" style={{ display: 'flex', flexDirection: 'column' }}>
+              <Box style={{ flex: 1, minHeight: "300px", height: '100%' }}>
+                {mapCoordinates ? (
+                  <MapComponent 
+                    coordinates={mapCoordinates} 
+                    title={profile.fullName}
+                    address={profile.locationAddress}
+                  />
+                ) : (
+                  <BackgroundImage 
+                    src="/google-map.png" 
+                    h="100%" 
+                    radius="md" 
+                    style={{ height: '100%' }}
+                  />
+                )}
               </Box>
             </Box>
           </Box>
@@ -682,11 +817,6 @@ const DealerRating = () => {
                               <Text>{review?.dislikes ? review?.dislikes.length : 0}</Text>
                             </Group>
                           </Box>
-                          {isDealer()&&<Box className="col-md-6 text-end">
-                            <Anchor component={Link} href="#" underline="always" className="text-primary">
-                              Reply
-                            </Anchor>
-                          </Box>}
                         </Box>
                       </Card>
                     </Paper>
@@ -697,133 +827,65 @@ const DealerRating = () => {
           </Box>
         </Box>
 
-        <QuickLinks />
       </Box>
 
-
-      <Modal
-        opened={opened}
-        onClose={handleModalClose}
-        size={rem(900)}
-        padding="xl"
-        withCloseButton={false}
-      >
+      <Modal opened={opened} onClose={handleModalClose} title="Write a Review" centered>
         <form onSubmit={handleReviewSubmit}>
-          <div className="row">
-            <div className="col-12">
-              <Title order={3} mb="lg">
-                Write review about{" "}
-                <Text span inherit className="text-primary">
-                  {profile.fullName}
-                </Text>
-              </Title>
-            </div>
+          <Stack>
+            <Input.Wrapper
+              label="Review Title"
+              required
+            >
+              <Input
+                placeholder="Enter a title for your review"
+                value={reviewForm.title}
+                onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
+                required
+              />
+            </Input.Wrapper>
 
-            <div className="col-lg-8">
-              <div className="row">
-                <div className="col-lg-12">
-                  <Input.Wrapper label="Title" mb="md">
-                    <Input
-                      placeholder="Example great service"
-                      size="md"
-                      value={reviewForm.title}
-                      onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
-                      required
-                    />
-                  </Input.Wrapper>
-                </div>
-                <div className="col-lg-12">
-                  <Input.Wrapper label="Your Review" mb="md">
-                    <Textarea
-                      rows={3}
-                      maxRows={5}
-                      size="md"
-                      placeholder="Enter your review"
-                      value={reviewForm.content}
-                      onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
-                      required
-                    />
-                  </Input.Wrapper>
-                </div>
-                <div className="col-lg-12">
-                  <Checkbox
-                    color="#e90808"
-                    defaultChecked
-                    label="I am not a dealer, and I am not employed by a dealership."
-                    required
-                  />
-                </div>
-                <div className="col-lg-12">
-                  <Button
-                    fullWidth
-                    size="md"
-                    mt="xl"
-                    variant="default"
-                    type="submit"
-                    loading={isSubmitting}
-                    disabled={isSubmitting}
-                  >
-                    Submit Review
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <Stack align="stretch" justify="center" gap="lg" mt="md">
-                <Stack gap={3}>
-                  <Text size="md" fw={500}>Buying Process</Text>
-                  <Group>
-                    <Rating
-                      value={reviewForm.buyingProcess}
-                      onChange={(value) => setReviewForm({ ...reviewForm, buyingProcess: value })}
-                      count={5}
-                    />
-                    <Text fw="normal">{reviewForm.buyingProcess} out of 5</Text>
-                  </Group>
-                </Stack>
-                <Stack gap={3}>
-                  <Text size="md" fw={500}>Vehicle Selection</Text>
-                  <Group>
-                    <Rating
-                      value={reviewForm.vehicleSelection}
-                      onChange={(value) => setReviewForm({ ...reviewForm, vehicleSelection: value })}
-                      count={5}
-                    />
-                    <Text fw="normal">{reviewForm.vehicleSelection} out of 5</Text>
-                  </Group>
-                </Stack>
-                <Stack gap={3}>
-                  <Text size="md" fw={500}>Level of Services</Text>
-                  <Group>
-                    <Rating
-                      value={reviewForm.levelOfServices}
-                      onChange={(value) => setReviewForm({ ...reviewForm, levelOfServices: value })}
-                      count={5}
-                    />
-                    <Text fw="normal">{reviewForm.levelOfServices} out of 5</Text>
-                  </Group>
-                </Stack>
-                <Stack>
-                  <Radio.Group
-                    name="recommendation-decision"
-                    label={<Text size="md" fw={500}>Would you recommend this dealer</Text>}
-                    value={reviewForm.recommendation}
-                    onChange={(value) => setReviewForm({ ...reviewForm, recommendation: value })}
-                  >
-                    <Group mt="xs">
-                      <Radio color="#e90808" value="yes" label="Yes" />
-                      <Radio color="#e90808" value="no" label="No" />
-                    </Group>
-                  </Radio.Group>
-                </Stack>
-              </Stack>
-            </div>
-          </div>
-          {submitError && (
-            <div className="col-12 mt-3">
-              <Text color="red">{submitError}</Text>
-            </div>
-          )}
+            <Textarea
+              label="Review Content"
+              placeholder="Write your review here"
+              minRows={4}
+              value={reviewForm.content}
+              onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
+              required
+            />
+
+            <Box>
+              <Text weight={500} mb="xs">Buying Process</Text>
+              <Rating
+                value={reviewForm.buyingProcess}
+                onChange={(value) => setReviewForm({ ...reviewForm, buyingProcess: value })}
+              />
+            </Box>
+
+            <Box>
+              <Text weight={500} mb="xs">Vehicle Selection</Text>
+              <Rating
+                value={reviewForm.vehicleSelection}
+                onChange={(value) => setReviewForm({ ...reviewForm, vehicleSelection: value })}
+              />
+            </Box>
+
+            <Box>
+              <Text weight={500} mb="xs">Level of Services</Text>
+              <Rating
+                value={reviewForm.levelOfServices}
+                onChange={(value) => setReviewForm({ ...reviewForm, levelOfServices: value })}
+              />
+            </Box>
+
+            {submitError && (
+              <Text color="red" size="sm">{submitError}</Text>
+            )}
+
+            <Group position="right" mt="md">
+              <Button variant="outline" onClick={handleModalClose}>Cancel</Button>
+              <Button type="submit" loading={isSubmitting}>Submit Review</Button>
+            </Group>
+          </Stack>
         </form>
       </Modal>
     </>
