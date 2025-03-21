@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Stack, Loader, Center, Text } from '@mantine/core';
 import LoadingWrapper from '@/components/loading-wrapper';
-import useProfileSettings from './useProfileSettings';
+// import useProfileSettings from './useProfileSettings';
 import styles from './ProfileSettings.module.css';
 // import PersonalInformation from './components/PersonalInformation';
 // import DealerInformation from './components/DealerInformation';
@@ -13,9 +13,9 @@ import styles from './ProfileSettings.module.css';
 // import ChangePassword from './components/ChangePassword';
 
 export default function ProfileSettings() {
-  const { profileData, loading, error } = useProfileSettings();
+  // const { profileData, loading, error } = useProfileSettings();
 
-  if (loading) {
+  if (true) {
     return (
       <LoadingWrapper>
         <Center h="100vh">
@@ -25,11 +25,11 @@ export default function ProfileSettings() {
     );
   }
 
-  if (error) {
+  if (true) {
     return (
       <LoadingWrapper>
         <Center h="100vh">
-          <Text color="red">Error: {error}</Text>
+          <Text color="red">Error: </Text>
         </Center>
       </LoadingWrapper>
     );
