@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import ProfileSettings from '@/modules/user-dashboard/ProfileSettings';
 
