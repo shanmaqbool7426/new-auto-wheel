@@ -117,7 +117,7 @@ const Header = () => {
             <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
           ),
           title: "Car Dealer",
-          link: "/cars-dealership",
+          link: "/dealers",
           description: "Car Dealership",
         },
         {

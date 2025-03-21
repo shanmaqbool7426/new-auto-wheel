@@ -137,7 +137,7 @@ const VehicleComparison = () => {
   );
 
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState([]);
-  const { comparisonVehicles, setComparisonVehicles } = useComparison();
+  const { comparisonVehicles, setComparisonVehicles ,handleRemoveComparison} = useComparison();
 
   const fetchMakesByType = async (vehicleType) => {
     try {
@@ -168,22 +168,11 @@ const VehicleComparison = () => {
       )
       .join("_")}`;
 
-    console.log("comparisonUrl", comparisonUrl)
     router.push(comparisonUrl);
   };
 
-  console.log("slug", vehicleType)
 
-  // Update the removeFromComparison handler
-  const handleRemoveComparison = (vehicleId) => {
-    // Remove from comparisonVehicles context
-    // removeFromComparison(vehicleId);
-
-    // Remove from newVehicleDetails state
-    setComparisonVehicles(prev =>
-      prev.filter(item => item.data._id !== vehicleId)
-    );
-  };
+  
 
   if (comparisonVehicles.length === 0) return null;
 
@@ -204,7 +193,6 @@ const VehicleComparison = () => {
       >
         
         <Group position="apart" align="center">
-          <Text fw={600} size="md">My Comparison</Text>
 
           <Group spacing={10} position="center" align="center">
             {comparisonVehicles.map((vehicleResponse, index) => {

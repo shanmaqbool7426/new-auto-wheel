@@ -110,7 +110,7 @@ const Header = ({ type }) => {
         // mb={{ base: 650, sm: 300 }}
         pt={70}
         h={250}
-        bg={'rgba(233, 8, 8, 0.7)'}
+        // bg={'rgba(233, 8, 8, 0.7)'}
       >
         <div className="container-xl">
           <div className="row">
@@ -183,6 +183,22 @@ const Header = ({ type }) => {
                   h={39}
                 >
                   {type} Reviews
+                </Button>
+
+                <Button
+                    leftSection={<SmallReviewIcon />}
+                    variant="light"
+                    size="md"
+                    bg="white"
+                    c="#878787"
+                    tt="capitalize"
+                    component={Link}
+                    href={`/dealers`}
+                    autoContrast
+                    h={39}
+                    radius="16px"
+                  >
+                  {type} Dealer
                 </Button>
               </Group>
             </div>
