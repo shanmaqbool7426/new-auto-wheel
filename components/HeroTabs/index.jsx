@@ -392,6 +392,12 @@ const HeroTabs = ({ setType }) => {
         setSelection={setLocationSelection}
         onClose={closeLocationModal}
         hide={false}
+        provinces={provinces}
+        cities={cities}
+        suburbs={suburbs}
+        isLoadingProvinces={isLoadingProvinces}
+        isLoadingCities={isLoadingCities}
+        isLoadingSuburbs={isLoadingSuburbs}
       />
     </>
   );
