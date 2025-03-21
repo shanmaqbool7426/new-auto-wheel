@@ -38,6 +38,7 @@
     "clsx": "^2.1.1",
     "country-state-city": "^3.2.1",
     "dayjs": "^1.11.13",
+    "embla-carousel-react": "^8.5.2",
     "html-react-parser": "^5.2.2",
     "html-to-text": "^9.0.5",
     "i": "^0.3.7",
