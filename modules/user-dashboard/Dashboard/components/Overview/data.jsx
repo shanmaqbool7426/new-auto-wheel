@@ -8,12 +8,12 @@ import {
 } from '@/assets/icons';
 
 export const overviewCardData = [
-  {
-    id: 1,
-    icon: IconPageViews,
-    key: 'pageViews',
-    title: 'Page Views'
-  },
+  // {
+  //   id: 1,
+  //   icon: IconPageViews,
+  //   key: 'pageViews',
+  //   title: 'Page Views'
+  // },
   {
     id: 2,
     icon: IconClicks,

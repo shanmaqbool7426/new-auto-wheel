@@ -3,17 +3,17 @@ import { Box, Avatar } from '@mantine/core';
 import styles from './TotalFollowers.module.css';
 import { todaysFollowers } from './data';
 
-export default function TotalFollowers() {
+export default function TotalFollowers({userProfile}) {
   return (
     <Box className={styles.card}>
       <Box>
         <Box className={styles.totalFollowersTitle}>Total Followers</Box>
-        <Box className={styles.followersCount}>345.9K</Box>
+        <Box className={styles.followersCount}>{userProfile?.followers?.length}</Box>
       </Box>
       <Box>
-        <Box className={styles.todaysFollowers}>Today’s Followers</Box>
+        {/* <Box className={styles.todaysFollowers}>Today’s Followers</Box> */}
         <Box>
-          <Avatar.Group>
+          {/* <Avatar.Group>
             {todaysFollowers.slice(0, 5).map((follower) => (
               <Avatar
                 key={follower.id}
@@ -33,7 +33,7 @@ export default function TotalFollowers() {
                 +{todaysFollowers.length - 5}
               </Avatar>
             )}
-          </Avatar.Group>
+          </Avatar.Group> */}
         </Box>
       </Box>
     </Box>
