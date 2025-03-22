@@ -4,7 +4,6 @@ export const columns = [
   {
     accessor: 'post',
     title: 'Post',
-    width: 140,
   },
   {
     accessor: 'created',

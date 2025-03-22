@@ -13,11 +13,13 @@ export default function Badge({ onClick, label, variant, outlined, underline, mi
 
   const color = colorMap[variant] || colorMap['default'];
 
+
+  console.log("color>>>>>",color,variant)
   return (
     <Box
       onClick={onClick}
       style={{
-        backgroundColor: outlined ? 'transparent' : color,
+        backgroundColor: false ? 'transparent' : color,
         color: outlined ? color : '#ffffff',
         border: `1px solid ${color}`,
         padding: '5px 12px',

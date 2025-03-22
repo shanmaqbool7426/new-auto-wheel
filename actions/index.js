@@ -122,6 +122,8 @@ export const fetchUserDasboardOverview = async (token) => {
       }
     });
 
+    console.log("response",response)
+
     return response?.data;
   } catch (error) {
     console.error("Image upload failed:", error);
@@ -130,7 +132,8 @@ export const fetchUserDasboardOverview = async (token) => {
 };
 
 export const fetchTopPerformingPosts = async (token,page=1,limit=6) => {
-  try { 
+  try {
+     console.log("URLLLLLLLLLL",`${API_ENDPOINTS.VEHICLE.TOP_PERFORMING_POSTS}?page=${page}&limit=${limit}`)
     const response = await fetchAPI(`${API_ENDPOINTS.VEHICLE.TOP_PERFORMING_POSTS}?page=${page}&limit=${limit}`, {
       headers: {
         'Authorization': token

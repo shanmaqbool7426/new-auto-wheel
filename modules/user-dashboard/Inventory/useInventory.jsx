@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,9 @@ export default function useInventory() {
       return getLocalStorage('inventorySearchBy') || '';
     }
     return '';
-  });  const [vehicles, setVehicles] = React.useState([]);
+  });
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState(searchBy);
+  const [vehicles, setVehicles] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [totalPages, setTotalPages] = React.useState(1);
@@ -42,12 +44,25 @@ export default function useInventory() {
   });
   const token = getLocalStorage('token');
 
+  // Add debounce effect for search term
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(searchBy);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('inventorySearchBy', searchBy);
+      }
+    }, 500); // 500ms delay
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchBy]);
 
   const fetchVehicles = React.useCallback(async () => {
     try {
       setLoading(true);
       const queryParams = new URLSearchParams({
-        search: searchBy,
+        search: debouncedSearchTerm, // Use debounced search term instead
         type: filterParams.type,
         status: filterParams.status,
         sort: filterParams.date,
@@ -92,14 +107,14 @@ export default function useInventory() {
     } finally {
       setLoading(false);
     }
-  }, [searchBy, filterParams, currentPage]);
+  }, [debouncedSearchTerm, filterParams, currentPage]);
 
   React.useEffect(() => {
     if (status === "authenticated" && session?.user?._id) {
       setIsSessionReady(true);
       fetchVehicles();
     }
-  }, [status, session,searchBy,filterParams]);
+  }, [status, session, debouncedSearchTerm, filterParams]);
   
   // React.useEffect(() => {
   //   if (isSessionReady) {
@@ -114,9 +129,7 @@ export default function useInventory() {
 
   const handleSearch = (value) => {
     setSearchBy(value);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('inventorySearchBy', value);
-    }
+    // The API call will be triggered by the debounce effect
     setCurrentPage(1); // Reset to first page when searching
   };
 
@@ -173,14 +186,29 @@ const handleSubmit = async (values) => {
     // alert(`Edit Row ${id}`);
   }
 
-  const handleClickDeleteRow = async (id) => {
+  // Add state for delete confirmation modal
+  const [vehicleToDelete, setVehicleToDelete] = useState(null);
+
+  // Delete confirmation modal controls
+  const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false);
+
+  // Update the click delete handler to open confirmation modal
+  const handleClickDeleteRow = (e, id) => {
+    e.stopPropagation();
+    setVehicleToDelete(id);
+    openDeleteModal();
+  };
+
+  // Add a new function to handle the actual deletion
+  const confirmDelete = async () => {
+    if (!vehicleToDelete) return;
+    
     try {
-      const response = await fetch(`${BASE_URL}/api/vehicle/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/vehicle/${vehicleToDelete}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          // Add authentication header here, e.g.:
-          // 'Authorization': `Bearer ${userToken}`
+          'Authorization': `Bearer ${token}`,
         },
       });
   
@@ -188,7 +216,9 @@ const handleSubmit = async (values) => {
   
       if (data.success) {
         // Remove the deleted vehicle from the local state
-        setVehicles(prevVehicles => prevVehicles.filter(vehicle => vehicle.id !== id));
+        setVehicles(prevVehicles => prevVehicles.filter(vehicle => vehicle.id !== vehicleToDelete));
+        closeDeleteModal();
+        setVehicleToDelete(null);
         // Optionally, show a success message
       } else {
         throw new Error(data.message || 'Failed to delete vehicle');
@@ -198,6 +228,7 @@ const handleSubmit = async (values) => {
       alert(`Failed to delete vehicle: ${error.message}`);
     }
   };
+
   const handleClickToggleRow = (id) => {
    console.log('id>>>>>',id)
     if (id) {
@@ -244,6 +275,11 @@ const form = useForm({
     openModalMakeFeature,
     closeModalMakeFeature,
     form,
-    handleSubmit
+    handleSubmit,
+    deleteModalOpened,
+    openDeleteModal,
+    closeDeleteModal,
+    vehicleToDelete,
+    confirmDelete
   };
 }

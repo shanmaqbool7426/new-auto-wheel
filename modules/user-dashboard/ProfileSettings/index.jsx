@@ -41,7 +41,7 @@ export default function ProfileSettings() {
         <Box className={styles.sidebar}>
           <Stack gap="24px">
             <ProfileInformation profileData={profileData} />
-            <PackageDetails />
+            <PackageDetails profileData={profileData} />
             <ConnectedAccount />
           </Stack>
         </Box>
