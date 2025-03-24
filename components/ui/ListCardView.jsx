@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   CameraIcon,
   CompareIcon,
@@ -27,6 +27,7 @@ import {
 } from "@mantine/core";
 import { FaRoad } from "react-icons/fa6";
 import { BsFuelPumpFill } from "react-icons/bs";
+import viewTrackingService from '@/services/viewTrackingService'; // Import the service
 
 import { IconStar,IconHeart, IconStarFilled, IconCopy, IconHeartFilled } from "@tabler/icons-react";
 import { formatPrice, getTimeAgo } from "@/utils";
@@ -48,13 +49,34 @@ const ListCardView = ({ vehicle }) => {
   const { isFavorite, toggleFavorite, isFavoriteLoading } = useUser();
   const images = vehicle?.images?.slice(0, 5) || [];
   const { addToComparison } = useComparison();
+  const cardRef = useRef(null); // Add ref for tracking visibility
 
+  // Preload images
   useEffect(() => {
     images.forEach((src) => {
       const img = new window.Image();
       img.src = src;
     });
   }, [images]);
+
+  // Track view when card becomes visible
+  useEffect(() => {
+    if (cardRef.current && vehicle?._id) {
+      // Use the trackCardView method from the service
+      viewTrackingService.trackCardView(cardRef.current, vehicle._id);
+    }
+    
+    // Clean up when component unmounts
+    return () => {
+      if (vehicle?._id) {
+        const observer = viewTrackingService.observers.get(vehicle._id);
+        if (observer) {
+          observer.disconnect();
+          viewTrackingService.observers.delete(vehicle._id);
+        }
+      }
+    };
+  }, [vehicle?._id]);
 
   const handleMouseMove = (e) => {
     const { offsetX, target } = e.nativeEvent;
@@ -182,16 +204,21 @@ const ListCardView = ({ vehicle }) => {
   );
 
   return (
-    <Card radius={0} mb="lg" pb="lg" padding={0} style={{ borderBottom: `2px solid ${vehicle?.isFeatured ? "#E90808" : "#ddd"}` }}>
-      <Grid gutter={0} align="center">
+    <Card
+      ref={cardRef} // Add ref for tracking visibility
+      shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
+      radius="sm"
+      mb="lg"
+    >
+      <Grid>
         <Grid.Col span={4}>
-          <Card.Section pos="relative">
+          <Card.Section>
             <Group
               c="white"
               gap={5}
               pos="absolute"
               right={15}
-              style={{ zIndex: "10", justifyContent: "space-between" }}
+              style={{ zIndex: "100", justifyContent: "space-between" }}
               left={15}
               top={15}
             >

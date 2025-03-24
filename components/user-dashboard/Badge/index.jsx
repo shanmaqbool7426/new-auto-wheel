@@ -9,18 +9,18 @@ export default function Badge({ onClick, label, variant, outlined, underline, mi
     'Expired': '#C322FC',
     'Rejected': '#EB2321',
     'Info': '#1B84FF',
+    'Success': '#4CB64A',
+    'Following': '#E90808',
   };
 
-  const color = colorMap[variant] || colorMap['default'];
+  const color = label === "Following" ? '#E90808' : (colorMap[variant] || '#1B84FF');
 
-
-  console.log("color>>>>>",color,variant)
   return (
     <Box
       onClick={onClick}
       style={{
-        backgroundColor: false ? 'transparent' : color,
-        color: outlined ? color : '#ffffff',
+        backgroundColor: outlined ? 'white' : color,
+        color: outlined ? color : 'white',
         border: `1px solid ${color}`,
         padding: '5px 12px',
         textAlign: 'center',
@@ -30,6 +30,7 @@ export default function Badge({ onClick, label, variant, outlined, underline, mi
         lineHeight: 1,
         display: 'inline-block',
         minWidth: minWidth ?? '94px',
+        cursor: onClick ? 'pointer' : 'default',
       }}
       {...rest}
     >

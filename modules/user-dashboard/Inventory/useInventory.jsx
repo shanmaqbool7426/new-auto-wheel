@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
+import { vehiclesService } from '@/app/(user-dashboard)/services/vehiclesService';
 // import { useRouter } from 'next/router';
 export default function useInventory() {
 
@@ -61,27 +62,35 @@ export default function useInventory() {
   const fetchVehicles = React.useCallback(async () => {
     try {
       setLoading(true);
-      const queryParams = new URLSearchParams({
-        search: debouncedSearchTerm, // Use debounced search term instead
+      
+      // Get the user ID from session or token
+      const userId = session?.user?._id || token?._id;
+      
+      if (!userId) {
+        throw new Error('User ID not found');
+      }
+      
+      // Create params object for consistency with other service calls
+      const params = {
+        search: debouncedSearchTerm,
         type: filterParams.type,
         status: filterParams.status,
         sort: filterParams.date,
         page: currentPage,
         limit: 5, // Adjust as needed
-      }).toString();
-
-      console.log('token?._id',token?._id,token)
-
-      const response = await fetch(`${BASE_URL}/api/user/vehicles-by-user/${token?._id}?${queryParams}`);
-      const data = await response.json();
+      };
+      
+      // Use the vehiclesService instead of direct fetch
+      const response = await vehiclesService.getUserVehicles(userId, params);
+      const data = response.data;
+      
       if (data.success) {
-
         const transformedVehicles = data.data.vehicles.map((vehicle) => ({
           id: vehicle._id,
           title: {
-            title: vehicle.specifications.stockId || `${vehicle.make} ${vehicle.model} ${vehicle.year}`, // Fallback if stockId doesn't exist
+            title: vehicle.specifications.stockId || `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
             image: vehicle.defaultImage,
-            modal: `${vehicle.Info.make} ${vehicle.Info.model} ${vehicle.Info.variant}` // Properly format the modal string
+            modal: `${vehicle.Info.make} ${vehicle.Info.model} ${vehicle.Info.variant}`
           },
           createdDate: vehicle.updatedAt,
           type: vehicle.type,
@@ -95,10 +104,10 @@ export default function useInventory() {
           transmission: vehicle.specifications.transmission,
           fuelType: vehicle.specifications.fuelType,
         }));
-        console.log('transformedVehicles', transformedVehicles);
+        
         setVehicles(transformedVehicles);
         setTotalPages(data?.data.totalPages);
-        setTotalVehicles(data?.data?.totalVehicles)
+        setTotalVehicles(data?.data?.totalVehicles);
       } else {
         throw new Error(data.message || 'Failed to fetch vehicles');
       }
@@ -139,6 +148,7 @@ export default function useInventory() {
 
   // Update handleToggleFeature to open modal
 const handleToggleFeature = (id) => {
+  console.log('id>>>>>>>',id)
   setSelectedVehicleId(id);
   openModalMakeFeature();
 };

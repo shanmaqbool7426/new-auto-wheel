@@ -5,8 +5,11 @@ import { signIn, useSession, SessionProvider } from 'next-auth/react';
 
 export default function FavoritePage() {
   const { data: session, status } = useSession();
+  console.log(">>>>>>>>>",session?.user?._id)
 
   return (
-    <Favorite userId={session?.user?._id}/>
+    <>
+    {session?.user?._id  && <Favorite userId={session?.user?._id}/>}
+    </>
   )
 }

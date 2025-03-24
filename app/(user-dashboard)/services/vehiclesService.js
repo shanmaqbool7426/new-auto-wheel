@@ -8,13 +8,13 @@ export const vehiclesService = {
 
 
   getUserFavoriteVehicles: async (userId, params) => {
-
+    console.log("params>>>>",userId,params)
     return api.get(`api/user/${userId}/favorites`, params);
   },
 
   deleteFavoriteVehicle: async (userId,vehicleId) => {
 
-    return api.put(`api/user/favorites/${userId}/${vehicleId}`);
+    return api.put(`api/user/${vehicleId}/toggle-favorite/${userId}`);
   },
 
   // Add other vehicle-related API calls here
