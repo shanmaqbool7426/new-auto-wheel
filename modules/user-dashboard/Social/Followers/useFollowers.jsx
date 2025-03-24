@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/app/(user-dashboard)/services/api';
-import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
-import { showNotification } from '@mantine/notifications'; // Add this import
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX, IconUserPlus, IconUserMinus } from '@tabler/icons-react';
 import { getLocalStorage } from '@/utils';
 
 export default function useFollowers({userId}) {
   const token = getLocalStorage('token');
-
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,37 +20,56 @@ export default function useFollowers({userId}) {
     totalPages: 1,
   });
 
-
-
-  console.log('session>>>>>>>>>',userId)
   useEffect(() => {
-    // if (session?.user?._id) {
-      fetchFollowers(userId);
-    // }
-  }, [filterParams, searchBy, pagination.page, pagination.limit,userId]);
+    if (userId || token?._id) {
+      fetchFollowers();
+    }
+  }, [filterParams, searchBy, pagination.page, pagination.limit, userId]);
 
-  const fetchFollowers = async (userId) => {
-    console.log('userId>>',userId)
+  // Get the actual token string for authorization
+  const getAuthToken = () => {
+    // Navigate through the token object structure to get the actual token string
+    return token?.token?.token || token?.token || token;
+  };
+
+  const fetchFollowers = async () => {
     setLoading(true);
     try {
-      const data = await api.get(`/api/user/${token?._id}/followers`, {
+      const userIdToUse = userId || token?._id;
+      const authToken = getAuthToken();
+      
+      // Add authorization header
+      const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
+      console.log("authToken",authToken)
+      const data = await api.get(`/api/user/${userIdToUse}/followers`, {
         page: pagination.page,
         limit: pagination.limit,
         search: searchBy,
         sort: filterParams.date,
-      });
+      }, headers);
 
+      console.log('Followers data:', data);
+      
+      if (data.data) {
+        setFollowers(data.data.followers || []);
+        setPagination({
+          ...pagination,
+          total: data.data.total || 0,
+          page: data.data.page || 0,
 
-      console.log(data,'>>> data.followers')
-      setFollowers(data.data.followers || []);
-      setPagination({
-        ...pagination,
-        total: data.total,
-        totalPages: data.totalPages,
-      });
+          totalPages: data.data.totalPages || 1,
+        });
+      }
     } catch (err) {
       setError('Failed to fetch followers');
-      console.error(err);
+      console.error('Error fetching followers:', err);
+      
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to load followers',
+        color: 'red',
+        icon: <IconX size={18} />,
+      });
     } finally {
       setLoading(false);
     }
@@ -65,37 +83,97 @@ export default function useFollowers({userId}) {
     setPagination(prev => ({ ...prev, page: newPage }));
   };
 
-  const handleUnfollow = async (userId) => {
+  const handleFollow = async (targetUserId) => {
     try {
-      const response = await api.post(`/api/user/${token?._id}/unfollow`);
-      console.log('Unfollow response:', response); // For debugging
-  
+      const authToken = getAuthToken();
+      console.log("authToken",authToken)
+      // Add authorization header
+      const headers = authToken ? { Authorization: `${authToken}` } : {};
+      console.log("headers",headers)
+      const response = await api.post(`/api/user/${targetUserId}/follow`, {}, headers);
+      
       if (response.success) {
-        fetchFollowers(); // Refresh the list after unfollowing
-        showNotification({
-          title: "Success",
-          message: response.message || "User unfollowed successfully.",
-          color: "green",
+        // Update the local state to reflect the follow action
+        setFollowers(prev => 
+          prev.map(follower => 
+            follower._id === targetUserId 
+              ? { ...follower, isFollow: true } 
+              : follower
+          )
+        );
+        
+        notifications.show({
+          title: 'Success',
+          message: 'User followed successfully',
+          color: 'green',
+          icon: <IconCheck size={18} />,
         });
       } else {
-        // Handle unsuccessful response
-        showNotification({
-          title: "Error",
-          message: response.message || "Failed to unfollow user.",
-          color: "red",
-        });
+        throw new Error(response.message || 'Failed to follow user');
       }
     } catch (err) {
-      console.error('Unfollow error:', err);
-      showNotification({
-        title: "Error",
-        message: err.response?.data?.message || "An unexpected error occurred. Please try again.",
-        color: "red",
+      console.error('Follow error:', err);
+      
+      notifications.show({
+        title: 'Error',
+        message: err.message || 'Failed to follow user',
+        color: 'red',
+        icon: <IconX size={18} />,
       });
     }
   };
 
-  console.log('followersfollowers',followers)
+  const handleUnfollow = async (targetUserId) => {
+    try {
+      const authToken = getAuthToken();
+      
+      // Add authorization header
+      const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
+      
+      const response = await api.post(`/api/user/${targetUserId}/unfollow`, {}, headers);
+      
+      if (response.success) {
+        // Update the local state to reflect the unfollow action
+        setFollowers(prev => 
+          prev.map(follower => 
+            follower._id === targetUserId 
+              ? { ...follower, isFollow: false } 
+              : follower
+          )
+        );
+        
+        notifications.show({
+          title: 'Success',
+          message: 'User unfollowed successfully',
+          color: 'green',
+          icon: <IconCheck size={18} />,
+        });
+      } else {
+        throw new Error(response.message || 'Failed to unfollow user');
+      }
+    } catch (err) {
+      console.error('Unfollow error:', err);
+      
+      notifications.show({
+        title: 'Error',
+        message: err.message || 'Failed to unfollow user',
+        color: 'red',
+        icon: <IconX size={18} />,
+      });
+    }
+  };
+
+  const toggleFollow = async (targetUserId, currentlyFollowing) => {
+    console.log("currentlyFollowing")
+    if (currentlyFollowing) {
+      await handleUnfollow(targetUserId);
+    } else {
+      await handleFollow(targetUserId);
+    }
+    
+    // Refresh the followers list after toggling follow status
+    fetchFollowers();
+  };
 
   return {
     followers,
@@ -106,6 +184,8 @@ export default function useFollowers({userId}) {
     pagination,
     handleChangeFilter,
     handlePageChange,
+    handleFollow,
     handleUnfollow,
+    toggleFollow,
   };
 }

@@ -36,8 +36,9 @@ export function UserProvider({ children }) {
         },
       });
       const data = await response.json();
+      console.log("fetchUserFavorites",data)
       if (data.success) {
-        setFavorites(new Set(data.data.map(fav => fav._id)));
+        setFavorites(new Set(data.data.vehicles?.map(fav => fav._id)));
       }
     } catch (error) {
       console.error('Error fetching favorites:', error);
