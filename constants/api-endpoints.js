@@ -34,8 +34,8 @@
 
 // export const BASE_URL = "http://143.110.253.131:5000";
 // export const BASE_URL = "https://auto-wheel-be.vercel.app";
-// export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
-export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
+// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 
 
