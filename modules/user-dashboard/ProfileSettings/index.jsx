@@ -45,12 +45,12 @@ export default function ProfileSettings() {
             <ConnectedAccount />
           </Stack>
         </Box>
-
+        {console.log("profileData",profileData)}
         <Box className={styles.content}>
           <Stack gap="24px">
             <PersonalInformation profileData={profileData} />
-            <DealerInformation profileData={profileData} />
-            <ServicesOffer profileData={profileData} />
+            {profileData?.accountType.toLowerCase() === "dealer" && <DealerInformation profileData={profileData} />}
+            {profileData?.accountType.toLowerCase() === "dealer" && <ServicesOffer profileData={profileData} />}
             <ChangePassword />
           </Stack>
         </Box>

@@ -83,9 +83,8 @@ export default function useInventory() {
       // Use the vehiclesService instead of direct fetch
       const response = await vehiclesService.getUserVehicles(userId, params);
       const data = response.data;
-      
-      if (data.success) {
-        const transformedVehicles = data.data.vehicles.map((vehicle) => ({
+      if (data) {
+        const transformedVehicles = data.vehicles.map((vehicle) => ({
           id: vehicle._id,
           title: {
             title: vehicle.specifications.stockId || `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
@@ -106,8 +105,8 @@ export default function useInventory() {
         }));
         
         setVehicles(transformedVehicles);
-        setTotalPages(data?.data.totalPages);
-        setTotalVehicles(data?.data?.totalVehicles);
+        setTotalPages(data?.totalPages);
+        setTotalVehicles(data?.totalVehicles);
       } else {
         throw new Error(data.message || 'Failed to fetch vehicles');
       }

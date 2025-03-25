@@ -2,6 +2,12 @@
 import axios from 'axios';
 import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
+const getToken = () => {
+  const user = JSON.parse(localStorage.getItem('token'));
+  console.log("userrrrrrrrr",user)
+  return user?.token?.token || {}
+}
+
 class ViewTrackingService {
   constructor() {
     this.sessionId = this.getOrCreateSessionId();
@@ -35,8 +41,26 @@ class ViewTrackingService {
   }
   
   async trackView(vehicleId, page = 'detail') {
+    console.log("vehicleId", vehicleId, page);
     if (!vehicleId || typeof window === 'undefined') return;
     
+    // For mobile interactions, always track (bypass caching)
+    if (page === 'mobile') {
+      try {
+        await axios.post(API_ENDPOINTS.VEHICLE.TRACK_VIEW(vehicleId), {
+          sessionId: this.sessionId,
+          vehicleId: vehicleId,
+          page: page
+        });
+        console.log('Mobile interaction tracked');
+        return;
+      } catch (error) {
+        console.error('Error tracking mobile interaction:', error);
+        return;
+      }
+    }
+    
+    // For other page types, use the existing caching logic
     // First check in-memory set
     if (this.viewedVehicles.has(vehicleId)) {
       return; // Already viewed in this session
@@ -173,6 +197,20 @@ class ViewTrackingService {
       observer.disconnect();
     });
     this.observers.clear();
+  }
+
+  async getViewAnalytics() {
+    try {
+      const response = await axios.get(API_ENDPOINTS.VEHICLE.VIEW_ANALYTICS, {
+        headers: {
+          'Authorization': getToken()
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching view analytics:', error);
+      throw error;
+    }
   }
 }
 
