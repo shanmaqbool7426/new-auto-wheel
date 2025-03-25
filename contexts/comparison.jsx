@@ -9,20 +9,46 @@ export function ComparisonProvider({ children }) {
   const [comparisonVehicles, setComparisonVehicles] = useState([]);
 
   const addToComparison = async (vehicle) => {
+    console.log("vehicle", vehicle);
+    
+    // Check if we already have this vehicle in the comparison
+    const isDuplicate = comparisonVehicles.some(item => 
+      (item.data.make === vehicle.make && 
+       item.data.model === vehicle.model && 
+       item.data.variant === vehicle.variant) ||
+      (item.data.Info?.make === vehicle.Info?.make && 
+       item.data.Info?.model === vehicle.Info?.model && 
+       item.data.Info?.variant === vehicle.Info?.variant)
+    );
+    
+    // If it's a duplicate, don't add it again
+    if (isDuplicate) {
+      console.log("Vehicle already in comparison");
+      return;
+    }
+    
+    // Only proceed if we have less than 3 vehicles
     if (comparisonVehicles.length < 3) {
       try {
-        // Fetch full vehicle details immediately when adding
-        const response = await axios.get(`${BASE_URL}/api/new-vehicles/get-newVehicle-details`, {
-          params: {
-            make: vehicle.Info.make,
-            model: vehicle.Info.model,
-            variant: vehicle.Info.variant
-          }
-        });
-
-        console.log("response...")
+        // Determine which API parameters to use based on vehicle structure
+        const params = vehicle.Info ? {
+          make: vehicle.Info.make,
+          model: vehicle.Info.model,
+          variant: vehicle.Info.variant
+        } : {
+          make: vehicle.make,
+          model: vehicle.model,
+          variant: vehicle.variant
+        };
         
-        if (response.data) {
+        // Fetch full vehicle details
+        const response = await axios.get(`${BASE_URL}/api/new-vehicles/get-newVehicle-details`, {
+          params: params
+        });
+        
+        console.log("response...", response.data);
+        
+        if (response.data?.data) {
           setComparisonVehicles([...comparisonVehicles, response.data]);
         }
       } catch (error) {
@@ -41,6 +67,16 @@ export function ComparisonProvider({ children }) {
     );
   };
 
+
+  const handleRemoveComparison = (vehicleId) => {
+    // Remove from comparisonVehicles context
+    // removeFromComparison(vehicleId);
+
+    // Remove from newVehicleDetails state
+    setComparisonVehicles(prev =>
+      prev.filter(item => item.data._id !== vehicleId)
+    );
+  };
 
   console.log("comparisonVehicles",comparisonVehicles)
   const updateVehicleVariant = async (index, newSelection) => {
@@ -73,6 +109,7 @@ export function ComparisonProvider({ children }) {
       setComparisonVehicles, 
       addToComparison, 
       removeFromComparison,
+      handleRemoveComparison,
       updateVehicleVariant
     }}>
       {children}

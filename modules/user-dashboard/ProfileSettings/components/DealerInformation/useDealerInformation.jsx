@@ -9,6 +9,7 @@ export default function useDealerInformation() {
       dealerName: '',
       licenseNumber: '',
       location: '',
+      vehicleType: '',
       
       mondayEnabled: true,
       mondayStart: '8:30 AM',
@@ -43,6 +44,7 @@ export default function useDealerInformation() {
       dealerName: (value) => (!value ? 'Dealer name is required' : null),
       licenseNumber: (value) => (!value ? 'License number is required' : null),
       location: (value) => (!value ? 'Location is required' : null),
+      vehicleType: (value) => (!value ? 'Vehicle type is required' : null),
     }
   });
 
@@ -64,6 +66,7 @@ export default function useDealerInformation() {
         dealerName: values.dealerName,
         licenseNumber: values.licenseNumber,
         location: values.location,
+        vehicleType: values.vehicleType,
         workingHours: workingHours,
       };
 
@@ -107,6 +110,7 @@ export default function useDealerInformation() {
       dealerName: existingData.dealerName || '',
       licenseNumber: existingData.licenseNumber || '',
       location: existingData.locationAddress || '',
+      vehicleType: existingData.vehicleType || '',
     };
 
     if (existingData.workingHours) {

@@ -1,3 +1,4 @@
+"use client"
 import {
   Button,
   Text,
@@ -7,13 +8,16 @@ import {
   Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { signIn } from "next-auth/react";
 import { rem } from "@mantine/core";
 
 function Otp({ email, onSuccess }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+
   const form = useForm({
     initialValues: {
       otp: "",
@@ -24,23 +28,39 @@ function Otp({ email, onSuccess }) {
     },
   });
 
-  const { isLoading, error, handleSubmit, data } = useFormSubmission(
+  const { error, handleSubmit, data } = useFormSubmission(
     API_ENDPOINTS.AUTH.VERIFY_OTP,
     form.values,
     form.validate
   );
 
   const handleSubmitOtp = async () => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      otp: form.values.otp,
-      email: form.values.email,
-      type: "otp",
-      action: "Credentials",
-    });
-    
-    if (result.ok) {
-      onSuccess?.();
+    const validation = form.validate();
+    if (validation.hasErrors) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setSubmitError(null);
+      
+      const result = await signIn("credentials", {
+        redirect: false,
+        otp: form.values.otp,
+        email: form.values.email,
+        type: "otp",
+        action: "Credentials",
+      });
+      
+      if (result.ok) {
+        onSuccess?.();
+      } else {
+        setSubmitError(result.error || "Failed to verify OTP. Please try again.");
+      }
+    } catch (error) {
+      setSubmitError(error.message || "An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +73,8 @@ function Otp({ email, onSuccess }) {
       onSuccess?.();
     }
   }, [data]);
+
+  const displayError = submitError || error;
 
   return (
     <>
@@ -69,11 +91,14 @@ function Otp({ email, onSuccess }) {
           size="lg"
           placeholder=""
           error={form.errors.otp}
+          disabled={isLoading}
         />
       </Center>
       
-      {error && (
-        <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+      {displayError && (
+        <div style={{ color: "red", textAlign: "center", marginTop: "10px" }}>
+          {displayError}
+        </div>
       )}
       
       <Box px={rem(50)}>
@@ -88,8 +113,9 @@ function Otp({ email, onSuccess }) {
           color="#E90808"
           disabled={isLoading}
           onClick={handleSubmitOtp}
+          loading={isLoading}
         >
-          {isLoading ? "Loading..." : "Continue"}
+          {isLoading ? "Verifying..." : "Continue"}
         </Button>
       </Box>
     </>

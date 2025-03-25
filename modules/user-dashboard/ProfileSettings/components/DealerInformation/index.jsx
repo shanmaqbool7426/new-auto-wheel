@@ -7,6 +7,8 @@ import LocationSelector from '@/components/LocationSelector';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './DealerInformation.module.css';
 import useDealerInformation from './useDealerInformation';
+import { MdArrowDropDown, MdCheckCircle } from "react-icons/md";
+
 import { useEffect } from 'react';
 
 export default function DealerInformation({ profileData }) {
@@ -73,6 +75,12 @@ export default function DealerInformation({ profileData }) {
     { key: 'sunday', label: 'Sunday' },
   ];
 
+  const vehicleTypeOptions = [
+    { value: 'car', label: 'Car' },
+    { value: 'bike', label: 'Bike' },
+    { value: 'truck', label: 'Truck' }
+  ];
+
   return (
     <Card title="Dealer Information">
       <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -91,17 +99,24 @@ export default function DealerInformation({ profileData }) {
               {...form.getInputProps('licenseNumber')}
             />
           </Grid.Col>
-          <Grid.Col span={12}>
-            <FormField
-              label="Location"
-              placeholder="Select location"
-              value={form.values.location}
-              onClick={() => setIsLocationModalOpen(true)}
-              readOnly
-              style={{ cursor: 'pointer' }}
+          <Grid.Col span={6}>
+            <Text size="sm" weight={500} mb={5}>Vehicle Type</Text>
+            <Select
+              data={vehicleTypeOptions}
+              
+              placeholder="Select vehicle type"
+              rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+              {...form.getInputProps('vehicleType')}
             />
           </Grid.Col>
-
+          <Grid.Col span={6}>
+            <FormField
+              label="Location"
+              placeholder="Enter location"
+              {...form.getInputProps('location')}
+            />
+          </Grid.Col>
+          
           <Grid.Col span={12}>
             <Box className={styles.workingHoursSection}>
               <Text className={styles.sectionTitle}>Working Hours</Text>
@@ -139,6 +154,8 @@ export default function DealerInformation({ profileData }) {
                         <Select
                           data={timeOptions}
                           value={form.values[`${day.key}Start`]}
+                          rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+
                           onChange={(value) => form.setFieldValue(`${day.key}Start`, value)}
                           placeholder="Start Time"
                           searchable
@@ -148,6 +165,8 @@ export default function DealerInformation({ profileData }) {
                         <Text size="sm" className={styles.timeSeperator}>to</Text>
                         <Select
                           data={timeOptions}
+                          rightSection={<MdArrowDropDown size={24} color="#E90808" />}
+
                           value={form.values[`${day.key}End`]}
                           onChange={(value) => form.setFieldValue(`${day.key}End`, value)}
                           placeholder="End Time"

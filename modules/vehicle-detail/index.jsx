@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo,useEffect } from "react";
 import {
   CalendarIcon,
   CarKey,
@@ -52,6 +52,7 @@ import MessageToDealer from "./messageToDealer";
 import SocialContact from "./socialContact";
 import ReportAdd from "./report-add";
 import Gellary from "./imagesGellary";
+import viewTrackingService from "@/services/viewTrackingService";
 
 const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
   const messageRef = useRef(null);
@@ -99,6 +100,12 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
 
   { console.log("detail?.data?.specifications", detail?.data?.specifications) }
 
+  useEffect(() => {
+    // Track the view when component mounts
+    if (detail?.data?._id) {  
+      viewTrackingService.trackView(detail?.data?._id);
+    }
+  }, [detail?.data?._id]);
   // Memoized car summary items
   const carSummaryItems = useMemo(
     () => [

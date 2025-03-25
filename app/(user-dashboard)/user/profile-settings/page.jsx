@@ -1,9 +1,11 @@
-import React from 'react';
-// import ProfileSettings from '@/modules/user-dashboard/ProfileSettings';
+"use client"
+import React, { Suspense } from 'react';
+import ProfileSettings from '@/modules/user-dashboard/ProfileSettings';
 
 export default function ProfileSettingsPage() {
   return (
-    <></>
-    // <ProfileSettings />
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProfileSettings />
+    </Suspense>
   )
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CameraIcon, GearsHandle } from "@/components/Icons";
 import { useUser } from '@/contexts/user'; 
 import React from "react";
@@ -17,17 +17,22 @@ import {
   ActionIcon,
   Anchor,
   Overlay,
+  Menu,
+  Button,
+  Title,
 } from "@mantine/core";
 import NextLink from "next/link";
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import { formatPrice, getTimeAgo } from "@/utils";
 import { useRouter } from "next/navigation";
+import viewTrackingService from '@/services/viewTrackingService';
 
 const CarCard = ({ vehicle }) => {
   const router = useRouter();
   const { isFavorite, toggleFavorite, isFavoriteLoading } = useUser();
   const [activeSlide, setActiveSlide] = useState(0);
   const images = vehicle?.images?.slice(0, 5) || []; // Max 5 images
+  const cardRef = useRef(null);
 
   // Preload images
   useEffect(() => {
@@ -36,6 +41,23 @@ const CarCard = ({ vehicle }) => {
       img.src = src;
     });
   }, [images]);
+
+  // Track view when card becomes visible
+  useEffect(() => {
+    if (cardRef.current && vehicle?._id) {
+      viewTrackingService.trackCardView(cardRef.current, vehicle._id);
+    }
+    
+    return () => {
+      if (vehicle?._id) {
+        const observer = viewTrackingService.observers.get(vehicle._id);
+        if (observer) {
+          observer.disconnect();
+          viewTrackingService.observers.delete(vehicle._id);
+        }
+      }
+    };
+  }, [vehicle?._id]);
 
   // Function to change slide based on mouse position
   const handleMouseMove = (e) => {
@@ -101,6 +123,7 @@ const CarCard = ({ vehicle }) => {
 
   return (
     <Card
+      ref={cardRef}
       shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
       radius="sm"
       mb="lg"

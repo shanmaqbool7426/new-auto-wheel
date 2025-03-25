@@ -104,7 +104,7 @@ const CarReviewsModule = ({
           <Box className="container-xl">
             <Box className="row">
               <Box className="col-md-12">
-                <nav className="mt-3">
+                <nav className="mt-2">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                       <Anchor href="/" component={Link}>Home</Anchor>
@@ -170,13 +170,30 @@ const CarReviewsModule = ({
                   >
                     {type} Reviews
                   </Button>
+
+                  <Button
+                    leftSection={<SmallReviewIcon />}
+                    variant="light"
+                    size="md"
+                    bg="white"
+                    c="#878787"
+                    tt="capitalize"
+                    component={Link}
+                    href={`/dealers`}
+                    autoContrast
+                    h={39}
+                    radius="16px"
+                  >
+                    {type} Dealer
+                  </Button>
                 </Group>
               </Box>
               <Box className="col-md-12">
                 <Box className="search-wrapper-card" mt="lg">
                   <Card
+                  style={{marginTop:"-15px"}}
                     shadow="0px 4px 20px 0px #00000014"
-                    padding="lg"
+                    padding="sm"
                     radius="sm"
                   >
                     <Title order={3} mb="md" tt="capitalize">
@@ -186,7 +203,7 @@ const CarReviewsModule = ({
                       <Box className="col-md-9">
                         <Input
                           size="md"
-                          value={`${selection?.make} ${selection?.model} ${selection?.variant}`}
+                          value={selection?.make ? `${selection?.make} ${selection?.model || ''} ${selection?.variant || ''}`.trim() : ''}
                           onClick={openModalCommon}
                           placeholder="Search by Car Make or Model"
                           leftSection={<IconSearch size={16} />}
@@ -264,13 +281,16 @@ const CarReviewsModule = ({
               </Text>
             </Title>
           </Box>
+          <Box className="container-xl mb-5">
           <Box className="row">
             {popularVehicles?.data?.map((vehicle, index) => (
-              <Box className="col-lg-4 col-sm-4" key={index}>
+              <Box className="col-lg-3 col-sm-4" key={index}>
                 <NewCarsCard index={index} vehicle={vehicle} isRating={true} />
               </Box>
             ))}
           </Box>
+          </Box>
+          
         </Box>
       </Box>
 

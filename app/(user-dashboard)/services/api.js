@@ -1,13 +1,13 @@
 // const BASE_URL = 'http://localhost:5000';
 import { BASE_URL } from '../../../constants/api-endpoints';
 async function fetchWithAuth(url, options = {}) {
-  // You might want to get the token from your auth solution
-  const token = 'YOUR_AUTH_TOKEN';
+  const token = JSON.parse(localStorage.getItem('token'));
 
+  console.log("token",token)
   const defaultOptions = {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `${token?.token?.token}`,
     },  
   };
   

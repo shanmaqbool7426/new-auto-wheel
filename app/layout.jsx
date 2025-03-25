@@ -14,6 +14,7 @@ import Script from "next/script";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/carousel/styles.css";
+import { UserProvider } from '@/contexts/user';
 
 // Font configurations
 const poppins = Poppins({
@@ -64,10 +65,12 @@ export default function Layout({ children }) {
         />
         <StoreProvider>
         <SessionProvider>
+        <UserProvider>
           <MantineProvider theme={theme}>
             <Notifications />
             {children}
           </MantineProvider>
+          </UserProvider>
         </SessionProvider>
         </StoreProvider>
       </body>
