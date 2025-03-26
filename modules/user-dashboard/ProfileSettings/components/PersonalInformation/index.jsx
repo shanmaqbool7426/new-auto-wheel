@@ -11,6 +11,7 @@ export default function PersonalInformation({ profileData }) {
   const {
     form,
     handleSubmit,
+    loading
   } = usePersonalInformation();
 
   // Set initial values for the form based on profileData
@@ -18,7 +19,7 @@ export default function PersonalInformation({ profileData }) {
     if (profileData) {
       // Only set values if they are not already set
       if (!form.values.fullName) {
-        form.setFieldValue('fullName', profileData.firstName || '');
+        form.setFieldValue('fullName', profileData.fullName || '');
       }
       if (!form.values.phoneNumber) {
         form.setFieldValue('phoneNumber', profileData.phone || '');
@@ -90,8 +91,11 @@ export default function PersonalInformation({ profileData }) {
               root: buttonStyles.root,
             }}
             type="submit"
+            // loading={loading}
+            disabled={loading}
+            loaderProps={{ size: 'sm' }}
           >
-            Save
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </Box>
       </form>

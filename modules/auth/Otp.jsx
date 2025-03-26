@@ -50,12 +50,14 @@ function Otp({ email, onSuccess }) {
         email: form.values.email,
         type: "otp",
         action: "Credentials",
+        callbackUrl: '/user/profile-settings',
       });
       
       if (result.ok) {
+        window.location.href = '/user/profile-settings';
         onSuccess?.();
       } else {
-        setSubmitError(result.error || "Failed to verify OTP. Please try again.");
+        setSubmitError("Failed to verify OTP. Please try again.");
       }
     } catch (error) {
       setSubmitError(error.message || "An unexpected error occurred");

@@ -3,12 +3,12 @@ import React from 'react';
 import Search from '@/components/user-dashboard/Search';
 import FormField from '@/components/user-dashboard/FormField';
 import DataTable from '@/components/user-dashboard/DataTable';
-import { Box, Pagination, Loader, Text } from '@mantine/core';
+import { Box, Text } from '@mantine/core';
 import classes from './Followers.module.css';
 import { getColumns } from './data';
-import useFollowers from './useFollowers';
+import useFollowings from './useFollowings';
 
-export default function Followers({userId}) {
+export default function Following({userId}) {
   const {
     followers,
     loading,
@@ -19,10 +19,10 @@ export default function Followers({userId}) {
     handleChangeFilter,
     handlePageChange,
     handleUnfollow,
-  } = useFollowers(userId);
+  } = useFollowings(userId);
 
   const columns = getColumns(handleUnfollow);
-console.log('userId >>>>>>>',userId)
+console.log('pagination',pagination)
   // if (loading) return <Loader />;
   // if (error) return <Text color="red">{error}</Text>;
 
@@ -47,7 +47,7 @@ console.log('userId >>>>>>>',userId)
               placeholder="Date, new to old"
               checkIconPosition="right"
               value={filterParams.date}
-              onChange={(_value, option) => handleChangeFilter('date', option.value)}
+              onChange={(value) => handleChangeFilter('date', value)}
             />
           </Box>
         </Box>
@@ -57,6 +57,24 @@ console.log('userId >>>>>>>',userId)
         <DataTable
           columns={columns}
           records={followers || []}
+          totalRecords={pagination.total}
+          totalPages={pagination.totalPages}
+          page={pagination.page}
+          onPageChange={handlePageChange}
+          pageSize={pagination.limit}
+          loading={loading}
+          loaderSize="sm"
+          emptyState={
+            error ? (
+              <Text color="red" align="center" p="md">
+                {error}
+              </Text>
+            ) : (
+              <Text align="center" p="md">
+                No following users found
+              </Text>
+            )
+          }
         />
       </Box>
 

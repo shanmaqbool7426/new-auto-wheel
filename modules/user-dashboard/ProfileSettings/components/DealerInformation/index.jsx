@@ -7,11 +7,14 @@ import LocationSelector from '@/components/LocationSelector';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import styles from './DealerInformation.module.css';
 import useDealerInformation from './useDealerInformation';
+import { useSelector,useDispatch } from 'react-redux';
+import { selectCurrentUser,setUser } from '@/redux/reducers/authSlice';
 import { MdArrowDropDown, MdCheckCircle } from "react-icons/md";
 
 import { useEffect } from 'react';
 
 export default function DealerInformation({ profileData }) {
+  const currentUser = useSelector(selectCurrentUser);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [locationSelection, setLocationSelection] = useState({
     province: null,
@@ -22,6 +25,7 @@ export default function DealerInformation({ profileData }) {
   const {
     form,
     handleSubmit,
+    loading,
     initializeForm,
   } = useDealerInformation();
 
@@ -155,24 +159,48 @@ export default function DealerInformation({ profileData }) {
                           data={timeOptions}
                           value={form.values[`${day.key}Start`]}
                           rightSection={<MdArrowDropDown size={24} color="#E90808" />}
-
                           onChange={(value) => form.setFieldValue(`${day.key}Start`, value)}
                           placeholder="Start Time"
                           searchable
                           className={styles.timeSelect}
                           size="sm"
+                          clearable={false}
+                          withinPortal
+                          dropdownPosition="bottom"
+                          nothingFound="No options"
+                          maxDropdownHeight={200}
+                          styles={{
+                            input: {
+                              cursor: 'pointer',
+                            },
+                            dropdown: {
+                              borderRadius: '8px',
+                            }
+                          }}
                         />
                         <Text size="sm" className={styles.timeSeperator}>to</Text>
                         <Select
                           data={timeOptions}
                           rightSection={<MdArrowDropDown size={24} color="#E90808" />}
-
                           value={form.values[`${day.key}End`]}
                           onChange={(value) => form.setFieldValue(`${day.key}End`, value)}
                           placeholder="End Time"
                           searchable
                           className={styles.timeSelect}
                           size="sm"
+                          clearable={false}
+                          withinPortal
+                          dropdownPosition="bottom"
+                          nothingFound="No options"
+                          maxDropdownHeight={200}
+                          styles={{
+                            input: {
+                              cursor: 'pointer',
+                            },
+                            dropdown: {
+                              borderRadius: '8px',
+                            }
+                          }}
                         />
                       </Group>
                     )}
@@ -195,6 +223,7 @@ export default function DealerInformation({ profileData }) {
           <Button
             radius="20px"
             color='#1B84FF'
+            disabled={loading}
             fullWidth
             classNames={{
               root: buttonStyles.root,
@@ -202,7 +231,7 @@ export default function DealerInformation({ profileData }) {
             type="submit"
             size="md"
           >
-            Save Changes
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </Box>
       </form>

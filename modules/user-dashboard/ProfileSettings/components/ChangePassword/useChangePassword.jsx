@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications'; // Optional: For notifications
 import { BASE_URL } from '@/constants/api-endpoints';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser, selectToken } from '@/redux/reducers/authSlice';
 
 export default function useChangePassword() {
+  const [loading, setLoading] = useState(false);
+  const currentUser = useSelector(selectCurrentUser);
+  const token = useSelector(selectToken);
+  console.log("token",token)
   const form = useForm({
     initialValues: {
       currentPassword: '',
@@ -18,37 +24,40 @@ export default function useChangePassword() {
 
   const handleSubmit = async (values) => {
     try {
+      setLoading(true);
       const response = await fetch(`${BASE_URL}/api/user/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `${token}`
         },
         body: JSON.stringify({
           currentPassword: values.currentPassword,
           newPassword: values.newPassword,
-        }),
+        })
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
 
       const data = await response.json();
 
-      // Optional: Show a success notification
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to change password');
+      }
+
+      // Show success notification
       showNotification({
         title: 'Success',
-        message: 'Password changed successfully!',
+        message: data.message || 'Password changed successfully!',
         color: 'green',
       });
 
-      console.log('Response Data:: ', data);
+      form.reset(); // Reset form after successful change
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error('Error changing password:', error);
-      // Optional: Show an error notification
       showNotification({
         title: 'Error',
-        message: 'Failed to change password.',
+        message: error.message || 'Failed to change password.',
         color: 'red',
       });
     }
@@ -56,6 +65,7 @@ export default function useChangePassword() {
 
   return {
     form,
-    handleSubmit
+    handleSubmit,
+    loading
   };
 }

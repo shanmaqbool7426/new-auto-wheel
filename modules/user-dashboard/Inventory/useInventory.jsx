@@ -5,10 +5,13 @@ import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '@/redux/reducers/authSlice';
 import { vehiclesService } from '@/app/(user-dashboard)/services/vehiclesService';
 // import { useRouter } from 'next/router';
 export default function useInventory() {
-
+  const user = useSelector(selectCurrentUser);
+console.log("user........",user)
   const router = useRouter();
   const [searchBy, setSearchBy] = React.useState(() => {
     if (typeof window !== 'undefined') {
@@ -28,8 +31,8 @@ export default function useInventory() {
 
   const [isSessionReady, setIsSessionReady] = React.useState(false);
   const { data: session, status } = useSession();
+
   const handleExpandRow = (id) => {
-    console.log('>>>>>')
     setExpandedRowIds((prev) => {
       if (prev.includes(id)) {
         return prev.filter((rowId) => rowId !== id);
@@ -39,11 +42,12 @@ export default function useInventory() {
     });
   };
   const [filterParams, setFilterParams] = React.useState({
-    type: '',
+    type: user?.vehicleType,
     status: '',
     date: 'newToOld',
   });
   const token = getLocalStorage('token');
+  console.log('>>>>>..........',user)
 
   // Add debounce effect for search term
   useEffect(() => {
@@ -83,9 +87,8 @@ export default function useInventory() {
       // Use the vehiclesService instead of direct fetch
       const response = await vehiclesService.getUserVehicles(userId, params);
       const data = response.data;
-      
-      if (data.success) {
-        const transformedVehicles = data.data.vehicles.map((vehicle) => ({
+      if (data) {
+        const transformedVehicles = data.vehicles.map((vehicle) => ({
           id: vehicle._id,
           title: {
             title: vehicle.specifications.stockId || `${vehicle.make} ${vehicle.model} ${vehicle.year}`,
@@ -100,14 +103,16 @@ export default function useInventory() {
           status: vehicle.status,
           views: vehicle.views,
           slug: vehicle?.slug,
+          regoExpire: vehicle?.rego,
           mileage: vehicle.specifications.mileage,
           transmission: vehicle.specifications.transmission,
           fuelType: vehicle.specifications.fuelType,
+          viewCounts: vehicle.viewCounts
         }));
         
         setVehicles(transformedVehicles);
-        setTotalPages(data?.data.totalPages);
-        setTotalVehicles(data?.data?.totalVehicles);
+        setTotalPages(data?.totalPages);
+        setTotalVehicles(data?.totalVehicles);
       } else {
         throw new Error(data.message || 'Failed to fetch vehicles');
       }

@@ -1,10 +1,15 @@
 import React from 'react'
 
-export default function useLocationBaseUsers() {
+export default function useLocationBaseUsers({ viewAnalytics }) {
+  // Extract cities and their counts from viewsByLocation
+  const locationData = viewAnalytics?.viewsByLocation || [];
+  const cities = locationData.map(location => location._id);
+  const counts = locationData.map(location => location.count);
+
   const series = [
     {
       name: 'Users',
-      data: [1200, 2500, 2100, 3250, 2500, 12500, 2000, 500, 1800, 2800]
+      data: counts
     }
   ];
 
@@ -29,7 +34,7 @@ export default function useLocationBaseUsers() {
       show: false,
     },
     xaxis: {
-      categories: ['Sydney', 'Adelaide', 'Brisbane', 'Canberra', 'Melbourne', 'Hobart', 'Carnarvon', 'Darwin', 'Perth'],
+      categories: cities,
       axisBorder: {
         show: false
       },
@@ -58,7 +63,6 @@ export default function useLocationBaseUsers() {
       }
     }
   };
-
 
   return {
     options,

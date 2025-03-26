@@ -3,7 +3,6 @@ import { api } from '@/app/(user-dashboard)/services/api';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX, IconUserPlus, IconUserMinus } from '@tabler/icons-react';
 import { getLocalStorage } from '@/utils';
-
 export default function useFollowers({userId}) {
   const token = getLocalStorage('token');
   const [followers, setFollowers] = useState([]);
@@ -19,6 +18,23 @@ export default function useFollowers({userId}) {
     total: 0,
     totalPages: 1,
   });
+
+  // Reset states when component unmounts or userId changes
+  useEffect(() => {
+    return () => {
+      setFollowers([]);
+      setLoading(false);
+      setError(null);
+      setSearchBy('');
+      setFilterParams({ date: 'newToOld' });
+      setPagination({
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0
+      });
+    };
+  }, [userId]);
 
   useEffect(() => {
     if (userId || token?._id) {
@@ -101,7 +117,6 @@ export default function useFollowers({userId}) {
               : follower
           )
         );
-        
         notifications.show({
           title: 'Success',
           message: 'User followed successfully',
@@ -142,6 +157,7 @@ export default function useFollowers({userId}) {
           )
         );
         
+        
         notifications.show({
           title: 'Success',
           message: 'User unfollowed successfully',
@@ -180,6 +196,7 @@ export default function useFollowers({userId}) {
     loading,
     error,
     setSearchBy,
+    fetchFollowers,
     filterParams,
     pagination,
     handleChangeFilter,

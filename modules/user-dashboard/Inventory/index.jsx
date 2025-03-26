@@ -56,7 +56,7 @@ export default function Inventory() {
 
         <Box className={classes.actions}>
           <Box className={classes.action}>
-            <FormField
+            {/* <FormField
               type="select"
               name="type"
               data={[
@@ -69,7 +69,7 @@ export default function Inventory() {
               checkIconPosition="right"
               value={filterParams.type}
               onChange={(_value, option) => handleChangeFilter('type', option.value)}
-            />
+            /> */}
           </Box>
           <Box className={classes.action}>
             <FormField

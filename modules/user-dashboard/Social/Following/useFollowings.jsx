@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { api } from '@/app/(user-dashboard)/services/api';
 import { useSession } from 'next-auth/react'; // Assuming you're using NextAuth for session management
 import { getLocalStorage } from '@/utils';
+import { BASE_URL } from '@/constants/api-endpoints';
+import useFollowers from '../Followers/useFollowers';
 
-export default function useFollowers({userId}) {
+export default function useFollowings(userId) {
   const token = getLocalStorage('token');
+  const {fetchFollowers} = useFollowers({userId})
 
   const [followers, setFollowers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,15 +24,31 @@ export default function useFollowers({userId}) {
   });
   const { data: session } = useSession();
 
+  // Reset states when component unmounts or userId changes
+  useEffect(() => {
+    return () => {
+      setFollowers([]);
+      setLoading(false);
+      setError(null);
+      setSearchBy('');
+      setFilterParams({ date: 'newToOld' });
+      setPagination({
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0
+      });
+    };
+  }, [userId]);
 
   console.log('session>>>',token)
   useEffect(() => {
     // if (session?.user?._id) {
-      fetchFollowers();
+      fetchFollowings();
     // }
   }, [session, filterParams, searchBy, pagination.page, pagination.limit]);
 
-  const fetchFollowers = async () => {
+   const fetchFollowings = async () => {
     setLoading(true);
     try {
       const data = await api.get(`/api/user/${token?._id}/following`, {
@@ -44,8 +63,8 @@ export default function useFollowers({userId}) {
       setFollowers(data.data.followings || []);
       setPagination({
         ...pagination,
-        total: data.total,
-        totalPages: data.totalPages,
+        total: data?.data?.total,
+        totalPages: data?.data?.totalPages,
       });
     } catch (err) {
       setError('Failed to fetch followers');
@@ -65,8 +84,10 @@ export default function useFollowers({userId}) {
 
   const handleUnfollow = async (userId) => {
     try {
-      await api.post(`/users/${token?._id}/unfollow`);
-      fetchFollowers(); // Refresh the list after unfollowing
+      await api.post(`/api/user/${userId}/unfollow`);
+      fetchFollowings();
+      fetchFollowers();
+       // Refresh the list after unfollowing
     } catch (err) {
       setError('Failed to unfollow user');
       console.error(err);
@@ -82,6 +103,7 @@ export default function useFollowers({userId}) {
     setSearchBy,
     filterParams,
     pagination,
+    fetchFollowings,
     handleChangeFilter,
     handlePageChange,
     handleUnfollow,

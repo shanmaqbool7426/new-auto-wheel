@@ -47,16 +47,16 @@ export default function PackageDetails({profileData}) {
             </Box>
             <Box className={styles.featureValue}>{profileData.featureAddsCount}</Box>
           </li>
-          <li className={styles.planFeature}>
+          {/* <li className={styles.planFeature}>
             <Box className={styles.featureInfo}>
               <Box className={styles.featureIcon}><IconCalendarMonth /></Box>
               <Box className={styles.featureName}>Package expiry Date</Box>
             </Box>
             <Box className={styles.featureValue}>11-03-24</Box>
-          </li>
+          </li> */}
         </ul>
 
-        <Box className={buttonStyles.holder} style={{ marginTop: '12px' }}>
+        {/* <Box className={buttonStyles.holder} style={{ marginTop: '12px' }}>
           <Button
             radius="20px"
             color='#1B84FF'
@@ -67,7 +67,7 @@ export default function PackageDetails({profileData}) {
           >
             Upgare Plan
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </Card >
   )

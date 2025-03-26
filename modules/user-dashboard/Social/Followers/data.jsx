@@ -95,30 +95,6 @@ export const getColumns = (toggleFollow) => {
           />
         );
       },
-    },
-    {
-      accessor: '_id',
-      title: 'Actions',
-      textAlign: 'center',
-      render: (record) => {
-        console.log("record.followers",)
-        // Check if the current user is following this user
-        const isFollowing =record.followers.includes(currentUser?._id) ;
-        console.log("isFollowing",isFollowing)
-        
-        return (
-          <Group justify='center'>
-            <ActionIcon
-              size={20}
-              className={styles.actionButton}
-              onClick={() => toggleFollow(record._id, isFollowing)}
-              title={isFollowing ? 'Unfollow' : 'Follow'}
-            >
-              {isFollowing ? <IconUserMinus /> : <IconUserPlus />}
-            </ActionIcon>
-          </Group>
-        );
-      },
-    },
+    }
   ];
 };

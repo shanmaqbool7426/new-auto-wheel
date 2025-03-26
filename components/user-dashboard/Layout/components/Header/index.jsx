@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Box, Group, Progress, ActionIcon, UnstyledButton, Avatar, Text, Menu } from '@mantine/core';
 import styles from './Header.module.css';
@@ -5,8 +6,12 @@ import Search from '@/components/user-dashboard/Search';
 import { IconCog, IconNotification } from './icons';
 import useHeader from './useHeader';
 import { useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '@/redux/reducers/authSlice';
 
 export default function Header() {
+  const currentUser = useSelector(selectCurrentUser);
+
   const {
     isNotification,
     title,
@@ -21,22 +26,22 @@ export default function Header() {
       <Box className={styles.headerRight}>
         <Group justify='end' gap={20}>
           {/* Search */}
-          <Box className={styles.searchbar}>
+          {/* <Box className={styles.searchbar}>
             <Search />
-          </Box>
+          </Box> */}
 
           {/* Progress bar */}
-          <Box className={styles.progressbar}>
+          {/* <Box className={styles.progressbar}>
             <Box className={styles.progressField}>
               <Box className={styles.progressLabel}>Complete Profile</Box>
               <Box className={styles.progressValue}>70%</Box>
             </Box>
             <Progress color="#E90808" size="sm" value={70} />
-          </Box>
+          </Box> */}
 
-          <ActionIcon variant="transparent">
+          {/* <ActionIcon variant="transparent">
             <IconCog />
-          </ActionIcon>
+          </ActionIcon> */}
 
           <ActionIcon variant="transparent">
             <IconNotification alert={isNotification ? '#E90808' : 'transparent'} />
@@ -56,11 +61,11 @@ export default function Header() {
 
                   <div style={{ flex: 1 }}>
                     <Box className={styles.userName}>
-                    {session?.user?.fullName || session?.user?.name}
+                    {currentUser?.fullName}
                     </Box>
 
                     <Box className={styles.userEmail}>
-                    {session?.user?.email}
+                    {currentUser?.email}
                     </Box>
                   </div>
                 </Group>

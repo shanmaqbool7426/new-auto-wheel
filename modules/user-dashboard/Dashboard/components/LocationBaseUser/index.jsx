@@ -3,13 +3,13 @@ import { Box } from '@mantine/core';
 import styles from './LocationBaseUser.module.css';
 import useLocationBaseUsers from './useLocationBaseUsers';
 import dynamic from 'next/dynamic';
-// const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function LocationBaseUser() {
+export default function LocationBaseUser({ viewAnalytics }) {
   const {
     series,
     options
-  } = useLocationBaseUsers();
+  } = useLocationBaseUsers({ viewAnalytics });
 
   return (
     <Box className={styles.card}>

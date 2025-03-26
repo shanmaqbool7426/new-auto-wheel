@@ -2,6 +2,12 @@
 import axios from 'axios';
 import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
+const getToken = () => {
+  const user = JSON.parse(localStorage.getItem('token'));
+  console.log("userrrrrrrrr",user)
+  return user?.token?.token || {}
+}
+
 class ViewTrackingService {
   constructor() {
     this.sessionId = this.getOrCreateSessionId();
@@ -9,6 +15,8 @@ class ViewTrackingService {
     this.observers = new Map(); // Store observers by vehicle ID
     this.pendingListingViews = []; // Store pending listing views for batch processing
     this.batchTimeout = null; // Timeout for batch processing
+    this.mobileViewedVehicles = new Set(); // New set to track mobile views
+    this.initializeMobileViewed(); // Initialize mobile viewed set in the constructor
   }
   
   getOrCreateSessionId() {
@@ -35,8 +43,45 @@ class ViewTrackingService {
   }
   
   async trackView(vehicleId, page = 'detail') {
+    console.log("vehicleId", vehicleId, page);
     if (!vehicleId || typeof window === 'undefined') return;
     
+    // For mobile interactions, check if already viewed
+    if (page === 'mobile') {
+      // Check if this vehicle's mobile view was already tracked
+      if (this.mobileViewedVehicles.has(vehicleId)) {
+        console.log('Mobile view already tracked for this vehicle');
+        return;
+      }
+
+      try {
+        await axios.post(API_ENDPOINTS.VEHICLE.TRACK_VIEW(vehicleId), {
+          sessionId: this.sessionId,
+          vehicleId: vehicleId,
+          page: page
+        });
+        
+        // Add to mobile viewed set after successful tracking
+        this.mobileViewedVehicles.add(vehicleId);
+        
+        // Also store in sessionStorage for persistence across page refreshes
+        try {
+          const mobileViewedData = JSON.parse(sessionStorage.getItem('mobileViewedVehicles') || '{}');
+          mobileViewedData[vehicleId] = Date.now();
+          sessionStorage.setItem('mobileViewedVehicles', JSON.stringify(mobileViewedData));
+        } catch (error) {
+          console.error('Error storing mobile view in sessionStorage:', error);
+        }
+
+        console.log('Mobile interaction tracked');
+        return;
+      } catch (error) {
+        console.error('Error tracking mobile interaction:', error);
+        return;
+      }
+    }
+    
+    // For other page types, use the existing caching logic
     // First check in-memory set
     if (this.viewedVehicles.has(vehicleId)) {
       return; // Already viewed in this session
@@ -173,6 +218,31 @@ class ViewTrackingService {
       observer.disconnect();
     });
     this.observers.clear();
+  }
+
+  async getViewAnalytics() {
+    try {
+      const response = await axios.get(API_ENDPOINTS.VEHICLE.VIEW_ANALYTICS, {
+        headers: {
+          'Authorization': getToken()
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching view analytics:', error);
+      throw error;
+    }
+  }
+
+  initializeMobileViewed() {
+    try {
+      const mobileViewedData = JSON.parse(sessionStorage.getItem('mobileViewedVehicles') || '{}');
+      Object.keys(mobileViewedData).forEach(vehicleId => {
+        this.mobileViewedVehicles.add(vehicleId);
+      });
+    } catch (error) {
+      console.error('Error initializing mobile viewed set:', error);
+    }
   }
 }
 
