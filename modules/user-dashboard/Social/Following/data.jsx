@@ -44,12 +44,12 @@ export const getColumns = (onUnfollow) => [
     },
   },
   {
-    accessor: 'city',
-    title: 'City',
+    accessor: 'locationAddress',
+    title: 'Location',
   },
   {
     accessor: 'isFollow',
-    title: '',
+    title: 'Status',
     render: ({ isFollow }) => {
       return (
         <Badge

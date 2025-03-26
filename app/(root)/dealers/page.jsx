@@ -353,6 +353,7 @@ const CarsDealerShip = () => {
                                 <Rating
                                   defaultValue={dealer.rating || 0}
                                   count={5}
+                                  readOnly
                                   size="sm"
                                 />
                                 ({dealer.rating || 0}/5)

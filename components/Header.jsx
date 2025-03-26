@@ -30,11 +30,14 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { AUTH_VIEWS } from "@/constants/auth-config";
 import { usePathname } from 'next/navigation';
 import { useAuthModalContext } from '@/contexts/auth-modal';
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/redux/reducers/authSlice";
 
 const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [hoverTarget, setHoverTarget] = useState("cars");
+  const user = useSelector(selectCurrentUser);
   const pathname = usePathname();
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
@@ -586,7 +589,7 @@ const Header = () => {
 
               <Menu shadow="lg" radius="sm">
                 <Menu.Target>
-                {   <Button
+                  <Button
                     onClick={() => !session ? openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN) : null}
                     color="#E90808"
                     autoContrast
@@ -594,49 +597,101 @@ const Header = () => {
                     tt="uppercase"
                   >
                     Post an Ad
-                  </Button>}
+                  </Button>
                 </Menu.Target>
-                {session && <Menu.Dropdown>
-                  <Menu.Item>
-                    <Anchor
-                      component={Link}
-                      underline="none"
-                      c="dark"
-                      href="/sale/car/post-ad"
-                      passHref
-                      fw={500}
-                      size="sm"
-                    >
-                      Sell Your Car
-                    </Anchor>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <Anchor
-                      component={Link}
-                      underline="none"
-                      c="dark"
-                      href="/sale/bike/post-ad"
-                      passHref
-                      fw={500}
-                      size="sm"
-                    >
-                      Sell Your Bike
-                    </Anchor>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <Anchor
-                      component={Link}
-                      underline="none"
-                      c="dark"
-                      href="/sale/truck/post-ad"
-                      passHref
-                      fw={500}
-                      size="sm"
-                    >
-                      Sell Your Truck
-                    </Anchor>
-                  </Menu.Item>
-                </Menu.Dropdown>}
+                {user?.accountType === 'Dealer' ? (
+                  <Menu.Dropdown>
+                    {user?.vehicleType === 'car' && (
+                      <Menu.Item>
+                        <Anchor
+                          component={Link}
+                          underline="none"
+                          c="dark"
+                          href="/sale/car/post-ad"
+                          passHref
+                          fw={500}
+                          size="sm"
+                        >
+                          Sell Your Car
+                        </Anchor>
+                      </Menu.Item>
+                    )}
+                    {user?.vehicleType === 'bike' && (
+                      <Menu.Item>
+                        <Anchor
+                          component={Link}
+                          underline="none"
+                          c="dark"
+                          href="/sale/bike/post-ad"
+                          passHref
+                          fw={500}
+                          size="sm"
+                        >
+                          Sell Your Bike
+                        </Anchor>
+                      </Menu.Item>
+                    )}
+                    {user?.vehicleType === 'truck' && (
+                      <Menu.Item>
+                        <Anchor
+                          component={Link}
+                          underline="none"
+                          c="dark"
+                          href="/sale/truck/post-ad"
+                          passHref
+                          fw={500}
+                          size="sm"
+                        >
+                          Sell Your Truck
+                        </Anchor>
+                      </Menu.Item>
+                    )}
+                  </Menu.Dropdown>
+                ) : (
+                  session && (
+                    <Menu.Dropdown>
+                      <Menu.Item>
+                        <Anchor
+                          component={Link}
+                          underline="none"
+                          c="dark"
+                          href="/sale/car/post-ad"
+                          passHref
+                          fw={500}
+                          size="sm"
+                        >
+                          Sell Your Car
+                        </Anchor>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <Anchor
+                          component={Link}
+                          underline="none"
+                          c="dark"
+                          href="/sale/bike/post-ad"
+                          passHref
+                          fw={500}
+                          size="sm"
+                        >
+                          Sell Your Bike
+                        </Anchor>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <Anchor
+                          component={Link}
+                          underline="none"
+                          c="dark"
+                          href="/sale/truck/post-ad"
+                          passHref
+                          fw={500}
+                          size="sm"
+                        >
+                          Sell Your Truck
+                        </Anchor>
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  )
+                )}
               </Menu>
             </Group>
             <Burger

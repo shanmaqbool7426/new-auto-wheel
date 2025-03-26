@@ -15,6 +15,8 @@ class ViewTrackingService {
     this.observers = new Map(); // Store observers by vehicle ID
     this.pendingListingViews = []; // Store pending listing views for batch processing
     this.batchTimeout = null; // Timeout for batch processing
+    this.mobileViewedVehicles = new Set(); // New set to track mobile views
+    this.initializeMobileViewed(); // Initialize mobile viewed set in the constructor
   }
   
   getOrCreateSessionId() {
@@ -44,14 +46,33 @@ class ViewTrackingService {
     console.log("vehicleId", vehicleId, page);
     if (!vehicleId || typeof window === 'undefined') return;
     
-    // For mobile interactions, always track (bypass caching)
+    // For mobile interactions, check if already viewed
     if (page === 'mobile') {
+      // Check if this vehicle's mobile view was already tracked
+      if (this.mobileViewedVehicles.has(vehicleId)) {
+        console.log('Mobile view already tracked for this vehicle');
+        return;
+      }
+
       try {
         await axios.post(API_ENDPOINTS.VEHICLE.TRACK_VIEW(vehicleId), {
           sessionId: this.sessionId,
           vehicleId: vehicleId,
           page: page
         });
+        
+        // Add to mobile viewed set after successful tracking
+        this.mobileViewedVehicles.add(vehicleId);
+        
+        // Also store in sessionStorage for persistence across page refreshes
+        try {
+          const mobileViewedData = JSON.parse(sessionStorage.getItem('mobileViewedVehicles') || '{}');
+          mobileViewedData[vehicleId] = Date.now();
+          sessionStorage.setItem('mobileViewedVehicles', JSON.stringify(mobileViewedData));
+        } catch (error) {
+          console.error('Error storing mobile view in sessionStorage:', error);
+        }
+
         console.log('Mobile interaction tracked');
         return;
       } catch (error) {
@@ -210,6 +231,17 @@ class ViewTrackingService {
     } catch (error) {
       console.error('Error fetching view analytics:', error);
       throw error;
+    }
+  }
+
+  initializeMobileViewed() {
+    try {
+      const mobileViewedData = JSON.parse(sessionStorage.getItem('mobileViewedVehicles') || '{}');
+      Object.keys(mobileViewedData).forEach(vehicleId => {
+        this.mobileViewedVehicles.add(vehicleId);
+      });
+    } catch (error) {
+      console.error('Error initializing mobile viewed set:', error);
     }
   }
 }

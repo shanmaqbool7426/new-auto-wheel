@@ -11,9 +11,12 @@ import PackageDetails from './components/PackageDetails';
 import ConnectedAccount from './components/ConnectedAccount';
 import ServicesOffer from './components/ServicesOffer';
 import ChangePassword from './components/ChangePassword';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '@/redux/reducers/authSlice';
 
 export default function ProfileSettings() {
-  const { profileData, loading, error } = useProfileSettings();
+  const currentUser = useSelector(selectCurrentUser);
+  const { profileData, loading, error } = useProfileSettings(currentUser);
 
   if (loading) {
     return (
@@ -40,7 +43,7 @@ export default function ProfileSettings() {
       <Box className={styles.wrapper}>
         <Box className={styles.sidebar}>
           <Stack gap="24px">
-            <ProfileInformation profileData={profileData} />
+            <ProfileInformation profileData={profileData} currentUser={currentUser} />
             <PackageDetails profileData={profileData} />
             <ConnectedAccount />
           </Stack>

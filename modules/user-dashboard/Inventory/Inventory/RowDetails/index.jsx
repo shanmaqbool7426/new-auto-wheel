@@ -12,22 +12,22 @@ export default function RowDetails({ record }) {
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Views</Box>
-          <Box className={styles.value}>{record.views || 'N/A'}</Box>
+          <Box className={styles.value}>{record.viewCounts?.listingViews || 0}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Clicks</Box>
-          <Box className={styles.value}>{record.clicks || 'N/A'}</Box>
+          <Box className={styles.value}>{record.viewCounts?.clicks || 0}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>No View</Box>
-          <Box className={styles.value}>{record.noView || 'N/A'}</Box>
+          <Box className={styles.value}>{record.viewCounts?.mobileViews || 0}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>City</Box>
-          <Box className={styles.value}>{record.city || 'N/A'}</Box>
+          <Box className={styles.value}>{record.city || 0}</Box>
         </Box>
 
         <Box className={styles.groupColumn}>
@@ -47,7 +47,16 @@ export default function RowDetails({ record }) {
 
         <Box className={styles.groupColumn}>
           <Box className={styles.title}>Rego Expire</Box>
-          <Box className={styles.value}>{record.regoExpire || 'N/A'}</Box>
+          <Box className={styles.value}>
+            {record.regoExpire 
+              ? new Date(record.regoExpire).toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                })
+              : 'N/A'
+            }
+          </Box>
         </Box>
       </Group>
     </Box>

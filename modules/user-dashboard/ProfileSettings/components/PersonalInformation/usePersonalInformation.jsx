@@ -2,6 +2,10 @@ import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '@/redux/reducers/authSlice';
+import { selectCurrentUser } from '@/redux/reducers/authSlice';
+import { useState } from 'react';
 
 export default function useDealerInformation() {
   const form = useForm({
@@ -14,11 +18,16 @@ export default function useDealerInformation() {
     },
   });
   const token = getLocalStorage('token');
+  const currentUser = useSelector(selectCurrentUser);
+  const [loading, setLoading] = useState(false);
 
+  console.log("currentUser",currentUser)
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     console.log('Dealer Information Data:: ', values);
     try {
+      setLoading(true);
       const response = await fetch(`${BASE_URL}/api/user/profile`, {
         method: 'PUT',
         headers: {
@@ -27,13 +36,14 @@ export default function useDealerInformation() {
         },
         body: JSON.stringify(values),
       });
-
+      setLoading(false);
       if (!response.ok) {
         throw new Error('Failed to update dealer information');
       }
 
       const data = await response.json();
-      console.log('Dealer information updated successfully:', data);
+      console.log('Dealer information updated successfully:', data?.data);
+      dispatch(setUser({...currentUser, ...data?.data}));
 
       // Show success notification
       showNotification({
@@ -56,5 +66,6 @@ export default function useDealerInformation() {
   return {
     form,
     handleSubmit,
+    loading
   };
 }

@@ -110,7 +110,7 @@ const DealerRating = () => {
   // Function to get coordinates from address
   const getLatLng = async (address) => {
     if (!address) return null;
-    
+
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/search`,
@@ -123,7 +123,7 @@ const DealerRating = () => {
         }
       );
 
-      console.log("response",response)
+      console.log("response", response)
       if (response.data.length > 0) {
         const location = response.data[0];
         return { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
@@ -217,7 +217,7 @@ const DealerRating = () => {
           setMapCoordinates(coordinates);
         }
       };
-      
+
       fetchCoordinates();
     }
   }, [profile]);
@@ -508,27 +508,27 @@ const DealerRating = () => {
                                   const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
                                   const currentDay = days[new Date().getDay()];
                                   const currentDayHours = profile.workingHours[currentDay];
-                                  
+
                                   if (!currentDayHours) return "Hours not available";
-                                  
+
                                   if (currentDayHours.isOpen) {
                                     return (
                                       <>
                                         Today: {currentDayHours.start} - {currentDayHours.end}
-                                        <Popover 
-                                          width={260} 
-                                          position="bottom" 
-                                          withArrow 
+                                        <Popover
+                                          width={260}
+                                          position="bottom"
+                                          withArrow
                                           shadow="md"
                                           opened={showAllHours}
                                           onChange={setShowAllHours}
                                         >
                                           <Popover.Target>
-                                            <Text 
-                                              span 
-                                              c="#e90808" 
-                                              ml={10} 
-                                              style={{ cursor: 'pointer', display: 'inline-block', color: '#e90808', verticalAlign: 'bottom', textDecoration: 'underline'  }} 
+                                            <Text
+                                              span
+                                              c="#e90808"
+                                              ml={10}
+                                              style={{ cursor: 'pointer', display: 'inline-block', color: '#e90808', verticalAlign: 'bottom', textDecoration: 'underline' }}
                                               onClick={() => setShowAllHours(!showAllHours)}
                                             >
                                               See Timings
@@ -542,8 +542,8 @@ const DealerRating = () => {
                                                   <Group key={day} position="apart" spacing="xs" noWrap>
                                                     <Text size="sm" tt="capitalize" fw={500}>{day}:</Text>
                                                     <Text size="sm">
-                                                      {profile.workingHours[day].isOpen 
-                                                        ? `${profile.workingHours[day].start} - ${profile.workingHours[day].end}` 
+                                                      {profile.workingHours[day].isOpen
+                                                        ? `${profile.workingHours[day].start} - ${profile.workingHours[day].end}`
                                                         : "Closed"}
                                                     </Text>
                                                   </Group>
@@ -558,20 +558,20 @@ const DealerRating = () => {
                                     return (
                                       <>
                                         Today: Closed
-                                        <Popover 
-                                          width={250} 
-                                          position="bottom" 
-                                          withArrow 
+                                        <Popover
+                                          width={250}
+                                          position="bottom"
+                                          withArrow
                                           shadow="md"
                                           opened={showAllHours}
                                           onChange={setShowAllHours}
                                         >
                                           <Popover.Target>
-                                            <Text 
-                                              span 
-                                              c="#e90808" 
-                                              ml={10} 
-                                              style={{ cursor: 'pointer', display: 'inline-block', color: '#e90808', verticalAlign: 'bottom' }} 
+                                            <Text
+                                              span
+                                              c="#e90808"
+                                              ml={10}
+                                              style={{ cursor: 'pointer', display: 'inline-block', color: '#e90808', verticalAlign: 'bottom' }}
                                               onClick={() => setShowAllHours(!showAllHours)}
                                             >
                                               See Timings
@@ -585,8 +585,8 @@ const DealerRating = () => {
                                                   <Group key={day} position="apart" spacing="xs" noWrap>
                                                     <Text size="sm" tt="capitalize" fw={500}>{day}:</Text>
                                                     <Text size="sm">
-                                                      {profile.workingHours[day].isOpen 
-                                                        ? `${profile.workingHours[day].start} - ${profile.workingHours[day].end}` 
+                                                      {profile.workingHours[day].isOpen
+                                                        ? `${profile.workingHours[day].start} - ${profile.workingHours[day].end}`
                                                         : "Closed"}
                                                     </Text>
                                                   </Group>
@@ -706,16 +706,16 @@ const DealerRating = () => {
             <Box className="col-md-4" style={{ display: 'flex', flexDirection: 'column' }}>
               <Box style={{ flex: 1, minHeight: "300px", height: '100%' }}>
                 {mapCoordinates ? (
-                  <MapComponent 
-                    coordinates={mapCoordinates} 
+                  <MapComponent
+                    coordinates={mapCoordinates}
                     title={profile.fullName}
                     address={profile.locationAddress}
                   />
                 ) : (
-                  <BackgroundImage 
-                    src="/google-map.png" 
-                    h="100%" 
-                    radius="md" 
+                  <BackgroundImage
+                    src="/google-map.png"
+                    h="100%"
+                    radius="md"
                     style={{ height: '100%' }}
                   />
                 )}
@@ -743,14 +743,20 @@ const DealerRating = () => {
                         <Box className="row">
                           <Box className="col-md-6">
                             <Title order={2}>
-                              User <Text span inherit className="text-primary">Rating</Text>
+                              {/* User <Text span inherit className="text-primary">Rating</Text> */}
                             </Title>
                             <Text my="sm">{review?.title}</Text>
                             <Flex align="center" gap="5">
                               <Rating value={review?.rating} readOnly />
                               <Text span>({review?.rating}/5)</Text>
                             </Flex>
-                            <Text c="dimmed" my="sm">Posted by {review?.user?.fullName} on {new Date(review?.createdAt).toLocaleDateString()}</Text>
+                            <Text c="dimmed" my="sm">
+                              Posted by {review?.user?.fullName} on {new Date(review?.createdAt).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                              })}
+                            </Text>
                           </Box>
                           <Box className="col-md-12">
                             <Text>{review?.content}</Text>

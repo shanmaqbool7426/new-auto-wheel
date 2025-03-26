@@ -90,10 +90,10 @@ const SocialContact = ({ detail }) => {
                         </h5>
                         {!showPhone && (
                             <span
-                                className="text-decoration-underline text-muted"
+                                className="text-decoration-underline text-muted cursor-pointer"
                                 onClick={handleShowPhone}
                             >
-                                Show Numberxx
+                                Show Number
                             </span>
                         )}
                     </div>

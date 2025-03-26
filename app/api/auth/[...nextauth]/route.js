@@ -224,11 +224,17 @@ return {
   token:res.data?.data
 };
           } else {
-  throw new Error("Sign Up Failed");
+  throw new Error(credentials.type === 'otp' 
+    ? "Failed to verify OTP. Please try again"
+    : "Sign Up Failed"
+  );
 }
         } catch (error) {
-  console.error("Sign Up Error: ", error);
-  throw new Error("Sign Up Error");
+  console.error("Auth Error: ", error);
+  throw new Error(credentials.type === 'otp'
+    ? "Failed to verify OTP. Please try again"
+    : "Sign Up Error"
+  );
 }
       },
     }),
@@ -342,7 +348,7 @@ secret: '739d95146513d67502b0ba4776a5cae8',
     if (url.startsWith(baseUrl)) {
       return `${baseUrl}/`;
     }
-    return baseUrl;
+    return `${baseUrl}`;
   }
 }
 }

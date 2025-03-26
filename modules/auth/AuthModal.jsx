@@ -58,7 +58,7 @@ function AuthModal({ opened, onClose, initialView = AUTH_VIEWS.ACCOUNT_TYPE }) {
         return (
           <SignUp
             accountType={authData.accountType}
-            onSignIn={() => handleViewChange(AUTH_VIEWS.SIGN_IN)}
+            onSignIn={() => handleViewChange(AUTH_VIEWS.SOCIAL_LOGIN)}
             onSuccess={(email) => handleViewChange(AUTH_VIEWS.OTP, { email })}
             onBack={() => handleViewChange(AUTH_VIEWS.ACCOUNT_TYPE)}
           />

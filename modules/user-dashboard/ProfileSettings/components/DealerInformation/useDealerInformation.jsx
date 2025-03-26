@@ -2,8 +2,14 @@ import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser,setUser } from '@/redux/reducers/authSlice';
+import { useState } from 'react';
 
 export default function useDealerInformation() {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
   const form = useForm({
     initialValues: {
       dealerName: '',
@@ -51,8 +57,9 @@ export default function useDealerInformation() {
   const token = getLocalStorage('token');
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
-      const workingHours = {};
+      const workingHours = {};  
       
       ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(day => {
         workingHours[day] = {
@@ -84,9 +91,11 @@ export default function useDealerInformation() {
       if (!response.ok) {
         throw new Error('Failed to update dealer information');
       }
-
+      console.log("currentUser>>>>>>>",currentUser)
+      setLoading(false);
       const data = await response.json();
-      
+      console.log("data>>>>>>>",data?.data)
+      dispatch(setUser({...currentUser, ...data?.data}));
       showNotification({
         title: 'Success',
         message: 'Dealer information updated successfully!',
@@ -126,6 +135,7 @@ export default function useDealerInformation() {
 
   return {
     form,
+    loading,
     handleSubmit,
     initializeForm,
   };

@@ -8,11 +8,14 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
 import {UserProvider} from "@/contexts/user"
 import "@mantine/core/styles.css";
+import StoreProvider from "@/redux/StoreProvider";
 import "@mantine/carousel/styles.css";
 import Script from "next/script";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/carousel/styles.css";
+import AuthWrapper from "@/components/AuthWrapper";
+import ReduxProvider from '@/redux/StoreProvider';
 
 // Font configurations
 const poppins = Poppins({
@@ -38,7 +41,7 @@ const theme = {
   },
 };
 
-export default function Layout({ children }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
@@ -50,25 +53,29 @@ export default function Layout({ children }) {
         />
       </head>
       <body>
-        <NextTopLoader
-          color="#E90808"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={3}
-          crawl={true}
-          showSpinner={false}
-          easing="ease"
-          speed={200}
-          shadow="0 0 10px #E90808,0 0 5px #E90808"
-        />
-        <SessionProvider>
-        <UserProvider>
-          <MantineProvider theme={theme}>
-            <Notifications />
-            {children}
-          </MantineProvider>
-          </UserProvider>
-        </SessionProvider>
+        <ReduxProvider>
+          <SessionProvider>
+            <MantineProvider theme={theme}>
+              <Notifications />
+              <AuthWrapper>
+                <UserProvider>
+                  <NextTopLoader
+                    color="#E90808"
+                    initialPosition={0.08}
+                    crawlSpeed={200}
+                    height={3}
+                    crawl={true}
+                    showSpinner={false}
+                    easing="ease"
+                    speed={200}
+                    shadow="0 0 10px #E90808,0 0 5px #E90808"
+                  />
+                  {children}
+                </UserProvider>
+              </AuthWrapper>
+            </MantineProvider>
+          </SessionProvider>
+        </ReduxProvider>
       </body>
       <GoogleAnalytics gaId="G-1SXSFH77HW" />
     </html>

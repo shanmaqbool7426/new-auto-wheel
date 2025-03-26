@@ -11,6 +11,7 @@ export default function PersonalInformation({ profileData }) {
   const {
     form,
     handleSubmit,
+    loading
   } = usePersonalInformation();
 
   // Set initial values for the form based on profileData
@@ -90,8 +91,11 @@ export default function PersonalInformation({ profileData }) {
               root: buttonStyles.root,
             }}
             type="submit"
+            // loading={loading}
+            disabled={loading}
+            loaderProps={{ size: 'sm' }}
           >
-            Save
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </Box>
       </form>

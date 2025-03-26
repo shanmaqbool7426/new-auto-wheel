@@ -8,7 +8,10 @@ import styles from './ProfileInformation.module.css';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import { IconPencil, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 
-export default function ProfileInformation({ profileData }) {
+const DEFAULT_AVATAR = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+const DEFAULT_BANNER = "https://placehold.co/600x200/e90808/white?text=Banner";
+
+export default function ProfileInformation({ profileData, currentUser }) {
   const [bannerImage, setBannerImage] = useState();
   const [showAllHours, setShowAllHours] = useState(false);
 
@@ -83,12 +86,20 @@ export default function ProfileInformation({ profileData }) {
     );
   };
 
-  console.log('profileFile', profileData);
+  console.log('currentUser.........', currentUser);
 
   return (
     <Card noContentPadding radius="md">
       <Box className={styles.profileBanner}>
-        <img src={bannerImage ? bannerImage : profileData.bannerImage} alt="Profile Banner" width={354} height={140} />
+        <img 
+          src={bannerImage || profileData?.bannerImage || DEFAULT_BANNER} 
+          alt="Profile Banner" 
+          width={354} 
+          height={140}
+          onError={(e) => {
+            e.target.src = DEFAULT_BANNER;
+          }}
+        />
         <Button 
           variant="subtle" 
           name='bannerFileInput'
@@ -107,11 +118,17 @@ export default function ProfileInformation({ profileData }) {
 
         <Box className={styles.profilePicture}>
           <Image
-          
-            src={profileFile ? profileFile : profileData.profileImage}
+            src={profileFile || profileData?.profileImage || DEFAULT_AVATAR}
             alt="Profile"
             width={144}
             height={144}
+            onError={(e) => {
+              e.target.src = DEFAULT_AVATAR;
+            }}
+            style={{
+              borderRadius: '50%',
+              objectFit: 'cover'
+            }}
           />
           <Button 
             variant="subtle" 
@@ -133,41 +150,41 @@ export default function ProfileInformation({ profileData }) {
       <Box className={styles.profileInfoContent}>
         <Box className={styles.userPersonalDetails}>
           <Title className={styles.profileInfoTitle} order={3} align="center">
-            {profileData.fullName} {/* Display full name from profileData */}
+            {currentUser?.fullName} {/* Display full name from profileData */}
           </Title>
-          <Box className={styles.userEmail}>{profileData.email}</Box>
+          <Box className={styles.userEmail}>{currentUser?.email}</Box>
           <Group justify="center" className={styles.followerGroup}>
             <Group gap='0'>
               <Box className={styles.userFollowers}>
                 <Box>Followers</Box>
-                <Box className={styles.followerCount}>{profileData.followers.length} {/* Display follower count */}</Box>
+                <Box className={styles.followerCount}>{currentUser?.followers?.length} {/* Display follower count */}</Box>
               </Box>
               <Box className={styles.userFollowers}>
                 <Box>Following</Box>
-                <Box className={styles.followerCount}>{profileData.following.length} {/* Display following count */}</Box>
+                <Box className={styles.followerCount}>{currentUser?.following?.length} {/* Display following count */}</Box>
               </Box>
             </Group>
           </Group>
-          <Box className={styles.userStatus}>{profileData.isVerified ? 'Verified' : 'Not Verified'}</Box>
+          <Box className={styles.userStatus}>{currentUser?.isVerified ? 'Verified' : 'Verified'}</Box>
         </Box>
         <Box className={styles.userContactDetials}>
           <Box className={styles.contactGroup}>
             <Box className={styles.contactLabel}>Phone No</Box>
-            <Box className={styles.contactTitle}>{profileData.phone}</Box> {/* Display phone number */}
+            <Box className={styles.contactTitle}>{currentUser?.phone}</Box> {/* Display phone number */}
           </Box>
           <Box className={styles.contactGroup}>
             <Box className={styles.contactLabel}>Address</Box>
-            <Box className={styles.contactTitle}>{profileData.locationAddress}</Box> {/* Display location */}
+            <Box className={styles.contactTitle}>{currentUser?.locationAddress}</Box> {/* Display location */}
           </Box>
           <Box className={styles.contactGroup}>
             <Box className={styles.contactLabel}>Working Hours</Box>
             <Box className={styles.contactTitle}>
-              {renderWorkingHours(profileData.workingHours)}
+              {renderWorkingHours(currentUser?.workingHours)}
             </Box>
           </Box>
           <Box className={styles.contactGroup}>
             <Box className={styles.contactLabel}>Last Login</Box>
-            <Box className={styles.contactTitle}>{new Date(profileData.updatedAt).toLocaleString()}</Box> {/* Display last login */}
+            <Box className={styles.contactTitle}>{new Date(currentUser?.updatedAt).toLocaleString()}</Box> {/* Display last login */}
           </Box>
 
           <Box className={buttonStyles.holder} style={{ marginTop: '24px' }}>

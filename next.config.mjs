@@ -16,6 +16,14 @@ const nextConfig = {
         hostname: "res.cloudinary.com"
       },
       {
+        protocol: 'https',
+        hostname: "cdn.pixabay.com"
+      },
+      {
+        protocol: 'http',
+        hostname: "placehold.co"
+      },
+      {
         protocol: 'http',
         hostname: "example.com"
       },

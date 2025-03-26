@@ -10,7 +10,8 @@ import styles from './ChangePassword.module.css';
 export default function ChangePassword() {
   const {
     form,
-    handleSubmit
+    handleSubmit,
+    loading
   } = useChangePassword();
 
   return (
@@ -53,8 +54,9 @@ export default function ChangePassword() {
               root: buttonStyles.root,
             }}
             type="submit"
+            // disabled={loading}
           >
-            Save
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </Box>
       </form>
