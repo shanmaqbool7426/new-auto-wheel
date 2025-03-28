@@ -5,12 +5,13 @@ import { notifications } from '@mantine/notifications';
 import { submitFormData } from "@/services/forms";
 import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
-
+import { useSelector,useDispatch } from 'react-redux';
+import { selectCurrentUser, setUser } from '@/redux/reducers/authSlice';
 export default function useProfileInformation() {
 
   const token = getLocalStorage('token');
-
-
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
 
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
   const emailRegex = /^\S+@\S+\.\S+$/;
@@ -74,6 +75,7 @@ const [profileFile, setProfileFile] = useState('')
         // Update local state
         if (event.target.name === 'profileFileInput') {
           setProfileFile(imageUrl);
+          dispatch(setUser({...currentUser, profileImage: imageUrl}));
           notifications.show({
             title: 'Success',
             message: 'Profile image updated successfully',

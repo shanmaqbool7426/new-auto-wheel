@@ -77,7 +77,8 @@ const FilterBadges = ({ params, searchParams }) => {
 
         return (
           <Badge
-            py={rem(12)}
+            pt={rem(5)}
+            pb={rem(20)}
             px={rem(12)}
             variant="light"
             fw={500}

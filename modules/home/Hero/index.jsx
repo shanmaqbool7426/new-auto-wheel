@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeroTabs from "@/components/HeroTabs";
 import {
   Card,
@@ -12,15 +12,31 @@ import {
   BackgroundImage,
 } from "@mantine/core";
 import styles from "./Hero.module.css";
+import { useGetProvincesQuery, useGetCitiesQuery, useGetSuburbsQuery } from "@/api-services/location";
+import { useDispatch ,useSelector} from "react-redux";
+import { setProvinces, setCities, setSuburbs } from "@/redux/reducers/locationSlice";
 
 const Hero = ({ banner }) => {
+  const { provinces: provincesData, cities: citiesData, suburbs: suburbsData } = useSelector(state => state.location);
+  const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [type, setType] = useState("car");
+  const { data: provinces, isLoading, error } = useGetProvincesQuery();
+  const { data: cities, isLoading: citiesLoading, error: citiesError } = useGetCitiesQuery();
+  const { data: suburbs, isLoading: suburbsLoading, error: suburbsError } = useGetSuburbsQuery();
 
+  useEffect(() => {
+
+    dispatch(setProvinces(provinces?.data));
+    dispatch(setCities(cities?.data));
+    dispatch(setSuburbs(suburbs?.data));
+  }, [provinces,cities,suburbs]);
+  
   const changeSlide = (newIndex) => {
     setCurrentIndex(newIndex);
   };
 
+    
   return (
     <Box
       pos="relative"

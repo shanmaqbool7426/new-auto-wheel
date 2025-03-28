@@ -18,3 +18,8 @@ export const BASE_API = createApi({
   endpoints: (builder) => ({
   }),
 });
+
+
+export const enhancedApi = BASE_API.enhanceEndpoints({
+  endpoints: () => ({}),
+})

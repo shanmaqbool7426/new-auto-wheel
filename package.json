@@ -65,6 +65,7 @@
     "sass": "^1.84.0",
     "socket.io-client": "^4.8.0",
     "styled-components": "^6.1.11",
+    "sweetalert2": "^11.17.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {

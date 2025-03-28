@@ -205,7 +205,7 @@ const ListCardView = ({ vehicle }) => {
 
   return (
     <Card
-      ref={cardRef} // Add ref for tracking visibility
+      ref={cardRef}
       shadow="0px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
       radius="sm"
       mb="lg"
@@ -228,7 +228,15 @@ const ListCardView = ({ vehicle }) => {
                   {vehicle?.images?.length}
                 </Text>
               </Box>
-              {vehicle?.isFeatured && (
+            </Group>
+
+            {vehicle?.isFeatured && (
+              <Box
+                pos="absolute"
+                top={10}
+                left={220}
+                style={{ zIndex: "100" }}
+              >
                 <Text
                   span
                   fw={400}
@@ -240,8 +248,8 @@ const ListCardView = ({ vehicle }) => {
                 >
                   Featured
                 </Text>
-              )}
-            </Group>
+              </Box>
+            )}
 
             <Box
               onMouseMove={handleMouseMove}

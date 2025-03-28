@@ -16,6 +16,8 @@ export default function Header() {
     isNotification,
     title,
   } = useHeader();
+
+  console.log("currentUser>>>>>>>",currentUser)
   const { data: session, status } = useSession();
   return (
     <Box className={styles.header}>
@@ -52,7 +54,7 @@ export default function Header() {
               <UnstyledButton>
                 <Group gap={8}>
                   <Avatar
-                    src={session?.user?.image??"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"}
+                    src={currentUser?.profileImage??"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                     radius="xl"
                     size={45}
                     variant='outline'
