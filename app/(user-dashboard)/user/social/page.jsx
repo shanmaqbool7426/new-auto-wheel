@@ -1,8 +1,9 @@
 import React from 'react';
-import Social from '@/modules/user-dashboard/Social';
+// import Social from '@/modules/user-dashboard/Social';
 
 export default function SocialPage() {
   return (
-    <Social />
+    <></>
+    // <Social />
   )
 }
