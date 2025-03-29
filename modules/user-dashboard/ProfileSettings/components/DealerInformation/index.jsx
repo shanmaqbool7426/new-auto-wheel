@@ -89,19 +89,23 @@ export default function DealerInformation({ profileData }) {
     <Card title="Dealer Information">
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="20px">
-          <Grid.Col span={6}>
+          <Grid.Col span={4}>
             <FormField
               label="Dealer Name"
               placeholder="Enter dealer name"
               {...form.getInputProps('dealerName')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={4}>
             <FormField
               label="License Number"
               placeholder="Enter license number"
               {...form.getInputProps('licenseNumber')}
             />
+          </Grid.Col>
+          {/* ABN */}
+          <Grid.Col span={4}>
+            <FormField label="ABN" placeholder="Enter ABN" {...form.getInputProps('abn')} />
           </Grid.Col>
           <Grid.Col span={6}>
             <Text size="sm" weight={500} mb={5}>Vehicle Type</Text>

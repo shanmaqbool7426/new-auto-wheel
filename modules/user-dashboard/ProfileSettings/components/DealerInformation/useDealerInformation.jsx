@@ -1,10 +1,10 @@
 import { BASE_URL } from '@/constants/api-endpoints';
 import { getLocalStorage } from '@/utils';
 import { useForm } from '@mantine/form';
-import { showNotification } from '@mantine/notifications';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser,setUser } from '@/redux/reducers/authSlice';
+import { selectCurrentUser, setUser } from '@/redux/reducers/authSlice';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 export default function useDealerInformation() {
   const [loading, setLoading] = useState(false);
@@ -14,6 +14,7 @@ export default function useDealerInformation() {
     initialValues: {
       dealerName: '',
       licenseNumber: '',
+      abn: '',
       location: '',
       vehicleType: '',
       
@@ -49,6 +50,7 @@ export default function useDealerInformation() {
     validate: {
       dealerName: (value) => (!value ? 'Dealer name is required' : null),
       licenseNumber: (value) => (!value ? 'License number is required' : null),
+      abn: (value) => (!value ? 'ABN is required' : null),
       location: (value) => (!value ? 'Location is required' : null),
       vehicleType: (value) => (!value ? 'Vehicle type is required' : null),
     }
@@ -74,10 +76,9 @@ export default function useDealerInformation() {
         licenseNumber: values.licenseNumber,
         location: values.location,
         vehicleType: values.vehicleType,
+        abn: values.abn,
         workingHours: workingHours,
       };
-
-      console.log('Dealer Information Data:: ', apiData);
 
       const response = await fetch(`${BASE_URL}/api/user/dealer-info`, {
         method: 'PUT',
@@ -91,24 +92,52 @@ export default function useDealerInformation() {
       if (!response.ok) {
         throw new Error('Failed to update dealer information');
       }
-      console.log("currentUser>>>>>>>",currentUser)
-      setLoading(false);
+
       const data = await response.json();
-      console.log("data>>>>>>>",data?.data)
       dispatch(setUser({...currentUser, ...data?.data}));
-      showNotification({
-        title: 'Success',
-        message: 'Dealer information updated successfully!',
-        color: 'green',
+      
+      // Success Alert with improved styling
+      await Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Dealer information updated successfully!',
+        confirmButtonColor: '#E90808',
+        confirmButtonText: 'Done',
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        customClass: {
+          popup: 'swal2-custom-popup',
+          title: 'swal2-custom-title',
+          content: 'swal2-custom-content',
+        },
+        background: '#FFFFFF',
+        width: '400px',
+        padding: '20px',
       });
+
     } catch (error) {
       console.error('Error updating dealer information:', error);
 
-      showNotification({
-        title: 'Error',
-        message: 'Failed to update dealer information. Please try again.',
-        color: 'red',
+      // Error Alert with improved styling
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Failed to update dealer information. Please try again.',
+        confirmButtonColor: '#E90808',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'swal2-custom-popup',
+          title: 'swal2-custom-title',
+          content: 'swal2-custom-content',
+          confirmButton: 'swal2-custom-confirm',
+        },
+        background: '#FFFFFF',
+        width: '400px',
+        padding: '20px',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,6 +149,7 @@ export default function useDealerInformation() {
       licenseNumber: existingData.licenseNumber || '',
       location: existingData.locationAddress || '',
       vehicleType: existingData.vehicleType || '',
+      abn: existingData.abn || '',
     };
 
     if (existingData.workingHours) {

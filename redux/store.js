@@ -2,25 +2,20 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './reducers/authSlice';
+import locationReducer from './reducers/locationSlice';
+import { BASE_API } from '@/api-services/base-api';
 // Import other reducers as needed
 
 const initializeStore = () => {
   return configureStore({
     reducer: {
+      [BASE_API.reducerPath]: BASE_API.reducer,
       auth: authReducer,
-    },
-    preloadedState: {
-      auth: {
-        token: null,
-        isLoggedIn: false,
-        user: null,
-      }
+      location: locationReducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: false, // Disable for development if needed
-      }),
-    devTools: process.env.NODE_ENV !== 'production',
+      getDefaultMiddleware().concat(BASE_API.middleware),
+  
   });
 };
 
@@ -33,3 +28,18 @@ if (process.env.NODE_ENV !== 'production' && module.hot) {
   });
 }
 
+// "use client"
+// import { configureStore } from '@reduxjs/toolkit';
+// import counterSlice from './features/counter/slice';
+// import { BASE_API } from '@/services/base-api';
+
+// export const makeStore = () => {
+//   return configureStore({
+//     reducer: {
+//       [BASE_API.reducerPath]: BASE_API.reducer,
+//       counter: counterSlice,
+//     },
+//     middleware: (getDefaultMiddleware) =>
+//       getDefaultMiddleware().concat(BASE_API.middleware),
+//   })
+// }

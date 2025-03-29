@@ -173,21 +173,21 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
   // Memoized service cards
   const serviceCards = useMemo(
     () => [
-      {
-        icon: <SearchIcon />,
-        title: "Wide range of Brands",
-        content: "Our services department maintains your vehicle",
-      },
-      {
-        icon: <RanchIcon />,
-        title: "Wide range of Brands",
-        content: "Our services department maintains your vehicle",
-      },
-      {
-        icon: <TrustCar />,
-        title: "Trusted by thousands",
-        content: "Department maintains your car to stay safe",
-      },
+      // {
+      //   icon: <SearchIcon />,
+      //   title: "Wide range of Brands",
+      //   content: "Our services department maintains your vehicle",
+      // },
+      // {
+      //   icon: <RanchIcon />,
+      //   title: "Wide range of Brands",
+      //   content: "Our services department maintains your vehicle",
+      // },
+      // {
+      //   icon: <TrustCar />,
+      //   title: "Trusted by thousands",
+      //   content: "Department maintains your car to stay safe",
+      // },
     ],
     []
   );

@@ -26,6 +26,7 @@ import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import { formatPrice, getTimeAgo } from "@/utils";
 import { useRouter } from "next/navigation";
 import viewTrackingService from '@/services/viewTrackingService';
+import { event } from "@/lib/googleConfig";
 
 const CarCard = ({ vehicle }) => {
   const router = useRouter();
@@ -77,12 +78,33 @@ const CarCard = ({ vehicle }) => {
     if (e.target.closest(".favorite-button")) {
       return;
     }
+
+    // Track the card click event with vehicle type
+    event({
+      action: "vehicle_card_click",
+      category: vehicle?.type || 'car', // 'car', 'bike', or 'truck'
+      label: `${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`,
+      value: vehicle?.price || 0
+    });
+
+    // Track detailed vehicle information
+
+
     router.push(`/detail/${vehicle?.slug}`);
   };
 
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // Track favorite toggle event
+    event({
+      action: isFavorite(vehicle._id) ? 'remove_favorite' : 'add_favorite',
+      category: 'engagement',
+      label: `${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`,
+      value: 1
+    });
+
     await toggleFavorite(vehicle._id);
   };
 

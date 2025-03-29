@@ -49,7 +49,12 @@ const HeroTabs = ({ setType }) => {
     model: "",
     variant: "",
   });
-  const [locationSelection, setLocationSelection] = useState({ country: "PK", province: "", city: "",suburb:"" });
+  const [locationSelection, setLocationSelection] = useState({
+    country: "PK",
+    province: null,
+    city: null,
+    suburb: null
+  });
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -61,10 +66,15 @@ const HeroTabs = ({ setType }) => {
       model: "",
       variant: "",
     });
-  }
-  const clearLocatiopnSelection = () => {
-    setLocationSelection({ country: "PK", province: "", city: "",suburb:"" });
-  }
+  };
+  const clearLocationSelection = () => {
+    setLocationSelection({
+      country: "PK",
+      province: null,
+      city: null,
+      suburb: null
+    });
+  };
 
   const normalizeVehicleType = (type) => {
     if (!type) return 'car';
@@ -129,26 +139,102 @@ const HeroTabs = ({ setType }) => {
     setFilteredCities([]);
   };
 
-  const handleSubmit = () => {
-    const { make, model, variant } = selection;
-    const { city, province,suburb } = locationSelection;
-    setLoading(true); // Start loading state when button is clicked
-
-    // const cityQuery = query ? `/ct_${query.toLowerCase()}` : "";
-    // const cityQuery = city ? `/ct_${city.toLowerCase()}` : "";
-    const cityQuery = city ? `/ct_${encodeURIComponent(city.toLowerCase())}` : "";
-    const suburbQuery = suburb ? `/ca_${encodeURIComponent(suburb.toLowerCase())}` : "";
-    // const locationQuery = province ? `/ad_pakistan${province ? ` ${province?.name?.toLowerCase()}` : ''}${city ? ` ${city.toLowerCase()}` : ''}` : "";
-    const makeQuery = make ? `/mk_${make.toLowerCase()}` : "";
-    const modelQuery = model ? `/md_${model.toLowerCase()}` : "";
-    // const variantQuery = variant ? `/vr_${variant.toLowerCase()}` : '';
-    const searchUrl = `/listing/${makesByType}/search/-${makeQuery}${modelQuery}${cityQuery}${suburbQuery}?view=list`;
-    router.push(searchUrl)?.finally(() => {
-      setLoading(false); // Reset loading state after redirect
-    });
+  const getLocationDisplayText = () => {
+    if (!locationSelection.province) return "";
+    
+    const parts = [];
+    if (locationSelection.province?.name) parts.push(locationSelection.province.name);
+    if (locationSelection.city?.name) parts.push(locationSelection.city.name);
+    if (locationSelection.suburb?.name) parts.push(locationSelection.suburb.name);
+    
+    return parts.join(", ");
   };
 
-  console.log("locationSelection......", locationSelection?.city?.name);
+  const handleSubmit = async () => {
+    const { make, model } = selection;
+    const { province, city, suburb } = locationSelection;
+    setLoading(true);
+
+    try {
+      const queryParts = [];
+
+      // Add make and model to query if they exist
+      if (make) queryParts.push(`mk_${encodeURIComponent(make.toLowerCase())}`);
+      if (model) queryParts.push(`md_${encodeURIComponent(model.toLowerCase())}`);
+      
+      // Add location parameters if they exist
+      if (province?.name) queryParts.push(`pv_${encodeURIComponent(province.name.toLowerCase())}`);
+      if (city?.name) queryParts.push(`ct_${encodeURIComponent(city.name.toLowerCase())}`);
+      if (suburb?.name) queryParts.push(`sb_${encodeURIComponent(suburb.name.toLowerCase())}`);
+
+      // Construct the search URL
+      const queryString = queryParts.length > 0 ? `/-${queryParts.join("/")}` : "";
+      const searchUrl = `/listing/${makesByType}/search${queryString}?view=list`;
+
+      await router.push(searchUrl);
+    } catch (error) {
+      console.error('Navigation error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderTabPanel = (vehicleType) => (
+    <Tabs.Panel value={vehicleType}>
+      <Input
+        placeholder={`${vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)} Make or Model`}
+        mt="32px"
+        value={
+          selection?.make || selection?.model || selection?.variant
+            ? `${selection?.make || ""} ${selection?.model || ""} ${
+                selection?.variant || ""
+              }`.trim()
+            : ""
+        }
+        onClick={() => setIsModalOpen(true)}
+        classNames={{ wrapper: styles.wrapper, input: styles.input }}
+      />
+      
+      <Input
+        placeholder="Enter Your Location"
+        mt="20px"
+        value={getLocationDisplayText()}
+        onClick={() => setIsLocationModalOpen(true)}
+        classNames={{ wrapper: styles.wrapper, input: styles.input }}
+      />
+      
+      <Button
+        mt="24px"
+        fullWidth
+        size="md"
+        ff="heading"
+        tt="uppercase"
+        color="#E90808"
+        loading={loading}
+        onClick={handleSubmit}
+        classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
+      >
+        Search
+      </Button>
+      
+      <Group justify="end" mt="20px">
+        <Button
+          component={Link}
+          href={`/listing/${makesByType}?view=list`}
+          rightSection={<BsArrowRight />}
+          variant="transparent"
+          px={0}
+          fw={500}
+          tt="uppercase"
+          color="#E90808"
+          ff="heading"
+          classNames={{ root: styles.advroot, label: styles.advanceSearch }}
+        >
+          Advance Search
+        </Button>
+      </Group>
+    </Tabs.Panel>
+  );
 
   return (
     <>
@@ -161,227 +247,37 @@ const HeroTabs = ({ setType }) => {
         classNames={{ list: styles.list, tab: styles.tab, tabLabel: styles.tabLabel }}
       >
         <Tabs.List justify="space-between">
-          <Tabs.Tab
-            value="cars"
-            leftSection={<CarFrontView />}
-            c={makesByType === "cars" ? "#E90808" : "#6c757d"}
-            onClick={() => {
-              setMakesByType("cars");
-              setType("car");
-              clearSelection();
-              clearLocatiopnSelection();
-              closeModal();
-            }}
-          >
-            Car
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="bikes"
-            leftSection={<MotorBike />}
-            c={makesByType === "bikes" ? "#E90808" : "#6c757d"}
-            onClick={() => {
-              setMakesByType("bikes");
-              setType("bike");
-              clearSelection();
-              clearLocatiopnSelection();
-              closeModal();
-            }}
-          >
-            Bike
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="trucks"
-            leftSection={<Truck />}
-            c={makesByType === "trucks" ? "#E90808" : "#6c757d"}
-            onClick={() => {
-              setMakesByType("trucks");
-              setType("truck");
-              clearSelection();
-              clearLocatiopnSelection();
-              closeModal();
-            }}
-          >
-            Truck
-          </Tabs.Tab>
+          {[
+            { value: "cars", icon: <CarFrontView />, label: "Car" },
+            { value: "bikes", icon: <MotorBike />, label: "Bike" },
+            { value: "trucks", icon: <Truck />, label: "Truck" }
+          ].map(({ value, icon, label }) => (
+            <Tabs.Tab
+              key={value}
+              value={value}
+              leftSection={icon}
+              c={makesByType === value ? "#E90808" : "#6c757d"}
+              onClick={() => {
+                setMakesByType(value);
+                setType(value.slice(0, -1)); // Remove 's' from plural
+                clearSelection();
+                clearLocationSelection();
+                setIsModalOpen(false);
+              }}
+            >
+              {label}
+            </Tabs.Tab>
+          ))}
         </Tabs.List>
 
-        <Tabs.Panel value="cars">
-          <Input
-            placeholder="Car Make or Model"
-            mt="32px"
-            value={
-              selection?.make || selection?.model || selection?.variant
-                ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
-                  }`.trim()
-                : ""
-            }
-            onClick={openModal}
-            classNames={{ wrapper: styles.wrapper, input: styles.input }}
-          />
-          <Input
-            placeholder="Enter Your Location"
-            mt="20px"
-            value={
-              locationSelection?.province
-                ? `${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""
-                  } ${locationSelection?.suburb?.name || ""
-                  }`.trim()
-                : ""
-            }
-            onClick={openLocationModal} // Open LocationSelector modal on click
-            classNames={{ wrapper: styles.wrapper, input: styles.input }}
-          />
-          <Button
-            mt="24px"
-            fullWidth
-            size="md"
-            ff="heading"
-            tt="uppercase"
-            color="#E90808"
-            loading={loading} // Show loading spinner while processing
-            onClick={handleSubmit}
-            classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
-          >
-            Search
-          </Button>
-          <Group justify="end" mt="20px">
-            <Button
-              component={Link}
-              href={`/listing/${makesByType}?view=list`}
-              rightSection={<BsArrowRight />}
-              variant="transparent"
-              px={0}
-              fw={500}
-              tt="uppercase"
-              color="#E90808"
-              ff="heading"
-              classNames={{ root: styles.advroot, label: styles.advanceSearch }}
-            >
-              Advance Search
-            </Button>
-          </Group>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="bikes">
-          <Input
-            placeholder="Bike Make or Model"
-            mt="32px"
-            value={
-              selection?.make || selection?.model || selection?.variant
-                ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
-                  }`.trim()
-                : ""
-            }
-            onClick={openModal}
-            classNames={{ wrapper: styles.wrapper, input: styles.input }}
-          />
-          <Input
-            placeholder="Enter Your Location"
-            mt="20px"
-            value={
-              locationSelection?.province
-              ? `${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""
-                } ${locationSelection?.suburb?.name || ""
-                }`.trim()
-              : ""
-            }
-            onClick={openLocationModal} // Open LocationSelector modal on click
-            classNames={{ wrapper: styles.wrapper, input: styles.input }}
-          />
-          <Button
-            mt="24px"
-            fullWidth
-            size="md"
-            ff="heading"
-            tt="uppercase"
-            color="#E90808"
-            loading={loading} // Show loading spinner while processing
-            onClick={handleSubmit}
-            classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
-          >
-            Search
-          </Button>
-          <Group justify="end" mt="20px">
-            <Button
-              component={Link}
-              href={`/listing/${makesByType}?view=list`}
-              rightSection={<BsArrowRight />}
-              variant="transparent"
-              px={0}
-              fw={500}
-              tt="uppercase"
-              color="#E90808"
-              ff="heading"
-              classNames={{ root: styles.advroot, label: styles.advanceSearch }}
-            >
-              Advance Search
-            </Button>
-          </Group>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="trucks">
-          <Input
-            placeholder="Truck Make or Model"
-            mt="32px"
-            value={
-              selection?.make || selection?.model || selection?.variant
-                ? `${selection?.make || ""} ${selection?.model || ""} ${selection?.variant || ""
-                  }`.trim()
-                : ""
-            }
-            onClick={openModal}
-            classNames={{ wrapper: styles.wrapper, input: styles.input }}
-          />
-          <Input
-            placeholder="Enter Your Location"
-            mt="20px"
-            value={
-              locationSelection?.province
-              ? `${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""
-                } ${locationSelection?.suburb?.name || ""
-                }`.trim()
-              : ""
-            }
-            onClick={openLocationModal} // Open LocationSelector modal on click
-            classNames={{ wrapper: styles.wrapper, input: styles.input }}
-          />
-          <Button
-            mt="24px"
-            fullWidth
-            size="md"
-            ff="heading"
-            tt="uppercase"
-            color="#E90808"
-            loading={loading} // Show loading spinner while processing
-            onClick={handleSubmit}
-            classNames={{ root: styles.buttonRoot, label: styles.buttonLabel }}
-          >
-            Search
-          </Button>
-          <Group justify="end" mt="20px">
-            <Button
-              component={Link}
-              href={`/listing/${makesByType}?view=list`}
-              rightSection={<BsArrowRight />}
-              variant="transparent"
-              px={0}
-              fw={500}
-              tt="uppercase"
-              color="#E90808"
-              ff="heading"
-              classNames={{ root: styles.advroot, label: styles.advanceSearch }}
-            >
-              Advance Search
-            </Button>
-          </Group>
-        </Tabs.Panel>
+        {["cars", "bikes", "trucks"].map((type) => renderTabPanel(type))}
       </Tabs>
 
       <CustomModel
         isOpen={isModalOpen}
         selection={selection}
         setSelection={setSelection}
-        onClose={closeModal}
+        onClose={() => setIsModalOpen(false)}
         fetchMakesByTypeData={fetchMakesByTypeData}
         hide={false}
       />
@@ -390,7 +286,7 @@ const HeroTabs = ({ setType }) => {
         isOpen={isLocationModalOpen}
         selection={locationSelection}
         setSelection={setLocationSelection}
-        onClose={closeLocationModal}
+        onClose={() => setIsLocationModalOpen(false)}
         hide={false}
       />
     </>

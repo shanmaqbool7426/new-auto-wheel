@@ -7,6 +7,7 @@ import {
 } from "@/components/Icons";
 import { Box, Text, Group, BackgroundImage, ThemeIcon } from '@mantine/core';
 import viewTrackingService from '@/services/viewTrackingService';
+import { event } from "@/lib/googleConfig";
 
 // Separate WorkingHours component
 const WorkingHours = ({ hours }) => {
@@ -62,9 +63,17 @@ const SocialContact = ({ detail }) => {
 
     // Track mobile interaction when user shows phone number
     const handleShowPhone = () => {
-        console.log("vehicleId",vehicleId)
         setShowPhone(true);
-        // Track as a mobile interaction
+        
+        // Track phone number reveal in Google Analytics
+        event({
+            action: "show_phone_number",
+            category: "contact",
+            label: 'Honda', // Vehicle title or default
+            value: 1
+        });
+
+        // Existing tracking
         if (vehicleId) {
             viewTrackingService.trackView(vehicleId, 'mobile');
         }
