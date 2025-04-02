@@ -39,10 +39,13 @@ import Link from "next/link";
 import { useState } from "react";
 import VehicleComparison from "@/components/ComparisonCard";
 import { useComparison } from "@/contexts/comparison";
+import EditorRenderer from "@/components/EditorRenderer";
 
 const VehicleDetail = ({ vehicle, variantsVehicles }) => {
   const { addToComparison, handleRemoveComparison } = useComparison();
 
+
+  console.log("variantsVehicles",vehicle)
 
   // selected vehicle for compare
   const [selectedVehicle, setSelectedVehicle] = useState([]);
@@ -82,7 +85,6 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
     variants,
   } = vehicle || {};
 
-  console.log(">>>>>>images", images)
   return (
     <>
       {/* Header Section */}
@@ -96,10 +98,10 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     <Anchor fz="14px" href="/" tt="capitalize" component={Link}>Home</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor fz="14px" href={`/new/${type}`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
+                    <Anchor fz="14px" href={`/new-${type}s`} component={Link} tt="capitalize">New {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
-                    <Anchor fz="14px" component={Link} href={`/new/${type}/make/${make}`} tt="capitalize">{make} {`${type}s`}</Anchor>
+                    <Anchor fz="14px" component={Link} href={`/new-${type}s/${make?.toLowerCase()}`} tt="capitalize">{make} {`${type}s`}</Anchor>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     <Anchor fw="700" fz="14px" href="#">{`${make} ${model} ${variant}`}</Anchor>
@@ -149,12 +151,12 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                 <Flex gap="md" align="center" mt="20px">
                   <Flex align="center" gap="3">
                     {console.log("averageRating",averageRating)}
-                    <Rating defaultValue={averageRating} count={5} size={'16px'} readOnly/>
+                    <Rating defaultValue={variantsVehicles?.data?.averageRating} count={5} size={'16px'} readOnly/>
                     <Text span inherit size="16px" lh="1">
-                      ({averageRating?.toFixed(2) || 0})
+                      ({variantsVehicles?.data?.averageRating?.toFixed(2) || 0})
                     </Text>
                   </Flex>
-                  <Text lh="1" size="16px" c="dimmed">(Reviews {reviewCount || 0})</Text>
+                  <Text lh="1" size="16px" c="dimmed">(Reviews {variantsVehicles?.data?.reviewCount || 0})</Text>
                 </Flex>
                 <Button
                   mt="20px"
@@ -367,9 +369,11 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                         <Table.Td>
                           <Flex justify="space-between">
                             <Box>
-                              <Text fw={400} size="14px" c="#E90808">
-                                {`${variant.make} ${variant.model} ${variant.variant}`}
-                              </Text>
+                              <Link href={`/new-cars/${variant.make.toLowerCase()}/${variant.model.toLowerCase()}/${variant.variant}`}>
+                                <Text fw={400} size="14px" c="#E90808">
+                                  {`${variant.make} ${variant.model} ${variant.variant}`}
+                                </Text>
+                              </Link>
                               <Text size="12px" c="#878787" mt="6px">
                                 {`${variant.engine?.displacement || 'N/A'} cc, ${variant.transmission?.type || 'N/A'}, ${variant.engine?.type || 'N/A'}`}
                               </Text>
@@ -544,10 +548,13 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   {`${make} ${model} ${variant} ${year}`} <Text span inherit className="text-primary">Overview</Text>
                 </Title>
                 {/* Render Rich Text Description */}
-                <Box
+                {/* <Box
                   className="has-typography"
                   dangerouslySetInnerHTML={{ __html: description }}
-                />
+                /> */}
+
+               <EditorRenderer data={JSON.parse(description)}  />
+
               </Paper>
             </Box>
           </Box>

@@ -84,7 +84,7 @@ const Header = () => {
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/new-car.svg" />,
           title: "New Cars",
-          link: "/new/car",
+          link: "/new-cars",
           description: "Find new cars in Pakistan",
         },
         {
@@ -104,7 +104,7 @@ const Header = () => {
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/sale-car.svg" />,
           title: "Sell Your Cars",
-          link: "/sale/car/post-ad",
+          link: "/used-cars/sell",
           description: "Find new cars in Pakistan",
         },
         {
@@ -155,7 +155,7 @@ const Header = () => {
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/motorcycle.svg" />,
           title: "New Bikes",
-          link: "/new/bike",
+          link: "/new-bikes",
           description: "Find new bikes in Pakistan",
         },
         {
@@ -214,7 +214,7 @@ const Header = () => {
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/truck.png" />,
           title: "New Trucks",
-          link: "/new/truck?view=list",
+          link: "/new-truck",
           description: "Find new trucks in Pakistan",
         },
         {
@@ -607,7 +607,7 @@ const Header = () => {
                           component={Link}
                           underline="none"
                           c="dark"
-                          href="/sale/car/post-ad"
+                          href="/used-cars/sell"
                           passHref
                           fw={500}
                           size="sm"
@@ -622,7 +622,7 @@ const Header = () => {
                           component={Link}
                           underline="none"
                           c="dark"
-                          href="/sale/bike/post-ad"
+                          href="/used-bikes/sell"
                           passHref
                           fw={500}
                           size="sm"
@@ -637,7 +637,7 @@ const Header = () => {
                           component={Link}
                           underline="none"
                           c="dark"
-                          href="/sale/truck/post-ad"
+                          href="/used-trucks/sell"
                           passHref
                           fw={500}
                           size="sm"
@@ -655,7 +655,7 @@ const Header = () => {
                           component={Link}
                           underline="none"
                           c="dark"
-                          href="/sale/car/post-ad"
+                          href="/used-cars/sell"
                           passHref
                           fw={500}
                           size="sm"
@@ -668,7 +668,7 @@ const Header = () => {
                           component={Link}
                           underline="none"
                           c="dark"
-                          href="/sale/bike/post-ad"
+                          href="/used-bikes/sell"
                           passHref
                           fw={500}
                           size="sm"
@@ -681,7 +681,7 @@ const Header = () => {
                           component={Link}
                           underline="none"
                           c="dark"
-                          href="/sale/truck/post-ad"
+                          href="/used-trucks/sell"
                           passHref
                           fw={500}
                           size="sm"

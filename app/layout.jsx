@@ -5,6 +5,7 @@ import "@/styles/globals.scss";
 import "@mantine/notifications/styles.css";
 import AnalyticsProvider from "@/contexts/AnalyticsProvider"
 import NextTopLoader from "nextjs-toploader";
+
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
 import {UserProvider} from "@/contexts/user"
@@ -16,7 +17,9 @@ import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/carousel/styles.css";
 import AuthWrapper from "@/components/AuthWrapper";
+
 import ReduxProvider from '@/redux/StoreProvider';
+import { ComparisonProvider } from '@/contexts/comparison';
 
 // Font configurations
 const poppins = Poppins({
@@ -78,6 +81,7 @@ export default function RootLayout({ children }) {
             <MantineProvider theme={theme}>
               <Notifications />
               <AuthWrapper>
+                <ComparisonProvider>
                 <UserProvider>
                   <NextTopLoader
                     color="#E90808"
@@ -92,6 +96,7 @@ export default function RootLayout({ children }) {
                   />
                   {children}
                 </UserProvider>
+                </ComparisonProvider>
               </AuthWrapper>
             </MantineProvider>
           </SessionProvider>

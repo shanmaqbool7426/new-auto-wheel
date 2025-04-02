@@ -13,13 +13,14 @@ import { reorderSlug } from "@/utils";
 
 const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
   const reorderedSlug = reorderSlug([`cars`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
-
+  
+  console.log("vehicle?._id",vehicle?._id)
   const dataofVehcles = await fetchVehiclsData(reorderedSlug);
-  const competitors = await fetchVehicleCompetitors(vehicle?._id);
+  const competitors = await fetchVehicleCompetitors(vehicle?.vehicleDetails?._id);
   const makesAndBodies = await fetchMakesAndBodies(vehicle?.vehicleDetails?.type);
 
 
-  console.log("makesAndBodies",makesAndBodies)
+  console.log(">>>>>>>>competitors",competitors)
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />

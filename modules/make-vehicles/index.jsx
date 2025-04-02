@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Anchor,
   Box,
@@ -17,6 +17,7 @@ import {
   Center,
   Collapse,
   ActionIcon,
+  Loader,
 } from "@mantine/core";
 import NextImage from "next/image";
 import ComparisonProducts from "@/modules/home/ComparisonProducts";
@@ -29,28 +30,97 @@ import PopularNewCars from "../../components/sections/PopularNewCars";
 import UpcomingCars from "../../components/sections/UpcomingCars";
 import Comments from "@/components/sections/Comments";
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import styles from '@/components/sections/Comments.module.css'; // Import the existing styles
+import styles from '@/components/sections/Comments.module.css';
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { fetchListData } from "@/services/vehicles";
 
 const MakesVehicles = ({
   slugMake,
-  popularVehicles,
-  fetchUpComingVehicles,
-  matchedMake,
-  altraNativesMake,
+  makes,
+  bodies,
   vehicleType,
-  fetchMakesByTypeData,
+  params,
 }) => {
-
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState({
+    popularVehicles: null,
+    upcomingVehicles: null,
+    newlyLaunchedVehicles: null,
+    makeVehicles: null,
+    hondaVehicles: null,
+    makesByType: null,
+    matchedMake: null,
+    alternativeMakes: null,
+  });
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      setIsLoading(true);
+      try {
+        // Fetch all required data in parallel
+        const [
+          popularVehicles,
+          upcomingVehicles,
+          newlyLaunchedVehicles,
+          makeVehicles,
+          hondaVehicles,
+          makesByType
+        ] = await Promise.all([
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, vehicleType)),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType)),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, vehicleType)),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Toyota", vehicleType)),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Honda", vehicleType)),
+          fetchListData(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`)
+        ]);
+
+        // Find matched make and alternatives
+        const matchedMake = makesByType?.data?.find(
+          (make) => make?.name?.toLowerCase() === slugMake?.toLowerCase()
+        );
+        
+        const alternativeMakes = makesByType?.data?.filter(
+          (make) => make?.name?.toLowerCase() !== slugMake?.toLowerCase()
+        );
+
+        // Update state with all fetched data
+        setData({
+          popularVehicles,
+          upcomingVehicles,
+          newlyLaunchedVehicles,
+          makeVehicles,
+          hondaVehicles,
+          makesByType,
+          matchedMake,
+          alternativeMakes
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [slugMake, vehicleType]);
+
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const shortText = matchedMake?.description?.slice(0, 430); // Shortened text with a limit of 150 characters.
- 
+  const shortText = data.matchedMake?.description?.slice(0, 430);
+
+  if (isLoading) {
+    return (
+      <Center style={{ height: '50vh' }}>
+        <Loader color="red" size="xl" />
+      </Center>
+    );
+  }
+
   return (
     <>
-      {/* style={{ marginTop: "50px" }} */}
       <section className="find-cars">
         <Box className="background-search-verlay" />
         <Box className="container-xl" mt={rem(-140)}>
@@ -100,9 +170,9 @@ const MakesVehicles = ({
                           align="center"
                         >
                           <Image
-                            src={matchedMake?.companyImage}
+                            src={data.matchedMake?.companyImage}
                             style={{ marginTop: "-20px" }}
-                            alt="Toyota Logo"
+                            alt={`${slugMake} Logo`}
                             h={50}
                             w={80}
                           />
@@ -114,7 +184,6 @@ const MakesVehicles = ({
                             href={`/listing/${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`}
                             variant="outline"
                             color="#E90808"
-                            // mt="sm"
                             component={Link}
                           >
                             Used {slugMake} Cars for sale
@@ -125,7 +194,7 @@ const MakesVehicles = ({
                     <div className="col-md-9">
                       <Text mb="md">{shortText}</Text>
                       <Collapse in={isExpanded} transitionDuration={500}>
-                        <Text mb="md">{matchedMake?.description?.slice(150)}</Text>
+                        <Text mb="md">{data.matchedMake?.description?.slice(150)}</Text>
                       </Collapse>
                       <Button color="red" fw={500} onClick={toggleReadMore}>
                         {isExpanded ? "Show Less" : "Read More"}
@@ -138,10 +207,10 @@ const MakesVehicles = ({
           </div>
         </Box>
 
-        <PopularNewCars popularVehicles={popularVehicles} type={vehicleType} />
+        <PopularNewCars popularVehicles={data.popularVehicles} type={vehicleType} />
 
         <UpcomingCars
-          fetchUpComingVehicles={fetchUpComingVehicles}
+          fetchUpComingVehicles={data.upcomingVehicles}
           type={vehicleType}
         />
         <ComparisonProducts type={vehicleType} />
@@ -150,7 +219,7 @@ const MakesVehicles = ({
 
         <Comments
           vehicleType={vehicleType}
-          fetchMakesByTypeData={fetchMakesByTypeData}
+          fetchMakesByTypeData={data.makesByType}
         />
 
         <section className="brands-faq-section pb-3">
@@ -177,7 +246,7 @@ const MakesVehicles = ({
                   slidesToScroll={7}
                   classNames={{ controls: styles.controls, control: styles.control }}
                 >
-                  {altraNativesMake.map((item, index) => {
+                  {data.alternativeMakes.map((item, index) => {
                     return (
                       <Carousel.Slide key={index}>
                         <Box

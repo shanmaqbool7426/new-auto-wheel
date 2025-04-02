@@ -196,7 +196,7 @@ const handleSubmit = async (values) => {
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
-    router.push(`/sale/car/post-ad?vehicleId=${id}`)
+    router.push(`/used-cars/sell?vehicleId=${id}`)
     // console.log('Edit Row', id);
     // alert(`Edit Row ${id}`);
   }
