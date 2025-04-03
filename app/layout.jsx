@@ -8,6 +8,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
 
 import "@mantine/core/styles.css";
+
 import "@mantine/carousel/styles.css";
 import Script from "next/script";
 import { Notifications } from "@mantine/notifications";
