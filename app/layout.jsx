@@ -6,7 +6,8 @@ import "@mantine/notifications/styles.css";
 import NextTopLoader from "nextjs-toploader";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
-import {UserProvider} from "@/contexts/user"
+import StoreProvider from "@/store/StoreProvider";
+
 import "@mantine/core/styles.css";
 
 import "@mantine/carousel/styles.css";
@@ -14,6 +15,7 @@ import Script from "next/script";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import "@mantine/carousel/styles.css";
+import { UserProvider } from '@/contexts/user';
 
 // Font configurations
 const poppins = Poppins({
@@ -62,6 +64,7 @@ export default function Layout({ children }) {
           speed={200}
           shadow="0 0 10px #E90808,0 0 5px #E90808"
         />
+        <StoreProvider>
         <SessionProvider>
         <UserProvider>
           <MantineProvider theme={theme}>
@@ -70,6 +73,7 @@ export default function Layout({ children }) {
           </MantineProvider>
           </UserProvider>
         </SessionProvider>
+        </StoreProvider>
       </body>
       <GoogleAnalytics gaId="G-1SXSFH77HW" />
     </html>

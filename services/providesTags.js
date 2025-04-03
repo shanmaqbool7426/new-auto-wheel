@@ -1,0 +1,21 @@
+export const PROVIDES_TAGS = [
+    'AUTH',
+    'VEHICLES',
+    'NEW_VEHICLES',
+    'REVIEWS',
+    'USER_REVIEWS',
+    'VIDEOS',
+    'BLOGS',
+    'COMPARISON',
+    'COMMENTS',
+    'BANNERS',
+    'TAGS',
+    'NEAR_BY_LOCATION',
+    'DRIVE',
+    'TRANSMISSION',
+    'FUEL_TYPE',
+    'COLOR',
+    'COMPETITOR',
+    'BROWSE',
+    'LOCATION'
+  ];
