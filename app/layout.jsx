@@ -5,8 +5,8 @@ import "@/styles/globals.scss";
 import "@mantine/notifications/styles.css";
 import AnalyticsProvider from "@/contexts/AnalyticsProvider"
 import NextTopLoader from "nextjs-toploader";
-import { Suspense } from "react";
-import { ColorSchemeScript, MantineProvider, Center, Loader } from "@mantine/core";
+
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
 import {UserProvider} from "@/contexts/user"
 import "@mantine/core/styles.css";
@@ -82,7 +82,7 @@ export default function RootLayout({ children }) {
               <Notifications />
               <AuthWrapper>
                 <ComparisonProvider>
-                {/* <UserProvider> */}
+                <UserProvider>
                   <NextTopLoader
                     color="#E90808"
                     initialPosition={0.08}
@@ -94,14 +94,8 @@ export default function RootLayout({ children }) {
                     speed={200}
                     shadow="0 0 10px #E90808,0 0 5px #E90808"
                   />
-                  <Suspense fallback={
-                    <Center h="100vh">
-                      <Loader color="red" size="lg" />
-                    </Center>
-                  }>
-                    {children}
-                  </Suspense>
-                {/* </UserProvider> */}
+                  {children}
+                </UserProvider>
                 </ComparisonProvider>
               </AuthWrapper>
             </MantineProvider>
