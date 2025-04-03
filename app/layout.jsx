@@ -9,6 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import {UserProvider} from "@/contexts/user"
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
+
 import Script from "next/script";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
