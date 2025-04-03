@@ -102,7 +102,7 @@ export default function RootLayout({ children }) {
           </SessionProvider>
         </ReduxProvider>
       </body>
-      <GoogleAnalytics gaId="G-1SXSFH77HW" />
+      {/* <GoogleAnalytics gaId="G-1SXSFH77HW" /> */}
     </html>
   );
 }
