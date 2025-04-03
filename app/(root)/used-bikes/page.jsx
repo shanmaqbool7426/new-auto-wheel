@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Suspense } from "react";
 import VehicleDetailModule from "@/modules/vehicle-detail";
 import LoadingWrapper from "@/components/loading-wrapper";
