@@ -1,4 +1,3 @@
-
 "use client";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -60,9 +59,7 @@ const PostAnAdModule = ({type}) => {
   const vehicle = type
   const vehicleId = "";
   const vehicleTypes = ["car", "bike", "truck"];
-  const url = new URL(window.location.href);
-  const pathSegments = url.pathname.split("/");
-  const vehicleType =type;
+  const vehicleType = type;
 
   // Form Schema and Initialization
   const formSchema = z.object({
@@ -95,7 +92,6 @@ const PostAnAdModule = ({type}) => {
     secondaryNumber: z.string().optional(),
     allowWhatsAppContact: z.boolean(),
   }).refine((data) => {
-    // Add conditional validation based on vehicle type
     if (data.type === 'car' || data.type === 'truck') {
       return !!data.engineCapacity && !!data.drive && !!data.assembly && !!data.transmission;
     }
