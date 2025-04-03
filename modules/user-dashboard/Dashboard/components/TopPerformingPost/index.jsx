@@ -35,6 +35,7 @@ export default function TopPerformingPost() {
     }
   }, [page, session]);
 
+  console.log("posts",posts)
   // Transform API data to match table columns
   const transformedRecords = posts.map(post => ({
     id: post.id,

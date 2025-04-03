@@ -23,6 +23,7 @@ export default function Search({ setSearchBy, value }) {
   return (
     <TextInput
       ref={inputRef}
+      placeholder='Search by make, model, variant'
       onChange={handleChangeSearch}
       leftSection={icon}
       value={value}

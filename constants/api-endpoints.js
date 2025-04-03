@@ -34,8 +34,8 @@
 
 // export const BASE_URL = "http://143.110.253.131:5000";
 // export const BASE_URL = "https://auto-wheel-be.vercel.app";
-export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
-// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
+export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 
 
@@ -79,6 +79,9 @@ export const API_ENDPOINTS = {
     ADD: `${VEHICLE_BASE}`,
     Update: (vehicleId) => `${VEHICLE_BASE}/update/${vehicleId}`,
     SIMILAR: `${VEHICLE_BASE}/getSimilarVehicles`,
+    TRACK_VIEW: (id) => `${BASE_URL}/api/tracking/${id}/view`,
+    BATCH_TRACK_VIEWS: `${BASE_URL}/api/tracking/batch-views`,
+    VIEW_ANALYTICS: `${BASE_URL}/api/tracking/analytics/views`,
 
     MAKES_WITH_POPULAR: (make, type) => {
       const queryParams = [];

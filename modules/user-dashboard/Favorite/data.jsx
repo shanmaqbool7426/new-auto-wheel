@@ -15,7 +15,7 @@ export const getColumns = (onClickDelete) => [
             <Image src={defaultImage} alt={`${make} ${model}`} width={42} height={26} />
           </Box>
           <Box className={styles.tableTitleText}>
-          <Text className={styles.tableTitleTitle}>Stoack id {`${_id?.substring(0, 4)}`}</Text>            <Text className={styles.tableTitleTitle}>{`${make} ${model} ${year}`}</Text>
+          <Text className={styles.tableTitleTitle}>Stoack id {`${_id?.substring(0, 4)}`}</Text>            <Text className={styles.tableSubTitleTitle}>{`${make} ${model} ${year}`}</Text>
           </Box>
         </Box>
       );

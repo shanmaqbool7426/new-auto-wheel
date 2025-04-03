@@ -66,18 +66,18 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
   },
   {
     accessor: 'isFeatured',
-    title: '',
-    render: ({ isFeatured, id }) => {
+    title: 'Featured',
+    render: (vehicles, { isFeatured, _id }) => {
       return (
         <>
           <Badge
             onClick={(e) => {
               e.stopPropagation(); // Prevent row click event
-              handleToggleFeature(id);
+              handleToggleFeature(vehicles?.id);
               // openModalMakeFeature()
             }}
-            label={isFeatured ? 'Featured' : 'Make it Feature'}
-            variant={isFeatured ? 'Rejected' : 'Info'}
+            label={vehicles?.isFeatured ? 'Featured' : 'Make it Feature'}
+            variant={vehicles?.isFeatured ? 'Rejected' : 'Info'}
             underline
             minWidth="116px"
             outlined={isFeatured}

@@ -18,7 +18,7 @@ export default function PersonalInformation({ profileData }) {
     if (profileData) {
       // Only set values if they are not already set
       if (!form.values.fullName) {
-        form.setFieldValue('fullName', profileData.firstName || '');
+        form.setFieldValue('fullName', profileData.fullName || '');
       }
       if (!form.values.phoneNumber) {
         form.setFieldValue('phoneNumber', profileData.phone || '');

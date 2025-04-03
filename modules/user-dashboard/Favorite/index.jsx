@@ -17,10 +17,12 @@ export default function Favorite({ userId }) { // Accept userId as a prop
     filterParams,
     handleChangeFilter,
     handleClickDeleteRow,
+    page,
+    totalPages,
+    totalVehicles,
+    handlePageChange,
   } = useFavorite(userId);
 
-
-  console.log('favoriteVehicles', favoriteVehicles)
   const columns = getColumns(handleClickDeleteRow);
 
   // if (loading) return <Loader />;
@@ -61,6 +63,13 @@ export default function Favorite({ userId }) { // Accept userId as a prop
         <DataTable
           columns={columns}
           records={favoriteVehicles || []}
+          totalRecords={totalVehicles}
+          totalPages={totalPages}
+          page={page}
+          onPageChange={handlePageChange}
+          pageSize={10}
+          loading={loading}
+          loaderSize="sm"
         />
       </Box>
     </>

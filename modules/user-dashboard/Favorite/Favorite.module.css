@@ -50,8 +50,13 @@
 .tableTitleTitle {
   color: black;
   line-height: 1;
-  font-weight: 400;
+  font-weight: 500;
 
+}
+.tableSubTitleTitle{
+  color: black;
+  line-height: 1;
+  font-weight: 400;
 }
 
 .tableTitleModal {
