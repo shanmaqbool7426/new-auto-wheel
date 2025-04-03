@@ -1,5 +1,5 @@
 "use client";
-import { GoogleAnalytics } from '@next/third-parties/google'
+// import { GoogleAnalytics } from '@next/third-parties/google'
 import { Inter, Poppins, Roboto } from "next/font/google";
 import "@/styles/globals.scss";
 import "@mantine/notifications/styles.css";
@@ -59,7 +59,7 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
         />
-          <Script
+          {/* <Script
           id="google-analytics"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -72,10 +72,10 @@ export default function RootLayout({ children }) {
               });
             `,
           }}
-        />
+        /> */}
       </head>
       <body>
-        <AnalyticsProvider/>
+        {/* <AnalyticsProvider/> */}
         <ReduxProvider>
           <SessionProvider>
             <MantineProvider theme={theme}>
