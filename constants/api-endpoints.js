@@ -119,6 +119,7 @@ export const API_ENDPOINTS = {
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
     },
+    VARIANTS: "/variants",
 
     MAKES_WITH_POPULAR: (make, type) => {
       const queryParams = [];
@@ -150,7 +151,7 @@ export const API_ENDPOINTS = {
 
     LISTINGS: `${NEW_VEHICLE_BASE}/vehicles-listing`,
     DETAIL: (slug) => `${NEW_VEHICLE_BASE}/${slug}`,
-    VARIENTS: (slug) => `${NEW_VEHICLE_BASE}/variants/${slug}`,
+    VARIENTS:`${NEW_VEHICLE_BASE}/variants`,
     TOPCOMPARISON:`${NEW_VEHICLE_BASE}/comparison`,
     COMPARISON:`${NEW_VEHICLE_BASE}/compare`,
     // ADD: `${VEHICLE_BASE}`,

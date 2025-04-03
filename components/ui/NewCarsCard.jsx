@@ -8,7 +8,7 @@ import styles from './Card.module.css';
 
 const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
   return (
-    <Link href={`/new-vehicle/${vehicle?.slug || ""}`}>
+    <Link href={`/new-cars/${vehicle?.make?.toLowerCase() || ""}/${vehicle?.model?.toLowerCase() || "" }/`}>
       <Card radius="5px" shadow="0px 4px 20px 0px #00000014" pb="28px" pt="0" px="0" >
         <Box className={styles.cardMedia}>
           <Image
