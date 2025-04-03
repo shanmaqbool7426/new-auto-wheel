@@ -16,7 +16,11 @@ class ViewTrackingService {
     this.pendingListingViews = []; // Store pending listing views for batch processing
     this.batchTimeout = null; // Timeout for batch processing
     this.mobileViewedVehicles = new Set(); // New set to track mobile views
-    this.initializeMobileViewed(); // Initialize mobile viewed set in the constructor
+    
+    // Only initialize if we're in the browser
+    if (typeof window !== 'undefined') {
+      this.initializeMobileViewed(); // Initialize mobile viewed set in the constructor
+    }
   }
   
   getOrCreateSessionId() {
@@ -235,6 +239,8 @@ class ViewTrackingService {
   }
 
   initializeMobileViewed() {
+    if (typeof window === 'undefined') return;
+    
     try {
       const mobileViewedData = JSON.parse(sessionStorage.getItem('mobileViewedVehicles') || '{}');
       Object.keys(mobileViewedData).forEach(vehicleId => {

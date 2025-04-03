@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { Grid } from '@mantine/core';
 import OverView from './components/Overview';
-// import OverallAnalytics from './components/OverallAnalytics';
+import OverallAnalytics from './components/OverallAnalytics';
 import TopPerformingPost from './components/TopPerformingPost';
-// import LocationBaseUser from './components/LocationBaseUser';
+import LocationBaseUser from './components/LocationBaseUser';
 // import UserReviews from './components/UserReviews';
 import LatestNotificationPost from './components/LatestNotificationPost';
 import TotalFollowers from './components/TotalFollowers';
@@ -75,13 +75,13 @@ export default function Dashboard() {
           <OverView data={overview} userProfile={userProfile} viewAnalytics={viewAnalytics}/>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-          {/* <OverallAnalytics data={overview} viewAnalytics={viewAnalytics}/> */}
+          <OverallAnalytics data={overview} viewAnalytics={viewAnalytics}/>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
           <TopPerformingPost topVehicles={viewAnalytics?.topVehicles || []}/>
         </Grid.Col>
         <Grid.Col span={12}>
-          {/* <LocationBaseUser viewAnalytics={viewAnalytics} /> */}
+          <LocationBaseUser viewAnalytics={viewAnalytics} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 12, lg: 12 }}>
           {/* <UserReviews /> */}
