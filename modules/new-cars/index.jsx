@@ -48,6 +48,7 @@ const NewCarsModule = ({
   fetchHondaVehicles,
   fetchMakesByTypeData,
   type,
+  isNew,
   fetchNewlyLaunchedVehicles,
 }) => {
   const pathname = usePathname();
@@ -148,7 +149,6 @@ const NewCarsModule = ({
   }, [filter, type]);
 
   // Replace router.pathname check with pathname
-  const isNew = pathname?.includes('/new/');
 
   const transitionStyles = {
     transition: 'all 0.3s ease-in-out',

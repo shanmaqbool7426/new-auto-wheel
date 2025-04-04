@@ -42,7 +42,7 @@ const Header = () => {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const { openAuthModal } = useAuthModalContext();
-
+console.log(user, "user......")
   const { data: session, status } = useSession();
 
   const handleLogout = () => {
@@ -546,7 +546,7 @@ const Header = () => {
                         c="dark"
                         fw={500}
                       >
-                        Wellcome {session.user.fullName || session.user.name} !
+                      {session.user.fullName || session.user.name} !
                       </Button>
                     </Menu.Target>
 

@@ -49,6 +49,7 @@ const NewCarsPage = async () => {
           fetchMakesByTypeData={fetchMakesByTypeData}
           type={vehicleType}
           fetchMakebyVehicles={fetchMakebyVehicles}
+          isNew={true}
         />
     </>
   );

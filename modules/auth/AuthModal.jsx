@@ -30,7 +30,7 @@ function AuthModal({ opened, onClose, initialView = AUTH_VIEWS.ACCOUNT_TYPE }) {
         return (
           <AccountType 
             onSelectType={(type) => {
-              handleViewChange(AUTH_VIEWS.SIGN_UP, { accountType: type });
+              handleViewChange(AUTH_VIEWS.SOCIAL_LOGIN, { accountType: type });
             }}
           />
         );
