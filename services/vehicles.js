@@ -3,9 +3,20 @@ import { API_ENDPOINTS, LOCATION_PROVINCES } from "@/constants/api-endpoints";
 
 export const fetchVehiclsData = async (params) => {
   try {
+    // Extract vehicle type from URL
+    const urlParts = typeof window !== 'undefined' ? window.location.pathname.split('/') : [];
+    let vehicleType = 'car';
+
+    if (urlParts[1]?.startsWith('used-')) {
+      // Remove 'used-' prefix and ensure we don't have double 's'
+      vehicleType = urlParts[1]
+        .replace('used-', '')  // Remove 'used-' prefix
+        .replace(/s+$/, '');   // Remove any trailing 's' characters
+    }
+
     // Add caching strategy
     const vehicles = await fetchAPI(
-      API_ENDPOINTS.VEHICLE.LISTINGS + `${params}`,
+      `${API_ENDPOINTS.VEHICLE.LISTINGS}/${vehicleType}${params}`,
       {
         next: { revalidate: 60 } // Cache for 1 minute
       }

@@ -1,17 +1,13 @@
-
-
 import styles from './Inventory.module.css';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import Badge from '@/components/user-dashboard/Badge';
-import { ActionIcon, Group, Box } from '@mantine/core';
-import { IconPencil, IconTrash, IconEyeOff } from '@tabler/icons-react';
+import { ActionIcon, Group, Box, Text, Tooltip } from '@mantine/core';
+import { IconPencil, IconTrash, IconEyeOff, IconAlertCircle } from '@tabler/icons-react';
 import { capitalize } from '@/utils';
 import Link from 'next/link'
 
-
-
-export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRow, handleToggleFeature,openModalMakeFeature) => [
+export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRow, handleToggleFeature, openModalMakeFeature, handleShowRejectionReason) => [
   {
     accessor: 'title',
     title: 'Title',
@@ -19,7 +15,6 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
       return (
         <Box
           className={styles.tableTitle}
-
           style={{ cursor: 'pointer' }}
         >
           <Box className={styles.tableTitleImage}>
@@ -53,10 +48,6 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
     },
   },
   {
-    accessor: 'type',
-    title: 'type',
-  },
-  {
     accessor: 'price',
     title: 'Price',
   },
@@ -74,7 +65,6 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
             onClick={(e) => {
               e.stopPropagation(); // Prevent row click event
               handleToggleFeature(vehicles?.id);
-              // openModalMakeFeature()
             }}
             label={vehicles?.isFeatured ? 'Featured' : 'Make it Feature'}
             variant={vehicles?.isFeatured ? 'Rejected' : 'Info'}
@@ -83,7 +73,6 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
             outlined={isFeatured}
           />
         </>
-
       )
     },
   },
@@ -92,24 +81,28 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
     title: 'Status',
     render: ({ status, id }) => {
       return (
-        <Badge label={capitalize(status)} variant={capitalize(status)}
+        <Badge 
+          label={capitalize(status)} 
+          variant={capitalize(status)}
           onClick={(e) => {
-            e.stopPropagation(); // Prevent row click event
+            e.stopPropagation();
             onExpandRow(id);
-          }} />
+          }} 
+        />
       )
     },
   },
   {
     accessor: 'id',
     title: 'Actions',
-    render: ({ id, slug }) => {
+    render: ({ id, slug, status, rejectionReason }) => {
       return (
         <Group justify='left'
           onClick={(e) => {
-            e.stopPropagation(); // Prevent row click event
+            e.stopPropagation();
             onExpandRow(id);
-          }}  >
+          }}
+        >
           <ActionIcon
             size={20}
             className={styles.actionButton}
@@ -127,20 +120,34 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
           </ActionIcon>
 
           <Link href={`/detail/${slug}`}>
-
             <ActionIcon
               size={20}
               className={styles.actionButton}
-            // onClick={() => onClickToggle(slug)}
             >
               <IconEyeOff />
             </ActionIcon>
           </Link>
+
+          {status.toLowerCase() === 'rejected' && rejectionReason && (
+            <Tooltip label="View Rejection Reason">
+              <ActionIcon
+                size={20}
+                className={styles.actionButton}
+                color="red"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShowRejectionReason(rejectionReason);
+                }}
+              >
+                <IconAlertCircle />
+              </ActionIcon>
+            </Tooltip>
+          )}
         </Group>
       )
     },
   },
-]
+];
 
 export const companies = [
   {

@@ -1,3 +1,4 @@
+"use client"
 import ListingFilter from "@/components/listing/sidebar-filter";
 import ListingPagination from "@/components/listing/pagination";
 import { ListingHeader } from "@/components/listing/header";
@@ -12,6 +13,9 @@ import {
   Title,
   Badge,
   rem,
+  Breadcrumbs,
+  Anchor,
+  Text,
 } from "@mantine/core";
 import {
   fetchBodiesByType,
@@ -24,9 +28,12 @@ import {
 } from "@/services/vehicles";
 import { getLocalStorage, reorderSlug } from "@/utils";
 import VehicleComparison from "@/components/ComparisonCard";
+import { useRouter } from "next/navigation";
+// import { CloseButton } from "@/components/ui/CloseButton";
 
 const FilterBadges = ({ params, searchParams }) => {
-  const slug = params.slug;
+  const router = useRouter();
+  const slug = params.slug?.slice(1) || [];
 
   const filterConfigs = {
     mk_: { type: "make", label: "make" },
@@ -43,102 +50,164 @@ const FilterBadges = ({ params, searchParams }) => {
   };
 
   const removeFilter = (fullValue) => {
-    const baseSlug = slug.slice(0, 3);
+    // Get the vehicle type from the URL
+    const urlParts = window.location.pathname.split('/');
+    const vehicleType = urlParts[1]; // 'used-cars', 'used-bikes', etc.
 
-    const filteredSlug = slug.slice(3).filter((item) => item !== fullValue);
+    // Filter out the value to remove
+    const filteredSlug = slug.filter((item) => item !== fullValue);
 
-    const newSlug = [...baseSlug, ...filteredSlug];
+    // Construct the new URL
+    const newPath = `/${vehicleType}/search/${['-', ...filteredSlug].join('/')}`;
 
+    // Preserve any existing query parameters
     const existingParams = new URLSearchParams(searchParams.toString());
-    const view = existingParams.get("view");
+    const queryString = existingParams.toString();
 
-    let newPath = `/listing/${newSlug.join("/")}`;
-    if (view) {
-      newPath += `?view=${view}`;
-    }
-
-    return newPath;
-  };
-
-  const renderBadges = () => {
-    return slug
-
-      .map((item, index) => {
-        const prefix = Object.keys(filterConfigs).find((key) =>
-          item.startsWith(key)
-        );
-        if (!prefix) return null;
-
-        const config = filterConfigs[prefix];
-        const value = item.replace(prefix, "");
-        const displayValue = config.isRange
-          ? value.split("_").join(" - ")
-          : value;
-
-        return (
-          <Badge
-            pt={rem(5)}
-            pb={rem(20)}
-            px={rem(12)}
-            variant="light"
-            fw={500}
-            fz={rem(12)}
-            color="#E90808"
-            key={`${config.type}-${index}`}
-            rightSection={
-              <Link href={removeFilter(item)}>
-                <MdClose
-                  style={{
-                    cursor: "pointer",
-                    transition: "opacity 0.2s",
-                    ":hover": {
-                      opacity: 0.7,
-                    },
-                  }}
-                />
-              </Link>
-            }
-            styles={{
-              rightSection: {
-                "&:hover": {
-                  opacity: 0.7,
-                },
-              },
-            }}
-          >
-            {displayValue}
-          </Badge>
-        );
-      })
-      .filter(Boolean);
+    // Navigate to the new URL
+    router.push(queryString ? `${newPath}?${queryString}` : newPath, { scroll: false });
   };
 
   return (
-    <Group
-      gap="xs"
-      mb="md"
-      justify="flex-start"
-      pb="1rem"
-      style={{ borderBottom: "1px solid #CCCCCC" }}
-    >
-      {renderBadges()}
+    <Group gap="xs" mb="lg">
+      {slug.map((item, index) => {
+        const prefix = item.substring(0, item.indexOf('_') + 1);
+        const config = filterConfigs[prefix];
+
+        if (!config || item === '-') return null;
+
+        const value = item.substring(item.indexOf('_') + 1);
+        const displayValue = config.isRange
+          ? value.replace('_', ' - ')
+          : decodeURIComponent(value);
+
+        return (
+          <Badge
+            key={index}
+            size="lg"
+            variant="outline"
+            // rightSection={
+            //   <CloseButton
+            //     size={22}
+            //     variant="transparent"
+            //     onClick={() => removeFilter(item)}
+            //   />
+            // }
+          >
+            {`${config.label}: ${displayValue}`}
+          </Badge>
+        );
+      })}
     </Group>
   );
 };
 
+const Breadcrumb = ({ params, type }) => {
+  const items = [
+    { title: 'Home', href: '/' },
+    { title: 'Used Cars', href: '/used-cars/search/-' }
+  ];
+
+  // Extract city if present
+  const cityFilter = params.slug?.find(item => item.startsWith('ct_'));
+  const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')) : '';
+
+  // Extract all makes
+  const makeFilters = params.slug?.filter(item => item.startsWith('mk_')) || [];
+  // Extract all models
+  const modelFilters = params.slug?.filter(item => item.startsWith('md_')) || [];
+  // Extract all variants
+  const variantFilters = params.slug?.filter(item => item.startsWith('vt_')) || [];
+
+  // Add city level if present
+  if (cityFilter) {
+    items.push({ 
+      title: `Cars ${city}`, 
+      href: `/used-cars/search/-/ct_${city}` 
+    });
+  }
+
+  // Add makes
+  makeFilters.forEach(makeFilter => {
+    const make = decodeURIComponent(makeFilter.replace('mk_', ''));
+    const makeUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}/mk_${make}`;
+    items.push({ 
+      title: `${make} ${city ? city : ''}`, 
+      href: makeUrl 
+    });
+  });
+
+  // Add models
+  modelFilters.forEach(modelFilter => {
+    const model = decodeURIComponent(modelFilter.replace('md_', ''));
+    const modelUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${model}`;
+    items.push({ 
+      title: `${model} ${city ? city : ''}`,
+      href: modelUrl
+    });
+  });
+
+  // Add variants
+  variantFilters.forEach(variantFilter => {
+    const variant = decodeURIComponent(variantFilter.replace('vt_', ''));
+    const variantUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/vt_${variant}`;
+    items.push({ 
+      title: `${variant} ${city ? city : ''}`,
+      href: variantUrl
+    });
+  });
+
+  return (
+    <Breadcrumbs mb="lg">
+      {items.map((item, index) => (
+        <Anchor
+          key={index}
+          href={item.href}
+          c={'dimmed'}
+          style={{ textDecoration: 'none' }}
+        >
+          {item.title}
+        </Anchor>
+      ))}
+    </Breadcrumbs>
+  );
+};
+
 export default async function Listing({ params, searchParams }) {
+  console.log(">>>>>>>>.......",params)
   const userData = getLocalStorage("user");
   const view = searchParams.view;
+  
+  // Extract vehicle type from URL path
+  const getVehicleType = (path) => {
+    if (!path) return 'cars';
+    
+    // Check if the path starts with 'used-'
+    if (path.startsWith('used-')) {
+      // Remove 'used-' prefix and 's' suffix
+      return path.replace('used-', '').replace(/s$/, '');
+    }
+    return 'cars'; // Default to cars if no match
+  };
+
   const typeMapping = {
     cars: "car",
     bikes: "bike",
     trucks: "truck",
   };
 
+  // Get the vehicle type from the current URL path
+  const vehicleType = getVehicleType(params.slug?.[0] || window.location.pathname.split('/')[1]);
+  
+  console.log("vehicleType",vehicleType)
+  
   const sortBy = searchParams.sortBy
     ? `sb_${searchParams.sortBy}`
     : searchParams.sortBy;
-  const reorderedSlug = reorderSlug(params.slug, view, sortBy);
+
+  // For the new URL structure, we'll pass an empty array if there are no additional filters
+  const reorderedSlug = reorderSlug(params.slug?.slice(1) || [], view, sortBy);
+
   const [
     dataofVehcles,
     vehicleMakes,
@@ -149,13 +218,15 @@ export default async function Listing({ params, searchParams }) {
     vehicleColors
   ] = await Promise.all([
     fetchVehiclsData(reorderedSlug),
-    fetchMakesByType(typeMapping[params.slug[0]]),
-    fetchBodiesByType(typeMapping[params.slug[0]]),
-    fetchVehicleDrives(typeMapping[params.slug[0]]),
-    fetchVehicleTransmissions(typeMapping[params.slug[0]]),
-    fetchVehicleFuelTypes(typeMapping[params.slug[0]]),
-    fetchVehicleColors(typeMapping[params.slug[0]])
+    fetchMakesByType(typeMapping[vehicleType]),
+    fetchBodiesByType(typeMapping[vehicleType]),
+    fetchVehicleDrives(typeMapping[vehicleType]),
+    fetchVehicleTransmissions(typeMapping[vehicleType]),
+    fetchVehicleFuelTypes(typeMapping[vehicleType]),
+    fetchVehicleColors(typeMapping[vehicleType])
   ]);
+
+  console.log(">>>>>>>>.......",vehicleType)
   return (
     <>
       <Box pt={100} pb={80} className="product-listing position-relative">
@@ -164,7 +235,7 @@ export default async function Listing({ params, searchParams }) {
           <div className="row">
             <div className="col-lg-3">
               <ListingFilter
-                type={params.slug[0]}
+                type={vehicleType}
                 makes={vehicleMakes}
                 bodies={vehicleBodies}
                 vehicles={dataofVehcles?.data}
@@ -176,10 +247,13 @@ export default async function Listing({ params, searchParams }) {
             </div>
             <div className="col-lg-9">
               {/* Toolbox */}
-              <ListingHeader type={params.slug[0]} />
+              <ListingHeader type={vehicleType} />
+
+              {/* Breadcrumb */}
+              <Breadcrumb params={params} type={vehicleType} />
 
               {/* Product Badges */}
-              <FilterBadges params={params} searchParams={searchParams} />
+              {/* <FilterBadges params={params} searchParams={searchParams} /> */}
 
               {/* Product Listing Section */}
               <Group

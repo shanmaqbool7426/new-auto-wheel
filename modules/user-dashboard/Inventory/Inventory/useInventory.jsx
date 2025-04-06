@@ -30,7 +30,7 @@ export default function useInventory() {
     });
   };
   const [filterParams, setFilterParams] = React.useState({
-    type: '',
+    // type: 'car',
     status: '',
     date: 'newToOld',
   });
@@ -40,12 +40,16 @@ export default function useInventory() {
       setLoading(true);
       const queryParams = new URLSearchParams({
         search: searchBy,
-        type: filterParams.type,
+        // type: 'car',
         status: filterParams.status,
         sort: filterParams.date,
         page: currentPage,
         limit: 5, // Adjust as needed
       }).toString();
+      
+      console.log("queryParams")
+
+
       const response = await fetch(`${BASE_URL}/api/user/vehicles-by-user/${session?.user?._id}?${queryParams}`);
       const data = await response.json();
       if (data.success) {

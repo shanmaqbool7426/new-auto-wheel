@@ -36,10 +36,22 @@ export default function Inventory() {
     deleteModalOpened,
     closeDeleteModal,
     vehicleToDelete,
-    confirmDelete
+    confirmDelete,
+    viewRejectionReason,
+    showViewRejectionModal,
+    handleShowRejectionReason,
+    handleCloseViewRejectionModal,
   } = useInventory();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickToggleRow, handleExpandRow, handleToggleFeature, openModalMakeFeature);
+  const columns = getColumns(
+    handleClickEditRow, 
+    handleClickDeleteRow, 
+    handleClickToggleRow, 
+    handleExpandRow, 
+    handleToggleFeature,
+    openModalMakeFeature,
+    handleShowRejectionReason
+  );
 
   console.log('searchBy',searchBy)
   // if (loading) return <div>Loading...</div>;
@@ -239,6 +251,45 @@ export default function Inventory() {
                 onClick={confirmDelete}
               >
                 Delete
+              </Button>
+            </Group>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal.Root>
+
+      {/* View Rejection Reason Modal */}
+      <Modal.Root
+        opened={showViewRejectionModal}
+        onClose={handleCloseViewRejectionModal}
+        size={'400px'}
+        centered
+      >
+        <Modal.Overlay />
+        <Modal.Content>
+          <Modal.Header className={classes.modalHeader}>
+            <Modal.Title className={classes.modalHeaderTitle}>Rejection Reason</Modal.Title>
+            <Modal.CloseButton 
+              icon={<IconModalClose />} 
+              onClick={handleCloseViewRejectionModal}
+            />
+          </Modal.Header>
+          <Modal.Body className={classes.modalBody}>
+            <Text size="md" mb={20}>
+              {viewRejectionReason}
+            </Text>
+            <Group grow gap='20px' className={classes.modalFooter}>
+              <Button
+                type="button"
+                color="#919191"
+                variant="filled"
+                fullWidth
+                radius="20px"
+                classNames={{
+                  root: buttonStyles.root,
+                }}
+                onClick={handleCloseViewRejectionModal}
+              >
+                Close
               </Button>
             </Group>
           </Modal.Body>

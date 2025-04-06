@@ -233,7 +233,9 @@ const authOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
 
-      console.log("before sign in",user, account, profile)
+      console.log("before sign in",account)
+       
+
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
         try {
       console.log("after sign in",user, account, profile)
@@ -247,7 +249,7 @@ const authOptions = {
             image: profile.picture || profile.image
           });
 
-          console.log(">>>>>>>>>>>>>",res)
+          console.log(">>>>>>>>>>>>>",res.data?.data)
           
           if (res.data && (res.data.statusCode === 200 || res.data.statusCode === 201)) {
             const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;

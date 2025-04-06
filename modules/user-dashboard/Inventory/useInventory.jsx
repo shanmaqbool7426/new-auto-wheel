@@ -28,9 +28,10 @@ console.log("user........",user)
   const [expandedRowIds, setExpandedRowIds] = React.useState([]);
   const [totalVehicles, setTotalVehicles] = React.useState(0);
   const [selectedVehicleId, setSelectedVehicleId] =   useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const [isSessionReady, setIsSessionReady] = React.useState(false);
   const { data: session, status } = useSession();
+  const token = getLocalStorage('token');
 
   const handleExpandRow = (id) => {
     setExpandedRowIds((prev) => {
@@ -42,11 +43,10 @@ console.log("user........",user)
     });
   };
   const [filterParams, setFilterParams] = React.useState({
-    type: user?.vehicleType,
+    type: user?.vehicleType || '',
     status: '',
     date: 'newToOld',
   });
-  const token = getLocalStorage('token');
   console.log('>>>>>..........',user)
 
   // Add debounce effect for search term
@@ -63,28 +63,39 @@ console.log("user........",user)
     };
   }, [searchBy]);
 
+  const [viewRejectionReason, setViewRejectionReason] = useState('');
+  const [showViewRejectionModal, setShowViewRejectionModal] = useState(false);
+
+  const handleShowRejectionReason = (reason) => {
+    setViewRejectionReason(reason);
+    setShowViewRejectionModal(true);
+  };
+
+  const handleCloseViewRejectionModal = () => {
+    setShowViewRejectionModal(false);
+    setViewRejectionReason('');
+  };
+
   const fetchVehicles = React.useCallback(async () => {
+    if (!isInitialized) return;
+
     try {
       setLoading(true);
-      
-      // Get the user ID from session or token
-      const userId = session?.user?._id || token?._id;
+      const userId = user?._id || session?.user?._id || token?._id;
       
       if (!userId) {
         throw new Error('User ID not found');
       }
       
-      // Create params object for consistency with other service calls
       const params = {
         search: debouncedSearchTerm,
         type: filterParams.type,
         status: filterParams.status,
         sort: filterParams.date,
         page: currentPage,
-        limit: 5, // Adjust as needed
+        limit: 5,
       };
       
-      // Use the vehiclesService instead of direct fetch
       const response = await vehiclesService.getUserVehicles(userId, params);
       const data = response.data;
       if (data) {
@@ -107,7 +118,8 @@ console.log("user........",user)
           mileage: vehicle.specifications.mileage,
           transmission: vehicle.specifications.transmission,
           fuelType: vehicle.specifications.fuelType,
-          viewCounts: vehicle.viewCounts
+          viewCounts: vehicle.viewCounts,
+          rejectionReason: vehicle.rejectionReason
         }));
         
         setVehicles(transformedVehicles);
@@ -121,20 +133,23 @@ console.log("user........",user)
     } finally {
       setLoading(false);
     }
-  }, [debouncedSearchTerm, filterParams, currentPage]);
+  }, [debouncedSearchTerm, filterParams, currentPage, user?._id, session?.user?._id, token?._id, isInitialized]);
 
+  // Initialize component and handle auth state
   React.useEffect(() => {
-    if (status === "authenticated" && session?.user?._id) {
-      setIsSessionReady(true);
+    if ((status === "authenticated" && session?.user?._id) || user?._id) {
+      if (!isInitialized) {
+        setIsInitialized(true);
+      }
+    }
+  }, [status, session?.user?._id, user?._id]);
+
+  // Fetch data when necessary dependencies change
+  React.useEffect(() => {
+    if (isInitialized) {
       fetchVehicles();
     }
-  }, [status, session, debouncedSearchTerm, filterParams]);
-  
-  // React.useEffect(() => {
-  //   if (isSessionReady) {
-  //     fetchVehicles();
-  //   }
-  // }, [fetchVehicles, isSessionReady]);
+  }, [fetchVehicles, isInitialized]);
 
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
@@ -295,6 +310,10 @@ const form = useForm({
     openDeleteModal,
     closeDeleteModal,
     vehicleToDelete,
-    confirmDelete
+    confirmDelete,
+    viewRejectionReason,
+    showViewRejectionModal,
+    handleShowRejectionReason,
+    handleCloseViewRejectionModal
   };
 }

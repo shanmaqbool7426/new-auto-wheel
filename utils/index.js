@@ -60,50 +60,121 @@ export const formatDate = (dateString) => {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 };
 
-export const reorderSlug = (slug, view, sortBy) => {
-  const basePath = slug[0];
-  const makes = slug.filter((item) => item.startsWith("mk_"));
-  const models = slug.filter((item) => item.startsWith("md_"));
-  const variants = slug.filter((item) => item.startsWith("vt_"));
-  const cities = slug.filter((item) => item.startsWith("ct_"));
-  const bodyType = slug.filter((item) => item.startsWith("bt_"));
-  const page = slug.find((item) => item.startsWith("page_"));
-  const price = slug.find((item) => item.startsWith("pr_"));
-  const year = slug.find((item) => item.startsWith("yr_"));
-  const mileage = slug.find((item) => item.startsWith("ml_"));
-  const transmission = slug.find((item) => item.startsWith("tr_"));
-  const drive = slug.find((item) => item.startsWith("dr_"));
-  const exteriorColor = slug.find((item) => item.startsWith("cl_"));
-  const fuelType = slug.find((item) => item.startsWith("ft_"));
-  const condition = slug.find((item) => item.startsWith("cn_"));
-  const featured = slug.find((item) => item.startsWith("ft_"));
-  const address = slug.find((item) => item.startsWith("ad_"));
-  const cityArea = slug.find((item) => item.startsWith("ca_"));
+export const reorderSlug = (slug = [], view, sortBy) => {
+  if (!slug || slug.length === 0) {
+    return '-';
+  }
 
-  const dynamicSlug = [
-    `t_${typeMapping[basePath]}`,
-    ...makes,
-    ...models,
-    ...variants,
-    ...cities,
-    ...bodyType,
-    page,
-    price,
-    year,
-    mileage,
-    transmission,
-    drive,
-    exteriorColor,
-    fuelType,
-    condition,
-    featured,
-    address,
-    cityArea,
-    sortBy,
-  ].filter(Boolean);
+  const dynamicSlug = [];
+  const filters = {
+    makes: [],
+    models: [],
+    variants: [],
+    cities: [],
+    cityAreas: [],
+    bodyTypes: [],
+    price: null,
+    year: null,
+    mileage: null,
+    transmission: null,
+    drive: null,
+    exteriorColor: null,
+    fuelType: null,
+    condition: null,
+    query: null,
+  };
 
-  return `/${dynamicSlug.join("/")}`;
+  // Process each segment of the slug
+  slug.forEach((segment) => {
+    if (segment === '-') return;
+
+    const [prefix, ...rest] = segment.split('_');
+    const value = rest.join('_');
+
+    switch (prefix) {
+      case 'mk':
+        filters.makes.push(value);
+        break;
+      case 'md':
+        filters.models.push(value);
+        break;
+      case 'vt':
+        filters.variants.push(value);
+        break;
+      case 'ct':
+        filters.cities.push(value);
+        break;
+      case 'ca':
+        filters.cityAreas.push(value);
+        break;
+      case 'bt':
+        filters.bodyTypes.push(value);
+        break;
+      case 'pr':
+        filters.price = value;
+        break;
+      case 'yr':
+        filters.year = value;
+        break;
+      case 'ml':
+        filters.mileage = value;
+        break;
+      case 'tr':
+        filters.transmission = value;
+        break;
+      case 'dr':
+        filters.drive = value;
+        break;
+      case 'cl':
+        filters.exteriorColor = value;
+        break;
+      case 'ft':
+        filters.fuelType = value;
+        break;
+      case 'cn':
+        filters.condition = value;
+        break;
+      case 'q':
+        filters.query = value;
+        break;
+    }
+  });
+
+  // Build the dynamic slug in the correct order
+  dynamicSlug.push('-');
+
+  if (filters.makes.length) {
+    filters.makes.forEach(make => dynamicSlug.push(`mk_${make}`));
+  }
+  if (filters.models.length) {
+    filters.models.forEach(model => dynamicSlug.push(`md_${model}`));
+  }
+  if (filters.variants.length) {
+    filters.variants.forEach(variant => dynamicSlug.push(`vt_${variant}`));
+  }
+  if (filters.cities.length) {
+    filters.cities.forEach(city => dynamicSlug.push(`ct_${city}`));
+  }
+  if (filters.cityAreas.length) {
+    filters.cityAreas.forEach(area => dynamicSlug.push(`ca_${area}`));
+  }
+  if (filters.bodyTypes.length) {
+    filters.bodyTypes.forEach(type => dynamicSlug.push(`bt_${type}`));
+  }
+  if (filters.price) dynamicSlug.push(`pr_${filters.price}`);
+  if (filters.year) dynamicSlug.push(`yr_${filters.year}`);
+  if (filters.mileage) dynamicSlug.push(`ml_${filters.mileage}`);
+  if (filters.transmission) dynamicSlug.push(`tr_${filters.transmission}`);
+  if (filters.drive) dynamicSlug.push(`dr_${filters.drive}`);
+  if (filters.exteriorColor) dynamicSlug.push(`cl_${filters.exteriorColor}`);
+  if (filters.fuelType) dynamicSlug.push(`ft_${filters.fuelType}`);
+  if (filters.condition) dynamicSlug.push(`cn_${filters.condition}`);
+  if (filters.query) dynamicSlug.push(`q_${filters.query}`);
+  if (sortBy) dynamicSlug.push(sortBy);
+
+  return dynamicSlug.join('/');
 };
+
 export const getBreadCrumbMake = (slug) => {
   const makes = slug
     .filter((item) => item.startsWith("mk_")) // Filter items that start with "mk_"

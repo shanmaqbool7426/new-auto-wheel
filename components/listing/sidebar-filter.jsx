@@ -142,7 +142,11 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     }
   }, []);
   const updateFiltersInUrl = (updatedFilters) => {
-    let customUrl = `/listing/${type}/search/-/`;
+    // Get the vehicle type from the URL and ensure it's in the correct format
+    const urlParts = window.location.pathname.split('/');
+    const currentVehicleType = urlParts[1]?.startsWith('used-') ? urlParts[1] : `used-${type}s`;
+
+    let customUrl = `/${currentVehicleType}/search/-/`;
 
     Object.entries(updatedFilters).forEach(([key, value]) => {
       if (Array.isArray(value) && value.length > 0) {
@@ -161,6 +165,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
         if (key === "city")
           [...new Set(value)].forEach(
             (city) => (customUrl += `ct_${city.toLowerCase()}/`)
+          );
+        if (key === "cityArea")
+          [...new Set(value)].forEach(
+            (area) => (customUrl += `ca_${area.toLowerCase()}/`)
           );
         if (key === "bodyType")
           [...new Set(value)].forEach(
@@ -188,9 +196,6 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
         ) {
           customUrl += `${value}/`;
         }
-        if (key === "view") customUrl += `view_${value}/`;
-      } else if (typeof value === "number") {
-        if (key === "page") customUrl += `page_${value}/`;
       }
     });
     const queryString = searchParams.toString();
