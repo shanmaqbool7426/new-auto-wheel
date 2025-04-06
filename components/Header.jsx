@@ -90,7 +90,7 @@ console.log(user, "user......")
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/used-cars.svg" />,
           title: "Used Cars",
-          link: "/listing/cars?view=list",
+          link: "/used-cars/search/-",
           description: "Find used cars in Pakistan",
         },
         {
@@ -98,7 +98,7 @@ console.log(user, "user......")
             <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
           ),
           title: "Featured Used Cars",
-          link: "/listing/cars/search/-/ft_featured?view=list",
+          link: "/used-cars/search/-/ft_featured",
           description: "Find new cars in Pakistan",
         },
         {
@@ -133,21 +133,21 @@ console.log(user, "user......")
         },
       ],
       secondCol: [
-        { title: "Suzuki Cars", link: "/listing/cars/search/-/mk_suzuki?view=list" },
-        { title: "Honda Cars", link: "/listing/cars/search/-/mk_honda?view=list" },
-        { title: "Toyota Cars", link: "/listing/cars/search/-/mk_toyota?view=list" },
-        { title: "KIA Cars", link: "/listing/cars/search/-/mk_kia?view=list" },
-        { title: "MG Cars", link: "/listing/cars/search/-/mk_mg?view=list" },
-        { title: "Hyundai Cars", link: "/listing/cars/search/-/mk_hyundai?view=list" },
+        { title: "Suzuki Cars", link: "/used-cars/search/-/mk_suzuki" },
+        { title: "Honda Cars", link: "/used-cars/search/-/mk_honda" },
+        { title: "Toyota Cars", link: "/used-cars/search/-/mk_toyota" },
+        { title: "KIA Cars", link: "/used-cars/search/-/mk_kia" },
+        { title: "MG Cars", link: "/used-cars/search/-/mk_mg" },
+        { title: "Hyundai Cars", link: "/used-cars/search/-/mk_hyundai" },
       ],
 
       thirdCol: [
-        { title: "Suzuki Alto", link: "/listing/cars/search/-/mk_suzuki?view=list" },
-        { title: "Honda Civic", link: "/listing/cars/search/-/mk_honda?view=list" },
-        { title: "Toyota Corolla", link: "/listing/cars/search/-/mk_toyota?view=list" },
-        { title: "KIA Sportage", link: "/listing/cars/search/-/mk_kia?view=list" },
-        { title: "Suzuki Wagon R", link: "/listing/cars/search/-/mk_suzuki?view=list" },
-        { title: "Toyota Yaris", link: "/listing/cars/search/-/mk_toyota?view=list" },
+        { title: "Suzuki Alto", link: "/used-cars/search/-/mk_suzuki" },
+        { title: "Honda Civic", link: "/used-cars/search/-/mk_honda" },
+        { title: "Toyota Corolla", link: "/used-cars/search/-/mk_toyota" },
+        { title: "KIA Sportage", link: "/used-cars/search/-/mk_kia" },
+        { title: "Suzuki Wagon R", link: "/used-cars/search/-/mk_suzuki" },
+        { title: "Toyota Yaris", link: "/used-cars/search/-/mk_toyota" },
       ],
     },
     bikes: {
@@ -161,7 +161,7 @@ console.log(user, "user......")
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/motorcycle.svg" />,
           title: "Used Bikes",
-          link: "/listing/bikes?view=list",
+          link: "/used-bikes",
           description: "Find used bikes in Pakistan",
         },
         {
@@ -169,13 +169,13 @@ console.log(user, "user......")
             <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
           ),
           title: "Featured Used Bikes",
-          link: "/listing/bikes?view=list",
+          link: "/used-bikes/search/-/ft_featured",
           description: "Find new bikes in Pakistan",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/sale-car.svg" />,
           title: "Sell Your Bikes",
-          link: "/listing/bikes?view=list",
+          link: "/used-bikes/sell",
           description: "Find new bikes in Pakistan",
         },
         {
@@ -196,17 +196,17 @@ console.log(user, "user......")
         },
       ],
       secondCol: [
-        { title: "Honda CG 125", link: "/listing/bikes/search/-/mk_honda?view=list" },
-        { title: "Yamaha YBR 125", link: "/listing/bikes/search/-/mk_yamaha?view=list" },
-        { title: "Suzuki GD 110S", link: "/listing/bikes/search/-/mk_suzuki?view=list" },
-        { title: "Suzuki GS 150", link: "/listing/bikes/search/-/mk_suzuki?view=list" },
-        { title: "Honda Pridor", link: "/listing/bikes/search/-/mk_honda?view=list" },
+        { title: "Honda CG 125", link: "/used-bikes/search/-/mk_honda" },
+        { title: "Yamaha YBR 125", link: "/used-bikes/search/-/mk_yamaha" },
+        { title: "Suzuki GD 110S", link: "/used-bikes/search/-/mk_suzuki" },
+        { title: "Suzuki GS 150", link: "/used-bikes/search/-/mk_suzuki" },
+        { title: "Honda Pridor", link: "/used-bikes/search/-/mk_honda" },
       ],
 
       thirdCol: [
         { title: "Honda CD 70", link: "/listing/bikes/search/-/mk_honda?view=list" },
-        { title: "Yamaha YBR 125", link: "/listing/bikes/search/-/mk_yamaha?view=list" },
-        { title: "Suzuki GS 150", link: "/listing/bikes/search/-/mk_suzuki?view=list" },
+        { title: "Yamaha YBR 125", link: "/used-bikes/search/-/mk_yamaha" },
+        { title: "Suzuki GS 150", link: "/used-bikes/search/-/mk_suzuki" },
       ],
     },
     trucks: {
@@ -220,7 +220,7 @@ console.log(user, "user......")
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/truck.png" />,
           title: "Used Trucks",
-          link: "/listing/trucks?view=list",
+          link: "/used-trucks",
           description: "Find used trucks in Pakistan",
         },
         {
@@ -228,13 +228,13 @@ console.log(user, "user......")
             <Image w={17} h={17} mt={3} src="/megamenu/featured-cars.svg" />
           ),
           title: "Featured Used Trucks",
-          link: "/listing/trucks",
+          link: "/used-trucks/search/-/ft_featured",
           description: "Find new trucks in Pakistan",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/sale-car.svg" />,
           title: "Sell Your Trucks",
-          link: "/listing/trucks?view=list",
+          link: "/used-trucks/sell",
           description: "Find new trucks in Pakistan",
         },
         {
@@ -255,38 +255,38 @@ console.log(user, "user......")
         },
       ],
       secondCol: [
-        { title: "Hino", link: "/listing/trucks/search/-/mk_hino" },
-        { title: "ISUZU", link: "/listing/trucks/search/-/mk_isuzu" },
-        { title: "JAC", link: "/listing/trucks/search/-/mk_jac" },
+        { title: "Hino", link: "/used-trucks/search/-/mk_hino" },
+        { title: "ISUZU", link: "/used-trucks/search/-/mk_isuzu" },
+        { title: "JAC", link: "/used-trucks/search/-/mk_jac" },
         {
           title: "JW Forland",
-          link: "/listing/trucks/search/-/mk_jw%20forland",
+          link: "/used-trucks/search/-/mk_jw%20forland",
         },
         {
           title: "Master Foton",
-          link: "/listing/trucks/search/-/mk_master%20foton",
+          link: "/used-trucks/search/-/mk_master%20foton",
         },
         {
           title: "JW Forland",
-          link: "/listing/trucks/search/-/mk_jw%20forland",
+          link: "/used-trucks/search/-/mk_jw%20forland",
         },
       ],
 
       thirdCol: [
-        { title: "Hino", link: "/listing/trucks/search/-/mk_hino?view=list" },
-        { title: "ISUZU", link: "/listing/trucks/search/-/mk_isuzu?view=list" },
-        { title: "JAC", link: "/listing/trucks/search/-/mk_jac?view=list" },
+        { title: "Hino", link: "/used-trucks/search/-/mk_hino" },
+        { title: "ISUZU", link: "/used-trucks/search/-/mk_isuzu" },
+        { title: "JAC", link: "/used-trucks/search/-/mk_jac" },
         {
           title: "JW Forland",
-          link: "/listing/trucks/search/-/mk_jw%20forland?view=list",
+          link: "/used-trucks/search/-/mk_jw%20forland",
         },
         {
           title: "Master Foton",
-          link: "/listing/trucks/search/-/mk_master%20foton?view=list",
+          link: "/used-trucks/search/-/mk_master%20foton",
         },
         {
           title: "JW Forland",
-          link: "/listing/trucks/search/-/mk_jw%20forland?view=list",
+          link: "/used-trucks/search/-/mk_jw%20forland",
         },
       ],
     },
@@ -487,7 +487,7 @@ console.log(user, "user......")
               >
                 <HoverCard.Target>
                   <Link
-                    href="/listing/trucks/search/-/"
+                    href="/used-trucks/search/-/"
                     className={`link ${isActiveType(pathname, 'trucks') ? "active" : ""}`}
                     onMouseEnter={() => setHoverTarget("trucks")}
                   >

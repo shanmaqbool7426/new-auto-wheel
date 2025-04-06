@@ -220,7 +220,7 @@ const HeroTabs = ({ setType }) => {
       <Group justify="end" mt="20px">
         <Button
           component={Link}
-          href={`/listing/${makesByType}?view=list`}
+          href={`/used-${makesByType}/search/-`}
           rightSection={<BsArrowRight />}
           variant="transparent"
           px={0}
