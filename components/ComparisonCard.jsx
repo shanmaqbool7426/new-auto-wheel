@@ -130,11 +130,11 @@ const VehicleComparison = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Extract the vehicle type (cars, bikes, trucks) from the pathname
+  // Extract the vehicle type (new-cars, new-bikes, new-trucks) from the pathname
   const segments = pathname.split('/');
   const vehicleType = segments.find(segment =>
-    ['cars', 'bikes', 'trucks'].includes(segment)
-  );
+    ['new-cars', 'new-bikes', 'new-trucks'].includes(segment)
+  )?.replace('new-', '');
 
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState([]);
   const { comparisonVehicles, setComparisonVehicles ,handleRemoveComparison} = useComparison();

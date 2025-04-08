@@ -44,14 +44,6 @@ import EditorRenderer from "@/components/EditorRenderer";
 const VehicleDetail = ({ vehicle, variantsVehicles }) => {
   const { addToComparison, handleRemoveComparison } = useComparison();
 
-
-  console.log("variantsVehicles",vehicle)
-
-  // selected vehicle for compare
-  const [selectedVehicle, setSelectedVehicle] = useState([]);
-  // Add state for active slide
-  const [activeSlide, setActiveSlide] = useState(0);
-
   const {
     vehicleDetails: {
       make,
@@ -59,6 +51,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
       model,
       variant,
       minPrice,
+      isModel,
+      price,
       maxPrice,
       defaultImage,
       images,
@@ -139,8 +133,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                       
                     </Text> */}
                     <Text span fw="700" size="24px" c="#E90808">
-                    ${formatPriceInFactors(minPrice)} -{" "}
-                      {formatPriceInFactors(maxPrice)}
+                    ${formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.min : price)}  {isModel ? " - " : ""}
+                      {formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.max : "")}
                     </Text>{" "}
                     <Text span size={'14px'} c="dimmed">
                       (*Ex-Factory Price)
@@ -150,10 +144,9 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                 </Group>
                 <Flex gap="md" align="center" mt="20px">
                   <Flex align="center" gap="3">
-                    {console.log("averageRating",averageRating)}
-                    <Rating defaultValue={variantsVehicles?.data?.averageRating} count={5} size={'16px'} readOnly/>
+                    <Rating defaultValue={averageRating} count={5} size={'16px'} readOnly/>
                     <Text span inherit size="16px" lh="1">
-                      ({variantsVehicles?.data?.averageRating?.toFixed(2) || 0})
+                      ({reviewCount})
                     </Text>
                   </Flex>
                   <Text lh="1" size="16px" c="dimmed">(Reviews {variantsVehicles?.data?.reviewCount || 0})</Text>
@@ -162,12 +155,14 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   mt="20px"
                   size="md"
                   fw={400}
+                  component={Link}
+                  href={`/used-cars/search/-/mk_${make?.toLowerCase()}`}
                   color="#E90808"
                   variant="outline"
                   h="29px"
                   fz={'14px'}
                 >
-                  Used Toyota Cars for sale
+                  Used {make} Cars for sale
                 </Button>
               </Box>
 
@@ -176,7 +171,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                 <Box className="col border-end">
                   <Flex align="flex-start" gap="sm" c="dimmed">
                     <FuelTank style={{ width: rem(24), height: rem(24) }} />
-                    <Text c="dimmed" size="10px" lh="1">
+                    <Text c="dimmed" size="12px" lh="1">
                       Engine{" "}
                       <Text c="#333333" fw={700} mt="4px">
                         {engine.type || "N/A"}
@@ -194,7 +189,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="10px" lh="1">
+                      <Text c="dimmed" size="12px" lh="1">
                         Fuel Tank{" "}
                         <Text c="#333333" fw={700} mt="4px">
                           {fuelCapacity || "N/A"}L
@@ -210,7 +205,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="10px" lh="1">
+                      <Text c="dimmed" size="12px" lh="1">
                         No Of Air Bags{" "}
                         <Text c="#333333" fw={700} mt="4px">
                           {safety?.airbags ? safety.airbags : "No"}
@@ -221,7 +216,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                 </Box>
               </Box>
 
-              <Box className="row border-bottom border-top" pb="md" mb="lg">
+              <Box className="row border-bottom " pb="md" mb="lg">
                 <Box className="col border-end">
                   {type == "bike" ? (
                     <Flex align="flex-start" gap="sm" c="dimmed">
@@ -232,7 +227,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="10px" lh="1">
+                      <Text c="dimmed" size="12px" lh="1">
                         Fuel Average{" "}
                         <Text span c="#333333" fw={700} mt="4px">
                           {fuelAverage || "N/A"}
@@ -248,7 +243,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                           marginTop: rem(6),
                         }}
                       />
-                      <Text c="dimmed" size="10px" lh="1">
+                      <Text c="dimmed" size="12px" lh="1">
                         Size{" "}
                         <Text c="#333333" fw={700} mt="4px">
                           {dimensions ? 
@@ -270,7 +265,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                       }}
                     /> */}
                     <DetailTransmissionIcon />
-                    <Text c="dimmed" size="10px" lh="1">
+                    <Text c="dimmed" size="12px" lh="1">
                       Transmission{" "}
                       <Text c="#333333" fw={700} mt="4px">
                         {transmission.type || transmission || "N/A"}
@@ -283,7 +278,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               {/* Color options */}
               <Box className="row">
                 <Box className="col-lg-12">
-                  <Title order={5} fw={600} mb="md">
+                  <Title order={5} fw={600} mb="28px" mt="28px">
                     {make} {model} Available Colors
                   </Title>
                   <Group spacing="md" align="center" style={{ flexWrap: 'wrap' }}>
@@ -364,60 +359,68 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
-                    {variantsVehicles?.data?.variants?.map((variant, index) => (
-                      <Table.Tr key={variant._id}>
-                        <Table.Td>
-                          <Flex justify="space-between">
-                            <Box>
-                              <Link href={`/new-cars/${variant.make.toLowerCase()}/${variant.model.toLowerCase()}/${variant.variant}`}>
-                                <Text fw={400} size="14px" c="#E90808">
-                                  {`${variant.make} ${variant.model} ${variant.variant}`}
-                                </Text>
-                              </Link>
-                              <Text size="12px" c="#878787" mt="6px">
-                                {`${variant.engine?.displacement || 'N/A'} cc, ${variant.transmission?.type || 'N/A'}, ${variant.engine?.type || 'N/A'}`}
-                              </Text>
-                            </Box>
-                          </Flex>
-                          <Text size="12px" mt="12px" c="#878787">
-                            {getKeyFeatures(variant)}
+                    {variantsVehicles?.data?.variants?.map((variant, index) => {
+                      return(
+                 <>
+                 {
+                  variant.variant && (
+                    <Table.Tr key={variant._id}>
+                    <Table.Td>
+                      <Flex justify="space-between">
+                        <Box>
+                          <Link href={`/new-cars/${variant.make.toLowerCase()}/${variant.model.toLowerCase().replace(/\s+/g, '-')}/${variant.variant.toLowerCase().replace(/\s+/g, '-')}`}>
+                            <Text fw={400} size="14px" c="#E90808">
+                              {`${variant.make} ${variant.model} ${variant.variant}`}
+                            </Text>
+                          </Link>
+                          <Text size="12px" c="#878787" mt="6px">
+                            {`${variant.engine?.displacement || 'N/A'} cc, ${variant.transmission?.type || 'N/A'}, ${variant.engine?.type || 'N/A'}`}
                           </Text>
-                        </Table.Td>
-                        <Table.Td>
-                          <Text size="14px" fw="700" c="#333">
-                            ${formatPrice(variant.price)}
-                          </Text>
-                          <Text size="12px" c="#E90808" mt="12px">
-                            Get {variant.make} {variant.model} {variant.transmission?.type ? variant.transmission?.type : ''} {variant.variant} On Road Price
-                          </Text>
-                        </Table.Td>
-                        <Table.Td align="center">
-                          <Checkbox 
-                            labelPosition="left" 
-                            color="#E90808" 
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                // Create a properly formatted vehicle object for comparison
-                                const vehicleForComparison = {
-                                  Info: {
-                                    make: variant?.make,
-                                    model: variant?.model,
-                                    variant: variant?.variant,
-                                  }
+                        </Box>
+                      </Flex>
+                      <Text size="12px" mt="12px" c="#878787">
+                        {getKeyFeatures(variant)}
+                      </Text>
+                    </Table.Td>
+                    <Table.Td>
+                      <Text size="14px" fw="700" c="#333">
+                        ${formatPrice(variant.price)}
+                      </Text>
+                      <Text size="12px" c="#E90808" mt="12px">
+                        Get {variant.make} {variant.model} {variant.transmission?.type ? variant.transmission?.type : ''} {variant.variant} On Road Price
+                      </Text>
+                    </Table.Td>
+                    <Table.Td align="center">
+                      <Checkbox 
+                        labelPosition="left" 
+                        color="#E90808" 
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            // Create a properly formatted vehicle object for comparison
+                            const vehicleForComparison = {
+                              Info: {
+                                make: variant?.make,
+                                model: variant?.model,
+                                variant: variant?.variant,
+                              }
 
-                                };
-                                
-                                // Add to comparison using the context function
-                                addToComparison(vehicleForComparison);
-                              }
-                              else{
-                                handleRemoveComparison(variant._id);
-                              }
-                            }} 
-                          />
-                        </Table.Td>
-                      </Table.Tr>
-                    ))}
+                            };
+                            
+                            // Add to comparison using the context function
+                            addToComparison(vehicleForComparison);
+                          }
+                          else{
+                            handleRemoveComparison(variant._id);
+                          }
+                        }} 
+                      />
+                    </Table.Td>
+                  </Table.Tr>
+                  )
+                 }
+                 </>
+                      )
+                    })}
                   </Table.Tbody>
                 </Table>
                 <Box style={{ alignItems: 'center' }} display="flex" gap="10px" mt="xl">

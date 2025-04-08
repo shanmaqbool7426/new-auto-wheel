@@ -94,8 +94,7 @@ const FullSpecifications = ({ vehicle }) => {
       "bodyType",
       "type",
       "releaseDate",
-      "minPrice",
-      "maxPrice",
+      
       "make",
       "model",
       "variant",
@@ -134,9 +133,9 @@ const FullSpecifications = ({ vehicle }) => {
               vehicleDetails?.type?.slice(1) || "-",
         },
         {
-          label: "Price Range",
+          label: "Price",
           value:
-            `$${vehicleDetails?.minPrice?.toLocaleString()} - ${vehicleDetails?.maxPrice?.toLocaleString()}` ||
+            `$${vehicleDetails?.price?.toLocaleString()}` ||
             "-",
         },
         {

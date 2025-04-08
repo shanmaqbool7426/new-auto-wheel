@@ -199,6 +199,13 @@ const Gallery = ({ images }) => {
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
+          top: 50% !important;
+          transform: translateY(-50%) !important;
+        }
+        
+        /* Hide right nav button when it appears at bottom */
+        .image-gallery-right-nav.image-gallery-right-nav--bottom {
+          display: none !important;
         }
         
         .image-gallery-left-nav:hover,
@@ -208,11 +215,11 @@ const Gallery = ({ images }) => {
         
         /* Position the arrows */
         .image-gallery-left-nav {
-          left: 10px !important;
+          left: 30px !important;
         }
         
         .image-gallery-right-nav {
-          right: 10px !important;
+          right:30px !important;
         }
         
         /* Make the arrow icons smaller */
@@ -232,7 +239,7 @@ const Gallery = ({ images }) => {
         
         /* Fullscreen button styling */
         .image-gallery-fullscreen-button {
-          background-color: rgba(255, 0, 0, 0.7) !important;
+          // background-color: rgba(255, 0, 0, 0.7) !important;
           border-radius: 50%;
           width: 30px !important;
           height: 30px !important;

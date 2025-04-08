@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Pagination } from "@mantine/core";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 
-const ListingPagination = ({ data, type, isUsed = false }) => {
+const ListingPagination = ({ data }) => {
   const router = useRouter();
   const { slug } = useParams();
   const searchParams = useSearchParams();
@@ -33,16 +33,15 @@ const ListingPagination = ({ data, type, isUsed = false }) => {
       }
 
       const updatedPath = updatedPathSegments.join("/");
-      const baseUrl = isUsed ? `/used-${type}s` : `/new/${type}`;
 
       const queryString = searchParams.toString();
       const finalUrl = queryString
-        ? `${baseUrl}/search/${updatedPath}?${queryString}`
-        : `${baseUrl}/search/${updatedPath}`;
+        ? `/listing/${updatedPath}?${queryString}`
+        : `/listing/${updatedPath}`;
 
       router.push(finalUrl, { scroll: false });
     },
-    [pathSegments, pageSegmentIndex, searchParams, router, type, isUsed]
+    [pathSegments, pageSegmentIndex, searchParams, router]
   );
 
   const handlePageChange = useCallback(
@@ -71,15 +70,20 @@ const ListingPagination = ({ data, type, isUsed = false }) => {
   }, []);
 
   return (
-    <Pagination
-      total={Math.ceil((data?.totalResults || 0) / pagination.limit)}
-      value={pagination.page}
-      onChange={handlePageChange}
-      color="red"
-      radius="md"
-      withEdges
-    />
+    <>
+      <Pagination
+        display="flex"
+        my="xl"
+        total={Math.ceil(data?.count / pagination?.limit)}
+        value={pagination?.page}
+        onChange={handlePageChange}
+        siblings={1}
+        size="md"
+        color="#E90808"
+        styles={{ root: { justifyContent: "center" } }}
+      />
+    </>
   );
 };
 
-export default ListingPagination;
+export default React.memo(ListingPagination);

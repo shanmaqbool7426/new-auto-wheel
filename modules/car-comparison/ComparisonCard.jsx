@@ -43,11 +43,11 @@ const ComparisonCard = ({ vehicle, onRemove, onClick }) => {
                         {`${vehicle.engine?.displacement || ''} cc | ${vehicle.engine.type || ''} | ${vehicle.transmission.type || vehicle.transmission || 'N/A'}`}
                     </Text>
                 )}
-                {vehicle.minPrice && (
+                {/* {vehicle.minPrice && (
                     <Text lh="1" fw={700} size="20px" mt="12px">
                         {`$${vehicle.minPrice} - $${vehicle.maxPrice}`}
                     </Text>
-                )}
+                )} */}
                 {vehicle._id &&
                     <Anchor component={Link} href={`/listing/cars/search/-/mk_${vehicle.make}/md_${vehicle.model}/`} size="12px" lh="1" mt="12px" className="text-primary">
                         <Center inline>

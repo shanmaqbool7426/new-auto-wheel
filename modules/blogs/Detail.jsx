@@ -69,12 +69,12 @@ const Detail = ({ blog, comments, onCommentSubmit }) => {
           height={381}
         />
         
-        <Text lineClamp={4} size="md">
+        {/* <Text  size="md">
           <EditorRenderer data={JSON.parse(blog?.content)} />
-        </Text>
+        </Text> */}
       </Box>
       {/* Blog Detail Html */}  
-      {/* <BlogDetailHtml content={blog?.content} blog={blog} /> */}
+      <BlogDetailHtml content={blog?.content} blog={blog} />
       {/* Comments */}
       <BlogComments blog={blog} comments={comments} />
 

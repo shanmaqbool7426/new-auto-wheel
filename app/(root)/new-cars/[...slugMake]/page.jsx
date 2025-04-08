@@ -10,18 +10,20 @@ const NewCarsPage = async (params) => {
   const vehicleType = "car";
   
   if (slugMake.length === 2 || slugMake.length === 3) {
-    const make = slugMake[0];
-    const model = slugMake[1];
+    const make = slugMake[0].replace(/-/g, ' ');
+    const model = slugMake[1].replace(/-/g, ' ');
     const queryParams = new URLSearchParams();
     queryParams.append('make', make);
     queryParams.append('model', model);
     
     if (slugMake.length === 3) {
-      queryParams.append('variant', slugMake[2]);
+      queryParams.append('variant', slugMake[2].replace(/-/g, ' '));
     } else if (params.searchParams?.variant) {
-      queryParams.append('variant', params.searchParams.variant);
+      queryParams.append('variant', params.searchParams.variant.replace(/-/g, ' '));
     }
     const variantsEndpoint = `${API_ENDPOINTS.NEW_VEHICLE.VARIENTS}?${queryParams.toString()}`;
+
+    console.log("variantsEndpoint",variantsEndpoint)
     const variantsVehicles = await fetchVehicleBySlug(`${variantsEndpoint}`);
     const referenceVehicle = {
       vehicleDetails : variantsVehicles?.data?.referenceVehicle,
