@@ -1,9 +1,8 @@
-// Server component
+'use client'
 import React from 'react'
 import PostAnAdModule from '@/modules/post-ad'
 
 // Client component wrapper
-'use client'
 const PostAdWrapper = ({ searchParams }) => {
   return <PostAnAdModule type="car" vehicleId={searchParams?.vehicleId} />
 }
