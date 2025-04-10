@@ -14,9 +14,20 @@ export const fetchVehiclsData = async (params) => {
         .replace(/s+$/, '');   // Remove any trailing 's' characters
     }
 
+    // Filter out any undefined or invalid params
+    const validParams = Array.isArray(params) 
+      ? params.filter(p => p && p !== 'undefined' && p !== 't_undefined')
+      : [];
+
+    // Construct the final URL
+    const baseUrl = `${API_ENDPOINTS.VEHICLE.LISTINGS}/${vehicleType}`;
+    const finalUrl = validParams.length > 0 
+      ? `${baseUrl}/${validParams.join('/')}`
+      : baseUrl;
+
     // Add caching strategy
     const vehicles = await fetchAPI(
-      `${API_ENDPOINTS.VEHICLE.LISTINGS}/${vehicleType}${params}`,
+      finalUrl,
       {
         next: { revalidate: 60 } // Cache for 1 minute
       }

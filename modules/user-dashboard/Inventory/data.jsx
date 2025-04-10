@@ -95,7 +95,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
   {
     accessor: 'id',
     title: 'Actions',
-    render: ({ id, slug, status, rejectionReason }) => {
+    render: ({ id, slug, status, type, rejectionReason }) => {
       return (
         <Group justify='left'
           onClick={(e) => {
@@ -106,7 +106,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickEdit(e, id)}
+            onClick={(e) => onClickEdit(e, id,type)}
           >
             <IconPencil />
           </ActionIcon>
@@ -119,7 +119,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickToggle, onExpandRo
             <IconTrash />
           </ActionIcon>
 
-          <Link href={`/detail/${slug}`}>
+          <Link href={`/used-${type}s/${slug}`}>
             <ActionIcon
               size={20}
               className={styles.actionButton}

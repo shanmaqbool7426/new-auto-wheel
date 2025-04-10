@@ -55,6 +55,7 @@ const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
 const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
 const COLOR_BASE = `${BASE_URL}/api/color`;
 const Competitor_BASE = `${BASE_URL}/api/competitor`;
+export const USER_BASE = `${BASE_URL}/api/user/update-account-type`;
 
 export const API_ENDPOINTS = {
   AUTH: {
@@ -69,6 +70,7 @@ export const API_ENDPOINTS = {
     BASE: `${BASE_URL}/api/comparison`,
     GET_COMPARISON_LIST: `${BASE_URL}/api/comparison/list`,
   },
+  UPDATE_ACCOUNT_TYPE: `${BASE_URL}/api/user/update-account-type`,
 
   VEHICLE: {
     BASE: VEHICLE_BASE,

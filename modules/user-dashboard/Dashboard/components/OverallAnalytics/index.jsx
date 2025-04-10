@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mantine/core';
 import styles from './OverallAnalytics.module.css';
 import dynamic from "next/dynamic";
-// const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function OverallAnalytics({ data, viewAnalytics }) {
   console.log("Analytics data:", viewAnalytics);

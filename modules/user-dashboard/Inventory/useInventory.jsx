@@ -209,9 +209,9 @@ const handleSubmit = async (values) => {
   }
 };
 
-  const handleClickEditRow = (e, id) => {
+  const handleClickEditRow = (e, id,type) => {
     e.stopPropagation();
-    router.push(`/used-cars/sell?vehicleId=${id}`)
+    router.push(`/used-${type}s/sell?vehicleId=${id}`)
     // console.log('Edit Row', id);
     // alert(`Edit Row ${id}`);
   }

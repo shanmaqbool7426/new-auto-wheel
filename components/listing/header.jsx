@@ -68,7 +68,7 @@ export const ListingHeader = ({ type }) => {
   };
 
   return (
-    <div className="toolbox">
+    <div className="toolbox mt-4">
       <div className="toolbox-left">
         <Title order={2} lts={-0.4}>
           {ListingTitle()} for <span className="text-primary">Sale</span>

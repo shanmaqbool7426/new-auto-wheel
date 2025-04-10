@@ -18,6 +18,7 @@ import {
 import { SpecificationIcon } from "@/components/Icons";
 import { GetColor } from "@/constants/colors";
 import { Carousel } from "@mantine/carousel";
+import EditorRenderer from "@/components/EditorRenderer";
 
 const FullSpecifications = ({ vehicle }) => {
   const { vehicleDetails, averageRating = 0 } = vehicle || {};
@@ -267,10 +268,11 @@ const FullSpecifications = ({ vehicle }) => {
             </Box>
             <Box className="col-xl-8">
               <Text size="sm" c="dimmed">
-                {vehicleDetails?.description ||
+                {<EditorRenderer  data={JSON.parse(vehicleDetails?.description)} /> ||
                   `Explore detailed specifications of the ${vehicleDetails?.make} ${vehicleDetails?.model} ${vehicleDetails?.variant}.`}
               </Text>
-            </Box>
+{/* <EditorRenderer data={JSON.parse(vehicleDetails?.description)} /> */}
+</Box>
           </Box>
         </Paper>
 
@@ -329,7 +331,7 @@ const FullSpecifications = ({ vehicle }) => {
                     <Table.Tbody>
                       {tabData.icon && key !== "overview" && (
                         <Table.Tr>
-                          <Table.Td bg="white">
+                          <Table.Td bg="white" colSpan={2}>
                             <Flex align="center" gap="md">
                               <SpecificationIcon specKey={tabData.icon} />
                               <Title order={3}>{tabData?.title}</Title>
@@ -344,10 +346,13 @@ const FullSpecifications = ({ vehicle }) => {
                             size="md"
                             c="dimmed"
                             className="border-end-0"
+                            style={{ width: '40%' }}
                           >
                             {field.label}
                           </Table.Td>
-                          <Table.Td>{field.value}</Table.Td>
+                          <Table.Td style={{ width: '60%', textAlign: 'center' }}>
+                            {field.value}
+                          </Table.Td>
                         </Table.Tr>
                       ))}
                     </Table.Tbody>

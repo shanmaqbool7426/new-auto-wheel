@@ -90,7 +90,7 @@ const CarCard = ({ vehicle }) => {
     // Track detailed vehicle information
 
 
-    router.push(`/detail/${vehicle?.slug}`);
+    router.push(`/used-${vehicle?.type}s/${vehicle?.slug}`);
   };
 
   const handleToggleFavorite = async (e) => {
@@ -191,7 +191,7 @@ const CarCard = ({ vehicle }) => {
         {/* Custom image slider controlled by mouse hover */}
         <Anchor
           component={NextLink}
-          href={`/detail/${vehicle?.slug}`}
+          href={`/used-${vehicle?.type}s/${vehicle?.slug}`}
           style={{
             display: "block",
             position: "relative",
@@ -257,7 +257,7 @@ const CarCard = ({ vehicle }) => {
             c="dark"
             component={Anchor}
             underline="hover"
-            href={`/detail/${vehicle.slug}`}
+            href={`/used-${vehicle?.type}s/${vehicle?.slug}`}
             size="sm"
             fw={600}
             lineClamp={2}

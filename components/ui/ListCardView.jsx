@@ -96,7 +96,7 @@ const ListCardView = ({ vehicle }) => {
   };
 
   const handleCopyLink = () => {
-    const url = `${typeof window !== "undefined" ? window.location.origin : ""}/detail/${vehicle?.slug}`;
+    const url = `${typeof window !== "undefined" ? window.location.origin : ""}/used-${vehicle?.type}s/${vehicle?.slug}`;
     navigator.clipboard.writeText(url).then(() => {
       notifications.show({
         title: 'Success',
@@ -129,7 +129,7 @@ const ListCardView = ({ vehicle }) => {
     </ActionIcon>
   );
 
-  const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/detail/${vehicle?.slug}`;
+  const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/used-${vehicle?.type}s/${vehicle?.slug}`;
   const shareTitle = `Check out this ${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`;
   const shareMessage = `${shareTitle} on AutoWheel`;
 
@@ -261,7 +261,7 @@ const ListCardView = ({ vehicle }) => {
                 borderRadius: rem(5),
               }}
             >
-              <Anchor href={`/detail/${vehicle?.slug}`} style={{ textDecoration: 'none' }}>
+              <Anchor href={`/used-${vehicle?.type}s/${vehicle?.slug}`} style={{ textDecoration: 'none' }}>
                 <Image
                   radius={rem(5)}
                   h={160}
@@ -302,7 +302,7 @@ const ListCardView = ({ vehicle }) => {
                   inherit
                   underline="hover"
                   c="dark"
-                  href={`/detail/${vehicle?.slug}`}
+                  href={`/used-${vehicle?.type}s/${vehicle?.slug}`}
                 >
                   {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
                 </Anchor>

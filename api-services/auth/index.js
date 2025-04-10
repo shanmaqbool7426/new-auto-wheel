@@ -1,7 +1,7 @@
 // Auth Services
 
 import { BASE_API } from '../base-api';
-import { END_POINTS } from '../../constants/endpoint.js';
+import { END_POINTS } from '../../constants/api-endpoints';
 
 export const authAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +11,13 @@ export const authAPIs = BASE_API.injectEndpoints({
     login: builder.mutation({
       query: (data) => ({
         url: END_POINTS.LOGIN,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    updateAccountType: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.UPDATE_ACCOUNT_TYPE,
         method: 'POST',
         body: data,
       }),
@@ -33,5 +40,5 @@ export const authAPIs = BASE_API.injectEndpoints({
   }),
 });
 
-export const { useGetUserQuery, useLoginMutation, useRegisterMutation, useTermsUpdateMutation } = authAPIs;
+export const { useGetUserQuery, useLoginMutation, useRegisterMutation, useTermsUpdateMutation, useUpdateAccountTypeMutation } = authAPIs;
 

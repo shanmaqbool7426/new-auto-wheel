@@ -1,3 +1,582 @@
+// "use client";
+// import React, { Fragment, useState, useEffect, useRef } from "react";
+// import { CiSearch } from "react-icons/ci";
+// // import classes from "@/app/styles/theme-css/Select.module.css";
+// import { ResetFiltersIcon, SearchWithCar } from "@/components/Icons";
+// import { useRouter, useSearchParams, useParams } from "next/navigation";
+// import { GetColor } from "@/constants/colors";
+// import {
+//   Accordion,
+//   Button,
+//   Card,
+//   Center,
+//   Grid,
+//   Group,
+//   Input,
+//   NumberInput,
+//   RangeSlider,
+//   rem,
+//   Select,
+//   Checkbox,
+//   Title,
+//   Text,
+//   Badge,
+//   Box,
+//   ScrollArea,
+//   Drawer,
+//   ActionIcon,
+//   CloseButton,
+//   Tooltip,
+//   Breadcrumbs,
+//   Anchor,
+// } from "@mantine/core";
+// import {
+//   cities,
+//   getVehiclePartsIconByVehicleType,
+//   vehicleConditionOptions,
+// } from "@/constants/vehicle-constants";
+// import Image from "next/image";
+// import { useDisclosure } from "@mantine/hooks";
+// import { IconAdjustments, IconSettings } from "@tabler/icons-react";
+
+// // Extract vehicle type from URL path
+// const getVehicleType = (path) => {
+//   if (!path) return 'cars';
+  
+//   // Check if the path starts with 'used-'
+//   if (path.startsWith('used-')) {
+//     // Remove 'used-' prefix and 's' suffix
+//     return path.replace('used-', '').replace(/s$/, '');
+//   }
+//   return 'cars'; // Default to cars if no match
+// };
+
+// const Breadcrumb = ({ type }) => {
+//   const params = useParams();
+//   const vehicleType = getVehicleType(params?.slug?.[0] || window.location.pathname.split('/')[1]);
+  
+//   const items = [
+//     { title: 'Home', href: '/' },
+//     { title: 'Used Cars', href: '/used-cars/search/-' }
+//   ];
+
+//   // Extract city if present
+//   const cityFilter = params?.slug?.find(item => item.startsWith('ct_'));
+//   const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')) : '';
+
+//   // Extract all makes
+//   const makeFilters = params?.slug?.filter(item => item.startsWith('mk_')) || [];
+//   // Extract all models
+//   const modelFilters = params?.slug?.filter(item => item.startsWith('md_')) || [];
+//   // Extract all variants
+//   const variantFilters = params?.slug?.filter(item => item.startsWith('vt_')) || [];
+
+//   // Add city level if present
+//   if (cityFilter) {
+//     items.push({ 
+//       title: `Cars ${city}`, 
+//       href: `/used-cars/search/-/ct_${city}` 
+//     });
+//   }
+
+//   // Add makes
+//   makeFilters.forEach(makeFilter => {
+//     const make = decodeURIComponent(makeFilter.replace('mk_', ''));
+//     const makeUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}/mk_${make}`;
+//     items.push({ 
+//       title: `${make} ${city ? city : ''}`, 
+//       href: makeUrl 
+//     });
+//   });
+
+//   // Add models
+//   modelFilters.forEach(modelFilter => {
+//     const model = decodeURIComponent(modelFilter.replace('md_', ''));
+//     const modelUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${model}`;
+//     items.push({ 
+//       title: `${model} ${city ? city : ''}`,
+//       href: modelUrl
+//     });
+//   });
+
+//   // Add variants
+//   variantFilters.forEach(variantFilter => {
+//     const variant = decodeURIComponent(variantFilter.replace('vt_', ''));
+//     const variantUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/vt_${variant}`;
+//     items.push({ 
+//       title: `${variant} ${city ? city : ''}`,
+//       href: variantUrl
+//     });
+//   });
+
+//   return (
+//     <Breadcrumbs mb="lg">
+//       {items.map((item, index) => (
+//         <Anchor
+//           key={index}
+//           href={item.href}
+//           c={'dimmed'}
+//           style={{ textDecoration: 'none' }}
+//         >
+//           {item.title}
+//         </Anchor>
+//       ))}
+//     </Breadcrumbs>
+//   );
+// };
+
+
+// const VEHICLE_CONDITIONS = [
+//   { value: 'cn_used', label: 'Used' },
+//   { value: 'cn_pre_owned', label: 'Pre Owned' },
+//   { value: 'cn_certified', label: 'Certified Pre-owned' }
+// ];
+
+// const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, fuelTypes, colors }) => {
+//   const searchParams = useSearchParams();
+//   const [opened, { open, close }] = useDisclosure(false);
+//   const [search, setSearch] = useState({
+//     city: "",
+//     make: "",
+//     model: "",
+//     variant: "",
+//   });
+
+//   const [filters, setFilters] = useState({
+//     query: "",
+//     city: [],
+//     search: "",
+//     condition: "",
+//     make: [],
+//     model: [],
+//     variant: [],
+//     mileage: [0, 2000000],
+//     price: [0, 90000000],
+//     year: [2000, 2024],
+//     transmission: "",
+//     drive: "",
+//     exteriorColor: "",
+//     fuelType: "",
+//     bodyType: [],
+//   });
+//   const router = useRouter();
+//   const { slug } = useParams();
+//   const debounceTimeoutRef = useRef(null);
+//   const [value, setValue] = useState("");
+//   useEffect(() => {
+//     if (slug && slug.length > 0) {
+//       const updatedFilters = { ...filters };
+
+//       slug.forEach((item) => {
+//         if (item.startsWith("mk_")) {
+//           updatedFilters.make.push(item.replace("mk_", ""));
+//         }
+//         if (item.startsWith("md_")) {
+//           updatedFilters.model.push(item.replace("md_", ""));
+//         }
+//         if (item.startsWith("vt_")) {
+//           updatedFilters.variant.push(item.replace("vt_", ""));
+//         }
+//         if (item.startsWith("ct_")) {
+//           updatedFilters.city.push(item.replace("ct_", ""));
+//         }
+//         if (item.startsWith("bt_")) {
+//           updatedFilters.bodyType.push(item.replace("bt_", ""));
+//         }
+//         if (item.startsWith("pr_")) {
+//           const [min, max] = item.replace("pr_", "").split("_");
+//           updatedFilters.price = [parseInt(min, 10), parseInt(max, 10)];
+//         }
+//         if (item.startsWith("yr_")) {
+//           const [min, max] = item.replace("yr_", "").split("_");
+//           updatedFilters.year = [parseInt(min, 10), parseInt(max, 10)];
+//         }
+//         if (item.startsWith("ml_")) {
+//           const [min, max] = item.replace("ml_", "").split("_");
+//           updatedFilters.mileage = [parseInt(min, 10), parseInt(max, 10)];
+//         }
+//         if (item.startsWith("cn_")) {
+//           updatedFilters.condition = item;
+//         }
+//         if (item.startsWith("tr_")) {
+//           updatedFilters.transmission = item;
+//         }
+//         if (item.startsWith("dr_")) {
+//           updatedFilters.drive = item;
+//         }
+//         if (item.startsWith("cl_")) {
+//           updatedFilters.exteriorColor = item;
+//         }
+//         if (item.startsWith("ft_")) {
+//           updatedFilters.fuelType = item;
+//         }
+//         if (item.startsWith("q_")) {
+//           updatedFilters.query = item.replace("q_", "");
+//         }
+//         if (item.startsWith("od_")) {
+//           updatedFilters.order = item.replace("od_", "");
+//         }
+//         if (item.startsWith("page_")) {
+//           updatedFilters.page = parseInt(item.replace("page_", ""), 10);
+//         }
+//         if (item.startsWith("limit_")) {
+//           updatedFilters.limit = parseInt(item.replace("limit_", ""), 10);
+//         }
+//         if (item.startsWith("view_")) {
+//           updatedFilters.view = item.replace("view_", "");
+//         }
+//       });
+
+//       setFilters(updatedFilters);
+//     }
+//   }, []);
+//   const updateFiltersInUrl = (updatedFilters) => {
+//     // Get the vehicle type from the URL and ensure it's in the correct format
+//     const urlParts = window.location.pathname.split('/');
+//     const currentVehicleType = urlParts[1]?.startsWith('used-') ? urlParts[1] : `used-${type}s`;
+
+//     let customUrl = `/${currentVehicleType}/search/-/`;
+
+//     Object.entries(updatedFilters).forEach(([key, value]) => {
+//       if (Array.isArray(value) && value.length > 0) {
+//         if (key === "make")
+//           [...new Set(value)].forEach(
+//             (make) => (customUrl += `mk_${make.toLowerCase()}/`)
+//           );
+//         if (key === "model")
+//           [...new Set(value)].forEach(
+//             (model) => (customUrl += `md_${model.toLowerCase()}/`)
+//           );
+//         if (key === "variant")
+//           [...new Set(value)].forEach(
+//             (variant) => (customUrl += `vt_${variant.toLowerCase()}/`)
+//           );
+//         if (key === "city")
+//           [...new Set(value)].forEach(
+//             (city) => (customUrl += `ct_${city.toLowerCase()}/`)
+//           );
+//         if (key === "cityArea")
+//           [...new Set(value)].forEach(
+//             (area) => (customUrl += `ca_${area.toLowerCase()}/`)
+//           );
+//         if (key === "bodyType")
+//           [...new Set(value)].forEach(
+//             (bodyType) => (customUrl += `bt_${bodyType.toLowerCase()}/`)
+//           );
+//         if (key === "price" && (value[0] !== 0 || value[1] !== 90000000)) {
+//           customUrl += `pr_${value[0]}_${value[1]}/`;
+//         }
+//         if (key === "year" && (value[0] !== 2000 || value[1] !== 2024)) {
+//           customUrl += `yr_${value[0]}_${value[1]}/`;
+//         }
+//         if (key === "mileage" && (value[0] !== 0 || value[1] !== 2000000)) {
+//           customUrl += `ml_${value[0]}_${value[1]}/`;
+//         }
+//       } else if (typeof value === "string" && value) {
+//         if (key === "query") customUrl += `q_${value}/`;
+//         if (
+//           [
+//             "condition",
+//             "transmission",
+//             "drive",
+//             "exteriorColor",
+//             "fuelType",
+//           ].includes(key)
+//         ) {
+//           customUrl += `${value}/`;
+//         }
+//       }
+//     });
+//     const queryString = searchParams.toString();
+//     router.push(queryString ? `${customUrl}?${queryString}` : customUrl, {
+//       scroll: false,
+//     });
+//   };
+//   const handleFilterChange = (filterName, value, isChecked) => {
+//     setFilters((prevFilters) => {
+//       let updatedFilterValue;
+
+//       if (
+//         ["make", "city", "model", "variant", "bodyType"].includes(filterName)
+//       ) {
+//         const encodedValue = encodeURIComponent(value);
+//         if (isChecked) {
+//           updatedFilterValue = Array.from(
+//             new Set([...prevFilters[filterName], encodedValue])
+//           );
+//         } else {
+//           updatedFilterValue = prevFilters[filterName].filter(
+//             (item) => item !== encodedValue
+//           );
+//         }
+//       } else {
+//         updatedFilterValue = value;
+//       }
+
+//       const updatedFilters = {
+//         ...prevFilters,
+//         [filterName]: updatedFilterValue,
+//       };
+
+//       if (debounceTimeoutRef.current) {
+//         clearTimeout(debounceTimeoutRef.current);
+//       }
+
+//       debounceTimeoutRef.current = setTimeout(() => {
+//         updateFiltersInUrl(updatedFilters);
+//       }, 600);
+
+//       return updatedFilters;
+//     });
+//   };
+
+//   const resetFilters = () => {
+//     setFilters({
+//       query: "",
+//       city: [],
+//       search: "",
+//       condition: "",
+//       make: [],
+//       model: [],
+//       variant: [],
+//       mileage: [1000, 2000000],
+//       price: [10000, 2000000000],
+//       year: [2000, 2024],
+//       transmission: "",
+//       drive: "",
+//       exteriorColor: "",
+//       fuelType: "",
+//       bodyType: [],
+//     });
+//     router.push(`/listing/${type}/search/-/`, { scroll: false });
+//   };
+
+//   console.log("makes.......",makes)
+//   const getModelsByMakes = () => {
+//     const selectedModels = [];
+//     makes?.data?.forEach((make) => {
+//       if (filters.make.includes(make?.name?.toLowerCase())) {
+//         make.models.forEach((model) => {
+//           if (model.name.toLowerCase().includes(search.model.toLowerCase())) {
+//             selectedModels.push(model);
+//           }
+//         });
+//       }
+//     });
+
+//     return selectedModels;
+//   };
+
+//   const getVariantsByModels = () => {
+//     const selectedVarients = [];
+//     getModelsByMakes()?.forEach((model) => {
+//       if (filters.model.includes(model?.name?.toLowerCase())) {
+//         model.variants.forEach((variant) => {
+//           if (variant.toLowerCase().includes(search.variant.toLowerCase())) {
+//             selectedVarients.push(variant);
+//           }
+//         });
+//       }
+//     });
+
+//     return selectedVarients;
+//   };
+
+//   const getCountByTypeAndKey = (countType, key) => {
+//     if (!vehicles?.counts[countType]) {
+//       return null;
+//     }
+//     const normalizedKey = key?.toLowerCase();
+//     const entry = vehicles?.counts[countType].find(
+//       (item) => item?._id?.toLowerCase() === normalizedKey
+//     );
+//     return entry ? entry.count : null;
+//   };
+//   const decodedFilterMake = filters.make.map((make) =>
+//     decodeURIComponent(make).toLowerCase()
+//   );
+//   const decodedFilterModel = filters.model.map((model) =>
+//     decodeURIComponent(model).toLowerCase()
+//   );
+//   const decodedFilterVariant = filters.variant.map((variant) =>
+//     decodeURIComponent(variant).toLowerCase()
+//   );
+//   const decodedFilterBodies = filters.bodyType.map((body) =>
+//     decodeURIComponent(body).toLowerCase()
+//   );
+
+//   const data = cities.map((city) => city.label);
+
+//   const filteredcities = cities?.filter((city) =>
+//     city.label.toLowerCase().includes(search.city.toLowerCase())
+//   );
+//   const filteredmakes = makes?.data?.filter((make) =>
+//     make.name.toLowerCase().includes(search.make.toLowerCase())
+//   );
+//   const DataTransform = (data, prefix) => {
+//     if (prefix === "cl") {
+//       return data?.map((item) => ({
+//         value: `cl_${encodeURIComponent(item?.title).toLowerCase()}`,
+//         label: item?.title,
+//         color: item?.code,
+//       }));
+//     } else {
+//       return data?.map((item) => ({
+//         value: `${prefix}_${encodeURIComponent(item?.title).toLowerCase()}`,
+//         label: item?.title,
+//       }));
+//     }
+//   };
+//   const vehicleExteriorColorOptions = DataTransform(colors?.data?.colors, "cl");
+//   const vehicleDriveOptions = DataTransform(drives?.data, "dr");
+//   const vehicleTransmissionOptions = DataTransform(transmissions?.data, "tr");
+//   const vehicleFuelTypeOptions = DataTransform(fuelTypes?.data, "ft");
+//   return (
+//     <Fragment>
+//       <ActionIcon
+//         variant="filled"
+//         onClick={open}
+//         pos="fixed"
+//         left={0}
+//         size="md"
+//         top="30%"
+//         style={{
+//           zIndex: 10,
+//           borderTopLeftRadius: 0,
+//           borderBottomLeftRadius: 0,
+//         }}
+//         display={{ base: "block", md: "none" }}
+//         aria-label="Settings"
+//         color="red"
+//       >
+//         <IconAdjustments style={{ width: "70%", height: "70%" }} stroke={1.5} />
+//       </ActionIcon>
+
+//       <Breadcrumb type={'car'} />
+
+//       <Card
+//         shadow="4px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
+//         mb="xl"
+//         visibleFrom="md"
+//       >
+
+//         <Card.Section c="white" bg="dark" p="lg" mb="lg">
+//           <Center>
+//             <SearchWithCar />
+//             <Title tt="uppercase" order={5} fw={600} c="white" ml="sm">
+//               Search Options
+//             </Title>
+//           </Center>
+//         </Card.Section>
+
+//         {/* <Breadcrumbs mb="lg">
+//           <Anchor href="/" c="dimmed" style={{ textDecoration: 'none' }}>
+//             Home
+//           </Anchor>
+//           <Anchor href={`/used-${type}s/search/-`} c="dimmed" style={{ textDecoration: 'none' }}>
+//             Used {type.charAt(0).toUpperCase() + type.slice(1)}s
+//           </Anchor>
+//         </Breadcrumbs> */}
+
+//         {/* City Filter */}
+//         <Accordion
+//           variant="contained"
+//           mb="lg"
+//           defaultValue="City"
+//           transitionDuration={500}
+//         >
+//           <Accordion.Item
+//             value="City"
+//             style={{ background: "white", borderColor: "#E3E3E3" }}
+//           >
+//             <Accordion.Control>
+//               <Text size="sm" fw={500}>
+//                 City
+//               </Text>
+//             </Accordion.Control>
+//             <Accordion.Panel pt="sm">
+//               <Input
+//                 size="sm"
+//                 leftSection={<CiSearch />}
+//                 placeholder="eg. Karachi"
+//                 value={search.city}
+//                 onChange={(e) =>
+//                   setSearch((prevSearch) => ({
+//                     ...prevSearch,
+//                     city: e.target.value,
+//                   }))
+//                 }
+//                 mb="md"
+//               />
+//               <ScrollArea
+//                 h={350}
+//                 scrollbarSize={6}
+//                 scrollHideDelay={1000}
+//                 offsetScrollbars
+//               >
+//                 <div className="checkbox-group-filters">
+//                   {filteredcities?.map((city, index) => (
+//                     <Box pos="relative" key={index}>
+//                       <Checkbox
+//                         mb="xs"
+//                         size="xs"
+//                         color="#E90808"
+//                         label={city.label}
+//                         key={city.value}
+//                         checked={filters.city.includes(city.value)}
+//                         onChange={(e) =>
+//                           handleFilterChange(
+//                             "city",
+//                             city.value,
+//                             e.target.checked
+//                           )
+//                         }
+//                       />
+//                       {getCountByTypeAndKey("cityCounts", city.label) && (
+//                         <Badge
+//                           pos="absolute"
+//                           right={0}
+//                           top={0}
+//                           color="#706f6f"
+//                           size="md"
+//                           fw={600}
+//                           variant="outline"
+//                         >
+//                           {getCountByTypeAndKey("cityCounts", city.label)}
+//                         </Badge>
+//                       )}
+//                     </Box>
+//                   ))}
+//                 </div>
+//               </ScrollArea>
+//             </Accordion.Panel>
+//           </Accordion.Item>
+//         </Accordion>
+//       </Card>
+
+//       <Card
+//         shadow="4px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
+//         mb="xl"
+//         visibleFrom="md"
+//       >
+//         <Card.Section c="white" bg="dark" p="lg" mb="lg">
+//           <Center>
+//             {getVehiclePartsIconByVehicleType(type)}
+//             <Title tt="uppercase" ml="sm" order={5} fw={600} c="white">
+//               Body
+//             </Title>
+//           </Center>
+//         </Card.Section>
+//       </Card>
+//     </Fragment>
+//   );
+// };
+
+// export default ListingFilter;
+
+
+
+
 "use client";
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import { CiSearch } from "react-icons/ci";
@@ -24,9 +603,11 @@ import {
   Box,
   ScrollArea,
   Drawer,
-  ActionIcon,
+  ActionIcon, 
   CloseButton,
+  Breadcrumbs,
   Tooltip,
+  Anchor
 } from "@mantine/core";
 import {
   cities,
@@ -141,6 +722,81 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
       setFilters(updatedFilters);
     }
   }, []);
+
+  const Breadcrumb = ({ type }) => {
+  const params = useParams();
+  const vehicleType = getVehicleType(params?.slug?.[0] || window.location.pathname.split('/')[1]);
+  
+  const items = [
+    { title: 'Home', href: '/' },
+    { title: 'Used Cars', href: '/used-cars/search/-' }
+  ];
+
+  // Extract city if present
+  const cityFilter = params?.slug?.find(item => item.startsWith('ct_'));
+  const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')) : '';
+
+  // Extract all makes
+  const makeFilters = params?.slug?.filter(item => item.startsWith('mk_')) || [];
+  // Extract all models
+  const modelFilters = params?.slug?.filter(item => item.startsWith('md_')) || [];
+  // Extract all variants
+  const variantFilters = params?.slug?.filter(item => item.startsWith('vt_')) || [];
+
+  // Add city level if present
+  if (cityFilter) {
+    items.push({ 
+      title: `Cars ${city}`, 
+      href: `/used-cars/search/-/ct_${city}` 
+    });
+  }
+
+  // Add makes
+  makeFilters.forEach(makeFilter => {
+    const make = decodeURIComponent(makeFilter.replace('mk_', ''));
+    const makeUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}/mk_${make}`;
+    items.push({ 
+      title: `${make} ${city ? city : ''}`, 
+      href: makeUrl 
+    });
+  });
+
+  // Add models
+  modelFilters.forEach(modelFilter => {
+    const model = decodeURIComponent(modelFilter.replace('md_', ''));
+    const modelUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${model}`;
+    items.push({ 
+      title: `${model} ${city ? city : ''}`,
+      href: modelUrl
+    });
+  });
+
+  // Add variants
+  variantFilters.forEach(variantFilter => {
+    const variant = decodeURIComponent(variantFilter.replace('vt_', ''));
+    const variantUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/vt_${variant}`;
+    items.push({ 
+      title: `${variant} ${city ? city : ''}`,
+      href: variantUrl
+    });
+  });
+
+  return (
+    <Breadcrumbs mb="lg">
+      {items.map((item, index) => (
+        <Anchor
+          key={index}
+          href={item.href}
+          c={'dimmed'}
+          style={{ textDecoration: 'none' }}
+        >
+          {item.title}
+        </Anchor>
+      ))}
+    </Breadcrumbs>
+  );
+};
+
   const updateFiltersInUrl = (updatedFilters) => {
     // Get the vehicle type from the URL and ensure it's in the correct format
     const urlParts = window.location.pathname.split('/');
@@ -241,6 +897,16 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     });
   };
 
+  const getVehicleType = (path) => {
+  if (!path) return 'cars';
+  
+  // Check if the path starts with 'used-'
+  if (path.startsWith('used-')) {
+    // Remove 'used-' prefix and 's' suffix
+    return path.replace('used-', '').replace(/s$/, '');
+  }
+  return 'cars'; // Default to cars if no match
+};
   const resetFilters = () => {
     setFilters({
       query: "",
@@ -360,6 +1026,8 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
       >
         <IconAdjustments style={{ width: "70%", height: "70%" }} stroke={1.5} />
       </ActionIcon>
+      <Breadcrumb type="car"/>
+      
       <Card
         shadow="4px 4px 20px 0px rgba(0, 0, 0, 0.0784313725)"
         mb="xl"
@@ -369,7 +1037,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           <Center>
             <SearchWithCar />
             <Title tt="uppercase" order={5} fw={600} c="white" ml="sm">
-              Search Options
+              Search OptionsSS
             </Title>
           </Center>
         </Card.Section>

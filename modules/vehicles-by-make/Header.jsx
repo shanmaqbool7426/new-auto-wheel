@@ -27,7 +27,7 @@ const Header = () => {
               radius="md"
             >
               <Title order={3} mb="md">
-                Toyota 2023 Car Models, Prices & Pictures in Pakistan
+                Toyota 2023 Car Models, Prices & Pictures in Australia
               </Title>
               <div className="row mb-2">
                 <div className="col-md-3">
@@ -45,8 +45,8 @@ const Header = () => {
                 </div>
                 <div className="col-md-9">
                   <Text inherit>
-                    The prices of a Toyota Car in Pakistan start from $4,399,000.0 for a new Toyota Yaris to $156,829,000.0 for a new Toyota Land Cruiser. There are currently 12 new car models available at Toyota dealerships across Pakistan.
-                    Toyota Cars are also widely available in used conditions starting from $180,000 for a used Toyota Corolla to $145,000,000 for a used Toyota Land Cruiser. There are a total of 26648 Toyota Cars available for sale in Pakistan on PakWheels.
+                    The prices of a Toyota Car in Australia start from $4,399,000.0 for a new Toyota Yaris to $156,829,000.0 for a new Toyota Land Cruiser. There are currently 12 new car models available at Toyota dealerships across Australia.
+                    Toyota Cars are also widely available in used conditions starting from $180,000 for a used Toyota Corolla to $145,000,000 for a used Toyota Land Cruiser. There are a total of 26648 Toyota Cars available for sale in Australia on PakWheels.
                   </Text>
                   <Button
                     size="md"

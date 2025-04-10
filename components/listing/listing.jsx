@@ -174,7 +174,7 @@ const Breadcrumb = ({ params, type }) => {
 };
 
 export default async function Listing({ params, searchParams }) {
-  console.log(">>>>>>>>.......",params)
+  console.log(">>>>>>>>.......?????????",params)
   const userData = getLocalStorage("user");
   const view = searchParams.view;
   
@@ -250,7 +250,7 @@ export default async function Listing({ params, searchParams }) {
               <ListingHeader type={vehicleType} />
 
               {/* Breadcrumb */}
-              <Breadcrumb params={params} type={vehicleType} />
+              {/* <Breadcrumb params={params} type={vehicleType} /> */}
 
               {/* Product Badges */}
               {/* <FilterBadges params={params} searchParams={searchParams} /> */}
@@ -262,7 +262,7 @@ export default async function Listing({ params, searchParams }) {
                 align="center"
                 mb="md"
               >
-                <Title
+                {/* <Title
                   order={5}
                   bg="#E90808"
                   c="white"
@@ -278,8 +278,7 @@ export default async function Listing({ params, searchParams }) {
                     alignItems: "center",
                   }}
                 >
-                  Featured Classified
-                </Title>
+                </Title> */}
               </Group>
 
               {/* Product View List */}
