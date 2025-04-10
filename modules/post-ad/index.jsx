@@ -199,10 +199,6 @@ const PostAnAdModule = ({type}) => {
     getMakes();
   }, [vehicle]);
 
-  // need Fuel Type Data Set [Petrol, Diesel, Electric, Hybrid]
-
-
-
   useEffect(() => {
 
     console.log("vehicleId........",vehicleId, session?.user?.token?.token)
