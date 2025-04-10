@@ -1,27 +1,13 @@
-import React, { lazy, Suspense } from 'react'
-import { Box, Loader } from '@mantine/core'
+import React from 'react'
+import PostAnAdModule from '@/modules/post-ad'
 
-// Lazy load the PostAnAdModule component
-const PostAnAdModule = lazy(() => import('@/modules/post-ad'))
+// Client component wrapper to handle search params
+'use client'
+const PostAdWrapper = ({ searchParams }) => {
+  return <PostAnAdModule type="car" vehicleId={searchParams?.vehicleId} />
+}
 
-// Loading fallback component
-const LoadingFallback = () => (
-  <Box 
-    style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh' 
-    }}
-  >
-    <Loader size="xl" variant="dots" />
-  </Box>
-)
-
-export default function Page() {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <PostAnAdModule type="car" />
-    </Suspense>
-  )
+// Server component page
+export default function Page({ searchParams }) {
+  return <PostAdWrapper searchParams={searchParams} />
 }

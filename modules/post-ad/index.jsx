@@ -44,11 +44,10 @@ import ColorSwatch from "@/app/(root)/sale/[vehicle]/post-ad/components/ColorSwa
 import { getFeaturesByVehicle } from "@/app/(root)/sale/[vehicle]/post-ad/components/useFeatureData";
 import { createPayload, generateYearList, getEngineListByVehicle } from "@/app/(root)/sale/[vehicle]/post-ad/components/helpers";
 
-const PostAnAdModule = ({type}) => {
+const PostAnAdModule = ({type, vehicleId}) => {
   // State Management
   const { data: session } = useSession();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [activeStep, setActiveStep] = useState(0);
   const [images, setImages] = useState([]);
   const [makes, setMakes] = useState({});
@@ -58,7 +57,6 @@ const PostAnAdModule = ({type}) => {
 
   // URL and Vehicle Type Processing
   const vehicle = type;
-  const vehicleId = searchParams.get('vehicleId') || "";
   const vehicleTypes = ["car", "bike", "truck"];
   const vehicleType = type;
 
