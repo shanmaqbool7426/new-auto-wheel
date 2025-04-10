@@ -161,7 +161,7 @@ console.log(user, "user......")
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/motorcycle.svg" />,
           title: "Used Bikes",
-          link: "/used-bikes",
+          link: "/used-bikes/search/-",
           description: "Find used bikes in Pakistan",
         },
         {
@@ -204,7 +204,7 @@ console.log(user, "user......")
       ],
 
       thirdCol: [
-        { title: "Honda CD 70", link: "/listing/bikes/search/-/mk_honda?view=list" },
+        { title: "Honda CD 70", link: "/used-bikes/search/-/mk_honda" },
         { title: "Yamaha YBR 125", link: "/used-bikes/search/-/mk_yamaha" },
         { title: "Suzuki GS 150", link: "/used-bikes/search/-/mk_suzuki" },
       ],
