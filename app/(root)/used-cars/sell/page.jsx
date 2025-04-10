@@ -1,13 +1,16 @@
+// Server component
 import React from 'react'
 import PostAnAdModule from '@/modules/post-ad'
 
-// Client component wrapper to handle search params
+// Client component wrapper
 'use client'
 const PostAdWrapper = ({ searchParams }) => {
   return <PostAnAdModule type="car" vehicleId={searchParams?.vehicleId} />
 }
 
 // Server component page
-export default function Page({ searchParams }) {
+const Page = ({ searchParams }) => {
   return <PostAdWrapper searchParams={searchParams} />
 }
+
+export default Page
