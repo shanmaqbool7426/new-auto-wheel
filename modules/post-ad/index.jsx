@@ -32,7 +32,7 @@ import CustomModel from "@/constants/CustomModel";
 import { fetchMakesByType, fetchNewVehicleDetail } from "@/services/vehicles";
 import { submitFormData, submitUpdateFormData } from "@/services/forms";
 import { API_ENDPOINTS, BASE_URL } from "@/constants/api-endpoints";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { carTags } from "@/mock-data/mock-array";
 import { fetchVehicleBySellerByVehicleId } from "@/actions";
 import { showNotification } from "@mantine/notifications";
@@ -48,7 +48,6 @@ const PostAnAdModule = ({type}) => {
   // State Management
   const { data: session } = useSession();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [activeStep, setActiveStep] = useState(0);
   const [images, setImages] = useState([]);
   const [makes, setMakes] = useState({});
@@ -57,8 +56,8 @@ const PostAnAdModule = ({type}) => {
   const [isVehicle, setIsVehicle] = useState({});
 
   // URL and Vehicle Type Processing
-  const vehicle = type;
-  const vehicleId = searchParams.get('vehicleId') || "";
+  const vehicle = type
+  const vehicleId = "";
   const vehicleTypes = ["car", "bike", "truck"];
   const vehicleType = type;
 
@@ -198,6 +197,10 @@ const PostAnAdModule = ({type}) => {
     };
     getMakes();
   }, [vehicle]);
+
+  // need Fuel Type Data Set [Petrol, Diesel, Electric, Hybrid]
+
+
 
   useEffect(() => {
 
