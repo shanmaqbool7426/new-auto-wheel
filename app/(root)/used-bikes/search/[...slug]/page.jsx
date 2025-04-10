@@ -11,6 +11,7 @@ export default function ProductListing({ params, searchParams }) {
       loaderProps={{ color: "red", type: "bars" }}
       className="h-[100%]"
     />}>
+      
       <Listing params={params} searchParams={searchParams} type={"bike"} isUsed={true} />
     </Suspense>
   );
