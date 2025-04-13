@@ -6,7 +6,6 @@ import { notifications } from '@mantine/notifications';
 import { useSession } from "next-auth/react";
 import { useAuthModalContext } from './auth-modal';
 import { AUTH_VIEWS } from '@/constants/auth-config';
-import { useSearchParams } from "next/navigation";
 import { useUpdateAccountTypeMutation } from '@/api-services/auth';
 
 const UserContext = createContext();
@@ -18,22 +17,20 @@ export function UserProvider({ children }) {
   const [loadingFavorites, setLoadingFavorites] = useState(new Set());
   const { data: session } = useSession();
   const { openAuthModal } = useAuthModalContext();
-  const searchParams = useSearchParams();
   const [updateAccountType] = useUpdateAccountTypeMutation();
 
-  console.log("session.....",session);
   // Check for reset password token in URL
   useEffect(() => {
-    if (openAuthModal) {
-      const token = searchParams.get('token');
+    if (typeof window !== 'undefined' && openAuthModal) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
       if (token) {
         openAuthModal(AUTH_VIEWS.RESET_PASSWORD);
       }
     }
-  }, [searchParams, openAuthModal]);
+  }, [openAuthModal]);
 
   // Handle account type update
-  console.log("session?.user............",session);
   useEffect(() => {
     const handleAccountTypeUpdate = async () => {
       if (session?.user && !session.user.accountType) {
@@ -86,7 +83,6 @@ export function UserProvider({ children }) {
         },
       });
       const data = await response.json();
-      console.log("fetchUserFavorites",data)
       if (data.success) {
         setFavorites(new Set(data.data.vehicles?.map(fav => fav._id)));
       }
@@ -98,11 +94,6 @@ export function UserProvider({ children }) {
   const toggleFavorite = async (vehicleId) => {
     if (!userData?._id) {
       openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
-      // notifications.show({
-      //   title: "Login Required",
-      //   message: "Please login first to add vehicles to favorites",
-      //   color: "red",
-      // });
       return false;
     }
     
