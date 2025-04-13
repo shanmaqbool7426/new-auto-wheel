@@ -157,11 +157,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import axios from 'axios';
 
+
+console.log("process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID",process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
 const authOptions = {
   providers: [
     GoogleProvider({
-      clientId:  '1090899538284-74f4i841j0ascsgk84i743bpriebu7d5.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
           prompt: "consent",
@@ -171,8 +173,8 @@ const authOptions = {
       },
     }),
     FacebookProvider({
-      clientId: '874743337540967',
-      clientSecret: '8b2eb17676e71487b83cf3cf4b5deb24'
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -184,7 +186,6 @@ const authOptions = {
       },
       async authorize(credentials) {
         try {
-          console.log('>>>>>>>>', credentials.type)
           // Call your API to verify OTP or perform sign-in based on the type
           const res = await axios.post(
             credentials.type === 'otp'
@@ -193,16 +194,14 @@ const authOptions = {
             {
               email: credentials.email,
               ...(credentials.type === 'otp'
-                ? { otp: credentials.otp } // Include OTP if type is "otp"
-                : { password: credentials.password } // Include password if it's a regular sign-in
+                ? { otp: credentials.otp }
+                : { password: credentials.password }
               ),
             }
           );
 
           if (res.data && res.data.statusCode === 200) {
-            console.log('>>>>>>> RESSSSS', res.data?.data)
             const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
-            // Return all necessary user details for the session and JWT
             return {
               id: userData._id,
               fullName: userData.fullName,
@@ -229,17 +228,11 @@ const authOptions = {
       },
     }),
   ],
-  secret: '739d95146513d67502b0ba4776a5cae8',
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account, profile }) {
-
-      console.log("before sign in",account)
-       
-
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
         try {
-      console.log("after sign in",user, account, profile)
-
           // Send social login data to your backend
           const res = await axios.post(API_ENDPOINTS.AUTH.SOCIAL_LOGIN, {
             provider: account.provider,
@@ -248,14 +241,10 @@ const authOptions = {
             name: profile.name || `${profile.given_name} ${profile.family_name}`,
             image: profile.picture || profile.image
           });
-
-          console.log(">>>>>>>>>>>>>",res.data?.data)
           
           if (res.data && (res.data.statusCode === 200 || res.data.statusCode === 201)) {
             const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
             
-            // Replace the user object completely with data from your backend
-            // This ensures the same data structure as credentials login
             user.id = userData._id;
             user.fullName = userData.fullName;
             user.email = userData.email;
@@ -280,7 +269,6 @@ const authOptions = {
     },
 
     async jwt({ token, user, account }) {
-      // Initial sign in
       if (account && user) {
         return {
           ...token,
@@ -297,13 +285,10 @@ const authOptions = {
           token: user.token
         };
       }
-      
-      // Return previous token if the access token has not expired yet
       return token;
     },
 
     async session({ session, token }) {
-      // Send properties to the client
       session.user._id = token.id;
       session.user.fullName = token.fullName;
       session.user.email = token.email;
@@ -320,7 +305,6 @@ const authOptions = {
     },
     
     async redirect({ url, baseUrl }) {
-      // Redirect to home page after sign-in
       if (url.startsWith(baseUrl)) {
         return `${baseUrl}/`;
       }

@@ -8,13 +8,13 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 144px;
-  height: 144px;
+  /* width: 144px;
+  height: 144px; */
   border-radius: 50%;
   border: 3px solid #E90808;
   background-color: #D9D9D9;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .profileInfoContent {
@@ -98,13 +98,63 @@
 
 /* ProfileInformation.module.css */
 .editButton {
-  position: absolute; /* Position it as needed */
-  top: 10px; /* Adjust the top position */
-  right: 10px; /* Adjust the right position */
-  background: transparent; /* Make background transparent */
-  border: none; /* Remove border */
-  cursor: pointer; /* Change cursor to pointer */
-  z-index: 1; /* Ensure it appears above other elements */
+  right: 10px;
+  top: 10px;
+  position: absolute !important;
+  background-color: #e90808 !important;
+  padding: 8px !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-height: unset !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid white !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  z-index: 10 !important;
+}
+
+.editButton:hover {
+  background-color: #cc0707 !important;
+  transform: scale(1.05);
+}
+
+.editButton svg {
+  width: 16px;
+  height: 16px;
+  color: white;
+}
+
+.editButtonprofile {
+  right: -5px;
+  bottom: 100px;
+  position: absolute !important;
+  background-color: #e90808 !important;
+  padding: 8px !important;
+  /* width: 32px !important;
+  height: 32px !important; */
+  /* min-height: unset !important; */
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid white !important;
+  cursor: pointer !important;
+  /* transition: all 0.3s ease !important; */
+  z-index: 20 !important;
+}
+
+.editButtonprofile:hover {
+  background-color: #cc0707 !important;
+  transform: scale(1.05);
+}
+
+.editButtonprofile svg {
+  width: 16px;
+  height: 16px;
+  color: white;
 }
 
 .timingContainer {
@@ -141,10 +191,7 @@
   color: #1B84FF;
   font-size: 12px;
   
-  &:hover {
-    background: transparent;
-    text-decoration: underline;
-  }
+  
 }
 
 /* Responsive styles */

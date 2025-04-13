@@ -94,6 +94,10 @@ export default function ProfileInformation({ profileData, currentUser }) {
         <img 
           src={bannerImage || profileData?.bannerImage || DEFAULT_BANNER} 
           alt="Profile Banner" 
+          style={{
+            width: '100%',
+            objectFit: 'cover'
+          }}
           width={354} 
           height={140}
           onError={(e) => {
@@ -132,7 +136,7 @@ export default function ProfileInformation({ profileData, currentUser }) {
           />
           <Button 
             variant="subtle" 
-            className={styles.editButton} 
+            className={styles.editButtonprofile} 
             onClick={() => document.getElementById('profileFileInput').click()} // Trigger file input
           >
             <IconPencil />
