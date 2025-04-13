@@ -90,6 +90,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
       .min(10, 'Mobile number must be at least 10 digits'),
     secondaryNumber: z.string().optional(),
     allowWhatsAppContact: z.boolean(),
+    vin: z.string().min(1, 'VIN is required'),
   }).refine((data) => {
     if (data.type === 'car' || data.type === 'truck') {
       return !!data.engineCapacity && !!data.drive && !!data.assembly && !!data.transmission;
@@ -127,6 +128,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
       mobileNumber: "",
       secondaryNumber: "",
       allowWhatsAppContact: false,
+      vin: "",
     },
   });
 
@@ -134,7 +136,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
   const steps = [
     {
       label: 'Basic Information',
-      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'condition', 'milage', 'price', 'description', 'images'],
+      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'condition', 'milage', 'price', 'description', 'images', 'vin'],
     },
     {
       label: 'Vehicle Details',
@@ -234,6 +236,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
           form.setFieldValue('mobileNumber', data.contactInfo?.mobileNumber || "");
           form.setFieldValue('secondaryNumber', data.contactInfo?.secondaryNumber || "");
           form.setFieldValue('allowWhatsAppContact', data.contactInfo?.allowWhatsAppContact || false);
+          form.setFieldValue('vin', data.vin || "");
 
           setSelection({
             make: data.Info?.make || "",
@@ -436,7 +439,8 @@ const PostAnAdModule = ({type, vehicleId}) => {
         ...values,
         engineCapacity: Number(values.engineCapacity),
         price: Number(values.price),
-        milage: Number(values.milage)
+        milage: Number(values.milage),
+        vin: values.vin,
       }, vehicle, session);
 
       console.log("payload",payload)
@@ -467,7 +471,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
       }
 
      
-      router.push(`/listing/${vehicle}s`);
+      router.push(`/user/inventory`);
 
     } catch (error) {
       console.error('Form submission error:', error);
@@ -601,8 +605,8 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldInput label={`${vehicle} Info`} placeholder={`Select ${vehicle} Info`}
-                            value={`${form.values.make || ""} ${form.values.model || ""} ${form.values.variant || ""}`}
-                            error={form.errors.make || form.errors.model || form.errors.variant}
+                            value={`${form.values.make} ${form.values.model} ${form.values.variant}`}
+                            // error={form.errors.make || form.errors.model || form.errors.variant}
                             readOnly
                             onClick={openModal}
                           />
@@ -627,7 +631,9 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldInput label="Location" placeholder="Select Location"
-                            value={`${form.values.city || ""} ${form.values.suburb || ""}`}
+                            value={form.values.city || form.values.suburb ? 
+                              `${form.values.city || ""} ${form.values.suburb || ""}` : 
+                              ""}
                             error={form.errors.city || form.errors.suburb}
                             readOnly
                             onClick={openLocationModal}
@@ -719,6 +725,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
                               {...form.getInputProps('price')}
                             />
                           </Box>
+                          
                           <Box className="col-md-3 text-start">
                             <Flex align="center" gap="xs">
                               <LightBulb styles={{ flex: "1 1 2.5rem" }} />
@@ -728,6 +735,13 @@ const PostAnAdModule = ({type, vehicleId}) => {
                               </Text>
                             </Flex>
                           </Box>
+                        </Box>
+
+                        <Box className="row align-items-center" mb="xl">
+                          <FormFieldInput label="VIN" placeholder="Enter VIN"
+                            value={form.values.vin}
+                            {...form.getInputProps('vin')}
+                          />
                         </Box>
                         <Box className="row align-items-start" mb="md">
                           <FormFieldTextarea
@@ -781,6 +795,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
                         <Box className="row align-items-start" mb="xl">
                           <FormFieldImageUpload label="Upload Photos" images={images} setImages={setImages} form={form} />
                         </Box>
+                       
                       </Box>
                     </Card>
                   </Stepper.Step>

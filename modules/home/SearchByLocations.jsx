@@ -26,18 +26,28 @@ const SearchByLocations = () => {
     city: "",
     suburb: "",
   });
+
+
+  console.log("locationSelection.....",locationSelection);
   const [loading, setLoading] = useState(false);
 
   const openLocationModal = () => setIsLocationModalOpen(true);
   const closeLocationModal = () => setIsLocationModalOpen(false);
 
   const handleSubmit = () => {
-    const { city, suburb } = locationSelection;
+    const {province, city, suburb } = locationSelection;
     setLoading(true);
     
-    const cityQuery = city ? `/ct_${encodeURIComponent(city.toLowerCase())}` : "";
-    const suburbQuery = suburb ? `/ca_${encodeURIComponent(suburb.toLowerCase())}` : "";
-    const searchUrl = `/listing/cars/search/${cityQuery}${suburbQuery}`;
+    // Helper function to format location name
+    const formatLocationName = (name) => {
+      if (!name) return '';
+      return name.toLowerCase().replace(/\s+/g, '-');
+    };
+    
+    const provinceQuery = province ? `/ct_${formatLocationName(province.name)}` : "";
+    const cityQuery = city ? `/ct_${formatLocationName(city.name)}` : "";
+    const suburbQuery = suburb ? `/ca_${formatLocationName(suburb.name)}` : "";
+    const searchUrl = `/used-cars/search/${provinceQuery}${cityQuery}${suburbQuery}`;
     
     router.push(searchUrl)?.finally(() => {
       setLoading(false);
@@ -80,7 +90,7 @@ const SearchByLocations = () => {
                     <Anchor
                       underline="none"
                       component={Link}
-                      href={`/listing/cars/search/-/ct_${location.slug}`}
+                      href={`/used-cars/search/-/ct_${location.slug}`}
                     >
                       <Image
                         src={location.image}
@@ -113,7 +123,7 @@ const SearchByLocations = () => {
                     <Anchor
                       underline="none"
                       component={Link}
-                      href={`/listing/cars/search/-/ct_${location.slug}`}
+                      href={`/used-cars/search/-/ct_${location.slug}`}
                     >
                       <Image
                         src={location.image}
@@ -144,7 +154,8 @@ const SearchByLocations = () => {
                 size="md"
                 leftSection={<FaLocationDot />}
                 placeholder="Select your location"
-                value={locationSelection?.city || ""}
+                value={`${locationSelection?.province?.name || ""} ${locationSelection?.city?.name || ""} ${locationSelection?.suburb?.name || ""}`
+                   || ""}
                 onClick={openLocationModal}
                 mt="md"
               />

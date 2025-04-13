@@ -151,26 +151,33 @@ const HeroTabs = ({ setType }) => {
   };
 
   const handleSubmit = async () => {
-    const { make, model } = selection;
+    const { make, model, variant } = selection;
     const { province, city, suburb } = locationSelection;
     setLoading(true);
 
     try {
       const queryParts = [];
 
+      // Helper function to format string for URL
+      const formatForUrl = (str) => {
+        return str.toLowerCase().replace(/\s+/g, '-');
+      };
+
       // Add make and model to query if they exist
-      if (make) queryParts.push(`mk_${encodeURIComponent(make.toLowerCase())}`);
-      if (model) queryParts.push(`md_${encodeURIComponent(model.toLowerCase())}`);
+      if (make) queryParts.push(`mk_${formatForUrl(make)}`);
+      if (model) queryParts.push(`md_${formatForUrl(model)}`);
+      //  ad varient
+      if (variant) queryParts.push(`vr_${formatForUrl(variant)}`);
       
       // Add location parameters if they exist
-      if (province?.name) queryParts.push(`pv_${encodeURIComponent(province.name.toLowerCase())}`);
-      if (city?.name) queryParts.push(`ct_${encodeURIComponent(city.name.toLowerCase())}`);
-      if (suburb?.name) queryParts.push(`sb_${encodeURIComponent(suburb.name.toLowerCase())}`);
+      if (province?.name) queryParts.push(`pv_${formatForUrl(province.name)}`);
+      if (city?.name) queryParts.push(`ct_${formatForUrl(city.name)}`);
+      if (suburb?.name) queryParts.push(`sb_${formatForUrl(suburb.name)}`);
 
       // Construct the search URL
-      const queryString = queryParts.length > 0 ? `/-${queryParts.join("/")}` : "";
-      const searchUrl = `/listing/${makesByType}/search${queryString}?view=list`;
-
+      const queryString = queryParts.length > 0 ? `${queryParts.join("/")}` : "";
+      const searchUrl = `/used-${makesByType}/search/-/${queryString}`;
+      console.log("searchUrl...........", searchUrl);
       await router.push(searchUrl);
     } catch (error) {
       console.error('Navigation error:', error);

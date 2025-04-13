@@ -121,8 +121,8 @@ const Gallery = ({ images }) => {
         
         /* Remove fixed height in fullscreen mode */
         .fullscreen .image-gallery-image {
-          height: auto !important;
-          max-height: 100vh !important;
+          height: 88vh !important;
+          // max-height: 100vh !important;
         }
         
         .fullscreen .image-gallery-slide-wrapper {

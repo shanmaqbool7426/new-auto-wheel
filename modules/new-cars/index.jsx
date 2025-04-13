@@ -200,7 +200,7 @@ const NewCarsModule = ({
                     c="#878787"
                     tt="capitalize"
                     component={Link}
-                    href={`/listing/${type}s`}
+                    href={`/used-${type}s/search/-`}
                     autoContrast
                     h={39}
                     radius="16px"
@@ -543,7 +543,7 @@ const NewCarsModule = ({
         <BrowseVideos type={type} />
         <BrowseBlogs />
 
-        <Comments fetchMakesByTypeData={fetchMakesByTypeData} />
+        <Comments fetchMakesByTypeData={fetchMakesByTypeData} vehicleType={type} />
 
         <QuickLinks vehicleType={type}/>
       </section>

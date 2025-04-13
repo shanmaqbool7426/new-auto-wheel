@@ -314,7 +314,7 @@ const CarCard = ({ vehicle }) => {
               ID#
             </Text>
             <Text c="dark" style={{ fontSize: "12px" }}>
-              {vehicle?._id.slice(0, 4)}
+              {vehicle?.customId}
             </Text>
           </Group>
           <Group c="dimmed" gap={rem(5)} align="center">

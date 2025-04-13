@@ -160,8 +160,8 @@ import axios from 'axios';
 const authOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.GOOGLE_CLIENT_ID || '1090899538284-74f4i841j0ascsgk84i743bpriebu7d5.apps.googleusercontent.com',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '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',
       authorization: {
         params: {
           prompt: "consent",

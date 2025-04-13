@@ -4,11 +4,14 @@ import { useForm } from "@mantine/form";
 import { useFormSubmission } from "@/custom-hooks/useForm";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Swal from 'sweetalert2';
 
-function ResetPassword({ onSuccess, token: propToken }) {
+function ResetPassword({ onSuccess, token: propToken, onBack }) {
   const router = useRouter();
-  const { token: urlToken } = useSearchParams(); // Get the token from URL query params
-  const token = propToken || urlToken; // Use prop token or fallback to URL token
+  const { token: urlToken } = useSearchParams();
+  const token = propToken || urlToken;
+  const [isLoading, setIsLoading] = useState(false);
 
   // Initialize form with validation rules
   const form = useForm({
@@ -17,15 +20,21 @@ function ResetPassword({ onSuccess, token: propToken }) {
       confirmPassword: "",
     },
     validate: {
-      newPassword: (value) =>
-        value.length >= 6 ? null : "Password must be at least 6 characters",
-      confirmPassword: (value, values) =>
-        value === values.newPassword ? null : "Passwords do not match",
+      newPassword: (value) => {
+        if (!value) return "Password is required";
+        if (value.length < 6) return "Password must be at least 6 characters";
+        return null;
+      },
+      confirmPassword: (value, values) => {
+        if (!value) return "Please confirm your password";
+        if (value !== values.newPassword) return "Passwords do not match";
+        return null;
+      },
     },
   });
 
   // Custom hook for form submission
-  const { isLoading, error, handleSubmit } = useFormSubmission(
+  const { handleSubmit } = useFormSubmission(
     API_ENDPOINTS.AUTH.RESET_PASSWORD,
     { password: form.values.newPassword, token },
     form.validate
@@ -34,27 +43,53 @@ function ResetPassword({ onSuccess, token: propToken }) {
   // Handle form submission
   const handleResetPassword = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     // Check if the token is available
     if (!token) {
-      alert("Invalid or missing token");
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Invalid or missing reset token',
+        confirmButtonColor: '#E90808'
+      });
+      setIsLoading(false);
       return;
     }
 
-    const response = await handleSubmit(e);
-    if (response && response.ok) {
-      alert("Password has been reset successfully!");
-      onSuccess?.();
-      router.push("/login"); // Redirect to login page after success
+    try {
+      const response = await handleSubmit(e);
+      if (response && response.ok) {
+        await Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Your password has been reset successfully',
+          confirmButtonColor: '#E90808',
+          showConfirmButton: true,
+          timer: 2000
+        });
+        // Clear the token from URL after successful reset
+        router.push("/login");
+        onSuccess?.();
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message || 'An error occurred while resetting your password',
+        confirmButtonColor: '#E90808'
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <Group mb="lg">
-        <Title order={4}>Reset Password!</Title>
+        <Title order={4}>Reset Password</Title>
         <Text c="dimmed" size="sm" mt="xs">
-          Set the new password for your account so you can log in and access all the features.
+          Please enter your new password below. Make sure it's secure and easy to remember.
         </Text>
       </Group>
 
@@ -87,7 +122,14 @@ function ResetPassword({ onSuccess, token: propToken }) {
         >
           Reset Password
         </Button>
-        {error && <Text color="red">{error.message}</Text>}
+        <Button
+          variant="subtle"
+          fullWidth
+          onClick={onBack}
+          disabled={isLoading}
+        >
+          Back to Login
+        </Button>
       </form>
     </>
   );

@@ -174,39 +174,36 @@ const Breadcrumb = ({ params, type }) => {
 };
 
 export default async function Listing({ params, searchParams }) {
-  console.log(">>>>>>>>.......?????????",params)
   const userData = getLocalStorage("user");
   const view = searchParams.view;
   
   // Extract vehicle type from URL path
   const getVehicleType = (path) => {
-    if (!path) return 'cars';
+    if (!path) return 'car';
     
     // Check if the path starts with 'used-'
     if (path.startsWith('used-')) {
       // Remove 'used-' prefix and 's' suffix
       return path.replace('used-', '').replace(/s$/, '');
     }
-    return 'cars'; // Default to cars if no match
+    return 'car'; // Default to car if no match
   };
 
-  const typeMapping = {
-    cars: "car",
-    bikes: "bike",
-    trucks: "truck",
-  };
-
-  // Get the vehicle type from the current URL path
-  const vehicleType = getVehicleType(params.slug?.[0] || window.location.pathname.split('/')[1]);
-  
-  console.log("vehicleType",vehicleType)
+  // Get the vehicle type from the first slug parameter
+  const vehicleType = params.slug?.[0] ? getVehicleType(params.slug[0]) : 'car';
   
   const sortBy = searchParams.sortBy
     ? `sb_${searchParams.sortBy}`
-    : searchParams.sortBy;
+    : null;
 
-  // For the new URL structure, we'll pass an empty array if there are no additional filters
-  const reorderedSlug = reorderSlug(params.slug?.slice(1) || [], view, sortBy);
+  // Get the filter parameters (everything after the first slug)
+  const filterParams = params.slug?.slice(1) || [];
+
+  // Add sortBy to filterParams if it exists
+  const paramsWithSort = sortBy ? [...filterParams, sortBy] : filterParams;
+
+  // Add view to filterParams if it exists
+  const finalParams = view ? [...paramsWithSort, `view_${view}`] : paramsWithSort;
 
   const [
     dataofVehcles,
@@ -217,21 +214,22 @@ export default async function Listing({ params, searchParams }) {
     vehicleFuelTypes,
     vehicleColors
   ] = await Promise.all([
-    fetchVehiclsData(reorderedSlug),
-    fetchMakesByType(typeMapping[vehicleType]),
-    fetchBodiesByType(typeMapping[vehicleType]),
-    fetchVehicleDrives(typeMapping[vehicleType]),
-    fetchVehicleTransmissions(typeMapping[vehicleType]),
-    fetchVehicleFuelTypes(typeMapping[vehicleType]),
-    fetchVehicleColors(typeMapping[vehicleType])
+    fetchVehiclsData([`used-${vehicleType}s`, ...finalParams]),
+    fetchMakesByType(vehicleType),
+    fetchBodiesByType(vehicleType),
+    fetchVehicleDrives(vehicleType),
+    fetchVehicleTransmissions(vehicleType),
+    fetchVehicleFuelTypes(vehicleType),
+    fetchVehicleColors(vehicleType)
   ]);
 
-  console.log(">>>>>>>>.......",vehicleType)
   return (
     <>
       <Box pt={100} pb={80} className="product-listing position-relative">
         <LoadingWrapper>
         <div className="container-xl">
+        <Breadcrumb params={params} type={vehicleType} />
+
           <div className="row">
             <div className="col-lg-3">
               <ListingFilter
@@ -249,37 +247,8 @@ export default async function Listing({ params, searchParams }) {
               {/* Toolbox */}
               <ListingHeader type={vehicleType} />
 
-              {/* Breadcrumb */}
-              {/* <Breadcrumb params={params} type={vehicleType} /> */}
-
               {/* Product Badges */}
-              {/* <FilterBadges params={params} searchParams={searchParams} /> */}
-
-              {/* Product Listing Section */}
-              <Group
-                className="title-section"
-                justify="space-between"
-                align="center"
-                mb="md"
-              >
-                {/* <Title
-                  order={5}
-                  bg="#E90808"
-                  c="white"
-                  tt="uppercase"
-                  h={rem(34)}
-                  display="flex"
-                  fw={600}
-                  ps={rem(10)}
-                  pe={rem(40)}
-                  // w={rem(220)}
-                  style={{
-                    clipPath: "polygon(0 0, 80% 0, 100% 100%, 0% 100%)",
-                    alignItems: "center",
-                  }}
-                >
-                </Title> */}
-              </Group>
+              <FilterBadges params={params} searchParams={searchParams} />
 
               {/* Product View List */}
               <div className="row">

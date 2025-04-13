@@ -8,7 +8,6 @@ export default function AuthWrapper({ children }) {
   const dispatch = useDispatch();
 
 
-  console.log("session>>>>>>", session)
   useEffect(() => {
     if (session?.user) {
       dispatch(login({

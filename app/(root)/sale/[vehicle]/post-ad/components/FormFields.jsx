@@ -50,12 +50,10 @@ export const FormFieldInput = ({ label, placeholder, ...props }) => (
         </Box>
         <Box className="col-md-7">
             <TextInput
-                {...props} // Move spread props first
-                
                 size="md"
-                rightSection={<MdArrowDropDown size={24} color="#E90808" />}
                 rightSectionWidth={40}
-                placeholder={placeholder} // Place specific props after spread
+                {...props} // Spread props after specific props
+                placeholder={placeholder} // Ensure this is set after spreading props
             />
         </Box>
     </>
@@ -288,7 +286,7 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
 export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
     const [isUploading, setIsUploading] = useState(false);
     const [rotations, setRotations] = useState({});
-console.log(">>>>>>....",images)
+    console.log(">>>>>>....", images)
     // Configure DND sensors
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -304,11 +302,11 @@ console.log(">>>>>>....",images)
     // Handle image reordering
     const handleDragEnd = (event) => {
         const { active, over } = event;
-        
+
         if (active.id !== over.id) {
             const oldIndex = parseInt(active.id);
             const newIndex = parseInt(over.id);
-            
+
             const newImages = arrayMove(images, oldIndex, newIndex);
             setImages(newImages);
             form.setFieldValue('images', newImages);
@@ -406,7 +404,7 @@ console.log(">>>>>>....",images)
                     />
                 </div>
                 {index === 0 && (
-                    <Text 
+                    <Text
                         size="xs"
                         ta="center"
                         fw={500}
@@ -426,7 +424,7 @@ console.log(">>>>>>....",images)
             </Box>
         );
     };
-console.log("images.......",images)
+    console.log("images.......", images)
     // Handle file drop
     const handleFileDrop = async (files) => {
         setIsUploading(true);
@@ -443,7 +441,7 @@ console.log("images.......",images)
             });
             const data = await response.json();
             const uploadedImageUrls = data.data;
-        setImages([...form.values.images, ...uploadedImageUrls]);
+            setImages([...form.values.images, ...uploadedImageUrls]);
 
             form.setFieldValue('images', [...form.values.images, ...uploadedImageUrls]);
             showNotification({
@@ -510,35 +508,35 @@ console.log("images.......",images)
                             </div>
                         </div>
                         {images.length > 0 && (
-                        <DndContext
-                            sensors={sensors}
-                            collisionDetection={closestCenter}
-                            onDragEnd={handleDragEnd}
-                        >
-                            <SortableContext items={images.map((_, index) => index.toString())}>
-                                <SimpleGrid
-                                    cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-                                    mt="md"
-                                    style={{
-                                        display: 'flex',
-                                        flexWrap: 'wrap',
-                                        justifyContent: 'center',
-                                        gap: '16px',
-                                        padding: '16px',
-                                    }}
-                                >
-                                    {images.map((file, index) => (
-                                        <SortableImage 
-                                            key={index} 
-                                            file={file} 
-                                            index={index}
-                                        />
-                                    ))}
-                                </SimpleGrid>
-                            </SortableContext>
-                        </DndContext>
-                    )}
-                        <Group align="flex-start" gap="xl" justify="center" mt={'50px' }>
+                            <DndContext
+                                sensors={sensors}
+                                collisionDetection={closestCenter}
+                                onDragEnd={handleDragEnd}
+                            >
+                                <SortableContext items={images.map((_, index) => index.toString())}>
+                                    <SimpleGrid
+                                        cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
+                                        mt="md"
+                                        style={{
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
+                                            justifyContent: 'center',
+                                            gap: '16px',
+                                            padding: '16px',
+                                        }}
+                                    >
+                                        {images.map((file, index) => (
+                                            <SortableImage
+                                                key={index}
+                                                file={file}
+                                                index={index}
+                                            />
+                                        ))}
+                                    </SimpleGrid>
+                                </SortableContext>
+                            </DndContext>
+                        )}
+                        <Group align="flex-start" gap="xl" justify="center" mt={'50px'}>
                             <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '450px', textAlign: 'left' }}>
                                 <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
                                 Adding at least 8 pictures improves the chances for a quick sale.

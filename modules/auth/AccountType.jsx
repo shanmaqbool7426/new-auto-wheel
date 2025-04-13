@@ -28,6 +28,7 @@ const AccountType = ({ onSelectType }) => {
 
   const handleAccountTypeClick = (type) => {
     localStorage.setItem("account-type", type);
+    localStorage.setItem("accountType", type);
     onSelectType?.(type);
   };
 

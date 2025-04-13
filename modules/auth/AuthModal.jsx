@@ -30,6 +30,7 @@ function AuthModal({ opened, onClose, initialView = AUTH_VIEWS.ACCOUNT_TYPE }) {
         return (
           <AccountType 
             onSelectType={(type) => {
+              localStorage.setItem('accountType', type);
               handleViewChange(AUTH_VIEWS.SOCIAL_LOGIN, { accountType: type });
             }}
           />

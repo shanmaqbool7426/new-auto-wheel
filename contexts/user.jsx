@@ -6,6 +6,8 @@ import { notifications } from '@mantine/notifications';
 import { useSession } from "next-auth/react";
 import { useAuthModalContext } from './auth-modal';
 import { AUTH_VIEWS } from '@/constants/auth-config';
+import { useSearchParams } from "next/navigation";
+import { useUpdateAccountTypeMutation } from '@/api-services/auth';
 
 const UserContext = createContext();
 
@@ -16,9 +18,57 @@ export function UserProvider({ children }) {
   const [loadingFavorites, setLoadingFavorites] = useState(new Set());
   const { data: session } = useSession();
   const { openAuthModal } = useAuthModalContext();
+  const searchParams = useSearchParams();
+  const [updateAccountType] = useUpdateAccountTypeMutation();
+
+  console.log("session.....",session);
+  // Check for reset password token in URL
+  useEffect(() => {
+    if (openAuthModal) {
+      const token = searchParams.get('token');
+      if (token) {
+        openAuthModal(AUTH_VIEWS.RESET_PASSWORD);
+      }
+    }
+  }, [searchParams, openAuthModal]);
+
+  // Handle account type update
+  console.log("session?.user............",session);
+  useEffect(() => {
+    const handleAccountTypeUpdate = async () => {
+      if (session?.user && !session.user.accountType) {
+        const storedAccountType = localStorage.getItem('accountType');
+        if (storedAccountType) {
+          try {
+            const response = await updateAccountType({ 
+              accountType: storedAccountType,
+              token: session?.user?.token 
+            }).unwrap();
+            if (response.success) {
+              // Update session user with new account type
+              const updatedUser = { ...session.user, accountType: storedAccountType };
+              setUserData(updatedUser);
+              localStorage.setItem('user', JSON.stringify(updatedUser));
+            }
+          } catch (error) {
+            console.error('Error updating account type:', error);
+            notifications.show({
+              title: "Error",
+              message: "Failed to update account type",
+              color: "red",
+            });
+          }
+        }
+      }
+    };
+
+    handleAccountTypeUpdate();
+  }, [session, updateAccountType]);
+
   // Initialize user from localStorage
   useEffect(() => {
     const storedUser = getLocalStorage('user');
+    
     if (storedUser) {
       setUserData(storedUser);
       fetchUserFavorites(storedUser._id);

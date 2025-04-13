@@ -3,27 +3,32 @@ import { API_ENDPOINTS, LOCATION_PROVINCES } from "@/constants/api-endpoints";
 
 export const fetchVehiclsData = async (params) => {
   try {
-    // Extract vehicle type from URL
-    const urlParts = typeof window !== 'undefined' ? window.location.pathname.split('/') : [];
     let vehicleType = 'car';
+    let filterParams = [];
 
-    if (urlParts[1]?.startsWith('used-')) {
-      // Remove 'used-' prefix and ensure we don't have double 's'
-      vehicleType = urlParts[1]
-        .replace('used-', '')  // Remove 'used-' prefix
-        .replace(/s+$/, '');   // Remove any trailing 's' characters
+    // Handle server-side case where params are passed directly
+    if (params && Array.isArray(params)) {
+      // The first element might be the vehicle type
+      if (params[0]?.startsWith('used-')) {
+        vehicleType = params[0]
+          .replace('used-', '')
+          .replace(/s+$/, '');
+        filterParams = params.slice(1);
+      } else {
+        filterParams = params;
+      }
     }
 
-    // Filter out any undefined or invalid params
-    const validParams = Array.isArray(params) 
-      ? params.filter(p => p && p !== 'undefined' && p !== 't_undefined')
-      : [];
+    // Filter out any undefined or empty parameters
+    const validParams = filterParams.filter(param => param && param !== 'undefined' && param !== 't_undefined');
 
     // Construct the final URL
     const baseUrl = `${API_ENDPOINTS.VEHICLE.LISTINGS}/${vehicleType}`;
     const finalUrl = validParams.length > 0 
       ? `${baseUrl}/${validParams.join('/')}`
       : baseUrl;
+
+    console.log("API URL:", finalUrl);
 
     // Add caching strategy
     const vehicles = await fetchAPI(

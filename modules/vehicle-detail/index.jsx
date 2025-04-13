@@ -110,6 +110,11 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
   const carSummaryItems = useMemo(
     () => [
       {
+        icon: <ClipboardIcon />,
+        label: "ID",
+        value: detail?.data?.customId,
+      },
+      {
         icon: <FuelTank />,
         label: "Engine",
         value: detail?.data?.specifications?.engineCapacity,
@@ -162,7 +167,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
       {
         icon: <ClipboardIcon />,
         label: "VIN",
-        value: detail?.data?.specifications?.vin,
+        value: detail?.data?.vin,
       },
     ],
     [detail?.data]

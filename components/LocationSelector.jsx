@@ -22,6 +22,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { useSelector } from "react-redux";
+import { useGetProvincesQuery, useGetCitiesQuery, useGetSuburbsQuery } from "@/api-services/location";
 
 const LocationSelector = ({
   isOpen,
@@ -31,7 +32,34 @@ const LocationSelector = ({
   redirect,
   hide = false,
 }) => {
-  const { provinces: provincesData, cities: citiesData, suburbs: suburbsData } = useSelector(state => state.location);
+  const { provinces: reduxProvinces, cities: reduxCities, suburbs: reduxSuburbs } = useSelector(state => state.location);
+  
+  // Use RTK Query hooks to fetch data if not available in Redux
+  const { data: apiProvinces, isLoading: isLoadingProvinces } = useGetProvincesQuery(undefined, {
+    skip: Array.isArray(reduxProvinces) && reduxProvinces.length > 0
+  });
+  
+  const { data: apiCities, isLoading: isLoadingApiCities } = useGetCitiesQuery(undefined, {
+    skip: Array.isArray(reduxCities) && reduxCities.length > 0
+  });
+  
+  const { data: apiSuburbs, isLoading: isLoadingApiSuburbs } = useGetSuburbsQuery(undefined, {
+    skip: Array.isArray(reduxSuburbs) && reduxSuburbs.length > 0
+  });
+
+  // Use data from Redux or API
+  const provincesData = (Array.isArray(reduxProvinces) && reduxProvinces.length > 0) 
+    ? reduxProvinces 
+    : apiProvinces?.data || [];
+    
+  const citiesData = (Array.isArray(reduxCities) && reduxCities.length > 0) 
+    ? reduxCities 
+    : apiCities?.data || [];
+    
+  const suburbsData = (Array.isArray(reduxSuburbs) && reduxSuburbs.length > 0) 
+    ? reduxSuburbs 
+    : apiSuburbs?.data || [];
+
   const [activeTab, setActiveTab] = useState("province");
   const [isLoadingCities, setIsLoadingCities] = useState(false);
   const [isLoadingSuburbs, setIsLoadingSuburbs] = useState(false);
@@ -140,6 +168,9 @@ const LocationSelector = ({
     </Text>
   );
 
+  // Determine if loading data
+  const isLoading = isLoadingProvinces || isLoadingApiCities || isLoadingApiSuburbs;
+
   return (
     <Modal
       opened={isOpen}
@@ -226,7 +257,11 @@ const LocationSelector = ({
             scrollHideDelay={500}
             scrollbars="y"
           >
-            {filteredProvinces?.length > 0 ? (
+            {isLoadingProvinces ? (
+              <Center h={200}>
+                <Loader color="#E90808" />
+              </Center>
+            ) : filteredProvinces?.length > 0 ? (
               <List className="search-dropdown-lists" listStyleType="none">
                 {filteredProvinces?.map((province) => (
                   <List.Item
@@ -265,7 +300,7 @@ const LocationSelector = ({
                 scrollbars="y"
               >
                 {selection.province ? (
-                  isLoadingCities ? (
+                  isLoadingCities || isLoadingApiCities ? (
                     <Center h={200}>
                       <Loader color="#E90808" />
                     </Center>
@@ -311,7 +346,7 @@ const LocationSelector = ({
                 scrollbars="y"
               >
                 {selection.city ? (
-                  isLoadingSuburbs ? (
+                  isLoadingSuburbs || isLoadingApiSuburbs ? (
                     <Center h={200}>
                       <Loader color="#E90808" />
                     </Center>

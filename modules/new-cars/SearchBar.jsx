@@ -39,7 +39,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
     search: "",
     make: [],
     model: [],
-    price: [0, 2000000000],
+    price: [0, 9999990],
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,12 +52,12 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
   const debounceTimeoutRef = useRef(null);
 
   const rangeData = [
-    { value: "0-500000", label: "0-5 " },
-    { value: "500000-1000000", label: "5-10 " },
-    { value: "1000000-1500000", label: "10-15 " },
-    { value: "1500000-2000000", label: "15-20 " },
-    { value: "2000000-2500000", label: "20-25 " },
-    { value: "2500000-2000000000", label: "25  and above" },
+    { value: "0-500000"  },
+    { value: "500000-1000000"  },
+    { value: "1000000-1500000"  },
+    { value: "1500000-2000000"  },
+    { value: "2000000-2500000"  },
+    { value: "2500000-9999990"  },
   ];
 
   const handleFilterChange = (filterName, value) => {
@@ -154,13 +154,14 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                     component="button"
                     radius="sm"
                     placeholder="Choose Price Range"
-                    data={rangeData}
+                    // data={rangeData}
                     comboboxProps={{ shadow: "xl" }}
                     onChange={(value) =>
                       handleFilterChange("price", value.split("-").map(Number))
                     }
                   >
-                    ${convertToLac(filters.price[0])}  - ${convertToLac(filters.price[1])} 
+                     {/* add L */}
+                    ${convertToLac(filters.price[0])} L - ${convertToLac(filters.price[1])} L
                   </Input>
                 </Popover.Target>
                 <Popover.Dropdown p="lg">
@@ -178,7 +179,7 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                         ])
                         }
                       />
-                      <Input.Label c="muted">${convertToLac(filters.price[0])} </Input.Label>
+                      <Input.Label c="muted">${convertToLac(filters.price[0])} L </Input.Label>
                     </Box>
                     <Box className="col-md-6 text-end">
                       <NumberInput
@@ -186,28 +187,27 @@ const SearchBar = ({ fetchMakesByTypeData, type }) => {
                         hideControls
                         value={filters.price[1]}
                         min={filters.price[0]}
-                        max={2000000000}
+                        max={9999990}
                         onChange={(e) =>
                           handleFilterChange("price", [
                             filters.price[0],
-                            Number(e || 2000000000),
+                            Number(e || 9999990),
                           ])
                         }
                       />
-                      <Input.Label c="muted">${convertToLac(filters.price[1])} </Input.Label>
+                      <Input.Label c="muted">${convertToLac(filters.price[1])} L </Input.Label>
                     </Box>
                     <Box className="col-md-12 mt-3">
                       <RangeSlider
                         color="#E90808"
                         min={0}
-                        max={100000000} // 10 crores
-                        step={100000} // 1  steps
+                        max={9999990}
+                        step={100000}
                         size="xs"
                         label={null}
-                        labelAlwaysOn={false}  // Disable always-on labels
-                        showLabelOnHover={false}  //
+                        labelAlwaysOn={false}
+                        showLabelOnHover={false}
                         thumbSize={16}
-
                         styles={{
                           thumb: {
                             borderWidth: rem(2),

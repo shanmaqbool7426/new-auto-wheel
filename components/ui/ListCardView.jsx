@@ -112,7 +112,7 @@ const ListCardView = ({ vehicle }) => {
       variant="transparent"
       pos="absolute"
       size="lg"
-      bottom={14}
+      bottom={20}
       left={10}
       loading={isFavoriteLoading(vehicle._id)}
       onClick={handleToggleFavorite}
@@ -361,7 +361,7 @@ const ListCardView = ({ vehicle }) => {
               <Text size="xs" c="dimmed" fw={500}>
                 ID#{" "}
                 <Text span size="xs" c="dark" fw={500}>
-                  {vehicle?._id?.slice(0, 4)}
+                  {vehicle?.customId}
                 </Text>
               </Text>
             </Button>

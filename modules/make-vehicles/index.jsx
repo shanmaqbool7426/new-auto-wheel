@@ -162,7 +162,7 @@ const MakesVehicles = ({
                   </Title>
                   <div className="row">
                     <div className="col-md-3">
-                      <Card shadow="none" h="100%" withBorder py="lg" >
+                      <Card shadow="none"  withBorder py="lg" >
                         <Flex
                           direction="column"
                           gap="sm"
