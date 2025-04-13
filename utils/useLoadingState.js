@@ -13,7 +13,7 @@ export const useLoadingState = () => {
     
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [pathname, searchParams]);

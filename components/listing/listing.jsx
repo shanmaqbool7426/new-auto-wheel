@@ -32,8 +32,7 @@ import { useRouter } from "next/navigation";
 // import { CloseButton } from "@/components/ui/CloseButton";
 
 const FilterBadges = ({ params, searchParams }) => {
-  const router = useRouter();
-  const slug = params.slug?.slice(1) || [];
+  const slug = params.slug;
 
   const filterConfigs = {
     mk_: { type: "make", label: "make" },
@@ -50,7 +49,7 @@ const FilterBadges = ({ params, searchParams }) => {
   };
 
   const removeFilter = (fullValue) => {
-    // Get the vehicle type from the URL
+    // Get the current URL path
     const urlParts = window.location.pathname.split('/');
     const vehicleType = urlParts[1]; // 'used-cars', 'used-bikes', etc.
 
@@ -58,46 +57,77 @@ const FilterBadges = ({ params, searchParams }) => {
     const filteredSlug = slug.filter((item) => item !== fullValue);
 
     // Construct the new URL
-    const newPath = `/${vehicleType}/search/${['-', ...filteredSlug].join('/')}`;
+    let newPath = `/${vehicleType}/search/${filteredSlug.join('/')}`;
 
-    // Preserve any existing query parameters
-    const existingParams = new URLSearchParams(searchParams.toString());
-    const queryString = existingParams.toString();
+    // Handle view parameter separately
+    if (searchParams?.view) {
+      newPath += `?view=${searchParams.view}`;
+    }
 
-    // Navigate to the new URL
-    router.push(queryString ? `${newPath}?${queryString}` : newPath, { scroll: false });
+    return newPath;
   };
 
-  return (
-    <Group gap="xs" mb="lg">
-      {slug.map((item, index) => {
-        const prefix = item.substring(0, item.indexOf('_') + 1);
+  const renderBadges = () => {
+    return slug
+      .map((item, index) => {
+        const prefix = Object.keys(filterConfigs).find((key) =>
+          item.startsWith(key)
+        );
+        if (!prefix) return null;
+
         const config = filterConfigs[prefix];
-
-        if (!config || item === '-') return null;
-
-        const value = item.substring(item.indexOf('_') + 1);
+        const value = item.replace(prefix, "");
         const displayValue = config.isRange
-          ? value.replace('_', ' - ')
-          : decodeURIComponent(value);
+          ? value.split("_").join(" - ")
+          : value;
 
         return (
           <Badge
-            key={index}
-            size="lg"
-            variant="outline"
-            // rightSection={
-            //   <CloseButton
-            //     size={22}
-            //     variant="transparent"
-            //     onClick={() => removeFilter(item)}
-            //   />
-            // }
+            pt={rem(5)}
+            pb={rem(20)}
+            px={rem(12)}
+            variant="light"
+            fw={500}
+            fz={rem(12)}
+            color="#E90808"
+            key={`${config.type}-${index}`}
+            rightSection={
+              <Link href={removeFilter(item)}>
+                <MdClose
+                  style={{
+                    cursor: "pointer",
+                    transition: "opacity 0.2s",
+                    ":hover": {
+                      opacity: 0.7,
+                    },
+                  }}
+                />
+              </Link>
+            }
+            styles={{
+              rightSection: {
+                "&:hover": {
+                  opacity: 0.7,
+                },
+              },
+            }}
           >
-            {`${config.label}: ${displayValue}`}
+            {displayValue}
           </Badge>
         );
-      })}
+      })
+      .filter(Boolean);
+  };
+
+  return (
+    <Group
+      gap="xs"
+      mb="md"
+      justify="flex-start"
+      pb="1rem"
+      style={{ borderBottom: "1px solid #CCCCCC" }}
+    >
+      {renderBadges()}
     </Group>
   );
 };

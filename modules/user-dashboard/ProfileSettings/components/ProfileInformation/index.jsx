@@ -7,6 +7,7 @@ import useProfileInformation from './useProfileInformation';
 import styles from './ProfileInformation.module.css';
 import buttonStyles from '@/styles/user-dashboard/Button.module.css';
 import { IconPencil, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
+import { rem } from '@mantine/core';
 
 const DEFAULT_AVATAR = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 const DEFAULT_BANNER = "https://placehold.co/600x200/e90808/white?text=Banner";
@@ -105,17 +106,25 @@ export default function ProfileInformation({ profileData, currentUser }) {
           }}
         />
         <Button 
-          variant="subtle" 
-          name='bannerFileInput'
+          variant="light"
+          color="#E90808"
           className={styles.editButton} 
-          onClick={() => document.getElementById('bannerFileInput').click()} // Trigger file input
+          onClick={() => document.getElementById('bannerFileInput').click()}
+          pt={rem(5)}
+          pb={rem(5)}
+          px={rem(5)}
+          style={{
+            borderRadius: '50%',
+            minWidth: 'unset',
+            height: 'auto'
+          }}
         >
-          <IconPencil />
+          <IconPencil size={16} color="white" />
         </Button>
         <input
           type="file"
           id="bannerFileInput"
-          style={{ display: 'none' }} // Hide the input
+          style={{ display: 'none' }}
           accept="image/*"
           onChange={handleImageUpload}
         />
@@ -135,17 +144,26 @@ export default function ProfileInformation({ profileData, currentUser }) {
             }}
           />
           <Button 
-            variant="subtle" 
+            variant="light"
+            color="#E90808"
             className={styles.editButtonprofile} 
-            onClick={() => document.getElementById('profileFileInput').click()} // Trigger file input
+            onClick={() => document.getElementById('profileFileInput').click()}
+            pt={rem(5)}
+            pb={rem(5)}
+            px={rem(5)}
+            style={{
+              borderRadius: '50%',
+              minWidth: 'unset',
+              height: 'auto'
+            }}
           >
-            <IconPencil />
+            <IconPencil size={16} color="white" />
           </Button>
           <input
             type="file"
             id="profileFileInput"
             name='profileFileInput'
-            style={{ display: 'none' }} // Hide the input
+            style={{ display: 'none' }}
             accept="image/*"
             onChange={handleImageUpload}
           />
