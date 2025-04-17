@@ -152,7 +152,7 @@
 
 import NextAuth from "next-auth";
 import GoogleProvider from 'next-auth/providers/google';
-import FacebookProvider from 'next-auth/providers/facebook';
+// import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from "next-auth/providers/credentials";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import axios from 'axios';
@@ -171,10 +171,10 @@ const authOptions = {
         },
       },
     }),
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET
-    }),
+    // FacebookProvider({
+    //   clientId: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID,
+    //   clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_SECRET
+    // }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -227,7 +227,7 @@ const authOptions = {
       },
     }),
   ],
-  secret:  process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "TYsQH2QkE0HB7eDjMYJGTyUeYdaEcyuF14p0YD/iQ5o=",
   pages: {
     signIn: '/auth/signin',
     error: '/auth/error',
