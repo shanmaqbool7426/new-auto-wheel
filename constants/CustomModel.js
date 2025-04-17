@@ -95,7 +95,6 @@ const CustomModel = ({
 
       if (type === "model") {
         setActiveTab("variant"); // Set active tab to variant
-        hide && closeModal();
         return {
           ...updatedSelection,
           variant: "", // Reset variant
@@ -104,9 +103,7 @@ const CustomModel = ({
 
       if (type === "variant") {
         closeModal();
-        return {
-          ...updatedSelection,
-        };
+        return updatedSelection;
       }
       return updatedSelection;
     });

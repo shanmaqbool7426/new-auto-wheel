@@ -30,6 +30,7 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentVehicle, setCurrentVehicle] = useState(null);
 
   // Manage three separate vehicles
   const [vehicle1, setVehicle1] = useState(
@@ -41,8 +42,6 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
   const [vehicle3, setVehicle3] = useState(
     vehicles?.length > 2 ? vehicles[2] : { make: "", model: "", variant: "" }
   );
-
-  const [currentVehicle, setCurrentVehicle] = useState(null);
 
   const openModal = (vehicleNumber) => {
     setCurrentVehicle(vehicleNumber);
@@ -140,7 +139,9 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
 
   console.log("setVehicle1setVehicle1", vehicle3);
   useEffect(() => {
-    handleCompare()
+    if (vehicle1.variant && vehicle2.variant && vehicle3.variant) {
+      handleCompare();
+    }
   }, [vehicle3.variant, vehicle2.variant, vehicle1.variant])
   
 

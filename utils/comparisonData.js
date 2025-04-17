@@ -1689,7 +1689,7 @@ const renderButton = (condition, href, label, color) => condition ? (
 // Helper function to render color buttons
 const renderColors = (colors) => colors?.length
     ? colors.map((color, index) => (
-        <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color) }} />
+        <Button key={index} size="xs" radius="xl" style={{ backgroundColor: GetColor(color),marginRight:"-5px" }} />
     ))
     : "-";
 
@@ -2158,8 +2158,8 @@ const sections = [
             },
             {
                 type: "Available Colors",
-                paths: ["exterior.colorsAvailable"],
-                render: (vehicle) => renderColors(getNested(vehicle, "exterior.colorsAvailable")),
+                paths: ["colorsAvailable"],
+                render: (vehicle) => renderColors(getNested(vehicle, "colorsAvailable")),
             },
         ],
     },
@@ -2600,7 +2600,7 @@ export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type =
                             // Vehicle does not exist
                             return "";
                         }
-
+                        console.log(">>>>>>>>.vehicle", vehicle)
                         if (field.render) {
                             return field.render(vehicle);
                         } else if (field.paths) {

@@ -168,6 +168,12 @@ export const formatToMonthYear = (dateString) => {
   return date.toLocaleDateString("en-US", options);
 };
 
+export const formatToLac = (price) => {
+  if (!price) return '0';
+  const inLacs = price / 100000;
+  return inLacs.toFixed(1);
+};
+
 // utils/filterUtils.js
 
 export const updateFiltersInUrl = (

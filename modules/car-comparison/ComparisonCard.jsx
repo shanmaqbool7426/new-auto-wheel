@@ -49,7 +49,7 @@ const ComparisonCard = ({ vehicle, onRemove, onClick }) => {
                     </Text>
                 )} */}
                 {vehicle._id &&
-                    <Anchor component={Link} href={`/listing/cars/search/-/mk_${vehicle.make}/md_${vehicle.model}/`} size="12px" lh="1" mt="12px" className="text-primary">
+                    <Anchor component={Link} href={`/used-${vehicle.type}s/search/-/mk_${vehicle.make.toLowerCase()}/md_${vehicle.model.toLowerCase()}/`} size="12px" lh="1" mt="12px" className="text-primary">
                         <Center inline>
                             <Box mr={5}>Buy Used {`${vehicle.make} ${vehicle.model}`}</Box>
                             <IconArrowUpRight style={{ width: "16px", height: "16px" }} />

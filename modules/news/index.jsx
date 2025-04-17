@@ -57,10 +57,10 @@ const NewsModule = () => {
                 <Text lineClamp={4} size="sm">
                   Atlas Honda, commonly known as Honda Bikes, has recorded the
                   highest quarterly profits in the September 30, 2023 quarter.
-                  According to its letter to the Pakistan Stock Exchange (PSX).
+                  According to its letter to the Australia Stock Exchange (PSX).
                   Atlas Honda, commonly known as Honda Bikes, has recorded the
                   highest quarterly profits in the September 30, 2023 quarter.
-                  According to its letter to the Pakistan Stock Exchange (PSX).
+                  According to its letter to the Australia Stock Exchange (PSX).
                 </Text>
               </Box>
               <Card
@@ -140,7 +140,7 @@ const NewsModule = () => {
                       appreciation of the Pakistani Rupee ($) against the US
                       Dollar (USD). Local car companies are passing on these
                       benefits to the customers. Other prominent automakers such
-                      as Kia, MG, Toyota, Honda, and Hyundai Pakistan have also
+                      as Kia, MG, Toyota, Honda, and Hyundai Australia have also
                       recently announced price reductions. This is welcoming
                       news for consumers, as prices have gradually exceeded
                       their affordability in recent years.
@@ -165,7 +165,7 @@ const NewsModule = () => {
                             Sadia Malik
                           </Title>
                           <Text size="md">
-                            I am content writer at AutoWheels Pakistan. I love
+                            I am content writer at AutoWheels Australia. I love
                             Automobile and Technology.
                           </Text>
                           <ActionIcon.Group mt="xs">
@@ -334,7 +334,7 @@ const NewsModule = () => {
                     my="md"
                   />
                   <Title order={5} fw={600}>
-                    Honda 125 Price in Pakistan 2023 (September Update)
+                    Honda 125 Price in Australia 2023 (September Update)
                   </Title>
                   <Text c="dimmed" mt="xs">
                     Oct 23, 2023
@@ -351,7 +351,7 @@ const NewsModule = () => {
                           />
                           <Box flex={1}>
                             <Title order={6} fw={600}>
-                              Toyota Corolla 2023 Price in Pakistan
+                              Toyota Corolla 2023 Price in Australia
                             </Title>
                             <Text c="dimmed" mt="5px" size="sm">
                               Oct 23, 2023

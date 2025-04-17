@@ -40,6 +40,7 @@ import { useState } from "react";
 import VehicleComparison from "@/components/ComparisonCard";
 import { useComparison } from "@/contexts/comparison";
 import EditorRenderer from "@/components/EditorRenderer";
+import { ClientPageRoot } from "next/dist/client/components/client-page";
 
 const VehicleDetail = ({ vehicle, variantsVehicles }) => {
   const { addToComparison, handleRemoveComparison } = useComparison();
@@ -79,6 +80,9 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
     variants,
   } = vehicle || {};
 
+
+  console.log(">>>>>>>>>>>>>vehicle", transmission)
+
   return (
     <>
       {/* Header Section */}
@@ -104,7 +108,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               </nav>
             </Box>
             <Title order={2} c="white">
-              {`${make} ${model} ${variant} ${year}`} Price in Pakistan,
+              {`${make} ${model} ${variant} ${year}`} Price in Australia,
               Pictures, and Specs
             </Title>
           </Box>
@@ -117,7 +121,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
           <Grid gutter="32px">
             {/* Carousel Section */}
             <Grid.Col span={{ base: 12, lg: 8 }}>
-                      <Gallery images={images} />
+                <Gallery images={images} />
 
             </Grid.Col>
 
@@ -125,16 +129,24 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
             <Grid.Col span={{ base: 12, lg: 4 }}>
               <Box>
                 <Text c="dimmed" size={rem(16)}>
-                  {make} {model} {variant} {year} Price Range in Pakistan
+                  {make} {model} {variant} {year} Price Range in Australia
                 </Text>
                 <Group mt="20px" wrap="nowrap">
                   <Text c="#E90808" size="24px" lh="1">
                     {/* <Text span fw="700" size="16px" c="#E90808">
                       
                     </Text> */}
+                    {console.log(">>>>>>>>>>>>>variantsVehicles", variantsVehicles)}
                     <Text span fw="700" size="24px" c="#E90808">
-                    ${formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.min : price)}  {isModel ? " - " : ""}
-                      {formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.max : "")}
+                      {
+                        variantsVehicles?.data?.referenceVehicle?.type=="bike" ? (
+                          `${formatPriceInFactors(isModel ? variantsVehicles?.data?.referenceVehicle?.price:"")}`
+                        ) : (
+                          `${formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.min : price)}  ${isModel ? " - " : ""}
+                          ${formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.max : "")}`
+                        )
+                      }
+
                     </Text>{" "}
                     <Text span size={'14px'} c="dimmed">
                       (*Ex-Factory Price)
@@ -156,7 +168,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                   size="md"
                   fw={400}
                   component={Link}
-                  href={`/used-cars/search/-/mk_${make?.toLowerCase()}`}
+                  href={`/used-${type}s/search/-/mk_${make?.toLowerCase()}`}
                   color="#E90808"
                   variant="outline"
                   h="29px"
@@ -268,7 +280,7 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     <Text c="dimmed" size="12px" lh="1">
                       Transmission{" "}
                       <Text c="#333333" fw={700} mt="4px">
-                        {transmission.type || transmission || "N/A"}
+                        {isModel && type != "bike" ? "Automatic & Manual" : transmission.type || transmission}
                       </Text>
                     </Text>
                   </Flex>
@@ -330,11 +342,11 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
               <Title order={2} fz="20px" lh={'1.25'}>
                 {`${make} ${model} ${variant} ${year}`}{" "}
                 <Text span inherit c="#E90808">
-                  Price in Pakistan
+                  Price in Australia
                 </Text>
               </Title>
               <Text mt="md">
-                The price of {`${make} ${model} ${variant} ${year}`} in Pakistan
+                The price of {`${make} ${model} ${variant} ${year}`} in Australia
                 starts from ${minPrice}.
               </Text>
               {/* <Anchor href={brochureLink} underline="hover" className="text-primary" target="_blank">

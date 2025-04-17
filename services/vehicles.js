@@ -3,19 +3,52 @@ import { API_ENDPOINTS, LOCATION_PROVINCES } from "@/constants/api-endpoints";
 
 export const fetchVehiclsData = async (params) => {
   try {
-    let vehicleType = 'car';
+    let vehicleType = 'car'; // Default vehicle type
     let filterParams = [];
 
     // Handle server-side case where params are passed directly
     if (params && Array.isArray(params)) {
       // The first element might be the vehicle type
-      if (params[0]?.startsWith('used-')) {
-        vehicleType = params[0]
-          .replace('used-', '')
-          .replace(/s+$/, '');
+      const firstParam = params[0];
+      
+      if (typeof firstParam === 'string') {
+        // Extract vehicle type from string patterns
+        if (firstParam.includes('used-bikes')) {
+          vehicleType = 't_bike';
+        } else if (firstParam.includes('used-trucks')) {
+          vehicleType = 't_truck';
+        } else if (firstParam.includes('used-cars')) {
+          vehicleType = 't_car';
+        } else if (firstParam.startsWith('used-')) {
+          // Extract from pattern like 'used-X' where X is the vehicle type
+          vehicleType = firstParam
+            .replace('used-', '')
+            .replace(/s$/, '');
+        }
+        
+        // Only use remaining params for filtering
         filterParams = params.slice(1);
       } else {
+        // No vehicle type in params, use all for filtering
         filterParams = params;
+      }
+    }
+
+    // Safe client-side detection
+    if (typeof window !== 'undefined') {
+      try {
+        const pathname = window.location.pathname.toLowerCase();
+        // Override vehicle type if clear from URL
+        if (pathname.includes('used-bikes')) {
+          vehicleType = 't_bike';
+        } else if (pathname.includes('used-trucks')) {
+          vehicleType = 't_truck';
+        } else if (pathname.includes('used-cars')) {
+          vehicleType = 't_car';
+        }
+      } catch (e) {
+        // Safely handle any window errors
+        console.error("Error accessing window:", e);
       }
     }
 
@@ -28,6 +61,7 @@ export const fetchVehiclsData = async (params) => {
       ? `${baseUrl}/${validParams.join('/')}`
       : baseUrl;
 
+    console.log("Vehicle Type:", vehicleType);
     console.log("API URL:", finalUrl);
 
     // Add caching strategy

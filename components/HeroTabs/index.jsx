@@ -116,7 +116,7 @@ const HeroTabs = ({ setType }) => {
     setQuery(input);
 
     if (input.length > 0) {
-      // Fetch cities from the country-state-city library (for Pakistan 'PK')
+      // Fetch cities from the country-state-city library (for Australia 'PK')
       const cities = City.getCitiesOfCountry("PK");
 
       // Filter cities based on user input

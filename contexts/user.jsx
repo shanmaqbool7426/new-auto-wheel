@@ -49,11 +49,11 @@ export function UserProvider({ children }) {
             }
           } catch (error) {
             console.error('Error updating account type:', error);
-            notifications.show({
-              title: "Error",
-              message: "Failed to update account type",
-              color: "red",
-            });
+            // notifications.show({
+            //   title: "Error",
+            //   message: "Failed to update account type",
+            //   color: "red",
+            // });
           }
         }
       }

@@ -31,6 +31,7 @@ const DetailSection = ({ section, setHideCommonFeatures, hideCommonFeatures }) =
         <Table.Tbody>
           {section.overviewTableData?.map((item, index) => (
             <>
+            {console.log(">>>>>>>>.item", item)}
               {item.type === "icon" && (
                 <Table.Tr key={index} fw={600}>
                   <Table.Td colSpan={4}>

@@ -5,19 +5,19 @@ const FAQ = ({ title, titleSpan }) => {
   const faq = [
     {
       index: 1,
-      title: "Which is the lowest priced model of Toyota in Pakistan?",
+      title: "Which is the lowest priced model of Toyota in Australia?",
       value: "faq-1",
       description:
         "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.aaaa",
     },
     {
-      title: "Which is the highest-priced model of Toyota in Pakistan?",
+      title: "Which is the highest-priced model of Toyota in Australia?",
       value: "faq-2",
       description:
         "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.",
     },
     {
-      title: "Which are the upcoming car models of Toyota in Pakistan?",
+      title: "Which are the upcoming car models of Toyota in Australia?",
       value: "faq-3",
       description:
         "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.",
@@ -29,13 +29,13 @@ const FAQ = ({ title, titleSpan }) => {
         "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.",
     },
     {
-      title: "Which are the most popular Toyota Cars in Pakistan?",
+      title: "Which are the most popular Toyota Cars in Australia?",
       value: "faq-5",
       description:
         "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.",
     },
     {
-      title: "Are the Toyota Car parts easily available in Pakistan?",
+      title: "Are the Toyota Car parts easily available in Australia?",
       value: "faq-6",
       description:
         "Crisp and refreshing fruit. Apples are known for their versatility and nutritional benefits. They come in a variety of flavors and are great for snacking, baking, or adding to salads.",

@@ -93,7 +93,7 @@ const BlogModule = () => {
                             mb="xs"
                             lineClamp={2}
                           >
-                            Bull Power Tractor 577 Price in Pakistan 2023
+                            Bull Power Tractor 577 Price in Australia 2023
                             (September Update)
                           </Title>
                         </Link>
@@ -124,7 +124,7 @@ const BlogModule = () => {
                             mb="xs"
                             lineClamp={2}
                           >
-                            Bull Power Tractor 577 Price in Pakistan 2023
+                            Bull Power Tractor 577 Price in Australia 2023
                             (September Update)
                           </Title>
                         </Link>
@@ -157,7 +157,7 @@ const BlogModule = () => {
                             mb="xs"
                             lineClamp={2}
                           >
-                            Bull Power Tractor 577 Price in Pakistan 2023
+                            Bull Power Tractor 577 Price in Australia 2023
                             (September Update)
                           </Title>
                         </Link>
@@ -188,7 +188,7 @@ const BlogModule = () => {
                             mb="xs"
                             lineClamp={2}
                           >
-                            Bull Power Tractor 577 Price in Pakistan 2023
+                            Bull Power Tractor 577 Price in Australia 2023
                             (September Update)
                           </Title>
                         </Link>
@@ -280,11 +280,11 @@ const BlogModule = () => {
                               Atlas Honda, commonly known as Honda Bikes, has
                               recorded the highest quarterly profits in the
                               September 30, 2023 quarter. According to its
-                              letter to the Pakistan Stock Exchange (PSX). Atlas
+                              letter to the Australia Stock Exchange (PSX). Atlas
                               Honda, commonly known as Honda Bikes, has recorded
                               the highest quarterly profits in the September 30,
                               2023 quarter. According to its letter to the
-                              Pakistan Stock Exchange (PSX).
+                              Australia Stock Exchange (PSX).
                             </Text>
                           </Flex>
                         </Flex>
@@ -370,11 +370,11 @@ const BlogModule = () => {
                       <Text lineClamp={4} size="sm">
                         Atlas Honda, commonly known as Honda Bikes, has recorded
                         the highest quarterly profits in the September 30, 2023
-                        quarter. According to its letter to the Pakistan Stock
+                        quarter. According to its letter to the Australia Stock
                         Exchange (PSX). Atlas Honda, commonly known as Honda
                         Bikes, has recorded the highest quarterly profits in the
                         September 30, 2023 quarter. According to its letter to
-                        the Pakistan Stock Exchange (PSX).
+                        the Australia Stock Exchange (PSX).
                       </Text>
                     </Flex>
                   </Card>
@@ -548,7 +548,7 @@ const BlogModule = () => {
                       my="md"
                     />
                     <Title order={5} fw={600}>
-                      Honda 125 Price in Pakistan 2023 (September Update)
+                      Honda 125 Price in Australia 2023 (September Update)
                     </Title>
                     <Text c="dimmed" mt="xs">
                       Oct 23, 2023
@@ -565,7 +565,7 @@ const BlogModule = () => {
                             />
                             <Box>
                               <Title order={6} fw={600}>
-                                Toyota Corolla 2023 Price in Pakistan
+                                Toyota Corolla 2023 Price in Australia
                               </Title>
                               <Text c="dimmed" mt="5px" size="sm">
                                 Oct 23, 2023

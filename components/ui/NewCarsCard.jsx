@@ -7,9 +7,26 @@ import { formatToLac, formatToLacOrCrore, formatToMonthYear } from "@/utils";
 import styles from './Card.module.css';
 
 const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
+  const getLaunchStatus = (releaseDate) => {
+    const today = new Date();
+    const release = new Date(releaseDate);
+    return today > release ? "Launched" : "Launching";
+  };
+
   return (
-    <Link href={`/new-cars/${vehicle?.make?.toLowerCase() || ""}/${vehicle?.model?.toLowerCase() || "" }/`}>
-      <Card radius="5px" shadow="0px 4px 20px 0px #00000014" pb="28px" pt="0" px="0" >
+    <Link
+      href={`/new-${vehicle?.type}s/${vehicle?.make?.toLowerCase().replace(/\s+/g, "-") || ""}/${vehicle?.model?.toLowerCase().replace(/\s+/g, "-") || ""}/`}
+      className={styles.cardWrapper}
+      style={{ textDecoration: 'none' }}
+    >
+      <Card 
+        radius="5px" 
+        shadow="0px 4px 20px 0px #00000014" 
+        pb="28px" 
+        pt="0" 
+        px="0"
+        style={{ height: '100%' }}
+      >
         <Box className={styles.cardMedia}>
           <Image
           style={{
@@ -23,18 +40,25 @@ const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
           />
         </Box>
 
+        {console.log(">>>>>>>>>>>>>vehicle", vehicle)}
+
         <Flex direction="column" align="center" gap="12px">
           <Title order={5} fw={500} c="#E90808" lh="1" fz="12px">
             {vehicle?.make} {vehicle?.model}
           </Title>
           <Text fw={700} fz="12px">
-            ${formatToLacOrCrore(vehicle?.minPrice)} -{" "}
-            {formatToLacOrCrore(vehicle?.maxPrice)}
+            {
+              vehicle?.type=="bike" ? (
+                `${vehicle?.price}`
+              ) : (
+                `${formatToLac(vehicle?.minPrice)} - ${formatToLac(vehicle?.maxPrice)} lacs`
+              )
+            }
           </Text>
 
           {!isRating && (
             <Text span inherit fz="12px">
-              (Launched {formatToMonthYear(vehicle.releaseDate)}*)
+              ({getLaunchStatus(vehicle.releaseDate)} {formatToMonthYear(vehicle.releaseDate)}*)
             </Text>
           )}
 

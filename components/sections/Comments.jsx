@@ -266,7 +266,7 @@ const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 
 														<Box className="review-card-footer" mt="auto" pt="md" sx={{ borderTop: '1px solid #f0f0f0' }}>
 															<Text size="sm">By {review?.reviewBy}</Text>
-															<Text c="dimmed" size="sm">{formatToMonthYear(review?.createdAt)} | 62 VIEWS</Text>
+															<Text c="dimmed" size="sm">{formatToMonthYear(review?.createdAt)}</Text>
 														</Box>
 													</Card>
 												</Carousel.Slide>

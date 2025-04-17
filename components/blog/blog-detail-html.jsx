@@ -106,7 +106,7 @@ const BlogDetailHtml = ({ content, blog }) => {
                 {blog?.author}
               </Title>
               <Text size="md">
-                I am content writer at AutoWheels Pakistan. I love
+                I am content writer at AutoWheels Australia. I love
                 Automobile and Technology.
               </Text>
               <ActionIcon.Group mt="xs">

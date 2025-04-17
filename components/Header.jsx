@@ -85,13 +85,13 @@ console.log(user, "user......")
           icon: <Image w={17} h={17} mt={3} src="/megamenu/new-car.svg" />,
           title: "New Cars",
           link: "/new-cars",
-          description: "Find new cars in Pakistan",
+          description: "Find new cars in Australia",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/used-cars.svg" />,
           title: "Used Cars",
           link: "/used-cars/search/-",
-          description: "Find used cars in Pakistan",
+          description: "Find used cars in Australia",
         },
         {
           icon: (
@@ -99,13 +99,13 @@ console.log(user, "user......")
           ),
           title: "Featured Used Cars",
           link: "/used-cars/search/-/ft_featured",
-          description: "Find new cars in Pakistan",
+          description: "Find new cars in Australia",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/sale-car.svg" />,
           title: "Sell Your Cars",
           link: "/used-cars/sell",
-          description: "Find new cars in Pakistan",
+          description: "Find new cars in Australia",
         },
         {
           icon: (
@@ -156,13 +156,13 @@ console.log(user, "user......")
           icon: <Image w={17} h={17} mt={3} src="/megamenu/motorcycle.svg" />,
           title: "New Bikes",
           link: "/new-bikes",
-          description: "Find new bikes in Pakistan",
+          description: "Find new bikes in Australia",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/motorcycle.svg" />,
           title: "Used Bikes",
           link: "/used-bikes/search/-",
-          description: "Find used bikes in Pakistan",
+          description: "Find used bikes in Australia",
         },
         {
           icon: (
@@ -170,13 +170,13 @@ console.log(user, "user......")
           ),
           title: "Featured Used Bikes",
           link: "/used-bikes/search/-/ft_featured",
-          description: "Find new bikes in Pakistan",
+          description: "Find new bikes in Australia",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/sale-car.svg" />,
           title: "Sell Your Bikes",
           link: "/used-bikes/sell",
-          description: "Find new bikes in Pakistan",
+          description: "Find new bikes in Australia",
         },
         {
           icon: (
@@ -215,13 +215,13 @@ console.log(user, "user......")
           icon: <Image w={17} h={17} mt={3} src="/megamenu/truck.png" />,
           title: "New Trucks",
           link: "/new-truck",
-          description: "Find new trucks in Pakistan",
+          description: "Find new trucks in Australia",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/truck.png" />,
           title: "Used Trucks",
           link: "/used-trucks",
-          description: "Find used trucks in Pakistan",
+          description: "Find used trucks in Australia",
         },
         {
           icon: (
@@ -229,13 +229,13 @@ console.log(user, "user......")
           ),
           title: "Featured Used Trucks",
           link: "/used-trucks/search/-/ft_featured",
-          description: "Find new trucks in Pakistan",
+          description: "Find new trucks in Australia",
         },
         {
           icon: <Image w={17} h={17} mt={3} src="/megamenu/sale-car.svg" />,
           title: "Sell Your Trucks",
           link: "/used-trucks/sell",
-          description: "Find new trucks in Pakistan",
+          description: "Find new trucks in Australia",
         },
         {
           icon: (

@@ -75,6 +75,8 @@ const MakesVehicles = ({
           fetchListData(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`)
         ]);
 
+        console.log("makesByType.......",slugMake, vehicleType,upcomingVehicles)
+
         // Find matched make and alternatives
         const matchedMake = makesByType?.data?.find(
           (make) => make?.name?.toLowerCase() === slugMake?.toLowerCase()
@@ -181,7 +183,7 @@ const MakesVehicles = ({
                           </Title>
                           <Button
                             style={{ marginBottom: "-12px" }}
-                            href={`/listing/${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`}
+                            href={`used-${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`}
                             variant="outline"
                             color="#E90808"
                             component={Link}

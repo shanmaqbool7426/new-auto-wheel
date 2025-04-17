@@ -34,8 +34,8 @@
 
 // export const BASE_URL = "http://143.110.253.131:5000";
 // export const BASE_URL = "https://auto-wheel-be.vercel.app";
-export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
-// export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
+// export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
+export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
 
 // Define base paths for commonly used API routes
@@ -64,6 +64,7 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD: `${BASE_URL}/api/user/reset-password`,
     SOCIAL_LOGIN: `${BASE_URL}/api/user/social-login`,
   },
+  TRANSMISSION: `${BASE_URL}/api/transmission`,
   COMPARISON: {
     BASE: `${BASE_URL}/api/comparison`,
     GET_COMPARISON_LIST: `${BASE_URL}/api/comparison/list`,

@@ -31,16 +31,21 @@ import CustomModel from "@/constants/CustomModel";
 import { showNotification } from "@mantine/notifications";
 import { useSession } from "next-auth/react";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
-import { type } from "os";
+import { useSelector } from "react-redux";
+
+
 
 const WriteReviewModal = ({
   opened,
   close,
   fetchMakesByTypeData,
   fetchReviews,
+  vehicleType
 }) => {
   const { data: session } = useSession();
-
+  
+  
+  
   const [ratings, setRatings] = useState({
     mileage: 0,
     safety: 0,
@@ -60,6 +65,9 @@ const WriteReviewModal = ({
     model: "",
     variant: "",
   });
+  
+  const user = useSelector((state) => state.auth);
+  console.log(">>>>>>>>>>>>>user", user?.token)
 
   const clearForm = () => {
     setWantRatings(false);
@@ -108,12 +116,14 @@ const WriteReviewModal = ({
     }
   };
 
-  console.log("fetchMakesByTypeData",fetchMakesByTypeData)
+  console.log("fetchMakesByTypeData", fetchMakesByTypeData)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const reviewData = {
-      vehicle: `${selection?.make} ${selection?.model} ${selection?.variant}`,
+      vehicle: [selection?.make, selection?.model, selection?.variant]
+        .filter(Boolean)
+        .join(' '),
       ratings,
       type: fetchMakesByTypeData?.data[0]?.type,
       reviewText,
@@ -144,7 +154,8 @@ const WriteReviewModal = ({
     try {
       setLoading(true);
       await axios.post(API_ENDPOINTS.REVIEWS.SUBMIT, reviewData, {
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" , "Authorization": `${user?.token}`},
+
       });
 
       if (fetchReviews) await fetchReviews();
@@ -173,12 +184,12 @@ const WriteReviewModal = ({
         withCloseButton={false}
         padding={40}
         size={rem(992)}
-        // title={
-        //   <Title size={rem(20)}>
-        //     Rate & Review {selection.make} {selection.model} {selection.variant}{" "}
-        //     and Win
-        //   </Title>
-        // }
+      // title={
+      //   <Title size={rem(20)}>
+      //     Rate & Review {selection.make} {selection.model} {selection.variant}{" "}
+      //     and Win
+      //   </Title>
+      // }
       >
         {/* <Box className="row" mb="lg">
           <Box className="col-md-12">
@@ -219,12 +230,12 @@ const WriteReviewModal = ({
                     </Text>
                     <Flex align="center" justify="space-between">
                       <Text fw={700} size="lg" style={{ textTransform: 'uppercase' }}>
-                        {selection.make && selection.model 
-                          ? `${selection.make} ${selection.model} ${selection.variant || ''}`.trim() 
+                        {selection.make && selection.model
+                          ? `${selection.make} ${selection.model} ${selection.variant || ''}`.trim()
                           : "Select Vehicle"}
                       </Text>
-                      <ActionIcon 
-                        color="#E90808" 
+                      <ActionIcon
+                        color="#E90808"
                         variant="subtle"
                         onClick={() => {
                           setIsModalOpen(true);
@@ -247,7 +258,7 @@ const WriteReviewModal = ({
                   </Box>
                 </Flex>
               </Card>
-              
+
               {/* Rate your Experience section */}
               {wantRatings && (
                 <>
@@ -272,14 +283,14 @@ const WriteReviewModal = ({
                   </Box>
                 </>
               )}
-              
+
               <Paper bg="#F3F3F3" ta="center" p="lg" mb="md">
                 <Flex justify="center" align="center" gap="md">
                   <Title order={5} fw={600} mb="sm">
                     Your Overall Rating:
                   </Title>
-                  <ActionIcon 
-                    color="#E90808" 
+                  <ActionIcon
+                    color="#E90808"
                     variant="subtle"
                     onClick={() => {
                       setWantRatings(true);
@@ -306,7 +317,7 @@ const WriteReviewModal = ({
                   </Text>
                 </Flex>
               </Paper>
-              
+
               <Box mb="md">
                 <Textarea
                   placeholder="Share the details of your experience"
@@ -385,7 +396,7 @@ const WriteReviewModal = ({
         setSelection={setSelection}
         onClose={() => setIsModalOpen(false)}
         fetchMakesByTypeData={fetchMakesByTypeData}
-        hide={false}
+        hide={vehicleType === "bike" ? true : false}
       />
     </>
   );

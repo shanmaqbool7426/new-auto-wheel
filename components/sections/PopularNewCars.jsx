@@ -10,6 +10,7 @@ const PopularNewCars = ({ bg = true, popularVehicles, type }) => {
     opacity: false ? 0 : 1,
     transform: false ? 'translateY(20px)' : 'translateY(0)'
   };
+  console.log(">>>>>>>>>>>>>popularVehicles", popularVehicles)
 
   return (
     <Box
@@ -33,6 +34,7 @@ const PopularNewCars = ({ bg = true, popularVehicles, type }) => {
                 key={index}
                 style={transitionStyles}
               >
+                {console.log(">>>>>>>>>>>>>vehicle....", vehicle)}
                 <NewCarsCard vehicle={vehicle} isRating={true} />
               </Box>
             );

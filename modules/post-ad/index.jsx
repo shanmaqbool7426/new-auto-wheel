@@ -77,7 +77,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
     images: z.array(z.any()).min(1, 'At least one image is required'),
     make: z.string().min(1, 'Make is required'),
     model: z.string().min(1, 'Model is required'),
-    variant: z.string().min(1, 'Variant is required'),
+    variant: z.string().optional(),
     engineType: z.string().min(1, 'Engine type is required'),
     engineCapacity: z.number().optional(),
     drive: z.string().optional(),
@@ -136,7 +136,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
   const steps = [
     {
       label: 'Basic Information',
-      fields: ['year', 'city', 'suburb', 'make', 'model', 'variant', 'registeredIn', 'rego', 'exteriorColor', 'condition', 'milage', 'price', 'description', 'images', 'vin'],
+      fields: ['year', 'city', 'suburb', 'make', 'model', 'registeredIn', 'rego', 'exteriorColor', 'condition', 'milage', 'price', 'description', 'images', 'vin'],
     },
     {
       label: 'Vehicle Details',

@@ -24,7 +24,7 @@ const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />
-      <BrowseVideos type="car" />
+      <BrowseVideos type={vehicle?.vehicleDetails?.type} />
       <Comments bg="#F3F3F3" vehicleType={vehicle?.vehicleDetails?.type}
         fetchMakesByTypeData={makesAndBodies.makes} />
       {competitors?.length > 0 && (
@@ -36,7 +36,7 @@ const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
         />
       )}
       {/* <SectionTopComparison /> */}
-      <ComparisonProducts type={"car"} />
+      <ComparisonProducts type={vehicle?.vehicleDetails?.type} />
       <CardsCarousel
         title={`Used ${vehicle?.vehicleDetails?.make} ${vehicle?.vehicleDetails?.model} for`}
         primaryTitle={'Sale'}

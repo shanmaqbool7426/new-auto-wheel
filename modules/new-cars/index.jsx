@@ -270,6 +270,8 @@ const NewCarsModule = ({
           type={type} 
           isNew={isNew}  // Pass isNew prop
         />
+
+        {console.log(">>>>>>>>>>>>>popularVehicles.....", popularVehicles)}
         <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
@@ -547,7 +549,7 @@ const NewCarsModule = ({
 
         <QuickLinks vehicleType={type}/>
       </section>
-      <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} />
+      <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} vehicleType={type}/>
     </>
   );
 };

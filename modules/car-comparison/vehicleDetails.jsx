@@ -7,6 +7,9 @@ import VehicleComparisonLabels from "./VehicleComparisonLabels";
 import Header from "./vehicleDetailHeader";
 // import { comparisonData } from "@/mock-data/comparions-data";
 import { mapVehicleData } from "@/utils/comparisonData"
+import TopComparison from "@/components/comparison/top-comparison";
+import ComparisonProducts from "../home/ComparisonProducts";
+import QuickLinks from "@/components/QuickLinks";
 const VehicleComparisonDetail = ({ vehicles, type }) => {
     const [hideCommonFeatures, setHideCommonFeatures] = React.useState(false);
     const [activeVehicles, setActiveVehicles] = React.useState(vehicles || []);
@@ -52,6 +55,9 @@ const VehicleComparisonDetail = ({ vehicles, type }) => {
                     </div>
                 </div>
             </Box>
+            <ComparisonProducts type={type}/>
+            <QuickLinks type={type}/>
+            {/* <TopComparison vehicles={activeVehicles} type={type}/> */}
         </>
     );
 };

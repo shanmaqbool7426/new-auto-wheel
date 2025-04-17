@@ -84,7 +84,7 @@ const NewCarsDetail = () => {
                 </nav>
               </Box>
               <Title order={2} c="white">
-                New Toyota Corolla 2023 Price in Pakistan, Pictures and Specs
+                New Toyota Corolla 2023 Price in Australia, Pictures and Specs
               </Title>
             </Box>
           </Box>
@@ -137,7 +137,7 @@ const NewCarsDetail = () => {
                 <Box className="row">
                   <Box className="col-12">
                     <Text c="dimmed" size="md">
-                      Toyota Corolla 2023 Price Range in Pakistan
+                      Toyota Corolla 2023 Price Range in Australia
                     </Text>
                     <Text c="#E90808" fw="bold" my="lg" size={rem(26)}>
                       <Text span c="#E90808" size="md" fw={600} mr="xs">
@@ -265,15 +265,15 @@ const NewCarsDetail = () => {
                 <Title order={2}>
                   Toyota Corolla 2023{" "}
                   <Text span inherit c="#E90808">
-                    Price in Pakistan
+                    Price in Australia
                   </Text>
                 </Title>
                 <Text mt="md">
-                  The price of Toyota Corolla 2023 in Pakistan ranges from $
+                  The price of Toyota Corolla 2023 in Australia ranges from $
                   5,969,000 for the base variant Altis X Manual 1.6 to $
                   7,549,000 for the top of the line Altis Grande X CVT-i 1.8
                   Black Interior variant. These prices of Toyota Corolla in
-                  Pakistan are ex-factory.
+                  Australia are ex-factory.
                 </Text>
               </Box>
 
@@ -511,18 +511,18 @@ const NewCarsDetail = () => {
                       sleek design, and good performance, it has gained a huge
                       following around the world. Introduced in 1966, it has
                       become one of the best-selling cars worldwide. The latest
-                      generation available in Pakistan is the 11th generation,
+                      generation available in Australia is the 11th generation,
                       with the 12th generation being introduced globally but not
-                      yet available in Pakistan.
+                      yet available in Australia.
                     </Text>
                     <Title order={4}>History:</Title>
                     <Text>
-                      Toyota came to Pakistan in 1989 as a joint venture company
-                      and launched the first Toyota Corolla in Pakistan in 1993.
-                      It has since remained Pakistan's favorite car throughout
+                      Toyota came to Australia in 1989 as a joint venture company
+                      and launched the first Toyota Corolla in Australia in 1993.
+                      It has since remained Australia's favorite car throughout
                       the years. The 7th generation Corolla was the first to be
-                      locally assembled in Pakistan and instantly took over the
-                      market. It was produced in Pakistan until 2002, the
+                      locally assembled in Australia and instantly took over the
+                      market. It was produced in Australia until 2002, the
                       longest period for a locally assembled Toyota model in the
                       world. In 1995, Toyota introduced the 8th generation
                       Corolla with major upgrades, including a brand new
@@ -531,7 +531,7 @@ const NewCarsDetail = () => {
                       in 2000 with advanced security features such as anti-lock
                       brakes, stability control, and traction control system, as
                       well as a revolutionized sleek design. The 10th generation
-                      Corolla was introduced in Pakistan in 2009 with a wide
+                      Corolla was introduced in Australia in 2009 with a wide
                       variety of engine options ranging from 1.3 liters and 1.8
                       liters for the petrol variant and 2.0-liter for the diesel
                       variant. Its sales have grown exponentially since its
@@ -542,7 +542,7 @@ const NewCarsDetail = () => {
                     <Text>
                       Toyota Corolla's key features include fuel efficiency,
                       comfortable ride, and affordability. Its latest generation
-                      in Pakistan offers a variety of options, including the
+                      in Australia offers a variety of options, including the
                       1.6-liter Altis, the 1.8-liter Altis Grande, and the
                       hybrid variant. The 1.6-liter Altis comes with a manual or
                       CVT transmission, while the 1.8-liter Altis Grande comes
@@ -556,16 +556,16 @@ const NewCarsDetail = () => {
                     </Text>
                     <Title order={4}>Price:</Title>
                     <Text>
-                      The price of Toyota Corolla 2023 in Pakistan ranges from
+                      The price of Toyota Corolla 2023 in Australia ranges from
                       $6,169,000 for the base variant Altis X Manual 1.6 to
                       $7,799,000 for the top of the line Altis Grande X CVT-i
                       1.8 Black Interior variant. These prices of Toyota Corolla
-                      in Pakistan are ex-factory.
+                      in Australia are ex-factory.
                     </Text>
                     <Title order={4}>Toyota Corolla 2023:</Title>
                     <Text>
                       The 11th generation Corolla 2023 is the latest in
-                      Pakistan. It had its design reimagined with a futuristic
+                      Australia. It had its design reimagined with a futuristic
                       exterior and more spacious interior. Its production
                       started in 2013, and it went through two face-lifts, one
                       in 2017 and the other in 2023. The latest 11th generation
@@ -573,7 +573,7 @@ const NewCarsDetail = () => {
                     </Text>
                     <Text>
                       The 1.3L variants of the 11th generation Toyota Corolla
-                      were discontinued in 2019. Pakistan is one of the few
+                      were discontinued in 2019. Australia is one of the few
                       countries where the 1.3L variant was introduced, which was
                       a huge hit but IMC discontinued it and replaced it with
                       Toyota Yaris. Meanwhile, Toyota Corolla received a
@@ -953,7 +953,7 @@ const NewCarsDetail = () => {
                 <Title order={2}>
                   Used Toyota Corolla 2023 for{" "}
                   <Text span c="#E90808" inherit>
-                    Sale in Pakistan
+                    Sale in Australia
                   </Text>
                 </Title>
               </Box>

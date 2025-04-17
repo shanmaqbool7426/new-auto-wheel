@@ -31,6 +31,22 @@ import VehicleComparison from "@/components/ComparisonCard";
 import { useRouter } from "next/navigation";
 // import { CloseButton } from "@/components/ui/CloseButton";
 
+// Safely get the path - don't access window at the module level
+let path = '';
+// Detect the environment
+const isClient = typeof window !== 'undefined';
+
+// Function to get vehicle type from path
+function getVehicleType(currentPath) {
+  if (!currentPath) return 'car';
+  
+  if (currentPath.includes('used-bikes')) return 'bike';
+  if (currentPath.includes('used-cars')) return 'car';
+  if (currentPath.includes('used-trucks')) return 'truck';
+  
+  return 'car'; // Default to car
+}
+
 const FilterBadges = ({ params, searchParams }) => {
   const slug = params.slug;
 
@@ -207,20 +223,24 @@ export default async function Listing({ params, searchParams }) {
   const userData = getLocalStorage("user");
   const view = searchParams.view;
   
-  // Extract vehicle type from URL path
-  const getVehicleType = (path) => {
-    if (!path) return 'car';
-    
-    // Check if the path starts with 'used-'
-    if (path.startsWith('used-')) {
-      // Remove 'used-' prefix and 's' suffix
-      return path.replace('used-', '').replace(/s$/, '');
-    }
-    return 'car'; // Default to car if no match
-  };
-
-  // Get the vehicle type from the first slug parameter
-  const vehicleType = params.slug?.[0] ? getVehicleType(params.slug[0]) : 'car';
+  // Get path safely based on environment
+  let currentPath = '';
+  
+  // In client-side, we can access window
+  if (isClient) {
+    currentPath = window.location.pathname;
+    // Update the module level path for other components
+    path = currentPath;
+  } 
+  // In server-side, try to determine from params
+  else if (params?.slug?.[0]) {
+    currentPath = `/used-${params.slug[0]}`;
+  }
+  
+  // Get the vehicle type from the path
+  const vehicleType = getVehicleType(currentPath);
+  
+  console.log("vehicleType........", vehicleType);
   
   const sortBy = searchParams.sortBy
     ? `sb_${searchParams.sortBy}`

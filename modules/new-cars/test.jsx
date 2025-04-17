@@ -99,7 +99,7 @@ import {
                 <Box className="row">
                   <Box className="col-12">
                     <Text c="dimmed" size="md">
-                      {`${make} ${model} ${variant} Price Range in Pakistan`}
+                      {`${make} ${model} ${variant} Price Range in Australia`}
                     </Text>
                     <Text c="#E90808" fw="bold" my="lg" size={rem(26)}>
                       <Text span c="#E90808" size="md" fw={600} mr="xs">
