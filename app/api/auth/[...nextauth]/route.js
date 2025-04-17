@@ -154,7 +154,6 @@ import NextAuth from "next-auth";
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from "next-auth/providers/credentials";
-import { socialLogin } from "../../../services/auth";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import axios from 'axios';
 
@@ -232,17 +231,55 @@ const authOptions = {
   ],
   secret: '739d95146513d67502b0ba4776a5cae8',
   callbacks: {
-    async signIn({ user, account, profile, trigger }) {
+    async signIn({ user, account, profile }) {
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
-        // Return the basic profile data - the actual social login will be handled client-side
-        const res = await socialLogin({
-          provider: account.provider,
-          accessToken: account.access_token,
-          email: profile.email,
-          name: profile.name || `${profile.given_name} ${profile.family_name}`,
-          image: profile.picture || profile.image
-        });
-        return true;
+        try {
+          // Extract accountType from state parameter
+          let accountType = '';
+          try {
+            const stateData = JSON.parse(account.state || '{}');
+            accountType = stateData.accountType ;
+          } catch (e) {
+            console.error('Error parsing state:', e);
+          }
+
+          // Send social login data to your backend
+          const res = await axios.post('http://localhost:5000/api/user/social-login', {
+            provider: account.provider,
+            accessToken: account.access_token,
+            email: profile.email,
+            name: profile.name || `${profile.given_name} ${profile.family_name}`,
+            image: profile.picture || profile.image,
+            accountType
+          });
+
+          console.log("accountType...",accountType)
+
+          if (res.data && (res.data.statusCode === 200 || res.data.statusCode === 201)) {
+            const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
+            
+            // Replace the user object with data from your backend
+            user.id = userData._id;
+            user.fullName = userData.fullName;
+            user.email = userData.email;
+            user.phone = userData.phone;
+            user.rating = userData.rating;
+            user.isVerified = userData.isVerified;
+            user.reports = userData.reports;
+            user.createdAt = userData.createdAt;
+            user.updatedAt = userData.updatedAt;
+            user.verificationCode = userData.verificationCode;
+            user.token = res.data?.data.token || res.data?.data;
+            user.accountType = userData.accountType || accountType;
+            
+            return true;
+          }
+          console.error("Social login failed:", res.data);
+          return false;
+        } catch (error) {
+          console.error("Social login error:", error.response?.data || error.message);
+          return false;
+        }
       }
       return true;
     },
