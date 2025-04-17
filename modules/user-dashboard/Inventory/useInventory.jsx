@@ -47,7 +47,6 @@ console.log("user........",user)
     status: '',
     date: 'newToOld',
   });
-  console.log('>>>>>..........',user)
 
   // Add debounce effect for search term
   useEffect(() => {

@@ -158,7 +158,6 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import axios from 'axios';
 
 
-console.log("process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID",process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
 const authOptions = {
   providers: [
     GoogleProvider({
@@ -228,7 +227,16 @@ const authOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "YOUR_SECRET_SHOULD_BE_IN_ENV_FILE_THIS_IS_A_FALLBACK",
+  pages: {
+    signIn: '/auth/signin',
+    error: '/auth/error',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  debug: process.env.NODE_ENV === 'development',
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
