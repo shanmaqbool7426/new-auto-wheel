@@ -174,6 +174,7 @@ const authOptions = {
       clientId: '874743337540967',
       clientSecret: '8b2eb17676e71487b83cf3cf4b5deb24'
     }),
+    
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -229,7 +230,7 @@ const authOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: '739d95146513d67502b0ba4776a5cae8',
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
