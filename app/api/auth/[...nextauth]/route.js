@@ -227,7 +227,7 @@ const authOptions = {
       },
     }),
   ],
-  secret:  "YOUR_SECRET_SHOULD_BE_IN_ENV_FILE_THIS_IS_A_FALLBACK",
+  secret:  process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/signin',
     error: '/auth/error',
