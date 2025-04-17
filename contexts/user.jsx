@@ -30,8 +30,10 @@ export function UserProvider({ children }) {
     }
   }, [openAuthModal]);
 
+  
   // Handle account type update
   useEffect(() => {
+    console.log("......userData",session);
     const handleAccountTypeUpdate = async () => {
       if (session?.user && !session.user.accountType) {
         const storedAccountType = localStorage.getItem('accountType');
