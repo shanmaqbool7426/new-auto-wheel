@@ -154,14 +154,15 @@ import NextAuth from "next-auth";
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from "next-auth/providers/credentials";
+import { socialLogin } from "../../../services/auth";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import axios from 'axios';
 
 const authOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.GOOGLE_CLIENT_ID || '1090899538284-74f4i841j0ascsgk84i743bpriebu7d5.apps.googleusercontent.com',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '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',
       authorization: {
         params: {
           prompt: "consent",
@@ -231,56 +232,22 @@ const authOptions = {
   ],
   secret: '739d95146513d67502b0ba4776a5cae8',
   callbacks: {
-    async signIn({ user, account, profile }) {
-
-      console.log("before sign in",account)
-       
-
+    async signIn({ user, account, profile, trigger }) {
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
-        try {
-      console.log("after sign in",user, account, profile)
-
-          // Send social login data to your backend
-          const res = await axios.post(API_ENDPOINTS.AUTH.SOCIAL_LOGIN, {
-            provider: account.provider,
-            accessToken: account.access_token,
-            email: profile.email,
-            name: profile.name || `${profile.given_name} ${profile.family_name}`,
-            image: profile.picture || profile.image
-          });
-
-          console.log(">>>>>>>>>>>>>",res.data?.data)
-          
-          if (res.data && (res.data.statusCode === 200 || res.data.statusCode === 201)) {
-            const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
-            
-            // Replace the user object completely with data from your backend
-            // This ensures the same data structure as credentials login
-            user.id = userData._id;
-            user.fullName = userData.fullName;
-            user.email = userData.email;
-            user.phone = userData.phone;
-            user.rating = userData.rating;
-            user.isVerified = userData.isVerified;
-            user.reports = userData.reports;
-            user.createdAt = userData.createdAt;
-            user.updatedAt = userData.updatedAt;
-            user.verificationCode = userData.verificationCode;
-            user.token = res.data?.data.token || res.data?.data;
-            
-            return true;
-          }
-          return false;
-        } catch (error) {
-          console.error("Social login error:", error);
-          return false;
-        }
+        // Return the basic profile data - the actual social login will be handled client-side
+        const res = await socialLogin({
+          provider: account.provider,
+          accessToken: account.access_token,
+          email: profile.email,
+          name: profile.name || `${profile.given_name} ${profile.family_name}`,
+          image: profile.picture || profile.image
+        });
+        return true;
       }
       return true;
     },
 
     async jwt({ token, user, account }) {
-      // Initial sign in
       if (account && user) {
         return {
           ...token,
@@ -294,16 +261,14 @@ const authOptions = {
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
           verificationCode: user.verificationCode,
-          token: user.token
+          token: user.token,
+          accountType: user.accountType
         };
       }
-      
-      // Return previous token if the access token has not expired yet
       return token;
     },
 
     async session({ session, token }) {
-      // Send properties to the client
       session.user._id = token.id;
       session.user.fullName = token.fullName;
       session.user.email = token.email;
@@ -315,16 +280,16 @@ const authOptions = {
       session.user.updatedAt = token.updatedAt;
       session.user.verificationCode = token.verificationCode;
       session.user.token = token.token;
+      session.user.accountType = token.accountType;
       
       return session;
     },
     
     async redirect({ url, baseUrl }) {
-      // Redirect to home page after sign-in
       if (url.startsWith(baseUrl)) {
         return `${baseUrl}/`;
       }
-      return `${baseUrl}`;
+      return baseUrl;
     }
   }
 };
