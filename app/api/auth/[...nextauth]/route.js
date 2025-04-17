@@ -229,7 +229,7 @@ const authOptions = {
       },
     }),
   ],
-  secret: '739d95146513d67502b0ba4776a5cae8',
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account && (account.provider === 'google' || account.provider === 'facebook')) {
