@@ -39,19 +39,17 @@ const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
             alt="Mehran"
           />
         </Box>
-
         {console.log(">>>>>>>>>>>>>vehicle", vehicle)}
-
         <Flex direction="column" align="center" gap="12px">
           <Title order={5} fw={500} c="#E90808" lh="1" fz="12px">
             {vehicle?.make} {vehicle?.model}
           </Title>
           <Text fw={700} fz="12px">
             {
-              vehicle?.type=="bike" ? (
-                `${vehicle?.price}`
-              ) : (
+              vehicle?.haveVariant ? (
                 `${formatToLac(vehicle?.minPrice)} - ${formatToLac(vehicle?.maxPrice)} lacs`
+              ) : (
+                `${formatToLac(vehicle?.price)} lacs`
               )
             }
           </Text>

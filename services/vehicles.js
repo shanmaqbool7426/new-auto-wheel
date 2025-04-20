@@ -3,6 +3,9 @@ import { API_ENDPOINTS, LOCATION_PROVINCES } from "@/constants/api-endpoints";
 
 export const fetchVehiclsData = async (params) => {
   try {
+
+
+    console.log("params....>>>>>>>>",params)
     let vehicleType = 'car'; // Default vehicle type
     let filterParams = [];
 

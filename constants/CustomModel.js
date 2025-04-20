@@ -30,6 +30,7 @@ const CustomModel = ({
   const [models, setModels] = useState({});
   const [variants, setVariants] = useState({});
   const [activeTab, setActiveTab] = useState("make"); // State to track active tab
+  const [hasVariants, setHasVariants] = useState(false);
 
   useEffect(() => {
     const fetchedMakes = [];
@@ -79,6 +80,15 @@ const CustomModel = ({
       )
       : [];
 
+  // Check if selected model has variants
+  useEffect(() => {
+    if (selection.model && variants[selection.model] && variants[selection.model].length > 0) {
+      setHasVariants(true);
+    } else {
+      setHasVariants(false);
+    }
+  }, [selection.model, variants]);
+
   const [opened, { open, close }] = useDisclosure(isOpen);
   const handleSelection = (type, value) => {
     setSelection((prev) => {
@@ -94,11 +104,18 @@ const CustomModel = ({
       }
 
       if (type === "model") {
-        setActiveTab("variant"); // Set active tab to variant
-        return {
-          ...updatedSelection,
-          variant: "", // Reset variant
-        };
+        // Check if model has variants before switching to variant tab
+        if (variants[value] && variants[value].length > 0) {
+          setActiveTab("variant"); // Set active tab to variant
+          return {
+            ...updatedSelection,
+            variant: "", // Reset variant
+          };
+        } else {
+          // If no variants, close modal since selection is complete
+          closeModal();
+          return updatedSelection;
+        }
       }
 
       if (type === "variant") {
@@ -127,21 +144,44 @@ const CustomModel = ({
     </Text>
   );
 
+  // Calculate visible columns
+  const getVisibleColumns = () => {
+    if (!selection.make) {
+      return { make: true, model: false, variant: false };
+    } else if (selection.make && !selection.model) {
+      return { make: true, model: true, variant: false };
+    } else if (selection.make && selection.model) {
+      return { make: true, model: true, variant: hasVariants && !hide };
+    }
+    return { make: true, model: false, variant: false };
+  };
 
+  const visibleColumns = getVisibleColumns();
+  const totalVisibleColumns = Object.values(visibleColumns).filter(Boolean).length;
+  
+  // Determine modal size based on visible columns
+  const getModalSize = () => {
+    if (totalVisibleColumns === 1) return "md";
+    if (totalVisibleColumns === 2) return "lg";
+    return "xl";
+  };
 
   return (
     <Modal
       opened={isOpen}
       onClose={closeModal}
       withCloseButton={false}
-      size={"xl"}
+      size={getModalSize()}
       padding={0}
       styles={{
         inner: {
           paddingTop: '80px' // Add top padding to create gap from header
         },
         content: {
-          maxHeight: 'calc(100vh - 100px)' // Adjust max height to account for top gap
+          maxHeight: 'calc(100vh - 100px)', // Adjust max height to account for top gap
+          width: `${totalVisibleColumns * 350}px`, // Dynamic width based on columns
+          maxWidth: '100%',
+          margin: '0 auto'
         }
       }}
       closeOnClickOutside={false} // Prevent modal from closing on outside click
@@ -169,24 +209,26 @@ const CustomModel = ({
           >
             Make
           </Button>
-          <Button
-            className={`tab-button`}
-            variant="subtle"
-            bg={activeTab === "model" ? "#E90808" : "#F3F3F3"}
-            color={activeTab === "model" ? "white" : "#878787"}
-            size="xs"
-            mr="md"
-            autoContrast
-            onClick={() => {
-              setActiveTab("model");
-              if (selection.model) {
-                setSelection((prev) => ({ ...prev, model: "" }));
-              }
-            }}
-          >
-            Model
-          </Button>
-          {!hide && ( // Conditionally render Variants tab button
+          {visibleColumns.model && (
+            <Button
+              className={`tab-button`}
+              variant="subtle"
+              bg={activeTab === "model" ? "#E90808" : "#F3F3F3"}
+              color={activeTab === "model" ? "white" : "#878787"}
+              size="xs"
+              mr="md"
+              autoContrast
+              onClick={() => {
+                setActiveTab("model");
+                if (selection.model) {
+                  setSelection((prev) => ({ ...prev, model: "" }));
+                }
+              }}
+            >
+              Model
+            </Button>
+          )}
+          {visibleColumns.variant && (
             <Button
               className={`tab-button`}
               variant="subtle"
@@ -209,100 +251,103 @@ const CustomModel = ({
         </Center>
       </Paper>
       <Grid gutter={0}>
-        <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
-          {/* Make Section */}
-          <Input
-            placeholder="Search by Car Make"
-            leftSection={<BsSearch />}
-            value={makeSearch}
-            onChange={(e) => setMakeSearch(e.target.value)}
-          />
-          <Title order={5} my="sm" fw={600}>
-            Popular
-          </Title>
-          <ScrollArea
-            h={230}
-            offsetScrollbars
-            scrollbarSize={5}
-            scrollHideDelay={500}
-            scrollbars="y"
-          >
-            {filteredMakes.length > 0 ? (
-              <List className="search-dropdown-lists" listStyleType="none">
-                {filteredMakes.map((make) => (
-                  <List.Item
-                    key={make._id}
-                    className={`search-dropdown-lists__item ${selection.make === make.name ? "selected" : ""
-                      }`}
-                    icon={
-                      <Image
-                        src={make.image}
-                        // alt={make.name}
-                        fallbackSrc="/megamenu/search-menu/default-make.svg" // Add a default image
-                        width={24}
-                        height={24}
-                      />
-                    }
-                    onClick={() => {
-                      handleSelection("make", make.name);
-                      setActiveTab("model"); // Set active tab to model
-                    }}
-                  >
-                    {make.name} <BsArrowRight />
-                  </List.Item>
-                ))}
-              </List>
-            ) : (
-              <NoResultsMessage text={`No makes found matching "${makeSearch}"`} />
-            )}
-          </ScrollArea>
-        </Grid.Col>
-        <Grid.Col span={hide ? 6 : 4} p="md" pt="xl" className="border-end">
-          {/* Model Section */}
-          <Input
-            placeholder="Search by Car Model"
-            leftSection={<BsSearch />}
-            value={modelSearch}
-            onChange={(e) => setModelSearch(e.target.value)}
-          />
-          <Title order={5} my="sm" fw={600}>
-            All Models
-          </Title>
-          <ScrollArea
-            h={220}
-            offsetScrollbars
-            scrollbarSize={5}
-            scrollHideDelay={500}
-            scrollbars="y"
-          >
-            {selection.make ? (
-              filteredModels.length > 0 ? (
+        {visibleColumns.make && (
+          <Grid.Col span={12 / totalVisibleColumns} p="md" pt="xl" className="border-end">
+            {/* Make Section */}
+            <Input
+              placeholder="Search by Car Make"
+              leftSection={<BsSearch />}
+              value={makeSearch}
+              onChange={(e) => setMakeSearch(e.target.value)}
+            />
+            <Title order={5} my="sm" fw={600}>
+              Popular
+            </Title>
+            <ScrollArea
+              h={230}
+              offsetScrollbars
+              scrollbarSize={5}
+              scrollHideDelay={500}
+              scrollbars="y"
+            >
+              {filteredMakes.length > 0 ? (
                 <List className="search-dropdown-lists" listStyleType="none">
-                  {selection.make &&
-                    filteredModels.map((model) => (
-                      <List.Item
-                        key={model}
-                        className={`search-dropdown-lists__item ${selection.model === model ? "selected" : ""
-                          }`}
-                        onClick={() => {
-                          handleSelection("model", model);
-                          setActiveTab("variant"); // Set active tab to variant
-                        }}
-                      >
-                        {model} <BsArrowRight />
-                      </List.Item>
-                    ))}
+                  {filteredMakes.map((make) => (
+                    <List.Item
+                      key={make._id}
+                      className={`search-dropdown-lists__item ${selection.make === make.name ? "selected" : ""
+                        }`}
+                      icon={
+                        <Image
+                          src={make.image}
+                          // alt={make.name}
+                          fallbackSrc="/megamenu/search-menu/default-make.svg" // Add a default image
+                          width={24}
+                          height={24}
+                        />
+                      }
+                      onClick={() => {
+                        handleSelection("make", make.name);
+                        setActiveTab("model"); // Set active tab to model
+                      }}
+                    >
+                      {make.name} <BsArrowRight />
+                    </List.Item>
+                  ))}
                 </List>
               ) : (
-                <NoResultsMessage text={`No models found matching "${modelSearch}"`} />
-              )
-            ) : (
-              <NoResultsMessage text="Please select a make first" />
-            )}
-          </ScrollArea>
-        </Grid.Col>
-        {!hide && ( // Conditionally render Variants column
-          <Grid.Col span={4} p="md" pt="xl" className="border-end">
+                <NoResultsMessage text={`No makes found matching "${makeSearch}"`} />
+              )}
+            </ScrollArea>
+          </Grid.Col>
+        )}
+        {visibleColumns.model && (
+          <Grid.Col span={12 / totalVisibleColumns} p="md" pt="xl" className="border-end">
+            {/* Model Section */}
+            <Input
+              placeholder="Search by Car Model"
+              leftSection={<BsSearch />}
+              value={modelSearch}
+              onChange={(e) => setModelSearch(e.target.value)}
+            />
+            <Title order={5} my="sm" fw={600}>
+              All Models
+            </Title>
+            <ScrollArea
+              h={220}
+              offsetScrollbars
+              scrollbarSize={5}
+              scrollHideDelay={500}
+              scrollbars="y"
+            >
+              {selection.make ? (
+                filteredModels.length > 0 ? (
+                  <List className="search-dropdown-lists" listStyleType="none">
+                    {selection.make &&
+                      filteredModels.map((model) => (
+                        <List.Item
+                          key={model}
+                          className={`search-dropdown-lists__item ${selection.model === model ? "selected" : ""
+                            }`}
+                          onClick={() => {
+                            handleSelection("model", model);
+                          }}
+                        >
+                          {model} <BsArrowRight />
+                        </List.Item>
+                      ))}
+                  </List>
+                ) : (
+                  <NoResultsMessage text={`No models found matching "${modelSearch}"`} />
+                )
+              ) : (
+                <NoResultsMessage text="Please select a make first" />
+              )}
+            </ScrollArea>
+          </Grid.Col>
+        )}
+        {visibleColumns.variant && (
+          <Grid.Col span={12 / totalVisibleColumns} p="md" pt="xl" className="border-end">
             <Input
               placeholder="Search by Car Variant"
               leftSection={<BsSearch />}
@@ -330,7 +375,6 @@ const CustomModel = ({
                             }`}
                           onClick={() => {
                             handleSelection("variant", variant);
-                            setActiveTab("variant"); // Set active tab to variant
                           }}
                         >
                           {variant} <BsArrowRight />

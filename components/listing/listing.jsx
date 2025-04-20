@@ -255,6 +255,9 @@ export default async function Listing({ params, searchParams }) {
   // Add view to filterParams if it exists
   const finalParams = view ? [...paramsWithSort, `view_${view}`] : paramsWithSort;
 
+
+
+  console.log("finalParams....>>>>>>>>",[`used-${vehicleType}s`, ...finalParams])
   const [
     dataofVehcles,
     vehicleMakes,

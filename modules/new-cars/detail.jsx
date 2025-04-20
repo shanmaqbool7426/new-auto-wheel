@@ -1,4 +1,3 @@
-
 import BrowseVideos from "@/components/videos/browse-videos"
 import BrowseBlogCarousel from "@/components/blog/browse-blogs-carousel"
 import VehicleDetail from "./vehicle-detail"
@@ -12,10 +11,11 @@ import { fetchMakesAndBodies, fetchVehicleCompetitors, fetchVehiclsData } from "
 import { reorderSlug } from "@/utils";
 
 const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
-  const reorderedSlug = reorderSlug([`cars`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
+  const vehicleType = vehicle?.vehicleDetails?.type || 'car'; // Default to 'car' if type is not available
+  const reorderedSlug = reorderSlug([`mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
   
-  console.log("vehicle?._id",vehicle)
-  const dataofVehcles = await fetchVehiclsData(reorderedSlug);
+  console.log("reorderedSlug.....>>>>>>>..1",reorderedSlug)
+  const dataofVehcles = await fetchVehiclsData([`used-${vehicleType}s`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
   const competitors = await fetchVehicleCompetitors(vehicle?.vehicleDetails?._id);
   const makesAndBodies = await fetchMakesAndBodies(vehicle?.vehicleDetails?.type);
 

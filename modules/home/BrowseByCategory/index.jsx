@@ -22,7 +22,7 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
   const getMakeUrl = (make) => {
     return isNew 
       ? `/new-${type}s/${make.toLowerCase()}`  // Format: /new-cars/make/Honda
-      : `/used-${type}s/search/-/mk_${make}`; // Regular format
+      : `/used-${type}s/search/-/mk_${make.toLowerCase()}`; // Regular format
   };
 
   const getBodyUrl = (bodyType) => {

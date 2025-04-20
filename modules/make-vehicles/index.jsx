@@ -33,6 +33,7 @@ import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import styles from '@/components/sections/Comments.module.css';
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { fetchListData } from "@/services/vehicles";
+import { ClientPageRoot } from "next/dist/client/components/client-page";
 
 const MakesVehicles = ({
   slugMake,
@@ -53,6 +54,9 @@ const MakesVehicles = ({
     matchedMake: null,
     alternativeMakes: null,
   });
+
+
+  console.log(">>>>>>>>.data........",bodies?.data)
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -111,6 +115,7 @@ const MakesVehicles = ({
     setIsExpanded(!isExpanded);
   };
 
+  const bodyImage = bodies?.data?.find((item) => item?.slug == slugMake)?.bodyImage;
   const shortText = data.matchedMake?.description?.slice(0, 430);
 
   if (isLoading) {
@@ -159,6 +164,7 @@ const MakesVehicles = ({
                   padding="lg"
                   radius="sm"
                 >
+                  {console.log(">>>>>>>>.data",data)}
                   <Title order={3} mb="md">
                     {slugMake} Car Models, Prices
                   </Title>
@@ -172,7 +178,7 @@ const MakesVehicles = ({
                           align="center"
                         >
                           <Image
-                            src={data.matchedMake?.companyImage}
+                            src={data.matchedMake?.companyImage ? data.matchedMake?.companyImage :bodyImage}
                             style={{ marginTop: "-20px" }}
                             alt={`${slugMake} Logo`}
                             h={50}

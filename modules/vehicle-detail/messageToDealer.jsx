@@ -30,6 +30,9 @@ const MessageToDealer = ({ sellerId, vehicleDetails }) => {
   const [messageSent, setMessageSent] = useState(false);
   const { userData } = useUser();
   const { openAuthModal } = useAuthModalContext();
+
+
+  console.log("userData.......",userData)
   
   const form = useForm({
     initialValues: {
@@ -96,14 +99,14 @@ const MessageToDealer = ({ sellerId, vehicleDetails }) => {
     if (session?.user) {
       form.setValues({
         ...form.values,
-        name: session.user.name || "",
+        name: userData?.fullName || "",
         email: session.user.email || "",
         phone: session.user.phone || "",
       });
     } else if (userData) {
       form.setValues({
         ...form.values,
-        name: userData.name || "",
+        name:userData?.fullName || "",
         email: userData.email || "",
         phone: userData.phone || "",
       });
@@ -244,7 +247,7 @@ const MessageToDealer = ({ sellerId, vehicleDetails }) => {
                 label="Name"
                 my="md"
                 placeholder="John Doe"
-                disabled={!!session?.user?.name || !!userData?.name}
+                disabled={!!userData?.fullName}
                 styles={{ 
                   input: { 
                     border: 0,
@@ -318,11 +321,11 @@ const MessageToDealer = ({ sellerId, vehicleDetails }) => {
                   </Link>
                 </Text>
               </Group>
-              {form.errors.acceptedPolicy && (
+              {/* {form.errors.acceptedPolicy && (
                 <Text size="xs" c="red" mb="sm">
                   {form.errors.acceptedPolicy}
                 </Text>
-              )}
+              )} */}
             </Box>
             <Box className="col-md-12">
               <Button

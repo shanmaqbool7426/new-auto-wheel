@@ -251,7 +251,7 @@ function EMICalculator({ data }) {
                   customer risk profile
                 </Title>
                 <Text size={rem(14)} ff="heading" mt="md">
-                  550+ customers availed the facility
+                  {/* 550+ customers availed the facility */}
                 </Text>
               </Box>
             </Box>

@@ -36,14 +36,15 @@ import Gallery from "@/modules/vehicle-detail/imagesGellary";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { formatPrice, formatPriceInFactors } from "@/utils";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VehicleComparison from "@/components/ComparisonCard";
 import { useComparison } from "@/contexts/comparison";
 import EditorRenderer from "@/components/EditorRenderer";
 import { ClientPageRoot } from "next/dist/client/components/client-page";
 
 const VehicleDetail = ({ vehicle, variantsVehicles }) => {
-  const { addToComparison, handleRemoveComparison } = useComparison();
+  const { addToComparison, handleRemoveComparison, comparisonVehicles } = useComparison();
+  const [checkedVariants, setCheckedVariants] = useState({});
 
   const {
     vehicleDetails: {
@@ -80,6 +81,21 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
     variants,
   } = vehicle || {};
 
+  useEffect(() => {
+    const currentVariantIds = comparisonVehicles.map(v => v.data._id);
+    
+    // Use functional update to avoid dependency on checkedVariants
+    setCheckedVariants(prevState => {
+      const newCheckedState = {...prevState};
+      Object.keys(newCheckedState).forEach(variantId => {
+        if (!currentVariantIds.includes(variantId)) {
+          newCheckedState[variantId] = false;
+        }
+      });
+      return newCheckedState;
+    });
+    
+  }, [comparisonVehicles]); // Remove checkedVariants from dependencies
 
   console.log(">>>>>>>>>>>>>vehicle", transmission)
 
@@ -139,11 +155,11 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     {console.log(">>>>>>>>>>>>>variantsVehicles", variantsVehicles)}
                     <Text span fw="700" size="24px" c="#E90808">
                       {
-                        variantsVehicles?.data?.referenceVehicle?.type=="bike" ? (
-                          `${formatPriceInFactors(isModel ? variantsVehicles?.data?.referenceVehicle?.price:"")}`
+                        variantsVehicles?.data?.referenceVehicle?.haveVariant==false && isModel ? (
+                          `$${formatPrice(isModel ? variantsVehicles?.data?.referenceVehicle?.price:"")}`
                         ) : (
-                          `${formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.min : price)}  ${isModel ? " - " : ""}
-                          ${formatPriceInFactors(isModel ? variantsVehicles?.data?.price?.max : "")}`
+                          `$${formatPrice(isModel ? variantsVehicles?.data?.price?.min : price)}  ${isModel ? " - " : ""}
+                          $${formatPrice(isModel ? variantsVehicles?.data?.price?.max : "")}`
                         )
                       }
 
@@ -279,8 +295,8 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     <DetailTransmissionIcon />
                     <Text c="dimmed" size="12px" lh="1">
                       Transmission{" "}
-                      <Text c="#333333" fw={700} mt="4px">
-                        {isModel && type != "bike" ? "Automatic & Manual" : transmission.type || transmission}
+                      <Text c="#333333" fw={700} mt="4px" lineClamp={1}>
+                        {transmission?.type?.join(' / ')}
                       </Text>
                     </Text>
                   </Flex>
@@ -405,23 +421,26 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     <Table.Td align="center">
                       <Checkbox 
                         labelPosition="left" 
-                        color="#E90808" 
+                        color="#E90808"
+                        checked={checkedVariants[variant._id] || false}
                         onChange={(e) => {
+                          setCheckedVariants({
+                            ...checkedVariants,
+                            [variant._id]: e.target.checked
+                          });
+                          
                           if (e.target.checked) {
-                            // Create a properly formatted vehicle object for comparison
                             const vehicleForComparison = {
                               Info: {
                                 make: variant?.make,
                                 model: variant?.model,
                                 variant: variant?.variant,
                               }
-
                             };
                             
-                            // Add to comparison using the context function
                             addToComparison(vehicleForComparison);
                           }
-                          else{
+                          else {
                             handleRemoveComparison(variant._id);
                           }
                         }} 
@@ -445,17 +464,6 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                       ))}
                     </Text>
                   </Box>
-                  {/* //  href={`/comparison/${pair.vehicle1.type}/${[
-              pair.vehicle1,
-              pair.vehicle2,
-            ]
-              .map(
-                (vehicle) =>
-                  `${vehicle.make}-${vehicle.model}${
-                    vehicle.variant ? "-" + vehicle.variant : ""
-                  }`
-              )
-              .join("_")}`} */}
                   
                 </Box>
               </Box>

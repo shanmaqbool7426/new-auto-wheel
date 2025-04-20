@@ -18,15 +18,15 @@ export default function ProfileSettings() {
   const currentUser = useSelector(selectCurrentUser);
   const { profileData, loading, error } = useProfileSettings(currentUser);
 
-  if (loading) {
-    return (
-      <LoadingWrapper>
-        <Center h="100vh">
-          {/* <Loader color="red" size="lg" /> */}
-        </Center>
-      </LoadingWrapper>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <LoadingWrapper>
+  //       <Center h="100vh">
+  //         {/* <Loader color="red" size="lg" /> */}
+  //       </Center>
+  //     </LoadingWrapper>
+  //   );
+  // }
 
   if (error) {
     return (

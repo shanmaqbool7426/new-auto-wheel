@@ -5,6 +5,7 @@ import { Carousel } from "@mantine/carousel";
 import { fetchBrowseBlogsServer, fetcSearchBlogsServer } from "@/actions/index";
 import styles from "./browse-blogs-carousel.module.css"
 import EditorRenderer from "@/components/EditorRenderer";
+import Link from "next/link";
 
 const BrowseBlogCarousel = ({ type, title }) => {
   const [news, setNews] = useState([]);
@@ -73,24 +74,26 @@ const BrowseBlogCarousel = ({ type, title }) => {
           >
           {news?.map((item) => (
             <Carousel.Slide key={item._id}>
-              <div style={{width:'100%'}}>
-              <Image
-                src={item.imageUrl || "/default-image.jpg"}
-                alt={item.title}
-                radius="md"
-                mb="md"
-                h={160}
-                w="100%"
-              />
-              <Title order={5} lineClamp={2} fw={600} mb="xs">
-                {item.title}
-              </Title>
-              <Text size="sm" lineClamp={3} c="#878787">
-                {/* {item.content.substring(0, 100)}... */}
-                <EditorRenderer data={JSON.parse(item.content)} />
+              <Link href={`/blog/${item.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                <div style={{width:'100%'}}>
+                <Image
+                  src={item.imageUrl || "/default-image.jpg"}
+                  alt={item.title}
+                  radius="md"
+                  mb="md"
+                  h={160}
+                  w="100%"
+                />
+                <Title order={5} lineClamp={2} fw={600} mb="xs">
+                  {item.title}
+                </Title>
+                <Text size="sm" lineClamp={3} c="#878787">
+                  {/* {item.content.substring(0, 100)}... */}
+                  <EditorRenderer data={JSON.parse(item.content)} />
 
-              </Text>
-              </div>
+                </Text>
+                </div>
+              </Link>
             </Carousel.Slide>
           ))}
         </Carousel>

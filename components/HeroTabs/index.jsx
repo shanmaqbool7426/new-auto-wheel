@@ -228,10 +228,11 @@ const HeroTabs = ({ setType }) => {
         <Button
           component={Link}
           href={`/used-${makesByType}/search/-`}
-          rightSection={<BsArrowRight />}
+          fw={700}
+          rightSection={<BsArrowRight fw={700}/>}
           variant="transparent"
           px={0}
-          fw={500}
+          
           tt="uppercase"
           color="#E90808"
           ff="heading"
