@@ -3,7 +3,6 @@ import { BASE_URL } from '../../../constants/api-endpoints';
 async function fetchWithAuth(url, options = {}) {
   const token = JSON.parse(localStorage.getItem('token'));
 
-  console.log("token",token)
   const defaultOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +13,6 @@ async function fetchWithAuth(url, options = {}) {
 
   // Ensure there's always a forward slash between base URL and endpoint
   const fullUrl = `${BASE_URL}/${url.replace(/^\//, '')}`;
-  console.log('Full URL:', fullUrl);
 
   const response = await fetch(fullUrl, {
     ...defaultOptions,

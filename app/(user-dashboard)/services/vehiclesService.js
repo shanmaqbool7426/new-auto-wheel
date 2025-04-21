@@ -8,7 +8,6 @@ export const vehiclesService = {
 
 
   getUserFavoriteVehicles: async (userId, params) => {
-    console.log("params>>>>",userId,params)
     return api.get(`api/user/${userId}/favorites`, params);
   },
 

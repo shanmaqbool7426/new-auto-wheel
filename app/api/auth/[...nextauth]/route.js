@@ -185,7 +185,6 @@ const authOptions = {
       },
       async authorize(credentials) {
         try {
-          console.log('>>>>>>>>', credentials.type)
           // Call your API to verify OTP or perform sign-in based on the type
           const res = await axios.post(
             credentials.type === 'otp'
@@ -201,7 +200,6 @@ const authOptions = {
           );
 
           if (res.data && res.data.statusCode === 200) {
-            console.log('>>>>>>> RESSSSS', res.data?.data)
             const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;
             // Return all necessary user details for the session and JWT
             return {
@@ -254,7 +252,6 @@ const authOptions = {
             accountType
           });
 
-          console.log("accountType...",accountType)
 
           if (res.data && (res.data.statusCode === 200 || res.data.statusCode === 201)) {
             const userData = res.data?.data.user ? res.data?.data?.user : res.data?.data;

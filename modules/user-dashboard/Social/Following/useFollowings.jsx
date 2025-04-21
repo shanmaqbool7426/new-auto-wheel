@@ -59,7 +59,6 @@ export default function useFollowings(userId) {
       });
 
 
-      console.log(data,'>>> data.followers')
       setFollowers(data.data.followings || []);
       setPagination({
         ...pagination,

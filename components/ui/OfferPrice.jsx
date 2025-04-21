@@ -46,7 +46,6 @@ const OfferPriceModal = ({ opened, close, detail }) => {
       setSocket(newSocket);
 
       newSocket.on('connect', () => {
-        console.log('Connected to server');
         newSocket.emit('authenticate', session.user._id);
       });
 

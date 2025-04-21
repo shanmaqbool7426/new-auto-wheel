@@ -15,10 +15,7 @@ export default function useFavorite(userId) {
     date: 'newToOld',
   });
 
-  console.log("userId.......",userId)
-  console.log('searchBy',searchBy)
   const fetchFavoriteVehicles = async () => {
-    console.log('fetchVehicles>>>>')
     setLoading(true);
     try {
       const data = await vehiclesService.getUserFavoriteVehicles(userId, {
@@ -28,7 +25,6 @@ export default function useFavorite(userId) {
         limit: 10, // You can adjust this as needed
       });
 
-      console.log('data>>>>', data)
       if (data.data) {
         setFavoriteVehicles(data.data.vehicles || []);
         setTotalPages(data.data.totalPages || 1);

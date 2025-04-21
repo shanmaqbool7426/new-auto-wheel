@@ -4,7 +4,6 @@ import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
 const getToken = () => {
   const user = JSON.parse(localStorage.getItem('token'));
-  console.log("userrrrrrrrr",user)
   return user?.token?.token || {}
 }
 
@@ -47,7 +46,6 @@ class ViewTrackingService {
   }
   
   async trackView(vehicleId, page = 'detail') {
-    console.log("vehicleId", vehicleId, page);
     if (!vehicleId || typeof window === 'undefined') return;
     
     // For mobile interactions, check if already viewed
@@ -163,7 +161,6 @@ class ViewTrackingService {
         views: views
       });
       
-      console.log(`Batch processed ${views.length} vehicle views`);
     } catch (error) {
       console.error('Error processing batch views:', error);
     }

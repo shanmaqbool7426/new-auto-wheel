@@ -37,6 +37,7 @@ import { useSelector } from "react-redux";
 
 const WriteReviewModal = ({
   opened,
+  typeImg, 
   close,
   fetchMakesByTypeData,
   fetchReviews,
@@ -44,7 +45,12 @@ const WriteReviewModal = ({
 }) => {
   const { data: session } = useSession();
   
-  
+
+  const srcImags = {
+    bike: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745138819525_SPORTS-1.png",
+    car: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745139115381_carr%5D.jfif",
+    truck: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745139151794_trucck.jfif"
+  }
   
   const [ratings, setRatings] = useState({
     mileage: 0,
@@ -67,7 +73,6 @@ const WriteReviewModal = ({
   });
   
   const user = useSelector((state) => state.auth);
-  console.log(">>>>>>>>>>>>>user", user?.token)
 
   const clearForm = () => {
     setWantRatings(false);
@@ -98,6 +103,8 @@ const WriteReviewModal = ({
     });
   };
 
+
+
   const getIcon = (value, selectedColor) => {
     const iconProps = { style: { marginRight: rem(5) }, selectedColor };
     switch (value) {
@@ -116,7 +123,6 @@ const WriteReviewModal = ({
     }
   };
 
-  console.log("fetchMakesByTypeData", fetchMakesByTypeData)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -218,7 +224,7 @@ const WriteReviewModal = ({
                 <Flex align="center" gap="sm">
                   <Card.Section>
                     <Image
-                      src="/blogs/blogs-1.png"
+                      src={srcImags[fetchMakesByTypeData?.data[0]?.type] }
                       alt="No way!"
                       w={100}
                       h="100%"

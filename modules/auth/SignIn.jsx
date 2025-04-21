@@ -36,7 +36,6 @@ function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
     form.validate
   );
 
-  console.log("isLoading", isLoading);
 
   const handleSubmitSignIn = async () => {
     setIsLoading(true);
@@ -47,7 +46,6 @@ function SignIn({ onForgotPassword, onSignUp, onSuccess, onBack }) {
       type: "signIn",
       action: "Credentials",
     });
-    console.log("result..", result);
     setIsLoading(false);
     if (result.ok) {
       onSuccess?.();

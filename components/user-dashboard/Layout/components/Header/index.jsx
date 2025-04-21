@@ -17,7 +17,6 @@ export default function Header() {
     title,
   } = useHeader();
 
-  console.log("currentUser>>>>>>>",currentUser)
   const { data: session, status } = useSession();
   return (
     <Box className={styles.header}>

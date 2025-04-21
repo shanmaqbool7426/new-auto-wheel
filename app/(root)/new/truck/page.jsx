@@ -23,7 +23,6 @@ const NewCarsPage = async () => {
     API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType)
   );
 
-  console.log(".........>>>>>>>>>.........",API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType))
   const fetchNewlyLaunchedVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, vehicleType)
   );

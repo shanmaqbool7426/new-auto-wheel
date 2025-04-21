@@ -41,7 +41,6 @@ const data = dataKeys.reduce((acc, key, index) => ({
 
 // ... existing code ...
 
-  console.log("maaaaa",data?.banner);
   results.forEach((result, index) => {
     if (result.status === "rejected") {
       console.error(

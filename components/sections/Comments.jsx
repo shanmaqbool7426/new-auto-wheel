@@ -33,7 +33,6 @@ import { useSession, signOut } from "next-auth/react";
 const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 	const { data: session, status } = useSession();
 
-	console.log("vehicleType",vehicleType)
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const openModal = () => setIsModalOpen(true);
@@ -66,7 +65,6 @@ const Comments = ({ vehicleType, fetchMakesByTypeData, bg = '#fff' }) => {
 		try {
 			setLoading(true);
 			const response = await getAllReviews(filter,vehicleType);
-			console.log('response', response);
 			setReviews(response?.reviews || []);
 			setCounts(response?.stats || {});
 		} catch (err) {

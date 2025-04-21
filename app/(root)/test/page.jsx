@@ -114,7 +114,6 @@ export default function StepperForm() {
       await formSchema.parseAsync(values);
       
       // Submit form data
-      console.log('Form submitted:', values);
       notifications.show({
         title: 'Success',
         message: 'Form submitted successfully!',

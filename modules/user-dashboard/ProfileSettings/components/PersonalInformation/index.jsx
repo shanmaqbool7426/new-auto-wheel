@@ -36,7 +36,6 @@ export default function PersonalInformation({ profileData }) {
   }, [profileData]);
 
 
-  console.log('>>>>>>',form.getValues(),profileData.showEmail)
   return (
     <Card title="Personal Information">
       <form

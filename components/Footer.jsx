@@ -44,7 +44,6 @@ const Footer = () => {
     const getFooterData = async () => {
       try {
         const res = await fetchAPI(`${BASE_URL}/api/footer`);
-        console.log("Footer Data:", res);
         const data =res
         // Organize data by sections
         const organizedData = {
@@ -59,17 +58,7 @@ const Footer = () => {
           sellOnAutoWheels: data?.data?.filter(item => item.section === "sell-on-autowheels" && item.status).sort((a, b) => a.order - b.order)
         };
 
-        console.log("Organized Data:", {
-          [`By Make (${currentVehicleType}s)`]: organizedData.byMake.filter(item => item.vehicleType === currentVehicleType),
-          "By City": organizedData.byCity,
-          "By Province": organizedData.byProvince,
-          "Explore AutoWheels": organizedData.exploreAutoWheels,
-          "AutoWheels.com": organizedData.autoWheels,
-          "By Category": organizedData.byCategory,
-          "By Body Type": organizedData.byBodyType,
-          "By Color": organizedData.byColor,
-          "Sell on AutoWheels": organizedData.sellOnAutoWheels
-        });
+     
 
         setFooterData(organizedData);
       } catch (error) {

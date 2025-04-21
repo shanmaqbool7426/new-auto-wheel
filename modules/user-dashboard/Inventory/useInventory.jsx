@@ -11,7 +11,6 @@ import { vehiclesService } from '@/app/(user-dashboard)/services/vehiclesService
 // import { useRouter } from 'next/router';
 export default function useInventory() {
   const user = useSelector(selectCurrentUser);
-console.log("user........",user)
   const router = useRouter();
   const [searchBy, setSearchBy] = React.useState(() => {
     if (typeof window !== 'undefined') {

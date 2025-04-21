@@ -160,7 +160,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
     province
   } = useVehicleData(vehicleType);
 
-  console.log("....colors", colors)
   // Selection State Management
   const [selection, setSelection] = useState({
     make: "",
@@ -205,7 +204,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
   useEffect(() => {
 
-    console.log("vehicleId........",vehicleId, session?.user?.token?.token)
     const fetchAdData = async () => {
       if (vehicleId && session?.user?.token?.token) {
         try {
@@ -274,7 +272,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
           if (!vehicleId) {
             const vehicleData = response.data;
 
-            console.log("vehicleData...")
 
             // Prefill vehicle specifications
             if (vehicleData.engine) {
@@ -406,7 +403,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
     }
   }, [selection.variant, vehicleId]);
 
-  console.log("....form.values", form.values)
 
 
   /**
@@ -431,7 +427,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
   const handleSubmit = async (values) => {
     try {
       // Validate entire form
-      console.log("values",values)
       await formSchema.parseAsync(values);
 
       // Create payload with proper type conversion
@@ -443,7 +438,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
         vin: values.vin,
       }, vehicle, session);
 
-      console.log("payload",payload)
       // Submit data
       if (vehicleId && isVehicle?._id) {
         await submitUpdateFormData(
@@ -457,7 +451,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
           color: "green",
         });
       } else {
-        console.log("payload",payload)
         await submitFormData(
           API_ENDPOINTS.VEHICLE.ADD,
           JSON.stringify(payload),
@@ -611,7 +604,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
                             onClick={openModal}
                           />
                         </Box>
-                        {console.log(">>>>>>> FORM",form.values)}
 
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Year"
@@ -846,7 +838,6 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
                           />
                         </Box>}
-                        {console.log("drives...", drives)}
                         {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Drive"
                             placeholder="Drive"

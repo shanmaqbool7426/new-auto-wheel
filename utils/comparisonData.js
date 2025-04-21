@@ -2600,7 +2600,6 @@ export const mapVehicleData = (vehicles = [], hideCommonFeatures = false, type =
                             // Vehicle does not exist
                             return "";
                         }
-                        console.log(">>>>>>>>.vehicle", vehicle)
                         if (field.render) {
                             return field.render(vehicle);
                         } else if (field.paths) {

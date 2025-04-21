@@ -5,7 +5,6 @@ export const fetchVehiclsData = async (params) => {
   try {
 
 
-    console.log("params....>>>>>>>>",params)
     let vehicleType = 'car'; // Default vehicle type
     let filterParams = [];
 
@@ -64,8 +63,6 @@ export const fetchVehiclsData = async (params) => {
       ? `${baseUrl}/${validParams.join('/')}`
       : baseUrl;
 
-    console.log("Vehicle Type:", vehicleType);
-    console.log("API URL:", finalUrl);
 
     // Add caching strategy
     const vehicles = await fetchAPI(
@@ -309,7 +306,6 @@ export const fetchVehicleColors = async (type) => {
 
 export const fetchVehicleCompetitors = async (vehicleId) => {
   try {
-    console.log("competitors.......",API_ENDPOINTS.COMPETITOR.GET(vehicleId))
     const competitors = await fetchAPI(API_ENDPOINTS.COMPETITOR.GET(vehicleId));
 
     return competitors?.data || [];

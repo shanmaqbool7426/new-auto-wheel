@@ -33,10 +33,8 @@ export default function Dashboard() {
                   'Authorization': `Bearer ${session.user.token.token}`
                 }
               });
-              console.log("response>",response)
               if (response.ok) {
                 const profileData = await response.json();
-                console.log('User profile data:', profileData);
                 setUserProfile(profileData?.data);
               } else {
                 console.error('Error fetching user profile:', response.statusText);
@@ -48,7 +46,6 @@ export default function Dashboard() {
             // Fetch view analytics data using the service
             try {
               const analyticsData = await viewTrackingService.getViewAnalytics();
-              console.log('View analytics data:', analyticsData);
               setOverview(analyticsData);
               setViewAnalytics(analyticsData);
             } catch (analyticsError) {
@@ -65,8 +62,7 @@ export default function Dashboard() {
   }, [session]);
 
 
-  console.log("userProfile", userProfile);
-  console.log("viewAnalytics", viewAnalytics);
+
   
   return (
     <>

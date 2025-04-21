@@ -92,7 +92,6 @@ const BrowseVideos = ({ initialSlug, search, hideViewAll, title, type, bg = '#ff
     );
   }
 
-  console.log("currentVideo", currentVideo);
 
   return (
     <Box component="section" className="browse-videos py-5" bg={bg}>

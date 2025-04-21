@@ -9,7 +9,6 @@ export default function useChangePassword() {
   const [loading, setLoading] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
   const token = useSelector(selectToken);
-  console.log("token",token)
   const form = useForm({
     initialValues: {
       currentPassword: '',

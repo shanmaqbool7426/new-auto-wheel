@@ -42,7 +42,6 @@ const Header = () => {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
   const { openAuthModal } = useAuthModalContext();
-console.log(user, "user......")
   const { data: session, status } = useSession();
 
   const handleLogout = () => {
@@ -52,11 +51,9 @@ console.log(user, "user......")
   };
 
   if (session) {
-    console.log(">>>>>> session?.user?.token?.user",session.user)
-    localStorage.setItem("token", JSON.stringify(session.user));
+      localStorage.setItem("token", JSON.stringify(session.user));
     localStorage.setItem("user", JSON.stringify(session?.user?.token?.user));
   }
-  console.log(session, "session");
 
   const handleSignUp = (e) => {
     e.stopPropagation();

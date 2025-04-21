@@ -83,7 +83,6 @@ export const getColumns = (toggleFollow) => {
       render: (record) => {
         // Check if the current user is following this user
         const isFollowing =record.followers.includes(currentUser?._id) ;
-        console.log("currentUser?.following",isFollowing)
         return (
           <Badge
             label={isFollowing ? 'Following' : 'Follow'}

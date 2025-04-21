@@ -102,6 +102,10 @@ function AuthModal({ opened, onClose, initialView = AUTH_VIEWS.ACCOUNT_TYPE }) {
       centered
       size={currentView === AUTH_VIEWS.ACCOUNT_TYPE ? "lg" : 527}
       padding="xl"
+      styles={{
+        root: { zIndex: 999999 },
+        body: { zIndex: 9999999 }
+      }}
     >
       {renderView()}
     </Modal>

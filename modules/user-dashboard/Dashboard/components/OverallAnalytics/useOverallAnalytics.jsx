@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function useOverallAnalytics({ data }) {
-  console.log(data)
   // Create series from API data
   const series = [
     {

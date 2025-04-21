@@ -18,7 +18,6 @@ export default function useUserReviews() {
         throw new Error('Failed to fetch reviews');
       }
       const data = await response.json();
-      console.log('data>>>', data);
       setReviews(data?.reviews);
     } catch (error) {
       console.error('Error fetching reviews:', error);
@@ -37,7 +36,6 @@ export default function useUserReviews() {
   const [filterParams, setFilterParams] = React.useState({
     date: 'newToOld',
   });
-  console.log('searchBy>>>', searchBy);
 
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));

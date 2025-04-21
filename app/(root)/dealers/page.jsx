@@ -417,7 +417,6 @@ const CarsDealerShip = () => {
                   )}
                 </Table.Tbody>
               </Table>
-              {console.log("totalPages", totalPages)}
               {totalPages > 0 && (
                 <Pagination
                   mt="sm"

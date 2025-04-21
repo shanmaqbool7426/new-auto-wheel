@@ -14,7 +14,6 @@ const QuickLinks = ({ titlePopular, titleUsed, vehicleType }) => {
     const getFooterData = async () => {
       try {
         const res = await fetchAPI(`${BASE_URL}/api/footer?vehicleType=${vehicleType}`);
-        console.log("res?.data", res?.data);
         setPopularLinkData(res?.data.filter((linksData) => linksData.section === "popular-used"));
         setUsedLinkData(res?.data.filter((linksData) => linksData.section === "used-by-city"));
       } catch (error) {
@@ -38,7 +37,6 @@ const QuickLinks = ({ titlePopular, titleUsed, vehicleType }) => {
   const popularLinksChunks = popularLinkData ? chunkArray(popularLinkData, 2) : [];
   const usedLinksChunks = usedLinkData ? chunkArray(usedLinkData, 2) : [];
 
-  console.log("popularLinkData", popularLinkData);
   return (
     <Box component="section" className="quick-links" py="56px">
       <Box className="container-xl">

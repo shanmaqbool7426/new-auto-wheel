@@ -12,6 +12,8 @@ import {
   ActionIcon,
   Popover,
 } from "@mantine/core";
+import { useAuthModalContext } from '@/contexts/auth-modal';
+import { AUTH_VIEWS } from '@/constants/auth-config';
 // import {
 //   Anchor,
 //   Box,
@@ -85,6 +87,7 @@ const DealerRating = () => {
   const [reviewForm, setReviewForm] = useState(initialReviewForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+  const { openAuthModal } = useAuthModalContext();
 
   const { slug } = useParams();
   const token = getLocalStorage('token');
@@ -123,12 +126,10 @@ const DealerRating = () => {
         }
       );
 
-      console.log("response", response)
       if (response.data.length > 0) {
         const location = response.data[0];
         return { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
       } else {
-        console.log("Location not found for address:", address);
         return null;
       }
     } catch (error) {
@@ -239,6 +240,14 @@ const DealerRating = () => {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check if user is logged in
+    if (!token?.token?.user?._id) {
+      // Open the auth modal if user is not logged in
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -305,6 +314,13 @@ const DealerRating = () => {
 
 
   const handleLikeDislike = async (reviewId, action) => {
+    // Check if user is logged in
+    if (!token?.token?.user?._id) {
+      // Open the auth modal if user is not logged in
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
+      return;
+    }
+    
     try {
       const response = await fetch(`${BASE_URL}/api/user-reviews/${reviewId}/like-dislike`, {
         method: 'POST',
@@ -343,6 +359,13 @@ const DealerRating = () => {
 
 
   const handleFollow = async () => {
+    // Check if user is logged in
+    if (!token?.token?.user?._id) {
+      // Open the auth modal if user is not logged in
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
+      return;
+    }
+
     setFollowLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/api/user/${profile._id}/follow`, {
@@ -377,6 +400,13 @@ const DealerRating = () => {
   };
 
   const handleUnfollow = async () => {
+    // Check if user is logged in
+    if (!token?.token?.user?._id) {
+      // Open the auth modal if user is not logged in
+      openAuthModal(AUTH_VIEWS.SOCIAL_LOGIN);
+      return;
+    }
+    
     setFollowLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/api/user/${profile._id}/unfollow`, {

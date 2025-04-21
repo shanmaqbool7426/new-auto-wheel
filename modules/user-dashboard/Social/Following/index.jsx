@@ -22,7 +22,6 @@ export default function Following({userId}) {
   } = useFollowings(userId);
 
   const columns = getColumns(handleUnfollow);
-console.log('pagination',pagination)
   // if (loading) return <Loader />;
   // if (error) return <Text color="red">{error}</Text>;
 

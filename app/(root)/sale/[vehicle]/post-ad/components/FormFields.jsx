@@ -20,7 +20,6 @@ export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value,
                 {label}
             </Input.Label>
         </Box>
-        {console.log("............,,..", valueData)}
         <Box className="col-md-7">
             <Select
                 required
@@ -286,7 +285,6 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
 export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
     const [isUploading, setIsUploading] = useState(false);
     const [rotations, setRotations] = useState({});
-    console.log(">>>>>>....", images)
     // Configure DND sensors
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -424,7 +422,6 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
             </Box>
         );
     };
-    console.log("images.......", images)
     // Handle file drop
     const handleFileDrop = async (files) => {
         setIsUploading(true);
@@ -569,7 +566,6 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
 export const FormFieldBodyType = ({ label, bodies, form }) => (
     <>
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-            {console.log("form.values.body", form.values.body)}
             <Input.Label required size="md" tt="capitalize">{label}</Input.Label>
         </Box>
         <Box className="col-md-7">
@@ -632,7 +628,6 @@ export const FormFieldFeature = ({ label, form, vehicleType }) => {
     const { featuredListsOne, featuredListsTwo, featuredListsThree } = getFeaturesByVehicle(vehicleType);
     const handleFeatureChange = (feature) => {
         const features = form.getValues().features;
-        console.log("features", features)
         form.setFieldValue('features', features.includes(feature) ? features.filter(f => f !== feature) : [...features, feature]);
     };
     return (

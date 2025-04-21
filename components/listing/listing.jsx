@@ -240,7 +240,6 @@ export default async function Listing({ params, searchParams }) {
   // Get the vehicle type from the path
   const vehicleType = getVehicleType(currentPath);
   
-  console.log("vehicleType........", vehicleType);
   
   const sortBy = searchParams.sortBy
     ? `sb_${searchParams.sortBy}`
@@ -257,7 +256,6 @@ export default async function Listing({ params, searchParams }) {
 
 
 
-  console.log("finalParams....>>>>>>>>",[`used-${vehicleType}s`, ...finalParams])
   const [
     dataofVehcles,
     vehicleMakes,

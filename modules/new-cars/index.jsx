@@ -156,6 +156,13 @@ const NewCarsModule = ({
     transform: isTransitioning ? 'translateY(20px)' : 'translateY(0)'
   };
 
+
+  const srcImags = {
+    bike: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745138819525_SPORTS-1.png",
+    car: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745139115381_carr%5D.jfif",
+    truck: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745139151794_trucck.jfif"
+  }
+
   return (
     <>
       <section className="find-cars">
@@ -271,7 +278,6 @@ const NewCarsModule = ({
           isNew={isNew}  // Pass isNew prop
         />
 
-        {console.log(">>>>>>>>>>>>>popularVehicles.....", popularVehicles)}
         <Box component="section" className="popular-new-cars" pt="27px" pb="24px">
           <div className="container-xl">
             <div className="row" style={{ transition: 'all 0.3s ease-in-out' }}>
@@ -496,7 +502,6 @@ const NewCarsModule = ({
                     Models
                   </Text>
                 </Title>
-                {console.log(">>>>>",fetchHondaVehicles?.data)}
               </Box>
               {(showAllMake2 
                 ? fetchHondaVehicles?.data 
@@ -549,7 +554,7 @@ const NewCarsModule = ({
 
         <QuickLinks vehicleType={type}/>
       </section>
-      <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} vehicleType={type}/>
+       <WriteReviewModal opened={isModalOpen} close={closeModal} fetchMakesByTypeData={fetchMakesByTypeData} vehicleType={type} typeImg={srcImags[type]}/>
     </>
   );
 };

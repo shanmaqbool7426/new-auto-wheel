@@ -4,7 +4,6 @@ import QuickLinks from "@/components/QuickLinks";
 import TopComaprison from "@/components/comparison/top-comparison";
 
 const ComparisonModule = async ({ params, type }) => {
-    console.log(params,type)
 
     return (
         <section className="find-cars">

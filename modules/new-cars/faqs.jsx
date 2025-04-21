@@ -20,7 +20,6 @@ const FAQ = ({ title, titleSpan, type = "car" }) => {
         }
       });
       
-      console.log('>>>>>response',response)
       if (response.data.success) {
         setFaqs(response.data.data.data);
       }

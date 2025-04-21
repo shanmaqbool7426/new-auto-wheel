@@ -41,7 +41,6 @@ const BodiesVehicles = ({
           `${BASE_URL}/api/browes-by-body/${vehicleType}?page=1&limit=10&search=${slugBody}&type=${vehicleType}`
         );
         const data = await response.json();
-        console.log(">>>>>data", data);
        
           setBodyData(data?.data[0]);
       } catch (error) {
@@ -88,7 +87,6 @@ const BodiesVehicles = ({
   };
   
 
-  console.log(">>>>>bodyData", bodyData); 
   const bodyImageUrl = bodyData?.bodyImage || matchedBody?.bodyImage;
   const bodyTitle = bodyData?.title || slugBody;
   const bodyDescription = bodyData?.description || getBodyTypeDescription(slugBody);

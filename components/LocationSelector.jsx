@@ -70,7 +70,6 @@ const LocationSelector = ({
 
   const getFilteredProvinces = () => {
     if (!Array.isArray(provincesData)) {
-      console.log("provincesData:", provincesData);
       return [];
     }
 

@@ -47,13 +47,11 @@ export default function useInventory() {
         limit: 5, // Adjust as needed
       }).toString();
       
-      console.log("queryParams")
 
 
       const response = await fetch(`${BASE_URL}/api/user/vehicles-by-user/${session?.user?._id}?${queryParams}`);
       const data = await response.json();
       if (data.success) {
-        console.log('data', data);
 
         const transformedVehicles = data.data.vehicles.map((vehicle) => ({
           id: vehicle._id,

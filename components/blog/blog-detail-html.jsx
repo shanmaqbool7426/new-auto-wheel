@@ -38,7 +38,6 @@ const BlogDetailHtml = ({ content, blog }) => {
     return parse(modifiedContent);
   };
 
-  console.log("blog", blog)
 
   const scrollToHeading = (id) => {
     const element = document.getElementById(id);

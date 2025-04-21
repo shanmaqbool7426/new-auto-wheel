@@ -56,7 +56,6 @@ const MakesVehicles = ({
   });
 
 
-  console.log(">>>>>>>>.data........",bodies?.data)
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -79,7 +78,6 @@ const MakesVehicles = ({
           fetchListData(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`)
         ]);
 
-        console.log("makesByType.......",slugMake, vehicleType,upcomingVehicles)
 
         // Find matched make and alternatives
         const matchedMake = makesByType?.data?.find(
@@ -164,7 +162,6 @@ const MakesVehicles = ({
                   padding="lg"
                   radius="sm"
                 >
-                  {console.log(">>>>>>>>.data",data)}
                   <Title order={3} mb="md">
                     {slugMake} Car Models, Prices
                   </Title>

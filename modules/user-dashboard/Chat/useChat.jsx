@@ -19,7 +19,6 @@ export default function useChat() {
   // Fetch conversations list
   const fetchConversations = useCallback(async () => {
     try {
-      console.log('token',token?.token?.token)
       const response = await axios.get(`${BASE_URL}/api/chat/conversations`, {
         headers: {
           'Authorization': token?.token?.token

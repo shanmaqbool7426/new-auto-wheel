@@ -98,7 +98,6 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
     [detail?.data]
   );
 
-  { console.log("detail?.data?.specifications", detail?.data?.specifications) }
 
   useEffect(() => {
     // Track the view when component mounts

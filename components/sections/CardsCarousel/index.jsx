@@ -7,7 +7,6 @@ import NewCarsCard from '@/components/ui/NewCarsCard';
 import CarCard from '@/components/ui/CarCard';
 
 export default function CardsCarousel({ title, primaryTitle, bg = "#fff", isRating = true, data , isUsedVehicle=true,userData}) {
-console.log("data....",data)
   return (
     <Box component="section" className={styles.section} bg={bg}>
       <Box className="container-xl">

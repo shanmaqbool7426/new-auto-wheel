@@ -28,7 +28,6 @@ const SearchByLocations = () => {
   });
 
 
-  console.log("locationSelection.....",locationSelection);
   const [loading, setLoading] = useState(false);
 
   const openLocationModal = () => setIsLocationModalOpen(true);

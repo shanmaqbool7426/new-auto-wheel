@@ -26,12 +26,7 @@ export default function AnalyticsProvider() {
         page_location: fullUrl
       });
 
-      // Log for debugging
-      console.log('Page View:', {
-        url: fullUrl,
-        title: pageTitle,
-        path: pathname
-      });
+
     }
   }, [pathname, searchParams]);
 

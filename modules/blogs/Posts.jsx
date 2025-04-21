@@ -11,7 +11,6 @@ import EditorRenderer from '@/components/EditorRenderer';
 
 
 const Posts = ({ title, posts, count, description }) => {
-    console.log("description", description)
     return (
         <>
             <Title order={2} mb="lg">

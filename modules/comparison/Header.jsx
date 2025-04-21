@@ -7,7 +7,7 @@ import { fetchMakesByTypeServer } from '@/actions';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const Header = ({ type }) => {
+const   Header = ({ type }) => {
   const router = useRouter();
   const [fetchMakesByTypeData, setFetchMakesByTypeData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +30,6 @@ const Header = ({ type }) => {
 
   const fetchMakesByType = async (vehicleType) => {
     try {
-      console.log(vehicleType, "un")
       const fetchMakes = await fetchMakesByTypeServer(vehicleType);
       setFetchMakesByTypeData(fetchMakes);
     } catch (error) {
@@ -53,8 +52,10 @@ const Header = ({ type }) => {
 
     // Create a slug from the selected vehicles (handle optional variants)
     const slug = selectedVehicles.map(vehicle =>
-      `${encodeURIComponent(vehicle.make)}-${encodeURIComponent(vehicle.model)}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant)}` : ''}`
+      `${encodeURIComponent(vehicle.make.replace(/\s+/g, '-')?.toLocaleLowerCase())}-${encodeURIComponent(vehicle.model.replace(/\s+/g, '-')?.toLocaleLowerCase())}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant.replace(/\s+/g, '-')?.toLocaleLowerCase())}` : ''}`
     ).join('_');
+
+
     router.push(`/comparison/${type}/${slug}`);
 
   };
@@ -250,7 +251,17 @@ const Header = ({ type }) => {
                 ))}
                 <div className="col-md-12">
                   <Box mt="lg" mx="auto" maw={300}>
-                    <Button bg="#E90808" autoContrast fw={500} size="md" fullWidth onClick={handleCompare}>
+                    <Button 
+                      bg={[vehicle1, vehicle2, vehicle3].filter(v => v.make && v.model).length < 2 ? "#F8B5B5" : "#E90808"} 
+                      autoContrast 
+                      fw={500} 
+                      size="md" 
+                      fullWidth 
+                      onClick={handleCompare}
+                      disabled={
+                        [vehicle1, vehicle2, vehicle3].filter(v => v.make && v.model).length < 2
+                      }
+                    >
                       Compare
                     </Button>
                   </Box>

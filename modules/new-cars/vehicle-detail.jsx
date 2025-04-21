@@ -97,7 +97,6 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
     
   }, [comparisonVehicles]); // Remove checkedVariants from dependencies
 
-  console.log(">>>>>>>>>>>>>vehicle", transmission)
 
   return (
     <>
@@ -152,7 +151,6 @@ const VehicleDetail = ({ vehicle, variantsVehicles }) => {
                     {/* <Text span fw="700" size="16px" c="#E90808">
                       
                     </Text> */}
-                    {console.log(">>>>>>>>>>>>>variantsVehicles", variantsVehicles)}
                     <Text span fw="700" size="24px" c="#E90808">
                       {
                         variantsVehicles?.data?.referenceVehicle?.haveVariant==false && isModel ? (

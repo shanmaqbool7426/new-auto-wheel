@@ -209,7 +209,6 @@ export function UserProvider({ children }) {
   const { openAuthModal } = useAuthModalContext();
   // Initialize user from localStorage
   useEffect(() => {
-    console.log("hiiiiiiiiiiiii")
     const storedUser = getLocalStorage('user');
     if (storedUser) {
       setUserData(storedUser);

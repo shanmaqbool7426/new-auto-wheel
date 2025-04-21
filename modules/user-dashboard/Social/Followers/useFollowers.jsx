@@ -56,7 +56,6 @@ export default function useFollowers({userId}) {
       
       // Add authorization header
       const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
-      console.log("authToken",authToken)
       const data = await api.get(`/api/user/${userIdToUse}/followers`, {
         page: pagination.page,
         limit: pagination.limit,
@@ -64,7 +63,6 @@ export default function useFollowers({userId}) {
         sort: filterParams.date,
       }, headers);
 
-      console.log('Followers data:', data);
       
       if (data.data) {
         setFollowers(data.data.followers || []);
@@ -102,10 +100,8 @@ export default function useFollowers({userId}) {
   const handleFollow = async (targetUserId) => {
     try {
       const authToken = getAuthToken();
-      console.log("authToken",authToken)
       // Add authorization header
       const headers = authToken ? { Authorization: `${authToken}` } : {};
-      console.log("headers",headers)
       const response = await api.post(`/api/user/${targetUserId}/follow`, {}, headers);
       
       if (response.success) {
@@ -180,7 +176,6 @@ export default function useFollowers({userId}) {
   };
 
   const toggleFollow = async (targetUserId, currentlyFollowing) => {
-    console.log("currentlyFollowing")
     if (currentlyFollowing) {
       await handleUnfollow(targetUserId);
     } else {

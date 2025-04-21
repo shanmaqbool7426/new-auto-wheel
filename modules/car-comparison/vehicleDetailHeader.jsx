@@ -67,8 +67,8 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
   }, []);
 
   const handleCompare = () => {
+    console.log("vehicle1............",vehicle1)
     // Ensure at least 2 vehicles are selected
-    console.log("vehicle>>>>>>>>");
     const selectedVehicles = [vehicle1, vehicle2, vehicle3].filter(
       (vehicle) => vehicle.make && vehicle.model
     );
@@ -84,9 +84,9 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
     const slug = selectedVehicles
       .map(
         (vehicle) =>
-          `${encodeURIComponent(vehicle.make)}-${encodeURIComponent(
-            vehicle.model
-          )}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant)}` : ""}`
+          `${encodeURIComponent(vehicle.make.replace(/\s+/g, '-'))}-${encodeURIComponent(
+            vehicle.model.replace(/\s+/g, '-')
+          )}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant.replace(/\s+/g, '-'))}` : ""}`
       )
       .join("_");
     router.push(`/comparison/${type}/${slug}`);
@@ -123,7 +123,12 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
     }
   };
   const handleRemoveVehicle = (vehicleNumber) => {
-    onVehicleRemove(vehicleNumber);
+    // Call the parent component's onVehicleRemove if it exists
+    if (onVehicleRemove) {
+      onVehicleRemove(vehicleNumber);
+    }
+    
+    // Update the local state
     switch (vehicleNumber + 1) {
       case 1:
         setVehicle1({ make: "", model: "", variant: "" });
@@ -135,14 +140,43 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
         setVehicle3({ make: "", model: "", variant: "" });
         break;
     }
+    
+    // Update the URL with the remaining vehicles
+    setTimeout(() => {
+      const remainingVehicles = [
+        vehicleNumber + 1 === 1 ? { make: "", model: "", variant: "" } : vehicle1,
+        vehicleNumber + 1 === 2 ? { make: "", model: "", variant: "" } : vehicle2,
+        vehicleNumber + 1 === 3 ? { make: "", model: "", variant: "" } : vehicle3
+      ].filter(vehicle => vehicle.make && vehicle.model);
+      
+      if (remainingVehicles.length >= 2) {
+        // Create a new slug from the remaining vehicles
+        const newSlug = remainingVehicles
+          .map(
+            (vehicle) =>
+              `${encodeURIComponent(vehicle.make.replace(/\s+/g, '-'))}-${encodeURIComponent(
+                vehicle.model.replace(/\s+/g, '-')
+              )}${vehicle.variant ? `-${encodeURIComponent(vehicle.variant.replace(/\s+/g, '-'))}` : ""}`
+          )
+          .join("_");
+        
+        // Update the URL
+        router.push(`/comparison/${type}/${newSlug}`);
+      } else if (remainingVehicles.length < 2) {
+        // If less than 2 vehicles remain, go back to the comparison page
+        router.push(`/comparison/${type}`);
+      }
+    }, 0);
   };
 
-  console.log("setVehicle1setVehicle1", vehicle3);
+  // Effect to update the URL when vehicle3 changes (handling auto-comparison case)
   useEffect(() => {
     if (vehicle1.variant && vehicle2.variant && vehicle3.variant) {
       handleCompare();
     }
-  }, [vehicle3.variant, vehicle2.variant, vehicle1.variant])
+  }, [vehicle3.variant, vehicle2.variant, vehicle1.variant]);
+
+
   
 
   return (
@@ -187,7 +221,7 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
                     .filter(vehicle => vehicle.make && vehicle.model) 
                     .map((vehicle, index, filteredArray) => (
                       <span key={index}>
-                        {`${vehicle.make} ${vehicle.model} ${vehicle.variant || ''}`}
+                        {`${vehicle.make} ${vehicle.model}`}
                         {index < filteredArray.length - 1 ? " VS " : ""}
                       </span>
                     ))}
@@ -253,7 +287,7 @@ const Header = ({ vehicles, type, onVehicleRemove, hideCompareButton=false }) =>
           </Group> */}
         </div>
         <div className="col-md-12">
-          <Box className="search-wrapper-card">
+          <Box className="search-wrapper-card" style={{marginTop:"-20px"}}>
             <Card shadow="0px 4px 20px 0px #00000014" pt="24px" pl="16px" radius="4px">
               <Title order={2} mb="24px" tt="capitalize">
                 New {`${type}s`} Comparison

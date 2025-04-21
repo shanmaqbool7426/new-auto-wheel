@@ -33,10 +33,10 @@ const ComparisonCard = ({ vehicle, onRemove, onClick }) => {
                         `Add Vehicle`
                     }
                 </Text> */}
-                <Box className={styles.compButton} onClick={onClick}>
-                    {vehicle.make && `${vehicle.variant}` || ""}
+               { <Box className={styles.compButton} onClick={onClick}>
+                    {vehicle.make && `${vehicle.variant}` || vehicle.model}
                     <IconSmbolAngleDown />
-                </Box>
+                </Box>}
                 {/* <Input value={vehicle.make && `${vehicle.make} ${vehicle.model} ${vehicle.variant}` || ""} placeholder="Please Select Vehicle" /> */}
                 {vehicle.engine && (
                     <Text size="14px" c={'#333'} mt="12px">

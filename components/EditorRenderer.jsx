@@ -5,7 +5,6 @@ import { Box, Image, List, Text, Table, Blockquote, Anchor, Grid } from '@mantin
 const EditorRenderer = ({ data }) => {
   if (!data || !data.blocks) return null;
 
-  console.log("data..........",data)
 
   return (
     <Box>

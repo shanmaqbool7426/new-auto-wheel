@@ -21,7 +21,6 @@ const TopComparison = ({ title, type }) => {
   const [comparisons, setComparisons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log(">>>>>>>>>>>>>>>", comparisons)
   useEffect(() => {
     const fetchComparisons = async () => {
       try {
@@ -38,7 +37,6 @@ const TopComparison = ({ title, type }) => {
 
     fetchComparisons();
   }, [type]);
-  console.log(">>>>>>>>>>>>>>>comparisons?.comparisons", comparisons)
 
   if (loading) {
     return (

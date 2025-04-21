@@ -9,7 +9,6 @@ export function ComparisonProvider({ children }) {
   const [comparisonVehicles, setComparisonVehicles] = useState([]);
 
   const addToComparison = async (vehicle) => {
-    console.log("vehicle", vehicle);
     
     // Check if we already have this vehicle in the comparison
     const isDuplicate = comparisonVehicles.some(item => 
@@ -23,7 +22,6 @@ export function ComparisonProvider({ children }) {
     
     // If it's a duplicate, don't add it again
     if (isDuplicate) {
-      console.log("Vehicle already in comparison");
       return;
     }
     
@@ -46,7 +44,6 @@ export function ComparisonProvider({ children }) {
           params: params
         });
         
-        console.log("response...", response.data);
         
         if (response.data?.data) {
           setComparisonVehicles([...comparisonVehicles, response.data]);
@@ -78,7 +75,6 @@ export function ComparisonProvider({ children }) {
     );
   };
 
-  console.log("comparisonVehicles",comparisonVehicles)
   const updateVehicleVariant = async (index, newSelection) => {
     try {
       const response = await axios.get(`${BASE_URL}/api/new-vehicles/get-newVehicle-details`, {
@@ -89,7 +85,6 @@ export function ComparisonProvider({ children }) {
         }
       });
 
-      console.log("response>>>",response.data)
 
       if (response.data) {
         setComparisonVehicles(prev => {

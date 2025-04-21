@@ -23,7 +23,6 @@ const NewCarsPage = async (params) => {
     }
     const variantsEndpoint = `${API_ENDPOINTS.NEW_VEHICLE.VARIENTS}?${queryParams.toString()}`;
 
-    console.log("variantsEndpoint",variantsEndpoint)
     const variantsVehicles = await fetchVehicleBySlug(`${variantsEndpoint}`);
     const referenceVehicle = {
       vehicleDetails : variantsVehicles?.data?.referenceVehicle,

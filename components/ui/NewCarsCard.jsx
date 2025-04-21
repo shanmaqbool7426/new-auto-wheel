@@ -39,7 +39,6 @@ const NewCarsCard = ({ vehicle, isRating, mb = '32px' }) => {
             alt="Mehran"
           />
         </Box>
-        {console.log(">>>>>>>>>>>>>vehicle", vehicle)}
         <Flex direction="column" align="center" gap="12px">
           <Title order={5} fw={500} c="#E90808" lh="1" fz="12px">
             {vehicle?.make} {vehicle?.model}

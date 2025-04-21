@@ -100,10 +100,8 @@ const HeroTabs = ({ setType }) => {
       const normalizedType = normalizeVehicleType(vehicleType);
       const fetchMakes = await fetchMakesByTypeServer(normalizedType);
       
-      console.log("fetchMakes", fetchMakes);
       setFetchMakesByTypeData(fetchMakes);
     } catch (error) {
-      console.log("error", error);
     }
   };
 
@@ -177,7 +175,6 @@ const HeroTabs = ({ setType }) => {
       // Construct the search URL
       const queryString = queryParts.length > 0 ? `${queryParts.join("/")}` : "";
       const searchUrl = `/used-${makesByType}/search/-/${queryString}`;
-      console.log("searchUrl...........", searchUrl);
       await router.push(searchUrl);
     } catch (error) {
       console.error('Navigation error:', error);

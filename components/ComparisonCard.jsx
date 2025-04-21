@@ -87,7 +87,6 @@ const VehicleComparison = () => {
 
 
 
-  console.log("selection", selection)
   // Watch for selection changes
   useEffect(() => {
     const updateVehicleDetails = async () => {
@@ -104,10 +103,8 @@ const VehicleComparison = () => {
           }
         });
 
-        console.log("response>>>>",response.data?.data)
         // Update the specific vehicle in newVehicleDetails array
         if (response.data?.data) {
-          console.log("innn")
           setComparisonVehicles(prev => {
             const updated = [...prev];
             updated[activeComparisonIndex] = response.data;
@@ -126,7 +123,6 @@ const VehicleComparison = () => {
   }, [selection.variant]); // Only trigger when variant changes
 
 
-  console.log("newww", newVehicleDetails)
   const router = useRouter();
   const pathname = usePathname();
 
@@ -141,7 +137,6 @@ const VehicleComparison = () => {
 
   const fetchMakesByType = async (vehicleType) => {
     try {
-      console.log("vehicleType", vehicleType)
       const fetchMakes = await fetchMakesByTypeServer(typeMapping[vehicleType]);
       setFetchMakesByTypeData(fetchMakes);
     } catch (error) { }
