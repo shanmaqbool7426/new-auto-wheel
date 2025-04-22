@@ -8,7 +8,7 @@ import {
   Box,
   Card,
   Group,
-  Image,
+  Image as MantineImage,
   Flex,
   Text,
   rem,
@@ -27,6 +27,7 @@ import { formatPrice, getTimeAgo } from "@/utils";
 import { useRouter } from "next/navigation";
 import viewTrackingService from '@/services/viewTrackingService';
 import { event } from "@/lib/googleConfig";
+import Image from 'next/image';
 
 const CarCard = ({ vehicle }) => {
   const router = useRouter();
@@ -206,7 +207,7 @@ const CarCard = ({ vehicle }) => {
           onMouseLeave={handleMouseLeave}
         >
           {images.length > 0 ? (
-            <Image
+            <MantineImage
               mah={160}
               mih={160}
               fit="cover"
@@ -216,7 +217,7 @@ const CarCard = ({ vehicle }) => {
               }`}
             />
           ) : (
-            <Image
+            <MantineImage
               mah={160}
               mih={160}
               fit="cover"

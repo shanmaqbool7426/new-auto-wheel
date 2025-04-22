@@ -1,13 +1,13 @@
 import Script from 'next/script';
 
 export const metadata = {
-  title: "New Cars For Sale in Australia | AussieMotor",
-  description: "Explore new cars for sale in Australia. Browse latest models, specs, features and prices. Compare new cars and find the perfect vehicle at AussieMotor.",
-  keywords: "new cars, new vehicles, cars for sale, buy new car, new car dealer, new car prices, Toyota, Honda, Mazda, new cars Australia",
+  title: "New Cars by Category & Make in Australia | AussieMotor",
+  description: "Browse new cars by category, make, and model in Australia. Find the latest car models, specifications, features, and prices. Compare and research new cars at AussieMotor.",
+  keywords: "new cars by category, new cars by make, new car models, car categories, sedan, SUV, hatchback, Toyota, Honda, Mazda, Australia new cars, car research",
   openGraph: {
-    title: "New Cars For Sale in Australia | AussieMotor",
-    description: "Explore the latest car models in Australia with detailed specs, features and prices. Find and compare new cars from Toyota, Honda, Mazda and more at AussieMotor.",
-    url: "https://www.aussiemotor.com/new-cars/",
+    title: "New Cars by Category & Make in Australia | AussieMotor",
+    description: "Browse new cars by category, make, and model in Australia. Find the latest car models, specifications, features, and prices. Compare and research new cars at AussieMotor.",
+    url: "https://www.aussiemotor.com/new/car/",
     siteName: "AussieMotor",
     locale: "en_AU",
     type: "website",
@@ -16,18 +16,18 @@ export const metadata = {
         url: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png",
         width: 1200,
         height: 630,
-        alt: "New Cars for Sale in Australia",
+        alt: "New Cars in Australia",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "New Cars For Sale in Australia | AussieMotor",
-    description: "Explore the latest car models in Australia with detailed specs, features and prices. Find and compare new cars at AussieMotor.",
+    title: "New Cars by Category & Make in Australia | AussieMotor",
+    description: "Browse new cars by category, make, and model in Australia. Find the latest car models, specifications, features, and prices.",
     images: ["https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png"],
   },
   alternates: {
-    canonical: "https://www.aussiemotor.com/new-cars/",
+    canonical: "https://www.aussiemotor.com/new/car/",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
     <>
       {/* BreadcrumbList Schema.org structured data */}
       <Script
-        id="new-cars-breadcrumb-data"
+        id="new-car-breadcrumb-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -52,17 +52,23 @@ export default function RootLayout({ children }) {
               {
                 "@type": "ListItem",
                 "position": 2,
+                "name": "New Vehicles",
+                "item": "https://www.aussiemotor.com/new/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
                 "name": "New Cars",
-                "item": "https://www.aussiemotor.com/new-cars/"
+                "item": "https://www.aussiemotor.com/new/car/"
               }
             ]
           })
         }}
       />
       
-      {/* ItemList Schema.org structured data for the car listings */}
+      {/* ItemList Schema.org structured data for body types */}
       <Script
-        id="new-cars-list-data"
+        id="new-car-body-types-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -74,9 +80,10 @@ export default function RootLayout({ children }) {
                 "position": 1,
                 "item": {
                   "@type": "Car",
-                  "name": "Toyota Corolla",
-                  "description": "New Toyota Corolla cars in Australia",
-                  "url": "https://www.aussiemotor.com/new-cars/toyota/corolla/"
+                  "bodyType": "SUV",
+                  "name": "SUV",
+                  "description": "New SUVs for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/car/body/suv/"
                 }
               },
               {
@@ -84,9 +91,10 @@ export default function RootLayout({ children }) {
                 "position": 2,
                 "item": {
                   "@type": "Car",
-                  "name": "Mazda 3",
-                  "description": "New Mazda 3 cars in Australia",
-                  "url": "https://www.aussiemotor.com/new-cars/mazda/3/"
+                  "bodyType": "Sedan",
+                  "name": "Sedan",
+                  "description": "New Sedans for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/car/body/sedan/"
                 }
               },
               {
@@ -94,9 +102,10 @@ export default function RootLayout({ children }) {
                 "position": 3,
                 "item": {
                   "@type": "Car",
-                  "name": "Honda Civic",
-                  "description": "New Honda Civic cars in Australia",
-                  "url": "https://www.aussiemotor.com/new-cars/honda/civic/"
+                  "bodyType": "Hatchback",
+                  "name": "Hatchback",
+                  "description": "New Hatchbacks for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/car/body/hatchback/"
                 }
               }
             ]
@@ -107,5 +116,4 @@ export default function RootLayout({ children }) {
       {children}
     </>
   );
-}
-  
+} 

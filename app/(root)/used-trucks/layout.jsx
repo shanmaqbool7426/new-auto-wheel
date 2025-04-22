@@ -1,13 +1,13 @@
 import Script from 'next/script';
 
 export const metadata = {
-  title: "New Trucks & Commercial Vehicles in Australia | AussieMotor",
-  description: "Explore new trucks, utes and commercial vehicles in Australia. Browse latest models, specifications, features, and prices. Find the perfect new truck for your business at AussieMotor.",
-  keywords: "new trucks, new commercial vehicles, new utes, buy new truck, truck dealerships, Toyota HiLux, Ford Ranger, Isuzu D-Max, truck pricing, Australia new trucks, business vehicles",
+  title: "Used Trucks & Commercial Vehicles For Sale | AussieMotor",
+  description: "Find used trucks, utes and commercial vehicles for sale in Australia. Browse thousands of listings with photos, specs, and prices. Buy & sell second-hand trucks easily at AussieMotor.",
+  keywords: "used trucks, second hand trucks, commercial vehicles, used utes, used vans, Toyota HiLux for sale, Ford Ranger for sale, Isuzu D-Max for sale, Australia used trucks, sell my truck",
   openGraph: {
-    title: "New Trucks & Commercial Vehicles in Australia | AussieMotor",
-    description: "Explore the latest trucks and commercial vehicles in Australia with detailed specifications, features and prices. Find and compare new trucks at AussieMotor.",
-    url: "https://www.aussiemotor.com/new-trucks/",
+    title: "Used Trucks & Commercial Vehicles For Sale | AussieMotor",
+    description: "Browse used trucks for sale in Australia with great deals on Toyota, Ford, Isuzu and more. Find your next commercial vehicle at AussieMotor - Australia's #1 auto marketplace.",
+    url: "https://www.aussiemotor.com/used-trucks/",
     siteName: "AussieMotor",
     locale: "en_AU",
     type: "website",
@@ -16,18 +16,18 @@ export const metadata = {
         url: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png",
         width: 1200,
         height: 630,
-        alt: "New Trucks in Australia",
+        alt: "Used Trucks for Sale in Australia",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "New Trucks & Commercial Vehicles in Australia | AussieMotor",
-    description: "Explore the latest trucks and commercial vehicles in Australia with detailed specifications, features and prices at AussieMotor.",
+    title: "Used Trucks & Commercial Vehicles For Sale | AussieMotor",
+    description: "Browse thousands of used trucks, utes, and commercial vehicles for sale in Australia with great deals on Toyota, Ford, Isuzu and more at AussieMotor.",
     images: ["https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png"],
   },
   alternates: {
-    canonical: "https://www.aussiemotor.com/new-trucks/",
+    canonical: "https://www.aussiemotor.com/used-trucks/",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
     <>
       {/* BreadcrumbList Schema.org structured data */}
       <Script
-        id="new-trucks-breadcrumb-data"
+        id="used-trucks-breadcrumb-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -52,8 +52,8 @@ export default function RootLayout({ children }) {
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "New Trucks",
-                "item": "https://www.aussiemotor.com/new-trucks/"
+                "name": "Used Trucks",
+                "item": "https://www.aussiemotor.com/used-trucks/"
               }
             ]
           })
@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
       
       {/* ItemList Schema.org structured data for the truck listings */}
       <Script
-        id="new-trucks-list-data"
+        id="used-trucks-list-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -75,8 +75,8 @@ export default function RootLayout({ children }) {
                 "item": {
                   "@type": "Vehicle",
                   "name": "Toyota HiLux",
-                  "description": "New Toyota HiLux trucks in Australia",
-                  "url": "https://www.aussiemotor.com/new-trucks/toyota/hilux/"
+                  "description": "Used Toyota HiLux trucks for sale in Australia",
+                  "url": "https://www.aussiemotor.com/used-trucks/toyota/hilux/"
                 }
               },
               {
@@ -85,8 +85,8 @@ export default function RootLayout({ children }) {
                 "item": {
                   "@type": "Vehicle",
                   "name": "Ford Ranger",
-                  "description": "New Ford Ranger trucks in Australia",
-                  "url": "https://www.aussiemotor.com/new-trucks/ford/ranger/"
+                  "description": "Used Ford Ranger trucks for sale in Australia",
+                  "url": "https://www.aussiemotor.com/used-trucks/ford/ranger/"
                 }
               },
               {
@@ -95,8 +95,8 @@ export default function RootLayout({ children }) {
                 "item": {
                   "@type": "Vehicle",
                   "name": "Isuzu D-Max",
-                  "description": "New Isuzu D-Max trucks in Australia",
-                  "url": "https://www.aussiemotor.com/new-trucks/isuzu/d-max/"
+                  "description": "Used Isuzu D-Max trucks for sale in Australia",
+                  "url": "https://www.aussiemotor.com/used-trucks/isuzu/d-max/"
                 }
               }
             ]
@@ -107,5 +107,4 @@ export default function RootLayout({ children }) {
       {children}
     </>
   );
-}
-  
+} 

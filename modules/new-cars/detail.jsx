@@ -14,13 +14,11 @@ const NewVehicleDetailModule = async ({ vehicle, variantsVehicles }) => {
   const vehicleType = vehicle?.vehicleDetails?.type || 'car'; // Default to 'car' if type is not available
   const reorderedSlug = reorderSlug([`mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
   
-  console.log("reorderedSlug.....>>>>>>>..1",reorderedSlug)
   const dataofVehcles = await fetchVehiclsData([`used-${vehicleType}s`, `mk_${vehicle?.vehicleDetails?.make}`, `md_${vehicle?.vehicleDetails?.model}`]);
   const competitors = await fetchVehicleCompetitors(vehicle?.vehicleDetails?._id);
   const makesAndBodies = await fetchMakesAndBodies(vehicle?.vehicleDetails?.type);
 
 
-  console.log(">>>>>>>>competitors",competitors)
   return (
     <div>
       <VehicleDetail vehicle={vehicle} variantsVehicles={variantsVehicles} />

@@ -5,6 +5,7 @@ import "@/styles/globals.scss";
 import "@mantine/notifications/styles.css";
 import AnalyticsProvider from "@/contexts/AnalyticsProvider"
 import NextTopLoader from "nextjs-toploader";
+import Head from 'next/head';
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
@@ -51,32 +52,48 @@ export default function RootLayout({ children }) {
       <head>
         <ColorSchemeScript />
         <ColorSchemeScript defaultColorScheme="auto" />
+        
+        {/* Basic Meta Tags */}
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Find new & used cars, bikes & auto parts for sale in Australia. Post free ads, read reviews, check prices & compare cars at AussieMotor - Australia's #1 automotive marketplace." />
+        <meta name="keywords" content="cars, used cars, new cars, cars for sale, buy cars, sell cars, car prices, auto parts, bikes, motorcycles, auto loans, car insurance" />
+        <link rel="canonical" href="https://www.aussiemotor.com/" />
+        
+        {/* Favicon */}
+        <link rel="icon" href="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png" />
+        <link rel="apple-touch-icon" href="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png" />
+        <link rel="shortcut icon" href="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png" />
+        <meta name="msapplication-TileImage" content="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png" />
+        <meta name="msapplication-TileColor" content="#e90808" />
+        <meta name="theme-color" content="#e90808" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.aussiemotor.com/" />
+        <meta property="og:title" content="AussieMotor - Buy & Sell Cars, Bikes & Auto Parts in Australia" />
+        <meta property="og:description" content="Find new & used cars, bikes & auto parts for sale in Australia. Post free ads, read reviews, check prices & compare cars at AussieMotor." />
+        <meta property="og:image" content="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png" />
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://www.aussiemotor.com/" />
+        <meta property="twitter:title" content="AussieMotor - Buy & Sell Cars, Bikes & Auto Parts in Australia" />
+        <meta property="twitter:description" content="Find new & used cars, bikes & auto parts for sale in Australia. Post free ads, read reviews & compare cars at AussieMotor." />
+        <meta property="twitter:image" content="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png" />
+        
         <Script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           strategy="beforeInteractive"
         />
-         <Script
+        <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
         />
-          {/* <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
-                page_path: window.location.pathname,
-              });
-            `,
-          }}
-        /> */}
+        <title>AussieMotor - Buy & Sell Cars, Bikes & Auto Parts in Australia</title>
       </head>
       <body>
         <ReduxProvider>
-        {/* <AnalyticsProvider/> */}
           <SessionProvider>
             <MantineProvider theme={theme}>
               <Notifications />

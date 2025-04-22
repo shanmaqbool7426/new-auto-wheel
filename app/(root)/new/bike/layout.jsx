@@ -1,13 +1,13 @@
 import Script from 'next/script';
 
 export const metadata = {
-  title: "New Motorcycles & Bikes For Sale in Australia | AussieMotor",
-  description: "Explore the latest new motorcycles and bikes for sale in Australia. Browse by make, model, and type. Compare prices, specifications, and features of new bikes at AussieMotor.",
-  keywords: "new motorcycles, new bikes, buy motorcycle, latest bike models, Honda motorcycle, Yamaha bike, Kawasaki, Suzuki, motorcycle prices, Australia new bikes",
+  title: "New Motorcycles by Category & Make in Australia | AussieMotor",
+  description: "Browse new motorcycles by category, make, and model in Australia. Find the latest motorcycle models, specifications, features, and prices. Compare and research new bikes at AussieMotor.",
+  keywords: "new motorcycles by category, new bikes by make, new motorcycle models, bike categories, sport bike, cruiser, adventure, Honda, Yamaha, Kawasaki, Australia new motorcycles, bike research",
   openGraph: {
-    title: "New Motorcycles & Bikes For Sale in Australia | AussieMotor",
-    description: "Explore the latest new motorcycles and bikes for sale in Australia. Browse by make, model, and type. Compare prices, specifications, and features of new bikes.",
-    url: "https://www.aussiemotor.com/new-bikes/",
+    title: "New Motorcycles by Category & Make in Australia | AussieMotor",
+    description: "Browse new motorcycles by category, make, and model in Australia. Find the latest motorcycle models, specifications, features, and prices. Compare and research new bikes at AussieMotor.",
+    url: "https://www.aussiemotor.com/new/bike/",
     siteName: "AussieMotor",
     locale: "en_AU",
     type: "website",
@@ -22,12 +22,12 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "New Motorcycles & Bikes For Sale in Australia | AussieMotor",
-    description: "Explore the latest new motorcycles and bikes for sale in Australia. Browse by make, model, and type. Compare prices, specifications, and features.",
+    title: "New Motorcycles by Category & Make in Australia | AussieMotor",
+    description: "Browse new motorcycles by category, make, and model in Australia. Find the latest motorcycle models, specifications, features, and prices.",
     images: ["https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png"],
   },
   alternates: {
-    canonical: "https://www.aussiemotor.com/new-bikes/",
+    canonical: "https://www.aussiemotor.com/new/bike/",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
     <>
       {/* BreadcrumbList Schema.org structured data */}
       <Script
-        id="new-bikes-breadcrumb-data"
+        id="new-bike-breadcrumb-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -52,17 +52,23 @@ export default function RootLayout({ children }) {
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "New Bikes",
-                "item": "https://www.aussiemotor.com/new-bikes/"
+                "name": "New Vehicles",
+                "item": "https://www.aussiemotor.com/new/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "New Motorcycles",
+                "item": "https://www.aussiemotor.com/new/bike/"
               }
             ]
           })
         }}
       />
       
-      {/* ItemList Schema.org structured data for the bike listings */}
+      {/* ItemList Schema.org structured data for motorcycle types */}
       <Script
-        id="new-bikes-list-data"
+        id="new-bike-types-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -74,9 +80,9 @@ export default function RootLayout({ children }) {
                 "position": 1,
                 "item": {
                   "@type": "MotorizedBicycle",
-                  "name": "Honda CBR",
-                  "description": "New Honda CBR motorcycles in Australia",
-                  "url": "https://www.aussiemotor.com/new-bikes/honda/cbr/"
+                  "name": "Sport Bike",
+                  "description": "New sport motorcycles for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/bike/body/sport/"
                 }
               },
               {
@@ -84,9 +90,9 @@ export default function RootLayout({ children }) {
                 "position": 2,
                 "item": {
                   "@type": "MotorizedBicycle",
-                  "name": "Yamaha YZF",
-                  "description": "New Yamaha YZF motorcycles in Australia",
-                  "url": "https://www.aussiemotor.com/new-bikes/yamaha/yzf/"
+                  "name": "Cruiser",
+                  "description": "New cruiser motorcycles for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/bike/body/cruiser/"
                 }
               },
               {
@@ -94,9 +100,9 @@ export default function RootLayout({ children }) {
                 "position": 3,
                 "item": {
                   "@type": "MotorizedBicycle",
-                  "name": "Kawasaki Ninja",
-                  "description": "New Kawasaki Ninja motorcycles in Australia",
-                  "url": "https://www.aussiemotor.com/new-bikes/kawasaki/ninja/"
+                  "name": "Adventure",
+                  "description": "New adventure motorcycles for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/bike/body/adventure/"
                 }
               }
             ]
@@ -107,5 +113,4 @@ export default function RootLayout({ children }) {
       {children}
     </>
   );
-}
-  
+} 

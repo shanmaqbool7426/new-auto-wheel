@@ -1,13 +1,13 @@
 import Script from 'next/script';
 
 export const metadata = {
-  title: "New Trucks & Commercial Vehicles in Australia | AussieMotor",
-  description: "Explore new trucks, utes and commercial vehicles in Australia. Browse latest models, specifications, features, and prices. Find the perfect new truck for your business at AussieMotor.",
-  keywords: "new trucks, new commercial vehicles, new utes, buy new truck, truck dealerships, Toyota HiLux, Ford Ranger, Isuzu D-Max, truck pricing, Australia new trucks, business vehicles",
+  title: "New Trucks by Category & Make in Australia | AussieMotor",
+  description: "Browse new trucks and commercial vehicles by category, make, and model in Australia. Find the latest truck models, specifications, features, and prices. Compare and research new commercial vehicles at AussieMotor.",
+  keywords: "new trucks by category, new commercial vehicles by make, new truck models, ute, van, pickup truck, Toyota HiLux, Ford Ranger, Isuzu D-Max, Australia new trucks, commercial vehicle research",
   openGraph: {
-    title: "New Trucks & Commercial Vehicles in Australia | AussieMotor",
-    description: "Explore the latest trucks and commercial vehicles in Australia with detailed specifications, features and prices. Find and compare new trucks at AussieMotor.",
-    url: "https://www.aussiemotor.com/new-trucks/",
+    title: "New Trucks by Category & Make in Australia | AussieMotor",
+    description: "Browse new trucks and commercial vehicles by category, make, and model in Australia. Find the latest truck models, specifications, features, and prices. Compare and research new commercial vehicles at AussieMotor.",
+    url: "https://www.aussiemotor.com/new/truck/",
     siteName: "AussieMotor",
     locale: "en_AU",
     type: "website",
@@ -16,18 +16,18 @@ export const metadata = {
         url: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png",
         width: 1200,
         height: 630,
-        alt: "New Trucks in Australia",
+        alt: "New Trucks and Commercial Vehicles in Australia",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "New Trucks & Commercial Vehicles in Australia | AussieMotor",
-    description: "Explore the latest trucks and commercial vehicles in Australia with detailed specifications, features and prices at AussieMotor.",
+    title: "New Trucks by Category & Make in Australia | AussieMotor",
+    description: "Browse new trucks and commercial vehicles by category, make, and model in Australia. Find the latest truck models, specifications, features, and prices.",
     images: ["https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png"],
   },
   alternates: {
-    canonical: "https://www.aussiemotor.com/new-trucks/",
+    canonical: "https://www.aussiemotor.com/new/truck/",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
     <>
       {/* BreadcrumbList Schema.org structured data */}
       <Script
-        id="new-trucks-breadcrumb-data"
+        id="new-truck-breadcrumb-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -52,17 +52,23 @@ export default function RootLayout({ children }) {
               {
                 "@type": "ListItem",
                 "position": 2,
+                "name": "New Vehicles",
+                "item": "https://www.aussiemotor.com/new/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
                 "name": "New Trucks",
-                "item": "https://www.aussiemotor.com/new-trucks/"
+                "item": "https://www.aussiemotor.com/new/truck/"
               }
             ]
           })
         }}
       />
       
-      {/* ItemList Schema.org structured data for the truck listings */}
+      {/* ItemList Schema.org structured data for truck types */}
       <Script
-        id="new-trucks-list-data"
+        id="new-truck-types-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -74,9 +80,9 @@ export default function RootLayout({ children }) {
                 "position": 1,
                 "item": {
                   "@type": "Vehicle",
-                  "name": "Toyota HiLux",
-                  "description": "New Toyota HiLux trucks in Australia",
-                  "url": "https://www.aussiemotor.com/new-trucks/toyota/hilux/"
+                  "name": "Ute",
+                  "description": "New utility vehicles for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/truck/body/ute/"
                 }
               },
               {
@@ -84,9 +90,9 @@ export default function RootLayout({ children }) {
                 "position": 2,
                 "item": {
                   "@type": "Vehicle",
-                  "name": "Ford Ranger",
-                  "description": "New Ford Ranger trucks in Australia",
-                  "url": "https://www.aussiemotor.com/new-trucks/ford/ranger/"
+                  "name": "Van",
+                  "description": "New commercial vans for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/truck/body/van/"
                 }
               },
               {
@@ -94,9 +100,9 @@ export default function RootLayout({ children }) {
                 "position": 3,
                 "item": {
                   "@type": "Vehicle",
-                  "name": "Isuzu D-Max",
-                  "description": "New Isuzu D-Max trucks in Australia",
-                  "url": "https://www.aussiemotor.com/new-trucks/isuzu/d-max/"
+                  "name": "Pickup Truck",
+                  "description": "New pickup trucks for sale in Australia",
+                  "url": "https://www.aussiemotor.com/new/truck/body/pickup/"
                 }
               }
             ]
@@ -107,5 +113,4 @@ export default function RootLayout({ children }) {
       {children}
     </>
   );
-}
-  
+} 
