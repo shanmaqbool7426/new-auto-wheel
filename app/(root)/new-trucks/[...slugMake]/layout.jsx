@@ -32,7 +32,8 @@ export async function generateMetadata({ params, searchParams }) {
       const model = slugMake[1].replace(/-/g, ' ');
       let variant = slugMake.length === 3 ? slugMake[2].replace(/-/g, ' ') : '';
       if (!variant && searchParams?.variant) {
-        variant = searchParams.variant.replace(/-/g, ' ');
+        const variantParam = searchParams.variant;
+        variant = typeof variantParam === 'string' ? variantParam.replace(/-/g, ' ') : '';
       }
 
       // For model or variant level pages, try to fetch actual vehicle data
