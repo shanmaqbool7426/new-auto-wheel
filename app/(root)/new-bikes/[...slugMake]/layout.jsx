@@ -1,6 +1,3 @@
-import Script from 'next/script';
-import { fetchVehicleBySlug } from '@/services/new-vehicles';
-import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
 export async function generateMetadata({ params }) {
   const slugMake = params?.slugMake || [""];

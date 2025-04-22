@@ -10,10 +10,13 @@ import { Title } from "@mantine/core";
 export const ListingHeader = ({ type }) => {
   const ListingTitle = () => {
     switch (type) {
+      case "car":
       case "cars":
         return "Cars";
+      case "bike":
       case "bikes":
         return "Bikes";
+      case "truck":
       case "trucks":
         return "Trucks";
       default:

@@ -85,19 +85,26 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
 
       slug.forEach((item) => {
         if (item.startsWith("mk_")) {
-          updatedFilters.make.push(item.replace("mk_", ""));
+          const decoded = decodeURIComponent(item.replace("mk_", "")).replace(/%20/g, ' ');
+          updatedFilters.make.push(decoded);
         }
         if (item.startsWith("md_")) {
-          updatedFilters.model.push(item.replace("md_", ""));
+          const decoded = decodeURIComponent(item.replace("md_", "")).replace(/%20/g, ' ');
+          updatedFilters.model.push(decoded);
         }
-        if (item.startsWith("vt_")) {
-          updatedFilters.variant.push(item.replace("vt_", ""));
+        if (item.startsWith("vt_") || item.startsWith("vr_")) {
+          // Support both vt_ (car) and vr_ (bike) prefixes
+          const prefix = item.startsWith("vt_") ? "vt_" : "vr_";
+          const decoded = decodeURIComponent(item.replace(prefix, "")).replace(/%20/g, ' ');
+          updatedFilters.variant.push(decoded);
         }
         if (item.startsWith("ct_")) {
-          updatedFilters.city.push(item.replace("ct_", ""));
+          const decoded = decodeURIComponent(item.replace("ct_", "")).replace(/%20/g, ' ');
+          updatedFilters.city.push(decoded);
         }
         if (item.startsWith("bt_")) {
-          updatedFilters.bodyType.push(item.replace("bt_", ""));
+          const decoded = decodeURIComponent(item.replace("bt_", "")).replace(/%20/g, ' ');
+          updatedFilters.bodyType.push(decoded);
         }
         if (item.startsWith("pr_")) {
           const [min, max] = item.replace("pr_", "").split("_");
@@ -127,7 +134,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           updatedFilters.fuelType = item;
         }
         if (item.startsWith("q_")) {
-          updatedFilters.query = item.replace("q_", "");
+          updatedFilters.query = decodeURIComponent(item.replace("q_", "")).replace(/%20/g, ' ');
         }
         if (item.startsWith("od_")) {
           updatedFilters.order = item.replace("od_", "");
@@ -148,78 +155,79 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
   }, []);
 
   const Breadcrumb = ({ type }) => {
-  const params = useParams();
-  const vehicleType = getVehicleType(params?.slug?.[0] || window.location.pathname.split('/')[1]);
-  
-  const items = [
-    { title: 'Home', href: '/' },
-    { title: 'Used Cars', href: '/used-cars/search/-' }
-  ];
+    const params = useParams();
+    const vehicleType = getVehicleType(params?.slug?.[0] || window.location.pathname.split('/')[1]);
+    
+    const items = [
+      { title: 'Home', href: '/' },
+      { title: vehicleType === 'bike' ? 'Used Bikes' : 'Used Cars', href: `/used-${vehicleType}s/search/-` }
+    ];
 
-  // Extract city if present
-  const cityFilter = params?.slug?.find(item => item.startsWith('ct_'));
-  const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')) : '';
+    // Extract city if present
+    const cityFilter = params?.slug?.find(item => item.startsWith('ct_'));
+    const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')).replace(/%20/g, ' ') : '';
 
-  // Extract all makes
-  const makeFilters = params?.slug?.filter(item => item.startsWith('mk_')) || [];
-  // Extract all models
-  const modelFilters = params?.slug?.filter(item => item.startsWith('md_')) || [];
-  // Extract all variants
-  const variantFilters = params?.slug?.filter(item => item.startsWith('vt_')) || [];
+    // Extract all makes
+    const makeFilters = params?.slug?.filter(item => item.startsWith('mk_')) || [];
+    // Extract all models
+    const modelFilters = params?.slug?.filter(item => item.startsWith('md_')) || [];
+    // Extract all variants - support both vt_ (cars) and vr_ (bikes)
+    const variantPrefix = vehicleType === 'bike' ? 'vr_' : 'vt_';
+    const variantFilters = params?.slug?.filter(item => item.startsWith(variantPrefix)) || [];
 
-  // Add city level if present
-  if (cityFilter) {
-    items.push({ 
-      title: `Cars ${city}`, 
-      href: `/used-cars/search/-/ct_${city}` 
+    // Add city level if present
+    if (cityFilter) {
+      items.push({ 
+        title: `${vehicleType === 'bike' ? 'Bikes' : 'Cars'} ${city}`, 
+        href: `/used-${vehicleType}s/search/-/ct_${encodeURIComponent(city)}` 
+      });
+    }
+
+    // Add makes
+    makeFilters.forEach(makeFilter => {
+      const make = decodeURIComponent(makeFilter.replace('mk_', '')).replace(/%20/g, ' ');
+      const makeUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}`;
+      items.push({ 
+        title: `${make} ${city ? city : ''}`, 
+        href: makeUrl 
+      });
     });
-  }
 
-  // Add makes
-  makeFilters.forEach(makeFilter => {
-    const make = decodeURIComponent(makeFilter.replace('mk_', ''));
-    const makeUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}/mk_${make}`;
-    items.push({ 
-      title: `${make} ${city ? city : ''}`, 
-      href: makeUrl 
+    // Add models
+    modelFilters.forEach(modelFilter => {
+      const model = decodeURIComponent(modelFilter.replace('md_', '')).replace(/%20/g, ' ');
+      const modelUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${encodeURIComponent(model)}`;
+      items.push({ 
+        title: `${model} ${city ? city : ''}`,
+        href: modelUrl
+      });
     });
-  });
 
-  // Add models
-  modelFilters.forEach(modelFilter => {
-    const model = decodeURIComponent(modelFilter.replace('md_', ''));
-    const modelUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${model}`;
-    items.push({ 
-      title: `${model} ${city ? city : ''}`,
-      href: modelUrl
+    // Add variants
+    variantFilters.forEach(variantFilter => {
+      const variant = decodeURIComponent(variantFilter.replace(variantPrefix, '')).replace(/%20/g, ' ');
+      const variantUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/${variantPrefix}${encodeURIComponent(variant)}`;
+      items.push({ 
+        title: `${variant} ${city ? city : ''}`,
+        href: variantUrl
+      });
     });
-  });
 
-  // Add variants
-  variantFilters.forEach(variantFilter => {
-    const variant = decodeURIComponent(variantFilter.replace('vt_', ''));
-    const variantUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/vt_${variant}`;
-    items.push({ 
-      title: `${variant} ${city ? city : ''}`,
-      href: variantUrl
-    });
-  });
-
-  return (
-    <Breadcrumbs mb="lg">
-      {items.map((item, index) => (
-        <Anchor
-          key={index}
-          href={item.href}
-          c={'dimmed'}
-          style={{ textDecoration: 'none' }}
-        >
-          {item.title}
-        </Anchor>
-      ))}
-    </Breadcrumbs>
-  );
-};
+    return (
+      <Breadcrumbs mb="lg">
+        {items.map((item, index) => (
+          <Anchor
+            key={index}
+            href={item.href}
+            c={'dimmed'}
+            style={{ textDecoration: 'none' }}
+          >
+            {item.title}
+          </Anchor>
+        ))}
+      </Breadcrumbs>
+    );
+  };
 
   const updateFiltersInUrl = (updatedFilters) => {
     // Get the vehicle type from the URL and ensure it's in the correct format
@@ -232,28 +240,33 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
       if (Array.isArray(value) && value.length > 0) {
         if (key === "make")
           [...new Set(value)].forEach(
-            (make) => (customUrl += `mk_${make.toLowerCase()}/`)
+            (make) => (customUrl += `mk_${encodeURIComponent(make.toLowerCase())}/`)
           );
         if (key === "model")
           [...new Set(value)].forEach(
-            (model) => (customUrl += `md_${model.toLowerCase()}/`)
+            (model) => (customUrl += `md_${encodeURIComponent(model.toLowerCase())}/`)
           );
-        if (key === "variant")
+        if (key === "variant") {
+          // Use vr_ prefix for bikes instead of vt_ for cars
+          const prefix = currentVehicleType === 'used-bikes' ? 'vr_' : 'vt_';
           [...new Set(value)].forEach(
-            (variant) => (customUrl += `vt_${variant.toLowerCase()}/`)
+            (variant) => (customUrl += `${prefix}${encodeURIComponent(variant.toLowerCase())}/`)
           );
+        }
         if (key === "city")
           [...new Set(value)].forEach(
-            (city) => (customUrl += `ct_${city.toLowerCase()}/`)
+            (city) => (customUrl += `ct_${encodeURIComponent(city.toLowerCase())}/`)
           );
         if (key === "cityArea")
           [...new Set(value)].forEach(
-            (area) => (customUrl += `ca_${area.toLowerCase()}/`)
+            (area) => (customUrl += `ca_${encodeURIComponent(area.toLowerCase())}/`)
           );
-        if (key === "bodyType")
+        if (key === "bodyType") {
+          // Use bt_ prefix for both but handle the encoding properly
           [...new Set(value)].forEach(
-            (bodyType) => (customUrl += `bt_${bodyType.toLowerCase()}/`)
+            (bodyType) => (customUrl += `bt_${encodeURIComponent(bodyType.toLowerCase())}/`)
           );
+        }
         if (key === "price" && (value[0] !== 0 || value[1] !== 90000000)) {
           customUrl += `pr_${value[0]}_${value[1]}/`;
         }
@@ -264,7 +277,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           customUrl += `ml_${value[0]}_${value[1]}/`;
         }
       } else if (typeof value === "string" && value) {
-        if (key === "query") customUrl += `q_${value}/`;
+        if (key === "query") customUrl += `q_${encodeURIComponent(value)}/`;
         if (
           [
             "condition",
@@ -322,15 +335,15 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
   };
 
   const getVehicleType = (path) => {
-  if (!path) return 'cars';
-  
-  // Check if the path starts with 'used-'
-  if (path.startsWith('used-')) {
-    // Remove 'used-' prefix and 's' suffix
-    return path.replace('used-', '').replace(/s$/, '');
-  }
-  return 'cars'; // Default to cars if no match
-};
+    if (!path) return 'cars';
+    
+    // Check if the path starts with 'used-'
+    if (path.startsWith('used-')) {
+      // Remove 'used-' prefix and 's' suffix
+      return path.replace('used-', '').replace(/s$/, '');
+    }
+    return 'cars'; // Default to cars if no match
+  };
   const resetFilters = () => {
     setFilters({
       query: "",

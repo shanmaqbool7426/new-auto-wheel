@@ -49,10 +49,15 @@ function getVehicleType(currentPath) {
 
 const FilterBadges = ({ params, searchParams }) => {
   const slug = params.slug;
+  // Determine vehicle type
+  const currentPath = isClient ? window.location.pathname : '';
+  const vehicleType = getVehicleType(currentPath);
 
   const filterConfigs = {
     mk_: { type: "make", label: "make" },
     md_: { type: "model", label: "model" },
+    vr_: { type: "variant", label: "variant" },
+    vt_: { type: "variant", label: "variant" }, // Support both vr_ (bikes) and vt_ (cars)
     ct_: { type: "city", label: "city" },
     bt_: { type: "bodyType", label: "bodyType" },
     tr_: { type: "transmission", label: "transmission" },
@@ -92,7 +97,15 @@ const FilterBadges = ({ params, searchParams }) => {
         if (!prefix) return null;
 
         const config = filterConfigs[prefix];
-        const value = item.replace(prefix, "");
+        let value = item.replace(prefix, "");
+        
+        // Properly decode URL-encoded values
+        try {
+          value = decodeURIComponent(value).replace(/-/g, ' ');
+        } catch (e) {
+          console.error("Error decoding URL parameter:", e);
+        }
+        
         const displayValue = config.isRange
           ? value.split("_").join(" - ")
           : value;
@@ -149,34 +162,38 @@ const FilterBadges = ({ params, searchParams }) => {
 };
 
 const Breadcrumb = ({ params, type }) => {
+  // Determine vehicle type from path or type parameter
+  const vehicleType = type || (isClient ? getVehicleType(window.location.pathname) : 'car');
+  
   const items = [
     { title: 'Home', href: '/' },
-    { title: 'Used Cars', href: '/used-cars/search/-' }
+    { title: vehicleType === 'bike' ? 'Used Bikes' : 'Used Cars', href: `/used-${vehicleType}s/search/-` }
   ];
 
   // Extract city if present
   const cityFilter = params.slug?.find(item => item.startsWith('ct_'));
-  const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')) : '';
+  const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')).replace(/%20/g, ' ') : '';
 
   // Extract all makes
   const makeFilters = params.slug?.filter(item => item.startsWith('mk_')) || [];
   // Extract all models
   const modelFilters = params.slug?.filter(item => item.startsWith('md_')) || [];
-  // Extract all variants
-  const variantFilters = params.slug?.filter(item => item.startsWith('vt_')) || [];
+  // Extract all variants - support both vt_ (cars) and vr_ (bikes)
+  const variantPrefix = vehicleType === 'bike' ? 'vr_' : 'vt_';
+  const variantFilters = params.slug?.filter(item => item.startsWith(variantPrefix)) || [];
 
   // Add city level if present
   if (cityFilter) {
     items.push({ 
-      title: `Cars ${city}`, 
-      href: `/used-cars/search/-/ct_${city}` 
+      title: `${vehicleType === 'bike' ? 'Bikes' : 'Cars'} ${city}`, 
+      href: `/used-${vehicleType}s/search/-/ct_${encodeURIComponent(city)}` 
     });
   }
 
   // Add makes
   makeFilters.forEach(makeFilter => {
-    const make = decodeURIComponent(makeFilter.replace('mk_', ''));
-    const makeUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}/mk_${make}`;
+    const make = decodeURIComponent(makeFilter.replace('mk_', '')).replace(/%20/g, ' ');
+    const makeUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}`;
     items.push({ 
       title: `${make} ${city ? city : ''}`, 
       href: makeUrl 
@@ -185,8 +202,8 @@ const Breadcrumb = ({ params, type }) => {
 
   // Add models
   modelFilters.forEach(modelFilter => {
-    const model = decodeURIComponent(modelFilter.replace('md_', ''));
-    const modelUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${model}`;
+    const model = decodeURIComponent(modelFilter.replace('md_', '')).replace(/%20/g, ' ');
+    const modelUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${encodeURIComponent(model)}`;
     items.push({ 
       title: `${model} ${city ? city : ''}`,
       href: modelUrl
@@ -195,8 +212,8 @@ const Breadcrumb = ({ params, type }) => {
 
   // Add variants
   variantFilters.forEach(variantFilter => {
-    const variant = decodeURIComponent(variantFilter.replace('vt_', ''));
-    const variantUrl = `/used-cars/search/-${cityFilter ? '/ct_' + city : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/vt_${variant}`;
+    const variant = decodeURIComponent(variantFilter.replace(variantPrefix, '')).replace(/%20/g, ' ');
+    const variantUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/${variantPrefix}${encodeURIComponent(variant)}`;
     items.push({ 
       title: `${variant} ${city ? city : ''}`,
       href: variantUrl
