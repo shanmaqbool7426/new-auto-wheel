@@ -48,7 +48,7 @@
   width: 12px;
   height: 4px;
   transition: width 250ms ease;
-  background-color: #ccc;
+  background-color: #ccc !important;
   border-radius: 2px;
 }
 
@@ -71,9 +71,11 @@
   background-color: #E90808 !important;
   border-color: #E90808 !important;
   color: #ffffff !important;
+}
 
-  &[data-inactive='true'] {
-    background-color: #CCCCCC !important;
-    border-color: #CCCCCC !important;
-  }
+.control[data-inactive='true'] {
+  background-color: #A9A9A9 !important;
+  border-color: #A9A9A9 !important;
+  opacity: 1 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }

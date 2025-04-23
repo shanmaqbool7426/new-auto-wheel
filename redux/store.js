@@ -3,6 +3,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './reducers/authSlice';
 import locationReducer from './reducers/locationSlice';
+import loadingReducer from './features/loadingSlice';
 import { BASE_API } from '@/api-services/base-api';
 // Import other reducers as needed
 
@@ -12,6 +13,7 @@ const initializeStore = () => {
       [BASE_API.reducerPath]: BASE_API.reducer,
       auth: authReducer,
       location: locationReducer,
+      loading: loadingReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(BASE_API.middleware),

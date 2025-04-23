@@ -264,7 +264,7 @@ const ListCardView = ({ vehicle }) => {
               <Anchor href={`/used-${vehicle?.type}s/${vehicle?.slug}`} style={{ textDecoration: 'none' }}>
                 <Image
                   radius={rem(5)}
-                  h={160}
+                  h={180}
                   fit="cover"
                   className="overflow-hidden"
                   src={
@@ -297,6 +297,13 @@ const ListCardView = ({ vehicle }) => {
         <Grid.Col span={8} pl="lg">
           <Group justify="space-between" mb="lg">
             <Box>
+
+            {/* <Title ff="text" mb={rem(3)} lts={-0.9} c="red" order={6}>
+                {vehicle?.condition?.toUpperCase() || "USED"}
+              </Title> */}
+              <Text c="red" fw={600} size="sm">
+                {vehicle?.condition?.toUpperCase() || "USED"} {vehicle?.specifications?.engineCapacity} L
+              </Text>
               <Title ff="text" mb={rem(3)} lts={-0.3} c="dark" order={4}>
                 <Anchor
                   inherit
@@ -312,12 +319,12 @@ const ListCardView = ({ vehicle }) => {
               </Text>
             </Box>
             <Text
-              bg="#E90808"
-              p="10px 15px 10px 50px"
-              c="white"
-              fw="bold"
+              bg="#E6E6E6"
+              p="8px 20px"
+              c="black"
+              fw="600"
               style={{
-                clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+                borderRadius: "50px",
               }}
             >
               ${formatPrice(vehicle?.price)}

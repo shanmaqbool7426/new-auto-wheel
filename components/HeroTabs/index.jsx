@@ -208,7 +208,7 @@ const HeroTabs = ({ setType }) => {
       />
       
       <Button
-        mt="24px"
+        mt="16px"
         fullWidth
         size="md"
         ff="heading"

@@ -26,29 +26,27 @@ export const ListingHeader = ({ type }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [view, setView] = useState("list");
+  // Get current view from URL
+  const currentView = searchParams.get("view") || "list";
   const [sortBy, setSortBy] = useState("");
   const sortOptions = [
     { value: "latest", label: "Date: Newest First" },
     { value: "price-asc", label: "Price: Low to High" },
     { value: "price-desc", label: "Price: High to Low" },
   ];
+  
   useEffect(() => {
     const sortParam = searchParams.get("sortBy");
-    const viewParam = searchParams.get("view");
-
     if (sortParam) {
       setSortBy(sortParam);
-    }
-
-    if (viewParam) {
-      setView(viewParam);
     }
   }, [searchParams]);
 
   const updateQueryParams = (newSortBy, newView) => {
-    const params = new URLSearchParams(searchParams);
+    // Create a new URLSearchParams instance from the current params
+    const params = new URLSearchParams(searchParams.toString());
 
+    // Update the parameters
     if (newSortBy) {
       params.set("sortBy", newSortBy);
     }
@@ -57,17 +55,17 @@ export const ListingHeader = ({ type }) => {
       params.set("view", newView);
     }
 
-    router.push(`?${params.toString()}`, { scroll: false });
+    // Push the new URL
+    router.push(`${window.location.pathname}?${params.toString()}`, { scroll: false });
   };
 
   const handleSortChange = (val) => {
     setSortBy(val);
-    updateQueryParams(val, view);
+    updateQueryParams(val, null);
   };
 
   const handleViewChange = (newView) => {
-    setView(newView);
-    updateQueryParams(sortBy, newView);
+    updateQueryParams(null, newView);
   };
 
   return (
@@ -93,13 +91,13 @@ export const ListingHeader = ({ type }) => {
         </div>
         <div className="grid-sort-btns">
           <button
-            className={`sort-grid ${view === "grid" ? "active" : ""}`}
+            className={`sort-grid ${currentView === "grid" ? "active" : ""}`}
             onClick={() => handleViewChange("grid")}
           >
             <BsGridFill />
           </button>
           <button
-            className={`sort-grid ${view === "list" ? "active" : ""}`}
+            className={`sort-grid ${currentView === "list" ? "active" : ""}`}
             onClick={() => handleViewChange("list")}
           >
             <FaList />

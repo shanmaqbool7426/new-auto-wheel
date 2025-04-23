@@ -121,7 +121,7 @@ const CarCard = ({ vehicle }) => {
       loading={isFavoriteLoading(vehicle._id)}
       onClick={handleToggleFavorite}
       style={{
-        zIndex: 201,
+        // zIndex: 10,
         padding: "5px",
       }}
     >
@@ -189,6 +189,37 @@ const CarCard = ({ vehicle }) => {
             </Text>
           )}
         </Group>
+
+        {/* Engine capacity badge */}
+        <Box
+          pos="absolute"
+          top={10}
+          left={10}
+          style={{ zIndex: "100" }}
+        >
+          <Box
+            style={{
+              borderRadius: "50%",
+              border: "2px solid #E90808",
+              padding: "6px 10px",
+              backgroundColor: "white",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: "60px",
+              minHeight: "60px",
+            }}
+          >
+            <Text c="#E90808" fw={700} size="xs" lh={1} ta="center">
+              {vehicle?.condition?.toUpperCase() || "USED"}
+            </Text>
+            <Text c="#333" fw={700} size="sm" lh={1} mt={4} ta="center">
+              {vehicle?.specifications?.engineCapacity / 1000 || ""} L
+            </Text>
+          </Box>
+        </Box>
+        
         {/* Custom image slider controlled by mouse hover */}
         <Anchor
           component={NextLink}
@@ -225,7 +256,7 @@ const CarCard = ({ vehicle }) => {
               alt=""
             />
           )}
-          <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} />
+          {/* <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} /> */}
         </Anchor>
 
         {/* Progress bar with hover functionality */}
@@ -267,20 +298,20 @@ const CarCard = ({ vehicle }) => {
             {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
           </Text>
           <Box
-            c="#FFF"
-            bg="#E90808"
+            c="#000"
+            bg="#E6E6E6"
             ta="right"
             h={32}
             style={{
-              clipPath: "polygon(20px 0, 100% 0, 100% 100%, 0% 100%)",
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-end',
-              padding: '0 8px 0 23px',
+              justifyContent: 'center',
+              padding: '0 15px',
               minWidth: 'auto',
               width: 'fit-content',
               flex: '0 0 auto',
               whiteSpace: 'nowrap',
+              borderRadius: '50px',
             }}
           >
             <Text

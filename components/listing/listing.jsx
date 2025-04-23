@@ -324,10 +324,10 @@ export default async function Listing({ params, searchParams }) {
                   <div
                     key={index}
                     className={
-                      view === "grid" ? "col-12 col-sm-6 col-lg-4":"col-12"
+                      searchParams.view === "grid" ? "col-12 col-sm-6 col-lg-4":"col-12"
                     }
                   >
-                    {view === "grid" ? (
+                    {searchParams.view === "grid" ? (
                       <CarCard
                       vehicle={vehicle}
                       index={index}
