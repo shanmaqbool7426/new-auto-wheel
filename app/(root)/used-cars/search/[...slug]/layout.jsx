@@ -2,7 +2,7 @@ import Script from 'next/script';
 import { fetchVehicleBySlug } from '@/services/new-vehicles';
 import { API_ENDPOINTS } from '@/constants/api-endpoints';
 
-export async function generateMetadata({ params, searchParams }) {
+export async function generateMetadata({ params }) {
   // Extract parameters from the URL path
   const slugSegments = params?.slug || [];
   const path = slugSegments.join('/');
