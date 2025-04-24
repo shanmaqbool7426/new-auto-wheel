@@ -189,37 +189,6 @@ const CarCard = ({ vehicle }) => {
             </Text>
           )}
         </Group>
-
-        {/* Engine capacity badge */}
-        <Box
-          pos="absolute"
-          top={10}
-          left={10}
-          style={{ zIndex: "100" }}
-        >
-          <Box
-            style={{
-              borderRadius: "50%",
-              border: "2px solid #E90808",
-              padding: "6px 10px",
-              backgroundColor: "white",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              minWidth: "60px",
-              minHeight: "60px",
-            }}
-          >
-            <Text c="#E90808" fw={700} size="xs" lh={1} ta="center">
-              {vehicle?.condition?.toUpperCase() || "USED"}
-            </Text>
-            <Text c="#333" fw={700} size="sm" lh={1} mt={4} ta="center">
-              {vehicle?.specifications?.engineCapacity / 1000 || ""} L
-            </Text>
-          </Box>
-        </Box>
-        
         {/* Custom image slider controlled by mouse hover */}
         <Anchor
           component={NextLink}
@@ -256,6 +225,8 @@ const CarCard = ({ vehicle }) => {
               alt=""
             />
           )}
+                <Overlay opacity={0.3} bg="#333" zIndex={1} />
+
           {/* <Overlay color="#000" backgroundOpacity={0.3} zIndex={100} /> */}
         </Anchor>
 
