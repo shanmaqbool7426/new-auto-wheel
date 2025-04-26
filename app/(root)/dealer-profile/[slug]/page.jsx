@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   Anchor, Box, Button, Card, Title, Text, Image, Flex, Rating, Table,
   Paper, Select, Pagination, Group, Stack, List, ThemeIcon, rem,
-  CheckIcon, BackgroundImage, Center,
+  BackgroundImage, Center,
   Modal,
   Input,
   Textarea,
@@ -14,29 +14,6 @@ import {
 } from "@mantine/core";
 import { useAuthModalContext } from '@/contexts/auth-modal';
 import { AUTH_VIEWS } from '@/constants/auth-config';
-// import {
-//   Anchor,
-//   Box,
-//   Card,
-//   Title,
-//   Text,
-//   Image,
-//   Flex,
-//   Rating,
-//   Table,
-//   Select,
-//   Stack,
-//   Pagination,
-//   Modal,
-//   Button,
-//   FileInput,
-//   Input,
-//   Textarea,
-//   Checkbox,
-//   Group,
-//   Radio,
-//   rem,
-// } from "@mantine/core";
 import {
   IconCheck, IconRosetteDiscountCheckFilled, IconUserFilled, IconX
 } from "@tabler/icons-react";
@@ -83,6 +60,7 @@ const DealerRating = () => {
     buyingProcess: 0,
     vehicleSelection: 0,
     levelOfServices: 0,
+    recommendation: 'yes'
   }
   const [reviewForm, setReviewForm] = useState(initialReviewForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -248,10 +226,28 @@ const DealerRating = () => {
       return;
     }
     
+    // Validate required fields (only title and content are required)
+    if (!reviewForm.title || !reviewForm.content) {
+      setSubmitError('Title and content are required');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
+      // Calculate average of provided ratings
+      const ratingValues = [
+        reviewForm.buyingProcess, 
+        reviewForm.vehicleSelection, 
+        reviewForm.levelOfServices
+      ].filter(rating => rating > 0);
+      
+      // Only calculate average if at least one rating is provided
+      const avgRating = ratingValues.length > 0 
+        ? ratingValues.reduce((sum, val) => sum + val, 0) / ratingValues.length 
+        : 0;
+
       const response = await fetch(`${BASE_URL}/api/user-reviews`, {
         method: 'POST',
         headers: {
@@ -260,7 +256,8 @@ const DealerRating = () => {
         },
         body: JSON.stringify({
           ...reviewForm,
-          dealerId: profile._id
+          dealerId: profile._id,
+          rating: avgRating
         })
       });
 
@@ -271,8 +268,7 @@ const DealerRating = () => {
       const data = await response.json();
 
       // Calculate new average rating from reviews
-      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0) +
-        ((reviewForm.buyingProcess + reviewForm.vehicleSelection + reviewForm.levelOfServices) / 3);
+      const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0) + avgRating;
       const newAverageRating = totalRating / (reviews.length + 1);
 
       // Update profile with calculated rating and increment review count
@@ -865,63 +861,144 @@ const DealerRating = () => {
 
       </Box>
 
-      <Modal opened={opened} onClose={handleModalClose} title="Write a Review" centered>
+      <Modal 
+        opened={opened} 
+        onClose={handleModalClose} 
+        size={rem(900)}
+        padding="xl"
+        withCloseButton={false}
+        styles={{
+          overlay: { zIndex: 9999 },
+          inner: { zIndex: 9999 },
+          content: { zIndex: 9999 }
+        }}
+      >
         <form onSubmit={handleReviewSubmit}>
-          <Stack>
-            <Input.Wrapper
-              label="Review Title"
-              required
-            >
-              <Input
-                placeholder="Enter a title for your review"
-                value={reviewForm.title}
-                onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
-                required
-              />
-            </Input.Wrapper>
+          <div className="row">
+            <div className="col-12">
+              <Title order={3} mb="lg">
+                Write review about{" "}
+                <Text span inherit style={{ color: '#E90808' }}>
+                  {profile.fullName}
+                </Text>
+              </Title>
+            </div>
 
-            <Textarea
-              label="Review Content"
-              placeholder="Write your review here"
-              minRows={4}
-              value={reviewForm.content}
-              onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
-              required
-            />
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-lg-12">
+                  <Input.Wrapper label="Title" mb="md">
+                    <Input
+                      placeholder="Example great service"
+                      size="md"
+                      value={reviewForm.title}
+                      onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
+                      required
+                    />
+                  </Input.Wrapper>
+                </div>
+                <div className="col-lg-12">
+                  <Input.Wrapper label="Your Review" mb="md">
+                    <Textarea
+                      rows={3}
+                      maxRows={5}
+                      size="md"
+                      placeholder="Enter your review"
+                      value={reviewForm.content}
+                      onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
+                      required
+                    />
+                  </Input.Wrapper>
+                </div>
+                <div className="col-lg-12 mt-3">
+                  <Checkbox
+                    color="#e90808"
+                    defaultChecked
+                    label="I am not a dealer, and I am not employed by a dealership."
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
-            <Box>
-              <Text weight={500} mb="xs">Buying Process</Text>
-              <Rating
-                value={reviewForm.buyingProcess}
-                onChange={(value) => setReviewForm({ ...reviewForm, buyingProcess: value })}
-              />
-            </Box>
+            <div className="col-lg-4">
+              <Stack align="stretch" justify="center" gap="lg" mt="md">
+                <Stack gap={5}>
+                  <Text size="md" fw={500}>Buying Process <Text component="span" size="sm" c="dimmed">(optional)</Text></Text>
+                  <Group>
+                    <Rating
+                      value={reviewForm.buyingProcess}
+                      onChange={(value) => setReviewForm({ ...reviewForm, buyingProcess: value })}
+                      count={5}
+                      // color="#e90808"
+                      size="lg"
+                    />
+                    <Text fw="normal">{reviewForm.buyingProcess} out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack gap={5}>
+                  <Text size="md" fw={500}>Vehicle Selection <Text component="span" size="sm" c="dimmed">(optional)</Text></Text>
+                  <Group>
+                    <Rating
+                      value={reviewForm.vehicleSelection}
+                      onChange={(value) => setReviewForm({ ...reviewForm, vehicleSelection: value })}
+                      count={5}
+                      // color="#e90808"
+                      size="lg"
+                    />
+                    <Text fw="normal">{reviewForm.vehicleSelection} out of 5</Text>
+                  </Group>
+                </Stack>
+                <Stack gap={5}>
+                  <Text size="md" fw={500}>Level of Services <Text component="span" size="sm" c="dimmed">(optional)</Text></Text>
+                  <Group>
+                    <Rating
+                      value={reviewForm.levelOfServices}
+                      onChange={(value) => setReviewForm({ ...reviewForm, levelOfServices: value })}
+                      count={5}
+                      // color="#e90808"
+                      size="lg"
+                    />
+                    <Text fw="normal">{reviewForm.levelOfServices} out of 5</Text>
+                  </Group>
+                </Stack>
 
-            <Box>
-              <Text weight={500} mb="xs">Vehicle Selection</Text>
-              <Rating
-                value={reviewForm.vehicleSelection}
-                onChange={(value) => setReviewForm({ ...reviewForm, vehicleSelection: value })}
-              />
-            </Box>
+                <Stack mt={10}>
+                  <Text size="md" fw={500}>Would you recommend this dealer <Text component="span" size="sm" c="dimmed">(optional)</Text></Text>
+                  <Group mt={5}>
+                    <Radio.Group
+                      name="recommendation-decision"
+                      value={reviewForm.recommendation}
+                      onChange={(value) => setReviewForm({ ...reviewForm, recommendation: value })}
+                    >
+                      <Group>
+                        <Radio color="#e90808" value="yes" label="Yes" />
+                        <Radio color="#e90808" value="no" label="No" />
+                      </Group>
+                    </Radio.Group>
+                  </Group>
+                </Stack>
+              </Stack>
+            </div>
 
-            <Box>
-              <Text weight={500} mb="xs">Level of Services</Text>
-              <Rating
-                value={reviewForm.levelOfServices}
-                onChange={(value) => setReviewForm({ ...reviewForm, levelOfServices: value })}
-              />
-            </Box>
-
-            {submitError && (
-              <Text color="red" size="sm">{submitError}</Text>
-            )}
-
-            <Group position="right" mt="md">
-              <Button variant="outline" onClick={handleModalClose}>Cancel</Button>
-              <Button type="submit" loading={isSubmitting}>Submit Review</Button>
-            </Group>
-          </Stack>
+            <div className="col-12 mt-4">
+              <Button
+                fullWidth
+                size="md"
+                type="submit"
+                variant="default"
+                loading={isSubmitting}
+                disabled={isSubmitting}
+              >
+                Submit Review
+              </Button>
+            </div>
+          </div>
+          {submitError && (
+            <div className="col-12 mt-3">
+              <Text color="red">{submitError}</Text>
+            </div>
+          )}
         </form>
       </Modal>
     </>
