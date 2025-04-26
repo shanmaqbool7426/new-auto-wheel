@@ -61,7 +61,7 @@ const BrowseBlogs = ({ type }) => {
   }
 
   const firstBlog = blogs[0];
-  const remainingBlogs = blogs?.slice(1);
+  const remainingBlogs = blogs &&blogs?.slice(1) || [];
 
   return (
     <Box component="section" className="blogs py-4" style={{ backgroundColor: '#F3F3F3' }}>

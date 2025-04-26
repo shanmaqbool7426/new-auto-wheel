@@ -10,57 +10,45 @@ const NewCarsPage = async (params, searchParams) => {
   // Extract slug values
   const [slugMake] = params.params.slugMake;
   const vehicleType="truck";
+  
   // Fetch initial data
   const makesAndBodies = await fetchMakesAndBodies(vehicleType);
 
   // Fetch vehicle-related data
   const popularVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, vehicleType)
+    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, null, vehicleType)
   );
-  const fetchUpComingVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType)
+  
+  const upcomingVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, null, vehicleType)
   );
-  const fetchNewlyLaunchedVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, vehicleType)
+  
+  const newlyLaunchedVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, null, vehicleType)
   );
-  const fetchMakebyVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(
-      slugMake || "Toyota",
-      vehicleType
-    )
+  
+  const makeVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake, null, vehicleType)
   );
-  const fetchHondaVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Honda", vehicleType)
-  );
-  const fetchMakesByTypeData = await fetchListData(
+  
+  const makesByTypeData = await fetchListData(
     `${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`
   );
 
-  // Determine if we should display 'MakesVehicles' or 'NewCarsModule'
-  const matchedMake = fetchMakesByTypeData?.data?.find(
-    (make) => make?.name?.toLowerCase() === slugMake?.toLowerCase()
-  );
-  const altraNativesMake = fetchMakesByTypeData?.data?.filter(
-    (make) => make?.name?.toLowerCase() !== slugMake?.toLowerCase()
-  );
   return (
     <>
-        <MakesVehicles
-          makes={makesAndBodies?.makes}
-          bodies={makesAndBodies?.bodies}
-          popularVehicles={popularVehicles}
-          fetchUpComingVehicles={fetchUpComingVehicles}
-          fetchNewlyLaunchedVehicles={fetchNewlyLaunchedVehicles}
-          fetchHondaVehicles={fetchHondaVehicles}
-          fetchMakesByTypeData={fetchMakesByTypeData}
-          params={params}
-          searchParams={searchParams}
-          slugMake={slugMake}
-          matchedMake={matchedMake}
-          fetchMakebyVehicles={fetchMakebyVehicles}
-          altraNativesMake={altraNativesMake}
-          vehicleType={vehicleType}
-        />
+      <MakesVehicles
+        makes={makesAndBodies?.makes}
+        bodies={makesAndBodies?.bodies}
+        slugMake={slugMake}
+        vehicleType={vehicleType}
+        params={params}
+        popularVehicles={popularVehicles}
+        upcomingVehicles={upcomingVehicles}
+        newlyLaunchedVehicles={newlyLaunchedVehicles}
+        makeVehicles={makeVehicles}
+        makesByTypeData={makesByTypeData}
+      />
     </>
   );
 };

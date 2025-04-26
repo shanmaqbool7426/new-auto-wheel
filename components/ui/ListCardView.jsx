@@ -107,26 +107,43 @@ const ListCardView = ({ vehicle }) => {
   };
 
   const FavoriteButton = () => (
-    <ActionIcon
-      className="favorite-button"
-      variant="transparent"
-      pos="absolute"
-      size="lg"
-      bottom={20}
-      left={10}
-      loading={isFavoriteLoading(vehicle._id)}
-      onClick={handleToggleFavorite}
-      style={{ zIndex: 201 }}
+    <div 
+      className="favorite-button-area"
+      style={{
+        position: 'absolute',
+        bottom: 10,
+        left: 5,
+        width: '40px',
+        height: '40px',
+        zIndex: 200,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleToggleFavorite(e);
+        return false;
+      }}
     >
-      {isFavorite(vehicle._id) ? (
-        <IconHeartFilled
-          size={20}
-          style={{ color: "#E90808", fill: "#E90808" }}
-        />
-      ) : (
-        <IconHeart size={20} style={{ color: "#fff" }} />
-      )}
-    </ActionIcon>
+      <ActionIcon
+        className="favorite-button"
+        variant="transparent"
+        size="lg"
+        loading={isFavoriteLoading(vehicle._id)}
+      >
+        {isFavorite(vehicle._id) ? (
+          <IconHeartFilled
+            size={20}
+            style={{ color: "#E90808", fill: "#E90808" }}
+          />
+        ) : (
+          <IconHeart size={20} style={{ color: "#fff" }} />
+        )}
+      </ActionIcon>
+    </div>
   );
 
   const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/used-${vehicle?.type}s/${vehicle?.slug}`;

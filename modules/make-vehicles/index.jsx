@@ -34,31 +34,67 @@ import styles from '@/components/sections/Comments.module.css';
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { fetchListData } from "@/services/vehicles";
 import { ClientPageRoot } from "next/dist/client/components/client-page";
+import NewCarsCard from "@/components/ui/NewCarsCard";
 
-const MakesVehicles = ({
+const  MakesVehicles = ({
   slugMake,
   makes,
   bodies,
   vehicleType,
   params,
+  popularVehicles: serverPopularVehicles,
+  upcomingVehicles: serverUpcomingVehicles,
+  newlyLaunchedVehicles: serverNewlyLaunchedVehicles,
+  makeVehicles: serverMakeVehicles,
+  makesByTypeData: serverMakesByTypeData,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({
-    popularVehicles: null,
-    upcomingVehicles: null,
-    newlyLaunchedVehicles: null,
-    makeVehicles: null,
+    popularVehicles: serverPopularVehicles || null,
+    upcomingVehicles: serverUpcomingVehicles || null,
+    newlyLaunchedVehicles: serverNewlyLaunchedVehicles || null,
+    makeVehicles: serverMakeVehicles || null,
     hondaVehicles: null,
-    makesByType: null,
+    makesByType: serverMakesByTypeData || null,
     matchedMake: null,
     alternativeMakes: null,
   });
-
+  
+  const body = bodies?.data?.find((item) => item?.slug == slugMake);
 
 
   useEffect(() => {
     const fetchAllData = async () => {
+      // If we already have data from the server, don't fetch again
+      if (serverPopularVehicles && serverUpcomingVehicles && 
+          serverNewlyLaunchedVehicles && serverMakeVehicles && 
+          serverMakesByTypeData) {
+        
+        // Find matched make and alternatives
+        const matchedMake = serverMakesByTypeData?.data?.find(
+          (make) => make?.name?.toLowerCase() === slugMake?.toLowerCase()
+        );
+        
+        const alternativeMakes = serverMakesByTypeData?.data?.filter(
+          (make) => make?.name?.toLowerCase() !== slugMake?.toLowerCase()
+        );
+
+        setData({
+          popularVehicles: serverPopularVehicles,
+          upcomingVehicles: serverUpcomingVehicles,
+          newlyLaunchedVehicles: serverNewlyLaunchedVehicles,
+          makeVehicles: serverMakeVehicles,
+          hondaVehicles: null,
+          makesByType: serverMakesByTypeData,
+          matchedMake,
+          alternativeMakes,
+        });
+        
+        setIsLoading(false);
+        return;
+      }
+    
       setIsLoading(true);
       try {
         // Fetch all required data in parallel
@@ -70,11 +106,31 @@ const MakesVehicles = ({
           hondaVehicles,
           makesByType
         ] = await Promise.all([
-          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, vehicleType)),
-          fetchListData(API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType)),
-          fetchListData(API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, vehicleType)),
-          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Toyota", vehicleType)),
-          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Honda", vehicleType)),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(
+            body ? null : slugMake,
+            body ? body.slug : null,
+            vehicleType
+          )),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(
+            body ? null : slugMake,
+            body ? body.slug : null,
+            vehicleType
+          )),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(
+            body ? null : slugMake,
+            body ? body.slug : null,
+            vehicleType
+          )),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(
+            body ? null : slugMake || "Toyota",
+            body ? body.slug : null,
+            vehicleType
+          )),
+          fetchListData(API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(
+            body ? null : slugMake || "Honda",
+            body ? body.slug : null,
+            vehicleType
+          )),
           fetchListData(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`)
         ]);
 
@@ -107,14 +163,13 @@ const MakesVehicles = ({
     };
 
     fetchAllData();
-  }, [slugMake, vehicleType]);
+  }, [slugMake, vehicleType, body, serverPopularVehicles, serverUpcomingVehicles, serverNewlyLaunchedVehicles, serverMakeVehicles, serverMakesByTypeData]);
 
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const bodyImage = bodies?.data?.find((item) => item?.slug == slugMake)?.bodyImage;
-  const shortText = data.matchedMake?.description?.slice(0, 430);
+  const shortText = data.matchedMake?.description?.slice(0, 430) ? data.matchedMake?.description?.slice(0, 430) : body?.description?.slice(0, 430);
 
   if (isLoading) {
     return (
@@ -163,7 +218,7 @@ const MakesVehicles = ({
                   radius="sm"
                 >
                   <Title order={3} mb="md">
-                    {slugMake} Car Models, Prices
+                    {slugMake?.toUpperCase()} Car Models, Prices
                   </Title>
                   <div className="row">
                     <div className="col-md-3">
@@ -175,7 +230,7 @@ const MakesVehicles = ({
                           align="center"
                         >
                           <Image
-                            src={data.matchedMake?.companyImage ? data.matchedMake?.companyImage :bodyImage}
+                            src={data.matchedMake?.companyImage ? data.matchedMake?.companyImage :body?.bodyImage}
                             style={{ marginTop: "-20px" }}
                             alt={`${slugMake} Logo`}
                             h={50}
@@ -186,7 +241,7 @@ const MakesVehicles = ({
                           </Title>
                           <Button
                             style={{ marginBottom: "-12px" }}
-                            href={`used-${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`}
+                            href={`/used-${vehicleType}s/search/-/mk_${slugMake.toLowerCase()}`}
                             variant="outline"
                             color="#E90808"
                             component={Link}
@@ -199,7 +254,7 @@ const MakesVehicles = ({
                     <div className="col-md-9">
                       <Text mb="md">{shortText}</Text>
                       <Collapse in={isExpanded} transitionDuration={500}>
-                        <Text mb="md">{data.matchedMake?.description?.slice(150)}</Text>
+                        <Text mb="md">{data.matchedMake?.description?.slice(150) ? data.matchedMake?.description?.slice(150) : body?.description?.slice(150)}</Text>
                       </Collapse>
                       <Button color="red" fw={500} onClick={toggleReadMore}>
                         {isExpanded ? "Show Less" : "Read More"}
@@ -218,6 +273,78 @@ const MakesVehicles = ({
           fetchUpComingVehicles={data.upcomingVehicles}
           type={vehicleType}
         />
+        
+        <Box component="section" className="cars-by-model bg-light" pt="40px" pb="45px">
+          <div className="container-xl">
+            <div className="row">
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} tt="capitalize" lh={'1'}>
+                  {data.matchedMake?.name || slugMake}{" "}
+                  <Text span c="#E90808" inherit>
+                    Models
+                  </Text>
+                </Title>
+              </Box>
+              {data.makeVehicles?.data?.slice(0, 8)?.map((vehicle, index) => {
+                return (
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                  >
+                    <NewCarsCard vehicle={vehicle} isRating={true} />
+                  </Box>
+                );
+              })}
+            </div>
+          </div>
+        </Box>
+        
+        <Box component="section" className="alternative-makes" pt="45px" pb="45px">
+          <div className="container-xl">
+            <div className="row">
+              <Box className="col-md-12" mb="32px">
+                <Title order={2} tt="capitalize" lh="1">
+                  Alternative{" "}
+                  <Text span c="#E90808" inherit>
+                    {vehicleType} Makes
+                  </Text>
+                </Title>
+              </Box>
+              {data.alternativeMakes?.slice(0, 8)?.map((item, index) => {
+                return (
+                  <Box 
+                    className="col-md-3" 
+                    key={index}
+                  >
+                    <Card shadow="sm" p="lg" radius="md" withBorder component={Link} href={`/new/${vehicleType}/make/${item.name.toLowerCase()}`}>
+                      <Card.Section>
+                        <Flex
+                          direction="column"
+                          gap="sm"
+                          justify="center"
+                          align="center"
+                          py="md"
+                        >
+                          <Image
+                            src={item.companyImage}
+                            alt={`${item.name} Logo`}
+                            h={60}
+                            w={100}
+                            fit="contain"
+                          />
+                          <Title order={5} fw={600}>
+                            {item.name}
+                          </Title>
+                        </Flex>
+                      </Card.Section>
+                    </Card>
+                  </Box>
+                );
+              })}
+            </div>
+          </div>
+        </Box>
+        
         <ComparisonProducts type={vehicleType} />
         <BrowseVideos type={vehicleType} />
         <BrowseBlogs />

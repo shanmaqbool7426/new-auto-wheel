@@ -86,11 +86,17 @@ export const API_ENDPOINTS = {
     BATCH_TRACK_VIEWS: `${BASE_URL}/api/tracking/batch-views`,
     VIEW_ANALYTICS: `${BASE_URL}/api/tracking/analytics/views`,
 
-    MAKES_WITH_POPULAR: (make, type) => {
+    MAKES_WITH_POPULAR: (make,body, type) => {
       const queryParams = [];
 
       if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
       if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      if (body) queryParams.push(`body=${encodeURIComponent(body)}`);
+
+
+      console.log("queryParams", `${VEHICLE_BASE}/get-popular-vehicles${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`)
       return `${VEHICLE_BASE}/get-popular-vehicles${
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
@@ -101,20 +107,22 @@ export const API_ENDPOINTS = {
   NEW_VEHICLE: {
     BASE: NEW_VEHICLE_BASE,
 
-    UPCOMMING: (make, type) => {
+    UPCOMMING: (make, body, type) => {
       const queryParams = [];
       if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
       if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      if (body) queryParams.push(`body=${encodeURIComponent(body)}`);
 
       return `${NEW_VEHICLE_BASE}/upcoming${
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
     },
-    MAKE_BY_VEHICLES: (make, type) => {
+    MAKE_BY_VEHICLES: (make, body, type) => {
       const queryParams = [];
 
       if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
       if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      if (body) queryParams.push(`body=${encodeURIComponent(body)}`);
 
       return `${NEW_VEHICLE_BASE}/make/${
         queryParams.length ? `?${queryParams.join("&")}` : ""
@@ -122,29 +130,25 @@ export const API_ENDPOINTS = {
     },
     VARIANTS: "/variants",
 
-    MAKES_WITH_POPULAR: (make, type) => {
+    MAKES_WITH_POPULAR: (make, body, type) => {
       const queryParams = [];
 
       if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
       if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      if (body) queryParams.push(`body=${encodeURIComponent(body)}`);
+      console.log("queryParams....",make, body, type, `${VEHICLE_BASE}/get-popular-vehicles${
+        queryParams.length ? `?${queryParams.join("&")}` : ""
+      }`)
       return `${NEW_VEHICLE_BASE}/popular${
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
     },
-    MAKES_WITH_POPULAR: (make, type) => {
+    NEWLY_LAUNCHED_VEHICLES: (make,body, type) => {
       const queryParams = [];
 
       if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
       if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
-      return `${NEW_VEHICLE_BASE}/popular${
-        queryParams.length ? `?${queryParams.join("&")}` : ""
-      }`;
-    },
-    NEWLY_LAUNCHED_VEHICLES: (make, type) => {
-      const queryParams = [];
-
-      if (type) queryParams.push(`type=${encodeURIComponent(type)}`);
-      if (make) queryParams.push(`make=${encodeURIComponent(make)}`);
+      if (body) queryParams.push(`body=${encodeURIComponent(body)}`);
       return `${NEW_VEHICLE_BASE}/newly-launched${
         queryParams.length ? `?${queryParams.join("&")}` : ""
       }`;
@@ -161,8 +165,8 @@ export const API_ENDPOINTS = {
 
   BROWSE: {
     BY_MAKE: `${BASE_URL}/api/browes-by-make`,
-    MAKES_WITH_POPULAR: (make, type) => {
-      return `${BASE_URL}/api/browes-by-make/makes-with-popular/${make}/${type}`;
+    MAKES_WITH_POPULAR: (make,body, type) => {
+      return `${BASE_URL}/api/browes-by-make/makes-with-popular/${make}/${type}/${body}`;
     },
     BY_BODY: `${BASE_URL}/api/browes-by-body`,
   },

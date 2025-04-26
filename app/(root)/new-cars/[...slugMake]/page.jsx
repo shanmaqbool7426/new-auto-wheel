@@ -1,7 +1,7 @@
 import React from "react";
 import MakesVehicles from "@/modules/make-vehicles/index";
 import NewVehicleDetailModule from "@/modules/new-cars/detail";
-import { fetchMakesAndBodies } from "@/services/vehicles";
+import { fetchListData, fetchMakesAndBodies } from "@/services/vehicles";
 import { fetchVehicleBySlug, fetchVehicleByParams } from '@/services/new-vehicles';
 import { API_ENDPOINTS, BASE_URL } from '@/constants/api-endpoints';
 
@@ -35,7 +35,33 @@ const NewCarsPage = async (params) => {
     );
   }
 
+  // Fetch initial data
   const makesAndBodies = await fetchMakesAndBodies(vehicleType);
+  console.log("makesAndBodies", makesAndBodies)
+  const bodySlug = makesAndBodies?.bodies?.data?.find(body => {
+    return body.slug?.toLowerCase() === slugMake[0]?.toLowerCase()
+  })
+  // Fetch makes data for the specific make
+  const popularVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(!bodySlug ? slugMake[0] : null, bodySlug, vehicleType)
+  );
+  
+  const upcomingVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(!bodySlug ?   slugMake[0] : null, bodySlug, vehicleType)
+  );
+  
+  const newlyLaunchedVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(!bodySlug ? slugMake[0] : null, bodySlug, vehicleType)
+  );
+  
+  const makeVehicles = await fetchListData(
+    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(!bodySlug ? slugMake[0] : null, bodySlug, vehicleType)
+  );
+  
+  const makesByTypeData = await fetchListData(
+    `${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`
+  );
+  
   return (
     <>
       <MakesVehicles
@@ -44,6 +70,11 @@ const NewCarsPage = async (params) => {
         slugMake={slugMake[0]}
         vehicleType={vehicleType}
         params={params}
+        popularVehicles={popularVehicles}
+        upcomingVehicles={upcomingVehicles}
+        newlyLaunchedVehicles={newlyLaunchedVehicles}
+        makeVehicles={makeVehicles}
+        makesByTypeData={makesByTypeData}
       />
     </>
   );

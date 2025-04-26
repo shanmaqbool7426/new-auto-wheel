@@ -17,22 +17,23 @@ const NewCarsPage = async () => {
 
   // Fetch vehicle-related data
   const popularVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, vehicleType)
+    API_ENDPOINTS.NEW_VEHICLE.MAKES_WITH_POPULAR(slugMake, "", vehicleType)
   );
   const fetchUpComingVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, vehicleType)
+    API_ENDPOINTS.NEW_VEHICLE.UPCOMMING(slugMake, "", vehicleType)
   );
   const fetchNewlyLaunchedVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, vehicleType)
+    API_ENDPOINTS.NEW_VEHICLE.NEWLY_LAUNCHED_VEHICLES(slugMake, "", vehicleType)
   );
   const fetchMakebyVehicles = await fetchListData(
     API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(
       slugMake || "Toyota",
+      "",
       vehicleType
     )
   );
   const fetchHondaVehicles = await fetchListData(
-    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Honda", vehicleType)
+    API_ENDPOINTS.NEW_VEHICLE.MAKE_BY_VEHICLES(slugMake || "Honda", "", vehicleType)
   );
   const fetchMakesByTypeData = await fetchListData(
     `${API_ENDPOINTS.BROWSE.BY_MAKE}?type=${vehicleType}`

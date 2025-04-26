@@ -38,6 +38,7 @@ import {
   Text,
   ThemeIcon,
   Title,
+  Container,
 } from "@mantine/core";
 import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
@@ -53,6 +54,7 @@ import SocialContact from "./socialContact";
 import ReportAdd from "./report-add";
 import Gellary from "./imagesGellary";
 import viewTrackingService from "@/services/viewTrackingService";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
   const messageRef = useRef(null);
@@ -371,6 +373,19 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
         style={{ paddingTop: "100px" }}
       >
         <Box className="container-xl">
+          {/* Breadcrumb */}
+          <Container size="xl" px={0} mb={20}>
+            <Breadcrumb
+              items={[
+                { title: "Home", href: "/" },
+                { title: `Used ${detail?.data?.type === 'bike' ? 'Bikes' : 'Cars'}`, href: `/used-${detail?.data?.type}s/search/-` },
+                { title: `${detail?.data?.make || ''} ${detail?.data?.type === 'bike' ? 'Bikes' : 'Cars'}`, href: `/used-${detail?.data?.type}s/search/-/mk_${detail?.data?.make?.toLowerCase()}` },
+                { title: `${detail?.data?.make || ''} ${detail?.data?.model || ''}`, href: `/used-${detail?.data?.type}s/search/-/mk_${detail?.data?.make?.toLowerCase()}/md_${detail?.data?.model?.toLowerCase()}` },
+                { title: `${detail?.data?.year || ''} ${detail?.data?.make || ''} ${detail?.data?.model || ''}`, href: "#" }
+              ]}
+            />
+          </Container>
+
           {/* Service Cards */}
           <Box className="row g-4">
             {serviceCards.map((card, index) => (
@@ -442,18 +457,26 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                       {vehicleInfo.title}
                     </Title>
                   </Box>
-                  <Text
-                    size={rem(16)}
-                    className="price-field"
+                  <Box
+                    c="#000"
+                    bg="#E6E6E6"
+                    ta="right"
+                    p="8px 20px"
                     style={{
-                      display: 'inline-flex',
+                      display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'flex-end',
+                      justifyContent: 'center',
                       whiteSpace: 'nowrap',
+                      borderRadius: '50px',
                     }}
                   >
-                    ${vehicleInfo.price}
-                  </Text>
+                    <Text
+                      fw={600}
+                      size="md"
+                    >
+                      ${vehicleInfo.price}
+                    </Text>
+                  </Box>
                 </Flex>
                 {/* Features Section */}
                 <Box className="features-section">

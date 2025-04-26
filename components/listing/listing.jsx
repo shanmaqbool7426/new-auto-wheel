@@ -6,16 +6,15 @@ import ListCardView from "@/components/ui/ListCardView";
 import CarCard from "@/components/ui/CarCard";
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
-import LoadingWrapper from "@/components/loading-wrapper";
 import {
   Box,
   Group,
   Title,
   Badge,
   rem,
-  Breadcrumbs,
   Anchor,
   Text,
+  Container,
 } from "@mantine/core";
 import {
   fetchBodiesByType,
@@ -29,6 +28,7 @@ import {
 import { getLocalStorage, reorderSlug } from "@/utils";
 import VehicleComparison from "@/components/ComparisonCard";
 import { useRouter } from "next/navigation";
+import Breadcrumb from "@/components/Breadcrumb";
 // import { CloseButton } from "@/components/ui/CloseButton";
 
 // Safely get the path - don't access window at the module level
@@ -161,79 +161,52 @@ const FilterBadges = ({ params, searchParams }) => {
   );
 };
 
-const Breadcrumb = ({ params, type }) => {
-  // Determine vehicle type from path or type parameter
-  const vehicleType = type || (isClient ? getVehicleType(window.location.pathname) : 'car');
-  
+// Generate breadcrumb items based on params and type
+const generateBreadcrumbItems = (params, type) => {
   const items = [
     { title: 'Home', href: '/' },
-    { title: vehicleType === 'bike' ? 'Used Bikes' : 'Used Cars', href: `/used-${vehicleType}s/search/-` }
+    { title: type === 'bike' ? 'Used Bikes' : 'Used Cars', href: `/used-${type}s/search/-` }
   ];
 
+  if (!params?.slug) return items;
+
   // Extract city if present
-  const cityFilter = params.slug?.find(item => item.startsWith('ct_'));
+  const cityFilter = params.slug.find(item => item.startsWith('ct_'));
   const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')).replace(/%20/g, ' ') : '';
 
-  // Extract all makes
-  const makeFilters = params.slug?.filter(item => item.startsWith('mk_')) || [];
-  // Extract all models
-  const modelFilters = params.slug?.filter(item => item.startsWith('md_')) || [];
-  // Extract all variants - support both vt_ (cars) and vr_ (bikes)
-  const variantPrefix = vehicleType === 'bike' ? 'vr_' : 'vt_';
-  const variantFilters = params.slug?.filter(item => item.startsWith(variantPrefix)) || [];
+  // Extract make filter
+  const makeFilter = params.slug.find(item => item.startsWith('mk_'));
+  const make = makeFilter ? decodeURIComponent(makeFilter.replace('mk_', '')).replace(/%20/g, ' ') : '';
+
+  // Extract model filter
+  const modelFilter = params.slug.find(item => item.startsWith('md_'));
+  const model = modelFilter ? decodeURIComponent(modelFilter.replace('md_', '')).replace(/%20/g, ' ') : '';
 
   // Add city level if present
-  if (cityFilter) {
+  if (city) {
     items.push({ 
-      title: `${vehicleType === 'bike' ? 'Bikes' : 'Cars'} ${city}`, 
-      href: `/used-${vehicleType}s/search/-/ct_${encodeURIComponent(city)}` 
+      title: `${type === 'bike' ? 'Bikes' : 'Cars'} in ${city}`, 
+      href: `/used-${type}s/search/-/ct_${encodeURIComponent(city)}` 
     });
   }
 
-  // Add makes
-  makeFilters.forEach(makeFilter => {
-    const make = decodeURIComponent(makeFilter.replace('mk_', '')).replace(/%20/g, ' ');
-    const makeUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}`;
-    items.push({ 
-      title: `${make} ${city ? city : ''}`, 
-      href: makeUrl 
+  // Add make level if present
+  if (make) {
+    items.push({
+      title: `${make} ${type === 'bike' ? 'Bikes' : 'Cars'}${city ? ` in ${city}` : ''}`,
+      href: `/used-${type}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}`
     });
-  });
+  }
 
-  // Add models
-  modelFilters.forEach(modelFilter => {
-    const model = decodeURIComponent(modelFilter.replace('md_', '')).replace(/%20/g, ' ');
-    const modelUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${encodeURIComponent(model)}`;
-    items.push({ 
-      title: `${model} ${city ? city : ''}`,
-      href: modelUrl
+  // Add model level if present
+  if (model && make) {
+    items.push({
+      title: `${make} ${model}${city ? ` in ${city}` : ''}`,
+      href: `/used-${type}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}/md_${encodeURIComponent(model)}`
     });
-  });
+  }
 
-  // Add variants
-  variantFilters.forEach(variantFilter => {
-    const variant = decodeURIComponent(variantFilter.replace(variantPrefix, '')).replace(/%20/g, ' ');
-    const variantUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/${variantPrefix}${encodeURIComponent(variant)}`;
-    items.push({ 
-      title: `${variant} ${city ? city : ''}`,
-      href: variantUrl
-    });
-  });
-
-  return (
-    <Breadcrumbs mb="lg">
-      {items.map((item, index) => (
-        <Anchor
-          key={index}
-          href={item.href}
-          c={'dimmed'}
-          style={{ textDecoration: 'none' }}
-        >
-          {item.title}
-        </Anchor>
-      ))}
-    </Breadcrumbs>
-  );
+  return items;
 };
 
 export default async function Listing({ params, searchParams }) {
@@ -271,8 +244,6 @@ export default async function Listing({ params, searchParams }) {
   // Add view to filterParams if it exists
   const finalParams = view ? [...paramsWithSort, `view_${view}`] : paramsWithSort;
 
-
-
   const [
     dataofVehcles,
     vehicleMakes,
@@ -294,9 +265,10 @@ export default async function Listing({ params, searchParams }) {
   return (
     <>
       <Box pt={100} pb={80} className="product-listing position-relative">
-        <LoadingWrapper>
         <div className="container-xl">
-        <Breadcrumb params={params} type={vehicleType} />
+          <Container size="xl" px={0} mb={20}>
+            <Breadcrumb items={generateBreadcrumbItems(params, vehicleType)} />
+          </Container>
 
           <div className="row">
             <div className="col-lg-3">
@@ -350,7 +322,6 @@ export default async function Listing({ params, searchParams }) {
             </div>
           </div>
         </div>
-        </LoadingWrapper>
         <VehicleComparison />
       </Box>
     </>

@@ -75,8 +75,8 @@ const CarCard = ({ vehicle }) => {
   };
 
   const handleCardClick = (e) => {
-    // Don't navigate if clicking the favorite button
-    if (e.target.closest(".favorite-button")) {
+    // Don't navigate if clicking the favorite button or within its area
+    if (e.target.closest(".favorite-button-area")) {
       return;
     }
 
@@ -89,8 +89,6 @@ const CarCard = ({ vehicle }) => {
     });
 
     // Track detailed vehicle information
-
-
     router.push(`/used-${vehicle?.type}s/${vehicle?.slug}`);
   };
 
@@ -111,37 +109,51 @@ const CarCard = ({ vehicle }) => {
 
   // Simplified favorite button component
   const FavoriteButton = () => (
-    <ActionIcon
-      className="favorite-button"
-      variant="transparent"
-      pos="absolute"
-      size="lg"
-      bottom={15}
-      left={10}
-      loading={isFavoriteLoading(vehicle._id)}
-      onClick={handleToggleFavorite}
+    <div 
+      className="favorite-button-area"
       style={{
-        // zIndex: 10,
-        padding: "5px",
+        position: 'absolute',
+        bottom: 5,
+        left: 5,
+        width: '40px',
+        height: '40px',
+        zIndex: 200,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleToggleFavorite(e);
+        return false;
       }}
     >
-      {isFavorite(vehicle._id) ? (
-        <IconHeartFilled
-          size={20}
-          style={{
-            color: "#E90808", // Your primary red color
-            fill: "#E90808",
-          }}
-        />
-      ) : (
-        <IconHeart
-          size={20}
-          style={{
-            color: "#fff",
-          }}
-        />
-      )}
-    </ActionIcon>
+      <ActionIcon
+        className="favorite-button"
+        variant="transparent"
+        size="lg"
+        loading={isFavoriteLoading(vehicle._id)}
+      >
+        {isFavorite(vehicle._id) ? (
+          <IconHeartFilled
+            size={20}
+            style={{
+              color: "#E90808", // Your primary red color
+              fill: "#E90808",
+            }}
+          />
+        ) : (
+          <IconHeart
+            size={20}
+            style={{
+              color: "#fff",
+            }}
+          />
+        )}
+      </ActionIcon>
+    </div>
   );
 
   return (
@@ -280,6 +292,7 @@ const CarCard = ({ vehicle }) => {
               padding: '0 15px',
               minWidth: 'auto',
               width: 'fit-content',
+              marginLeft:"auto",
               flex: '0 0 auto',
               whiteSpace: 'nowrap',
               borderRadius: '50px',

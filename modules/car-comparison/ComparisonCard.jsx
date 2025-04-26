@@ -34,8 +34,9 @@ const ComparisonCard = ({ vehicle, onRemove, onClick }) => {
                     }
                 </Text> */}
                { <Box className={styles.compButton} onClick={onClick}>
-                    {vehicle.make && `${vehicle.variant}` || vehicle.model}
-                    <IconSmbolAngleDown />
+                    {vehicle.variant || vehicle.model 
+                      ? `${vehicle.make} ${vehicle.variant || vehicle.model}`
+                      : "Select Vehicle"} <IconSmbolAngleDown />
                 </Box>}
                 {/* <Input value={vehicle.make && `${vehicle.make} ${vehicle.model} ${vehicle.variant}` || ""} placeholder="Please Select Vehicle" /> */}
                 {vehicle.engine && (

@@ -93,10 +93,15 @@ export const fetchNewVehiclsData = async (params) => {
 
 export const fetchListData = async (url) => {
   try {
+    // Handle edge case where URL might be undefined
+    if (!url) {
+      return { data: [] };
+    }
+    
     const data = await fetchAPI(url);
-
     return data;
   } catch (error) {
+    console.error("Error fetching list data:", error);
     return {
       data: [],
     };

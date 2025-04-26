@@ -459,7 +459,7 @@ const NewCarsModule = ({
                     key={index}
                     style={transitionStyles}
                   >
-                    <NewCarsCard vehicle={vehicle} isRating={false} />
+                    <NewCarsCard vehicle={vehicle} isRating={true} />
                   </Box>
                 );
               })}
@@ -513,7 +513,7 @@ const NewCarsModule = ({
                     key={index}
                     style={transitionStyles}
                   >
-                    <NewCarsCard vehicle={vehicle} isRating={false} />
+                    <NewCarsCard vehicle={vehicle} isRating={true} />
                   </Box>
                 );
               })}
