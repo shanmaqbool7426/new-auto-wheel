@@ -15,6 +15,7 @@ import styles from "./Hero.module.css";
 import { useGetProvincesQuery, useGetCitiesQuery, useGetSuburbsQuery } from "@/api-services/location";
 import { useDispatch ,useSelector} from "react-redux";
 import { setProvinces, setCities, setSuburbs } from "@/redux/reducers/locationSlice";
+import ViewTrackingService from "@/services/viewTrackingService";
 
 const Hero = ({ banner }) => {
   const { provinces: provincesData, cities: citiesData, suburbs: suburbsData } = useSelector(state => state.location);
@@ -26,6 +27,8 @@ const Hero = ({ banner }) => {
   const { data: suburbs, isLoading: suburbsLoading, error: suburbsError } = useGetSuburbsQuery();
 
   useEffect(() => {
+    // Initialize visitor tracking
+    ViewTrackingService.trackVisitor();
 
     dispatch(setProvinces(provinces?.data));
     dispatch(setCities(cities?.data));

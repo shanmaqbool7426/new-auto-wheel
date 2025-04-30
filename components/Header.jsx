@@ -373,7 +373,7 @@ const Header = () => {
       <Box component="header" className="header">
         <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
-            <Image src="/logo.png" alt="Logo" />
+            <Image src="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1746028264430_Aussie-Logo.png" alt="Logo" height={30} width={50}/>
             <Loader size="sm" />
           </Group>
         </Box>
@@ -387,7 +387,7 @@ const Header = () => {
         <Box className="container-xl" h="100%">
           <Group justify="space-between" h="100%" wrap="nowrap">
             <Link href="/">
-              <Image src="/logo.png" alt="Logo" />
+              <Image src="https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1746028264430_Aussie-Logo.png" alt="Logo"  height={30} width={50}/>
             </Link>
             <Group h="100%" gap={0} visibleFrom="md" wrap={false}>
               <HoverCard

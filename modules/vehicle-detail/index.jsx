@@ -374,7 +374,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
       >
         <Box className="container-xl">
           {/* Breadcrumb */}
-          <Container size="xl" px={0} mb={20}>
+          <Container size="xl" px={0} ml={20} mt={-20}>
             <Breadcrumb
               items={[
                 { title: "Home", href: "/" },

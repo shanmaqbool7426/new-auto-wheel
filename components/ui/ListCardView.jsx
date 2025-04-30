@@ -111,7 +111,7 @@ const ListCardView = ({ vehicle }) => {
       className="favorite-button-area"
       style={{
         position: 'absolute',
-        bottom: 10,
+        bottom: 20,
         left: 5,
         width: '40px',
         height: '40px',

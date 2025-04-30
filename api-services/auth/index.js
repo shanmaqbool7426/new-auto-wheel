@@ -1,8 +1,8 @@
 // Auth Services
 
 import { BASE_API } from '../base-api';
-import { BASE_URL, END_POINTS } from '../../constants/api-endpoints';
-
+// import { BASE_URL, END_POINTS } from '../../constants/api-endpoints';
+import { END_POINTS, BASE_URL } from '../../constants/api-endpoints';
 export const authAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({

@@ -20,7 +20,7 @@ const Breadcrumb = ({ items = [] }) => {
           return (
             <React.Fragment key={index}>
               {index > 0 && (
-                <Box component="span" className="separator">
+                <Box component="span" className="separator" ml={-10} mr={-10}>
                   <HiMiniSlash size={19} color="#6B6B6B" />
                 </Box>
               )}

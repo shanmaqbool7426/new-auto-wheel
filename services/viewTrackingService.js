@@ -16,9 +16,10 @@ class ViewTrackingService {
     this.batchTimeout = null; // Timeout for batch processing
     this.mobileViewedVehicles = new Set(); // New set to track mobile views
     
-    // Only initialize if we're in the browser
+      // Only initialize if we're in the browser
     if (typeof window !== 'undefined') {
       this.initializeMobileViewed(); // Initialize mobile viewed set in the constructor
+      this.trackVisitor(); // Track visitor on initialization
     }
   }
   
@@ -245,6 +246,50 @@ class ViewTrackingService {
       });
     } catch (error) {
       console.error('Error initializing mobile viewed set:', error);
+    }
+  }
+
+  async trackVisitor() {
+    if (typeof window === 'undefined') return;
+
+    try {
+      // Check if visitor was already tracked in localStorage (persistent across sessions)
+      const visitorId = localStorage.getItem('visitor_id');
+      console.log("visitorId",visitorId );
+      if (!visitorId) {
+        // Generate a new visitor ID
+        const newVisitorId = this.generateUUID();
+        localStorage.setItem('visitor_id', newVisitorId);
+        
+        // Track the new visitor
+        try {
+          await axios.post(API_ENDPOINTS.VISITOR.TRACK, {
+            visitorId: newVisitorId,
+            sessionId: this.sessionId
+          });
+          console.log('New visitor tracked');
+        } catch (error) {
+          console.error('Error tracking visitor:', error);
+        }
+      } else {
+        // Check if this session has already been counted
+        const sessionVisited = sessionStorage.getItem('session_visited');
+        if (!sessionVisited) {
+          // Track the returning visitor's session
+          try {
+            await axios.post(API_ENDPOINTS.VISITOR.TRACK_SESSION, {
+              visitorId: visitorId,
+              sessionId: this.sessionId
+            });
+            sessionStorage.setItem('session_visited', 'true');
+            console.log('Returning visitor session tracked');
+          } catch (error) {
+            console.error('Error tracking visitor session:', error);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error in visitor tracking:', error);
     }
   }
 }

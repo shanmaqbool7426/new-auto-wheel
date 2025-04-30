@@ -17,7 +17,7 @@ import { selectCurrentUser } from '@/redux/reducers/authSlice';
 export default function ProfileSettings() {
   const currentUser = useSelector(selectCurrentUser);
   const { profileData, loading, error } = useProfileSettings(currentUser);
-
+console.log(">>>>>>>>>>>",profileData);
   // if (loading) {
   //   return (
   //     <LoadingWrapper>
@@ -45,10 +45,9 @@ export default function ProfileSettings() {
           <Stack gap="24px">
             <ProfileInformation profileData={profileData} currentUser={currentUser} />
             <PackageDetails profileData={profileData} />
-            <ConnectedAccount />
+            <ConnectedAccount /> 
           </Stack>
         </Box>
-        {console.log("profileData",profileData)}
         <Box className={styles.content}>
           <Stack gap="24px">
             <PersonalInformation profileData={profileData} />

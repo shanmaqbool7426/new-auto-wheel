@@ -230,42 +230,41 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
   };
 
   const updateFiltersInUrl = (updatedFilters) => {
-    // Get the vehicle type from the URL and ensure it's in the correct format
+    // Get the vehicle type from the URL
     const urlParts = window.location.pathname.split('/');
     const currentVehicleType = urlParts[1]?.startsWith('used-') ? urlParts[1] : `used-${type}s`;
 
+    // Start building the URL
     let customUrl = `/${currentVehicleType}/search/-/`;
 
+    // Handle array filters
     Object.entries(updatedFilters).forEach(([key, value]) => {
       if (Array.isArray(value) && value.length > 0) {
-        if (key === "make")
-          [...new Set(value)].forEach(
-            (make) => (customUrl += `mk_${encodeURIComponent(make.toLowerCase())}/`)
-          );
-        if (key === "model")
-          [...new Set(value)].forEach(
-            (model) => (customUrl += `md_${encodeURIComponent(model.toLowerCase())}/`)
-          );
-        if (key === "variant") {
-          // Use vr_ prefix for bikes instead of vt_ for cars
-          const prefix = currentVehicleType === 'used-bikes' ? 'vr_' : 'vt_';
-          [...new Set(value)].forEach(
-            (variant) => (customUrl += `${prefix}${encodeURIComponent(variant.toLowerCase())}/`)
-          );
+        if (key === "make") {
+          value.forEach(make => {
+            if (make) customUrl += `mk_${encodeURIComponent(make.toLowerCase())}/`;
+          });
         }
-        if (key === "city")
-          [...new Set(value)].forEach(
-            (city) => (customUrl += `ct_${encodeURIComponent(city.toLowerCase())}/`)
-          );
-        if (key === "cityArea")
-          [...new Set(value)].forEach(
-            (area) => (customUrl += `ca_${encodeURIComponent(area.toLowerCase())}/`)
-          );
+        if (key === "model") {
+          value.forEach(model => {
+            if (model) customUrl += `md_${encodeURIComponent(model.toLowerCase())}/`;
+          });
+        }
+        if (key === "variant") {
+          const prefix = currentVehicleType === 'used-bikes' ? 'vr_' : 'vt_';
+          value.forEach(variant => {
+            if (variant) customUrl += `${prefix}${encodeURIComponent(variant.toLowerCase())}/`;
+          });
+        }
+        if (key === "city") {
+          value.forEach(city => {
+            if (city) customUrl += `ct_${encodeURIComponent(city.toLowerCase())}/`;
+          });
+        }
         if (key === "bodyType") {
-          // Use bt_ prefix for both but handle the encoding properly
-          [...new Set(value)].forEach(
-            (bodyType) => (customUrl += `bt_${encodeURIComponent(bodyType.toLowerCase())}/`)
-          );
+          value.forEach(bodyType => {
+            if (bodyType) customUrl += `bt_${encodeURIComponent(bodyType.toLowerCase())}/`;
+          });
         }
         if (key === "price" && (value[0] !== 0 || value[1] !== 90000000)) {
           customUrl += `pr_${value[0]}_${value[1]}/`;
@@ -277,21 +276,36 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
           customUrl += `ml_${value[0]}_${value[1]}/`;
         }
       } else if (typeof value === "string" && value) {
-        if (key === "query") customUrl += `q_${encodeURIComponent(value)}/`;
-        if (
-          [
-            "condition",
-            "transmission",
-            "drive",
-            "exteriorColor",
-            "fuelType",
-          ].includes(key)
-        ) {
+        if (key === "query") {
+          customUrl += `q_${encodeURIComponent(value)}/`;
+        }
+        if (key === "condition" && value) {
+          customUrl += `${value}/`;
+        }
+        if (key === "transmission" && value) {
+          customUrl += `${value}/`;
+        }
+        if (key === "drive" && value) {
+          customUrl += `${value}/`;
+        }
+        if (key === "exteriorColor" && value) {
+          customUrl += `${value}/`;
+        }
+        if (key === "fuelType" && value) {
           customUrl += `${value}/`;
         }
       }
     });
+
+    // Remove trailing slash if present
+    if (customUrl.endsWith('/')) {
+      customUrl = customUrl.slice(0, -1);
+    }
+
+    // Get current query parameters
     const queryString = searchParams.toString();
+    
+    // Update the URL with the new path and preserve query parameters
     router.push(queryString ? `${customUrl}?${queryString}` : customUrl, {
       scroll: false,
     });
@@ -300,17 +314,14 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     setFilters((prevFilters) => {
       let updatedFilterValue;
 
-      if (
-        ["make", "city", "model", "variant", "bodyType"].includes(filterName)
-      ) {
-        const encodedValue = encodeURIComponent(value);
+      if (["make", "city", "model", "variant", "bodyType"].includes(filterName)) {
         if (isChecked) {
           updatedFilterValue = Array.from(
-            new Set([...prevFilters[filterName], encodedValue])
+            new Set([...prevFilters[filterName], value])
           );
         } else {
           updatedFilterValue = prevFilters[filterName].filter(
-            (item) => item !== encodedValue
+            (item) => item !== value
           );
         }
       } else {
@@ -322,13 +333,15 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
         [filterName]: updatedFilterValue,
       };
 
+      // Clear any existing timeout
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
 
+      // Set a new timeout to update the URL
       debounceTimeoutRef.current = setTimeout(() => {
         updateFiltersInUrl(updatedFilters);
-      }, 600);
+      }, 300); // Reduced debounce time to 300ms for better responsiveness
 
       return updatedFilters;
     });

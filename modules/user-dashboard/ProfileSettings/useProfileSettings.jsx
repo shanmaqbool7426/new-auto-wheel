@@ -25,6 +25,8 @@ const useProfileSettings = () => {
         }
 
         const data = await response.json();
+
+        console.log(">>>>>>>>>>>",data.data);
         setProfileData(data.data); // Assuming the API response structure has a 'data' field
       } catch (error) {
         console.error('Error fetching profile data:', error);

@@ -264,6 +264,7 @@ export default async function Listing({ params, searchParams }) {
 
   return (
     <>
+    
       <Box pt={100} pb={80} className="product-listing position-relative">
         <div className="container-xl">
           <Container size="xl" px={0} mb={20}>

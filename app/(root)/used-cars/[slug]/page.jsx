@@ -18,18 +18,11 @@ const VehicleDetailPage = async ({ params }) => {
   
   return (
     <LoadingWrapper>
-      <Suspense 
-        fallback={
-          <Center h="100vh">
-            <Loader color="red" size="lg" />
-          </Center>
-        }
-      >
+
         <VehicleDetailModule 
           detail={detail} 
           listOfSimilarVehicles={similar} 
         />
-      </Suspense>
     </LoadingWrapper>
   );
 };
