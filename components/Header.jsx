@@ -30,6 +30,7 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { AUTH_VIEWS } from "@/constants/auth-config";
 import { usePathname } from 'next/navigation';
 import { useAuthModalContext } from '@/contexts/auth-modal';
+import { useGetPopularMakesQuery, useGetPopularModelsQuery } from "@/api-services/make";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/redux/reducers/authSlice";
 
@@ -37,6 +38,16 @@ const Header = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [hoverTarget, setHoverTarget] = useState("cars");
+  const [popularMakes, setPopularMakes] = useState([]);
+  const { data: popularMakesData } = useGetPopularMakesQuery(null, {
+    skip: !hoverTarget,
+  });
+  const { data: popularModelsData } = useGetPopularModelsQuery(null, {
+    skip: !hoverTarget,
+  }); 
+
+  console.log(popularModelsData, "popularModelsData");
+  
   const user = useSelector(selectCurrentUser);
   const pathname = usePathname();
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -289,6 +300,32 @@ const Header = () => {
     },
   };
 
+  const carMakes = (popularMakesData?.data || []).filter(make => make.type === "car");
+  const bikeMakes = (popularMakesData?.data || []).filter(make => make.type === "bike");
+  const truckMakes = (popularMakesData?.data || []).filter(make => make.type === "truck");
+
+  let popularMakesList = [];
+  if (hoverTarget === "cars") {
+    popularMakesList = carMakes;
+  } else if (hoverTarget === "bikes") {
+    popularMakesList = bikeMakes;
+  } else if (hoverTarget === "trucks") {
+    popularMakesList = truckMakes;
+  }
+
+  const carModels = (popularModelsData?.data || []).filter(model => model.makeType === "car");
+  const bikeModels = (popularModelsData?.data || []).filter(model => model.makeType === "bike");
+  const truckModels = (popularModelsData?.data || []).filter(model => model.makeType === "truck");
+
+  let popularModelsList = [];
+  if (hoverTarget === "cars") {
+    popularModelsList = carModels;
+  } else if (hoverTarget === "bikes") {
+    popularModelsList = bikeModels;
+  } else if (hoverTarget === "trucks") {
+    popularModelsList = truckModels;
+  }
+
   // Function to dynamically generate first column links
   const firstColLinks = data[hoverTarget].firstCol.map((item, index) => (
     <UnstyledButton key={index} component={Link} href={item.link ?? "#"}>
@@ -326,18 +363,32 @@ const Header = () => {
         </Title>
       </Group>
       <List listStyleType="none" withPadding>
-        {data[hoverTarget].secondCol.map((item, index) => (
-          <List.Item key={index} mb="xs">
-            <Anchor
-              component={Link}
-              c="dark"
-              href={item?.link ?? "#"}
-              size="sm"
-            >
-              {item.title}
-            </Anchor>
+        {popularMakesList.length > 0 ? (
+          popularMakesList.map((make) => (
+            <List.Item key={make._id} mb="xs">
+              <Anchor
+                component={Link}
+                c="dark"
+                href={
+                  hoverTarget === "cars"
+                    ? `/used-cars/search/-/mk_${make.name.toLowerCase()}`
+                    : hoverTarget === "bikes"
+                    ? `/used-bikes/search/-/mk_${make.name.toLowerCase()}`
+                    : `/used-trucks/search/-/mk_${make.name.toLowerCase()}`
+                }
+                size="sm"
+              >
+                {make.name} {make?.type}s
+              </Anchor>
+            </List.Item>
+          ))
+        ) : (
+          <List.Item mb="xs">
+            <Text size="sm" c="dimmed">
+              No popular brands found.
+            </Text>
           </List.Item>
-        ))}
+        )}
       </List>
     </>
   );
@@ -349,20 +400,39 @@ const Header = () => {
         <Title order={6} fw={500}>
           Popular{" "}
           {hoverTarget === "cars"
-            ? "New Cars"
+            ? "Models"
             : hoverTarget === "bikes"
-            ? "New Bikes"
-            : "New Trucks"}
+            ? "Bike Models"
+            : "Truck Models"}
         </Title>
       </Group>
       <List listStyleType="none" withPadding>
-        {data[hoverTarget].thirdCol.map((item, index) => (
-          <List.Item key={index} mb="xs">
-            <Anchor component={Link} c="dark" href={item.link ?? "#"} size="sm">
-              {item.title}
-            </Anchor>
+        {popularModelsList.length > 0 ? (
+          popularModelsList.map((model) => (
+            <List.Item key={model._id} mb="xs">
+              <Anchor
+                component={Link}
+                c="dark"
+                href={
+                  hoverTarget === "cars"
+                    ? `/used-cars/search/-/mk_${model.makeName.toLowerCase()}/md_${model.name.toLowerCase()}`
+                    : hoverTarget === "bikes"
+                    ? `/used-bikes/search/-/mk_${model.makeName.toLowerCase()}/md_${model.name.toLowerCase()}`
+                    : `/used-trucks/search/-/mk_${model.makeName.toLowerCase()}/md_${model.name.toLowerCase()}`
+                }
+                size="sm"
+              >
+                {model.name} {model.makeType}s
+              </Anchor>
+            </List.Item>
+          ))
+        ) : (
+          <List.Item mb="xs">
+            <Text size="sm" c="dimmed">
+              No popular models found.
+            </Text>
           </List.Item>
-        ))}
+        )}
       </List>
     </>
   );
