@@ -523,6 +523,10 @@ const Header = () => {
               <Link href="/videos" className="link">
                 <Center inline>Videos</Center>
               </Link>
+              {/* dealer */}
+              <Link href="/dealers" className="link">
+                <Center inline>Dealers</Center>
+              </Link>
             </Group>
             <Group visibleFrom="md" wrap={false}>
               {session ? (
@@ -760,6 +764,28 @@ const Header = () => {
           >
             Videos
           </Button>
+
+          <Button
+            component={Link}
+            variant="transparent"
+            href="#"
+            className="link"
+            my="sm"
+          >
+            Videos
+          </Button>
+
+          {/* Dealers */}
+          <Button
+            component={Link}
+            variant="transparent"
+            href="/dealers"
+            className="link"
+            my="sm"
+          > 
+            Dealers
+          </Button>
+
 
           <Divider my="sm" />
 

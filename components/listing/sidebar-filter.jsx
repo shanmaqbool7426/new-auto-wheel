@@ -57,6 +57,10 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     variant: "",
   });
   
+  // Add cache for filter results
+  const filterCache = useRef(new Map());
+  const lastFilterUpdate = useRef(Date.now());
+  const DEBOUNCE_DELAY = 1000; // Increased to 1 second
 
   const [filters, setFilters] = useState({
     query: "",
@@ -229,7 +233,26 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     );
   };
 
+  // Cache key generator
+  const generateCacheKey = (filters) => {
+    return JSON.stringify(filters);
+  };
+
+  // Check if we should update URL
+  const shouldUpdateUrl = (newFilters) => {
+    const now = Date.now();
+    const timeSinceLastUpdate = now - lastFilterUpdate.current;
+    return timeSinceLastUpdate >= DEBOUNCE_DELAY;
+  };
+
   const updateFiltersInUrl = (updatedFilters) => {
+    const cacheKey = generateCacheKey(updatedFilters);
+    
+    // Check if we have a cached result
+    if (filterCache.current.has(cacheKey)) {
+      return;
+    }
+
     // Get the vehicle type from the URL
     const urlParts = window.location.pathname.split('/');
     const currentVehicleType = urlParts[1]?.startsWith('used-') ? urlParts[1] : `used-${type}s`;
@@ -309,7 +332,12 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
     router.push(queryString ? `${customUrl}?${queryString}` : customUrl, {
       scroll: false,
     });
+
+    // Cache the result
+    filterCache.current.set(cacheKey, true);
+    lastFilterUpdate.current = Date.now();
   };
+
   const handleFilterChange = (filterName, value, isChecked) => {
     setFilters((prevFilters) => {
       let updatedFilterValue;
@@ -338,10 +366,15 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
         clearTimeout(debounceTimeoutRef.current);
       }
 
-      // Set a new timeout to update the URL
-      debounceTimeoutRef.current = setTimeout(() => {
+      // Only update URL if enough time has passed since last update
+      if (shouldUpdateUrl(updatedFilters)) {
         updateFiltersInUrl(updatedFilters);
-      }, 300); // Reduced debounce time to 300ms for better responsiveness
+      } else {
+        // Set a new timeout to update the URL
+        debounceTimeoutRef.current = setTimeout(() => {
+          updateFiltersInUrl(updatedFilters);
+        }, DEBOUNCE_DELAY);
+      }
 
       return updatedFilters;
     });
@@ -1522,13 +1555,13 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
         </Card.Section>
         <div className="filter-card">
           <ScrollArea
-            h={bodies?.data?.length > 4 ? 250 : 'auto'}
+            h={bodies?.data?.bodies?.length > 4 ? 250 : 'auto'}
             scrollbarSize={6}
             scrollHideDelay={1000}
             scrollbars="y"
           >
             <Grid mb="lg">
-              {bodies?.data?.map((bodyType, index) => (
+              {bodies?.data?.bodies?.map((bodyType, index) => (
                 <Grid.Col span={6} ta="center" key={index}>
                   <div className="single-brand-item selected-brand-item text-center">
                     <label
@@ -2308,7 +2341,7 @@ const ListingFilter = ({ type, makes, bodies, vehicles, drives, transmissions, f
             <Card>
               <div className="filter-card">
               <Grid mb="lg">
-  {bodies?.data?.map((bodyType, index) => (
+  {bodies?.data?.bodies?.map((bodyType, index) => (
     <Grid.Col span={6} ta="center" key={index}>
       <div className="single-brand-item selected-brand-item text-center">
         <label

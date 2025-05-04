@@ -38,7 +38,7 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
     align: 'start',
     slidesToScroll: 3,
     withControls: true,
-    withIndicators: true,
+    withIndicators: false,
     loop: true, // Enable infinite loop
     dragFree: true, // Enables free-form dragging
     speed: 0.5, // Smooth transition speed
@@ -70,6 +70,8 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
     return Array(count).fill([...array]).flat();
   };
 
+
+  console.log(bodies?.data,">>>>>>>>,,,,,,")
   return (
     <Box className="browse-cats-section bg-light" pt="55px" pb="55px">
       <Box className="container-xl">
@@ -87,8 +89,7 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
             <Box className="cat-by-brand">
               <Carousel {...carouselProps}>
                 {makes?.data && makes.data.length > 0 ? (
-                  // Repeat the makes array 3 times for smooth infinite scroll
-                  chunkArray(repeatArray(makes.data, 3), 2).map((group, groupIndex) => (
+                  chunkArray(makes.data, 2).map((group, groupIndex) => (
                     <Carousel.Slide key={groupIndex}>
                       <Flex direction="column" gap="md">
                         {group.map((item, index) => (
@@ -136,7 +137,7 @@ const BrowseByCategory = ({ makes, bodies, type, isNew }) => {
             </Flex>
             <Box className="cat-by-brand cat-by-body">
               <Carousel {...carouselProps}>
-                {bodies?.data && chunkArray(repeatArray(bodies.data, 3), 2).map((group, groupIndex) => (
+                {bodies?.data && chunkArray(bodies.data?.bodies, 2).map((group, groupIndex) => (
                   <Carousel.Slide key={groupIndex}>
                     <Flex direction="column" gap="md">
                       {group.map((body, index) => (

@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BASE_URL } from "@/constants/api-endpoints";
 import { fetchAPI } from "@/services/fetchAPI";
+import Image from "next/image";
+import { FaFacebookF, FaLinkedinIn, FaTwitter, FaPinterestP } from "react-icons/fa";
+import { IoLogoYoutube } from "react-icons/io";
 
 const footerSections = [
   { value: 'by-make', label: 'By Make' },
@@ -81,15 +84,17 @@ const Footer = () => {
       <li key={item._id}>
       <Link 
         href={item.url}
-        className="footer-link" // Add this class
+        className="footer-link" 
         style={{
-          fontSize: '15px',
-          color: '#EBEBEB',
+          fontSize: '12px',
+          color: 'rgb(194 191 191)',
           textDecoration: 'none',
           transition: 'color 0.2s ease',
           display: 'block',
-          marginBottom: '8px'
+          marginBottom: '3px'
         }}
+        onMouseEnter={(e) => e.currentTarget.style.color = '#FFFFFF'}
+        onMouseLeave={(e) => e.currentTarget.style.color = 'rgb(194 191 191)'}
       >
         {item.title}
       </Link>
@@ -98,6 +103,18 @@ const Footer = () => {
   };
 
   const capitalizedVehicleType = currentVehicleType.charAt(0).toUpperCase() + currentVehicleType.slice(1);
+
+  const iconStyle = {
+    width: 38,
+    height: 38,
+    borderRadius: '50%',
+    background: '#8c8c8c',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'background 0.2s',
+    cursor: 'pointer'
+  };
 
   return (
     <footer className="footer mt-4">
@@ -189,10 +206,7 @@ const Footer = () => {
               <Title order={4} mb="md" fw={600} tt="uppercase">
                 Subscribe to our Newsletter
               </Title>
-              <Text>
-                Lorem ipsum dolor sit amet consectetur. Sapien euismod arcu
-                mattis quam sed sem vitae quam. Maecenas tristique amet
-              </Text>
+             
               <Input
                 mt="md"
                 rightSection={
@@ -220,11 +234,49 @@ const Footer = () => {
                 size="md"
               />
             </div>
+            {/* Follow Us On Section */}
+            <div className="follow-us-section mt-4">
+              <Title order={5} mb="xs" fw={600} tt="uppercase" style={{
+                fontSize: '18px',
+                marginBottom: '8px',
+                marginTop: '100px',
+                width: 'fit-content'
+              }}>
+                Follow Us On
+              </Title>
+              <div style={{ display: 'flex', gap: '18px', marginTop: '10px' }}>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+                  style={iconStyle}
+                 >
+                  <FaFacebookF color="#fff" size={16} />
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
+                  style={iconStyle}
+>
+                  <IoLogoYoutube color="#fff" size={16} />
+                </a>
+                <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer"
+                  style={iconStyle}
+>
+                  <FaPinterestP color="#fff" size={16} />
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                  style={iconStyle}
+                  >
+                  <FaTwitter color="#fff" size={16} />
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                  style={iconStyle}
+>
+                  <FaLinkedinIn color="#fff" size={16} />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <hr />
         <div className="text-center">
-          <span> 2024 AutoWheels. All Rights Reserved.</span>
+          <span> {new Date().getFullYear()} AUSSIE MOTOR PTY LTD. All Rights Reserved.</span>
         </div>
       </div>
     </footer>

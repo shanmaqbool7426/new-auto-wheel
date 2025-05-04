@@ -12,6 +12,10 @@ const nextConfig = {
         // pathname: 'arifscloud/image/upload/**',
       },
       {
+        protocol: 'https',
+        hostname: "auto-wheels.s3.eu-north-1.amazonaws.com"
+      },
+      {
         protocol: 'http',
         hostname: "res.cloudinary.com"
       },

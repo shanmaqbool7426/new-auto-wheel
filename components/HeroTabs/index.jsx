@@ -164,16 +164,23 @@ const HeroTabs = ({ setType }) => {
       // Add make and model to query if they exist
       if (make) queryParts.push(`mk_${formatForUrl(make)}`);
       if (model) queryParts.push(`md_${formatForUrl(model)}`);
-      //  ad varient
       if (variant) queryParts.push(`vr_${formatForUrl(variant)}`);
-      
-      // Add location parameters if they exist
       if (province?.name) queryParts.push(`pv_${formatForUrl(province.name)}`);
       if (city?.name) queryParts.push(`ct_${formatForUrl(city.name)}`);
       if (suburb?.name) queryParts.push(`sb_${formatForUrl(suburb.name)}`);
 
+      // If no data, do not redirect (or redirect to a default page)
+      if (queryParts.length === 0) {
+        // Option 1: Show a message
+        // alert("Please select at least one filter.");
+        // Option 2: Redirect to a default page
+         router.push(`/used-${makesByType}/search/-`);
+        setLoading(false);
+        return;
+      }
+
       // Construct the search URL
-      const queryString = queryParts.length > 0 ? `${queryParts.join("/")}` : "";
+      const queryString = `${queryParts.join("/")}`;
       const searchUrl = `/used-${makesByType}/search/-/${queryString}`;
       await router.push(searchUrl);
     } catch (error) {

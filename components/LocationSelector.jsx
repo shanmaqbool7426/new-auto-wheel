@@ -118,45 +118,24 @@ const LocationSelector = ({
   const filteredCities = getFilteredCities();
   const filteredSuburbs = getFilteredSuburbs();
 
-  const handleProvinceSelect = (province) => {
-    setSelection({
-      ...selection,
-      province,
-      city: null,
-      suburb: null
-    });
-    setCitySearch("");
-    setActiveTab("city");
-  };
-
-  const handleCitySelect = (city) => {
-    setSelection({
-      ...selection,
-      city,
-      suburb: null
-    });
-    setSuburbSearch("");
-    setActiveTab("suburb");
-  };
-
-  const handleSuburbSelect = (suburb) => {
-    setSelection({
-      ...selection,
-      suburb
-    });
-    closeModal();
-  };
-
-  // Calculate visible columns
+  // Calculate visible columns based on active tab and data availability
   const getVisibleColumns = () => {
-    if (!selection.province) {
-      return { province: true, city: false, suburb: false };
-    } else if (selection.province && !selection.city) {
-      return { province: true, city: true, suburb: false };
-    } else if (selection.province && selection.city) {
-      return { province: true, city: true, suburb: !hide };
+    const hasSuburbs = suburbsData?.some(suburb => suburb.parentId === selection.city?._id);
+    
+    switch (activeTab) {
+      case "province":
+        return { province: true, city: false, suburb: false };
+      case "city":
+        return { province: true, city: true, suburb: false };
+      case "suburb":
+        return { 
+          province: true, 
+          city: true, 
+          suburb: hasSuburbs && !hide 
+        };
+      default:
+        return { province: true, city: false, suburb: false };
     }
-    return { province: true, city: false, suburb: false };
   };
 
   const visibleColumns = getVisibleColumns();
@@ -192,6 +171,36 @@ const LocationSelector = ({
   // Determine if loading data
   const isLoading = isLoadingProvinces || isLoadingApiCities || isLoadingApiSuburbs;
 
+  const handleProvinceSelect = (province) => {
+    setSelection({
+      ...selection,
+      province,
+      city: null,
+      suburb: null
+    });
+    setCitySearch("");
+    setActiveTab("city");
+  };
+
+  const handleCitySelect = (city) => {
+    const hasSuburbs = suburbsData?.some(suburb => suburb.parentId === city._id);
+    setSelection({
+      ...selection,
+      city,
+      suburb: null
+    });
+    setSuburbSearch("");
+    setActiveTab(hasSuburbs ? "suburb" : "city");
+  };
+
+  const handleSuburbSelect = (suburb) => {
+    setSelection({
+      ...selection,
+      suburb
+    });
+    closeModal();
+  };
+
   return (
     <Modal
       opened={isOpen}
@@ -205,7 +214,7 @@ const LocationSelector = ({
         },
         content: {
           maxHeight: 'calc(100vh - 100px)',
-          width: `${totalVisibleColumns * 350}px`, // Dynamic width based on columns
+          width: `${totalVisibleColumns * 350}px`,
           maxWidth: '100%',
           margin: '0 auto'
         }
@@ -219,7 +228,7 @@ const LocationSelector = ({
       >
         <Center>
           <Button
-            className={`tab-button}`}
+            className={`tab-button`}
             variant="subtle"
             bg={activeTab === "province" ? "#E90808" : "#F3F3F3"}
             color={activeTab === "province" ? "white" : "#878787"}
@@ -230,21 +239,19 @@ const LocationSelector = ({
           >
             Province
           </Button>
-          {visibleColumns.city && (
-            <Button
-              className={`tab-button`}
-              variant="subtle"
-              bg={activeTab === "city" ? "#E90808" : "#F3F3F3"}
-              color={activeTab === "city" ? "white" : "#878787"}
-              size="xs"
-              mr="md"
-              autoContrast
-              onClick={() => setActiveTab("city")}
-              disabled={!selection.province}
-            >
-              City
-            </Button>
-          )}
+          <Button
+            className={`tab-button`}
+            variant="subtle"
+            bg={activeTab === "city" ? "#E90808" : "#F3F3F3"}
+            color={activeTab === "city" ? "white" : "#878787"}
+            size="xs"
+            mr="md"
+            autoContrast
+            onClick={() => setActiveTab("city")}
+            disabled={!selection.province}
+          >
+            City
+          </Button>
           {visibleColumns.suburb && (
             <Button
               className={`tab-button`}
