@@ -38,14 +38,14 @@ export default function PackageDetails({profileData}) {
               <Box className={styles.featureIcon}><IconPlus /></Box>
               <Box className={styles.featureName}>Simple Ads</Box>
             </Box>
-            <Box className={styles.featureValue}>{profileData.adsCount}</Box>
+            <Box className={styles.featureValue}>{profileData?.adsCount}</Box>
           </li>
           <li className={styles.planFeature}>
             <Box className={styles.featureInfo}>
               <Box className={styles.featureIcon}><IconStarFilled /></Box>
               <Box className={styles.featureName}>Feature Ads</Box>
             </Box>
-            <Box className={styles.featureValue}>{profileData.featureAddsCount}</Box>
+            <Box className={styles.featureValue}>{profileData?.featureAddsCount}</Box>
           </li>
           {/* <li className={styles.planFeature}>
             <Box className={styles.featureInfo}>

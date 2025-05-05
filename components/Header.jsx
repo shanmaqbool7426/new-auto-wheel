@@ -422,7 +422,7 @@ const Header = () => {
                 }
                 size="sm"
               >
-                {model.name} {model.makeType}s
+                {model.name}
               </Anchor>
             </List.Item>
           ))
@@ -466,6 +466,7 @@ const Header = () => {
                 radius="sm"
                 shadow="0px 4px 20px 0px #00000014"
                 withinPortal
+                position="bottom-start"
               >
                 <HoverCard.Target>
                   <Link
@@ -508,6 +509,7 @@ const Header = () => {
                 radius="sm"
                 shadow="0px 4px 20px 0px #00000014"
                 withinPortal
+                position="bottom-start"
               >
                 <HoverCard.Target>
                   <Link
@@ -551,6 +553,7 @@ const Header = () => {
                 radius="sm"
                 shadow="0px 4px 20px 0px #00000014"
                 withinPortal
+                position="bottom-start"
               >
                 <HoverCard.Target>
                   <Link

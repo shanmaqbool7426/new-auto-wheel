@@ -299,7 +299,10 @@ export const fetchVehicleFuelTypes = async (type) => {
 
 export const fetchVehicleColors = async (type) => {
   try {
+    console.log(">>>>>>>> API_ENDPOINTS",API_ENDPOINTS.COLOR.GET(type));
     const colors = await fetchAPI(API_ENDPOINTS.COLOR.GET(type));
+
+
     return colors;
   } catch (error) {
     console.error("Error fetching dashboard data:", error);

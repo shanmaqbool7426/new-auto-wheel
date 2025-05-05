@@ -31,7 +31,7 @@ export const useVehicleData = (vehicleType) => {
       fetchVehicleDrives(vehicleType),
       fetchVehicleTransmissions(vehicleType),
       fetchVehicleFuelTypes(vehicleType),
-      fetchVehicleColors(),
+      fetchVehicleColors(vehicleType),
       fetchProvincesData("provinces")
     ]);
 

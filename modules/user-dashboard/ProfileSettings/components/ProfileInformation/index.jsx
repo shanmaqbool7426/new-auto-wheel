@@ -33,7 +33,7 @@ export default function ProfileInformation({ profileData, currentUser }) {
   };
 
   const renderWorkingHours = (workingHours) => {
-    if (!workingHours) return profileData.salesHours;
+    if (!workingHours) return profileData?.salesHours;
 
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     
@@ -43,16 +43,16 @@ export default function ProfileInformation({ profileData, currentUser }) {
         <Box className={styles.timingRow}>
           <Box className={styles.timingDays}>Mon-Fri:</Box>
           <Box className={styles.timingHours}>
-            {workingHours.monday?.isOpen 
-              ? `${workingHours.monday.start}-${workingHours.monday.end}`
+            {workingHours?.monday?.isOpen 
+              ? `${workingHours?.monday?.start}-${workingHours?.monday?.end}`
               : 'Closed'}
           </Box>
         </Box>
         <Box className={styles.timingRow}>
           <Box className={styles.timingDays}>Sat-Sun:</Box>
           <Box className={styles.timingHours}>
-            {workingHours.saturday?.isOpen 
-              ? `${workingHours.saturday.start}-${workingHours.saturday.end}`
+            {workingHours?.saturday?.isOpen 
+              ? `${workingHours?.saturday?.start}-${workingHours?.saturday?.end}`
               : 'Closed'}
           </Box>
         </Box>
@@ -65,7 +65,7 @@ export default function ProfileInformation({ profileData, currentUser }) {
         <Box className={styles.timingDays}>{formatDayName(day)}:</Box>
         <Box className={styles.timingHours}>
           {workingHours[day]?.isOpen 
-            ? `${workingHours[day].start}-${workingHours[day].end}`
+            ? `${workingHours[day]?.start}-${workingHours[day]?.end}`
             : 'Closed'}
         </Box>
       </Box>
