@@ -1,67 +1,69 @@
-import Script from 'next/script';
-import { AuthModalProvider } from '@/contexts/auth-modal';
-import { UserProvider } from '@/contexts/user';
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  AppShell,
+  Burger,
+  Group,
+  Skeleton,
+  Text,
+  ScrollArea,
+  Box,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import styles from '../../components/user-dashboard/Layout/Layout.module.css';
+import NavMenu from '../../components/user-dashboard/Layout/components/NavMenu';
+import Header from '../../components/user-dashboard/Layout/components/Header';
 
-export const metadata = {
-	title: "User Dashboard | AussieMotor",
-	description: "Access your personalized AussieMotor user dashboard to manage listings, messages, saved vehicles, reviews, and account settings all in one place.",
-	keywords: "user dashboard, automotive account, vehicle management, seller dashboard, buyer tools, account management, AussieMotor dashboard, automotive marketplace",
-	openGraph: {
-		title: "User Dashboard | AussieMotor",
-		description: "Access your personalized AussieMotor user dashboard to manage listings, messages, saved vehicles, reviews, and account settings all in one place.",
-		url: "https://www.aussiemotor.com/user-dashboard/",
-		siteName: "AussieMotor",
-		locale: "en_AU",
-		type: "website",
-		images: [
-			{
-				url: "https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png",
-				width: 1200,
-				height: 630,
-				alt: "AussieMotor User Dashboard",
-			},
-		],
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "User Dashboard | AussieMotor",
-		description: "Access your personalized AussieMotor user dashboard to manage listings, messages, saved vehicles, reviews, and account settings.",
-		images: ["https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1745263672528_f1804554-b4ad-45a4-baca-8f1a7a31dbaf_removalai_preview.png"],
-	},
-	alternates: {
-		canonical: "https://www.aussiemotor.com/user-dashboard/",
-	},
-};
+export default function Layout({ children }) {
+  const [opened, { toggle }] = useDisclosure();
+  return (
+    <AppShell
+      layout="alt"
+      header={{ height: 80 }}
+      navbar={{
+        width: 248,
+        p: 0,
+        breakpoint: 'sm', collapsed: { mobile: !opened },
+        padding: 0,
+      }}
+      padding={32}
+      bg='#FDF8F8'
+    >
+      <AppShell.Header>
+        <Header />
+      </AppShell.Header>
 
-export default function DashboardLayout({ children }) {
-	return (
-		<AuthModalProvider>
-			<UserProvider>
-				{/* WebSite Schema.org structured data */}
-				<Script
-					id="dashboard-data"
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "WebSite",
-							"name": "AussieMotor User Dashboard",
-							"url": "https://www.aussiemotor.com/user-dashboard/",
-							"potentialAction": {
-								"@type": "SearchAction",
-								"target": {
-									"@type": "EntryPoint",
-									"urlTemplate": "https://www.aussiemotor.com/listing/search?q={search_term_string}"
-								},
-								"query-input": "required name=search_term_string"
-							},
-							"description": "Access your personalized AussieMotor user dashboard to manage listings, messages, saved vehicles, reviews, and account settings all in one place."
-						})
-					}}
-				/>
-				
-				{children}
-			</UserProvider>
-		</AuthModalProvider>
-	);
+      <AppShell.Navbar p={0}>
+        <AppShell.Section>
+          <Box className={styles.navbarHeader}>
+            <Link href="/user" className={styles.logo}>
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={163}
+                height={27}
+              />
+            </Link>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              size={16}
+              lineSize={2}
+            // hiddenFrom="sm" size="sm"
+            />
+          </Box>
+        </AppShell.Section>
+
+        <AppShell.Section grow component={ScrollArea}>
+          <NavMenu />
+        </AppShell.Section>
+      </AppShell.Navbar>
+
+      <AppShell.Main>
+        {children}
+      </AppShell.Main>
+    </AppShell>
+  )
 }
