@@ -600,7 +600,7 @@ const BlogModule = () => {
                       p="md"
                       bg="#F3F3F3"
                     >
-                      Autowheels.pk
+                      AussieMotor.pk
                     </Badge>
                     <Badge
                       variant="light"

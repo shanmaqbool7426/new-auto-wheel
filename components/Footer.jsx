@@ -12,9 +12,9 @@ import { IoLogoYoutube } from "react-icons/io";
 const footerSections = [
   { value: 'by-make', label: 'By Make' },
   { value: 'by-city', label: 'By City' },
-  { value: 'explore-autowheels', label: 'Explore AutoWheels' },
-  { value: 'autowheels', label: 'Autowheels.com' },
-  { value: 'sell-on-autowheels', label: 'Sell On AutoWheels' },
+  { value: 'explore-AussieMotor', label: 'Explore AussieMotor' },
+  { value: 'AussieMotor', label: 'AussieMotor.com' },
+  { value: 'sell-on-AussieMotor', label: 'Sell On AussieMotor' },
   { value: 'by-category', label: 'By Category' },
   { value: 'by-body-type', label: 'By Body Type' },
   { value: 'by-color', label: 'By Color' },
@@ -28,12 +28,12 @@ const Footer = () => {
     byMake: [],
     byCity: [],
     byProvince: [],
-    exploreAutoWheels: [],
-    autoWheels: [],
+    exploreAussieMotor: [],
+    AussieMotor: [],
     byCategory: [],
     byBodyType: [],
     byColor: [],
-    sellOnAutoWheels: []
+    sellOnAussieMotor: []
   });
 
   useEffect(() => {
@@ -53,12 +53,12 @@ const Footer = () => {
           byMake: data?.data?.filter(item => item.section === "by-make" && item.status).sort((a, b) => a.order - b.order),
           byCity: data?.data?.filter(item => item.section === "by-city" && item.status).sort((a, b) => a.order - b.order),
           byProvince: data?.data?.filter(item => item.section === "by-province" && item.status).sort((a, b) => a.order - b.order),
-          exploreAutoWheels: data?.data?.filter(item => item.section === "explore-autowheels" && item.status).sort((a, b) => a.order - b.order),
-          autoWheels: data?.data?.filter(item => item.section === "autowheels" && item.status).sort((a, b) => a.order - b.order),
+          exploreAussieMotor: data?.data?.filter(item => item.section === "explore-AussieMotor" && item.status).sort((a, b) => a.order - b.order),
+          AussieMotor: data?.data?.filter(item => item.section === "AussieMotor" && item.status).sort((a, b) => a.order - b.order),
           byCategory: data?.data?.filter(item => item.section === "by-category" && item.status).sort((a, b) => a.order - b.order),
           byBodyType: data?.data?.filter(item => item.section === "by-body-type" && item.status).sort((a, b) => a.order - b.order),
           byColor: data?.data?.filter(item => item.section === "by-color" && item.status).sort((a, b) => a.order - b.order),
-          sellOnAutoWheels: data?.data?.filter(item => item.section === "sell-on-autowheels" && item.status).sort((a, b) => a.order - b.order)
+          sellOnAussieMotor: data?.data?.filter(item => item.section === "sell-on-AussieMotor" && item.status).sort((a, b) => a.order - b.order)
         };
 
      
@@ -140,18 +140,18 @@ const Footer = () => {
               </div>
               <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                  Explore AutoWheels
+                  Explore AussieMotor
                 </Title>
                 <ul className="list-unstyled">
-                  {renderFooterLinks("exploreAutoWheels")}
+                  {renderFooterLinks("exploreAussieMotor")}
                 </ul>
               </div>
               <div className="col-lg-3 col-sm-4">
                 <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                AutoWheels.com
+                AussieMotor.com
                 </Title>
                 <ul className="list-unstyled">
-                {renderFooterLinks("autoWheels")}
+                {renderFooterLinks("AussieMotor")}
                   {/* {renderFooterLinks("byCategory")} */}
                   
                 </ul>
@@ -196,10 +196,10 @@ const Footer = () => {
    
             <div>
               <Title order={5} mt="md" mb="md" tt="uppercase" fw={600}>
-                Sell On AutoWheels
+                Sell On AussieMotor
               </Title>
               <ul className="list-unstyled">
-                {renderFooterLinks("sellOnAutoWheels")}
+                {renderFooterLinks("sellOnAussieMotor")}
               </ul>
             </div>
             <div className="newsletter-section mt-5">
@@ -277,6 +277,11 @@ const Footer = () => {
         <hr />
         <div className="text-center">
           <span> {new Date().getFullYear()} AUSSIE MOTOR PTY LTD. All Rights Reserved.</span>
+          {/* with links */}
+          <p>
+
+            <Link href="/main/terms" className="text-decoration-none text-white">Terms of Service</Link> | <Link href="/privacy" className="text-decoration-none text-white">Privacy Policy</Link>
+          </p>
         </div>
       </div>
     </footer>

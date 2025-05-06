@@ -17,7 +17,7 @@ export default function AnalyticsProvider() {
       }`;
       
       // Get page title
-      const pageTitle = document.title || 'Auto Wheels';
+      const pageTitle = document.title || 'Aussie Motors';
 
       // Track the page view with full URL and title
       pageview(fullUrl, {

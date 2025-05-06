@@ -165,7 +165,7 @@ const NewsModule = () => {
                             Sadia Malik
                           </Title>
                           <Text size="md">
-                            I am content writer at AutoWheels Australia. I love
+                            I am content writer at AussieMotor Australia. I love
                             Automobile and Technology.
                           </Text>
                           <ActionIcon.Group mt="xs">
@@ -381,7 +381,7 @@ const NewsModule = () => {
                     p="md"
                     bg="#F3F3F3"
                   >
-                    Autowheels.pk
+                    AussieMotor.pk
                   </Badge>
                   <Badge
                     variant="light"
