@@ -563,14 +563,17 @@ export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
  * FormFieldBodyType Component
  * Renders a body type field with label and body types
  */
+
+
 export const FormFieldBodyType = ({ label, bodies, form }) => (
     <>
+        {console.log(bodies?.bodies, "bodies......")}
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
             <Input.Label required size="md" tt="capitalize">{label}</Input.Label>
         </Box>
         <Box className="col-md-7">
             <Grid mb="lg">
-                {bodies?.map((bodyType) => (
+                {bodies?.bodies?.map((bodyType) => (
                     <Grid.Col
                         span={4}
                         ta="center"

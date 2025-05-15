@@ -63,7 +63,7 @@ export const fetchVehiclsData = async (params) => {
       ? `${baseUrl}/${validParams.join('/')}`
       : baseUrl;
 
-
+console.log("<<<<<<<<<<<<<<<<<",finalUrl)
     // Add caching strategy
     const vehicles = await fetchAPI(
       finalUrl,

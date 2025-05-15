@@ -39,21 +39,23 @@ export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local de
 
 
 // Define base paths for commonly used API routes
-const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
-const NEW_VEHICLE_BASE = `${BASE_URL}/api/new-vehicles`;
-const REVIEW_BASE = `${BASE_URL}/api/reviews`;
-const VIDEO_BASE = `${BASE_URL}/api/video`;
-const USER_REVIEWS_BASE = `${BASE_URL}/api/user-reviews`;
-const NEAR_BY_LOCATION_BASE = `${BASE_URL}/api/near-by-location`;
+export const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
+export const NEW_VEHICLE_BASE = `${BASE_URL}/api/new-vehicles`;
+export const REVIEW_BASE = `${BASE_URL}/api/reviews`;
+export const VIDEO_BASE = `${BASE_URL}/api/video`;
+export const USER_REVIEWS_BASE = `${BASE_URL}/api/user-reviews`;
+export const NEAR_BY_LOCATION_BASE = `${BASE_URL}/api/near-by-location`;
 export const LOCATION_PROVINCES  = `${BASE_URL}/api/location/provinces`;
 export const LOCATION_SUBURBS  = `${BASE_URL}/api/location/suburbs`;
 export const LOCATION_CITIES  = `${BASE_URL}/api/location/cities`;
-const DRIVE_BASE = `${BASE_URL}/api/drive`;
-const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
-const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
-const COLOR_BASE = `${BASE_URL}/api/color`;
-const Competitor_BASE = `${BASE_URL}/api/competitor`;
+export const DRIVE_BASE = `${BASE_URL}/api/drive`;
+export const TRANSMISSION_BASE = `${BASE_URL}/api/transmission`;
+export const FUEL_TYPE_BASE = `${BASE_URL}/api/fuel-type`;
+export const COLOR_BASE = `${BASE_URL}/api/color`;
+export const Competitor_BASE = `${BASE_URL}/api/competitor`;
 export const USER_BASE = `${BASE_URL}/api/user/update-account-type`;
+export const BODIES_BASE = `${BASE_URL}/api/browes-by-body`;
+
 
 export const API_ENDPOINTS = {
   AUTH: {

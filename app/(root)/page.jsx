@@ -1,5 +1,5 @@
-
 import HomeModule from "@/modules/home/index";
+
 export default function Home() {
   return (
     <>
@@ -7,3 +7,5 @@ export default function Home() {
     </>
   );
 }
+
+

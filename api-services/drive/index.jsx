@@ -1,11 +1,11 @@
-import { BASE_API } from '@/services/base-api';
-import { END_POINTS } from '@/constants/endpoints';
+import { BASE_API } from '@/api-services/base-api';
+import { DRIVE_BASE } from '@/constants/api-endpoints';
 
 export const driveAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getDrives: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.DRIVE}`,
+        url: `${DRIVE_BASE}`,
         method: 'GET',
         params,
       }),
@@ -14,7 +14,7 @@ export const driveAPIs = BASE_API.injectEndpoints({
 
     updateDrive: builder.mutation({
       query: ({ body, id }) => ({
-        url: `${END_POINTS?.DRIVE}/${id}`,
+        url: `${DRIVE_BASE}/${id}`,
         method: 'PUT',          
         body,
       }),
@@ -31,7 +31,7 @@ export const driveAPIs = BASE_API.injectEndpoints({
 
     addDrive: builder.mutation({
       query: (body) => ({
-        url: `${END_POINTS?.DRIVE}`,
+        url: `${DRIVE_BASE}`,
         method: 'POST',
         body,
       }),
@@ -41,7 +41,7 @@ export const driveAPIs = BASE_API.injectEndpoints({
     deleteBulkDrive: builder.mutation({
       query(ids) {
         return {
-          url: `${END_POINTS?.DRIVE_DELETE}`,
+          url: `${DRIVE_BASE}`,
           method: 'POST',
           body: { ids: ids },
         };

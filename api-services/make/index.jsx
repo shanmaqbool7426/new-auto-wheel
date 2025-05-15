@@ -3,6 +3,64 @@ import { BASE_URL, END_POINTS } from '@/constants/api-endpoints';
 
 export const makeAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
+    getMakes: builder.query({
+      query: ({type}) => ({
+        url: `${BASE_URL}/api/browes-by-make?type=${type}`,
+        method: 'GET',
+      }),
+      providesTags: ['MAKES', 'MODELS', 'VARIANTS'],
+    }),
+    
+    
+    getModelsByMakeId: builder.query({
+      query: ({ makeId }) => ({
+        url: `${BASE_URL}/api/browes-by-make/${makeId}/models`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, { makeId }) => [
+        { type: 'MODELS', id: makeId },
+        'MODELS'
+      ],
+    }),
+    // popular makes
+    getPopularMakes: builder.query({
+      query: () => ({
+        url: `${BASE_URL}/api/browes-by-make/popular-makes`,
+        method: 'GET',
+      }),
+    }),
+
+
+    // popular models
+    getPopularModels: builder.query({
+      query: () => ({
+        url: `${BASE_URL}/api/browes-by-make/popular-models`,
+        method: 'GET',
+      }),
+    }),
+
+    getAllModels: builder.query({
+      query: ({type}) => ({
+        url: `${BASE_URL}/api/browes-by-make/all-models?type=${type}`,
+        method: 'GET',
+      }),
+      providesTags: ['MODELS'],
+    }),
+
+    getAllVarients: builder.query({
+      query: ({type}) => ({
+        url: `${BASE_URL}/api/browes-by-make/all-varients?type=${type}`,
+        method: 'GET',
+      }),
+      providesTags: ['VARIANTS'],
+    }),
+    getVarientsInRange: builder.query({
+      query: ({type,make,model,year}) => ({
+        url: `${BASE_URL}/api/browes-by-make/range-varients?type=${type}&make=${make}&model=${model}&year=${year}`,
+        method: 'GET',
+      }),
+      providesTags: ['VARIANTS'],
+    }),
 
     //     getMakes: builder.query({
     //   query: (params) => ({
@@ -134,6 +192,11 @@ export const {
   // useAddVariantMutation,
   // useUpdateVariantMutation,
   // useDeleteVariantMutation,
+  useGetVarientsInRangeQuery,
+  useGetMakesQuery,
+  useGetAllModelsQuery,
+  useGetAllVarientsQuery,
+  useGetModelsByMakeIdQuery,
   useGetPopularMakesQuery,
   useGetPopularModelsQuery
 

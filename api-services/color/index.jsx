@@ -1,27 +1,26 @@
-import { BASE_API } from '@/services/base-api';
-import { END_POINTS } from '@/constants/endpoints';
+import { BASE_API } from '@/api-services/base-api';
+import { COLOR_BASE,BASE_URL } from '@/constants/api-endpoints';
 
 export const colorAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getColors: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.COLOR}`,
+        url: `${COLOR_BASE}`,
         method: 'GET',
         params,
       }),
       providesTags: ['COLORS'],
     }),
     getColorsByType: builder.query({
-      query: (params) => ({
-        url: `${END_POINTS?.COLOR}/type`,
+      query: ({type}) => ({
+        url: `${BASE_URL}/api/color/type?type=${type}`,
         method: 'GET',
-        params,
       }),
     }),
 
     updateColor: builder.mutation({
       query: ({ body, id }) => ({
-        url: `${END_POINTS?.COLOR}/${id}`,
+        url: `${COLOR_BASE}/${id}`,
         method: 'PUT',          
         body,
       }),
@@ -30,7 +29,7 @@ export const colorAPIs = BASE_API.injectEndpoints({
 
     deleteColor: builder.mutation({
       query: (id) => ({
-        url: `${END_POINTS?.COLOR}/${id}`,
+        url: `${COLOR_BASE}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['COLORS'],
@@ -38,7 +37,7 @@ export const colorAPIs = BASE_API.injectEndpoints({
 
     addColor: builder.mutation({
       query: (body) => ({
-        url: `${END_POINTS?.COLOR}`,
+        url: `${COLOR_BASE}`,
         method: 'POST',
         body,
       }),
@@ -48,7 +47,7 @@ export const colorAPIs = BASE_API.injectEndpoints({
     deleteBulkColor: builder.mutation({
       query(ids) {
         return {
-          url: `${END_POINTS?.COLOR_DELETE}`,
+          url: `${COLOR_BASE}`,
           method: 'POST',
           body: { ids: ids },
         };

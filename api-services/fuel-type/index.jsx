@@ -1,11 +1,11 @@
-import { BASE_API } from '@/services/base-api';
-import { END_POINTS } from '@/constants/endpoints';
+import { BASE_API } from '@/api-services/base-api';
+import { FUEL_TYPE_BASE } from '@/constants/api-endpoints';
 
 export const fuelTypeAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getFuelTypes: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.FUEL_TYPE}`,
+        url: `${FUEL_TYPE_BASE}`,
         method: 'GET',
         params,
       }),
@@ -14,7 +14,7 @@ export const fuelTypeAPIs = BASE_API.injectEndpoints({
 
     updateFuelType: builder.mutation({
       query: ({ body, id }) => ({
-        url: `${END_POINTS?.FUEL_TYPE}/${id}`,
+        url: `${FUEL_TYPE_BASE}/${id}`,
         method: 'PUT',          
         body,
       }),
@@ -23,7 +23,7 @@ export const fuelTypeAPIs = BASE_API.injectEndpoints({
 
     deleteFuelType: builder.mutation({
       query: (id) => ({
-        url: `${END_POINTS?.FUEL_TYPE}/${id}`,
+        url: `${FUEL_TYPE_BASE}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['FUEL_TYPES'],
@@ -31,7 +31,7 @@ export const fuelTypeAPIs = BASE_API.injectEndpoints({
 
     addFuelType: builder.mutation({
       query: (body) => ({
-        url: `${END_POINTS?.FUEL_TYPE}`,
+        url: `${FUEL_TYPE_BASE}`,
         method: 'POST',
         body,
       }),
@@ -41,7 +41,7 @@ export const fuelTypeAPIs = BASE_API.injectEndpoints({
     deleteBulkFuelType: builder.mutation({
       query(ids) {
         return {
-          url: `${END_POINTS?.FUEL_TYPE_DELETE}`,
+          url: `${FUEL_TYPE_BASE}`,
           method: 'POST',
           body: { ids: ids },
         };

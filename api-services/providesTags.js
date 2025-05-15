@@ -1,4 +1,16 @@
 export const PROVIDES_TAGS = [
     'USER',
-
+    'VEHICLES',
+    'BODIES',
+    'COLORS',
+    'DRIVES',
+    'TRANSMISSIONS',
+    'FUEL_TYPES',
+    'COMPETITORS',
+    'MODELS',
+    'VARIANTS',
+    'CITIES',
+    'STATES',
+    'COUNTRIES',
+    'POSTAL_CODES',
   ]

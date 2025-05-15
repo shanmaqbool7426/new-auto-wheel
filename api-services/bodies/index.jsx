@@ -1,23 +1,22 @@
 // Bodies Service
 
-import { BASE_API } from '@/services/base-api';
-import { END_POINTS } from '@/constants/endpoints';
+import { BASE_API } from '@/api-services/base-api';
+import { BODIES_BASE,BASE_URL } from '@/constants/api-endpoints';
 
 export const bodiesAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
 
     getBodies: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.BODIES}/${params.type}`,
+        url: `${BODIES_BASE}/${params.type}`,
         method: 'GET',
-        params,
       }),
       providesTags: ['BODIES'],
     }),
     // update body
     updateBody: builder.mutation({
       query: ({ body, id }) => ({
-        url: `${END_POINTS?.BODIES}/${id}`,
+        url: `${BODIES_BASE}/${id}`,
         method: 'PUT',          
         body,
       }),
@@ -26,7 +25,7 @@ export const bodiesAPIs = BASE_API.injectEndpoints({
     // delete body
     deleteBody: builder.mutation({
       query: (id) => ({
-        url: `${END_POINTS?.BODIES}/${id}`,
+        url: `${BODIES_BASE}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['BODIES'],
@@ -34,7 +33,7 @@ export const bodiesAPIs = BASE_API.injectEndpoints({
 
     addBody: builder.mutation({
       query: (body) => ({
-        url: `${END_POINTS?.BODIES}`,
+        url: `${BODIES_BASE}`,
         method: 'POST',
         body,
       }),
@@ -44,7 +43,7 @@ export const bodiesAPIs = BASE_API.injectEndpoints({
     deleteBulkBody: builder.mutation({
       query(ids) {
         return {
-          url: `${END_POINTS?.BODIES_DELETE}`,
+          url: `${BODIES_BASE}`,
           method: 'POST',
           body: { ids: ids },
         };

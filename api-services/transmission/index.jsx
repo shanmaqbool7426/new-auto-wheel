@@ -1,11 +1,11 @@
-import { BASE_API } from '@/services/base-api';
-import { END_POINTS } from '@/constants/api-endpoints';
+import { BASE_API } from '@/api-services/base-api';
+import { TRANSMISSION_BASE } from '@/constants/api-endpoints';
 
 export const transmissionAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getTransmissions: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.TRANSMISSION}`,
+        url: `${TRANSMISSION_BASE}`,
         method: 'GET',
         params,
       }),
@@ -13,7 +13,7 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
     }),
     getTransmissionsByType: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.TRANSMISSION}/type`,
+        url: `${TRANSMISSION_BASE}/type`,
         method: 'GET',
         params,
       }),
@@ -21,7 +21,7 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
 
     updateTransmission: builder.mutation({
       query: ({ body, id }) => ({
-        url: `${END_POINTS?.TRANSMISSION}/${id}`,
+        url: `${TRANSMISSION_BASE}/${id}`,
         method: 'PUT',          
         body,
       }),
@@ -30,7 +30,7 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
 
     deleteTransmission: builder.mutation({
       query: (id) => ({
-        url: `${END_POINTS?.TRANSMISSION}/${id}`,
+        url: `${TRANSMISSION_BASE}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['TRANSMISSIONS'],
@@ -38,7 +38,7 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
 
     addTransmission: builder.mutation({
       query: (body) => ({
-        url: `${END_POINTS?.TRANSMISSION}`,
+        url: `${TRANSMISSION_BASE}`,
         method: 'POST',
         body,
       }),
@@ -48,7 +48,7 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
     deleteBulkTransmission: builder.mutation({
       query(ids) {
         return {
-          url: `${END_POINTS?.TRANSMISSION_DELETE}`,
+          url: `${TRANSMISSION_BASE}`,
           method: 'POST',
           body: { ids: ids },
         };

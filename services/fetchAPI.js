@@ -1,51 +1,28 @@
 export const fetchAPI = async (url, options = {}) => {
   try {
-    // Add timestamp for cache busting if needed
-    const timestamp = new Date().getTime();
-    const urlWithParams = new URL(url);
-    
-    // Only add cache-busting parameters if cache: 'no-store' is specified
-    if (options.cache === 'no-store') {
-      urlWithParams.searchParams.append('_t', timestamp);
-    }
-
-    // Base fetch options
-    const fetchOptions = {
-      ...options,
+    const defaultOptions = {
+      next: {
+        revalidate: 300, // Cache for 5 minutes
+      },
       headers: {
-        ...options.headers,
         'Content-Type': 'application/json',
-      }
+      },
     };
 
-    // Handle caching strategy - either use no-store OR revalidate, not both
-    if (options.cache === 'no-store') {
-      fetchOptions.cache = 'no-store';
-      fetchOptions.next = { revalidate: 0 }; // Force revalidation
-    } else if (options.next?.revalidate) {
-      // Only set revalidation if explicitly specified
-      fetchOptions.next = {
-        revalidate: options.next.revalidate
-      };
-      delete fetchOptions.cache; // Remove cache option when using revalidate
-    } else {
-      // Default to no-store if no specific cache option is set
-      fetchOptions.cache = 'no-store';
-      fetchOptions.next = { revalidate: 0 };
-    }
-
-    // Perform the fetch request
-    const response = await fetch(urlWithParams, fetchOptions);
+    const response = await fetch(url, {
+      ...defaultOptions,
+      ...options,
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}, status: ${response.status}`);
     }
 
-    return await response.json();
-
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error("API call failed:", error);
-    throw error;
+    console.error('API call failed:', error);
+    return null;
   }
 };
 

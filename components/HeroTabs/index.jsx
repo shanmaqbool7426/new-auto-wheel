@@ -95,6 +95,9 @@ const HeroTabs = ({ setType }) => {
     }
   };
 
+  const type=  normalizeVehicleType(makesByType)
+
+  console.log("<<<<<<<<<<<<<<<<<< type",type);
   const fetchMakesByType = async (vehicleType) => {
     try {
       const normalizedType = normalizeVehicleType(vehicleType);
@@ -162,10 +165,10 @@ const HeroTabs = ({ setType }) => {
       };
 
       // Add make and model to query if they exist
-      if (make) queryParts.push(`mk_${formatForUrl(make)}`);
-      if (model) queryParts.push(`md_${formatForUrl(model)}`);
-      if (variant) queryParts.push(`vr_${formatForUrl(variant)}`);
-      if (province?.name) queryParts.push(`pv_${formatForUrl(province.name)}`);
+      if (make?.name) queryParts.push(`mk_${formatForUrl(make?.name)}`);
+      if (model?.name) queryParts.push(`md_${formatForUrl(model?.name)}`);
+      if (variant?.name) queryParts.push(`vr_${formatForUrl(variant?.name)}`);
+      if (province?.name) queryParts.push(`pv_${formatForUrl(province?.name)}`);
       if (city?.name) queryParts.push(`ct_${formatForUrl(city.name)}`);
       if (suburb?.name) queryParts.push(`sb_${formatForUrl(suburb.name)}`);
 
@@ -190,15 +193,17 @@ const HeroTabs = ({ setType }) => {
     }
   };
 
+  // console.log("<<<<<<<<<<<<<<<<<< vehicleType",vehicleType);
+
   const renderTabPanel = (vehicleType) => (
     <Tabs.Panel value={vehicleType}>
       <Input
         placeholder={`${vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)} Make or Model`}
         mt="32px"
         value={
-          selection?.make || selection?.model || selection?.variant
-            ? `${selection?.make || ""} ${selection?.model || ""} ${
-                selection?.variant || ""
+          selection?.make?.name || selection?.model?.name || selection?.variant?.name
+            ? `${selection?.make?.name || ""} ${selection?.model?.name || ""} ${
+                selection?.variant?.name || ""
               }`.trim()
             : ""
         }
@@ -292,6 +297,7 @@ const HeroTabs = ({ setType }) => {
         onClose={() => setIsModalOpen(false)}
         fetchMakesByTypeData={fetchMakesByTypeData}
         hide={false}
+        type={type}
       />
 
       <LocationSelector

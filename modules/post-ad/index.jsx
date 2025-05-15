@@ -63,9 +63,9 @@ const PostAnAdModule = ({type, vehicleId}) => {
   // Form Schema and Initialization
   const formSchema = z.object({
     condition: z.enum(['used', 'new']),
-    year: z.string().min(1, 'Year is required'),
+    year: z.number().optional(),
     city: z.string().min(1, 'City is required'),
-    suburb: z.string().min(1, 'Suburb is required'),
+    suburb: z.string(),
     province: z.string().optional(),
     registeredIn: z.string().min(1, 'Registration location is required'),
     rego: z.string().min(1, 'Registration date is required'),
@@ -183,9 +183,11 @@ const PostAnAdModule = ({type, vehicleId}) => {
   }, [locationSelection]);
 
   useEffect(() => {
-    form.setFieldValue('make', selection.make);
-    form.setFieldValue('model', selection.model);
-    form.setFieldValue('variant', selection.variant);
+    form.setFieldValue('make', selection.make?.name || "");
+    form.setFieldValue('model', selection.model?.name || "");
+    form.setFieldValue('variant', selection.variant?.variant || "");
+    form.setFieldValue('year', selection.year || "");
+
   }, [selection]);
 
   useEffect(() => {
@@ -197,7 +199,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
     };
     getMakes();
   }, [vehicle]);
-
+  console.log(selection, "selection.........")
   // need Fuel Type Data Set [Petrol, Diesel, Electric, Hybrid]
 
 
@@ -260,27 +262,27 @@ const PostAnAdModule = ({type, vehicleId}) => {
   }, [vehicleId, session]);
 
   useEffect(() => {
-    if (selection.make && selection.model && selection.variant) {
+    if (selection.make?.name && selection.model?.name && selection.variant?.variant) {
       const queryParams = new URLSearchParams({
-        make: selection.make,
-        model: selection.model,
-        variant: selection.variant
+        make: selection.make?.name,
+        model: selection.model?.name,
+        variant: selection.variant?.variant
       }).toString();
 
       fetchNewVehicleDetail(BASE_URL + `/api/new-vehicles/get-newVehicle-details?${queryParams}`)
         .then((response) => {
+          console.log("vehicleData....>>>>>>>",response.data)
           if (!vehicleId) {
             const vehicleData = response.data;
 
-
             // Prefill vehicle specifications
             if (vehicleData.engine) {
-              form.setFieldValue('engineType', vehicleData.engine.type?.toLowerCase() || "");
+              form.setFieldValue('engineType', vehicleData.engine.type || "");
               form.setFieldValue('engineCapacity', vehicleData.engine.displacement || "");
             }
 
             if (vehicleData.transmission) {
-              form.setFieldValue('transmission', vehicleData.transmission?.type || "");
+              form.setFieldValue('transmission', vehicleData.transmission?.type[0] || "");
             }
 
             if (vehicleData.drive) {
@@ -405,6 +407,8 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
 
 
+  console.log("form.values", form.values)
+
   /**
    * Modal Open and Close Functions
    */
@@ -451,6 +455,8 @@ const PostAnAdModule = ({type, vehicleId}) => {
           color: "green",
         });
       } else {
+
+        console.log(payload, "payload......")
         await submitFormData(
           API_ENDPOINTS.VEHICLE.ADD,
           JSON.stringify(payload),
@@ -598,19 +604,19 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldInput label={`${vehicle} Info`} placeholder={`Select ${vehicle} Info`}
-                            value={`${form.values.make} ${form.values.model} ${form.values.variant}`}
+                            value={`${form.values.year} ${form.values.make} ${form.values.model} ${form.values.variant}`}
                             // error={form.errors.make || form.errors.model || form.errors.variant}
                             readOnly
                             onClick={openModal}
                           />
                         </Box>
 
-                        <Box className="row align-items-center" mb="xl">
+                        {/* <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Year"
                           value={form.values.year || ""}
                             placeholder={new Date().getFullYear().toString()} data={yearList}
                             {...form.getInputProps('year')} nothingFoundMessage="No year found" />
-                        </Box>
+                        </Box> */}
 
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Condition"
@@ -808,11 +814,13 @@ const PostAnAdModule = ({type, vehicleId}) => {
                         <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Engine Type"
                             placeholder="Engine Type"
-                            valueData={form.values.engineType.charAt(0).toUpperCase() + form.values.engineType.slice(1)}
-                            data={fuelTypes?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
+                            valueData={form.values.engineType}
+                            data={fuelTypes?.map((item) => item.title)}
                             {...form.getInputProps('engineType')}
-                            value={form.values.engineType.charAt(0).toUpperCase() + form.values.engineType.slice(1)}
+                            value={form.values.engineType}
                           />
+
+                          {console.log("form.values.engineType", form.values.engineType)}
                         </Box>
                         {/* <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Engine"
@@ -831,7 +839,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
                         {vehicleType != "bike" && <Box className="row align-items-center" mb="xl">
                           <FormFieldSelect label="Transmission"
                             placeholder="Transmission"
-                            valueData={form.values.transmission.charAt(0).toUpperCase() + form.values.transmission.slice(1)}
+                            valueData={form.values.transmission[0]?.charAt(0).toUpperCase() + form.values.transmission[0]?.slice(1)}
                             data={transmissions?.map((item) => item.title.charAt(0).toUpperCase() + item.title.slice(1))}
                             {...form.getInputProps('transmission')}
                             value={form.values?.transmission}
@@ -972,6 +980,8 @@ const PostAnAdModule = ({type, vehicleId}) => {
         setSelection={setSelection}
         onClose={closeModal}
         fetchMakesByTypeData={makes}
+        type={vehicleType}
+        rangeVarients={true}
       />
       <LocationSelector
         isOpen={isLocationOpen}
