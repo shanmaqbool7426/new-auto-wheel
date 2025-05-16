@@ -264,80 +264,80 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
     return Array.from(variantMap.values());
   };
 
-  const Breadcrumb = ({ type }) => {
-    const params = useParams();
-    const vehicleType = getVehicleType(params?.slug?.[0] || window.location.pathname.split('/')[1]);
+  // const Breadcrumb = ({ type }) => {
+  //   const params = useParams();
+  //   const vehicleType = getVehicleType(params?.slug?.[0] || window.location.pathname.split('/')[1]);
     
-    const items = [
-      { title: 'Home', href: '/' },
-      { title: vehicleType === 'bike' ? 'Used Bikes' : 'Used Cars', href: `/used-${vehicleType}s/search/-` }
-    ];
+  //   const items = [
+  //     { title: 'Home', href: '/' },
+  //     { title: vehicleType === 'bike' ? 'Used Bikes' : 'Used Cars', href: `/used-${vehicleType}s/search/-` }
+  //   ];
 
-    // Extract city if present
-    const cityFilter = params?.slug?.find(item => item.startsWith('ct_'));
-    const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')).replace(/%20/g, ' ') : '';
+  //   // Extract city if present
+  //   const cityFilter = params?.slug?.find(item => item.startsWith('ct_'));
+  //   const city = cityFilter ? decodeURIComponent(cityFilter.replace('ct_', '')).replace(/%20/g, ' ') : '';
 
-    // Extract all makes
-    const makeFilters = params?.slug?.filter(item => item.startsWith('mk_')) || [];
-    // Extract all models
-    const modelFilters = params?.slug?.filter(item => item.startsWith('md_')) || [];
-    // Extract all variants - support both vt_ (cars) and vr_ (bikes)
-    const variantPrefix = vehicleType === 'bike' ? 'vr_' : 'vt_';
-    const variantFilters = params?.slug?.filter(item => item.startsWith(variantPrefix)) || [];
+  //   // Extract all makes
+  //   const makeFilters = params?.slug?.filter(item => item.startsWith('mk_')) || [];
+  //   // Extract all models
+  //   const modelFilters = params?.slug?.filter(item => item.startsWith('md_')) || [];
+  //   // Extract all variants - support both vt_ (cars) and vr_ (bikes)
+  //   const variantPrefix = vehicleType === 'bike' ? 'vr_' : 'vt_';
+  //   const variantFilters = params?.slug?.filter(item => item.startsWith(variantPrefix)) || [];
 
-    // Add city level if present
-    if (cityFilter) {
-      items.push({ 
-        title: `${vehicleType === 'bike' ? 'Bikes' : 'Cars'} ${city}`, 
-        href: `/used-${vehicleType}s/search/-/ct_${encodeURIComponent(city)}` 
-      });
-    }
+  //   // Add city level if present
+  //   if (cityFilter) {
+  //     items.push({ 
+  //       title: `${vehicleType === 'bike' ? 'Bikes' : 'Cars'} ${city}`, 
+  //       href: `/used-${vehicleType}s/search/-/ct_${encodeURIComponent(city)}` 
+  //     });
+  //   }
 
-    // Add makes
-    makeFilters.forEach(makeFilter => {
-      const make = decodeURIComponent(makeFilter.replace('mk_', '')).replace(/%20/g, ' ');
-      const makeUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}`;
-      items.push({ 
-        title: `${make} ${city ? city : ''}`, 
-        href: makeUrl 
-      });
-    });
+  //   // Add makes
+  //   makeFilters.forEach(makeFilter => {
+  //     const make = decodeURIComponent(makeFilter.replace('mk_', '')).replace(/%20/g, ' ');
+  //     const makeUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}/mk_${encodeURIComponent(make)}`;
+  //     items.push({ 
+  //       title: `${make} ${city ? city : ''}`, 
+  //       href: makeUrl 
+  //     });
+  //   });
 
-    // Add models
-    modelFilters.forEach(modelFilter => {
-      const model = decodeURIComponent(modelFilter.replace('md_', '')).replace(/%20/g, ' ');
-      const modelUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${encodeURIComponent(model)}`;
-      items.push({ 
-        title: `${model} ${city ? city : ''}`,
-        href: modelUrl
-      });
-    });
+  //   // Add models
+  //   modelFilters.forEach(modelFilter => {
+  //     const model = decodeURIComponent(modelFilter.replace('md_', '')).replace(/%20/g, ' ');
+  //     const modelUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}/md_${encodeURIComponent(model)}`;
+  //     items.push({ 
+  //       title: `${model} ${city ? city : ''}`,
+  //       href: modelUrl
+  //     });
+  //   });
 
-    // Add variants
-    variantFilters.forEach(variantFilter => {
-      const variant = decodeURIComponent(variantFilter.replace(variantPrefix, '')).replace(/%20/g, ' ');
-      const variantUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/${variantPrefix}${encodeURIComponent(variant)}`;
-      items.push({ 
-        title: `${variant} ${city ? city : ''}`,
-        href: variantUrl
-      });
-    });
+  //   // Add variants
+  //   variantFilters.forEach(variantFilter => {
+  //     const variant = decodeURIComponent(variantFilter.replace(variantPrefix, '')).replace(/%20/g, ' ');
+  //     const variantUrl = `/used-${vehicleType}s/search/-${cityFilter ? '/ct_' + encodeURIComponent(city) : ''}${makeFilters.length ? makeFilters.map(m => '/' + m).join('') : ''}${modelFilters.length ? modelFilters.map(m => '/' + m).join('') : ''}/${variantPrefix}${encodeURIComponent(variant)}`;
+  //     items.push({ 
+  //       title: `${variant} ${city ? city : ''}`,
+  //       href: variantUrl
+  //     });
+  //   });
 
-    return (
-      <Breadcrumbs mb="lg">
-        {items.map((item, index) => (
-          <Anchor
-            key={index}
-            href={item.href}
-            c={'dimmed'}
-            style={{ textDecoration: 'none' }}
-          >
-            {item.title}
-          </Anchor>
-        ))}
-      </Breadcrumbs>
-    );
-  };
+  //   return (
+  //     <Breadcrumbs mb="lg">
+  //       {items.map((item, index) => (
+  //         <Anchor
+  //           key={index}
+  //           href={item.href}
+  //           c={'dimmed'}
+  //           style={{ textDecoration: 'none' }}
+  //         >
+  //           {item.title}
+  //         </Anchor>
+  //       ))}
+  //     </Breadcrumbs>
+  //   );
+  // };
 
   // Cache key generator
   const generateCacheKey = (filters) => {
