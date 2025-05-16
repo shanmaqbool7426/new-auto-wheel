@@ -2,15 +2,15 @@
 
 import { BASE_API } from '../base-api';
 // import { BASE_URL, END_POINTS } from '../../constants/api-endpoints';
-import { END_POINTS, BASE_URL } from '../../constants/api-endpoints';
+import { API_ENDPOINTS, BASE_URL } from '../../constants/api-endpoints';
 export const authAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({
-      query: () => END_POINTS.GET_USER,
+      query: () => API_ENDPOINTS.AUTH.GET_USER,
     }),
     login: builder.mutation({
       query: (data) => ({
-        url: END_POINTS.LOGIN,
+        url: API_ENDPOINTS.AUTH.LOGIN,
         method: 'POST',
         body: data,
       }),
@@ -27,7 +27,7 @@ export const authAPIs = BASE_API.injectEndpoints({
     }),
     register: builder.mutation({
       query: (data) => ({
-        url: END_POINTS.REGISTER,
+        url: API_ENDPOINTS.AUTH.SIGNUP,
         method: 'POST',
         body: data,
       }),
@@ -35,7 +35,7 @@ export const authAPIs = BASE_API.injectEndpoints({
 
     termsUpdate: builder.mutation({
       query: (data) => ({
-        url: `${END_POINTS.TERMS_UPDATE}?id=${data.id}&terms=${data.terms}`,
+        url: `${API_ENDPOINTS.AUTH.TERMS_UPDATE}?id=${data.id}&terms=${data.terms}`,
         method: 'POST',
         body: data,
       }),
