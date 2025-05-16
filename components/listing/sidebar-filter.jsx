@@ -808,7 +808,7 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
           />
         )}
 
-        {vehicleExteriorColorOptions?.length > 0 && (
+        {/* {vehicleExteriorColorOptions?.length > 0 && (
           <CheckboxFilter
             title="Exterior Color"
             options={vehicleExteriorColorOptions}
@@ -818,7 +818,7 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
             countType="exteriorColorCounts"
             isColorFilter
           />
-        )}
+        )} */}
 
         {vehicleFuelTypeOptions?.length > 0 && (
           <CheckboxFilter
