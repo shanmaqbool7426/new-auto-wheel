@@ -37,7 +37,6 @@
 export const BASE_URL = 'https://shan.lunashoes.shop'; // Uncomment for local development
 // export const BASE_URL = 'http://localhost:5000'; // Uncomment for local development
 
-
 // Define base paths for commonly used API routes
 export const VEHICLE_BASE = `${BASE_URL}/api/vehicle`;
 export const NEW_VEHICLE_BASE = `${BASE_URL}/api/new-vehicles`;
