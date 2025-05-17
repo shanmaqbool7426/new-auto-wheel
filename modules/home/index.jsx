@@ -14,6 +14,7 @@ export default async function HomeModule() {
   const res = await fetcHomeData();
   const banner = await fetchBanner();
 
+  
   return (
     <>
     <LoadingWrapper>

@@ -5,7 +5,10 @@ import LoadingWrapper from "@/components/loading-wrapper";
 
 export default function Blog({ params, searchParams }) {
   return (
-<>
-</>
+    <LoadingWrapper>
+    
+        <BlogModule params={params} searchParams={searchParams} />
+
+    </LoadingWrapper>
   );
 }
