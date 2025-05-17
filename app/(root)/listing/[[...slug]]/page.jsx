@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Listing from "@/components/listing/listing";
+// import Listing from "@/components/listing/listing";
 import { LoadingOverlay } from "@mantine/core";
 
 export default function ProductListing({ params, searchParams }) {
@@ -11,7 +11,8 @@ export default function ProductListing({ params, searchParams }) {
       loaderProps={{ color: "red", type: "bars" }}
       className="h-[100%]"
     />}>
-      <Listing params={params} searchParams={searchParams} />
+      dddd
+      {/* <Listing params={params} searchParams={searchParams} /> */}
     </Suspense>
   );
 }
