@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import HomeModule from "@/modules/home";
+// import HomeModule from "@/modules/home";
 import LoadingWrapper from "@/components/loading-wrapper";
 import { Metadata } from "next";
 
