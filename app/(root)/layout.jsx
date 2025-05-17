@@ -12,6 +12,7 @@ export const metadata = siteMetadata;
 const Rootlayout = ({ children }) => {
   return (
     <>
+    
       <AuthModalProvider>
         <Header />
         <QueryProvider>
