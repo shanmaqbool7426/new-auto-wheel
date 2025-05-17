@@ -16,7 +16,6 @@ const Rootlayout = ({ children }) => {
         <Header />
         <QueryProvider>
           <UserProvider>
-            {/* JSON-LD structured data for SEO */}
             <Script
               id="schema-org-data"
               type="application/ld+json"
