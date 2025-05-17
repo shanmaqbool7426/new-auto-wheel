@@ -48,7 +48,7 @@ const theme = {
 };
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
+  const pathname = '/';
   const isHomePage = pathname === '/' || pathname === '';
   
   // Base URL for the site
