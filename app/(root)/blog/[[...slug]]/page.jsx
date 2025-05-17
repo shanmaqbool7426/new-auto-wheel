@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { LoadingOverlay, Center, Loader } from "@mantine/core";
-import BlogModule from "@/modules/blogs";
+// import BlogModule from "@/modules/blogs";
 import LoadingWrapper from "@/components/loading-wrapper";
 
 export default function Blog({ params, searchParams }) {
   return (
     <LoadingWrapper>
     
-        <BlogModule params={params} searchParams={searchParams} />
+        {/* <BlogModule params={params} searchParams={searchParams} /> */}
 
     </LoadingWrapper>
   );
