@@ -48,9 +48,12 @@ export const metadata = {
 export default function Home() {
   return (
     <LoadingWrapper>
-      <Suspense fallback={<div>Loading...</div>}>
+
+
+      hhh
+      {/* <Suspense fallback={<div>Loading...</div>}>
       <HomeModule />
-      </Suspense>
+      </Suspense> */}
     </LoadingWrapper>
   );
 }
