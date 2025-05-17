@@ -10,21 +10,21 @@ import { Suspense } from "react";
 import Loading from "@/components/Loading";
 import LoadingWrapper from "@/components/loading-wrapper";
 
-export default async function HomeModule() {
-  const res = await fetcHomeData();
-  const banner = await fetchBanner();
+ export default async function HomeModule() {
+//   const res = await fetcHomeData();
+//   const banner = await fetchBanner();
 
   
   return (
     <>
     <LoadingWrapper>
-      <Hero banner={banner?.data} />
+      {/* <Hero banner={banner?.data} />
       <BrowseByCategory makes={res?.makes} bodies={res?.bodies} type={"car"} />
       <BrowseByType vehicles={res?.vehiclesTypes} />
       <ComparisonProducts type={"car"}/>
       <SearchByLocations />
       <BrowseVideos type={"car"} />
-      <BrowseBlogs type={"car"}/>
+      <BrowseBlogs type={"car"}/> */}
       </LoadingWrapper>
     </>
   );
