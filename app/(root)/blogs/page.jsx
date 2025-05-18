@@ -1,6 +1,6 @@
 import React, {Suspense}from "react";
 import { LoadingOverlay } from "@mantine/core";
-// import BlogModule from "@/modules/blogs"; 
+import BlogModule from "@/modules/blogs"; 
 export default function Blog({ params, searchParams }) {
     return (
       <Suspense fallback={<LoadingOverlay
@@ -10,7 +10,7 @@ export default function Blog({ params, searchParams }) {
         loaderProps={{ color: "red", type: "bars" }}
         className="h-[100%]"
       />}>
-        {/* <BlogModule params={params} searchParams={searchParams} /> */}
+        <BlogModule params={params} searchParams={searchParams} />
       </Suspense>
     );
   }

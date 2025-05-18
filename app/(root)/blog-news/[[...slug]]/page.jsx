@@ -1,9 +1,9 @@
-// import NewsModule from "@/modules/news";
+import NewsModule from "@/modules/news";
 
 export default function Blog({ params, searchParams }) {
   return (
     <>
-      {/* <NewsModule params={params} searchParams={searchParams} /> */}
+      <NewsModule params={params} searchParams={searchParams} />
     </>
   );
 }
