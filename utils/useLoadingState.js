@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { startLoading, stopLoading, selectLoading } from '@/redux/features/loadingSlice';
 
 export const useLoadingState = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
   
@@ -30,7 +29,7 @@ export const useLoadingState = () => {
     }, 800); // Give more time to show the loading animation
 
     return () => clearTimeout(timer);
-  }, [pathname, searchParams, startLoadingState, stopLoadingState]);
+  }, [pathname, startLoadingState, stopLoadingState]);
 
   return {
     isLoading,
