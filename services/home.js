@@ -7,11 +7,6 @@ export const fetcHomeData = async () => {
     fetchAPI(`${API_ENDPOINTS.BROWSE.BY_MAKE}?type=car`),
    fetchAPI(`${API_ENDPOINTS.BROWSE.BY_BODY}/car`),
     fetchAPI(API_ENDPOINTS.VEHICLE.LIST_BY_TYPE()),
-
-     fetchAPI(API_ENDPOINTS.EXTERNAL.COMPARISONS),
-
-     fetchAPI(API_ENDPOINTS.EXTERNAL.INSTANT_USED_CARS),
-
    fetchAPI(API_ENDPOINTS.VIDEOS.BROWSE),
 
    

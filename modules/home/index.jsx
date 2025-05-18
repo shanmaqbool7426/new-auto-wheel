@@ -17,7 +17,7 @@ import LoadingWrapper from "@/components/loading-wrapper";
   
   return (
     <>
-    <LoadingWrapper>
+    <>
       <Hero banner={banner?.data} />
       <BrowseByCategory makes={res?.makes} bodies={res?.bodies} type={"car"} />
       <BrowseByType vehicles={res?.vehiclesTypes} />
@@ -25,7 +25,7 @@ import LoadingWrapper from "@/components/loading-wrapper";
       <SearchByLocations />
       <BrowseVideos type={"car"} />
       <BrowseBlogs type={"car"}/>
-      </LoadingWrapper>
+      </>
     </>
   );
 }
