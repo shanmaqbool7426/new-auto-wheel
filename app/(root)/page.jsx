@@ -1,5 +1,5 @@
-
 // import HomeModule from "@/modules/home";
+"use client"
 import LoadingWrapper from "@/components/loading-wrapper";
 
 
