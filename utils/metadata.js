@@ -1,4 +1,4 @@
-export function generateMetadata({ title, description, path, searchParams }) {
+export function generateMetadata({ title, description, path }) {
   // Generate canonical URL
   const canonicalUrl = `https://www.aussiemotor.com${path}`;
 
