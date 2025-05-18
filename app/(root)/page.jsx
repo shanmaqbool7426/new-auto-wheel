@@ -1,5 +1,5 @@
-// import HomeModule from "@/modules/home";
 "use client"
+import HomeModule from "@/modules/home";
 import LoadingWrapper from "@/components/loading-wrapper";
 import { Suspense } from 'react';
 
