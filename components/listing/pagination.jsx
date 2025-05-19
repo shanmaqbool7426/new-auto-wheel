@@ -8,6 +8,8 @@ const ListingPagination = ({ data }) => {
   const { slug } = useParams();
   const searchParams = useSearchParams();
 
+
+  console.log(data, ">>>>>>>>>>data")
   const pathSegments = slug ? [...slug] : [];
   const pageSegmentIndex = pathSegments.findIndex((segment) =>
     segment.startsWith("page_")

@@ -33,8 +33,8 @@ import Image from "next/image";
 
 const VEHICLE_CONDITIONS = [
   { value: 'cn_used', label: 'Used' },
-  { value: 'cn_pre_owned', label: 'Pre Owned' },
-  { value: 'cn_certified', label: 'Certified Pre-owned' }
+  { value: 'cn_pre-owned', label: 'Pre Owned' },
+  { _alue: 'cn_certified', label: 'Certified Pre-owned' }
 ];
 
 const valueToLabel = {
@@ -519,7 +519,8 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
       fuelType: "",
       bodyType: [],
     });
-    router.push(`/listing/${type}/search/-/`, { scroll: false });
+    // used-cars/search/-/
+    router.push(`/used-${type}s/search/-/`, { scroll: false });
   };
 
 
@@ -551,6 +552,11 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
         value: `cl_${encodeURIComponent(item?.title).toLowerCase()}`,
         label: item?.title,
         color: item?.code,
+      }));
+    } else if (prefix === "tr" || prefix === "dr" || prefix === "ft") {
+      return data?.map((item) => ({
+        value: `${prefix}_${item?.title.toLowerCase().replace(/\s+/g, '-')}`,
+        label: item?.title,
       }));
     } else {
       return data?.map((item) => ({
@@ -705,14 +711,14 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
                           }
                         />
                         <div style={{ 
-                          height: '45px',
+                          height: '60px',
                           display: 'flex', 
                           alignItems: 'center', 
                           justifyContent: 'center' 
                         }}>
                           <Image
-                            width={50}
-                            height={25}
+                            width={70}
+                            height={40}
                             src={bodyType.bodyImage}
                             className="mx-auto"
                             alt={`${bodyType.title} body type`}
@@ -720,12 +726,12 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
                               objectFit: 'contain',
                               width: 'auto',
                               height: 'auto',
-                              maxWidth: '50px',
-                              maxHeight: '35px'
+                              maxWidth: '70px',
+                              maxHeight: '40px'
                             }}
                           />
                         </div>
-                        <h6 className="mb-0 text-dark">
+                        <h6 className="mb-0 text-dark" style={{ fontSize: "0.78rem", fontWeight: 500 }}>
                           {bodyType.title}
                           {getCountByTypeAndKey("bodyTypeCounts", bodyType.title) && (
                             <Badge

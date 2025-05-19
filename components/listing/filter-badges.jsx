@@ -9,6 +9,7 @@ const filterConfigs = {
   md_: { type: "model", label: "model" },
   vr_: { type: "variant", label: "variant" },
   vt_: { type: "variant", label: "variant" },
+  cn_: { type: "condition", label: "condition" },
   ct_: { type: "city", label: "city" },
   bt_: { type: "bodyType", label: "bodyType" },
   tr_: { type: "transmission", label: "transmission" },

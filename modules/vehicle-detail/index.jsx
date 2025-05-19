@@ -234,13 +234,16 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
             <Card
               padding={rem(8)}
               radius="sm"
-              withBorder
+              withBorder={false}
               style={{
-                width: '130px',
-                height: '41.7px',
+                // width: '130px',
+                // height: '41.7px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                background: 'transparent',
+                border: 'none',
+                boxShadow: 'none'
               }}
             >
               <Link
@@ -256,6 +259,12 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                 <Image
                   src={sellerInfo.image}
                   alt={sellerInfo.dealerName}
+                  style={{
+                    borderRadius: '50%',
+                    width: '80px',
+                    height: '80px',
+                    objectFit: 'cover'
+                  }}
                 />
               </Link>
             </Card>
@@ -462,6 +471,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
                     bg="#E6E6E6"
                     ta="right"
                     p="8px 20px"
+                    mt="40px"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -616,7 +626,7 @@ const VehicleDetailModule = ({ detail, listOfSimilarVehicles }) => {
             </Box>
 
             {/* Seller Information Sidebar */}
-            <Box className="col-md-4">
+            <Box className="col-md-4" style={{marginTop: "58px"}}>
               {SellerCard}
               <SocialCards detail={detail} scrollToMessage={scrollToMessage} />
               <Box className="col-12">

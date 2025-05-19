@@ -73,32 +73,43 @@ export default function ListingClient({
             <ListingHeader type={vehicleType} />
             <FilterBadges params={params} searchParams={searchParams} />
             <div className="row">
-              {initialData?.data?.results?.map((vehicle, index) => (
-                <div
-                  key={vehicle._id}
-                  className={
-                    searchParams.view === "grid" ? "col-12 col-sm-6 col-lg-4" : "col-12"
-                  }
-                >
-                  {searchParams.view === "grid" ? (
-                    <CarCard
-                      vehicle={vehicle}
-                      index={index}
-                      userData={userData}
-                    />
-                  ) : (
-                    <ListCardView
-                      index={index}
-                      vehicle={vehicle}
-                      userData={userData}
-                    />
-                  )}
+              {initialData?.data?.results?.length === 0 ? (
+                <div className="no-results-message" style={{ width: "100%", textAlign: "center", margin: "40px 0" }}>
+                  <div style={{ fontWeight: "bold", fontSize: "1.3rem", marginBottom: 8 }}>
+                    Sorry! We could not find any results against your search criteria.
+                  </div>
+                  <div style={{ color: "#555", fontSize: "1rem" }}>
+                    Use the options below to redefine your search.
+                  </div>
                 </div>
-              ))}
+              ) : (
+                initialData?.data?.results?.map((vehicle, index) => (
+                  <div
+                    key={vehicle._id}
+                    className={
+                      searchParams.view === "grid" ? "col-12 col-sm-6 col-lg-4" : "col-12"
+                    }
+                  >
+                    {searchParams.view === "grid" ? (
+                      <CarCard
+                        vehicle={vehicle}
+                        index={index}
+                        userData={userData}
+                      />
+                    ) : (
+                      <ListCardView
+                        index={index}
+                        vehicle={vehicle}
+                        userData={userData}
+                      />
+                    )}
+                  </div>
+                ))
+              )}
             </div>
 
             <ListingPagination
-              data={initialData?.vehicles}
+              data={initialData?.data}
               type={params.slug}
             />
           </div>

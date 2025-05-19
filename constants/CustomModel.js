@@ -171,7 +171,6 @@ const CustomModel = ({
       } else if (type === "model") {
         if (variants[value._id] && variants[value._id].length > 0) {
           setActiveTab("variant");
-
           updatedSelection = {
             ...updatedSelection,
             model: value,
@@ -533,7 +532,6 @@ const CustomModel = ({
             <Title order={5} my="sm" fw={600}>
               Variants
             </Title>
-            {console.log(filteredVariants, "filteredVariants")}
             <ScrollArea
               h={230}
               offsetScrollbars
@@ -549,28 +547,35 @@ const CustomModel = ({
                     </div>
                   ) : varientsInRange?.data && varientsInRange.data.length > 0 ? (
                     <List className="search-dropdown-lists" listStyleType="none">
-                      {varientsInRange.data.map((variant) => (
-                        <>
-                          <strong>{variant.yearRange}</strong>
-
-                          <List.Item
-                            key={variant.id}
-                            className={`search-dropdown-lists__item ${selection.variant && selection.variant.id === variant.id ? "selected" : ""}`}
-                            onClick={() => {
-                              handleSelection("variant", variant);
-                            }}
-                          >
-                            <div>
-                              <div>{variant.variant}</div>
-                              <div style={{ fontSize: 12, color: "#888" }}>
-                                {variant.engine && <span>{variant.engine}</span>}
-                                {variant.transmission && <span> | {variant.transmission}</span>}
-                                {variant.fuelType && <span> | {variant.fuelType}</span>}
+                      {Object.entries(
+                        varientsInRange.data.reduce((acc, variant) => {
+                          acc[variant.yearRange] = acc[variant.yearRange] || [];
+                          acc[variant.yearRange].push(variant);
+                          return acc;
+                        }, {})
+                      ).map(([yearRange, variants]) => (
+                        <React.Fragment key={yearRange}>
+                          <strong>{yearRange}</strong>
+                          {variants.map((variant) => (
+                            <List.Item
+                              key={variant.id}
+                              className={`search-dropdown-lists__item ${selection.variant && selection.variant.id === variant.id ? "selected" : ""}`}
+                              onClick={() => {
+                                handleSelection("variant", variant);
+                              }}
+                            >
+                              <div>
+                                <div>{variant.variant}</div>
+                                <div style={{ fontSize: 12, color: "#888" }}>
+                                  {variant.engine && <span>{variant.engine}</span>}
+                                  {variant.transmission && <span> | {variant.transmission}</span>}
+                                  {variant.fuelType && <span> | {variant.fuelType}</span>}
+                                </div>
                               </div>
-                            </div>
-                            <BsArrowRight />
-                          </List.Item>
-                        </>
+                              <BsArrowRight />
+                            </List.Item>
+                          ))}
+                        </React.Fragment>
                       ))}
                     </List>
                   ) : (
