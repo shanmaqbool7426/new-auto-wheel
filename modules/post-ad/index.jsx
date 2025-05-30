@@ -54,6 +54,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isVehicle, setIsVehicle] = useState({});
+  const [features, setFeatures] = useState({});
 
   // URL and Vehicle Type Processing
   const vehicle = type;
@@ -274,6 +275,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
           console.log("vehicleData....>>>>>>>",response.data)
           if (!vehicleId) {
             const vehicleData = response.data;
+            setFeatures(vehicleData?.features);
 
             // Prefill vehicle specifications
             if (vehicleData.engine) {
@@ -407,7 +409,7 @@ const PostAnAdModule = ({type, vehicleId}) => {
 
 
 
-  console.log("form.values", form.values)
+  console.log("features>>>>>>>>>", features)
 
   /**
    * Modal Open and Close Functions
@@ -868,7 +870,8 @@ const PostAnAdModule = ({type, vehicleId}) => {
                           <FormFieldBodyType label="Body Type" bodies={bodies} form={form} />
                         </Box>
                         <Box className="row align-items-start" mb="xl">
-                          <FormFieldFeature label="Feature" form={form} vehicleType={vehicle} />
+                          <Title order={3}>Features</Title>
+                          <FormFieldFeature label="Feature" form={form} features={features}/>
                         </Box>
                       </Box>
                     </Card>

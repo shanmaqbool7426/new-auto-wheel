@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Checkbox, Grid, Group, Image, Input, NumberInput, Select, SimpleGrid, Text, Textarea, TextInput, Title } from "@mantine/core"
+import { ActionIcon, Box, Button, Checkbox, Grid, Group, Image, Input, NumberInput, Select, SimpleGrid, Text, Textarea, TextInput, Title, Accordion } from "@mantine/core"
 import { getFeaturesByVehicle } from "@/app/(root)/sale/[vehicle]/post-ad/components/useFeatureData";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
@@ -13,7 +13,7 @@ import { CSS } from '@dnd-kit/utilities';
  * FormFieldSelect Component
  * Renders a select input with label and placeholder
  */
-export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value, valueData, nothingFoundMessage, ...props }) => (
+export const FormFieldSelect = ({ label, placeholder, data, value, onChange, error, ...props }) => (
     <>
         <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
             <Input.Label required size="md">
@@ -24,16 +24,22 @@ export const FormFieldSelect = ({ label, defaultValue, placeholder, data, value,
             <Select
                 required
                 size="md"
-                {...props}
                 searchable
                 rightSection={<MdArrowDropDown size={24} color="#E90808" />}
                 rightSectionWidth={40}
                 value={value}
-                // defaultValue='Petrol'
-                nothingFoundMessage={nothingFoundMessage || "Nothing found..."}
-                placeholder={placeholder}
+                onChange={onChange}
+                error={error}
+                placeholder={placeholder || `Select ${label}`}
                 data={data || []}
+                nothingFoundMessage="No options found..."
+                {...props}
             />
+            {error && (
+                <Text size="sm" c="red" mt={4}>
+                    {error}
+                </Text>
+            )}
         </Box>
     </>
 )
@@ -115,169 +121,6 @@ export const FormFieldTextarea = ({ label, placeholder, reset, remainingCharacte
     </>
 )
 
-/**
- * FormFieldImageUpload Component
- * Renders an image upload field with label and placeholder
- */
-// export const FormFieldImageUpload = ({ label, images, setImages, form }) => {
-//     const [isUploading, setIsUploading] = useState(false);
-
-//     const previews = images.map((file, index) => {
-//         const imageUrl = typeof file === 'string' ? file : URL.createObjectURL(file);
-//         return (
-//             <Box className="uploaded-image-wrapper" pos="relative" key={index}>
-//                 <ActionIcon
-//                     variant="filled"
-//                     color="red"
-//                     pos="absolute"
-//                     top={5}
-//                     right={5}
-//                     radius="xl"
-//                     style={{
-//                         backgroundColor: "#E90808",
-//                         color: "white",
-//                         border: "3px solid #E90808",
-//                     }}
-//                     size="sm"
-//                     disabled={isUploading}
-//                     onClick={(e) => {
-//                         e.stopPropagation();
-//                         const updatedImages = [...images];
-//                         updatedImages.splice(index, 1);
-//                         setImages(updatedImages);
-//                         form.setFieldValue('images', updatedImages);
-//                     }}
-//                 >
-//                     ×
-//                 </ActionIcon>
-//                 <Image
-//                     style={{
-//                         border: "none"
-//                     }}
-//                     h={{ base: 140, sm: 140 }}
-//                     src={imageUrl}
-//                     // Only revoke URL if it's a File object
-//                     onLoad={() => {
-//                         if (typeof file !== 'string') {
-//                             URL.revokeObjectURL(imageUrl);
-//                         }
-//                     }}
-//                     radius="md"
-//                 />
-//             </Box>
-//         );
-//     });
-
-
-//     const handleFileDrop = async (files) => {
-//         setIsUploading(true);
-//         setImages(prevImages => [...prevImages, ...files]);
-//         try {
-//             const formData = new FormData();
-//             files.forEach((file) => {
-//                 formData.append("images", file, file.name);
-//             });
-
-//             const response = await fetch(API_ENDPOINTS.IMAGE_UPLOAD, {
-//                 method: 'POST',
-//                 body: formData,
-//             });
-//             const data = await response.json();
-//             const uploadedImageUrls = data.data;
-//             form.setFieldValue('images', [...form.values.images, ...uploadedImageUrls]);
-//             showNotification({
-//                 title: "Images uploaded successfully",
-//                 message: "The images have been successfully uploaded.",
-//                 color: "green",
-//             });
-//         } catch (error) {
-//             console.error(error);
-//             showNotification({
-//                 title: "Images upload failed",
-//                 message: "The images could not be uploaded.",
-//                 color: "red",
-//             });
-//         } finally {
-//             setIsUploading(false);
-//         }
-//     };
-
-//     return (
-//         <>
-//             <Box className="col-md-12" >
-//                 <Title order={4} mb="lg">
-//                     {label}
-//                 </Title>
-//                 <Dropzone
-//                     accept={IMAGE_MIME_TYPE}
-//                     onDrop={handleFileDrop}
-//                     disabled={isUploading}
-//                     loading={isUploading}
-//                     p={0}
-//                     error={form.errors.images}
-//                 >
-//                     <Box
-//                         style={{
-//                             cursor: "pointer",
-//                             border: '1px dashed #E90808',
-//                             borderRadius: '10px',
-//                             textAlign: 'center',
-//                         }}
-//                         px={'40px'}
-//                         py={'40px'}
-//                     >
-//                         <div className="upload-placeholder">
-//                             <div className="d-flex align-items-center gap-4 justify-content-center">
-//                                 <Image src="/dropzone_placeholder.png" alt="upload-image" h={'59px'} w={'59px'} quality={100} />
-//                                 <div>
-//                                     <Button
-//                                         variant="filled"
-//                                         size="md"
-//                                         fullWidth
-//                                         bg="#E90808"
-//                                         autoContrast
-//                                         mb={'10px'}
-//                                         fw="normal"
-//                                     >
-//                                         + Add Photos
-//                                     </Button>
-//                                     <Text size="sm" c="dimmed">
-//                                         (Max limit 5 MB per image)
-//                                     </Text>
-//                                 </div>
-//                             </div>
-//                             <Group align="flex-start" gap="xl" justify="center" my={'10px'}>
-//                                 <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
-//                                     <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
-//                                     Adding at least 8 pictures improves the chances for a quick sale.
-//                                 </Text>
-//                                 <Text size="sm" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '500px', textAlign: 'left' }}>
-//                                     <MdCheckCircle size={20} color="#4CAF50" style={{ flexShrink: 0, marginTop: '2px' }} />
-//                                     Adding clear Front, Back and Interior pictures of your car increases the quality of your Ad and gets you noticed more.
-//                                 </Text>
-//                             </Group>
-//                             <Text size="sm" mt="md" style={{ display: 'flex', margin: 'auto', alignItems: 'center', gap: '8px', justifyContent: 'center', maxWidth: '500px', textAlign: 'left' }}>
-//                                 <MdCheckCircle size={20} color="#4CAF50" />
-//                                 Photos should be in 'jpeg, jpg, png, gif' format only.
-//                             </Text>
-//                         </div>
-//                         <SimpleGrid
-//                             cols={{ base: 2, sm: 3, md: 4, lg: 6, xl: 8 }}
-//                             mt={previews.length > 0 ? "md" : 0}
-//                         >
-//                             {previews}
-//                         </SimpleGrid>
-//                     </Box>
-//                 </Dropzone>
-//                 {form.errors.images && (
-//                     <Text size="sm" c="red">
-//                         {form.errors.images}*
-//                     </Text>
-//                 )}
-//             </Box>
-//         </>
-//     )
-// }
 /**
  * FormFieldImageUpload Component
  * Renders an image upload field with drag-and-drop, rotation, and reordering capabilities
@@ -627,85 +470,55 @@ export const FormFieldBodyType = ({ label, bodies, form }) => (
  * FormFieldFeature Component
  * Renders a feature field with label and features
  */
-export const FormFieldFeature = ({ label, form, vehicleType }) => {
-    const { featuredListsOne, featuredListsTwo, featuredListsThree } = getFeaturesByVehicle(vehicleType);
-    const handleFeatureChange = (feature) => {
-        const features = form.getValues().features;
-        form.setFieldValue('features', features.includes(feature) ? features.filter(f => f !== feature) : [...features, feature]);
-    };
+export const FormFieldFeature = ({ label, form, features }) => {
     return (
         <>
             <Box className="col-md-2 text-lg-end mb-2 mb-lg-0">
-                <Input.Label required size="md" tt="capitalize">{label}</Input.Label>
+                {/* <Input.Label required size="md" tt="capitalize">{label}</Input.Label> */}
             </Box>
-            <Box className="col-md-7">
-                <Box className="row">
-                    <Box className="col-md-4">
-                        {featuredListsOne.map((item, index) => (
-                            <>
-                                <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={form.values.features.includes(
-                                        item.name
-                                    )}
-                                    onChange={() =>
-                                        handleFeatureChange(item.name)
-                                    }
-                                />
-                            </>
-                        ))}
-                    </Box>
-                    <Box className="col-md-4">
-                        {featuredListsTwo.map((item, index) => (
-                            <>
-                                <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={form.values.features.includes(
-                                        item.name
-                                    )}
-                                    onChange={() =>
-                                        handleFeatureChange(item.name)
-                                    }
-                                />
-                            </>
-                        ))}
-                    </Box>
-                    <Box className="col-md-4">
-                        {featuredListsThree.map((item, index) => (
-                            <>
-                                <Checkbox
-                                    key={index}
-                                    color="#E90808"
-                                    label={item.name}
-                                    mb="sm"
-                                    size="sm"
-                                    checked={form.values.features.includes(
-                                        item.name
-                                    )}
-                                    onChange={() =>
-                                        handleFeatureChange(item.name)
-                                    }
-                                />
-                            </>
-                        ))}
-                    </Box>
-                </Box>
-                <Box className="col-12 text-start">
-                    {form.errors.features && (
-                        <Text size="sm" c="red">
-                            {form.errors.features}*
-                        </Text>
-                    )}
-                </Box>
+            <Box className="col-md-10">
+                <Accordion variant="default">
+                    {features?.map((category, categoryIndex) => (
+                        <Accordion.Item 
+                            key={categoryIndex} 
+                            mt="md"
+                            value={category.category}
+                        >
+                            <Accordion.Control>
+                                <Text fw={500}>{category.category}</Text>
+                            </Accordion.Control>
+                            <Accordion.Panel>
+                                <Grid>
+                                    {category.items.map((item, itemIndex) => {
+                                        const [featureKey, featureValue] = Object.entries(item)[0];
+                                        const displayValue = Array.isArray(featureValue) 
+                                            ? featureValue[0] 
+                                            : featureValue;
+                                        
+                                        return (
+                                            <Grid.Col span={4} key={itemIndex}>
+                                                <Box>
+                                                    <Text fw={500} size="sm" tt="capitalize" c="#E90808">
+                                                        {featureKey}
+                                                    </Text>
+                                                    <Text size="sm" c="dimmed">
+                                                        {displayValue}
+                                                    </Text>
+                                                </Box>
+                                            </Grid.Col>
+                                        );
+                                    })}
+                                </Grid>
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                    ))}
+                </Accordion>
+                {form.errors.features && (
+                    <Text size="sm" c="red" mt="sm">
+                        {form.errors.features}*
+                    </Text>
+                )}
             </Box>
         </>
-    )
+    );
 }

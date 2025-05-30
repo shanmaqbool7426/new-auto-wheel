@@ -319,7 +319,7 @@ const ListCardView = ({ vehicle }) => {
                 {vehicle?.condition?.toUpperCase() || "USED"}
               </Title> */}
               <Text c="red" fw={600} size="sm">
-                {vehicle?.condition?.toUpperCase() || "USED"} {vehicle?.specifications?.engineCapacity} L
+                {vehicle?.condition?.toUpperCase() || "USED"}
               </Text>
               <Title ff="text" mb={rem(3)} lts={-0.3} c="dark" order={4}>
                 <Anchor
@@ -328,7 +328,7 @@ const ListCardView = ({ vehicle }) => {
                   c="dark"
                   href={`/used-${vehicle?.type}s/${vehicle?.slug}`}
                 >
-                  {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`}
+                  {`${vehicle?.year} ${vehicle?.make} ${vehicle?.model} ${vehicle?.variant} for Sale`}
                 </Anchor>
               </Title>
               <Text size="sm" c="dimmed">

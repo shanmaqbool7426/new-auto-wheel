@@ -624,6 +624,7 @@ const ListingFilter = ({ type,cities, makes,models,varients, bodies, vehicles,dr
           onChange={(value) => handleFilterChange("condition", value)}
           getCountByTypeAndKey={(type, key) => getCountByTypeAndKey(type, key)}
           countType="conditionCounts"
+          defaultOpen={false}
         />                          
 
         <MakeFilter
